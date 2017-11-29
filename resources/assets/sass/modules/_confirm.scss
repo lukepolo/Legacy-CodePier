@@ -108,6 +108,7 @@
   background-color: $color-background;
   border: 1px solid mix($black, $gray, 50%);
   border-radius: 3px;
+  z-index: 10;
 
   &:before {
     content: '';
@@ -143,6 +144,26 @@
     border-top: 1px solid $black;
     margin: 0px;
     padding: $spacing/2;
+  }
+
+  // Bottom Aligned Styles
+  &.bottom {
+    bottom: auto;
+    top: 55px;
+
+    &:before {
+      border-top: none;
+      border-bottom: 10px solid $color-background;
+      bottom: auto;
+      top: -10px;
+    }
+
+    &:after {
+      border-top: none;
+      border-bottom: 10px solid mix($black, $gray, 50%);
+      bottom: auto;
+      top: -12px;
+    }
   }
 }
 

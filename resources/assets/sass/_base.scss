@@ -165,6 +165,15 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 2px solid $color-text-secondary;
 }
 
+.heading--btns {
+  display: flex;
+  align-items: center;
+
+  .btn-link {
+    font-size: 18px;
+    color: $color-text-secondary;
+  }
+}
 
 
 // LINKS ---------------------------------------------------
