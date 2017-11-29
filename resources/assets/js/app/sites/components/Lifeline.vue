@@ -1,13 +1,13 @@
 <template>
     <div class="lifeline--item">
-        <div class="lifeline--btns" style="margin-top: -10px; float: right;">
+        <div class="lifeline--btns" style="margin-top: -8px; float: right;">
             <tooltip message="Copy Lifeline URL" class="flyform--btn-right">
                 <clipboard :data="lifeLine.url"></clipboard>
             </tooltip>
 
 
             <tooltip message="Delete" class="flyform--btn-right">
-                <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
+                <confirm dispatch="user_site_life_lines/destroy" confirm_position="left btns-only" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
                     <span class="icon-trash"></span>
                 </confirm>
             </tooltip>

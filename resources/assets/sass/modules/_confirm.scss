@@ -108,7 +108,7 @@
   background-color: $color-background;
   border: 1px solid mix($black, $gray, 50%);
   border-radius: 3px;
-  z-index: 10;
+  z-index: 300;
 
   &:before {
     content: '';
@@ -163,6 +163,26 @@
       border-bottom: 10px solid mix($black, $gray, 50%);
       bottom: auto;
       top: -12px;
+    }
+  }
+
+  // Left Aligned Styles
+  &.left {
+    transform: translateX(calc(-100% + 40px));
+
+    &:before,
+    &:after {
+      left: auto;
+      right: 20px;
+    }
+  }
+
+  // Button only Styles
+  &.btns-only {
+    width: 200px;
+
+    .btn-footer {
+      border: none;
     }
   }
 }
