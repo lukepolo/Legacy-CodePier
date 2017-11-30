@@ -15,3 +15,10 @@
     opacity: 0 !important;
   }
 }
+
+
+.heading--btns {
+  [class^="hint-"], [class*=" hint-"] {
+    z-index: 150;
+  }
+}
