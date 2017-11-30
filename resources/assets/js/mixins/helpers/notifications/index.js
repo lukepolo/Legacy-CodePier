@@ -39,9 +39,5 @@ export const handleApiError = function(response) {
     }
   }
 
-  if (_.isString(message)) {
-    this.showError(message);
-  } else {
-    console.warn("UNABLE TO PARSE ERROR");
-  }
+  this.showError(message);
 };
