@@ -7,13 +7,21 @@
             </div>
             <div class="heading--btns">
                 <tooltip message="Rename Site" placement="bottom">
-                    <confirm dispatch="user_sites/renameSite" :params="{ site : site.id, domain : renameForm.domain }" :confirm_with_text="site.domain"
-                            confirm_class="btn-link"
-                            confirm_position="bottom"
-                            confirm_message="Rename Site"
-                            confirm_text="Rename Site"
-                            confirm_btn="btn-primary">
+                    <confirm
+                        dispatch="user_sites/renameSite"
+                        :params="{ site : site.id, domain : renameForm.domain }"
+                        confirm_class="btn-link"
+                        confirm_position="bottom"
+                        confirm_message="Rename Site"
+                        confirm_btn="btn-primary"
+                    >
                         <span class="icon-pencil"></span>
+                        <div slot="form">
+                            <div class="flyform--group">
+                                <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
+                                <label for="domain">Domain</label>
+                            </div>
+                        </div>
                     </confirm>
                 </tooltip>
 
@@ -248,31 +256,6 @@
                 </div>
             </form>
         </div>
-
-        <hr>
-
-        <h3>Site Rename Form</h3>
-        <form @submit.prevent>
-            <div class="flyform--group">
-                <input ref="domain" name="domain" v-model="renameForm.domain" type="text" placeholder=" ">
-                <label for="domain">Domain / Alias</label>
-            </div>
-
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <confirm
-                        dispatch="user_sites/renameSite"
-                        :params="{
-                            site : this.site.id,
-                            domain : this.renameForm.domain,
-                        }"
-                        :confirm_with_text="renameForm.domain"
-                    >
-                        Rename Site {{ renameForm.site }}
-                    </confirm>
-                </div>
-            </div>
-        </form>
     </div>
 </template>
 
@@ -301,6 +284,9 @@
         },
         watch: {
             '$route' : 'fetchData',
+            'site' : function(site) {
+                Vue.set(this.renameForm, 'domain', site.domain);
+            }
         },
         methods: {
             createDeployHook() {
@@ -315,7 +301,7 @@
             fetchData() {
                 this.getDns()
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
-                Vue.set(this.renameForm, 'domain', null)
+                Vue.set(this.renameForm, 'domain', this.site ? this.site.domain : null)
             },
             getDns(refresh) {
 
@@ -334,7 +320,7 @@
                     site : this.$route.params.site_id,
                     slack_channel_preferences : this.notificationChannelsForm,
                 })
-            }
+            },
         },
         computed: {
             site() {

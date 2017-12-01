@@ -1,19 +1,5 @@
 <template>
     <div>
-
-
-        <div class="list">
-            <div class="list--item list--item-icons list--item-click">
-                custom/site/path <span class="icon-arrow-right"></span>
-            </div>
-            <div class="list--item list--item-icons list--item-click">
-                custom/site/path <span class="icon-arrow-right"></span>
-            </div>
-            <div class="list--item list--item-icons list--item-click">
-                custom/site/path <span class="icon-arrow-right"></span>
-            </div>
-        </div>
-
         <template v-if="site">
             <form @submit.prevent="addCustomFile" class="flex flex--baseline">
                 <div class="flyform--group flex--grow">
@@ -26,10 +12,10 @@
                 </div>
             </form>
 
-            <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file"></site-file>
+            <div class="list">
+                <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
+            </div>
         </template>
-
-
     </div>
 </template>
 
