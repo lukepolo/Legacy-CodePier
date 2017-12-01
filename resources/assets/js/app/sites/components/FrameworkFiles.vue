@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list">
         <template v-if="possibleFiles && site">
             <site-file :site="site" :file="file" v-for="file in possibleFiles" :key="file" :running="isRunningCommandFor(file)"></site-file>
         </template>

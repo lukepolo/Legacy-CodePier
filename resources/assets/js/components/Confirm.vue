@@ -14,9 +14,12 @@
                                 <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name" placeholder=" ">
                                 <label for="confirm-name">Confirm</label>
                             </form>
-                        </div>
+                         </div>
                     </div>
                 </template>
+                <div class="confirm-content">
+                    <slot name="form"></slot>
+                </div>
                 <div class="btn-footer">
                     <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
                     <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
@@ -83,8 +86,6 @@
                 if(!this.textConfirmed) {
                     classes = classes + ' btn-disabled'
                 }
-
-                console.info(classes)
                 return classes;
             }
         },
