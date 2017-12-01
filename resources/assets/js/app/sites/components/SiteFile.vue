@@ -4,7 +4,7 @@
             {{ filePath }}
             <span class="icon-arrow-right"></span>
         </div>
-        <collapse :show="showFile">
+        <collapse>
             <div class="editor" v-show="showFile">
                 <form @submit.prevent="saveFile()">
 
@@ -46,13 +46,13 @@
 
 <script>
   export default {
-    props: ['site', 'file', 'running'],
+    props: ['site', 'file', 'running', 'forceShow'],
     created () {
       this.fetchData()
     },
     data () {
       return {
-        showFile : false,
+        showFile : this.forceShow,
         reload_server: null,
 
 
@@ -126,7 +126,10 @@
       },
       siteFiles () {
         return this.$store.state.user_site_files.files
-      }
+      },
+//      shouldShowFile() {
+//        return this.forceShow ? true : this.showFile;
+//      }
     }
   }
 </script>
