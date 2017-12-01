@@ -2,6 +2,7 @@ Vue.component("Back", require("./Back.vue"));
 Vue.component("Confirm", require("./Confirm.vue"));
 Vue.component("TimeAgo", require("./TimeAgo.vue"));
 Vue.component("Tooltip", require("./ToolTip.vue"));
+Vue.component("Collapse", require("./Collapse.vue"));
 Vue.component("DropDown", require("./DropDown.vue"));
 Vue.component("SshGuide", require("./SshGuide.vue"));
 Vue.component("Clipboard", require("./Clipboard.vue"));
