@@ -10,15 +10,12 @@
 
         v-bind:css="false"
     >
-        <slot v-show="show"></slot>
+        <slot></slot>
     </transition>
 </template>
 
 <script>
     export default {
-      props : {
-        show : false,
-      },
       data () {
         return {
           collapsing : false,
