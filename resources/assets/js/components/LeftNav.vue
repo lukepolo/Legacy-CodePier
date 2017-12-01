@@ -26,7 +26,7 @@
                 </div>
 
                 <site-form :pile="currentPile.id"></site-form>
-
+                
             </div>
 
             <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
