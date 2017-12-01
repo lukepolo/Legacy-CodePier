@@ -99,6 +99,11 @@
         padding: $spacing;
         position: relative;
     }
+
+    .icon-web {
+        position: absolute;
+        opacity: 0;
+    }
 }
 
 // SECTION CONTENT

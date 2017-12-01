@@ -13,6 +13,8 @@
             </template>
 
             Sites
+
+            <span class="icon-web"></span>
         </h3>
 
         <div class="section-content">
