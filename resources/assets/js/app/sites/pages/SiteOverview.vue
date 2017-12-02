@@ -229,6 +229,8 @@
             <life-lines></life-lines>
         </div>
 
+        
+
         <div class="flyform--footer">
 
             <form @submit.prevent="updateNotificationChannels">
