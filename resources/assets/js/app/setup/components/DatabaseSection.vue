@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="flex flex--center">
+        <div class="heading flex flex--center">
             <h3 class="flex--grow">
                 {{ database }} Schemas
             </h3>
@@ -16,8 +16,6 @@
             <schema :schema="schema" :key="schema.id" v-for="schema in schemas"></schema>
         </div>
 
-        <br>
-
         <form @submit.prevent="createSchema" class="flyform--submit" v-if="shouldShowForm">
             <div class="flyform--group">
                 <input type="text" name="name" v-model="form.name" placeholder=" ">
@@ -25,7 +23,7 @@
             </div>
 
             <div class="flyform--footer-btns">
-                <button class="btn" v-if="schemas.length" @click.prevent="showForm = false">Cancel</button>
+                <span class="btn" v-if="schemas.length" @click.prevent="showForm = false">Cancel</span>
                 <button class="btn btn-primary btn-small" type="submit">Create Schema</button>
             </div>
         </form>

@@ -465,6 +465,18 @@
 }
 
 
+// Forms Inside list items
+.list {
+  .flyform--submit {
+    padding: 0px 20px;
+  }
+
+  .flyform--group {
+    margin-top: 10px;
+  }
+}
+
+
 
 // CPU USAGE
 .cpu-load {

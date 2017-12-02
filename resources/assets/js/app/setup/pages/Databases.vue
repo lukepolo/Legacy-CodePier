@@ -1,11 +1,5 @@
 <template>
     <section>
-        <div class="flex flex--center">
-            <h3 class="flex--grow">
-                Databases
-            </h3>
-        </div>
-        <hr>
         <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
     </section>
 </template>
