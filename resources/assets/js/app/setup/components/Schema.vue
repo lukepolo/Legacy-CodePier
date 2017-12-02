@@ -15,16 +15,18 @@
                 </tooltip>
             </div>
         </div>
-        <div class="list--item list--item-icons list--item-subgroup" v-if="users">
+        <div v-if="users.length">
             <template v-for="user in users">
-                <div class="list--item-text">
-                    {{ user.name }}
-                </div>
+                <div class="list--item list--item-icons list--item-subgroup">
+                    <div class="list--item-text">
+                        {{ user.name }}
+                    </div>
 
-                <div class="list--icon">
-                    <tooltip message="Delete User">
-                        <div class="icon-trash" @click="deleteSchemaUser(user.id)"></div>
-                    </tooltip>
+                    <div class="list--icon">
+                        <tooltip message="Delete User">
+                            <div class="icon-trash" @click="deleteSchemaUser(user.id)"></div>
+                        </tooltip>
+                    </div>
                 </div>
             </template>
 
@@ -43,6 +45,7 @@
                 </div>
 
                 <div class="flyform--footer-btns">
+                    <span class="btn btn-small" @click="showForm = false"><span class="icon-x"></span></span>
                     <button class="btn btn-primary btn-small" type="submit">Create User</button>
                 </div>
             </div>
