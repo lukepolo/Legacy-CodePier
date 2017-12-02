@@ -77,6 +77,9 @@
 .icon-archive:before {
     content: "\e90c";
 }
+.icon-send:before {
+    content: "\e163";
+}
 .icon-browser:before {
     content: "\e902";
 }
@@ -91,6 +94,9 @@
 }
 .icon-plus:before {
     content: "\e915";
+}
+.icon-x:before {
+    content: "\e91f";
 }
 .icon-refresh:before {
     content: "\e917";
@@ -214,7 +220,4 @@
 }
 .icon-arrow-left:before {
     content: "\f104";
-}
-.icon-send:before {
-    content: "\e163";
 }
