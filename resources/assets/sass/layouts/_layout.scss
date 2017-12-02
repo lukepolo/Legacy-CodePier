@@ -8,6 +8,7 @@
 header,
 footer {
   flex: 0 0 auto;
+  z-index: 300;
 }
 
 #xlarge-wrap {
@@ -67,7 +68,14 @@ footer {
     opacity: 1;
   }
 
-  .icon-web {
+  .section-header .icon-web {
+    position: absolute;
+    opacity: 0;
+  }
+}
+
+#right {
+  .section-header .icon-server {
     position: absolute;
     opacity: 0;
   }
