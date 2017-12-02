@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="list--item list--item-icons list--item-click" @click="showFile = !showFile">
+        <div class="list--item list--item-icons list--item-click" @click="showFile = !showFile"  :class="{ 'selected' : this.showFile }" >
             {{ filePath }}
             <span class="icon-arrow-right"></span>
         </div>
@@ -10,33 +10,42 @@
 
                     <div ref="editor" v-file-editor class="editor"></div>
 
-                    <button class="btn btn-primary btn-block" :class="{ 'btn-disabled' : running }" type="submit">
-                        <template v-if="!running">
-                            Update File
-                        </template>
-                        <template v-else>
-                            File {{ running.status }}
-                        </template>
-                    </button>
+                    <div class="editor--actions">
 
-                    <div class="flyform--group" v-if="site_servers">
-                        <label class="flyform--group-iconlabel">Select a Server</label>
-                        <tooltip message="We can fetch a file and replace all content inside by reloading the file"
-                                 class="long">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                        <div class="flyform--group-select">
-                            <select name="server" v-model="reload_server">
-                                <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip
-                                    }}
-                                </option>
-                            </select>
+                        <div class="text-right">
+                            <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
+                                <template v-if="!running">
+                                    Update File
+                                </template>
+                                <template v-else>
+                                    File {{ running.status }}
+                                </template>
+                            </button>
                         </div>
-                    </div>
 
-                    <div class="btn-footer">
-                        <a @click="reloadFile" class="btn btn-small">Reload File From Selected Server</a>
+                        <div class="flex flex--baseline">
+                            <div class="flyform--group flex--grow" v-if="site_servers">
+                                <label class="flyform--group-iconlabel">Select a Server</label>
+                                <tooltip message="We can fetch a file and replace all content inside by reloading the file"
+                                         class="long">
+                                    <span class="fa fa-info-circle"></span>
+                                </tooltip>
+
+                                <div class="flyform--group-select">
+                                    <select name="server" v-model="reload_server">
+                                        <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip
+                                            }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex--spacing">
+                                <tooltip message="Reload from Selected Server">
+                                    <a @click="reloadFile" class="btn btn-small btn-primary"><span class="icon-refresh2"></span></a>
+                                </tooltip>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

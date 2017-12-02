@@ -1,6 +1,10 @@
 <template>
     <div>
         <template v-if="site">
+            <div class="list">
+                <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
+            </div>
+
             <form @submit.prevent="addCustomFile" class="flex flex--baseline">
                 <div class="flyform--group flex--grow">
                     <input type="text" name="file" v-model="form.file" placeholder=" ">
@@ -11,10 +15,6 @@
                     <button class="btn btn-primary btn-small" type="submit">Add Custom File</button>
                 </div>
             </form>
-
-            <div class="list">
-                <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
-            </div>
         </template>
     </div>
 </template>

@@ -353,8 +353,18 @@
       border: none;
     }
 
+    .icon-arrow-right {
+      transition: all .2s ease;
+    }
+
     &.selected {
       background-color: mix($gray, $black, 50%);
+
+      .icon-arrow-right {
+        color: $color-text-accent;
+        transform: rotate(90deg) scale(1.3);
+        transition: all .2s ease;
+      }
     }
 
     &-text {
@@ -440,8 +450,17 @@
   }
 }
 
+// Framework Files
+.editor {
+  &:not(.ace_editor) {
+    border: 4px solid mix($gray, $black, 50%);
+  }
 
-
+  .editor--actions {
+    background-color: $gray;
+    padding: 20px 20px 0px;
+  }
+}
 
 
 
