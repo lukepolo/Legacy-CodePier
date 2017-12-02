@@ -129,3 +129,32 @@ button[disabled=disabled] {
 .btn-container {
     padding: $spacing;
 }
+
+
+// TOOLTIPS AROUND BUTTON MARGIN ---------------------------
+// ---------------------------------------------------------
+.btn--tooltip {
+    + .btn--tooltip,
+    + .btn {
+        margin-left: 15px;
+    }
+}
+
+.btn {
+    + .btn--tooltip {
+        margin-left: 15px;
+    }
+}
+
+.btn--tooltip-small {
+    + .btn--tooltip-small,
+    + .btn-small {
+        margin-left: 5px;
+    }
+}
+
+.btn-small {
+    + .btn--tooltip-small {
+        margin-left: 5px;
+    }
+}

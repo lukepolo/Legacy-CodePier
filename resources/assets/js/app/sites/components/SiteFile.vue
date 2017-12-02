@@ -12,7 +12,11 @@
 
                     <div class="editor--actions">
 
-                        <div class="text-right">
+                        <div class="flyform--footer-btns" v-if="!isReloading">
+                            <tooltip message="Fetch File from Remote Server" class="btn--tooltip">
+                                <a @click="isReloading = true" class="btn"><span class="icon-refresh2"></span></a>
+                            </tooltip>
+
                             <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
                                 <template v-if="!running">
                                     Update File
@@ -23,7 +27,7 @@
                             </button>
                         </div>
 
-                        <div class="flex flex--baseline">
+                        <div class="flex flex--baseline" v-if="isReloading">
                             <div class="flyform--group flex--grow" v-if="site_servers">
                                 <label class="flyform--group-iconlabel">Select a Server</label>
                                 <tooltip message="We can fetch a file and replace all content inside by reloading the file"
@@ -33,16 +37,15 @@
 
                                 <div class="flyform--group-select">
                                     <select name="server" v-model="reload_server">
-                                        <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip
-                                            }}
-                                        </option>
+                                        <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="flex--spacing">
-                                <tooltip message="Reload from Selected Server">
-                                    <a @click="reloadFile" class="btn btn-small btn-primary"><span class="icon-refresh2"></span></a>
+                                <span class="btn btn-small" @click="isReloading = false"><span class="icon-x"></span></span>
+                                <tooltip message="Reload from Selected Server" class="btn--tooltip-small">
+                                    <button @click="reloadFile" class="btn btn-small btn-primary"><span class="icon-refresh2"></span></button>
                                 </tooltip>
                             </div>
                         </div>
@@ -63,11 +66,7 @@
       return {
         showFile : this.forceShow,
         reload_server: null,
-
-
-        collapsing : false,
-        height : null,
-        transitionSpeed : '.35'
+        isReloading : false,
       }
     },
     watch: {
@@ -103,6 +102,9 @@
           file: this.fileModel.id,
           server: this.reload_server,
           site: this.$route.params.site_id,
+        })
+        .then(() => {
+            this.isReloading = false;
         })
       },
       getContent () {
