@@ -16,6 +16,8 @@
                     </template>
                 </drop-down>
             </div>
+
+            <span class="icon-server"></span>
         </h3>
 
         <div class="section-content">
