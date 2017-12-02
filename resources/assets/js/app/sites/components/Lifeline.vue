@@ -5,7 +5,6 @@
                 <clipboard :data="lifeLine.url"></clipboard>
             </tooltip>
 
-
             <tooltip message="Delete" class="flyform--btn-right">
                 <confirm dispatch="user_site_life_lines/destroy" confirm_position="left btns-only" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
                     <span class="icon-trash"></span>
