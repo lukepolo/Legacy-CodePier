@@ -1,6 +1,6 @@
 <template>
     <span class="confirm-container" @click.stop.prevent @keyup.32.prevent @keyup.esc="close()">
-        <button :class="confirm_class" @click="open()">
+        <button :class="confirm_class" @click="toggle()">
             <slot></slot>
         </button>
         <transition name="confirm">
@@ -17,6 +17,7 @@
                          </div>
                     </div>
                 </template>
+                <h4 class="confirm-header" v-if="message">{{ message }}</h4>
                 <div class="confirm-content">
                     <slot name="form"></slot>
                 </div>
@@ -37,6 +38,7 @@
             'cancel_text': {},
             'confirm_text': {},
             'confirm_with_text': {},
+            'message' : '',
             'confirm_class': {
                 default: 'btn'
             },
@@ -90,7 +92,11 @@
             }
         },
         methods: {
-            open () {
+            toggle () {
+                if(this.confirm) {
+                    this.confirm  = false;
+                    return ;
+                }
                 app.$emit('close-confirms')
                 this.confirm = true
             },

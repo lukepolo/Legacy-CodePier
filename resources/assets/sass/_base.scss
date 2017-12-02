@@ -108,6 +108,13 @@ input {
     background-color: transparent;
 }
 
+label {
+  font-weight: 400;
+  color: mix($blue, $white, 30%);
+  letter-spacing: .4px;
+  display: block;
+}
+
 textarea {
   width: 100%;
   background-color: transparent;

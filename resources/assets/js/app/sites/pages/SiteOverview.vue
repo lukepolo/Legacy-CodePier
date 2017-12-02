@@ -6,30 +6,48 @@
                 </h2>
             </div>
             <div class="heading--btns">
-                <tooltip message="Rename Site" placement="bottom">
-                    <confirm
-                        dispatch="user_sites/renameSite"
-                        :params="{ site : site.id, domain : renameForm.domain }"
+                <confirm
                         confirm_class="btn-link"
                         confirm_position="bottom"
-                        confirm_message="Rename Site"
+                        message="Slack Notifications"
                         confirm_btn="btn-primary"
-                    >
-                        <span class="icon-pencil"></span>
-                        <div slot="form">
-                            <div class="flyform--group">
-                                <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
-                                <label for="domain">Domain</label>
-                            </div>
+                >
+                    <tooltip message="Notifications" placement="bottom">
+                        <span class="icon-notifications"></span>
+                    </tooltip>
+                    <div slot="form">
+                        <div class="flyform--group">
+                            <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
+                            <label for="domain">Domain</label>
                         </div>
-                    </confirm>
-                </tooltip>
+                    </div>
+                </confirm>
+
+                <confirm
+                    dispatch="user_sites/renameSite"
+                    :params="{ site : site.id, domain : renameForm.domain }"
+                    confirm_class="btn-link"
+                    confirm_position="bottom"
+                    message="Rename Site"
+                    confirm_btn="btn-primary"
+                >
+                    <tooltip message="Rename Site" placement="bottom">
+                        <span class="icon-pencil"></span>
+                    </tooltip>
+                    <div slot="form">
+                        <div class="flyform--group">
+                            <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
+                            <label for="domain">Domain</label>
+                        </div>
+                    </div>
+                </confirm>
 
                 <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"
                         confirm_class="btn-link btn-link-danger"
                         confirm_position="bottom"
                         confirm_message="Delete Site"
-                        confirm_text="Delete Site" >
+                        confirm_text="Delete Site"
+                >
                     <tooltip message="Delete Site" placement="bottom">
                         <span class="icon-trash"></span>
                     </tooltip>
@@ -227,37 +245,73 @@
             </div>
 
             <life-lines></life-lines>
-        </div>
 
-        
-
-        <div class="flyform--footer">
-
-            <form @submit.prevent="updateNotificationChannels">
-                <p>Here, you'll be able to configure the channels that CodePier will use to send notifications to your Slack team. The default channel for all site related notifications, is #sites.</p>
-
-                <div class="flyform--group">
-                    <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
-                    <label>Site Channel</label>
+            <div class="grid--item">
+                <div class="flex flex--center heading">
+                    <h3 class="flex--grow text-center">Notifications</h3>
+                    <button class="btn btn-small" :class="{ 'btn-disabled' : this.shouldShowSlackForm }" @click="showSlackForm = true"><span class="icon-pencil"></span></button>
                 </div>
 
-                <div class="flyform--group">
-                    <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
-                    <label>Servers Channel</label>
-                </div>
+                <p v-if="!hasNotificationProviders"><router-link :to="{ name : 'user_notification_providers' }">Connect your slack account</router-link> to receive site notifications.</p>
 
-                <div class="flyform--group">
-                    <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
-                    <label>Life Line Channel</label>
-                </div>
+                <div v-if="hasNotificationProviders" v-show="!showSlackForm" class="list">
+                    <div class="list--item">
+                        <label>Site Channel</label>
+                        #{{ notificationChannelsForm.site }}
+                    </div>
 
-                <div class="flyform-footer">
-                    <div class="flyform--footer-btns">
-                        <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
+                    <div class="list--item">
+                        <label>Servers Channel</label>
+                        #{{ notificationChannelsForm.servers }}
+                    </div>
+
+                    <div class="list--item">
+                        <label>Lifeline Channel</label>
+                        #{{ notificationChannelsForm.lifelines }}
                     </div>
                 </div>
-            </form>
+
+                <form @submit.prevent="updateNotificationChannels" v-if="shouldShowSlackForm">
+                    <p>Enter the channel name you want CodePier to send notifications. By default, notifications are sent to #sites.</p>
+
+                    <div class="flyform--group">
+                        <div class="flyform--group-prefix">
+                            <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
+                            <label>Site Channel</label>
+                            <div class="flyform--group-prefix-label">#</div>
+                        </div>
+                    </div>
+
+                    <div class="flyform--group">
+                        <div class="flyform--group-prefix">
+                            <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
+                            <label>Servers Channel</label>
+                            <div class="flyform--group-prefix-label">#</div>
+                        </div>
+                    </div>
+
+                    <div class="flyform--group">
+                        <div class="flyform--group-prefix">
+                            <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
+                            <label>Lifeline Channel</label>
+                            <div class="flyform--group-prefix-label">#</div>
+                        </div>
+                    </div>
+
+                    <div class="flyform-footer">
+                        <div class="flyform--footer-btns">
+                            <span class="btn btn-small" @click.prevent="resetForm">Cancel</span>
+                            <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+
+
+
+
+
     </div>
 </template>
 
@@ -266,13 +320,14 @@
     export default {
         data() {
             return {
+                showSlackForm : false,
                 webhook : false,
                 sshKey: false,
-                notificationChannelsForm: {
+                notificationChannelsForm: this.createForm({
                     site : null,
                     server : null,
                     lifelines : null
-                },
+                }),
                 renameForm : {
                     domain : null,
                 }
@@ -320,15 +375,21 @@
             updateNotificationChannels() {
                 this.$store.dispatch('user_sites/updateNotificationChannels', {
                     site : this.$route.params.site_id,
-                    slack_channel_preferences : this.notificationChannelsForm,
+                    slack_channel_preferences : this.notificationChannelsForm.data(),
+                }).then(() => {
+                    this.showSlackForm = false;
                 })
             },
+            resetForm() {
+                this.notificationChannelsForm.reset();
+                this.showSlackForm = false;
+            }
         },
         computed: {
             site() {
                 let site = this.$store.state.user_sites.site
                 if(site && site.slack_channel_preferences) {
-                    Vue.set(this, 'notificationChannelsForm', site.slack_channel_preferences)
+                    Vue.set(this, 'notificationChannelsForm', this.createForm(_.cloneDeep(site.slack_channel_preferences)))
                 }
                 return site;
             },
@@ -357,7 +418,13 @@
             },
             recentDeployments() {
                 return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5)
-            }
+            },
+            hasNotificationProviders() {
+                return this.$store.state.user_notification_providers.providers.length > 0 ? true : false;
+            },
+            shouldShowSlackForm() {
+                return (this.showSlackForm && this.hasNotificationProviders);
+            },
         },
     }
 </script>
