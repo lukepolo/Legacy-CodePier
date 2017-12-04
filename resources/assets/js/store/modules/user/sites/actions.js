@@ -133,17 +133,19 @@ export const listen = ({ commit, state, dispatch }, site) => {
 
 export const updateWorkflow = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("SiteSiteWorkflowController@store", { site: data.site }),
-    "user_sites/set",
-    "user_sites/update"
+    Vue.action("SiteSiteWorkflowController@store", { site: data.site }), [
+      "user_sites/set",
+      "user_sites/update"
+    ]
   );
 };
 
 export const renameSite = (context, data) => {
   Vue.request(data).post(
-    Vue.action("SiteSiteController@rename", { site: data.site }),
-    "user_sites/set",
-    "user_sites/update"
+    Vue.action("SiteSiteController@rename", { site: data.site }), [
+      "user_sites/set",
+      "user_sites/update"
+    ]
   );
 };
 
@@ -151,8 +153,9 @@ export const updateNotificationChannels = ({}, data) => {
   return Vue.request(data).post(
     Vue.action("SiteSiteNotificationChannelsController@store", {
       site: data.site
-    }),
-    "user_sites/set",
-    "user_sites/update"
+    }), [
+      "user_sites/set",
+      "user_sites/update"
+    ]
   );
 };
