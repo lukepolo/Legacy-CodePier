@@ -2,6 +2,6 @@
 
 namespace App\Contracts\Repositories;
 
-interface FileRepositoryContract {
-
+interface FileRepositoryContract
+{
 }

@@ -2,7 +2,6 @@
 
 namespace App\Observers\Site;
 
-
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
@@ -81,12 +80,11 @@ class SiteObserver
         $tempSite->framework = $site->getOriginal('framework', $site->framework);
         $tempSite->server_features = $site->getOriginal('server_features', $site->server_features);
 
-        if(!is_array($tempSite->server_features)) {
+        if (! is_array($tempSite->server_features)) {
             $tempSite->server_features = json_decode($tempSite->server_features);
         }
 
         if ($site->isDirty('type') || $site->isDirty('framework')) {
-
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
 
             $this->siteFeatureService->detachSuggestedCronJobs($site, $tempSite);
