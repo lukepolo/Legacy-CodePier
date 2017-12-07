@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\File;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use App\Contracts\Repositories\FileRepositoryContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
-class FileRepository implements FileRepositoryContract  {
-
+class FileRepository implements FileRepositoryContract
+{
     private $serverService;
 
     /**
@@ -28,8 +28,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param $custom
      * @return File;
      */
-    public function findOrCreateFile($model, $filePath, $custom = false, $framework = false) {
-
+    public function findOrCreateFile($model, $filePath, $custom = false, $framework = false)
+    {
         $file = $model->files
             ->where('file_path', $filePath)
             ->first();
@@ -38,7 +38,7 @@ class FileRepository implements FileRepositoryContract  {
             $file = $this->findOnSiteServers($model, $filePath);
         }
 
-        if(empty($file)) {
+        if (empty($file)) {
             $file = $this->create($filePath, $custom, $framework);
             $model->files()->save($file);
         }
@@ -51,7 +51,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param $fileId
      * @return mixed
      */
-    public function findOnModelById($model, $fileId) {
+    public function findOnModelById($model, $fileId)
+    {
         return $model->files->keyBy('id')->get($fileId);
     }
 
@@ -61,7 +62,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param bool $framework
      * @return mixed
      */
-    private function create($filePath, $custom = false, $framework = false) {
+    private function create($filePath, $custom = false, $framework = false)
+    {
         return File::create([
             'custom' => $custom,
             'file_path' => $filePath,
@@ -74,10 +76,12 @@ class FileRepository implements FileRepositoryContract  {
      * @param $content
      * @return File
      */
-    public function update(File $file, $content) {
+    public function update(File $file, $content)
+    {
         $file->update([
             'content' => $content,
         ]);
+
         return $file;
     }
 
@@ -85,7 +89,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param File $file
      * @return bool
      */
-    public function destroy(File $file) {
+    public function destroy(File $file)
+    {
         return $file->delete();
     }
 
@@ -94,7 +99,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param $server
      * @return File
      */
-    public function reload(File $file, $server) {
+    public function reload(File $file, $server)
+    {
         $file->update([
             'content' => $this->serverService->getFile($server, $file->file_path),
         ]);
@@ -106,7 +112,8 @@ class FileRepository implements FileRepositoryContract  {
      * @param Site $site
      * @param $fileName
      */
-    public function findOnSiteServers(Site $site, $fileName) {
+    public function findOnSiteServers(Site $site, $fileName)
+    {
         $site->load('provisionedServers.files');
 
         foreach ($site->provisionedServers as $server) {
