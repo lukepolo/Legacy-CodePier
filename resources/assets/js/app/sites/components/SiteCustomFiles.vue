@@ -2,7 +2,7 @@
     <div>
         <template v-if="site">
             <div class="list">
-                <site-file :deletable="true" :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
+                <site-file :deletable="true" :site="site" :file="file" v-for="file in files" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
             </div>
 
             <form @submit.prevent="addCustomFile" class="flex flex--baseline">
@@ -40,7 +40,6 @@
                         return this.isCommandRunning('App\\Models\\File', foundFile.id);
                     }
                 }
-
                 return false;
             },
             addCustomFile() {
@@ -60,10 +59,13 @@
             site() {
                 return this.$store.state.user_sites.site;
             },
-            customSiteFiles() {
-                return _.filter(this.$store.state.user_site_files.files, function(file) {
-                    return file.custom;
-                });
+            files() {
+              return _.filter(this.siteFiles.files, function(file) {
+                return file.custom;
+              });
+            },
+            siteFiles() {
+              return this.$store.state.user_site_files;
             }
         },
     }
