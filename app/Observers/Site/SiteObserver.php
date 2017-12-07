@@ -2,6 +2,7 @@
 
 namespace App\Observers\Site;
 
+
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
@@ -75,32 +76,36 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        if ($site->isDirty('framework')) {
-            $tempSite = clone $site;
+        $tempSite = clone $site;
 
-            $tempSite->framework = $site->getOriginal('framework');
+        $tempSite->framework = $site->getOriginal('framework', $site->framework);
+        $tempSite->server_features = $site->getOriginal('server_features', $site->server_features);
 
-            if (! empty($tempSite->framework)) {
-                foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
-                    foreach ($site->cronJobs as $siteCronJob) {
-                        if ($siteCronJob->job == $cronJob) {
-                            $site->cronJobs()->detach($siteCronJob);
-                        }
-                    }
-                }
-            }
+        if(!is_array($tempSite->server_features)) {
+            $tempSite->server_features = json_decode($tempSite->server_features);
         }
 
         if ($site->isDirty('type') || $site->isDirty('framework')) {
-            $site->deploymentSteps()->delete();
-            $this->siteDeploymentStepsService->saveDefaultSteps($site);
+
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
+
+            $this->siteFeatureService->detachSuggestedCronJobs($site, $tempSite);
+            $this->siteFeatureService->detachSuggestedFiles($site, $tempSite);
+
+            // This because we may have detached things above, and it doesn't completely remove them from the object
+            $site = $site->fresh();
+
+            $site->deploymentSteps()->delete();
+
+            $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
+            $this->siteFeatureService->saveSuggestedFiles($site);
         }
     }
 
     /**
      * @param Site $site
+     * @throws \Exception
      */
     public function deleting(Site $site)
     {

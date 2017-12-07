@@ -23,15 +23,6 @@ export const destroy = (context, data) => {
   return Vue.request(data).delete("");
 };
 
-export const getEditableFiles = (context, server) => {
-  Vue.request().get(
-    Vue.action("ServerServerFeatureController@getEditableFiles", {
-      server: server
-    }),
-    "user_server_files/setEditableFiles"
-  );
-};
-
 export const find = (context, data) => {
   return Vue.request(data).post(
     Vue.action("ServerServerFileController@find", { server: data.server }),

@@ -2,7 +2,7 @@
     <div>
         <template v-if="site">
             <div class="list">
-                <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
+                <site-file :deletable="true" :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
             </div>
 
             <form @submit.prevent="addCustomFile" class="flex flex--baseline">
