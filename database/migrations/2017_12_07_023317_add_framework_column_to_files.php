@@ -13,7 +13,7 @@ class AddFrameworkColumnToFiles extends Migration
      */
     public function up()
     {
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->boolean('framework_file')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddFrameworkColumnToFiles extends Migration
      */
     public function down()
     {
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('framework_file');
         });
     }
