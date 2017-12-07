@@ -36,7 +36,7 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            FileRepositoryContract::class
+            FileRepositoryContract::class,
         ];
     }
 }
