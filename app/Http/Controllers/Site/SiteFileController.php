@@ -10,7 +10,6 @@ use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
-
 class SiteFileController extends Controller
 {
     private $fileRepository;

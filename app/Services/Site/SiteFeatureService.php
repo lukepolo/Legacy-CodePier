@@ -27,7 +27,6 @@ class SiteFeatureService implements SiteFeatureServiceContract
         $this->serverFeatureService = $serverFeatureService;
     }
 
-
     /**
      * @param Site $site
      * @return \Illuminate\Support\Collection
@@ -210,11 +209,11 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     public function saveSuggestedFiles(Site $site)
     {
-        foreach($this->getEditableFiles($site) as $file) {
+        foreach ($this->getEditableFiles($site) as $file) {
             $this->fileRepository->findOrCreateFile($site, $file);
         }
 
-        foreach($this->getEditableFrameworkFiles($site) as $file) {
+        foreach ($this->getEditableFrameworkFiles($site) as $file) {
             $this->fileRepository->findOrCreateFile($site, $file);
         }
     }
