@@ -24,7 +24,6 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('user_server_files/get', this.$route.params.server_id)
-                this.$store.dispatch('user_server_files/getEditableFiles', this.$route.params.server_id)
             },
             isRunningCommandFor(file) {
                 if(this.serverFiles) {
@@ -46,9 +45,6 @@
             runningCommands() {
                 return this.$store.state.commands.running_commands
             },
-            possibleFiles() {
-                return this.$store.state.user_server_files.editable_files
-            }
         },
     }
 </script>

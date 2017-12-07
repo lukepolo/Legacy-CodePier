@@ -6,22 +6,27 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Contracts\Site\SiteFeatureServiceContract;
+use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
 
 class SiteFeatureService implements SiteFeatureServiceContract
 {
     use SystemFiles;
 
+    private $fileRepository;
     private $serverFeatureService;
 
     /**
      * SiteFeatureService constructor.
-     * @param \App\Services\Server\ServerFeatureService |  ServerFeatureService $serverFeatureService
+     * @param \App\Services\Server\ServerFeatureService | ServerFeatureService $serverFeatureService
+     * @param \App\Repositories\FileRepository | FileRepository $fileRepository
      */
-    public function __construct(ServerFeatureService $serverFeatureService)
+    public function __construct(ServerFeatureService $serverFeatureService, FileRepository $fileRepository)
     {
+        $this->fileRepository = $fileRepository;
         $this->serverFeatureService = $serverFeatureService;
     }
+
 
     /**
      * @param Site $site
@@ -188,6 +193,49 @@ class SiteFeatureService implements SiteFeatureServiceContract
         }
 
         return collect();
+    }
+
+    public function detachSuggestedCronJobs(Site $site, Site $tempSite)
+    {
+        if (! empty($tempSite->framework)) {
+            foreach ($this->getSuggestedCronJobs($tempSite) as $cronJob) {
+                foreach ($site->cronJobs as $siteCronJob) {
+                    if ($siteCronJob->job == $cronJob) {
+                        $site->cronJobs()->detach($siteCronJob);
+                    }
+                }
+            }
+        }
+    }
+
+    public function saveSuggestedFiles(Site $site)
+    {
+        foreach($this->getEditableFiles($site) as $file) {
+            $this->fileRepository->findOrCreateFile($site, $file);
+        }
+
+        foreach($this->getEditableFrameworkFiles($site) as $file) {
+            $this->fileRepository->findOrCreateFile($site, $file);
+        }
+    }
+
+    public function detachSuggestedFiles(Site $site, Site $tempSite)
+    {
+        foreach ($this->getEditableFiles($tempSite) as $file) {
+            foreach ($site->files as $siteFile) {
+                if ($siteFile->file_path == $file) {
+                    $site->files()->detach($siteFile);
+                }
+            }
+        }
+
+        foreach ($this->getEditableFrameworkFiles($tempSite) as $file) {
+            foreach ($site->files as $siteFile) {
+                if ($siteFile->file_path == $file) {
+                    $site->files()->detach($siteFile);
+                }
+            }
+        }
     }
 
     public function saveSuggestedCronJobs(Site $site)

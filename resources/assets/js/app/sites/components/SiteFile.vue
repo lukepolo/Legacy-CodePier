@@ -17,6 +17,7 @@
                                 <a @click="isReloading = true" class="btn"><span class="icon-refresh2"></span></a>
                             </tooltip>
 
+
                             <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
                                 <template v-if="!running">
                                     Update File
@@ -25,6 +26,8 @@
                                     File {{ running.status }}
                                 </template>
                             </button>
+
+                            <button @click.prevent="deleteFile" v-if="deletable">Delete</button>
                         </div>
 
                         <div class="flex flex--baseline" v-if="isReloading">
@@ -58,7 +61,7 @@
 
 <script>
   export default {
-    props: ['site', 'file', 'running', 'forceShow'],
+    props: ['site', 'file', 'running', 'forceShow', 'deletable'],
     created () {
       this.fetchData()
     },
@@ -71,19 +74,25 @@
     },
     watch: {
       '$route': 'fetchData',
-      'fileModel': function () {
-        if (_.isObject(this.fileModel)) {
-          let editor = this.$refs.editor
-          ace.edit(editor).setValue(this.fileModel.unencrypted_content ? this.fileModel.unencrypted_content : '')
-          ace.edit(editor).clearSelection(1)
-        }
-      }
     },
     methods: {
+      renderContent() {
+        if (_.isObject(this.file)) {
+          let editor = this.$refs.editor
+          ace.edit(editor).setValue(this.file.unencrypted_content ? this.file.unencrypted_content : '')
+          ace.edit(editor).clearSelection(1)
+        }
+      },
+      deleteFile() {
+        console.info(this.fileModel)
+        this.$store.dispatch('user_site_files/destroy', {
+          site : this.site.id,
+          file : this.fileModel.id
+        })
+      },
       saveFile () {
         this.$store.dispatch('user_site_files/update', {
           site: this.site.id,
-          file_path: this.file,
           content: this.getContent(),
           file_id: this.fileModel.id,
         })
@@ -94,7 +103,13 @@
             custom: false,
             file: this.file,
             site: this.$route.params.site_id
+          }).then((file) => {
+            Vue.set(this, 'file', file)
+            this.renderContent();
           })
+        } else {
+          console.info('here')
+          this.renderContent()
         }
       },
       reloadFile () {
@@ -112,11 +127,6 @@
       },
     },
     computed: {
-      fileModel () {
-        return _.find(this.siteFiles, (file) => {
-          return this.file === file.file_path
-        })
-      },
       site_servers () {
 
         let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
