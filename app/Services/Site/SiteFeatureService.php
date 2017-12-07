@@ -215,7 +215,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
         }
 
         foreach($this->getEditableFrameworkFiles($site) as $file) {
-            $this->fileRepository->findOrCreateFile($site, $file);
+            $this->fileRepository->findOrCreateFile($site, $file, false, true);
         }
     }
 

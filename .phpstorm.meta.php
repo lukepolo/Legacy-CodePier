@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-11-17.
+    * Generated on 2017-12-07.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -164,6 +164,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -332,6 +333,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -500,6 +502,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -668,6 +671,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -836,6 +840,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -1004,6 +1009,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,
@@ -1172,6 +1178,7 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' => \SocialiteProviders\Manager\Helpers\ConfigRetriever::class,
+        'App\Contracts\Repositories\FileRepositoryContract' => \App\Repositories\FileRepository::class,
         'App\Contracts\Repository\RepositoryServiceContract' => \App\Services\Repository\RepositoryService::class,
         'App\Contracts\RemoteTaskServiceContract' => \App\Services\RemoteTaskService::class,
         'App\Contracts\Server\ServerServiceContract' => \App\Services\Server\ServerService::class,

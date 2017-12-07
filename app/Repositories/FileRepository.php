@@ -28,7 +28,7 @@ class FileRepository implements FileRepositoryContract  {
      * @param $custom
      * @return File;
      */
-    public function findOrCreateFile($model, $filePath, $custom = false) {
+    public function findOrCreateFile($model, $filePath, $custom = false, $framework = false) {
 
         $file = $model->files
             ->where('file_path', $filePath)
@@ -39,7 +39,7 @@ class FileRepository implements FileRepositoryContract  {
         }
 
         if(empty($file)) {
-            $file = $this->create($filePath, $custom);
+            $file = $this->create($filePath, $custom, $framework);
             $model->files()->save($file);
         }
 
@@ -54,15 +54,18 @@ class FileRepository implements FileRepositoryContract  {
     public function findOnModelById($model, $fileId) {
         return $model->files->keyBy('id')->get($fileId);
     }
+
     /**
      * @param $filePath
      * @param bool $custom
+     * @param bool $framework
      * @return mixed
      */
-    private function create($filePath, $custom = false) {
+    private function create($filePath, $custom = false, $framework = false) {
         return File::create([
-            'file_path' => $filePath,
             'custom' => $custom,
+            'file_path' => $filePath,
+            'framework_file' => $framework,
         ]);
     }
 

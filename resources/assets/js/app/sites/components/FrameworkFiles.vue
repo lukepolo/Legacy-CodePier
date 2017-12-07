@@ -1,7 +1,7 @@
 <template>
     <div class="list">
-        <template v-if="possibleFiles">
-            <site-file :forceShow="index === 0 && possibleFiles.length === 1" :site="site" :file="file" v-for="(file, index) in possibleFiles" :key="file" :running="isRunningCommandFor(file)"></site-file>
+        <template v-if="siteFiles">
+            <site-file :forceShow="siteFiles.length === 1" :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>
@@ -12,15 +12,12 @@
         components : {
           SiteFile
         },
-        created() {
-            this.fetchData();
-        },
         methods: {
             isRunningCommandFor(file) {
-                if(this.siteFiles) {
-                    let foundFile =_.find(this.siteFiles, { file_path : file });
+                if(this.files) {
+                    let foundFile =_.find(this.files, { id : file.id });
                     if(foundFile) {
-                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
+                        return this.isCommandRunning('App\\Models\\File', file.id);
                     }
                 }
 
@@ -31,8 +28,13 @@
             site() {
                 return this.$store.state.user_sites.site;
             },
+            files() {
+                return this.siteFiles.filter((file) => {
+                    return file.framework_file;
+                });
+            },
             siteFiles() {
-                return this.$store.state.user_site_files.files;
+                return this.$store.state.user_site_files.files
             }
         },
     }
