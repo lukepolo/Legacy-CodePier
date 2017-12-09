@@ -21,9 +21,9 @@ export const update = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    ue.action("SiteSiteFileController@destroy", {
+    Vue.action("SiteSiteFileController@destroy", {
       site: data.site,
-      file: data.file_id
+      file: data.file
     }),
     "user_site_files/remove"
   );
