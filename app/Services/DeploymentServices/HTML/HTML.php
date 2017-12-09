@@ -21,7 +21,7 @@ class HTML
 
         $nvm = '';
 
-        if($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
+        if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
             $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
             $nvm = "nvm install $version && nvm use &&";
         }
@@ -44,7 +44,7 @@ class HTML
 
         $nvm = '';
 
-        if($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
+        if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
             $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
             $nvm = "nvm install $version && nvm use &&";
         }
