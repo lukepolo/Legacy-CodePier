@@ -5,6 +5,7 @@ require("./bootstrap");
 require("./components");
 require("./directives");
 require("./emitters");
+require("./filters");
 require("./mixins");
 
 window.store = store;
