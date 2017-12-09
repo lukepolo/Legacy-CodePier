@@ -17,7 +17,6 @@
                         <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
                         <span class="icon"></span>
                         Zerotime Deployment
-
                         <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!"
                                  size="medium">
                             <span class="fa fa-info-circle"></span>
@@ -29,8 +28,6 @@
                     <div class="flyform--group">
                         <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
                         <label for="keep_releases" class="flyform--group-iconlabel">Number of Releases to keep</label>
-
-
                         <tooltip
                                 message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all"
                                 size="medium">
@@ -81,15 +78,18 @@
                         </h3>
 
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
-                            <div class="drag-element" v-for="(deploymentStep, key) in active"
-                                 v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
+                            <div
+                                class="drag-element"
+                                v-for="(deploymentStep, key) in active"
+                                v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)"
+                            >
                                 <deployment-step-card
-                                        :order="key + 1"
-                                        :deployment-step="deploymentStep"
-                                        :key="deploymentStep.step"
-                                        :suggestedOrder="getSuggestedOrder(deploymentStep)"
-                                        v-on:updateStep="updateStep('active')"
-                                        v-on:deleteStep="deleteStep(key, 'active')"
+                                    :order="key + 1"
+                                    :deployment-step="deploymentStep"
+                                    :key="deploymentStep.id"
+                                    :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                    v-on:updateStep="updateStep('active')"
+                                    v-on:deleteStep="deleteStep(key, 'active')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -180,7 +180,11 @@
                 return false;
             },
             addCustomStep() {
+
+                let tempId = parseInt(this.active.length+1) + parseInt(this.inactive.length+1)
+
                 this.active.push({
+                    id : `temp_${tempId}`,
                     order: null,
                     script: '',
                     step: "Custom Step",
@@ -264,7 +268,10 @@
                 return this.$store.state.user_sites.site;
             },
             deploymentSteps() {
-                return this.$store.state.user_site_deployments.deployment_steps;
+                return this.$store.state.user_site_deployments.deployment_steps.map((value, index) => {
+                  value.id = `temp_${index}`
+                  return value;
+                });
             },
             currentSiteDeploymentSteps() {
                 return this.$store.state.user_site_deployments.site_deployment_steps;
