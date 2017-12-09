@@ -8,6 +8,7 @@ use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
+use App\Services\DeploymentServices\HTML\HTML;
 use App\Services\Systems\SystemService;
 use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepFailed;
@@ -30,6 +31,7 @@ class SiteService implements SiteServiceContract
 
     public $deploymentServices = [
         'php' => PHP::class,
+        'html' => HTML::class,
         'ruby' => Ruby::class,
     ];
 
@@ -123,6 +125,9 @@ class SiteService implements SiteServiceContract
      * @param SiteServerDeployment $siteServerDeployment
      * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {

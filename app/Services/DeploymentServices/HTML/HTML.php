@@ -1,25 +1,12 @@
 <?php
 
-namespace App\Services\DeploymentServices\PHP;
+namespace App\Services\DeploymentServices\HTML;
 
-use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\DeployTrait;
-use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
 
-class PHP
+class HTML
 {
-    use Laravel;
     use DeployTrait;
-
-    /**
-     * @description Install the vendors packages.
-     *
-     * @order 200
-     */
-    public function installPhpDependencies()
-    {
-        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-dev --no-progress --no-interaction');
-    }
 
     /**
      * @description Install the node vendors packages.
@@ -65,17 +52,5 @@ class PHP
         $output[] = $this->remoteTaskService->run("cd $this->release; $nvm yarn install --no-progress;");
 
         return $output;
-    }
-
-    /**
-     * @description Restart the deployment services
-     *
-     * @order 500
-     */
-    public function restartPhpFpm()
-    {
-        $this->remoteTaskService->ssh($this->server, 'root');
-
-        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP);
     }
 }
