@@ -157,5 +157,8 @@ export const updateNotificationChannels = ({}, data) => {
       "user_sites/set",
       "user_sites/update"
     ]
-  );
+  ).then((response) => {
+      app.showSuccess("You updated your sites slack notification channels.");
+      return response;
+  });
 };
