@@ -1,5 +1,10 @@
 <template>
     <section>
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Server Files
+            </h3>
+        </div>
         <template v-if="site && files">
             <site-file :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></site-file>
         </template>
