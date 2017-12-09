@@ -10,12 +10,12 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local">
-                    <a>
-                        Monitoring
-                        <div class="small">Server statistics</div>
-                    </a>
-                </router-link>
+                <!--<router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local">-->
+                    <!--<a>-->
+                        <!--Monitoring-->
+                        <!--<div class="small">Server statistics</div>-->
+                    <!--</a>-->
+                <!--</router-link>-->
 
                 <router-link :to="{ name : 'server_databases', params : { server_id : serverId } }" tag="li">
                     <a>
@@ -24,12 +24,12 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item">
-                    <a>
-                        Buoys
-                        <div class="small">Installed buoys on the system</div>
-                    </a>
-                </router-link>
+                <!--<router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item">-->
+                    <!--<a>-->
+                        <!--Buoys-->
+                        <!--<div class="small">Installed buoys on the system</div>-->
+                    <!--</a>-->
+                <!--</router-link>-->
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active">
