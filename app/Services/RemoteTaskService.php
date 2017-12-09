@@ -270,7 +270,8 @@ echo \"Wrote\"", $read);
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function getFileContents($file) {
+    public function getFileContents($file)
+    {
         return $this->run("cat $file");
     }
 
