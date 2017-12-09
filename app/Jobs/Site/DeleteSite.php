@@ -2,14 +2,13 @@
 
 namespace App\Jobs\Site;
 
-
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Exceptions\SshConnectionFailed;
+use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\Site\FixSiteServerConfigurations;
@@ -53,7 +52,7 @@ class DeleteSite implements ShouldQueue
         ) {
             try {
                 $siteService->deleteSite($this->server, $this->site);
-            } catch(SshConnectionFailed $e) {
+            } catch (SshConnectionFailed $e) {
                 // continue on
             }
         }
