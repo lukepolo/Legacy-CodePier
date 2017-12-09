@@ -55,6 +55,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function create(Server $server, Site $site)
     {
@@ -88,6 +91,9 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @param $newDomain
      * @param $oldDomain
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function renameDomain(Server $server, Site $site, $newDomain, $oldDomain)
     {
@@ -109,6 +115,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param Server $server
      * @param Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     private function remove(Server $server, Site $site)
     {
@@ -192,6 +201,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function deleteSite(Server $server, Site $site)
     {
@@ -203,6 +215,7 @@ class SiteService implements SiteServiceContract
     /**
      * @param Site $site
      * @return Site|\Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
      */
     public function createDeployHook(Site $site)
     {
@@ -216,6 +229,7 @@ class SiteService implements SiteServiceContract
     /**
      * @param Site $site
      * @return Site|\Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
      */
     public function deleteDeployHook(Site $site)
     {
