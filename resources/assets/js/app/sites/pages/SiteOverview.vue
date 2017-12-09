@@ -16,11 +16,37 @@
                         <span class="icon-notifications"></span>
                     </tooltip>
                     <div slot="form">
-                        <div class="flyform--group">
-                            <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
-                            <label for="domain">Domain</label>
-                        </div>
+                        <p v-if="!hasNotificationProviders"><router-link :to="{ name : 'user_notification_providers' }">Connect your slack account</router-link> to receive site notifications.</p>
+
+                        <template v-if="hasNotificationProviders">
+                            <p>Enter the channel name you want CodePier to send notifications. By default, notifications are sent to #sites.</p>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
+                                    <label>Site Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
+                                    <label>Servers Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
+                                    <label>Lifeline Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+                        </template>
                     </div>
+                    <button slot="confirm-button" @click="updateNotificationChannels" class="btn btn-small btn-primary">Update Channels</button>
                 </confirm>
 
                 <confirm
@@ -246,72 +272,7 @@
 
             <life-lines></life-lines>
 
-            <div class="grid--item">
-                <div class="flex flex--center heading">
-                    <h3 class="flex--grow text-center">Notifications</h3>
-                    <button class="btn btn-small" :class="{ 'btn-disabled' : this.shouldShowSlackForm }" @click="showSlackForm = true"><span class="icon-pencil"></span></button>
-                </div>
-
-                <p v-if="!hasNotificationProviders"><router-link :to="{ name : 'user_notification_providers' }">Connect your slack account</router-link> to receive site notifications.</p>
-
-                <div v-if="hasNotificationProviders" v-show="!showSlackForm" class="list">
-                    <div class="list--item">
-                        <label>Site Channel</label>
-                        #{{ notificationChannelsForm.site }}
-                    </div>
-
-                    <div class="list--item">
-                        <label>Servers Channel</label>
-                        #{{ notificationChannelsForm.servers }}
-                    </div>
-
-                    <div class="list--item">
-                        <label>Lifeline Channel</label>
-                        #{{ notificationChannelsForm.lifelines }}
-                    </div>
-                </div>
-
-                <form @submit.prevent="updateNotificationChannels" v-if="shouldShowSlackForm">
-                    <p>Enter the channel name you want CodePier to send notifications. By default, notifications are sent to #sites.</p>
-
-                    <div class="flyform--group">
-                        <div class="flyform--group-prefix">
-                            <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
-                            <label>Site Channel</label>
-                            <div class="flyform--group-prefix-label">#</div>
-                        </div>
-                    </div>
-
-                    <div class="flyform--group">
-                        <div class="flyform--group-prefix">
-                            <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
-                            <label>Servers Channel</label>
-                            <div class="flyform--group-prefix-label">#</div>
-                        </div>
-                    </div>
-
-                    <div class="flyform--group">
-                        <div class="flyform--group-prefix">
-                            <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
-                            <label>Lifeline Channel</label>
-                            <div class="flyform--group-prefix-label">#</div>
-                        </div>
-                    </div>
-
-                    <div class="flyform-footer">
-                        <div class="flyform--footer-btns">
-                            <span class="btn btn-small" @click.prevent="resetForm">Cancel</span>
-                            <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
-
-
-
-
-
     </div>
 </template>
 
@@ -421,9 +382,6 @@
             },
             hasNotificationProviders() {
                 return this.$store.state.user_notification_providers.providers.length > 0 ? true : false;
-            },
-            shouldShowSlackForm() {
-                return (this.showSlackForm && this.hasNotificationProviders);
             },
         },
     }

@@ -23,7 +23,9 @@
                 </div>
                 <div class="btn-footer">
                     <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
-                    <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
+                    <slot name="confirm-button">
+                        <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
+                    </slot>
                 </div>
             </div>
         </transition>
