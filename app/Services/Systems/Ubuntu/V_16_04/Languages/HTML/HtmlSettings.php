@@ -7,5 +7,4 @@ use App\Services\Systems\ServiceConstructorTrait;
 class HtmlSettings
 {
     use ServiceConstructorTrait;
-
 }
