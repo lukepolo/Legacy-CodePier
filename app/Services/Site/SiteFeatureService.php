@@ -224,6 +224,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
             foreach ($site->files as $siteFile) {
                 if ($siteFile->file_path == $file) {
                     $site->files()->detach($siteFile);
+                    if($siteFile->servers->count() === 0) {
+                        $siteFile->delete();
+                    }
                 }
             }
         }
@@ -232,6 +235,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
             foreach ($site->files as $siteFile) {
                 if ($siteFile->file_path == $file) {
                     $site->files()->detach($siteFile);
+                    if($siteFile->servers->count() === 0) {
+                        $siteFile->delete();
+                    }
                 }
             }
         }
