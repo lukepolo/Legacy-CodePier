@@ -1,9 +1,9 @@
 <template>
     <section>
-        <custom-files></custom-files>
-        <template v-if="possibleFiles && server">
-            <server-file :server="server" :file="file" v-for="file in possibleFiles" :key="file" :running="isRunningCommandFor(file)"></server-file>
+        <template v-if="files && server">
+            <server-file :server="server" :file="file" v-for="file in files" :key="file" :running="isRunningCommandFor(file)"></server-file>
         </template>
+        <custom-files></custom-files>
     </section>
 </template>
 
@@ -27,15 +27,20 @@
             },
             isRunningCommandFor(file) {
                 if(this.serverFiles) {
-                    let foundFile =_.find(this.serverFiles, { file_path : file });
+                    let foundFile =_.find(this.serverFiles, { file : file.id });
                     if(foundFile) {
-                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
+                        return this.isCommandRunning('App\\Models\\File', file.id);
                     }
                 }
                 return false;
             }
         },
         computed: {
+            files() {
+                return this.serverFiles.filter((file) => {
+                  return (!file.custom && !file.framework_file)
+                });
+            },
             server() {
                 return this.$store.state.user_servers.server
             },
