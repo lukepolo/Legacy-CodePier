@@ -1,6 +1,11 @@
 <template>
     <section>
-        <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
+        <template v-if="databases && databases.length">
+            <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
+        </template>
+        <template v-else>
+            <p>Currently you do not have any databases installed on this system.</p>
+        </template>
     </section>
 </template>
 
