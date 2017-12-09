@@ -1,5 +1,8 @@
 <template>
     <div v-if="site">
+        <h3 class="flex--grow">
+            Framework Files
+        </h3>
         <framework-files v-if="site.framework"></framework-files>
         <site-custom-files></site-custom-files>
     </div>
