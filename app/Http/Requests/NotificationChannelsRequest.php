@@ -28,8 +28,8 @@ class NotificationChannelsRequest extends FormRequest
             'slack_channel_preferences' => 'required',
             'slack_channel_preferences.*' => [
                 'nullable',
-                new NotificationChannels
-            ]
+                new NotificationChannels,
+            ],
         ];
     }
 }
