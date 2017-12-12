@@ -2,9 +2,83 @@
     <div v-if="site">
         <div class="flex">
             <div class="flex--grow">
-                <h2 class="heading">Site Overview</h2>
+                <h2 class="heading">Site Overview
+                </h2>
             </div>
-            <div>
+            <div class="heading--btns">
+                <confirm
+                        confirm_class="btn-link"
+                        confirm_position="bottom"
+                        message="Slack Notifications"
+                        confirm_btn="btn-primary"
+                >
+                    <tooltip message="Notifications" placement="bottom">
+                        <span class="icon-notifications"></span>
+                    </tooltip>
+                    <div slot="form">
+                        <p v-if="!hasNotificationProviders"><router-link :to="{ name : 'user_notification_providers' }">Connect your slack account</router-link> to receive site notifications.</p>
+
+                        <template v-if="hasNotificationProviders">
+                            <p>Enter the channel name you want CodePier to send notifications. By default, notifications are sent to #sites.</p>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
+                                    <label>Site Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
+                                    <label>Servers Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+
+                            <div class="flyform--group">
+                                <div class="flyform--group-prefix">
+                                    <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
+                                    <label>Lifeline Channel</label>
+                                    <div class="flyform--group-prefix-label">#</div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <button slot="confirm-button" @click="updateNotificationChannels" class="btn btn-small btn-primary">Update Channels</button>
+                </confirm>
+
+                <confirm
+                    dispatch="user_sites/renameSite"
+                    :params="{ site : site.id, domain : renameForm.domain }"
+                    confirm_class="btn-link"
+                    confirm_position="bottom"
+                    message="Rename Site"
+                    confirm_btn="btn-primary"
+                >
+                    <tooltip message="Rename Site" placement="bottom">
+                        <span class="icon-pencil"></span>
+                    </tooltip>
+                    <div slot="form">
+                        <div class="flyform--group">
+                            <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
+                            <label for="domain">Domain</label>
+                        </div>
+                    </div>
+                </confirm>
+
+                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"
+                        confirm_class="btn-link btn-link-danger"
+                        confirm_position="bottom"
+                        confirm_message="Delete Site"
+                        confirm_text="Delete Site"
+                >
+                    <tooltip message="Delete Site" placement="bottom">
+                        <span class="icon-trash"></span>
+                    </tooltip>
+                </confirm>
+
                 <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>
         </div>
@@ -158,87 +232,47 @@
             </drop-down>
         </div>
 
-        <div class="grid-2">
+        <div class="grid-2 grid-gap-large">
             <div class="grid--item">
-                <h3 class="text-center">Recent Deployments</h3>
+                <h3 class="text-center heading">Recent Deployments</h3>
 
                 <div v-if="!recentDeployments">
                     <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
                 </div>
                 <template v-else>
+                    <div class="list">
                     <template v-for="recentDeployment in recentDeployments">
-                        {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
-                        <br>
-                        <small>
-                            took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
-                        </small>
+                        <div class="list--item list--item-icons">
+                            <div>
+                                {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
 
-                        <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
-                            Rollback
-                        </confirm>
-                        <br>
+                                <div>
+                                    <small>took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})</small>
+                                </div>
+                            </div>
+
+                            <confirm dispatch="user_site_deployments/rollback" confirm_position="btns-only" confirm_class="btn-link" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
+                                <tooltip message="Rollback">
+                                    <span class="icon-refresh2"></span>
+                                </tooltip>
+                            </confirm>
+                        </div>
+
+
+                        <div class="flex deployment">
+                            <div class="flex--grow deployment--text">
+                            </div>
+                            <div class="deployment--btns">
+                            </div>
+                        </div>
                     </template>
+                    </div>
                 </template>
             </div>
 
             <life-lines></life-lines>
+
         </div>
-
-        <div class="flyform--footer">
-            <div class="flyform--footer-btns">
-                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name">Delete Site</confirm>
-            </div>
-
-            <form @submit.prevent="updateNotificationChannels">
-                <p>Here, you'll be able to configure the channels that CodePier will use to send notifications to your Slack team. The default channel for all site related notifications, is #sites.</p>
-
-                <div class="flyform--group">
-                    <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
-                    <label>Site Channel</label>
-                </div>
-
-                <div class="flyform--group">
-                    <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
-                    <label>Servers Channel</label>
-                </div>
-
-                <div class="flyform--group">
-                    <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
-                    <label>Life Line Channel</label>
-                </div>
-
-                <div class="flyform-footer">
-                    <div class="flyform--footer-btns">
-                        <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <hr>
-
-        <h3>Site Rename Form</h3>
-        <form @submit.prevent>
-            <div class="flyform--group">
-                <input ref="domain" name="domain" v-model="renameForm.domain" type="text" placeholder=" ">
-                <label for="domain">Domain / Alias</label>
-            </div>
-
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <confirm
-                        dispatch="user_sites/renameSite"
-                        :params="{
-                            site : this.site.id,
-                            domain : this.renameForm.domain,
-                        }"
-                        :confirm_with_text="renameForm.domain"
-                    >
-                        Rename Site {{ renameForm.site }}
-                    </confirm>
-                </div>
-            </div>
-        </form>
     </div>
 </template>
 
@@ -247,13 +281,14 @@
     export default {
         data() {
             return {
+                showSlackForm : false,
                 webhook : false,
                 sshKey: false,
-                notificationChannelsForm: {
+                notificationChannelsForm: this.createForm({
                     site : null,
                     server : null,
                     lifelines : null
-                },
+                }),
                 renameForm : {
                     domain : null,
                 }
@@ -267,6 +302,9 @@
         },
         watch: {
             '$route' : 'fetchData',
+            'site' : function(site) {
+                Vue.set(this.renameForm, 'domain', site.domain);
+            }
         },
         methods: {
             createDeployHook() {
@@ -281,7 +319,7 @@
             fetchData() {
                 this.getDns()
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
-                Vue.set(this.renameForm, 'domain', null)
+                Vue.set(this.renameForm, 'domain', this.site ? this.site.domain : null)
             },
             getDns(refresh) {
 
@@ -298,15 +336,21 @@
             updateNotificationChannels() {
                 this.$store.dispatch('user_sites/updateNotificationChannels', {
                     site : this.$route.params.site_id,
-                    slack_channel_preferences : this.notificationChannelsForm,
+                    slack_channel_preferences : this.notificationChannelsForm.data(),
+                }).then(() => {
+                    this.showSlackForm = false;
                 })
+            },
+            resetForm() {
+                this.notificationChannelsForm.reset();
+                this.showSlackForm = false;
             }
         },
         computed: {
             site() {
                 let site = this.$store.state.user_sites.site
                 if(site && site.slack_channel_preferences) {
-                    Vue.set(this, 'notificationChannelsForm', site.slack_channel_preferences)
+                    Vue.set(this, 'notificationChannelsForm', this.createForm(_.cloneDeep(site.slack_channel_preferences)))
                 }
                 return site;
             },
@@ -335,7 +379,10 @@
             },
             recentDeployments() {
                 return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5)
-            }
+            },
+            hasNotificationProviders() {
+                return this.$store.state.user_notification_providers.providers.length > 0 ? true : false;
+            },
         },
     }
 </script>

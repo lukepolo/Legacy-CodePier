@@ -150,7 +150,6 @@ class Request {
             this.onFail(error.response.data);
             reject(error.response.data);
           } else {
-            console.error(error);
             reject(error.response);
           }
         });

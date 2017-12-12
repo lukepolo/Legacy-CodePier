@@ -10,22 +10,15 @@
             By dragging steps from the inactive to the active we automatically suggest the order.
             Once in the active list you can change the order.
         </p>
-
-        <hr>
-
         <form @submit.prevent="saveSiteDeploymentConfig">
-
-            <div class="flyform--group">
-                <label>Repository Options</label>
-            </div>
             <div class="grid-2">
                 <div class="flyform--group-checkbox">
                     <label>
                         <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
                         <span class="icon"></span>
                         Zerotime Deployment
-
-                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!"
+                                 size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                     </label>
@@ -34,46 +27,50 @@
                 <template v-if="form.zerotime_deployment">
                     <div class="flyform--group">
                         <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
-                        <label for="keep_releases"class="flyform--group-iconlabel">Number of Releases to keep</label>
-
-                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                        <label for="keep_releases" class="flyform--group-iconlabel">Number of Releases to keep</label>
+                        <tooltip
+                                message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all"
+                                size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                     </div>
                 </template>
             </div>
-
-            <div class="flyform--footer-btns">
-                <button class="btn btn-small">Update Deployment</button>
-            </div>
         </form>
+
 
         <form @submit.prevent="updateSiteDeployment">
             <div class="col-split col-break-sm">
                 <div class="drag">
                     <div class="col">
                         <h3>
-                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran during deployments" class="long">
+                            <tooltip
+                                    message="We keep steps so you can always put them back into the list. These steps will not be ran during deployments"
+                                    class="long">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
                             Inactive
                             <a class="pull-right" @click="deselectAllDeployments">Deselect All</a>
                         </h3>
 
-                        <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
-                            <div class="drag-element" v-for="(deploymentStep, key) in inactive"  v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
+                        <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}"
+                                   @sort="sortInactiveList">
+                            <div class="drag-element" v-for="(deploymentStep, key) in inactive"
+                                 v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
-                                    :deployment-step="deploymentStep"
-                                    :suggestedOrder="getSuggestedOrder(deploymentStep)"
-                                    v-on:updateStep="updateStep('inactive')"
-                                    v-on:deleteStep="deleteStep(key, 'inactive')"
+                                        :deployment-step="deploymentStep"
+                                        :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                        v-on:updateStep="updateStep('inactive')"
+                                        v-on:deleteStep="deleteStep(key, 'inactive')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
                     </div>
                     <div class="col">
                         <h3>
-                            <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom" class="long">
+                            <tooltip
+                                    message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom"
+                                    class="long">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
                             Active
@@ -81,11 +78,15 @@
                         </h3>
 
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
-                            <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
+                            <div
+                                class="drag-element"
+                                v-for="(deploymentStep, key) in active"
+                                v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)"
+                            >
                                 <deployment-step-card
                                     :order="key + 1"
                                     :deployment-step="deploymentStep"
-                                    :key="deploymentStep.step"
+                                    :key="deploymentStep.id"
                                     :suggestedOrder="getSuggestedOrder(deploymentStep)"
                                     v-on:updateStep="updateStep('active')"
                                     v-on:deleteStep="deleteStep(key, 'active')"
@@ -127,10 +128,10 @@
             return {
                 active: [],
                 inactive: [],
-                form : this.createForm({
-                    keep_releases : 10,
+                form: this.createForm({
+                    keep_releases: 10,
                     zerotime_deployment: true,
-                    site : this.$route.params.site_id,
+                    site: this.$route.params.site_id,
                 })
             }
         },
@@ -140,7 +141,7 @@
         },
         watch: {
             '$route': 'fetchData',
-            'site' : 'siteChange',
+            'site': 'siteChange',
         },
         methods: {
             siteChange() {
@@ -165,30 +166,34 @@
             },
             updateSiteDeployment() {
                 this.$store.dispatch('user_site_deployments/updateSiteDeployment', {
-                    site : this.$route.params.site_id,
-                    deployment_steps : this.active
+                    site: this.$route.params.site_id,
+                    deployment_steps: this.active
                 })
             },
             saveSiteDeploymentConfig() {
                 this.$store.dispatch('user_site_deployments/updateSiteDeploymentConfig', this.form)
             },
             hasStep(task) {
-                if(this.currentSiteDeploymentSteps.length) {
-                    return _.find(this.currentSiteDeploymentSteps, {'internal_deployment_function' : task});
+                if (this.currentSiteDeploymentSteps.length) {
+                    return _.find(this.currentSiteDeploymentSteps, {'internal_deployment_function': task});
                 }
                 return false;
             },
             addCustomStep() {
+
+                let tempId = parseInt(this.active.length+1) + parseInt(this.inactive.length+1)
+
                 this.active.push({
+                    id : `temp_${tempId}`,
                     order: null,
-                    script : '',
+                    script: '',
                     step: "Custom Step",
                     description: "Custom Step",
-                    editing : true,
+                    editing: true,
                 })
             },
-            sortInactiveList: function(){
-                this.$nextTick(function(){
+            sortInactiveList: function () {
+                this.$nextTick(function () {
                     this.inactive = _.sortBy(this.inactive, 'order');
                 });
             },
@@ -213,14 +218,14 @@
                 this.inactive = [];
 
                 _.each(this.currentSiteDeploymentSteps, (step) => {
-                    if(step.script) {
+                    if (step.script) {
                         step.editing = false;
                     }
                     this.active.push(step);
                 });
 
                 _.each(this.deploymentSteps, (step) => {
-                    if(!this.hasStep(step.internal_deployment_function)) {
+                    if (!this.hasStep(step.internal_deployment_function)) {
                         this.inactive.push(step);
                     }
                 });
@@ -233,10 +238,10 @@
             },
             getSuggestedOrder(deploymentStep) {
                 let internalStep = this.internalStep(deploymentStep)
-                if(internalStep) {
+                if (internalStep) {
 
                     let activeSteps = _.filter(this.deploymentSteps, (step) => {
-                        return _.find(this.active, { step : step.step})
+                        return _.find(this.active, {step: step.step})
                     })
 
                     let steps = _.filter(activeSteps, (step) => {
@@ -249,7 +254,7 @@
                 return null
             },
             internalStep(deploymentStep) {
-                if(deploymentStep.internal_deployment_function && this.deploymentSteps) {
+                if (deploymentStep.internal_deployment_function && this.deploymentSteps) {
                     return _.find(this.deploymentSteps, (step) => {
                         return step.internal_deployment_function === deploymentStep.internal_deployment_function
                     })
@@ -263,7 +268,10 @@
                 return this.$store.state.user_sites.site;
             },
             deploymentSteps() {
-                return this.$store.state.user_site_deployments.deployment_steps;
+                return this.$store.state.user_site_deployments.deployment_steps.map((value, index) => {
+                  value.id = `temp_${index}`
+                  return value;
+                });
             },
             currentSiteDeploymentSteps() {
                 return this.$store.state.user_site_deployments.site_deployment_steps;

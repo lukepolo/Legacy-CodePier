@@ -11,9 +11,49 @@
             <div class="server-ip">
                 {{ server.ip }} &nbsp;
             </div>
+        </div>
 
-            <template v-if="server.stats && server.stats.loads && !showServerInfo">
-            </template>
+        <div class="server-info-collapsed" v-if="!showServerInfo">
+            <div class="grid-3">
+
+                <tooltip class="server-info condensed" message="Disk Usage" delay=.5 v-if="highestDiskUsage">
+                    <div class="server-progress-container">
+                        <div
+                        class="server-progress"
+                        :class="{
+                            danger : parseInt(highestDiskUsage.percent) >= 75,
+                            warning : parseInt(highestDiskUsage.percent) < 75 && parseInt(highestDiskUsage.percent) >= 50
+                        }"
+                        :style="{ width : highestDiskUsage.percent }"></div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="Memory" delay=.5 v-if="highestMemory">
+                    <div class="server-progress-container">
+                        <div
+                            class="server-progress"
+                            :class="{
+                                danger : getMemoryUsage(highestMemory) >= 75,
+                                warning : getMemoryUsage(highestMemory) < 75 && getMemoryUsage(highestMemory) >= 50
+                            }"
+                            :style="{ width : getMemoryUsage(highestMemory)+'%' }"
+                        ></div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="Latest CPU Load" delay=.5 v-if="latestLoad">
+                    <div class="server-progress-container">
+                        <div
+                            class="server-progress"
+                            :class="{
+                                danger : getCpuLoad(latestLoad) >= 75,
+                                warning :  getCpuLoad(latestLoad) < 75 && getCpuLoad(latestLoad) >= 50
+                            }"
+                            :style="{ width : getCpuLoad(latestLoad) + '%' }">
+                        </div>
+                    </div>
+                </tooltip>
+            </div>
         </div>
 
         <div class="server-info" v-if="showServerInfo">
@@ -28,10 +68,11 @@
                     </div>
 
                     <div v-if="currentProvisioningStep">
-                        <div class="server-status-text" v-if="currentProvisioningStep.failed">
+                        <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
-                            <div @click="retryProvision" class="btn btn-xs">retry</div>
                         </div>
+                        <div v-if="currentProvisioningStep.failed" @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</div>
+
                         <div class="server-status-text" v-else>
                             {{ server.status }}
                         </div>
@@ -134,6 +175,7 @@
                                             <div class="stats-label stats-available">N/A</div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="cpu-group">
                                     <div class="cpu-min">5 mins</div>
@@ -217,6 +259,28 @@
             },
             currentProvisioningStep() {
                 return this.$store.state.user_server_provisioning.current_step;
+            },
+            stats() {
+                if(this.server && this.server.stats) {
+                    return this.server.stats;
+                }
+            },
+            highestDiskUsage() {
+              if(this.stats) {
+                return _.first(_.orderBy(this.stats.disk_usage, ['percent'], ['desc']))
+              }
+            },
+            highestMemory() {
+              if(this.stats) {
+                return _.first(_.orderBy(this.stats.memory, (memory) => {
+                  return this.getMemoryUsage(memory)
+                }, ['desc']))
+              }
+            },
+            latestLoad() {
+                if(this.stats) {
+                  return this.stats.loads[1];
+                }
             }
         },
         methods : {
@@ -225,6 +289,10 @@
             },
             retryProvision() {
                 this.$store.dispatch('user_server_provisioning/retry', this.server.id);
+            },
+            getCpuLoad(load) {
+                let loadPercent = (load / this.stats.cpus) * 100
+                return (loadPercent > 100 ? 100 : loadPercent)
             },
             getMemoryUsage(stats) {
                 return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100

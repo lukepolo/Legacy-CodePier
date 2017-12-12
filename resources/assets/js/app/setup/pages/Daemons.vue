@@ -1,6 +1,31 @@
 <template>
     <section>
-        <form @submit.prevent="installDaemon()">
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Daemons
+            </h3>
+
+            <tooltip message="Add Daemon">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
+        </div>
+        <table class="table" v-if="daemons.length">
+            <thead>
+            <tr>
+                <th>Command</th>
+                <th>User</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <daemon :daemon="daemon" v-for="daemon in daemons" :key="daemon.id"></daemon>
+            </tbody>
+        </table>
+
+        <form @submit.prevent="installDaemon()" v-if="shouldShowForm">
 
             <div class="flyform--group">
                 <input type="text" name="command" v-model="form.command" placeholder=" ">
@@ -21,33 +46,12 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
+                    <button class="btn" v-if="daemons.length" @click.prevent="resetForm">Cancel</button>
                     <button class="btn btn-primary" type="submit">Create Daemon</button>
                 </div>
             </div>
 
         </form>
-
-
-        <br>
-
-        <div v-if="daemons.length">
-            <h3>Daemons</h3>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Command</th>
-                    <th>User</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <daemon :daemon="daemon" v-for="daemon in daemons" :key="daemon.id"></daemon>
-                </tbody>
-            </table>
-        </div>
-
 
         <input type="hidden" v-if="site">
 
@@ -63,6 +67,8 @@
         },
         data() {
             return {
+                loaded : false,
+                showForm : false,
                 form: this.createForm({
                     user: null,
                     command: null,
@@ -80,11 +86,15 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('user_site_daemons/get', this.siteId)
+                    this.$store.dispatch('user_site_daemons/get', this.siteId).then(() => {
+                      this.loaded = true
+                    })
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('user_server_daemons/get', this.serverId)
+                    this.$store.dispatch('user_server_daemons/get', this.serverId).then(() => {
+                      this.loaded = true
+                    })
                 }
 
             },
@@ -116,6 +126,7 @@
                 if(this.site) {
                     this.form.command = this.site.path
                 }
+                this.showForm = false;
             },
         },
         computed: {
@@ -142,7 +153,10 @@
                 if(this.serverId) {
                     return this.$store.state.user_server_daemons.daemons
                 }
-            }
+            },
+            shouldShowForm() {
+                return (this.loaded && this.daemons.length === 0) || this.showForm;
+            },
         }
     }
 </script>

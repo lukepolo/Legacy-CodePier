@@ -28,6 +28,7 @@ trait DeployTrait
      * @param Server $server
      * @param \App\Models\Site\Site $site
      * @param SiteDeployment $siteDeployment
+     * @throws \App\Exceptions\SshConnectionFailed
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site, SiteDeployment $siteDeployment = null)
     {

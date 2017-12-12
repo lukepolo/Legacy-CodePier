@@ -32,8 +32,37 @@ class PHP
     {
         $output = [];
 
-        $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/node_modules ]) || (cd '.$this->release.'; yarn install --no-progress --production; mv '.$this->release.'/node_modules '.$this->siteFolder.')');
-        $output[] = $this->remoteTaskService->run('ln -sf '.$this->siteFolder.'/node_modules '.$this->release);
+        $nvm = '';
+
+        if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
+            $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
+            $nvm = "nvm install $version && nvm use &&";
+        }
+
+        $output[] = $this->remoteTaskService->run("cd $this->release; $nvm npm install --no-progress;");
+
+        return $output;
+    }
+
+    /**
+     * @description Install the node vendors packages.
+     *
+     * @order 301
+     *
+     * @not_default
+     */
+    public function installNodeDependenciesWithYarn()
+    {
+        $output = [];
+
+        $nvm = '';
+
+        if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
+            $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
+            $nvm = "nvm install $version && nvm use &&";
+        }
+
+        $output[] = $this->remoteTaskService->run("cd $this->release; $nvm yarn install --no-progress;");
 
         return $output;
     }

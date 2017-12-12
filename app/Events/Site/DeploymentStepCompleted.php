@@ -65,8 +65,8 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     {
         strip_relations($this->deploymentEvent)->load('step');
 
-        if (strlen($this->deploymentEvent->log) >= 7000) {
-            $this->deploymentEvent->log = substr($this->deploymentEvent->log, 0, 7000)."\n , please reload to see the rest of the log";
+        if (strlen($this->deploymentEvent->log) >= 6000) {
+            $this->deploymentEvent->log = substr($this->deploymentEvent->log, 0, 6000)."\n , please reload to see the rest of the log";
         }
 
         return [

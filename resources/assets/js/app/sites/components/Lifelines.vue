@@ -1,6 +1,16 @@
 <template>
     <div class="grid--item">
-        <h3 class="heading text-center">Lifelines</h3>
+        <div class="flex flex--center heading">
+            <h3 class="flex--grow text-center">
+                Lifelines
+            </h3>
+
+            <tooltip message="Add Lifeline">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : !this.showLifelineForm }" @click="showLifelineForm= !showLifelineForm">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
+        </div>
 
         <div v-if="!lifeLines.length">
             <p>Lifelines enable you to add monitoring to your services by pinging a URL periodically. If the time goes over your set threshold, CodePier will let you know.</p>
@@ -15,7 +25,6 @@
         </div>
 
         <template v-if="!showLifelineForm">
-            <hr style="margin-top: 40px">
             <form @submit.prevent="createLifeline">
                 <div class="flyform--group">
                     <input type="text" v-model="form.name" placeholder=" ">
@@ -35,22 +44,13 @@
                     </div>
                 </div>
 
-                <div class="flyform-footer">
-                    <div class="flyform--footer-btns">
-                        <span class="btn btn-small" @click="showLifelineForm= !showLifelineForm">Cancel</span>
-                        <button type="submit" class="btn btn-small btn-primary">Create Lifeline</button>
-                    </div>
+                <div class="flyform--footer-btns">
+                    <span class="btn btn-small" @click="showLifelineForm= !showLifelineForm">Cancel</span>
+                    <button type="submit" class="btn btn-small btn-primary">Create Lifeline</button>
                 </div>
             </form>
         </template>
 
-        <template v-else>
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <span class="btn btn-small btn-primary" @click="showLifelineForm= !showLifelineForm">Add Lifeline</span>
-                </div>
-            </div>
-        </template>
     </div>
 </template>
 

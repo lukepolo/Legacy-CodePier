@@ -17,6 +17,7 @@ use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\SiteFirewallRuleCreated;
 use App\Services\DeploymentServices\PHP\PHP;
+use App\Services\DeploymentServices\HTML\HTML;
 use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
@@ -30,6 +31,7 @@ class SiteService implements SiteServiceContract
 
     public $deploymentServices = [
         'php' => PHP::class,
+        'html' => HTML::class,
         'ruby' => Ruby::class,
     ];
 
@@ -53,6 +55,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function create(Server $server, Site $site)
     {
@@ -86,6 +91,9 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @param $newDomain
      * @param $oldDomain
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function renameDomain(Server $server, Site $site, $newDomain, $oldDomain)
     {
@@ -107,6 +115,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param Server $server
      * @param Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     private function remove(Server $server, Site $site)
     {
@@ -123,6 +134,9 @@ class SiteService implements SiteServiceContract
      * @param SiteServerDeployment $siteServerDeployment
      * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
@@ -187,6 +201,9 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
+     * @throws FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function deleteSite(Server $server, Site $site)
     {
@@ -198,6 +215,7 @@ class SiteService implements SiteServiceContract
     /**
      * @param Site $site
      * @return Site|\Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
      */
     public function createDeployHook(Site $site)
     {
@@ -211,6 +229,7 @@ class SiteService implements SiteServiceContract
     /**
      * @param Site $site
      * @return Site|\Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
      */
     public function deleteDeployHook(Site $site)
     {
@@ -289,7 +308,7 @@ class SiteService implements SiteServiceContract
                     'order' => 3,
                     'completed' => false,
                 ],
-                'message' => 'You have multiple servers and may have to update your settings because.',
+                'message' => 'You have multiple servers and may have to update your settings.',
             ];
 
             if ($site->filterServersByType([

@@ -16,6 +16,12 @@
     color: $color-text-accent;
     background-color: mix($gray, $black, 50%);
   }
+
+  &:not(.router-link-active):hover {
+    color: mix($white, $blue, 50%);
+    background-color: rgba($white, .05);
+    cursor: pointer;
+  }
 }
 
 .site-name {
@@ -26,23 +32,28 @@
   // EVENTS ITEM STATUS
   .event-status {
     flex: 0 0 auto;
+    width: 1em;
     margin-right: $spacing;
 
 
     &-neutral {
       @include status(null);
+      top: -3px;
     }
 
     &-success {
       @include status(success);
+      top: -3px;
     }
 
     &-error {
       @include status(error);
+      top: -3px;
     }
 
     &-warning {
       @include status(warning);
+      top: -3px;
     }
   }
 
@@ -200,7 +211,6 @@
 
 .server-ip {
     color: $color-text-primary;
-    padding-left: 36px;
 }
 
 .server-connection {
@@ -303,8 +313,45 @@
 }
 
 
+// Serer Info When Collapsed
+.server-info-collapsed {
+  .grid-3 {
+    grid-gap: 0px;
+  }
+
+  .server-info.condensed {
+    padding: 0px;
+
+    .server-progress-container {
+      margin: 0px;
+    }
+  }
+  
+  .server-label {
+    font-size: .8em;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: rgba($black, .3);
+    padding-top: 8px;
+  }
+}
+
+
+
+
+
+
+
+
+
 // SERVER LIST
 .list {
+
+  + .list {
+    margin-top: $spacing;
+  }
 
   &--item {
     display: block;
@@ -312,8 +359,70 @@
     padding: $spacing;
     position: relative;
 
-    &:last-child {
+    &:not(.list--item-heading):last-child {
       border: none;
+    }
+
+    .icon-arrow-right {
+      transition: all .2s ease;
+    }
+
+    &.selected {
+      background-color: mix($gray, $black, 50%);
+
+      .icon-arrow-right {
+        color: $color-text-accent;
+        transform: rotate(90deg) scale(1.3);
+        transition: all .2s ease;
+      }
+    }
+
+    &-text {
+      flex-grow: 1;
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: $spacing/4;
+      padding-right: 1.4em;
+    }
+
+    &-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      [class^="icon-"], [class*=" icon-"] {
+        transform: scale(1.3);
+        color: $color-text-secondary;
+      }
+
+      &-subgroup {
+        padding: $spacing/2 $spacing $spacing/2 $spacing*3;
+      }
+    }
+
+    &-heading {
+      border: 1px solid $color-divider;
+      background-color: rgba($color-divider, .5);
+      font-weight: 400;
+      padding: $spacing/2 $spacing;
+    }
+
+    &-subgroup {
+      padding: $spacing/2 $spacing $spacing/2 $spacing*2;
+    }
+
+    &-click {
+      &:hover {
+        background-color: rgba($color-divider, .2);
+        cursor: pointer;
+
+        [class^="icon-"], [class*=" icon-"] {
+          color: $color-primary;
+        }
+      }
     }
 
     @at-root a#{&}:hover {
@@ -328,22 +437,54 @@
         float: right;
       }
     }
+  }
 
-    &.selected {
-      background-color: mix($gray, $black, 50%);
+  &--icon {
+    [class^="icon-"]:hover, [class*=" icon-"]:hover {
+      cursor: pointer;
+      color: $color-primary;
     }
 
-    &-name {
-      font-weight: 600;
-      font-size: 1.2em;
-      margin-bottom: $spacing/4;
-      padding-right: 1.4em;
+    .icon-trash:hover {
+      color: $red;
+    }
+
+    + .list--icon {
+      margin-left: $spacing;
+    }
+
+    .icon-trash {
+      position: relative;
+      top: -3px;
     }
   }
 }
 
+// Framework Files
+.editor {
+  &:not(.ace_editor) {
+    border: 4px solid mix($gray, $black, 50%);
+  }
+
+  .editor--actions {
+    background-color: $gray;
+    padding: 20px;
 
 
+  }
+}
+
+
+// Forms Inside list items
+.list {
+  .flyform--submit {
+    padding: 0px 20px;
+  }
+
+  .flyform--group {
+    margin-top: 10px;
+  }
+}
 
 
 

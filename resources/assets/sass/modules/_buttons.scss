@@ -43,8 +43,20 @@
         padding: 0px;
         background-color: transparent;
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             color: $color-primary;
+            outline: none;
+        }
+
+        &.btn-link-danger {
+            &:hover,
+            &:focus,
+            &:active {
+                color: $red;
+                outline: none;
+            }
         }
     }
 }
@@ -55,6 +67,11 @@ span.btn {
     
 .btn-primary { 
     background-color: $jcf-color-primary;
+    color: $jcf-color-text-primary !important;
+}
+
+.btn-success {
+    background-color: $green;
     color: $jcf-color-text-primary !important;
 }
 
@@ -111,4 +128,33 @@ button[disabled=disabled] {
 // ---------------------------------------------------------
 .btn-container {
     padding: $spacing;
+}
+
+
+// TOOLTIPS AROUND BUTTON MARGIN ---------------------------
+// ---------------------------------------------------------
+.btn--tooltip {
+    + .btn--tooltip,
+    + .btn {
+        margin-left: 15px;
+    }
+}
+
+.btn {
+    + .btn--tooltip {
+        margin-left: 15px;
+    }
+}
+
+.btn--tooltip-small {
+    + .btn--tooltip-small,
+    + .btn-small {
+        margin-left: 5px;
+    }
+}
+
+.btn-small {
+    + .btn--tooltip-small {
+        margin-left: 5px;
+    }
 }

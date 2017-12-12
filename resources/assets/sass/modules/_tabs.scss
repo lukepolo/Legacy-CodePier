@@ -120,7 +120,7 @@
   }
 }
 
-.tab-content .tab-left-small {
+.tab-container:not(.in-workflow) .tab-left-small {
   margin-left: -$spacing*2;
 }
 

@@ -5,6 +5,7 @@ require("./bootstrap");
 require("./components");
 require("./directives");
 require("./emitters");
+require("./filters");
 require("./mixins");
 
 window.store = store;
@@ -25,6 +26,7 @@ if (app.$store.state.user.user.is_subscribed) {
 }
 
 app.$store.dispatch("user_teams/get");
+app.$store.dispatch('user_notification_providers/get');
 
 Echo.channel("app").listen("ReleasedNewVersion", data => {
   app.$store.dispatch("system/setVersion", data);

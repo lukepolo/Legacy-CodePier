@@ -34,14 +34,14 @@ class UpdateServerFile implements ShouldQueue
     {
         $this->server = $server;
         $this->file = $file;
-        $this->makeCommand($server, $file, $siteCommand);
+        $this->makeCommand($server, $file, $siteCommand, 'Updating');
     }
 
     /**
      * Execute the job.
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
      * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {

@@ -1,6 +1,33 @@
 <template>
     <section>
-        <form @submit.prevent="createCronJob">
+
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Cron Jobs
+            </h3>
+
+            <tooltip message="Add Cron Job">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
+        </div>
+
+        <table class="table" v-if="cronJobs.length">
+            <thead>
+                <tr>
+                    <th>Job</th>
+                    <th>User</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <cron-job :cronJob="cronJob" v-for="cronJob in cronJobs" :key="cronJob.id"></cron-job>
+            </tbody>
+        </table>
+
+        <form @submit.prevent="createCronJob" v-if="shouldShowForm">
             <input type="hidden" name="cron_timing" v-model="form.cron_timing">
 
             <div class="flyform--group">
@@ -36,30 +63,11 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
+                    <button class="btn" v-if="cronJobs.length" @click.prevent="resetForm">Cancel</button>
                     <button class="btn btn-primary" type="submit">Create Cron Job</button>
                 </div>
             </div>
         </form>
-
-        <br>
-
-        <div v-if="cronJobs.length">
-            <h3>Cron Jobs</h3>
-
-            <table class="table" v-if="cronJobs">
-                <thead>
-                <tr>
-                    <th>Job</th>
-                    <th>User</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <cron-job :cronJob="cronJob" v-for="cronJob in cronJobs" :key="cronJob.id"></cron-job>
-                </tbody>
-            </table>
-        </div>
 
         <input type="hidden" v-if="site">
 
@@ -77,6 +85,8 @@
         },
         data() {
             return {
+                loaded : false,
+                showForm : false,
                 form : this.createForm({
                     cron: null,
                     user: 'root',
@@ -96,11 +106,15 @@
             fetchData() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('user_site_cron_jobs/get', this.siteId)
+                    this.$store.dispatch('user_site_cron_jobs/get', this.siteId).then(() => {
+                      this.loaded = true
+                    })
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('user_server_cron_jobs/get', this.serverId)
+                    this.$store.dispatch('user_server_cron_jobs/get', this.serverId).then(() => {
+                      this.loaded = true
+                    })
                 }
             },
             createCronJob() {
@@ -152,6 +166,7 @@
                 } else {
                     this.form.cron = null
                 }
+                this.showForm = false;
             }
         },
         computed: {
@@ -179,7 +194,10 @@
                 if(this.serverId) {
                     return this.$store.state.user_server_cron_jobs.cron_jobs
                 }
-            }
+            },
+            shouldShowForm() {
+                return (this.loaded && this.cronJobs.length === 0) || this.showForm;
+            },
         }
     }
 </script>
