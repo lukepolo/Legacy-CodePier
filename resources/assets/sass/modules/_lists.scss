@@ -18,8 +18,8 @@
   }
 
   &:not(.router-link-active):hover {
-    color: $color-text-accent;
-    background-color: mix($gray, $black, 80%);
+    color: mix($white, $blue, 50%);
+    background-color: rgba($white, .05);
     cursor: pointer;
   }
 }
@@ -32,6 +32,7 @@
   // EVENTS ITEM STATUS
   .event-status {
     flex: 0 0 auto;
+    width: 1em;
     margin-right: $spacing;
 
 
