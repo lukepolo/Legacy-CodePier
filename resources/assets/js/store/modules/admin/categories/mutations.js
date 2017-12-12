@@ -13,7 +13,7 @@ export const add = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "categories",
+    'categories',
     _.reject(state.categories, { id: requestData.value })
   );
 };
