@@ -22,14 +22,19 @@
        </div>
 
        <div v-if="notification_settings">
-           <form @submit.prevent="updateUserNotifications" ref="notification_settings_form">
+           <form class="settings" @submit.prevent="updateUserNotifications" ref="notification_settings_form">
                <notification-group title="Site Deployment Notifications" :notification_settings="notification_settings['site_deployment']"></notification-group>
                <notification-group title="LifeLines Notifications" :notification_settings="notification_settings['lifelines']"></notification-group>
                <notification-group title="Server Monitoring Notifications" :notification_settings="notification_settings['server_monitoring']"></notification-group>
                <notification-group title="Servers Notifications" :notification_settings="notification_settings['servers']"></notification-group>
                <notification-group title="Buoys Notifications" :notification_settings="notification_settings['buoys']"></notification-group>
-               <button class="btn btn-primary" type="submit">Update Settings</button>
+
            </form>
+           <div class="flyform--footer">
+               <div class="flyform--footer-btns">
+                   <button class="btn btn-primary" type="submit">Update Settings</button>
+               </div>
+           </div>
        </div>
    </section>
 

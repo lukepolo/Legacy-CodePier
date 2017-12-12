@@ -1,10 +1,9 @@
 <template>
-    <div>
+    <div class="settings--container">
         <h3>{{ title }}</h3>
         <template v-for="notification_setting in notification_settings">
             <notification-setting :key="notification_setting.name" :notification_setting="notification_setting"></notification-setting>
         </template>
-        <br><br>
     </div>
 </template>
 

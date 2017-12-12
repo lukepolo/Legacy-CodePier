@@ -1,11 +1,26 @@
 <template>
-    <div>
-        {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small><br>
-        <template v-for="service in notification_setting.services">
-            <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
-            {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
-        </template>
-        <br>
+
+    <div class="settings--group">
+        <div class="settings--name">
+            {{ notification_setting.name }} <small>{{ notification_setting.description }}</small>
+        </div>
+
+        <div class="settings--options">
+            <template v-for="service in notification_setting.services">
+            <div class="flyform--group-checkbox">
+                <label>
+                    <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
+                    <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
+                    <span class="icon"></span>
+                    {{ service }}
+                </label>
+            </div>
+            </template>
+        </div>
+
+
+
+
     </div>
 </template>
 
