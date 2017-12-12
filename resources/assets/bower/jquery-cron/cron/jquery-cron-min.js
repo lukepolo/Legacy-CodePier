@@ -1,26 +1,26 @@
 (function(e) {
   var n = {
-    initial: "* * * * *",
+    initial: '* * * * *',
     minuteOpts: {
       minWidth: 100,
       itemWidth: 30,
       columns: 4,
       rows: undefined,
-      title: "Minutes Past the Hour"
+      title: 'Minutes Past the Hour'
     },
     timeHourOpts: {
       minWidth: 100,
       itemWidth: 20,
       columns: 2,
       rows: undefined,
-      title: "Time: Hour"
+      title: 'Time: Hour'
     },
     domOpts: {
       minWidth: 100,
       itemWidth: 30,
       columns: undefined,
       rows: 10,
-      title: "Day of Month"
+      title: 'Day of Month'
     },
     monthOpts: {
       minWidth: 100,
@@ -41,13 +41,13 @@
       itemWidth: 20,
       columns: 4,
       rows: undefined,
-      title: "Time: Minute"
+      title: 'Time: Minute'
     },
     effectOpts: {
       openSpeed: 400,
       closeSpeed: 400,
-      openEffect: "slide",
-      closeEffect: "slide",
+      openEffect: 'slide',
+      closeEffect: 'slide',
       hideOnMouseOut: true
     },
     url_set: undefined,
@@ -55,76 +55,76 @@
     onChange: undefined,
     useGentleSelect: false
   };
-  var y = "";
+  var y = '';
   for (var u = 0; u < 60; u++) {
-    var t = u < 10 ? "0" : "";
-    y += "<option value='" + u + "'>" + t + u + "</option>\n";
+    var t = u < 10 ? '0' : '';
+    y += "<option value='" + u + "'>" + t + u + '</option>\n';
   }
-  var d = "";
+  var d = '';
   for (var u = 0; u < 24; u++) {
-    var t = u < 10 ? "0" : "";
-    d += "<option value='" + u + "'>" + t + u + "</option>\n";
+    var t = u < 10 ? '0' : '';
+    d += "<option value='" + u + "'>" + t + u + '</option>\n';
   }
-  var v = "";
+  var v = '';
   for (var u = 1; u < 32; u++) {
     if (u == 1 || u == 21 || u == 31) {
-      var c = "st";
+      var c = 'st';
     } else {
       if (u == 2 || u == 22) {
-        var c = "nd";
+        var c = 'nd';
       } else {
         if (u == 3 || u == 23) {
-          var c = "rd";
+          var c = 'rd';
         } else {
-          var c = "th";
+          var c = 'th';
         }
       }
     }
-    v += "<option value='" + u + "'>" + u + c + "</option>\n";
+    v += "<option value='" + u + "'>" + u + c + '</option>\n';
   }
-  var h = "";
+  var h = '';
   var l = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ];
   for (var u = 0; u < l.length; u++) {
-    h += "<option value='" + (u + 1) + "'>" + l[u] + "</option>\n";
+    h += "<option value='" + (u + 1) + "'>" + l[u] + '</option>\n';
   }
-  var s = "";
+  var s = '';
   var g = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
   ];
   for (var u = 0; u < g.length; u++) {
-    s += "<option value='" + u + "'>" + g[u] + "</option>\n";
+    s += "<option value='" + u + "'>" + g[u] + '</option>\n';
   }
-  var r = "";
-  var b = ["minute", "hour", "day", "week", "month", "year"];
+  var r = '';
+  var b = ['minute', 'hour', 'day', 'week', 'month', 'year'];
   for (var u = 0; u < b.length; u++) {
-    r += "<option value='" + b[u] + "'>" + b[u] + "</option>\n";
+    r += "<option value='" + b[u] + "'>" + b[u] + '</option>\n';
   }
   var p = {
     minute: [],
-    hour: ["mins"],
-    day: ["time"],
-    week: ["dow", "time"],
-    month: ["dom", "time"],
-    year: ["dom", "month", "time"]
+    hour: ['mins'],
+    day: ['time'],
+    week: ['dow', 'time'],
+    month: ['dom', 'time'],
+    year: ['dom', 'month', 'time']
   };
   var w = {
     minute: /^(\*\s){4}\*$/,
@@ -135,26 +135,26 @@
     year: /^(\d{1,2}\s){4}\*$/
   };
   function a(i) {
-    if (typeof i == "undefined") {
+    if (typeof i == 'undefined') {
       return false;
     } else {
       return true;
     }
   }
   function q(i) {
-    return !a(i) || typeof i == "object";
+    return !a(i) || typeof i == 'object';
   }
   function z(G) {
     var E = /^((\d{1,2}|\*)\s){4}(\d{1,2}|\*)$/;
-    if (typeof G != "string" || !E.test(G)) {
-      e.error("cron: invalid initial value");
+    if (typeof G != 'string' || !E.test(G)) {
+      e.error('cron: invalid initial value');
       return undefined;
     }
-    var F = G.split(" ");
+    var F = G.split(' ');
     var D = [0, 0, 1, 1, 0];
     var A = [59, 23, 31, 12, 6];
     for (var C = 0; C < F.length; C++) {
-      if (F[C] == "*") {
+      if (F[C] == '*') {
         continue;
       }
       var j = parseInt(F[C]);
@@ -162,7 +162,7 @@
         continue;
       }
       e.error(
-        "cron: invalid value found (col " + (C + 1) + ") in " + o.initial
+        'cron: invalid value found (col ' + (C + 1) + ') in ' + o.initial
       );
       return undefined;
     }
@@ -171,7 +171,7 @@
         return B;
       }
     }
-    e.error("cron: valid but unsupported cron format. sorry.");
+    e.error('cron: valid but unsupported cron format. sorry.');
     return undefined;
   }
   function f(j, i) {
@@ -184,39 +184,39 @@
     return false;
   }
   function k(B) {
-    var i = B.data("block");
-    var j = (hour = day = month = dow = "*");
-    var A = i.period.find("select").val();
+    var i = B.data('block');
+    var j = (hour = day = month = dow = '*');
+    var A = i.period.find('select').val();
     switch (A) {
-      case "minute":
+      case 'minute':
         break;
-      case "hour":
-        j = i.mins.find("select").val();
+      case 'hour':
+        j = i.mins.find('select').val();
         break;
-      case "day":
-        j = i.time.find("select.cron-time-min").val();
-        hour = i.time.find("select.cron-time-hour").val();
+      case 'day':
+        j = i.time.find('select.cron-time-min').val();
+        hour = i.time.find('select.cron-time-hour').val();
         break;
-      case "week":
-        j = i.time.find("select.cron-time-min").val();
-        hour = i.time.find("select.cron-time-hour").val();
-        dow = i.dow.find("select").val();
+      case 'week':
+        j = i.time.find('select.cron-time-min').val();
+        hour = i.time.find('select.cron-time-hour').val();
+        dow = i.dow.find('select').val();
         break;
-      case "month":
-        j = i.time.find("select.cron-time-min").val();
-        hour = i.time.find("select.cron-time-hour").val();
-        day = i.dom.find("select").val();
+      case 'month':
+        j = i.time.find('select.cron-time-min').val();
+        hour = i.time.find('select.cron-time-hour').val();
+        day = i.dom.find('select').val();
         break;
-      case "year":
-        j = i.time.find("select.cron-time-min").val();
-        hour = i.time.find("select.cron-time-hour").val();
-        day = i.dom.find("select").val();
-        month = i.month.find("select").val();
+      case 'year':
+        j = i.time.find('select.cron-time-min').val();
+        hour = i.time.find('select.cron-time-hour').val();
+        day = i.dom.find('select').val();
+        month = i.month.find('select').val();
         break;
       default:
         return A;
     }
-    return [j, hour, day, month, dow].join(" ");
+    return [j, hour, day, month, dow].join(' ');
   }
   var x = {
     init: function(i) {
@@ -235,67 +235,67 @@
         return this;
       }
       var C = [],
-        A = "",
+        A = '',
         D = B.customValues;
       if (a(D)) {
         for (var F in D) {
-          A += "<option value='" + D[F] + "'>" + F + "</option>\n";
+          A += "<option value='" + D[F] + "'>" + F + '</option>\n';
         }
       }
       C.period = e(
         "<span class='cron-period'>Every <select name='cron-period'>" +
           A +
           r +
-          "</select> </span>"
+          '</select> </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      var E = C.period.find("select");
-      E.bind("change.cron", m.periodChanged).data("root", this);
+        .data('root', this);
+      var E = C.period.find('select');
+      E.bind('change.cron', m.periodChanged).data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(j);
       }
       C.dom = e(
         "<span class='cron-block cron-block-dom'> on the <select name='cron-dom'>" +
           v +
-          "</select> </span>"
+          '</select> </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      E = C.dom.find("select").data("root", this);
+        .data('root', this);
+      E = C.dom.find('select').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.domOpts);
       }
       C.month = e(
         "<span class='cron-block cron-block-month'> of <select name='cron-month'>" +
           h +
-          "</select> </span>"
+          '</select> </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      E = C.month.find("select").data("root", this);
+        .data('root', this);
+      E = C.month.find('select').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.monthOpts);
       }
       C.mins = e(
         "<span class='cron-block cron-block-mins'> at <select name='cron-mins'>" +
           y +
-          "</select> minutes past the hour </span>"
+          '</select> minutes past the hour </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      E = C.mins.find("select").data("root", this);
+        .data('root', this);
+      E = C.mins.find('select').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.minuteOpts);
       }
       C.dow = e(
         "<span class='cron-block cron-block-dow'> on <select name='cron-dow'>" +
           s +
-          "</select> </span>"
+          '</select> </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      E = C.dow.find("select").data("root", this);
+        .data('root', this);
+      E = C.dow.find('select').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.dowOpts);
       }
@@ -304,15 +304,15 @@
           d +
           "</select>:<select name='cron-time-min' class='cron-time-min'>" +
           y +
-          " </span>"
+          ' </span>'
       )
         .appendTo(this)
-        .data("root", this);
-      E = C.time.find("select.cron-time-hour").data("root", this);
+        .data('root', this);
+      E = C.time.find('select.cron-time-hour').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.timeHourOpts);
       }
-      E = C.time.find("select.cron-time-min").data("root", this);
+      E = C.time.find('select.cron-time-min').data('root', this);
       if (B.useGentleSelect) {
         E.gentleSelect(B.timeMinuteOpts);
       }
@@ -320,14 +320,14 @@
         "<span class='cron-controls'>&laquo; save <span class='cron-button cron-button-save'></span> </span>"
       )
         .appendTo(this)
-        .data("root", this)
-        .find("span.cron-button-save")
-        .bind("click.cron", m.saveClicked)
-        .data("root", this)
+        .data('root', this)
+        .find('span.cron-button-save')
+        .bind('click.cron', m.saveClicked)
+        .data('root', this)
         .end();
-      this.find("select").bind("change.cron-callback", m.somethingChanged);
-      this.data("options", B).data("block", C);
-      this.data("current_value", B.initial);
+      this.find('select').bind('change.cron-callback', m.somethingChanged);
+      this.data('options', B).data('block', C);
+      this.data('current_value', B.initial);
       return x.value.call(this, B.initial);
     },
     value: function(B) {
@@ -338,44 +338,44 @@
       if (!a(J)) {
         return false;
       }
-      var C = this.data("block");
-      var G = B.split(" ");
+      var C = this.data('block');
+      var G = B.split(' ');
       var I = { mins: G[0], hour: G[1], dom: G[2], month: G[3], dow: G[4] };
-      var E = this.data("options").useGentleSelect;
+      var E = this.data('options').useGentleSelect;
       var F = p[J];
       for (var D = 0; D < F.length; D++) {
         var A = F[D];
-        if (A == "time") {
-          var H = C[A].find("select.cron-time-hour").val(I.hour);
+        if (A == 'time') {
+          var H = C[A].find('select.cron-time-hour').val(I.hour);
           if (E) {
-            H.gentleSelect("update");
+            H.gentleSelect('update');
           }
-          H = C[A].find("select.cron-time-min").val(I.mins);
+          H = C[A].find('select.cron-time-min').val(I.mins);
           if (E) {
-            H.gentleSelect("update");
+            H.gentleSelect('update');
           }
         } else {
-          var H = C[A].find("select").val(I[A]);
+          var H = C[A].find('select').val(I[A]);
           if (E) {
-            H.gentleSelect("update");
+            H.gentleSelect('update');
           }
         }
       }
-      var j = C.period.find("select").val(J);
+      var j = C.period.find('select').val(J);
       if (E) {
-        j.gentleSelect("update");
+        j.gentleSelect('update');
       }
-      j.trigger("change");
+      j.trigger('change');
       return this;
     }
   };
   var m = {
     periodChanged: function() {
-      var A = e(this).data("root");
-      var E = A.data("block"),
-        C = A.data("options");
+      var A = e(this).data('root');
+      var E = A.data('block'),
+        C = A.data('options');
       var D = e(this).val();
-      A.find("span.cron-block").hide();
+      A.find('span.cron-block').hide();
       if (p.hasOwnProperty(D)) {
         var j = p[e(this).val()];
         for (var B = 0; B < j.length; B++) {
@@ -384,46 +384,46 @@
       }
     },
     somethingChanged: function() {
-      root = e(this).data("root");
-      if (a(root.data("options").url_set)) {
-        if (x.value.call(root) != root.data("current_value")) {
-          root.addClass("cron-changed");
-          root.data("block")["controls"].fadeIn();
+      root = e(this).data('root');
+      if (a(root.data('options').url_set)) {
+        if (x.value.call(root) != root.data('current_value')) {
+          root.addClass('cron-changed');
+          root.data('block')['controls'].fadeIn();
         } else {
-          root.removeClass("cron-changed");
-          root.data("block")["controls"].fadeOut();
+          root.removeClass('cron-changed');
+          root.data('block')['controls'].fadeOut();
         }
       } else {
-        root.data("block")["controls"].hide();
+        root.data('block')['controls'].hide();
       }
-      var i = root.data("options").onChange;
+      var i = root.data('options').onChange;
       if (a(i) && e.isFunction(i)) {
         i.call(root);
       }
     },
     saveClicked: function() {
       var j = e(this);
-      var i = j.data("root");
+      var i = j.data('root');
       var A = x.value.call(i);
-      if (j.hasClass("cron-loading")) {
+      if (j.hasClass('cron-loading')) {
         return;
       }
-      j.addClass("cron-loading");
+      j.addClass('cron-loading');
       e.ajax({
-        type: "POST",
-        url: i.data("options").url_set,
+        type: 'POST',
+        url: i.data('options').url_set,
         data: { cron: A },
         success: function() {
-          i.data("current_value", A);
-          j.removeClass("cron-loading");
+          i.data('current_value', A);
+          j.removeClass('cron-loading');
           if (A == x.value.call(i)) {
-            i.removeClass("cron-changed");
-            i.data("block").controls.fadeOut();
+            i.removeClass('cron-changed');
+            i.data('block').controls.fadeOut();
           }
         },
         error: function() {
-          alert("An error occured when submitting your request. Try again?");
-          j.removeClass("cron-loading");
+          alert('An error occured when submitting your request. Try again?');
+          j.removeClass('cron-loading');
         }
       });
     }
@@ -432,10 +432,10 @@
     if (x[i]) {
       return x[i].apply(this, Array.prototype.slice.call(arguments, 1));
     } else {
-      if (typeof i === "object" || !i) {
+      if (typeof i === 'object' || !i) {
         return x.init.apply(this, arguments);
       } else {
-        e.error("Method " + i + " does not exist on jQuery.cron");
+        e.error('Method ' + i + ' does not exist on jQuery.cron');
       }
     }
   };

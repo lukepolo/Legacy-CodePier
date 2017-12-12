@@ -1,1 +1,1 @@
-require("./startCase");
+require('./startCase');

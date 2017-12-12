@@ -17,7 +17,7 @@ export const update = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "life_lines",
+    'life_lines',
     _.reject(state.life_lines, { id: requestData.life_line })
   );
 };

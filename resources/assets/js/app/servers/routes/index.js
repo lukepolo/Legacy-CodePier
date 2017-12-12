@@ -5,7 +5,7 @@ import {
   ServerFiles,
   ServerBuoys,
   ServerMonitoring
-} from "../pages";
+} from '../pages';
 
 import {
   ServerNav,
@@ -13,7 +13,7 @@ import {
   SecurityNav,
   ServerSetupNav,
   ServerInformationNav
-} from "../components";
+} from '../components';
 
 import {
   Daemons,
@@ -26,25 +26,25 @@ import {
   SslCertificates,
   LanguageSettings,
   EnvironmentVariables
-} from "../../setup/pages";
+} from '../../setup/pages';
 
 export default [
-  { path: "/servers", name: "servers", component: Servers },
-  { path: "/servers/archived", name: "archived_servers", component: Servers },
-  { path: "/server/create", name: "server_form", component: ServerForm },
+  { path: '/servers', name: 'servers', component: Servers },
+  { path: '/servers/archived', name: 'archived_servers', component: Servers },
+  { path: '/server/create', name: 'server_form', component: ServerForm },
   {
-    path: "/server/create/:site_id/:type",
-    name: "server_form_with_site",
+    path: '/server/create/:site_id/:type',
+    name: 'server_form_with_site',
     component: ServerForm
   },
   {
-    path: "/server/:server_id",
+    path: '/server/:server_id',
     component: ServerArea,
     children: [
       {
-        alias: "",
-        path: "info",
-        name: "server_sites",
+        alias: '',
+        path: 'info',
+        name: 'server_sites',
         components: {
           default: ServerSites,
           nav: ServerNav,
@@ -52,8 +52,8 @@ export default [
         }
       },
       {
-        path: "info/monitoring",
-        name: "server_monitoring",
+        path: 'info/monitoring',
+        name: 'server_monitoring',
         components: {
           default: ServerMonitoring,
           nav: ServerNav,
@@ -61,8 +61,8 @@ export default [
         }
       },
       {
-        path: "info/databases",
-        name: "server_databases",
+        path: 'info/databases',
+        name: 'server_databases',
         components: {
           default: Databases,
           nav: ServerNav,
@@ -70,8 +70,8 @@ export default [
         }
       },
       {
-        path: "info/buoys",
-        name: "server_buoys",
+        path: 'info/buoys',
+        name: 'server_buoys',
         components: {
           default: ServerBuoys,
           nav: ServerNav,
@@ -79,8 +79,8 @@ export default [
         }
       },
       {
-        path: "security",
-        name: "server_ssh_keys",
+        path: 'security',
+        name: 'server_ssh_keys',
         components: {
           default: SshKeys,
           nav: ServerNav,
@@ -88,8 +88,8 @@ export default [
         }
       },
       {
-        path: "security/firewall-rules",
-        name: "server_firewall_rules",
+        path: 'security/firewall-rules',
+        name: 'server_firewall_rules',
         components: {
           default: FirewallRules,
           nav: ServerNav,
@@ -97,8 +97,8 @@ export default [
         }
       },
       {
-        path: "security/ssl-certificates",
-        name: "server_ssl_certs",
+        path: 'security/ssl-certificates',
+        name: 'server_ssl_certs',
         components: {
           default: SslCertificates,
           nav: ServerNav,
@@ -106,8 +106,8 @@ export default [
         }
       },
       {
-        path: "setup",
-        name: "server_environment_variables",
+        path: 'setup',
+        name: 'server_environment_variables',
         components: {
           default: EnvironmentVariables,
           nav: ServerNav,
@@ -115,8 +115,8 @@ export default [
         }
       },
       {
-        path: "setup/cron-jobs",
-        name: "server_cron_jobs",
+        path: 'setup/cron-jobs',
+        name: 'server_cron_jobs',
         components: {
           default: CronJobs,
           nav: ServerNav,
@@ -124,8 +124,8 @@ export default [
         }
       },
       {
-        path: "setup/daemons",
-        name: "server_daemons",
+        path: 'setup/daemons',
+        name: 'server_daemons',
         components: {
           default: Daemons,
           nav: ServerNav,
@@ -133,8 +133,8 @@ export default [
         }
       },
       {
-        path: "setup/workers",
-        name: "server_workers",
+        path: 'setup/workers',
+        name: 'server_workers',
         components: {
           default: Workers,
           nav: ServerNav,
@@ -142,8 +142,8 @@ export default [
         }
       },
       {
-        path: "setup/files",
-        name: "server_files",
+        path: 'setup/files',
+        name: 'server_files',
         components: {
           default: ServerFiles,
           nav: ServerNav,
@@ -151,8 +151,8 @@ export default [
         }
       },
       {
-        path: "setup/language-settings",
-        name: "server_language_settings",
+        path: 'setup/language-settings',
+        name: 'server_language_settings',
         components: {
           default: LanguageSettings,
           nav: ServerNav,
@@ -160,8 +160,8 @@ export default [
         }
       },
       {
-        path: "setup/features",
-        name: "server_features",
+        path: 'setup/features',
+        name: 'server_features',
         components: {
           default: ServerFeatures,
           nav: ServerNav,
