@@ -4,7 +4,7 @@
 
         <left-nav></left-nav>
 
-        <section id="middle" class="section-column">
+        <section id="middle" class="section-column" :class="{'in-workflow' : workFlowCompleted !== true}">
 
             <site-header></site-header>
 
@@ -29,7 +29,6 @@
                                             <div class="flex--grow">
                                             <h2>{{ workFlowName }}</h2>
                                                 <h4 class="secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
-                                                <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
                                             </div>
 
                                             <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
@@ -39,6 +38,7 @@
                                                 </div>
                                             </template>
                                         </div>
+                                        <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
                                         <hr>
                                     </template>
                                     <router-view></router-view>
