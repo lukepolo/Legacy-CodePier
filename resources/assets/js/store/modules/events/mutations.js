@@ -36,7 +36,7 @@ export const updateDeployment = (state, deployment) => {
 
   if (siteDeployment) {
     _.each(deployment.site_deployment, function(value, key) {
-      if (key !== "server_deployments") {
+      if (key !== 'server_deployments') {
         siteDeployment[key] = value;
       }
     });

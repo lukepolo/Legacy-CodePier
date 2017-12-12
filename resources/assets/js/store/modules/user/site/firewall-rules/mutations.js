@@ -9,7 +9,7 @@ export const add = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "firewall_rules",
+    'firewall_rules',
     _.reject(state.firewall_rules, { id: requestData.firewall_rule })
   );
 };

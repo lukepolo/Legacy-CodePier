@@ -1,4 +1,4 @@
-const mix = require("laravel-mix");
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,49 +12,49 @@ const mix = require("laravel-mix");
  */
 
 mix
-  .js("resources/assets/js/app.js", "public/js")
-  .js("resources/assets/js/public.js", "public/js")
-  .sass("resources/assets/sass/app.scss", "public/css")
-  .sass("resources/assets/sass/public.scss", "public/css")
+  .js('resources/assets/js/app.js', 'public/js')
+  .js('resources/assets/js/public.js', 'public/js')
+  .sass('resources/assets/sass/app.scss', 'public/css')
+  .sass('resources/assets/sass/public.scss', 'public/css')
   .extract([
-    "vue",
-    "vuex",
-    "brace",
-    "axios",
-    "jquery",
-    "lodash",
-    "hint.css",
-    "nprogress",
-    "pusher-js",
-    "clipboard",
-    "vue-router",
-    "vuedraggable",
-    "laravel-echo",
-    "moment-timezone",
-    "filesize-parser",
-    "lodash-inflection",
-    "moment-precise-range-plugin"
+    'vue',
+    'vuex',
+    'brace',
+    'axios',
+    'jquery',
+    'lodash',
+    'hint.css',
+    'nprogress',
+    'pusher-js',
+    'clipboard',
+    'vue-router',
+    'vuedraggable',
+    'laravel-echo',
+    'moment-timezone',
+    'filesize-parser',
+    'lodash-inflection',
+    'moment-precise-range-plugin'
   ])
   .autoload({
-    vue: "Vue",
-    lodash: "_",
-    ace: "brace",
-    "pusher-js": "Pusher",
-    clipboard: "Clipboard",
-    jquery: ["$", "jQuery"]
+    vue: 'Vue',
+    lodash: '_',
+    ace: 'brace',
+    'pusher-js': 'Pusher',
+    clipboard: 'Clipboard',
+    jquery: ['$', 'jQuery']
   })
   .sourceMaps()
   .version();
 
 if (!mix.inProduction()) {
   mix.browserSync({
-    open: "external",
-    host: "codepier.dev",
-    proxy: "codepier.dev",
+    open: 'external',
+    host: 'codepier.dev',
+    proxy: 'codepier.dev',
     files: [
-      "resources/views/**/*.php",
-      "public/js/**/*.js",
-      "public/css/**/*.css"
+      'resources/views/**/*.php',
+      'public/js/**/*.js',
+      'public/css/**/*.css'
     ]
   });
 }

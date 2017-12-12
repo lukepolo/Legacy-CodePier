@@ -27,7 +27,7 @@ export const workFlowCompleted = function() {
           }
           return flow;
         }),
-        "order"
+        'order'
       ),
       function(workflow) {
         return _.isObject(workflow);

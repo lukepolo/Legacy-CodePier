@@ -17,7 +17,7 @@ export const get = (context, data) => {
   );
 
   return Vue.request(filters).post(
-    Vue.action("EventController@store"),
-    "events/setAll"
+    Vue.action('EventController@store'),
+    'events/setAll'
   );
 };

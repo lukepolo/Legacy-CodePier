@@ -19,7 +19,7 @@ export const update = (state, { response }) => {
 };
 
 export const remove = (state, { requestData }) => {
-  Vue.set(state, "sites", _.reject(state.sites, { id: requestData.value }));
+  Vue.set(state, 'sites', _.reject(state.sites, { id: requestData.value }));
 };
 
 export const listenTo = (state, site) => {
@@ -29,6 +29,6 @@ export const listenTo = (state, site) => {
 export const updateLastDeploymentStatus = (state, { site, status }) => {
   const siteKey = parseInt(_.findKey(state.sites, { id: site }));
   if (siteKey !== null) {
-    Vue.set(state.sites[siteKey], "last_deployment_status", status);
+    Vue.set(state.sites[siteKey], 'last_deployment_status', status);
   }
 };
