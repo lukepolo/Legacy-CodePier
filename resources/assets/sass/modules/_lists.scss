@@ -31,18 +31,22 @@
 
     &-neutral {
       @include status(null);
+      top: -3px;
     }
 
     &-success {
       @include status(success);
+      top: -3px;
     }
 
     &-error {
       @include status(error);
+      top: -3px;
     }
 
     &-warning {
       @include status(warning);
+      top: -3px;
     }
   }
 

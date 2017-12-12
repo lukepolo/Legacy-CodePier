@@ -36,6 +36,10 @@
   border-top-color: $yellow;
   animation: spin .7s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite;
+    
+    &:before {
+        display: none;
+    }
 }
 
 @keyframes spin {
