@@ -1,7 +1,7 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
     .get(Vue.action("ServerServerController@index"), "user_servers/setAll")
-    .then(servers => {
+    .then((servers) => {
       _.each(servers, function(server) {
         dispatch("listenTo", server);
       });
@@ -18,7 +18,7 @@ export const show = (context, server) => {
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(Vue.action("ServerServerController@store"), "user_servers/add")
-    .then(server => {
+    .then((server) => {
       dispatch("listenTo", server);
       app.showSuccess("Your server is in queue to be provisioned");
       return server;
@@ -52,7 +52,7 @@ export const restore = ({ dispatch }, server) => {
       "user_servers/add",
       "user_servers/removeFromTrash"
     ])
-    .then(server => {
+    .then((server) => {
       dispatch("listenTo", server);
       return server;
     });
@@ -69,7 +69,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
     }
 
     Echo.private("App.Models.Server.Server." + server.id)
-      .listen("Server\\ServerProvisionStatusChanged", data => {
+      .listen("Server\\ServerProvisionStatusChanged", (data) => {
         commit(
           "user_servers/update",
           {
@@ -100,7 +100,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           }
         );
       })
-      .listen("Server\\ServerSshConnectionFailed", data => {
+      .listen("Server\\ServerSshConnectionFailed", (data) => {
         commit(
           "user_servers/update",
           {
@@ -109,7 +109,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("Server\\ServerFailedToCreate", data => {
+      .listen("Server\\ServerFailedToCreate", (data) => {
         commit(
           "user_servers/update",
           {
@@ -118,11 +118,11 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("Server\\ServerCommandUpdated", data => {
+      .listen("Server\\ServerCommandUpdated", (data) => {
         commit("user_commands/update", data.command, { root: true });
         commit("events/update", data.command, { root: true });
       })
-      .notification(notification => {
+      .notification((notification) => {
         switch (notification.type) {
           case "App\\Notifications\\Server\\ServerMemory":
           case "App\\Notifications\\Server\\ServerDiskUsage":
