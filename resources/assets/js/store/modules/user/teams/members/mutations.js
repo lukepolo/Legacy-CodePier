@@ -9,7 +9,7 @@ export const add = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "members",
+    'members',
     _.reject(state.members, {
       id: requestData.member
     })

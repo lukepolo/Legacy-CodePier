@@ -1,4 +1,4 @@
-import Errors from "./Errors";
+import Errors from './Errors';
 
 class Request {
   /**
@@ -11,7 +11,7 @@ class Request {
     this.resetData = reset || false;
 
     if (data && !_.isObject(data)) {
-      this["value"] = data;
+      this['value'] = data;
     } else {
       this.emptyData = data;
       this.originalData = data;
@@ -59,8 +59,8 @@ class Request {
     }
 
     return this.submit(
-      "get",
-      this.dataQueryString() ? url + "?" + this.dataQueryString() : url,
+      'get',
+      this.dataQueryString() ? url + '?' + this.dataQueryString() : url,
       mutations
     );
   }
@@ -73,7 +73,7 @@ class Request {
    * @param {array} config
    */
   post(url, mutations, config) {
-    return this.submit("post", url, mutations, config);
+    return this.submit('post', url, mutations, config);
   }
 
   /**
@@ -84,7 +84,7 @@ class Request {
    * @param {array} config
    */
   put(url, mutations, config) {
-    return this.submit("put", url, mutations, config);
+    return this.submit('put', url, mutations, config);
   }
 
   /**
@@ -95,7 +95,7 @@ class Request {
    * @param {array} config
    */
   patch(url, mutations, config) {
-    return this.submit("patch", url, mutations, config);
+    return this.submit('patch', url, mutations, config);
   }
 
   /**
@@ -106,7 +106,7 @@ class Request {
    * @param {array} config
    */
   delete(url, mutations, config) {
-    return this.submit("delete", url, mutations, config);
+    return this.submit('delete', url, mutations, config);
   }
 
   /**
@@ -122,7 +122,7 @@ class Request {
       const data = this.formData ? this.formData : this.data();
 
       axios[requestType](url, data, config)
-        .then(response => {
+        .then((response) => {
           this.onSuccess();
 
           if (_.isString(mutations)) {
@@ -130,7 +130,7 @@ class Request {
           }
 
           if (mutations && mutations.length) {
-            _.each(mutations, mutation => {
+            _.each(mutations, (mutation) => {
               app.$store.commit(mutation, {
                 response: response.data,
                 requestData: this.data()
@@ -144,7 +144,7 @@ class Request {
 
           resolve(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             app.handleApiError(error.response);
             this.onFail(error.response.data);
@@ -189,10 +189,10 @@ class Request {
     for (let datum in data)
       if (data.hasOwnProperty(datum)) {
         str.push(
-          encodeURIComponent(datum) + "=" + encodeURIComponent(data[datum])
+          encodeURIComponent(datum) + '=' + encodeURIComponent(data[datum])
         );
       }
-    return str.join("&");
+    return str.join('&');
   }
 }
 

@@ -19,7 +19,7 @@ export const update = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "ssl_certificates",
+    'ssl_certificates',
     _.reject(state.ssl_certificates, { id: requestData.ssl_certificate })
   );
 };
