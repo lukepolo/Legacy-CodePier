@@ -39,7 +39,7 @@ export default [
         components: {
           default: SiteOverview,
           subNav: SiteSetupNav
-        },
+        }
       },
       {
         path: "setup",
