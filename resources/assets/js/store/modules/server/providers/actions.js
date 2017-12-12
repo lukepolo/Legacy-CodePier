@@ -1,27 +1,27 @@
 export const get = () => {
   return Vue.request().get(
-    Vue.action("AuthProvidersServerProvidersController@index"),
-    "server_providers/setAll"
+    Vue.action('AuthProvidersServerProvidersController@index'),
+    'server_providers/setAll'
   );
 };
 
 export const getFeatures = (context, provider) => {
   return Vue.request().get(
-    "/api/server/providers/" + provider + "/features",
-    "server_providers/setFeatures"
+    '/api/server/providers/' + provider + '/features',
+    'server_providers/setFeatures'
   );
 };
 
 export const getOptions = (context, provider) => {
   return Vue.request().get(
-    "/api/server/providers/" + provider + "/options",
-    "server_providers/setOptions"
+    '/api/server/providers/' + provider + '/options',
+    'server_providers/setOptions'
   );
 };
 
 export const getRegions = (context, provider) => {
   return Vue.request().get(
-    "/api/server/providers/" + provider + "/regions",
-    "server_providers/setRegions"
+    '/api/server/providers/' + provider + '/regions',
+    'server_providers/setRegions'
   );
 };

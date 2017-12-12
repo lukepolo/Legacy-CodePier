@@ -25,7 +25,7 @@ export const update = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "teams",
+    'teams',
     _.reject(state.teams, {
       id: requestData.team
     })

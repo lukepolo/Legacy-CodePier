@@ -11,9 +11,5 @@ export const update = (state, { response }) => {
 };
 
 export const remove = (state, { requestData }) => {
-  Vue.set(
-    state,
-    "files",
-    _.reject(state.files, { id: requestData.file })
-  );
+  Vue.set(state, 'files', _.reject(state.files, { id: requestData.file }));
 };

@@ -27,7 +27,7 @@ export const remove = (state, { requestData }) => {
 
   Vue.set(
     state,
-    "servers",
+    'servers',
     _.reject(state.servers, {
       id: requestData.value
     })
@@ -41,7 +41,7 @@ export const setTrashed = (state, { response }) => {
 export const removeFromTrash = (state, { requestData }) => {
   Vue.set(
     state,
-    "trashed",
+    'trashed',
     _.reject(state.trashed, {
       id: requestData.value
     })
@@ -54,6 +54,6 @@ export const listenTo = (state, server) => {
 export const updateStats = (state, data) => {
   const server = _.find(state.servers, { id: data.server });
   if (server) {
-    Vue.set(server, "stats", data.stats);
+    Vue.set(server, 'stats', data.stats);
   }
 };

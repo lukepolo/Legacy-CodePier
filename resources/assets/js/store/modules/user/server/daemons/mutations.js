@@ -17,7 +17,7 @@ export const update = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "daemons",
+    'daemons',
     _.reject(state.daemons, { id: requestData.daemon })
   );
 };

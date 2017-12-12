@@ -1,17 +1,17 @@
 export const logout = (context, data) => {
   return Vue.request(data)
-    .post(Vue.action("AuthLoginController@logout"))
+    .post(Vue.action('AuthLoginController@logout'))
     .then(() => {
-      window.location = "/";
+      window.location = '/';
     });
 };
 
 export const getSecondAuthQr = () => {
-  return Vue.request().get(Vue.action("AuthSecondAuthController@index"));
+  return Vue.request().get(Vue.action('AuthSecondAuthController@index'));
 };
 
 export const validateSecondAuth = (context, token) => {
   return Vue.request({
     token: token
-  }).post(Vue.action("AuthSecondAuthController@store"), "user/set");
+  }).post(Vue.action('AuthSecondAuthController@store'), 'user/set');
 };
