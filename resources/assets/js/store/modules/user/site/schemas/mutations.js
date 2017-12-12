@@ -9,7 +9,7 @@ export const add = (state, { response }) => {
 export const remove = (state, { requestData }) => {
   Vue.set(
     state,
-    "schemas",
+    'schemas',
     _.reject(state.schemas, { id: requestData.schema })
   );
 };

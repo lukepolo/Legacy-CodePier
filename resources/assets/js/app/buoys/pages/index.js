@@ -1,1 +1,1 @@
-export const BuoyMarketPlace = require("./MarketPlace.vue");
+export const BuoyMarketPlace = require('./MarketPlace.vue');
