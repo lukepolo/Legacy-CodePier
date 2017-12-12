@@ -16,6 +16,12 @@
     color: $color-text-accent;
     background-color: mix($gray, $black, 50%);
   }
+
+  &:not(.router-link-active):hover {
+    color: $color-text-accent;
+    background-color: mix($gray, $black, 80%);
+    cursor: pointer;
+  }
 }
 
 .site-name {
