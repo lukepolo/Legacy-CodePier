@@ -3,7 +3,7 @@
         <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
-                <img src="/assets/img/codepier_w.svg">
+                <img src="/assets/img/CP_Logo_TX_Beta-onGray.svg">
             </router-link>
         </div>
 
@@ -86,10 +86,9 @@
                    <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                </li>
                <template v-if="isAdmin">
-                   <br>
-                   Admin
+                   <li class="nav-label"><span>Admin</span></li>
                    <li>
-                       <router-link :to="{ name: 'categories' }"><span class="icon-server"></span>Manage Categories</router-link>
+                       <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                    </li>
                </template>
                <li>

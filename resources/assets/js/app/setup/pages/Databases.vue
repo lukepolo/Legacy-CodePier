@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
-        <database-user-section></database-user-section>
-    </div>
+    <section>
+        <template v-if="databases && databases.length">
+            <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
+        </template>
+        <template v-else>
+            <p>Currently you do not have any databases installed on this system.</p>
+        </template>
+    </section>
 </template>
 
 <script>
     import DatabaseSection from '../components/DatabaseSection.vue'
-    import DatabaseUserSection from '../components/DatabaseUserSection.vue'
     export default {
         components:  {
             DatabaseSection,
-            DatabaseUserSection
         },
         created() {
             this.fetchData()

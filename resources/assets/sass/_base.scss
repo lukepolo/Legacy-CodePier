@@ -73,10 +73,46 @@ small {
   margin: $spacing 0px;
 }
 
+p.info {
+  font-size: 1.2em;
+}
+
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, .7);
+  padding-top: $spacing/4;
+}
+
+.text{
+  &-center {
+    text-align: center;
+  }
+
+  &-left {
+    text-align: left;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-error {
+    color: $red;
+  }
+}
+
+
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
 input {
     background-color: transparent;
+}
+
+label {
+  font-weight: 400;
+  color: mix($blue, $white, 30%);
+  letter-spacing: .4px;
+  display: block;
 }
 
 textarea {
@@ -91,6 +127,10 @@ textarea {
   &:focus {
     outline: 3px solid $color-primary;
   }
+}
+
+select option {
+  color: $color-text-inverse;
 }
 
 
@@ -113,10 +153,6 @@ h1, h2, h3, h4, h5, h6 {
     color: mix($blue, $white, 30%);
   }
 
-  &.heading {
-    margin-bottom: $spacing;
-  }
-
   small {
     text-transform: none;
     letter-spacing: 0px;
@@ -130,6 +166,21 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   padding: 5px 10px;
   border-bottom: 2px solid $color-text-secondary;
+}
+
+
+.heading {
+  margin-bottom: $spacing;
+
+  &--btns {
+    display: flex;
+    align-items: center;
+
+    .btn-link {
+      font-size: 18px;
+      color: $color-text-secondary;
+    }
+  }
 }
 
 

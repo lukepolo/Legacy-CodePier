@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\File;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\FileRequest;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\UpdateServerFile;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
 class ServerFileController extends Controller
 {
-    private $serverService;
+    private $fileRepository;
 
     /**
      * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Repositories\FileRepository | FileRepository $fileRepository
      */
-    public function __construct(ServerService $serverService)
+    public function __construct(FileRepository $fileRepository)
     {
-        $this->serverService = $serverService;
+        $this->fileRepository = $fileRepository;
     }
 
     /**
@@ -47,7 +45,7 @@ class ServerFileController extends Controller
     public function show($serverId, $fileId)
     {
         return response()->json(
-            Server::findOrFail($serverId)->files->get($fileId)
+            $this->fileRepository->findOnModelById(Server::with('files')->findOrFail($serverId), $fileId)
         );
     }
 
@@ -64,21 +62,15 @@ class ServerFileController extends Controller
             return response()->json('This server is not fully provisioned, please wait', 400);
         }
 
-        $file = $server->files
-            ->where('file_path', $request->get('file'))
-            ->first();
+        $file = $this->fileRepository->findOrCreateFile(
+            $server,
+            $request->get('file'),
+            $request->get('custom', false)
+        );
 
-        if (empty($file)) {
-            $file = File::create([
-                'file_path' => $request->get('file'),
-                'content' => $this->serverService->getFile($server, $request->get('file')),
-                'custom' => $request->get('custom', false),
-            ]);
-
-            $server->files()->save($file);
-        }
-
-        return response()->json($file);
+        return response()->json(
+            $this->fileRepository->reload($file, $server)
+        );
     }
 
     /**
@@ -92,11 +84,10 @@ class ServerFileController extends Controller
     {
         $server = Server::with('files')->findOrFail($serverId);
 
-        $file = $server->files->keyBy('id')->get($id);
-
-        $file->update([
-            'content' => $request->get('content'),
-        ]);
+        $file = $this->fileRepository->update(
+            $this->fileRepository->findOnModelById($server, $id),
+            $request->get('content')
+        );
 
         dispatch(
             new UpdateServerFile($server, $file)
@@ -110,19 +101,19 @@ class ServerFileController extends Controller
      *
      * @param $serverId
      * @param $fileId
-     * @param $serverId
      * @return \Illuminate\Http\JsonResponse
      */
     public function reloadFile($serverId, $fileId)
     {
-        $server = Server::with('files')->findOrFail($serverId);
-
-        $file = $server->files->keyBy('id')->get($fileId);
-
-        $file->update([
-            'content' => $this->serverService->getFile($server, $file->file_path),
-        ]);
-
-        return response()->json($file);
+        return response()->json(
+            $this->fileRepository->reload(
+                Server::with('files')
+                    ->findOrFail($serverId)
+                    ->files
+                    ->keyBy('id')
+                    ->get($fileId),
+                Server::findOrFail($serverId)
+            )
+        );
     }
 }

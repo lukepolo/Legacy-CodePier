@@ -20,24 +20,12 @@ export const update = (context, data) => {
 };
 
 export const destroy = (context, data) => {
-  return Vue.request(data).delete("");
-};
-
-export const getEditableFiles = (context, site) => {
-  Vue.request().get(
-    Vue.action("SiteSiteFeatureController@getEditableFiles", {
-      site: site
+  return Vue.request(data).delete(
+    Vue.action("SiteSiteFileController@destroy", {
+      site: data.site,
+      file: data.file
     }),
-    "user_site_files/setEditableFiles"
-  );
-};
-
-export const getEditableFrameworkFiles = (context, site) => {
-  return Vue.request().get(
-    Vue.action("SiteSiteFeatureController@getEditableFrameworkFiles", {
-      site: site
-    }),
-    "user_site_files/setEditableFrameworkFiles"
+    "user_site_files/remove"
   );
 };
 

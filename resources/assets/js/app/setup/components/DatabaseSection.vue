@@ -1,50 +1,47 @@
 <template>
     <section>
-        <h3><span class="h--label">{{ database }}</span></h3>
+        <div class="heading flex flex--center">
+            <h3 class="flex--grow">
+                {{ database }} Schemas
+            </h3>
 
-        <div class="grid-2">
-
-            <form @submit.prevent="createSchema" class="floating-labels">
-                <div class="flyform--group">
-                    <input type="text" name="name" v-model="schemaForm.name" placeholder=" ">
-                    <label for="name">Schema Name</label>
-                </div>
-
-                <div class="flyform--footer-btns">
-                    <button class="btn btn-primary btn-small" type="submit">Create Schema</button>
-                </div>
-            </form>
-
-            <table class="table" v-if="schemas.length">
-                <thead>
-                    <tr>
-                        <th>Schemas</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="schema in schemas">
-                        <td>{{ schema.name }}</td>
-                        <td class="table--action">
-                            <tooltip message="Delete">
-                                <span class="table--action-delete">
-                                    <a href="#" @click="deleteSchema(schema.id)"><span class="icon-trash"></span></a>
-                                </span>
-                            </tooltip>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <tooltip message="Add Schema">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
         </div>
+
+        <div class="list" v-if="schemas.length">
+            <schema :schema="schema" :key="schema.id" v-for="schema in schemas"></schema>
+        </div>
+
+        <form @submit.prevent="createSchema" class="flyform--submit" v-if="shouldShowForm">
+            <div class="flyform--group">
+                <input type="text" name="name" v-model="form.name" placeholder=" ">
+                <label for="name">Schema Name</label>
+            </div>
+
+            <div class="flyform--footer-btns">
+                <span class="btn" v-if="schemas.length" @click.prevent="showForm = false">Cancel</span>
+                <button class="btn btn-primary btn-small" type="submit">Create Schema</button>
+            </div>
+        </form>
     </section>
 </template>
 
 <script>
+    import Schema from './Schema.vue'
     export default {
+        components : {
+            Schema
+        },
         props : ['database'],
         data() {
             return {
-                schemaForm : this.createForm({
+                loaded : true,
+                showForm : false,
+                form : this.createForm({
                     name : null
                 })
             }
@@ -55,11 +52,9 @@
                     this.$store.dispatch('user_site_schemas/store', {
                         site : this.siteId,
                         database : this.database,
-                        name : this.schemaForm.name
-                    }).then((schema) => {
-                        if(schema.id) {
-                            this.schemaForm.name = ''
-                        }
+                        name : this.form.name
+                    }).then(() => {
+                        this.resetForm();
                     })
                 }
 
@@ -67,31 +62,15 @@
                     this.$store.dispatch('user_server_schemas/store', {
                         server : this.serverId,
                         database : this.database,
-                        name : this.schemaForm.name,
-                    }).then((schema) => {
-                        if(schema.id) {
-                        this.schemaForm.name = ''
-                    }
-                })
+                        name : this.form.name,
+                    }).then(() => {
+                        this.resetForm();
+                    })
                 }
-
             },
-            deleteSchema(database) {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_schemas/destroy', {
-                        schema: database,
-                        site: this.siteId
-
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_schemas/destroy', {
-                        schema: database,
-                        server: this.serverId
-                    })
-                }
+            resetForm() {
+                this.form.reset();
+                this.showForm = false;
             }
         },
         computed : {
@@ -113,7 +92,10 @@
                         return schema.database === this.database
                     })
                 }
-            }
+            },
+            shouldShowForm() {
+                return (this.loaded && this.schemas.length === 0) || this.showForm;
+            },
         }
     }
 </script>

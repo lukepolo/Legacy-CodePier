@@ -75,6 +75,25 @@ $flyform-transition: all .5s;
         margin: (-$flyform-spacing/4) 0px $flyform-spacing/2;
         padding: 0px ($flyform-spacing/2 + 1px);
     }
+
+    // SINGLE-LINE FORM & BUTTON -------------------------------
+    &--submit {
+        display: flex;
+        align-items: baseline;
+
+        .flyform--group {
+            flex-grow: 1;
+
+            + .flyform--group {
+                margin-left: $spacing;
+            }
+        }
+
+        .flyform--footer-btns {
+            white-space: nowrap;
+            margin-left: $spacing;
+        }
+    }
 }
 
 
@@ -215,7 +234,7 @@ $flyform-transition: all .5s;
         }
 
         &-label,
-        .flyform--group-prefix-label, {
+        .flyform--group-prefix-label {
             padding: 0px $spacing/2;
         }
     }
@@ -223,7 +242,8 @@ $flyform-transition: all .5s;
 
 
     // INPUT HELP STYLES ----------------------------------------
-    [class^="hint-"]:not(.flyform--btn-right), [class*=" hint-"]:not(.flyform--btn-right) {
+    [class^="hint-"]:not(.flyform--btn-right):not(.tooltip-in-form),
+    [class*=" hint-"]:not(.flyform--btn-right):not(.tooltip-in-form) {
         position: absolute;
         top: 0px;
 
@@ -244,6 +264,7 @@ $flyform-transition: all .5s;
         padding-left: $spacing/2;
     }
 }
+
 
 
 // SELECT BOX STYLES ---------------------------------------
@@ -292,7 +313,7 @@ $flyform-transition: all .5s;
                     background-color: $red;
                 }
 
-                &:first-child() {
+                &:first-child {
                     margin-top: 5px;
                 }
             }
@@ -347,7 +368,7 @@ $flyform-transition: all .5s;
         }
     }
 
-    .btn:not(.btn-success):not(.btn-danger) {
+    .btn:not(.btn-success):not(.btn-danger):not(.dropdown-toggle) {
         background-color: $color-background;
     }
 
@@ -355,18 +376,6 @@ $flyform-transition: all .5s;
         background-color: $color-text-inverse;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // CHECKBOX STYLES =========================================
@@ -474,4 +483,12 @@ $flyform-transition: all .5s;
 
 .flyform--group-checkbox + .flyform--subform {
     margin-top: -$spacing/2;
+}
+
+
+
+[class^="grid-"], [class*=" grid-"] {
+    + .flyform--group {
+        margin-top: 0px;
+    }
 }

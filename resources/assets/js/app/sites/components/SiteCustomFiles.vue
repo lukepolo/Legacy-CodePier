@@ -1,23 +1,20 @@
 <template>
     <div>
-        <h3>Custom Files</h3>
         <template v-if="site">
-            <div class="jcf-form-wrap">
-                <form @submit.prevent="addCustomFile" class="floating-labels">
-                    <div class="jcf-input-group">
-                        <input type="text" name="file" v-model="form.file">
-                        <label for="file">
-                            <span class="float-label">File</span>
-                        </label>
-                    </div>
-
-                    <div class="btn-footer">
-                        <button class="btn btn-primary" type="submit">Add Custom File</button>
-                    </div>
-                </form>
+            <div class="list">
+                <site-file :deletable="true" :site="site" :file="file" v-for="file in files" :running="isRunningCommandFor(file)" :key="file.id"></site-file>
             </div>
 
-            <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file"></site-file>
+            <form @submit.prevent="addCustomFile" class="flex flex--baseline">
+                <div class="flyform--group flex--grow">
+                    <input type="text" name="file" v-model="form.file" placeholder=" ">
+                    <label for="file">File Path</label>
+                </div>
+
+                <div class="flex--spacing">
+                    <button class="btn btn-primary btn-small" type="submit">Add Custom File</button>
+                </div>
+            </form>
         </template>
     </div>
 </template>
@@ -43,7 +40,6 @@
                         return this.isCommandRunning('App\\Models\\File', foundFile.id);
                     }
                 }
-
                 return false;
             },
             addCustomFile() {
@@ -63,10 +59,13 @@
             site() {
                 return this.$store.state.user_sites.site;
             },
-            customSiteFiles() {
-                return _.filter(this.$store.state.user_site_files.files, function(file) {
-                    return file.custom;
-                });
+            files() {
+              return _.filter(this.siteFiles.files, function(file) {
+                return file.custom;
+              });
+            },
+            siteFiles() {
+              return this.$store.state.user_site_files;
             }
         },
     }

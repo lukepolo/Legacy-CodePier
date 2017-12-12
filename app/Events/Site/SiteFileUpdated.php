@@ -15,6 +15,7 @@ class SiteFileUpdated
     /**
      * Create a new event instance.
      *
+     * @param Site $site
      * @param File $file
      */
     public function __construct(Site $site, File $file)

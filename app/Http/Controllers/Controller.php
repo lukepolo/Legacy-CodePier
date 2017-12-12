@@ -35,7 +35,7 @@ class Controller extends BaseController
             return response()->view('landing')->withCookie(cookie('referrer', $request->input('ref')));
         }
 
-        return view('landing');
+        return view('landing.index');
     }
 
     /**

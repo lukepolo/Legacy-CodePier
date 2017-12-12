@@ -9,7 +9,3 @@ export const add = (state, { response }) => {
 export const update = (state, { response }) => {
   Vue.set(state.files, _.findKey(state.files, { id: response.id }), response);
 };
-
-export const setEditableFiles = (state, { response }) => {
-  state.editable_files = response;
-};

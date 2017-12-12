@@ -3,7 +3,7 @@
 
         <back v-if="workFlowCompleted"></back>
 
-        <a :href="'http://'+site.domain" target="_blank">
+        <a :href="'//'+site.domain" target="_blank">
             {{ site.name }}
         </a>
 
@@ -12,7 +12,7 @@
             <drop-down tag="span" v-if="siteServers">
 
                 <button slot="header" class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <span class="icon-server"></span>
+                    <span class="icon-refresh2"></span>
                 </button>
 
                 <ul slot="content" class="dropdown-menu nowrap dropdown-list">

@@ -1,6 +1,55 @@
 <template>
     <section>
-        <form @submit.prevent="installWorker()">
+
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Workers
+            </h3>
+
+            <tooltip message="Add Worker">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
+        </div>
+
+        <table class="table" v-if="workers.length">
+            <thead>
+            <tr>
+                <th>Command</th>
+                <th>User</th>
+                <th>Auto Start</th>
+                <th>Auto Restart</th>
+                <th># of Workers</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="worker in workers">
+                <td class="break-word">{{ worker.command }}</td>
+                <td>{{ worker.user }}</td>
+                <td>{{ worker.auto_start }}</td>
+                <td>{{ worker.auto_restart }}</td>
+                <td>{{ worker.number_of_workers }}</td>
+                <td>
+                    <template v-if="isRunningCommandFor(worker.id)">
+                        {{ isRunningCommandFor(worker.id).status }}
+                    </template>
+                </td>
+
+                <td class="table--action">
+                    <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click="deleteWorker(worker.id)"><span class="icon-trash"></span></a>
+                            </span>
+                    </tooltip>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form @submit.prevent="installWorker()" v-if="shouldShowForm">
 
             <div class="flyform--group">
                 <input type="text" name="command" v-model="form.command" placeholder=" ">
@@ -43,55 +92,12 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
+                    <button class="btn" v-if="workers.length" @click.prevent="resetForm">Cancel</button>
                     <button class="btn btn-primary" type="submit">Create Queue Worker</button>
                 </div>
             </div>
 
         </form>
-
-
-        <br>
-
-        <div v-if="workers.length">
-            <h3>Workers</h3>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Command</th>
-                    <th>User</th>
-                    <th>Auto Start</th>
-                    <th>Auto Restart</th>
-                    <th># of Workers</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="worker in workers">
-                    <td class="break-word">{{ worker.command }}</td>
-                    <td>{{ worker.user }}</td>
-                    <td>{{ worker.auto_start }}</td>
-                    <td>{{ worker.auto_restart }}</td>
-                    <td>{{ worker.number_of_workers }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(worker.id)">
-                            {{ isRunningCommandFor(worker.id).status }}
-                        </template>
-                    </td>
-
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a @click="deleteWorker(worker.id)"><span class="icon-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
 
         <input type="hidden" v-if="site">
 
@@ -102,6 +108,8 @@
     export default {
         data() {
             return {
+                loaded : false,
+                showForm : false,
                 form: this.createForm({
                     user : null,
                     command: null,
@@ -120,11 +128,15 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('user_site_workers/get', this.siteId)
+                    this.$store.dispatch('user_site_workers/get', this.siteId).then(() => {
+                      this.loaded = true
+                    })
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('user_server_workers/get', this.serverId)
+                    this.$store.dispatch('user_server_workers/get', this.serverId).then(() => {
+                      this.loaded = true
+                    })
                 }
 
             },
@@ -171,6 +183,7 @@
                 if(this.site) {
                     this.form.command = this.site.path
                 }
+                this.showForm = false;
             }
         },
         computed: {
@@ -198,7 +211,10 @@
                     return this.$store.state.user_server_workers.workers
                 }
 
-            }
+            },
+            shouldShowForm() {
+                return (this.loaded && this.workers.length === 0) || this.showForm;
+            },
         }
     }
 </script>

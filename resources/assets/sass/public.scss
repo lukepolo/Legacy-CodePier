@@ -3,6 +3,12 @@
 @import 'modules/buttons';
 @import 'modules/forms';
 
+@import 'layouts/footer';
+@import 'modules/_search-filter.scss';
+@import 'modules/icons';
+@import 'modules/_dropdowns.scss';
+@import 'modules/_events.scss';
+
 body {
   display: flex;
   flex-direction: column;
@@ -16,21 +22,47 @@ a {
   }
 }
 
-.btn-primary {
-  color: $white !important;
-}
-
-
 h1 {
   color: $color-text-primary;
   font-weight: 700;
 }
 
+.btn-primary {
+  color: $white !important;
+}
+
+.error {
+  color : $red
+}
+
+.subheading {
+  font-size: 1.4em;
+}
+
+.small-caps {
+  font-size: .8em;
+  letter-spacing: 1.5px;
+}
+
+
+// Main Layout ========================
+// ====================================
 header {
   flex: 0 0 auto;
   border-bottom: 1px solid $color-divider;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: $white;
+  z-index: 99999;
+
+  @include breakpoint(sm) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 #content {
@@ -38,6 +70,12 @@ header {
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
+
+  &:before {
+    content: '';
+    display: block;
+    min-height: 61px;
+  }
 }
 
 #main {
@@ -45,6 +83,9 @@ header {
   -webkit-overflow-scrolling: touch;
 }
 
+
+// Main Navigation ====================
+// ====================================
 .nav {
   display: flex;
   list-style: none;
@@ -52,11 +93,11 @@ header {
   margin: 0px;
   padding: 0px;
 
-  &.right {
+  &--right {
     justify-content: flex-end;
   }
 
-  &--logo-container {
+  &--logo {
     width: 250px;
     margin-left: $spacing/2;
     padding: 0px $spacing;
@@ -101,22 +142,12 @@ header {
 }
 
 
-.jcf-form-wrap {
-  box-shadow: none;
-  border: 1px solid $color-divider;
-  background-color: $white;
-  text-align: left;
-  padding: 30px 20px 20px;
-}
-
-.cover .jcf-input-group {
-  margin: 0px;
-}
-
+// Hero Section =======================
+// ====================================
 .cover {
   width: 100%;
-  max-width: 1400px;
-  min-height: 650px;
+  max-width: 1200px;
+  min-height: 400px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top left;
@@ -125,14 +156,7 @@ header {
   align-items: center;
   margin: 0px auto;
 
-  &--content {
-    padding-right: 10%;
-    width: 50%;
-    text-align: center;
-    font-size: 1.2em;
-  }
-
-  &--logo-container {
+  &--logo {
     border-bottom: 1px solid $color-divider;
     margin: 0px 0px $spacing;
     padding-bottom: $spacing/2;
@@ -140,6 +164,13 @@ header {
     img {
       max-width: 350px;
     }
+  }
+
+  &--content {
+    padding-right: 10%;
+    width: 50%;
+    text-align: center;
+    font-size: 1.2em;
   }
 
   @include breakpoint(lg) {
@@ -181,31 +212,35 @@ header {
     }
   }
   @include breakpoint(sm) {
-    background-size: cover;
-    background-position: center center;
-
-    &--content {
-      width: 100%;
-    }
+    //background-size: cover;
+    //background-position: center center;
+    //
+    //&--content {
+    //  width: 100%;
+    //}
   }
 }
 
-#cover-main {
-  background-image: url('/assets/img/dock.svg');
-}
 
-#section-video {
-  background-color: $blue;
-}
-
-
-
+// Section Styles =====================
+// ====================================
 .section {
   padding: $spacing*4;
+
+  &--header {
+    font-weight: 400;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
   &--content {
     max-width: 800px;
     margin: 0px auto;
+
+    &-large {
+      max-width: 1300px;
+    }
   }
 
   @include breakpoint(sm) {
@@ -213,6 +248,128 @@ header {
   }
 }
 
+
+// Section Specific Styles ============
+// ====================================
+#section--hero {
+  padding: 30px 0px 30px;
+  background-image: url('/assets//img/Boat_Dock.svg');
+  background-size: 55%;
+
+  @include breakpoint(lg) {
+    background-size: contain;
+  }
+}
+
+#section--events {
+  background-color: rgba($white, 1);
+  border-top: 1px solid $color-divider;
+
+  .section--header {
+    margin-top: -50px;
+
+    @include breakpoint(sm) {
+      margin-top: 0px;
+    }
+  }
+
+  .events {
+    @include card(2);
+    color : $white;
+    margin-bottom: -120px;
+
+    @include breakpoint(md) {
+      .filter {
+        display: none;
+      }
+      &--item {
+        &-pile, 
+        &-site, 
+        &-time {
+          display: none;
+        }
+      }
+    }
+
+    @include breakpoint(sm) {
+      margin-bottom: 0px;
+    }
+
+    &--collapse {
+      height: 40vh;
+      min-height: 420px;
+    }
+  }
+}
+
+#section--features {
+  background-color: $color-primary;
+
+  .section--header {
+    color: $color-text-inverse;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+#section--video {
+  background-color: $blue;
+}
+
+#section--comparison {
+
+}
+
+
+// Feature Styles =====================
+// ====================================
+.feature {
+  color: $color-text-inverse;
+  font-size: 1.4em;
+
+  &--item {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid rgba($white, .4);
+    margin: 50px 0px;
+    padding: 50px 0px 100px;
+
+    &:nth-child(even) {
+
+      .feature--info {
+        order: 1;
+        margin-top: -30px;
+        padding: 10px 40px 10px  0px;
+      }
+
+      .feature--img {
+        order: 2;
+      }
+
+    }
+  }
+  
+  &--img {
+    flex: 0 0 50%;
+    position: relative;
+  }
+
+  &--info {
+    flex: 0 0 50%;
+    padding: 10px 0px 10px 40px;
+  }
+
+  &--heading {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: $font-heading;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+}
+
+// Video Container Styles =============
+// ====================================
 .video {
   max-width: 800px;
   margin: 0px auto;
@@ -224,7 +381,7 @@ header {
   }
 
   &--item {
-
+    //video container
     &-embed {
       // styles for responsive embed
       position: relative;
@@ -282,6 +439,9 @@ header {
 
 }
 
+
+// Table Styles =======================
+// ====================================
 .table {
   &--responsive {
     display: flex;
@@ -351,6 +511,71 @@ header {
   }
 }
 
+
+// Tabs Styles ========================
+// ====================================
+.tabs {
+  display: flex;
+  margin-bottom: $spacing;
+  justify-content: center;
+
+  &--item {
+    font-size: 1.1em;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: .1px;
+    border-radius: 20px;
+    background-color: rgba($gray, .1);
+    margin-right: 20px;
+    padding: 5px 20px;
+    position: relative;
+    transition: all .2s ease;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 10px solid mix($color-primary, $white, 30%);
+      border-bottom: none;
+      border-right-color: transparent;
+      border-left-color: transparent;
+      border-top-width: 0px;
+      transition: all .2s ease;
+    }
+
+    &-selected {
+      background-color: $color-primary;
+      color: $color-text-inverse;
+      cursor: pointer;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all .2s ease;
+        border-top-color: $color-primary;
+      }
+    }
+
+    &:hover:not(.tabs--item-selected),
+    &:active:not(.tabs--item-selected),
+    &:focus:not(.tabs--item-selected) {
+      cursor: pointer;
+      background-color: mix($color-primary, $white, 30%);
+      transition: all .2s ease;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all .2s ease;
+      }
+    }
+  }
+}
+
+
+// Footer Styles ======================
+// ====================================
 .footer {
   flex: 0 0 auto;
   display: flex;
@@ -423,6 +648,135 @@ header {
   }
 }
 
-.error {
-  color : $red
+
+
+
+
+
+
+
+// Pricing Styles =====================
+// ====================================
+#section--pricingintro {
+  background-size: cover;
+  background-position: center bottom;
+  margin: 0px;
+  max-width: 100%;
+  background-color: rgba($gray, 1);
+  background-image: url('/assets/img/cover/Kids_Jumping.png');
+  background-size: contain;
+  background-position: left bottom;
+  height: 430px;
+
+  h1 {
+    margin-top: -180px;
+    font-size: 2.7em;
+    color: mix($color-primary, $white, 50%);
+    text-align: center;
+    padding: $spacing 0px;
+
+    @include breakpoint(sm) {
+      padding: $spacing;
+    }
+
+  }
+}
+
+#section--pricing {
+  @include breakpoint(md) {
+    position: relative;
+  }
+}
+
+
+.pricing {
+  display: flex;
+  justify-content: center;
+  margin-top: -150px;
+  margin-bottom: 100px;
+
+  &--item {
+    flex: 0 0 300px;
+    border: 1px solid $color-divider;
+    background-color: $color-background;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+
+    &:nth-child(2) {
+      margin: -20px -1px;
+      border: 3px solid $color-primary;
+
+      .pricing--header {
+        background-color: $color-primary;
+        color: $white;
+      }
+
+      small {
+        color: $color-text-inverse;
+      }
+    }
+  }
+
+  &--header {
+    text-align: center;
+    font-family: $font-heading;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    font-size: 2.5em;
+    border-bottom: 1px solid $color-divider;
+    background-color: rgba($grayLight, .2);
+
+    &-price {
+      font-size: 1.5em;
+      font-weight: 600;
+
+      small {
+        font-size: .4em;
+        font-weight: 700;
+        opacity: .6;
+        padding-left: 5px;
+      }
+    }
+  }
+
+  &--features {
+    flex: 1 0 auto;
+    font-size: 1.2em;
+    padding: 10px;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  &--footer {
+    border-top: 1px solid $color-divider;
+    text-align: center;
+    padding: 10px 20px; 
+  }
+
+  @include breakpoint(md) {
+    &--item {
+      flex: 1 1 1em;
+    }
+
+    &--header {
+      font-size: 2em;
+    }
+  }
+
+  @include breakpoint(sm) {
+    flex-direction: column;
+    margin: -50px 0px 0px;
+
+    &--item {
+      flex: 1 0 auto;
+      margin-bottom: $spacing*2;
+
+      &:nth-child(2) {
+        margin: 0px 0px $spacing*2;
+      }
+    }
+  }
 }
