@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User\User;
 use Closure;
 
 class CheckMaxServers
@@ -15,16 +16,20 @@ class CheckMaxServers
      */
     public function handle($request, Closure $next)
     {
-        if (! $request->user()->subscribed()) {
-            if ($request->user()->servers->count() > 1) {
+        /** @var User $user */
+        $user = $request->user();
+
+        if (!$user->subscribed()) {
+            if ($user->servers->count() > 1) {
                 return $this->toManyServersResponse(1);
             }
+            return $next($request);
         }
 
-        $stripePlan = $request->user()->subscription()->stripe_plan;
+        $stripePlan = $user->subscription()->stripe_plan;
 
         if (str_contains($stripePlan, 'firstmate')) {
-            if ($request->user()->servers->count() > 30) {
+            if ($user->servers->count() > 30) {
                 return $this->toManyServersResponse(30);
             }
         } elseif (! str_contains($stripePlan, 'captain')) {

@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function getSubscriptionPlanAttribute()
     {
-        return $this->attributes['subscription_plan'] = $this->subscribed() ? $this->subscription()->stripe_plan : null;
+        return $this->attributes['subscription_plan'] = $this->subscribed() && !empty($this->subscription()) ? $this->subscription()->stripe_plan : null;
     }
 
     /*
