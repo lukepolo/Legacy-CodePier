@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User\User;
 use Closure;
+use App\Models\User\User;
 
 class CheckMaxServers
 {
@@ -19,10 +19,11 @@ class CheckMaxServers
         /** @var User $user */
         $user = $request->user();
 
-        if (!$user->subscribed()) {
+        if (! $user->subscribed()) {
             if ($user->servers->count() > 1) {
                 return $this->toManyServersResponse(1);
             }
+
             return $next($request);
         }
 
