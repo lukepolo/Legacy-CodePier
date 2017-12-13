@@ -21,7 +21,7 @@ export const siteActionsEnabled = function() {
   if(this.isSubscribed) {
     return true;
   }
-  return this.$store.state.user_sites.sites.length === 1;
+  return this.$store.state.user_sites.sites.length < 1;
 };
 
 export const serverTypesEnabled = function() {
@@ -33,11 +33,11 @@ export const serverActionsEnabled = function() {
   let numberOfServers = this.$store.state.user_servers.servers.length;
 
   if(!this.isSubscribed) {
-    return numberOfServers === 1;
+    return numberOfServers < 1;
   }
 
   if(this.$store.state.user.user.subscription_plan.includes('firstmate')) {
-    return numberOfServers <= 30;
+    return numberOfServers < 30;
   }
 
   return true;

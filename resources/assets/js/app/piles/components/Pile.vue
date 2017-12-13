@@ -55,7 +55,7 @@
                 <h4>No Sites</h4>
             </template>
 
-            <div class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
+            <div :class="{ 'btn-disabled' : !siteActionsEnabled }" class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
                 <span class="icon-plus"></span> Create New Site
             </div>
 
