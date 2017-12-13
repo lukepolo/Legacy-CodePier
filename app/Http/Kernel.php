@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\CheckRole::class,
         'subscribed' =>  \App\Http\Middleware\IsSubscribed::class,
         'second_auth' => \App\Http\Middleware\VerifySecondAuth::class,
+        'checkMaxSites' =>  \App\Http\Middleware\CheckMaxSites::class,
+        'checkMaxServers' =>  \App\Http\Middleware\CheckMaxServers::class,
         'auth.provisioning-key' => \App\Http\Middleware\VerifyProvisioningKey::class,
 
     ];

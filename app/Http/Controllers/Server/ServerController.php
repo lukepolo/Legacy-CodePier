@@ -35,6 +35,13 @@ class ServerController extends Controller
         $this->siteService = $siteService;
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
+
+        $this->middleware('checkMaxSites')
+            ->except([
+                'index',
+                'show',
+                'destroy',
+            ]);
     }
 
     /**
@@ -209,6 +216,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartServer($serverId)
     {
@@ -227,6 +235,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartWebServices($serverId)
     {
@@ -245,6 +254,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartDatabases($serverId)
     {
@@ -263,6 +273,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartWorkerServices($serverId)
     {
