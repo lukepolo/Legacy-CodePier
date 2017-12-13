@@ -62,11 +62,11 @@ class PHP
     /**
      * @description PHP
      *
-     * @options 7.0, 7.1
+     * @options 7.0, 7.1, 7.2
      * @multiple false
      * @param string $version
      */
-    public function installPHP($version = '7.1')
+    public function installPHP($version = '7.2')
     {
         $this->connectToServer();
 
