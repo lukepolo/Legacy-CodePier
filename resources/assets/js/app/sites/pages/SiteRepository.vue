@@ -98,7 +98,7 @@
 
 <script>
 
-    import RepositoryProviderSelector from './../components/RepositoryProviderSelector.vue'
+    import RepositoryProviderSelector from './../components/RepositoryProviderSelector'
 
     export default {
         components: {

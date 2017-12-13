@@ -26,7 +26,7 @@
 
 <script>
 
-    import ServerSelection from "./ServerSelection.vue"
+    import ServerSelection from "./ServerSelection"
 
     export default {
         props : ['daemon'],

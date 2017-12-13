@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import Schema from './Schema.vue'
+    import Schema from './Schema'
     export default {
         components : {
             Schema

@@ -6,20 +6,18 @@
             </h3>
         </div>
         <template v-if="site && files">
-            <site-file :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></site-file>
+            <file :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></file>
         </template>
     </section>
 </template>
 
 <script>
 
-  import {
-    SiteFile,
-  } from '../components'
+  import File from './../../setup/components/File'
 
   export default {
     components: {
-      SiteFile,
+      File,
     },
     created () {
       this.fetchData()

@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import LifeLine from './Lifeline.vue'
+    import LifeLine from './Lifeline'
     export default {
         components : {
             LifeLine

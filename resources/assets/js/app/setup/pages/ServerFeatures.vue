@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import Features from '../components/Features.vue'
+    import Features from '../components/Features'
 
     export default {
         props : ["update"],

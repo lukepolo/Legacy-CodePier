@@ -4,20 +4,18 @@
             Framework Files
         </h3>
         <framework-files v-if="site.framework"></framework-files>
-        <site-custom-files></site-custom-files>
+        <custom-files></custom-files>
     </div>
 </template>
 
 <script>
-    import {
-        FrameworkFiles,
-        SiteCustomFiles
-    } from '../components'
+    import FrameworkFiles from './../components/FrameworkFiles'
+    import CustomFiles from './../../setup/components/CustomFiles'
 
     export default {
         components : {
+            CustomFiles,
             FrameworkFiles,
-            SiteCustomFiles
         },
         created() {
             this.fetchData()

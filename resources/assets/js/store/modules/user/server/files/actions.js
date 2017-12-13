@@ -20,7 +20,13 @@ export const update = (context, data) => {
 };
 
 export const destroy = (context, data) => {
-  return Vue.request(data).delete("");
+  return Vue.request(data).delete(
+    Vue.action("ServerServerFileController@destroy", {
+      server: data.server,
+      file: data.file
+    }),
+    "user_server_files/remove"
+  );
 };
 
 export const find = (context, data) => {

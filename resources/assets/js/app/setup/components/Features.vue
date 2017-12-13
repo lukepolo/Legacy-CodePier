@@ -59,7 +59,7 @@
 </template>
 
 <script>
-    import FeatureArea from './FeatureArea.vue'
+    import FeatureArea from './FeatureArea'
 
     export default {
         components: {

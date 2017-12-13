@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import SiteForm from './../../../components/SiteForm.vue'
+    import SiteForm from './../../../components/SiteForm'
     export default {
         props: ['pile', 'index'],
         components: {

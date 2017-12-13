@@ -1,2 +1,2 @@
-export const BittsForm = require("./Form.vue");
-export const BittsMarketPlace = require("./BittsMarketPlace.vue");
+export const BittsForm = require("./Form");
+export const BittsMarketPlace = require("./BittsMarketPlace");

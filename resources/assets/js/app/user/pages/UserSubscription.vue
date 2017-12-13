@@ -70,8 +70,8 @@
 
 <script>
 
-    import Card from './../components/subscriptions/Card.vue'
-    import Plans from './../components/subscriptions/Plans.vue'
+    import Card from './../components/subscriptions/Card'
+    import Plans from './../components/subscriptions/Plans'
     export default {
         components : {
             Card,
