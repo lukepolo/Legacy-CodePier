@@ -175,15 +175,15 @@ Route::group(['middleware' => [
             Route::group(['prefix' => 'server'], function () {
                 Route::post('{server}/file', 'ServerController@getFile');
                 Route::post('restore/{server}', 'ServerController@restore');
+                Route::post('{server}/find-file', 'ServerFileController@find');
                 Route::post('{server}/file/save', 'ServerController@saveFile');
                 Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
-                Route::post('{server}/find-file', 'Server\ServerFileController@find');
                 Route::post('restart-server/{server}', 'ServerController@restartServer');
+                Route::post('ssh-connection/{server}', 'ServerController@testSSHConnection');
                 Route::post('restart-database/{server}', 'ServerController@restartDatabases');
                 Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');
-                Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
-                Route::post('{server}/reload-file/{file}', 'Server\ServerFileController@reloadFile');
+                Route::post('{server}/reload-file/{file}', 'ServerFileController@reloadFile');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');
@@ -218,13 +218,13 @@ Route::group(['middleware' => [
             'middleware' => 'checkMaxSites',
         ], function () {
             Route::group(['prefix' => 'site'], function () {
-                Route::post('{site}/rename', 'Site\SiteController@rename');
-                Route::post('{site}/find-file', 'Site\SiteFileController@find');
-                Route::post('{site}/workflow', 'Site\SiteWorkflowController@store');
-                Route::post('{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
-                Route::post('{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
-                Route::delete('{site}/clear-commands', 'Site\SiteServerCommandsController@destroy');
-                Route::post('{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
+                Route::post('{site}/rename', 'SiteController@rename');
+                Route::post('{site}/find-file', 'SiteFileController@find');
+                Route::post('{site}/workflow', 'SiteWorkflowController@store');
+                Route::post('{site}/refresh-ssh-keys', 'SiteController@refreshPublicKey');
+                Route::post('{site}/refresh-deploy-key', 'SiteController@refreshDeployKey');
+                Route::delete('{site}/clear-commands', 'SiteServerCommandsController@destroy');
+                Route::post('{site}/reload-file/{file}/server/{server}', 'SiteFileController@reloadFile');
             });
 
             Route::post('deploy/{site}', 'SiteController@deploy');
