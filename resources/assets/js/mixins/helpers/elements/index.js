@@ -1,6 +1,6 @@
 export const hasClass = function(target, classes) {
   let matchFound = false;
-  _.filter(classes, className => {
+  _.filter(classes, (className) => {
     if (className.indexOf("*") !== -1) {
       if (target.className.indexOf(className.replace("*", "")) !== -1) {
         matchFound = true;
