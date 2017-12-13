@@ -1,6 +1,6 @@
 <template>
    <span class="deploy-status">
-       <template v-if="site.repository && hasDeployableServers">
+       <template v-if="site.repository && hasDeployableServers && siteActionsEnabled">
            <tooltip message="Deploy Site" placement="left">
                <a href="#" @click.prevent="deploySite" :class="{ 'btn-disabled' : isDeploying }">
                    <span class="icon-deploy"></span>

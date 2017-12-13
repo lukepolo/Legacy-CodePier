@@ -5,7 +5,7 @@
             Servers
 
             <div class="section-header--btn-right">
-                <drop-down icon="fa fa-plus" class="btn btn-default btn-xs">
+                <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverActionsEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
                         <li>
