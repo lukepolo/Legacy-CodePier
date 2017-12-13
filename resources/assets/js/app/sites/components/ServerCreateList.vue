@@ -13,8 +13,9 @@
                                 site_id : site.id ,
                                 type : serverType
                             }
-                        }">
-
+                        }"
+                        :disabled="!serverTypesEnabled"
+                    >
                         {{ serverTypeText }} Server
                     </router-link>
 
