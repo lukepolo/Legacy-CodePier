@@ -166,7 +166,6 @@ Route::group(['middleware' => [
 
         Route::apiResource('servers', 'Server\ServerController');
 
-
         Route::get('all_servers/buoys', 'Server\ServerBuoyController@myServerBuoys');
 
         Route::group([

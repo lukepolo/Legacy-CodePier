@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
-use App\Models\Server\Server;
 use App\Jobs\Site\DeploySite;
+use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;

@@ -15,8 +15,8 @@ class CheckMaxServers
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->user()->subscribed()) {
-            if($request->user()->servers->count() > 1) {
+        if (! $request->user()->subscribed()) {
+            if ($request->user()->servers->count() > 1) {
                 return response()->json('You have to many sites for your plan, please delete some sites.', 401);
             }
         }
