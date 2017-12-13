@@ -45,7 +45,6 @@ class SiteController extends Controller
                 'show',
                 'destroy',
             ]);
-
     }
 
     /**
