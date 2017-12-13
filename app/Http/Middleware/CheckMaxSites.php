@@ -16,25 +16,11 @@ class CheckMaxSites
     public function handle($request, Closure $next)
     {
         if (!$request->user()->subscribed()) {
-            if($request->user()->servers->count() > 1) {
-                return $this->toManyServersResponse(1);
+            if($request->user()->sites->count() > 1) {
+                return response()->json('You have to many sites for your plan (max 1), please delete some sites.', 401);
             }
-        }
-
-        $stripePlan = $request->user()->subscription()->stripe_plan;
-
-        if(str_contains($stripePlan, 'firstmate')) {
-            if($request->user()->servers->count() > 30) {
-                return $this->toManyServersResponse(30);
-            }
-        } else if(!str_contains($stripePlan, 'captain')) {
-            return response()->json('We don\'t recognize your subscription, please contact support.', 500);
         }
 
         return $next($request);
-    }
-
-    private function toManyServersResponse($maxNumber) {
-        return response()->json("You have to many servers for your plan (max $maxNumber), please archive some servers.", 401);
     }
 }

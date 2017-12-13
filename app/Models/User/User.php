@@ -63,6 +63,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'is_subscribed',
+        'subscription_plan',
     ];
 
     /*
@@ -74,6 +75,11 @@ class User extends Authenticatable
     public function getIsSubscribedAttribute()
     {
         return $this->attributes['is_subscribed'] = $this->subscribed();
+    }
+
+    public function getSubscriptionPlanAttribute()
+    {
+        return $this->attributes['subscription_plan'] = $this->subscribed() ? $this->subscription()->stripe_plan : null;
     }
 
     /*
