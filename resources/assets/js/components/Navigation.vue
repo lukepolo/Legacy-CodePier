@@ -41,7 +41,7 @@
 
         <ul class="nav navbar-right nav-right">
 
-            <template v-if="isSubscribed">
+            <template>
                 <!--<li class="search-container">-->
                     <!--<div class="search-form" :class="{ open : search }">-->
                         <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->

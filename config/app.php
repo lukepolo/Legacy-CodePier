@@ -28,8 +28,6 @@ return [
 
     'teams' => env('APP_ENV') == 'local' ? true : false,
 
-    'subscriptions' => env('APP_SUBSCRIPTIONS', false),
-
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

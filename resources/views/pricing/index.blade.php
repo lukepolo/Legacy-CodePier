@@ -49,6 +49,7 @@
                 </div>
                 <div class="pricing--features">
                     <ul>
+                        <li><strong>Priority Support</strong></li>
                         <li><strong>Unlimited</strong> Sites</li>
                         <li><strong>Unlimited</strong> Servers</li>
                         <li>Multiple Server Types</li>

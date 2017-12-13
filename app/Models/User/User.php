@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Site\Site;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -80,6 +81,11 @@ class User extends Authenticatable
     | Relations
     |--------------------------------------------------------------------------
     */
+
+    public function sites()
+    {
+        return $this->hasMany(Site::class);
+    }
 
     public function servers()
     {
@@ -228,10 +234,6 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
-        if (! config('app.subscriptions')) {
-            return true;
-        }
-
         if ($this->onTrial()) {
             return true;
         }
@@ -246,8 +248,7 @@ class User extends Authenticatable
             return $subscription->valid();
         }
 
-        return $subscription->valid() &&
-            $subscription->stripe_plan === $plan;
+        return $subscription->valid() && $subscription->stripe_plan === $plan;
     }
 
     public function getSubscriptionPrice()

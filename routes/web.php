@@ -51,17 +51,29 @@ Route::group([
     'prefix' => 'webhook',
     'domain' => config('app.url_stats'),
 ], function () {
-    Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
-    Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
-    Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
+    Route::group([
+        'middleware' => 'subscribed'
+    ], function() {
+        Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
+        Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
+        Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
+    });
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
 Route::group([
     'prefix' => 'webhook',
 ], function () {
-    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
-    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    Route::group([
+        'middleware' => 'checkMaxSites'
+    ], function() {
+        Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    });
+    Route::group([
+        'middleware' => 'checkMaxServers'
+    ], function() {
+        Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    });
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
@@ -75,7 +87,11 @@ Route::group([
 Route::group([
     'domain' => config('app.url_lifelines'),
 ], function () {
-    Route::get('{lifelineHashId}', 'LifeLineController@update');
+    Route::group([
+        'middleware' => 'subscribed'
+    ], function() {
+        Route::get('{lifelineHashId}', 'LifeLineController@update');
+    });
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
