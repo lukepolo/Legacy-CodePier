@@ -27,6 +27,10 @@ class SiteWorkflowController extends Controller
                 return $completed;
             }
 
+            if($workflow === 'message') {
+                return $completed;
+            }
+
             return [
                 'completed' => $completed,
                 'order' => $tempFlow[$workflow] + 1,

@@ -169,7 +169,9 @@
 
                 let workflows = _.sortBy(
                     _.map(workflow, function(flow, step) {
-                        flow.step = step
+                        if(flow.step) {
+                          flow.step = step
+                        }
                         return flow
                     }),
                     'order'
