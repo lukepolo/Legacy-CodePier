@@ -27,7 +27,7 @@ class SiteWorkflowController extends Controller
                 return $completed;
             }
 
-            if($workflow === 'message') {
+            if ($workflow === 'message') {
                 return $completed;
             }
 
