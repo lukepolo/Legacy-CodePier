@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.21 on 2017-12-07.
+ * Generated for Laravel 5.5.25 on 2017-12-13.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -8213,6 +8213,24 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Returns the protocol version.
+         * 
+         * If the application is behind a proxy, the protocol version used in the
+         * requests between the client and the proxy and between the proxy and the
+         * server might be different. This returns the former (from the "Via" header)
+         * if the proxy is trusted (see "setTrustedProxies()"), otherwise it returns
+         * the latter (from the "SERVER_PROTOCOL" server parameter).
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getProtocolVersion()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::getProtocolVersion();
+        }
+        
+        /**
          * Returns the request body content.
          *
          * @param bool $asResource If true, a resource will be returned
@@ -10783,6 +10801,35 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a streamed response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function response($path, $name = null, $headers = array(), $disposition = 'inline')
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::response($path, $name, $headers, $disposition);
+        }
+        
+        /**
+         * Create a streamed download response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function download($path, $name = null, $headers = array())
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::download($path, $name, $headers);
+        }
+        
+        /**
          * Write the contents of a file.
          *
          * @param string $path
@@ -10999,7 +11046,7 @@ namespace Illuminate\Support\Facades {
          * @param \League\Flysystem\Rackspace\RackspaceAdapter $adapter
          * @param string $path
          * @param \DateTimeInterface $expiration
-         * @param $options
+         * @param array $options
          * @return string 
          * @static 
          */ 
@@ -11080,6 +11127,17 @@ namespace Illuminate\Support\Facades {
         public static function deleteDirectory($directory)
         {
             return \Illuminate\Filesystem\FilesystemAdapter::deleteDirectory($directory);
+        }
+        
+        /**
+         * Flush the Flysystem cache.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushCache()
+        {
+            \Illuminate\Filesystem\FilesystemAdapter::flushCache();
         }
         
         /**
@@ -12940,6 +12998,110 @@ namespace Sentry\SentryLaravel {
  
 }
 
+namespace Laravel\Socialite\Facades { 
+
+    class Socialite {
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+            return \Laravel\Socialite\SocialiteManager::with($driver);
+        }
+        
+        /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
+        }
+        
+        /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+        }
+        
+        /**
+         * Get the default driver name.
+         *
+         * @throws \InvalidArgumentException
+         * @return string 
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::driver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return $this 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
+        }
+        
+        /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+         
+    }
+ 
+}
+
+namespace Laravel\Horizon { 
+
+    class Horizon {
+         
+    }
+ 
+}
+
 namespace Vinkla\Hashids\Facades { 
 
     class Hashids {
@@ -13070,110 +13232,6 @@ namespace Vinkla\Hashids\Facades {
             //Method inherited from \GrahamCampbell\Manager\AbstractManager            
             return \Vinkla\Hashids\HashidsManager::getConfig();
         }
-         
-    }
- 
-}
-
-namespace Laravel\Socialite\Facades { 
-
-    class Socialite {
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function with($driver)
-        {
-            return \Laravel\Socialite\SocialiteManager::with($driver);
-        }
-        
-        /**
-         * Build an OAuth 2 provider instance.
-         *
-         * @param string $provider
-         * @param array $config
-         * @return \Laravel\Socialite\Two\AbstractProvider 
-         * @static 
-         */ 
-        public static function buildProvider($provider, $config)
-        {
-            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
-        }
-        
-        /**
-         * Format the server configuration.
-         *
-         * @param array $config
-         * @return array 
-         * @static 
-         */ 
-        public static function formatConfig($config)
-        {
-            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
-        }
-        
-        /**
-         * Get the default driver name.
-         *
-         * @throws \InvalidArgumentException
-         * @return string 
-         * @static 
-         */ 
-        public static function getDefaultDriver()
-        {
-            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
-        }
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function driver($driver = null)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::driver($driver);
-        }
-        
-        /**
-         * Register a custom driver creator Closure.
-         *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
-         * @static 
-         */ 
-        public static function extend($driver, $callback)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
-        }
-        
-        /**
-         * Get all of the created "drivers".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getDrivers()
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::getDrivers();
-        }
-         
-    }
- 
-}
-
-namespace Laravel\Horizon { 
-
-    class Horizon {
          
     }
  
@@ -15392,11 +15450,11 @@ namespace  {
 
     class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
 
-    class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
-
     class Socialite extends \Laravel\Socialite\Facades\Socialite {}
 
     class Horizon extends \Laravel\Horizon\Horizon {}
+
+    class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
 
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
  
@@ -15954,7 +16012,7 @@ if (! function_exists('dd')) {
     /**
      * Dump the passed variables and end the script.
      *
-     * @param  mixed
+     * @param  mixed  $args
      * @return void
      */
     function dd(...$args)
@@ -16446,37 +16504,41 @@ if (! function_exists('tap')) {
 
 if (! function_exists('throw_if')) {
     /**
-     * Throw the given exception if the given boolean is true.
+     * Throw the given exception if the given condition is true.
      *
-     * @param  bool  $boolean
+     * @param  mixed  $condition
      * @param  \Throwable|string  $exception
      * @param  array  ...$parameters
-     * @return void
+     * @return mixed
      * @throws \Throwable
      */
-    function throw_if($boolean, $exception, ...$parameters)
+    function throw_if($condition, $exception, ...$parameters)
     {
-        if ($boolean) {
+        if ($condition) {
             throw (is_string($exception) ? new $exception(...$parameters) : $exception);
         }
+
+        return $condition;
     }
 }
 
 if (! function_exists('throw_unless')) {
     /**
-     * Throw the given exception unless the given boolean is true.
+     * Throw the given exception unless the given condition is true.
      *
-     * @param  bool  $boolean
+     * @param  mixed  $condition
      * @param  \Throwable|string  $exception
      * @param  array  ...$parameters
-     * @return void
+     * @return mixed
      * @throws \Throwable
      */
-    function throw_unless($boolean, $exception, ...$parameters)
+    function throw_unless($condition, $exception, ...$parameters)
     {
-        if (! $boolean) {
+        if (! $condition) {
             throw (is_string($exception) ? new $exception(...$parameters) : $exception);
         }
+
+        return $condition;
     }
 }
 
