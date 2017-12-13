@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import DatabaseSection from '../components/DatabaseSection.vue'
+    import DatabaseSection from '../components/DatabaseSection'
     export default {
         components:  {
             DatabaseSection,

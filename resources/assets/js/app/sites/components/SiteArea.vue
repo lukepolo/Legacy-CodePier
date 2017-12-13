@@ -67,10 +67,10 @@
 </template>
 
 <script>
-    import SiteNav from './SiteNav.vue'
-    import Servers from './Servers.vue'
-    import SiteHeader from './SiteHeader.vue'
-    import LeftNav from '../../../components/LeftNav.vue'
+    import SiteNav from './SiteNav'
+    import Servers from './Servers'
+    import SiteHeader from './SiteHeader'
+    import LeftNav from '../../../components/LeftNav'
 
     export default {
         data() {

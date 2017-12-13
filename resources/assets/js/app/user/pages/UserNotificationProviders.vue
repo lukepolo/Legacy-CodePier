@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import NotificationGroup from './../components/NotificationGroup.vue'
+    import NotificationGroup from './../components/NotificationGroup'
     export default {
         components : {
             NotificationGroup

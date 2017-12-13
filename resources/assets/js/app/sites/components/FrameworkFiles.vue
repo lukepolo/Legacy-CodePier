@@ -1,16 +1,16 @@
 <template>
     <div class="list">
         <template v-if="siteFiles">
-            <site-file :forceShow="siteFiles.length === 1" :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></site-file>
+            <file :forceShow="siteFiles.length === 1" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></file>
         </template>
     </div>
 </template>
 
 <script>
-    import SiteFile from './SiteFile.vue';
+    import File from './../../setup/components/File';
     export default {
         components : {
-          SiteFile
+          File
         },
         methods: {
             isRunningCommandFor(file) {

@@ -1,7 +1,7 @@
-export const UserInfo = require("./UserInfo.vue");
-export const UserOauth = require("./UserOauth.vue");
-export const UserSshKeys = require("./UserSshKeys.vue");
-export const UserSubscription = require("./UserSubscription.vue");
-export const UserServerProviders = require("./UserServerProviders.vue");
-export const UserRepositoryProviders = require("./UserRepositoryProviders.vue");
-export const UserNotificationProviders = require("./UserNotificationProviders.vue");
+export const UserInfo = require("./UserInfo");
+export const UserOauth = require("./UserOauth");
+export const UserSshKeys = require("./UserSshKeys");
+export const UserSubscription = require("./UserSubscription");
+export const UserServerProviders = require("./UserServerProviders");
+export const UserRepositoryProviders = require("./UserRepositoryProviders");
+export const UserNotificationProviders = require("./UserNotificationProviders");

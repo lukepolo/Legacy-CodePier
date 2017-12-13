@@ -125,8 +125,8 @@
 <script>
 
     import {ServerFeatures} from '../../setup/pages'
-    import LeftNav from '../../../components/LeftNav.vue'
-    import ServerProviderSelector from './../components/ServerProviderSelector.vue'
+    import LeftNav from '../../../components/LeftNav'
+    import ServerProviderSelector from './../components/ServerProviderSelector'
     export default {
         components: {
             LeftNav,

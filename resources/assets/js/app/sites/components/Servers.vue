@@ -94,8 +94,8 @@
 </template>
 
 <script>
-    import ServerInfo from './ServerInfo.vue';
-    import ServerCreateList from './ServerCreateList.vue'
+    import ServerInfo from './ServerInfo';
+    import ServerCreateList from './ServerCreateList'
 
     export default {
         components : {

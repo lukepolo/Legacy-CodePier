@@ -83,7 +83,7 @@
 </template>
 
 <script>
-    import ServerProviderForm from './../../user/components/ServerProviderForm.vue'
+    import ServerProviderForm from './../../user/components/ServerProviderForm'
     export default {
         props: ['server_provider_id', 'is_custom'],
         components : {

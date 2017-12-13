@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import LanguageSetting from '../components/LanguageSetting.vue'
+    import LanguageSetting from '../components/LanguageSetting'
     export default {
         components: {
           LanguageSetting

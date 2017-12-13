@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import ServerProviderForm from '../components/ServerProviderForm.vue'
+    import ServerProviderForm from '../components/ServerProviderForm'
     export default {
         props: [],
         components : {
