@@ -4,8 +4,8 @@ export const get = ({ dispatch }, site) => {
       Vue.action("SiteSiteSslController@index", { site: site }),
       "user_site_ssl_certificates/setAll"
     )
-    .then(sslCertificates => {
-      _.each(sslCertificates, sslCertificate => {
+    .then((sslCertificates) => {
+      _.each(sslCertificates, (sslCertificate) => {
         dispatch("listenToSslCertificate", sslCertificate);
       });
       return sslCertificates;
@@ -18,7 +18,7 @@ export const store = ({ dispatch }, data) => {
       Vue.action("SiteSiteSslController@store", { site: data.site_id }),
       "user_site_ssl_certificates/add"
     )
-    .then(sslCertificate => {
+    .then((sslCertificate) => {
       if (sslCertificate !== "OK") {
         dispatch("listenToSslCertificate", sslCertificate);
         return sslCertificate;
@@ -49,7 +49,7 @@ export const destroy = (context, data) => {
 export const listenToSslCertificate = ({ commit }, sslCertificate) => {
   Echo.private("App.Models.SslCertificate." + sslCertificate.id).listen(
     "SslCertificate\\SslCertificateUpdated",
-    data => {
+    (data) => {
       commit("update", {
         response: data.ssl_certificate
       });
