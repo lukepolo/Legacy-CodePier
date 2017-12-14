@@ -57,14 +57,14 @@ class ProvisionServer implements ShouldQueue
                 );
             }
 
+            event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+
             foreach ($this->server->sites as $site) {
                 dispatch(
                     (new CreateSite($this->server, $site))
                         ->onQueue(config('queue.channels.server_commands'))
                 );
             }
-
-            event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
         }
     }
 

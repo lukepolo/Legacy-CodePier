@@ -38,10 +38,6 @@ class DeploySite implements ShouldQueue
         $this->servers = $site->provisionedServers;
         $this->oldSiteDeployment = $oldSiteDeployment;
 
-        $this->siteDeployment = SiteDeployment::create([
-            'site_id' => $site->id,
-            'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
-        ]);
 
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
@@ -49,23 +45,26 @@ class DeploySite implements ShouldQueue
             SystemService::FULL_STACK_SERVER,
         ]);
 
-        foreach ($availableServers as $server) {
-            SiteServerDeployment::create([
-                'server_id' => $server->id,
-                'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
-                'site_deployment_id' => $this->siteDeployment->id,
-            ])->createSteps();
+        if(!empty($availableServers)) {
+            $this->siteDeployment = SiteDeployment::create([
+                'site_id' => $site->id,
+                'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
+            ]);
+
+            foreach ($availableServers as $server) {
+                SiteServerDeployment::create([
+                    'server_id' => $server->id,
+                    'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
+                    'site_deployment_id' => $this->siteDeployment->id,
+                ])->createSteps();
+            }
+
+            $site->notify(new NewSiteDeployment($this->siteDeployment));
         }
-
-        $site->notify(new NewSiteDeployment($this->siteDeployment));
-
-        $this->oldSiteDeployment = $oldSiteDeployment;
     }
 
     /**
      * Execute the job.
-     *
-     * @throws DeploymentFailed
      */
     public function handle()
     {
