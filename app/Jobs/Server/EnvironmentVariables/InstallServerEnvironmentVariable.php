@@ -8,7 +8,6 @@ use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\EnvironmentVariable;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
