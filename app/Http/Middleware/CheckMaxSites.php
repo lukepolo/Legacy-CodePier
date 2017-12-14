@@ -17,6 +17,10 @@ class CheckMaxSites
     {
         $user = $request->user();
 
+        if($user->role !== 'admin') {
+            return $next($request);
+        }
+
         if (! $user->subscribed()) {
             if ($user->sites->count() > 1) {
                 return response()->json('You have to many sites for your plan (max 1), please delete some sites.', 401);

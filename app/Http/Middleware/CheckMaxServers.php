@@ -19,6 +19,10 @@ class CheckMaxServers
         /** @var User $user */
         $user = $request->user();
 
+        if($user->role !== 'admin') {
+            return $next($request);
+        }
+
         if (! $user->subscribed()) {
             if ($user->servers->count() > 1) {
                 return $this->toManyServersResponse(1);
