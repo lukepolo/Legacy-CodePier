@@ -46,6 +46,10 @@ class ServerCommandUpdated implements ShouldBroadcastNow
 
         $command->load('serverCommands.server');
 
+        if (strlen($command->log) >= 6000) {
+            $command->log = substr($command->log, 0, 6000)."\n , please reload to see the rest of the log";
+        }
+
         return [
             'command' => $command,
         ];
