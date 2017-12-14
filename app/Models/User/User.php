@@ -239,6 +239,10 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
+        if($this->role === 'admin') {
+            return true;
+        }
+
         if ($this->onTrial()) {
             return true;
         }

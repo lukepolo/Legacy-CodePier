@@ -40,8 +40,7 @@ class InstallServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -52,11 +51,9 @@ class InstallServerDaemon implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->addDaemon($this->daemon);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            if ($this->wasSuccessful()) {
+                $this->server->daemons()->save($this->daemon);
             }
-
-            $this->server->daemons()->save($this->daemon);
         }
     }
 }

@@ -41,16 +41,12 @@ class UpdateWebConfig implements ShouldQueue
     /**
      * Execute the job.
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(SiteService $siteService)
     {
         $this->runOnServer(function () use ($siteService) {
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

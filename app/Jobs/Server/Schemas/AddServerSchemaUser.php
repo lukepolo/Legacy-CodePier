@@ -42,8 +42,7 @@ class AddServerSchemaUser implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -60,11 +59,9 @@ class AddServerSchemaUser implements ShouldQueue
                 $serverService->addSchemaUser($this->server, $this->schemaUser);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            if ($this->wasSuccessful()) {
+                $this->server->schemaUsers()->save($this->schemaUser);
             }
-
-            $this->server->schemaUsers()->save($this->schemaUser);
         }
     }
 }

@@ -42,8 +42,7 @@ class RemoveServerCronJob implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -54,15 +53,13 @@ class RemoveServerCronJob implements ShouldQueue
                 $serverService->removeCron($this->server, $this->cronJob);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->cronJobs()->detach($this->cronJob->id);
 
-            $this->server->cronJobs()->detach($this->cronJob->id);
-
-            $this->cronJob->load('servers');
-            if ($this->cronJob->servers->count() == 0) {
-                $this->cronJob->delete();
+                $this->cronJob->load('servers');
+                if ($this->cronJob->servers->count() == 0) {
+                    $this->cronJob->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this cron job', false);

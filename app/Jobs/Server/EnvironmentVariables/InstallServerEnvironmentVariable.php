@@ -41,8 +41,7 @@ class InstallServerEnvironmentVariable implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -58,11 +57,9 @@ class InstallServerEnvironmentVariable implements ShouldQueue
                 $serverService->addEnvironmentVariable($this->server, $this->environmentVariable);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            if ($this->wasSuccessful()) {
+                $this->server->environmentVariables()->save($this->environmentVariable);
             }
-
-            $this->server->environmentVariables()->save($this->environmentVariable);
         }
     }
 }

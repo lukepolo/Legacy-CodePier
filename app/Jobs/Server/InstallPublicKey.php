@@ -39,6 +39,7 @@ class InstallPublicKey implements ShouldQueue
     /**
      * Execute the job.
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @throws \Exception
      */
     public function handle(RemoteTaskService $remoteTaskService)
     {

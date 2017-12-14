@@ -39,7 +39,7 @@ class RemoveBuoy implements ShouldQueue
 
     /**
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(BuoyService $buoyService)
     {
@@ -47,10 +47,8 @@ class RemoveBuoy implements ShouldQueue
             $buoyService->removeBuoy($this->server, $this->buoy);
         });
 
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
+        if ($this->wasSuccessful()) {
+            $this->server->buoys()->detach($this->buoy);
         }
-
-        $this->server->buoys()->detach($this->buoy);
     }
 }

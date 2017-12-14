@@ -45,8 +45,7 @@ class ActivateServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -55,9 +54,5 @@ class ActivateServerSslCertificate implements ShouldQueue
         });
 
         event(new SiteUpdatedWebConfig($this->site));
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

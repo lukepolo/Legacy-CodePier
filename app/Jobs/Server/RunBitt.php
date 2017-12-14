@@ -39,17 +39,12 @@ class RunBitt implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
             $serverService->runBitt($this->server, $this->bitt);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }
