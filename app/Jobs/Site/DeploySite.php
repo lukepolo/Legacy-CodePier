@@ -5,7 +5,6 @@ namespace App\Jobs\Site;
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
-use App\Exceptions\DeploymentFailed;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,14 +37,13 @@ class DeploySite implements ShouldQueue
         $this->servers = $site->provisionedServers;
         $this->oldSiteDeployment = $oldSiteDeployment;
 
-
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::WORKER_SERVER,
             SystemService::FULL_STACK_SERVER,
         ]);
 
-        if(!empty($availableServers)) {
+        if (! empty($availableServers)) {
             $this->siteDeployment = SiteDeployment::create([
                 'site_id' => $site->id,
                 'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
