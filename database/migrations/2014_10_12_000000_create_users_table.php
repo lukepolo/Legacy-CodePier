@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('user_login_provider_id')->nullable();
             $table->string('second_auth_secret')->nullable();
             $table->boolean('second_auth_active')->default(false);
-            $table->timestamp('second_auth_updated_at')->nullable();
+            $table->string('second_auth_updated_at')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

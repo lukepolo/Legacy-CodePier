@@ -17,7 +17,7 @@ class UserRepositoryProvider extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'expires_in',
+        'expires_at',
         'deleted_at',
     ];
 

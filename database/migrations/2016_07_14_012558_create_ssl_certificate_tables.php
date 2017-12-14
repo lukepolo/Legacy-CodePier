@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSllCertificateTables extends Migration
+class CreateSslCertificateTables extends Migration
 {
     /**
      * Run the migrations.
