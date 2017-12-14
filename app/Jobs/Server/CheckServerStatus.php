@@ -38,6 +38,7 @@ class CheckServerStatus implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     * @throws \Exception
      */
     public function handle(ServerServiceContract $serverService)
     {
