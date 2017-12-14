@@ -31,7 +31,7 @@
            </form>
            <div class="flyform--footer">
                <div class="flyform--footer-btns">
-                   <button class="btn btn-primary" type="submit">Update Settings</button>
+                   <button class="btn btn-primary" type="submit" @click="updateUserNotifications">Update Settings</button>
                </div>
            </div>
        </div>

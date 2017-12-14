@@ -7,7 +7,7 @@
 
         <div class="settings--options">
             <template v-for="service in notification_setting.services">
-            <div class="flyform--group-checkbox" v-if="isConnected(service)">
+            <div class="flyform--group-checkbox" v-show="isConnected(service)">
                 <label>
                     <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
                     <input
