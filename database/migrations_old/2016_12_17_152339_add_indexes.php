@@ -162,8 +162,6 @@ class AddIndexes extends Migration
                 }
             });
         }
-
-
     }
 
     /**
