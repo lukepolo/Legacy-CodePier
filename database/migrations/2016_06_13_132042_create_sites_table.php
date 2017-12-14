@@ -39,7 +39,7 @@ class CreateSitesTable extends Migration
             $table->string('hash', 40)->nullable();
             $table->json('workflow')->nullable();
             $table->json('slack_channel_preferences')->nullable();
-            
+
             $table->index('user_id');
             $table->index('pile_id');
             $table->index(['user_id', 'pile_id']);

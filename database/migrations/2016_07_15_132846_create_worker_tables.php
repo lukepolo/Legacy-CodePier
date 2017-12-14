@@ -28,7 +28,6 @@ class CreateWorkerTables extends Migration
             $table->string('workerable_type');
             $table->index(['worker_id', 'workerable_id', 'workerable_type'], 'workerable_indexs');
         });
-
     }
 
     /**

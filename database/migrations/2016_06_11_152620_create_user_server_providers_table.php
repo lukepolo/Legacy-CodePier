@@ -28,7 +28,6 @@ class CreateUserServerProvidersTable extends Migration
 
             $table->index('user_id');
             $table->index(['server_provider_id', 'provider_id'], 'oauth_index');
-
         });
 
         Schema::table('user_server_providers', function (Blueprint $table) {
