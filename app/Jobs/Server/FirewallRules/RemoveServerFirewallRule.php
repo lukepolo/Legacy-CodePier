@@ -25,7 +25,7 @@ class RemoveServerFirewallRule implements ShouldQueue
     public $timeout = 60;
 
     /**
-     * InstallServerFirewallRule constructor.
+     * RemoveServerFirewallRule constructor.
      * @param Server $server
      * @param FirewallRule $firewallRule
      * @param Command $siteCommand
