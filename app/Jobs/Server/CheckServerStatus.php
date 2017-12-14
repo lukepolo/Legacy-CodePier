@@ -55,7 +55,7 @@ class CheckServerStatus implements ShouldQueue
                         ->onQueue(config('queue.channels.server_provisioning'))
                 );
             } else {
-                if ($this->server->created_at->addMinutes(555555) > Carbon::now()) {
+                if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
                     dispatch(
                         (new self($this->server, $this->provision))
                             ->delay(10)

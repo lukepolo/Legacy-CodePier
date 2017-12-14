@@ -117,6 +117,7 @@ class ServerService implements ServerServiceContract
      *
      * @param bool $noDelete
      * @return mixed
+     * @throws \Exception
      */
     public function getStatus(Server $server, $noDelete = false)
     {
