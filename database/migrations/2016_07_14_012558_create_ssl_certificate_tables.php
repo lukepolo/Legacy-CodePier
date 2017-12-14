@@ -12,17 +12,22 @@ class CreateSllCertificateTables extends Migration
      */
     public function up()
     {
-        Schema::create('site_ssl_certificates', function (Blueprint $table) {
+        Schema::create('ssl_certificates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');
             $table->string('domains');
             $table->boolean('active')->default(0);
-            $table->string('key_path');
-            $table->string('cert_path');
             $table->longText('key')->nullable();
             $table->longText('cert')->nullable();
+            $table->string('key_path')->nullable();
+            $table->string('cert_path')->nullable();
+            $table->boolean('failed')->default(0);
+
             $table->timestamps();
+
+            $table->index(['type', 'domains']);
         });
+
 
         Schema::create('sslCertificateables', function (Blueprint $table) {
             $table->integer('ssl_certificate_id');
@@ -31,7 +36,6 @@ class CreateSllCertificateTables extends Migration
             $table->index(['ssl_certificate_id', 'sslCertificateable_id', 'sslCertificateable_type'], 'sslCertificateables_indexs');
         });
 
-//            ['type', 'domains'],
     }
 
     /**
@@ -41,6 +45,7 @@ class CreateSllCertificateTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_ssl_certificates');
+        Schema::dropIfExists('ssl_certificates');
+        Schema::dropIfExists('sslCertificateables');
     }
 }

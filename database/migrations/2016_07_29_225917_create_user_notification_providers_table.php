@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserServerProvidersTable extends Migration
+class CreateUserNotificationProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,21 @@ class CreateUserServerProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_server_providers', function (Blueprint $table) {
+        Schema::create('user_notification_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('server_provider_id');
+            $table->unsignedInteger('notification_provider_id');
             $table->string('provider_id');
             $table->longText('token');
             $table->longText('refresh_token')->nullable();
             $table->longText('token_secret')->nullable();
             $table->timestamp('expires_at')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('user_id');
-            $table->index(['server_provider_id', 'provider_id'], 'oauth_index');
+            $table->index(['notification_provider_id', 'provider_id'], 'oauth_index');
         });
     }
 
@@ -36,6 +37,6 @@ class CreateUserServerProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_server_providers');
+        Schema::dropIfExists('user_notification_providers');
     }
 }
