@@ -22,7 +22,6 @@ class CreateServerSiteTable extends Migration
             $table->index('server_id');
             $table->index('site_id');
         });
-
     }
 
     /**

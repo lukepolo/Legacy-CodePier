@@ -21,7 +21,6 @@ class CreateServersTable extends Migration
             $table->string('status')->nullable()->default('');
             $table->string('system_class');
 
-
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('pile_id');
             $table->unsignedInteger('team_id')->nullable();
@@ -48,7 +47,6 @@ class CreateServersTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
 
             $table->index('user_id');
             $table->index('team_id');

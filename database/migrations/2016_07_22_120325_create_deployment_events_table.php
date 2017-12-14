@@ -27,8 +27,6 @@ class CreateDeploymentEventsTable extends Migration
             $table->index('deployment_step_id');
             $table->index('site_server_deployment_id');
         });
-
-
     }
 
     /**
