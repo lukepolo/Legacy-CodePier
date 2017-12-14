@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Exceptions\ServerCommandFailed;
 use Closure;
 use App\Models\Command;
 use App\Models\Server\Server;
