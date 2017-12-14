@@ -19,7 +19,7 @@ class CheckServerCreationLimit
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->role !== 'admin') {
+        if ($user->role === 'admin') {
             return $next($request);
         }
 
