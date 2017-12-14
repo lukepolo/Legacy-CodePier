@@ -48,7 +48,7 @@ class SiteController extends Controller
 
         $this->middleware('checkSiteCreationLimit')
             ->only([
-                'store'
+                'store',
             ]);
     }
 
