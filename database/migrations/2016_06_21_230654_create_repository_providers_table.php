@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServerProviderRegionsTable extends Migration
+class CreateRepositoryProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,17 @@ class CreateServerProviderRegionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_provider_regions', function (Blueprint $table) {
+        Schema::create('repository_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_provider_id');
             $table->string('name');
+            $table->string('url');
+            $table->string('git_url');
             $table->string('provider_name');
             $table->timestamps();
+            $table->index('provider_name');
+            $table->string('repository_class');
+            $table->index('provider_name');
+            $table->string('commit_url')->nullable();
         });
     }
 
@@ -28,6 +33,6 @@ class CreateServerProviderRegionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_provider_regions');
+        Schema::dropIfExists('repository_providers');
     }
 }

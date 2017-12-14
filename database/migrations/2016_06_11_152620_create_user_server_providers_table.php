@@ -25,6 +25,20 @@ class CreateUserServerProvidersTable extends Migration
             $table->string('tokenSecret')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('user_id');
+            $table->index(['server_provider_id', 'provider_id'], 'oauth_index');
+
+        });
+
+        Schema::table('user_server_providers', function (Blueprint $table) {
+            $table->renameColumn('tokenSecret', 'token_secret');
+        });
+
+        Schema::table('user_server_providers', function (Blueprint $table) {
+            $table->longText('token')->change();
+            $table->longText('token_secret')->change();
+            $table->longText('refresh_token')->change();
         });
     }
 

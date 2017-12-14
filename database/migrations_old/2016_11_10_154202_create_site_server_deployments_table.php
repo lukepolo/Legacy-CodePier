@@ -22,11 +22,6 @@ class CreateSiteServerDeploymentsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('site_deployments', function (Blueprint $table) {
-            $table->dropColumn('log');
-            $table->dropColumn('server_id');
-        });
-
         Schema::table('deployment_events', function (Blueprint $table) {
             $table->dropColumn('site_deployment_id');
             $table->integer('site_server_deployment_id');

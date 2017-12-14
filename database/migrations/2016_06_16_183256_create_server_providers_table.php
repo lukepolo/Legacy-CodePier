@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServerCronJobsTable extends Migration
+class CreateServerProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,11 @@ class CreateServerCronJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_cron_jobs', function (Blueprint $table) {
+        Schema::create('server_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_id');
-            $table->integer('site_cron_job_id')->nullable();
-            $table->string('job');
-            $table->string('user');
+            $table->string('name');
+            $table->string('provider_name');
+            $table->string('provider_class');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateServerCronJobsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_cron_jobs');
+        Schema::dropIfExists('server_providers');
     }
 }

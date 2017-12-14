@@ -27,7 +27,22 @@ class CreateSitesTable extends Migration
             $table->boolean('zerotime_deployment')->default(0);
             $table->string('automatic_deployment_id')->nullable();
             $table->integer('user_repository_provider_id')->nullable();
+
+            $table->string('type')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('private')->default(0);
+            $table->text('public_ssh_key')->nullable();
+            $table->text('private_ssh_key')->nullable();
+
+            $table->integer('keep_releases')->default(10);
+            $table->string('hash', 40)->nullable();
+            $table->json('workflow')->nullable();
+            $table->json('slack_channel_preferences')->nullable();
+            
+            $table->index('user_id');
+            $table->index('pile_id');
+            $table->index(['user_id', 'pile_id']);
         });
     }
 

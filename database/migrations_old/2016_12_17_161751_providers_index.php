@@ -11,14 +11,6 @@ class ProvidersIndex extends Migration
             'user_id',
             ['notification_provider_id', 'provider_id'],
         ],
-        'user_repository_providers' => [
-            'user_id',
-            ['repository_provider_id', 'provider_id'],
-        ],
-        'user_server_providers' => [
-            'user_id',
-            ['server_provider_id', 'provider_id'],
-        ],
     ];
 
     /**

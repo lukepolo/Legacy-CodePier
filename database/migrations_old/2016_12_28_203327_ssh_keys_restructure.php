@@ -57,22 +57,6 @@ class SshKeysRestructure extends Migration
             }
         }
 
-        $records = DB::table('user_ssh_keys')->get();
-
-        foreach ($records as $record) {
-            $user = \App\Models\User\User::find($record->user_id);
-
-            if (! empty($site)) {
-                unset($record->id);
-                unset($record->user_id);
-
-                $newRecord = \App\Models\SshKey::create((array) $record);
-
-                $user->sshKeys()->save($newRecord);
-            }
-        }
-
-        Schema::dropIfExists('user_ssh_keys');
         Schema::dropIfExists('site_ssh_keys');
         Schema::dropIfExists('server_ssh_keys');
     }

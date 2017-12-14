@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServerWorkersTable extends Migration
+class CreateWorkerTables extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,23 @@ class CreateServerWorkersTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_workers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('server_id');
-            $table->string('command');
+        Schema::create('site_workers', function (Blueprint $table) {
             $table->string('user');
+            $table->increments('id');
+            $table->string('command');
             $table->boolean('auto_start');
             $table->boolean('auto_restart');
             $table->integer('number_of_workers');
-            $table->integer('site_worker_id')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('workerables', function (Blueprint $table) {
+            $table->integer('worker_id');
+            $table->integer('workerable_id');
+            $table->string('workerable_type');
+            $table->index(['worker_id', 'workerable_id', 'workerable_type'], 'workerable_indexs');
+        });
+
     }
 
     /**
@@ -32,6 +38,6 @@ class CreateServerWorkersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_workers');
+        Schema::dropIfExists('site_workers');
     }
 }

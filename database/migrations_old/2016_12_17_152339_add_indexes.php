@@ -35,9 +35,6 @@ class AddIndexes extends Migration
         'piles' => [
             'user_id',
         ],
-        'repository_providers' => [
-            'provider_name',
-        ],
         'server_commands' => [
             'command_id',
             'server_id',
@@ -56,18 +53,6 @@ class AddIndexes extends Migration
         'server_network_rules' => [
             'server_id',
         ],
-        'server_provider_features' => [
-            'server_provider_id',
-        ],
-        'server_provider_options' => [
-            'server_provider_id',
-        ],
-        'server_provider_regions' => [
-            'server_provider_id',
-        ],
-        'server_providers' => [
-            'provider_name',
-        ],
         'server_provision_steps' => [
             'server_id',
         ],
@@ -75,27 +60,16 @@ class AddIndexes extends Migration
             'server_id',
             'site_id',
         ],
-        'server_ssh_keys' => [
-            'site_ssh_key_id',
-            'server_id',
-        ],
         'server_ssl_certificates' => [
             'site_ssl_certificate_id',
             ['type', 'domains'],
-        ],
-        'servers' => [
-            'user_id',
-            ['user_id', 'pile_id'],
-            'pile_id',
-            'team_id',
-            ['team_id', 'pile_id'],
         ],
         'site_cron_jobs' => [
             'site_id',
             ['job', 'user'],
         ],
         'site_deployments' => [
-            'site_id',
+
         ],
         'site_files' => [
             'site_id',
@@ -111,18 +85,6 @@ class AddIndexes extends Migration
         'site_ssh_keys' => [
             'site_id',
         ],
-        'site_ssl_certificates' => [
-            'site_id',
-            ['type', 'domains'],
-        ],
-        'site_workers' => [
-            'site_id',
-        ],
-        'sites' => [
-            'user_id',
-            'pile_id',
-            ['user_id', 'pile_id'],
-        ],
         'slack_channels' => [
             'slackable_id',
             'slackable_type',
@@ -137,13 +99,7 @@ class AddIndexes extends Migration
         'teams' => [
             'owner_id',
         ],
-        'user_login_providers' => [
-            ['provider', 'provider_id'],
-        ],
         'user_notification_settings' => [
-            'user_id',
-        ],
-        'user_ssh_keys' => [
             'user_id',
         ],
     ];

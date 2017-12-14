@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServerProvidersTable extends Migration
+class CreateServerProviderRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,14 @@ class CreateServerProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_providers', function (Blueprint $table) {
+        Schema::create('server_provider_regions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('server_provider_id');
             $table->string('name');
             $table->string('provider_name');
             $table->timestamps();
+            $table->index('server_provider_id');
+            $table->integer('region_id')->nullable();
         });
     }
 
@@ -27,6 +30,6 @@ class CreateServerProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_providers');
+        Schema::dropIfExists('server_provider_regions');
     }
 }
