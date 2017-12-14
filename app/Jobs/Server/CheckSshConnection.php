@@ -64,7 +64,8 @@ class CheckSshConnection implements ShouldQueue
         }
     }
 
-    public function failed() {
+    public function failed()
+    {
         event(
             new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
         );
