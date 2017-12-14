@@ -18,8 +18,6 @@ class CreateSshKeysTable extends Migration
             $table->string('name');
             $table->longText('ssh_key');
             $table->timestamps();
-
-            $table->index('ssh_key');
         });
 
         Schema::create('sshKeyables', function (Blueprint $table) {

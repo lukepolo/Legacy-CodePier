@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSiteFilesTable extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,14 +15,12 @@ class CreateSiteFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->longText('file_path');
+            $table->text('file_path');
             $table->longText('content')->nullable();
             $table->unsignedInteger('custom')->default(0);
             $table->boolean('framework_file')->default(0);
 
             $table->timestamps();
-
-            $table->index('file_path');
         });
 
         Schema::create('fileables', function (Blueprint $table) {
@@ -40,6 +38,7 @@ class CreateSiteFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_files');
+        Schema::dropIfExists('files');
+        Schema::dropIfExists('fileables');
     }
 }
