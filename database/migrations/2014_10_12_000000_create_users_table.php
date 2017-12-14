@@ -30,7 +30,6 @@ class CreateUsersTable extends Migration
 
             $table->index('user_login_provider_id');
             $table->unique(['email', 'user_login_provider_id']);
-
         });
     }
 
