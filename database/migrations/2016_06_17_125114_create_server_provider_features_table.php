@@ -21,6 +21,7 @@ class CreateServerProviderFeaturesTable extends Migration
             $table->string('cost')->nullable();
             $table->softDeletes();
             $table->timestamps();
+            $table->index('server_provider_id');
         });
     }
 

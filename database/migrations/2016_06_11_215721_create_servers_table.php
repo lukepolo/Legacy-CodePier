@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Servers extends Migration
+class CreateServersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -31,8 +31,22 @@ class Servers extends Migration
             $table->longText('sudo_password')->nullable();
             $table->longText('database_password')->nullable();
             $table->json('server_provider_features')->nullable();
+            $table->string('system_class');
+            $table->json('stats')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->longText('custom_server_url')->nullable();
+            $table->string('custom_server_url')->change();
+            $table->integer('port')->default(22);
+            $table->string('type')->default('full_stack');
+            $table->string('status')->nullable()->change()->default('');
+            $table->json('slack_channel_preferences')->nullable();
+
+            $table->index('user_id');
+            $table->index('team_id');
+            $table->index( 'pile_id');
+            $table->index(['user_id', 'pile_id']);
+            $table->index(['team_id', 'pile_id']);
         });
     }
 

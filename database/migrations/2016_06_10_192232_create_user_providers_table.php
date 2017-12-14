@@ -22,7 +22,20 @@ class CreateUserProvidersTable extends Migration
             $table->string('tokenSecret')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['provider', 'provider_id']);
         });
+
+        Schema::table('user_login_providers', function (Blueprint $table) {
+            $table->renameColumn('tokenSecret', 'token_secret');
+        });
+
+        Schema::table('user_login_providers', function (Blueprint $table) {
+            $table->longText('token')->change();
+            $table->longText('token_secret')->change();
+            $table->longText('refresh_token')->change();
+        });
+
     }
 
     /**

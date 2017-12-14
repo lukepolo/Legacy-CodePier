@@ -21,6 +21,9 @@ class CreateServerProviderOptionsTable extends Migration
             $table->float('priceHourly');
             $table->float('priceMonthly');
             $table->timestamps();
+            $table->index('server_provider_id');
+            $table->boolean('oauth')->default(1);
+            $table->boolean('secret_token')->default(0);
         });
     }
 

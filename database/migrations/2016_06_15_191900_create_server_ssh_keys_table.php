@@ -19,6 +19,9 @@ class CreateServerSshKeysTable extends Migration
             $table->string('name');
             $table->longText('ssh_key');
             $table->timestamps();
+
+            $table->index('server_id');
+            $table->index('site_ssh_key_id');
         });
     }
 

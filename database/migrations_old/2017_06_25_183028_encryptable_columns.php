@@ -13,35 +13,9 @@ class EncryptableColumns extends Migration
      */
     public function up()
     {
-        Schema::table('user_server_providers', function (Blueprint $table) {
-            $table->renameColumn('tokenSecret', 'token_secret');
-        });
 
-        Schema::table('user_server_providers', function (Blueprint $table) {
-            $table->longText('token')->change();
-            $table->longText('token_secret')->change();
-            $table->longText('refresh_token')->change();
-        });
 
-        Schema::table('user_login_providers', function (Blueprint $table) {
-            $table->renameColumn('tokenSecret', 'token_secret');
-        });
 
-        Schema::table('user_login_providers', function (Blueprint $table) {
-            $table->longText('token')->change();
-            $table->longText('token_secret')->change();
-            $table->longText('refresh_token')->change();
-        });
-
-        Schema::table('user_repository_providers', function (Blueprint $table) {
-            $table->renameColumn('tokenSecret', 'token_secret');
-        });
-
-        Schema::table('user_repository_providers', function (Blueprint $table) {
-            $table->longText('token')->change();
-            $table->longText('token_secret')->change();
-            $table->longText('refresh_token')->change();
-        });
 
         Schema::table('user_notification_providers', function (Blueprint $table) {
             $table->renameColumn('tokenSecret', 'token_secret');
