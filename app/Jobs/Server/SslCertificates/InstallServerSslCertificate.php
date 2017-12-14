@@ -41,7 +41,8 @@ class InstallServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @throws ServerCommandFailed
+     * @return bool
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -64,7 +65,7 @@ class InstallServerSslCertificate implements ShouldQueue
                     $this->updateWebConfigs();
                 }
 
-                throw new ServerCommandFailed($this->getCommandErrors());
+                return false;
             }
 
             $this->sslCertificate->update([

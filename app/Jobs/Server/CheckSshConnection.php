@@ -20,8 +20,8 @@ class CheckSshConnection implements ShouldQueue
 
     protected $server;
 
-    public $tries = 1;
-    public $timeout = 10;
+    public $tries = 3;
+    public $timeout = 15;
 
     /**
      * Create a new job instance.
@@ -62,5 +62,11 @@ class CheckSshConnection implements ShouldQueue
                 new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
             );
         }
+    }
+
+    public function failed() {
+        event(
+            new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
+        );
     }
 }
