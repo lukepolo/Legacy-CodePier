@@ -28,7 +28,6 @@
                <notification-group title="Server Monitoring Notifications" :notification_settings="notification_settings['server_monitoring']"></notification-group>
                <notification-group title="Servers Notifications" :notification_settings="notification_settings['servers']"></notification-group>
                <notification-group title="Buoys Notifications" :notification_settings="notification_settings['buoys']"></notification-group>
-
            </form>
            <div class="flyform--footer">
                <div class="flyform--footer-btns">
