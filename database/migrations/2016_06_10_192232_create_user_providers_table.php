@@ -35,7 +35,6 @@ class CreateUserProvidersTable extends Migration
             $table->longText('token_secret')->change();
             $table->longText('refresh_token')->change();
         });
-
     }
 
     /**

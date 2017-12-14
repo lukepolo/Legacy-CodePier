@@ -44,7 +44,7 @@ class CreateServersTable extends Migration
 
             $table->index('user_id');
             $table->index('team_id');
-            $table->index( 'pile_id');
+            $table->index('pile_id');
             $table->index(['user_id', 'pile_id']);
             $table->index(['team_id', 'pile_id']);
         });

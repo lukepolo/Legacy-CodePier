@@ -13,10 +13,6 @@ class EncryptableColumns extends Migration
      */
     public function up()
     {
-
-
-
-
         Schema::table('user_notification_providers', function (Blueprint $table) {
             $table->renameColumn('tokenSecret', 'token_secret');
         });
