@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Mail\BetaInvite;
+use App\Mail\Welcome;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'referrer' => Cookie::get('referrer'),
         ]);
 
-        Mail::to($user)->send(new BetaInvite());
+        Mail::to($user)->send(new Welcome());
 
         return $user;
     }
