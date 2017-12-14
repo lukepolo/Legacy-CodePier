@@ -31,7 +31,6 @@ class CreateBittsTable extends Migration
             $table->index(['private']);
         });
 
-
         Schema::create('bitt_system', function (Blueprint $table) {
             $table->unsignedInteger('bitt_id');
             $table->unsignedInteger('system_id');

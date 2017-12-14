@@ -23,7 +23,6 @@ class CreateNotificationSettingsTable extends Migration
             $table->string('description');
 
             $table->timestamps();
-
         });
 
         Schema::create('user_notification_settings', function (Blueprint $table) {

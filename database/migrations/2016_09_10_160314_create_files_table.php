@@ -25,14 +25,12 @@ class CreateSiteFilesTable extends Migration
             $table->index('file_path');
         });
 
-
         Schema::create('fileables', function (Blueprint $table) {
             $table->unsignedInteger('file_id');
             $table->unsignedInteger('fileable_id');
             $table->string('fileable_type');
             $table->index(['file_id', 'fileable_id', 'fileable_type']);
         });
-
     }
 
     /**

@@ -22,7 +22,6 @@ class CreateSiteDeploymentsTable extends Migration
 
             $table->timestamps();
 
-
             $table->index('site_id');
         });
     }
