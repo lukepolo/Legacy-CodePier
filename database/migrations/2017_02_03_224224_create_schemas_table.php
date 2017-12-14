@@ -17,13 +17,17 @@ class CreateSchemasTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('database');
+
             $table->timestamps();
+
+            $table->index(['name', 'database']);
         });
 
         Schema::create('schemables', function (Blueprint $table) {
-            $table->integer('schema_id');
-            $table->integer('schemable_id');
+            $table->unsignedInteger('schema_id');
+            $table->unsignedInteger('schemable_id');
             $table->string('schemable_type');
+
             $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
         });
     }

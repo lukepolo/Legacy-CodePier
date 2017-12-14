@@ -14,11 +14,15 @@ class CreateSiteDeploymentsTable extends Migration
     {
         Schema::create('site_deployments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id');
+            $table->unsignedInteger('site_id');
             $table->string('status');
-            $table->json('log')->nullable();
             $table->string('git_commit')->nullable();
+            $table->string('commit_message')->nullable();
+            $table->string('folder_name')->nullable();
+
             $table->timestamps();
+
+            $table->index('site_id');
         });
     }
 

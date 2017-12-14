@@ -52,20 +52,20 @@ class AppServiceProvider extends ServiceProvider
 
         // TODO - what are these suppose to be doing?
         UserLoginProvider::updating(function ($provider) {
-            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
-                $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
+            if (! empty($expiresIn = $provider->getOriginal('expires_at'))) {
+                $provider->expires_at = Carbon::now()->addSeconds($expiresIn);
             }
         });
 
         UserNotificationProvider::updating(function ($provider) {
-            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
-                $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
+            if (! empty($expiresIn = $provider->getOriginal('expires_at'))) {
+                $provider->expires_at = Carbon::now()->addSeconds($expiresIn);
             }
         });
 
         UserServerProvider::updating(function (Model $provider) {
-            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
-                $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
+            if (! empty($expiresIn = $provider->getOriginal('expires_at'))) {
+                $provider->expires_at = Carbon::now()->addSeconds($expiresIn);
             }
         });
     }

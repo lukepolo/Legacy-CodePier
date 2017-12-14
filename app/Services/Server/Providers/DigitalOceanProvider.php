@@ -218,7 +218,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
             $userServerProvider->token = $tokenData['access_token'];
             $userServerProvider->refresh_token = $tokenData['refresh_token'];
-            $userServerProvider->expires_in = $tokenData['expires_in'];
+            $userServerProvider->expires_at = $tokenData['expires_in'];
 
             $userServerProvider->save();
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserNotificationProvidersTable extends Migration
+class CreateUserRepositoryProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateUserNotificationProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_notification_providers', function (Blueprint $table) {
+        Schema::create('user_repository_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('notification_provider_id');
+            $table->unsignedInteger('repository_provider_id');
             $table->string('provider_id');
             $table->longText('token');
             $table->longText('refresh_token')->nullable();
@@ -26,7 +26,7 @@ class CreateUserNotificationProvidersTable extends Migration
             $table->softDeletes();
 
             $table->index('user_id');
-            $table->index(['notification_provider_id', 'provider_id'], 'oauth_index');
+            $table->index(['repository_provider_id', 'provider_id'], 'oauth_index');
         });
     }
 
@@ -37,6 +37,6 @@ class CreateUserNotificationProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_notification_providers');
+        \Schema::dropIfExists('user_repository_providers');
     }
 }
