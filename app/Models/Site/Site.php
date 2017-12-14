@@ -88,7 +88,7 @@ class Site extends Model
 
     public function cronJobs()
     {
-        return $this->morphToMany(CronJob::class, 'cronjobable');
+        return $this->morphToMany(CronJob::class, 'cronJobable');
     }
 
     public function deployments()

@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServerProviderRegionsTable extends Migration
+class CreatePilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +13,14 @@ class CreateServerProviderRegionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_provider_regions', function (Blueprint $table) {
+        Schema::create('piles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('provider_name');
-            $table->unsignedInteger('server_provider_id');
+            $table->unsignedInteger('user_id');
 
             $table->timestamps();
 
-            $table->index('server_provider_id');
-            $table->integer('region_id')->nullable();
+            $table->index('user_id');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateServerProviderRegionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_provider_regions');
+        Schema::dropIfExists('piles');
     }
 }

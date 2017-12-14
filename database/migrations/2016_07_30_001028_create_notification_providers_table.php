@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRepositoryProvidersTable extends Migration
+class CreateNotificationProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,10 @@ class CreateRepositoryProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('repository_providers', function (Blueprint $table) {
+        Schema::create('notification_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('url');
-            $table->string('git_url');
             $table->string('provider_name');
-            $table->string('repository_class');
-            $table->string('commit_url')->nullable();
 
             $table->timestamps();
 
@@ -34,6 +30,6 @@ class CreateRepositoryProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('repository_providers');
+        Schema::dropIfExists('notification_providers');
     }
 }

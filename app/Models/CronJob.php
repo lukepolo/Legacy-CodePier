@@ -26,12 +26,12 @@ class CronJob extends Model
 
     public function sites()
     {
-        return $this->morphedByMany(Site::class, 'cronjobable');
+        return $this->morphedByMany(Site::class, 'cronJobable');
     }
 
     public function servers()
     {
-        return $this->morphedByMany(Server::class, 'cronjobable');
+        return $this->morphedByMany(Server::class, 'cronJobable');
     }
 
     /*

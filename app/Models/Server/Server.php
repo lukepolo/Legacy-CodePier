@@ -99,7 +99,7 @@ class Server extends Model
 
     public function cronJobs()
     {
-        return $this->morphToMany(CronJob::class, 'cronjobable');
+        return $this->morphToMany(CronJob::class, 'cronJobable');
     }
 
     public function files()

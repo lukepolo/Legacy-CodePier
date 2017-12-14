@@ -17,7 +17,13 @@ class CreateServerProvidersTable extends Migration
             $table->string('name');
             $table->string('provider_name');
             $table->string('provider_class');
+            $table->boolean('oauth')->default(1);
+            $table->boolean('secret_token')->default(0);
+
             $table->timestamps();
+
+            $table->index('provider_name');
+            $table->index('provider_class');
         });
     }
 

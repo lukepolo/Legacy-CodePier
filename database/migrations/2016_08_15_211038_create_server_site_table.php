@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSiteDeploymentsTable extends Migration
+class CreateServerSiteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,19 +13,16 @@ class CreateSiteDeploymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('site_deployments', function (Blueprint $table) {
+        Schema::create('server_site', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id');
-            $table->string('status');
-            $table->string('git_commit')->nullable();
-            $table->string('commit_message')->nullable();
-            $table->string('folder_name')->nullable();
-
+            $table->unsignedInteger('server_id');
+            $table->unsignedInteger('site_id');
             $table->timestamps();
 
-
+            $table->index('server_id');
             $table->index('site_id');
         });
+
     }
 
     /**
@@ -34,6 +32,6 @@ class CreateSiteDeploymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_deployments');
+        Schema::dropIfExists('server_site');
     }
 }

@@ -12,13 +12,16 @@ class CreateWorkerTables extends Migration
      */
     public function up()
     {
-        Schema::create('site_workers', function (Blueprint $table) {
-            $table->string('user');
+        Schema::create('workers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('command');
+            $table->string('user');
             $table->boolean('auto_start');
             $table->boolean('auto_restart');
             $table->integer('number_of_workers');
+            $table->json('server_ids')->nullable();
+            $table->json('server_types')->nullable();
+
             $table->timestamps();
         });
 
@@ -38,6 +41,7 @@ class CreateWorkerTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_workers');
+        Schema::dropIfExists('workers');
+        Schema::dropIfExists('workerables');
     }
 }
