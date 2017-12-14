@@ -39,11 +39,16 @@ class SiteController extends Controller
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
 
-        $this->middleware('checkMaxServers')
+        $this->middleware('checkMaxSites')
             ->except([
                 'index',
                 'show',
                 'destroy',
+            ]);
+
+        $this->middleware('checkSiteCreationLimit')
+            ->only([
+                'store'
             ]);
     }
 

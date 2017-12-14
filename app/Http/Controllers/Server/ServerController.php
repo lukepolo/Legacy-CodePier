@@ -36,11 +36,17 @@ class ServerController extends Controller
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
 
-        $this->middleware('checkMaxSites')
+        $this->middleware('checkMaxServers')
             ->except([
                 'index',
                 'show',
                 'destroy',
+            ]);
+
+
+        $this->middleware('checkServerCreationLimit')
+            ->only([
+                'store'
             ]);
     }
 
@@ -70,6 +76,7 @@ class ServerController extends Controller
     public function store(ServerRequest $request)
     {
         $site = null;
+
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
 
