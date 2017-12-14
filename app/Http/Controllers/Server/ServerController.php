@@ -43,10 +43,9 @@ class ServerController extends Controller
                 'destroy',
             ]);
 
-
         $this->middleware('checkServerCreationLimit')
             ->only([
-                'store'
+                'store',
             ]);
     }
 
