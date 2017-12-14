@@ -47,7 +47,7 @@ footer {
   &.in-workflow {
 
     @include breakpoint(lxl) {
-      max-width: calc(100% - (325px + 275px + 270px);
+      max-width: calc(100% - (325px + 275px + 270px));
     }
     @include breakpoint(mxl) {
       max-width: unset;

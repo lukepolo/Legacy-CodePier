@@ -37,7 +37,6 @@ class User extends Authenticatable
         'password',
         'workflow',
         'current_pile_id',
-        'invited_to_slack',
         'second_auth_active',
         'second_auth_updated_at',
         'user_login_provider_id',

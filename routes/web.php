@@ -152,7 +152,6 @@ Route::group([
         'second_auth',
     ],
 ], function () {
-    Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });
