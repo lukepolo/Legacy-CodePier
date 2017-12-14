@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use GuzzleHttp\Client;
 use App\Models\User\User;
 use GuzzleHttp\Psr7\Response;
 use App\Http\Controllers\Controller;
