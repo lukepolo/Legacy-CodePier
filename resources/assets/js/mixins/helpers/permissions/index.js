@@ -7,10 +7,20 @@ export const teamsEnabled = () => {
 };
 
 export const isSubscribed = function() {
+
+    if(this.isAdmin) {
+      return true;
+    }
+
     return this.$store.state.user.user.is_subscribed;
 };
 
 export const apiEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
+
   if(this.isSubscribed) {
     return this.$store.state.user.user.subscription_plan.includes('captain')
   }
@@ -18,6 +28,11 @@ export const apiEnabled = function() {
 };
 
 export const siteActionsEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
+
   if(this.isSubscribed) {
     return true;
   }
@@ -25,10 +40,19 @@ export const siteActionsEnabled = function() {
 };
 
 export const serverTypesEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
+
   return this.isSubscribed;
 };
 
 export const serverActionsEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
 
   let numberOfServers = this.$store.state.user_servers.servers.length;
 
@@ -44,6 +68,11 @@ export const serverActionsEnabled = function() {
 };
 
 export const siteCreateEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
+
   if(this.isSubscribed) {
     return true;
   }
@@ -51,6 +80,11 @@ export const siteCreateEnabled = function() {
 }
 
 export const serverCreateEnabled = function() {
+
+  if(this.isAdmin) {
+    return true;
+  }
+
   let numberOfServers = this.$store.state.user_servers.servers.length;
 
   if(!this.isSubscribed) {
