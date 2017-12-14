@@ -41,8 +41,7 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -53,15 +52,13 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
                 $serverService->removeEnvironmentVariable($this->server, $this->environmentVariable);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->environmentVariables()->detach($this->environmentVariable->id);
 
-            $this->server->environmentVariables()->detach($this->environmentVariable->id);
-
-            $this->environmentVariable->load('servers');
-            if ($this->environmentVariable->servers->count() == 0) {
-                $this->environmentVariable->delete();
+                $this->environmentVariable->load('servers');
+                if ($this->environmentVariable->servers->count() == 0) {
+                    $this->environmentVariable->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this environment variable', false);

@@ -43,8 +43,7 @@ class InstallServerFirewallRule implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -70,11 +69,9 @@ class InstallServerFirewallRule implements ShouldQueue
                 }
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            if ($this->wasSuccessful()) {
+                $this->server->firewallRules()->save($this->firewallRule);
             }
-
-            $this->server->firewallRules()->save($this->firewallRule);
         }
     }
 }

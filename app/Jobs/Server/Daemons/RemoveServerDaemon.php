@@ -40,8 +40,7 @@ class RemoveServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -52,15 +51,13 @@ class RemoveServerDaemon implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeDaemon($this->daemon);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->cronJobs()->detach($this->daemon->id);
 
-            $this->server->cronJobs()->detach($this->daemon->id);
-
-            $this->daemon->load('servers');
-            if ($this->daemon->servers->count() == 0) {
-                $this->daemon->delete();
+                $this->daemon->load('servers');
+                if ($this->daemon->servers->count() == 0) {
+                    $this->daemon->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this daemon', false);

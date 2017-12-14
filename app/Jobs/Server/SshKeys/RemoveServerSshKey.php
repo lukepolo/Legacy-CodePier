@@ -41,8 +41,7 @@ class RemoveServerSshKey implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -53,15 +52,13 @@ class RemoveServerSshKey implements ShouldQueue
                 $serverService->removeSshKey($this->server, $this->sshKey);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->sshKeys()->detach($this->sshKey->id);
 
-            $this->server->sshKeys()->detach($this->sshKey->id);
-
-            $this->sshKey->load('servers');
-            if ($this->sshKey->servers->count() == 0) {
-                $this->sshKey->delete();
+                $this->sshKey->load('servers');
+                if ($this->sshKey->servers->count() == 0) {
+                    $this->sshKey->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this ssh key', false);

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Exceptions\ServerCommandFailed;
 use Closure;
 use App\Models\Command;
 use App\Models\Server\Server;
@@ -97,6 +98,7 @@ trait ServerCommandTrait
                         throw $e;
                     }
                     $message = 'We had a system error please contact support.';
+                    app('sentry')->captureException($e);
                     break;
             }
 

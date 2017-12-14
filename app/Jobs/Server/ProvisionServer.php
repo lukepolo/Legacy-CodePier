@@ -122,4 +122,9 @@ class ProvisionServer implements ShouldQueue
             'parameters' => $parameters,
         ]);
     }
+
+    public function fail($exception = null)
+    {
+        // we will let our system fail it out
+    }
 }

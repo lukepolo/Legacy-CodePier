@@ -42,8 +42,7 @@ class RemoveServerFirewallRule implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -63,15 +62,13 @@ class RemoveServerFirewallRule implements ShouldQueue
                 }
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->firewallRules()->detach($this->firewallRule->id);
 
-            $this->server->firewallRules()->detach($this->firewallRule->id);
-
-            $this->firewallRule->load('servers');
-            if ($this->firewallRule->servers->count() == 0) {
-                $this->firewallRule->delete();
+                $this->firewallRule->load('servers');
+                if ($this->firewallRule->servers->count() == 0) {
+                    $this->firewallRule->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
