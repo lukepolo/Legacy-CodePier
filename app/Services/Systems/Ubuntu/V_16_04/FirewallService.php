@@ -9,7 +9,7 @@ class FirewallService
 {
     use ServiceConstructorTrait;
 
-    protected $lock = 'flock -w 30  /opt/codepier/ufw.lock -c';
+    protected $lock = 'flock -w 90 /opt/ufw.lock -c';
 
     public function addBasicFirewallRules()
     {
