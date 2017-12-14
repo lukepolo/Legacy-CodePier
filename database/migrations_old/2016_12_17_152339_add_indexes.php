@@ -163,11 +163,7 @@ class AddIndexes extends Migration
             });
         }
 
-        Schema::table('users', function (Blueprint $tableModifying) {
-            $tableModifying->dropIndex('users_email_unique');
-            $tableModifying->index('user_login_provider_id');
-            $tableModifying->unique(['email', 'user_login_provider_id']);
-        });
+
     }
 
     /**
