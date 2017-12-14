@@ -52,11 +52,13 @@ class CheckSshConnection implements ShouldQueue
         }
     }
 
-    public function failed() {
+    public function failed()
+    {
         $this->tryAgain();
     }
 
-    private function tryAgain() {
+    private function tryAgain()
+    {
         if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
             dispatch(
                 (new self($this->server))
