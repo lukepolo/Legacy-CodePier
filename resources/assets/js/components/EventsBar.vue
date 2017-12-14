@@ -235,11 +235,14 @@ Vue.directive('watch-scroll', {
                 if (nextPage <= pagination.last_page) {
                     container.bind('scroll', function () {
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
-                            form.page = nextPage
-                            $('#events-loading').removeClass('hide')
-                            app.$store.dispatch('events/get', form).then((data) => {
-                                $('#events-loading').addClass('hide')
-                            })
+                            if(form.page !== nextPage) {
+                                form.page = nextPage
+                                $('#events-loading').removeClass('hide');
+
+                                app.$store.dispatch('events/get', form).then((data) => {
+                                    $('#events-loading').addClass('hide')
+                                })
+                            }
                         }
                     })
                 }
