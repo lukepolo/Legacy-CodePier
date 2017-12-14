@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeploymentEventsTable extends Migration
+class CreateServerCommandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +13,23 @@ class CreateDeploymentEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('deployment_events', function (Blueprint $table) {
+        Schema::create('server_commands', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('deployment_step_id');
+            $table->unsignedInteger('command_id');
+            $table->unsignedInteger('server_id');
             $table->boolean('started')->default(0);
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
             $table->json('log')->nullable();
+            $table->string('description')->nullable();
+
             $table->timestamps();
 
-            $table->unsignedInteger('site_server_deployment_id');
-
-            $table->index('deployment_step_id');
-            $table->index('site_server_deployment_id');
+            $table->index('command_id');
+            $table->index('server_id');
+            $table->index(['failed', 'completed']);
+            $table->index(['failed', 'completed', 'started']);
         });
     }
 
@@ -36,6 +40,6 @@ class CreateDeploymentEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deployment_events');
+        Schema::dropIfExists('server_commands');
     }
 }

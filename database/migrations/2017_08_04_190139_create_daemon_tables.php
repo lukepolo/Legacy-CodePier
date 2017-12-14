@@ -19,13 +19,17 @@ class CreateDaemonTables extends Migration
             $table->string('command');
             $table->json('server_ids')->nullable();
             $table->json('server_types')->nullable();
+
             $table->timestamps();
+
+            $table->index(['user', 'command']);
         });
 
         Schema::create('daemonables', function (Blueprint $table) {
-            $table->integer('daemon_id');
-            $table->integer('daemonable_id');
+            $table->unsignedInteger('daemon_id');
+            $table->unsignedInteger('daemonable_id');
             $table->string('daemonable_type');
+
             $table->index(['daemon_id', 'daemonable_id', 'daemonable_type'], 'daemonable_indexs');
         });
     }

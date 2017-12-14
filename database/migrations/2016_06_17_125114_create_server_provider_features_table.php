@@ -14,13 +14,16 @@ class CreateServerProviderFeaturesTable extends Migration
     {
         Schema::create('server_provider_features', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_provider_id');
+            $table->unsignedInteger('server_provider_id');
             $table->string('feature');
             $table->string('option');
             $table->boolean('default');
             $table->string('cost')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('server_provider_id');
         });
     }
 

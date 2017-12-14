@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNotificationProvidersTable extends Migration
+class CreatePileTeamTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +13,13 @@ class CreateNotificationProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('notification_providers', function (Blueprint $table) {
+        Schema::create('pile_team', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('provider_name');
+            $table->unsignedInteger('pile_id');
+            $table->unsignedInteger('team_id');
 
-            $table->timestamps();
-
-            $table->index('provider_name');
+            $table->index('pile_id');
+            $table->index('team_id');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateNotificationProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_providers');
+        Schema::dropIfExists('pile_team');
     }
 }
