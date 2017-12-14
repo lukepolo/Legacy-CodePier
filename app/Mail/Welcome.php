@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BetaInvite extends Mailable
+class Welcome extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,7 +17,7 @@ class BetaInvite extends Mailable
      */
     public function build()
     {
-        return $this->from('luke@codepier.io', 'Luke Policinski')
-            ->markdown('mail.beta_invite');
+        return $this->from('hello@codepier.io', 'CodePier')
+            ->markdown('mail.welcome');
     }
 }
