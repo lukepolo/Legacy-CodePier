@@ -21,7 +21,7 @@ class CreateServerProviderRegionsTable extends Migration
             $table->timestamps();
 
             $table->index('server_provider_id');
-            $table->integer('region_id')->nullable();
+            $table->unsignedInteger('region_id')->nullable();
         });
     }
 

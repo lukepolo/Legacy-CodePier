@@ -29,8 +29,8 @@ class CreateSllCertificateTables extends Migration
         });
 
         Schema::create('sslCertificateables', function (Blueprint $table) {
-            $table->integer('ssl_certificate_id');
-            $table->integer('sslCertificateable_id');
+            $table->unsignedInteger('ssl_certificate_id');
+            $table->unsignedInteger('sslCertificateable_id');
             $table->string('sslCertificateable_type');
             $table->index(['ssl_certificate_id', 'sslCertificateable_id', 'sslCertificateable_type'], 'sslCertificateables_indexs');
         });

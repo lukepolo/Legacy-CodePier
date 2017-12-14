@@ -22,8 +22,8 @@ class CreateCategoriesTable extends Migration
         });
 
         Schema::create('categorables', function (Blueprint $table) {
-            $table->integer('category_id');
-            $table->integer('categorable_id');
+            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('categorable_id');
             $table->string('categorable_type');
             $table->timestamps();
 

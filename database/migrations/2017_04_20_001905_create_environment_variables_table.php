@@ -24,8 +24,8 @@ class CreateEnvironmentVariablesTable extends Migration
         });
 
         Schema::create('environmentables', function (Blueprint $table) {
-            $table->integer('environment_variable_id');
-            $table->integer('environmentable_id');
+            $table->unsignedInteger('environment_variable_id');
+            $table->unsignedInteger('environmentable_id');
             $table->string('environmentable_type');
 
             $table->index(['environment_variable_id', 'environmentable_id', 'environmentable_type'], 'env_variables');
