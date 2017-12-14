@@ -35,13 +35,6 @@
                     <div class="small">You have not created an account ssh key</div>
                 </router-link>
             </div>
-
-            <div class="slack-invite" v-if="!user.invited_to_slack">
-                <a :href="slackInviteLink()">
-                    <i class="fa fa-slack" aria-hidden="true"></i>
-                    Get Invite to Slack
-                </a>
-            </div>
         </div>
 
     </section>
@@ -58,11 +51,7 @@
             Site,
             SiteForm
         },
-        methods: {
-            slackInviteLink () {
-                return this.action('User\UserController@slackInvite')
-            }
-        },
+
         computed: {
             userSshKeys () {
                 return this.$store.state.user_ssh_keys.ssh_keys
