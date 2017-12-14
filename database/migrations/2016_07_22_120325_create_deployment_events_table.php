@@ -22,7 +22,7 @@ class CreateDeploymentEventsTable extends Migration
             $table->json('log')->nullable();
             $table->timestamps();
 
-            $table->integer('site_server_deployment_id');
+            $table->unsignedInteger('site_server_deployment_id');
 
             $table->index('deployment_step_id');
             $table->index('site_server_deployment_id');

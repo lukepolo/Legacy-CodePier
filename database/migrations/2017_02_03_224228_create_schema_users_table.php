@@ -23,8 +23,8 @@ class CreateSchemaUsersTable extends Migration
         });
 
         Schema::create('schema_userables', function (Blueprint $table) {
-            $table->integer('schema_user_id');
-            $table->integer('schema_userable_id');
+            $table->unsignedInteger('schema_user_id');
+            $table->unsignedInteger('schema_userable_id');
             $table->string('schema_userable_type');
 
             $table->index(['schema_user_id', 'schema_userable_id', 'schema_userable_type'], 'schema_user_index');

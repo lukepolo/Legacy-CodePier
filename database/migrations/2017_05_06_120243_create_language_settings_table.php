@@ -22,8 +22,8 @@ class CreateLanguageSettingsTable extends Migration
         });
 
         Schema::create('language_settingables', function (Blueprint $table) {
-            $table->integer('language_setting_id');
-            $table->integer('language_settingable_id');
+            $table->unsignedInteger('language_setting_id');
+            $table->unsignedInteger('language_settingable_id');
             $table->string('language_settingable_type');
             $table->index(['language_setting_id', 'language_settingable_id', 'language_settingable_type'], 'language_settings');
         });

@@ -14,7 +14,7 @@ class CreateSiteDeploymentsTable extends Migration
     {
         Schema::create('site_deployments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id');
+            $table->unsignedInteger('site_id');
             $table->string('status');
             $table->string('git_commit')->nullable();
             $table->string('commit_message')->nullable();

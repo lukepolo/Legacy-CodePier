@@ -26,8 +26,8 @@ class CreateSiteFirewallRulesTable extends Migration
         });
 
         Schema::create('firewallRuleables', function (Blueprint $table) {
-            $table->integer('firewall_rule_id');
-            $table->integer('firewallRuleable_id');
+            $table->unsignedInteger('firewall_rule_id');
+            $table->unsignedInteger('firewallRuleable_id');
             $table->string('firewallRuleable_type');
             $table->index(['firewall_rule_id', 'firewallRuleable_id', 'firewallRuleable_type'], 'fireable_indexs');
         });

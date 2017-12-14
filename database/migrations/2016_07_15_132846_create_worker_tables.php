@@ -18,7 +18,7 @@ class CreateWorkerTables extends Migration
             $table->string('user');
             $table->boolean('auto_start');
             $table->boolean('auto_restart');
-            $table->integer('number_of_workers');
+            $table->unsignedInteger('number_of_workers');
             $table->json('server_ids')->nullable();
             $table->json('server_types')->nullable();
 
@@ -26,8 +26,8 @@ class CreateWorkerTables extends Migration
         });
 
         Schema::create('workerables', function (Blueprint $table) {
-            $table->integer('worker_id');
-            $table->integer('workerable_id');
+            $table->unsignedInteger('worker_id');
+            $table->unsignedInteger('workerable_id');
             $table->string('workerable_type');
             $table->index(['worker_id', 'workerable_id', 'workerable_type'], 'workerable_indexs');
         });

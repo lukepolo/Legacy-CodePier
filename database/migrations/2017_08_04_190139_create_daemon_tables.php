@@ -26,8 +26,8 @@ class CreateDaemonTables extends Migration
         });
 
         Schema::create('daemonables', function (Blueprint $table) {
-            $table->integer('daemon_id');
-            $table->integer('daemonable_id');
+            $table->unsignedInteger('daemon_id');
+            $table->unsignedInteger('daemonable_id');
             $table->string('daemonable_type');
 
             $table->index(['daemon_id', 'daemonable_id', 'daemonable_type'], 'daemonable_indexs');

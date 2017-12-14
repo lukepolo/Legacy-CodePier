@@ -26,8 +26,8 @@ class CreateCronJobsTable extends Migration
         });
 
         Schema::create('cronJobables', function (Blueprint $table) {
-            $table->integer('cron_job_id');
-            $table->integer('cronJobable_id');
+            $table->unsignedInteger('cron_job_id');
+            $table->unsignedInteger('cronJobable_id');
             $table->string('cronJobable_type');
             $table->index(['cron_job_id', 'cronJobable_id', 'cronJobable_type']);
         });
