@@ -82,7 +82,7 @@
                             and let the site dictate how your server is built.
                         </h3>
                         <router-link :to="{ name : 'server_form' }">
-                            <a class="btn btn-primary" :class="{ 'btn-disabled' : !serverActionsEnabled }">Create A Server</a>
+                            <a class="btn btn-primary" :class="{ 'btn-disabled' : !serverCreateEnabled }">Create A Server</a>
                         </router-link>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ import { getBytesFromString } from "./file-size";
 
 import { local } from "./environment";
 
-import { isAdmin, isSubscribed, teamsEnabled, siteActionsEnabled, serverActionsEnabled, serverTypesEnabled, apiEnabled } from "./permissions";
+import { isAdmin, isSubscribed, teamsEnabled, siteActionsEnabled, serverActionsEnabled, serverTypesEnabled, apiEnabled, siteCreateEnabled, serverCreateEnabled } from "./permissions";
 
 import { showError, showSuccess, handleApiError } from "./notifications";
 
@@ -56,8 +56,10 @@ Vue.mixin({
     apiEnabled,
     isSubscribed,
     teamsEnabled,
+    siteCreateEnabled,
     siteActionsEnabled,
     serverTypesEnabled,
+    serverCreateEnabled,
     serverActionsEnabled,
   }
 });
