@@ -18,11 +18,11 @@ class FixSiteServerConfigurations
      */
     public function __construct(Site $site)
     {
-        $serverProvisioning = $site->servers->first(function($server) {
+        $serverProvisioning = $site->servers->first(function ($server) {
             return $server->progress < 100;
         });
 
-        if(empty($serverProvisioning)) {
+        if (empty($serverProvisioning)) {
             foreach ($site->provisionedServers as $server) {
                 if (empty($excludeServer) || $server->id != $excludeServer->id) {
                     $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
