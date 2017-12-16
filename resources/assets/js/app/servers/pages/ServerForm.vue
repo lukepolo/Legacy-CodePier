@@ -77,9 +77,10 @@
                                     <div class="flyform--group-checkbox">
                                         <label>
                                             <input
-                                                    type="checkbox"
-                                                    name="server_provider_features[]"
-                                                    :value="feature.id"
+                                                type="checkbox"
+                                                name="server_provider_features[]"
+                                                :value="feature.id"
+                                                :checked="feature.default"
                                             >
                                             <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                             <small>{{ feature.cost }}</small>
