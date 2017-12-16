@@ -88,6 +88,9 @@
                <template v-if="isAdmin">
                    <li class="nav-label"><span>Admin</span></li>
                    <li>
+                       <a href="/horizon">Laravel Horizon</a>
+                   </li>
+                   <li>
                        <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                    </li>
                </template>

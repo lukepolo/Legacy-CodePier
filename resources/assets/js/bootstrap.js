@@ -99,3 +99,5 @@ if (Laravel.env !== "local") {
     .addPlugin(RavenVue, Vue)
     .install();
 }
+
+Pusher.logToConsole = true;

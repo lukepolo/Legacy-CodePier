@@ -163,10 +163,10 @@
                 <section v-else>
                     <template  v-for="event in events">
                         <template v-if="event.event_type === 'App\\Models\\Site\\SiteDeployment'">
-                            <deployment-event :event="event" :key="event.event_type+event.id"></deployment-event>
+                            <deployment-event :event="event" :key="event.event_type + '\\'  + event.id"></deployment-event>
                         </template>
                         <template v-else-if="event.event_type === 'App\\Models\\Command'">
-                            <command-event :event="event" :key="event.event_type+event.id"></command-event>
+                            <command-event :event="event" :key="event.event_type + '\\'  + event.id"></command-event>
                         </template>
                         <template v-else>
                             Invalid type {{ event.event_type }}
@@ -391,7 +391,11 @@ export default {
             },
 
             events () {
-                return this.$store.state.events.events
+                return _.orderBy(_.uniqBy(this.$store.state.events.events, (event) => {
+                    return event.event_type + event.id;
+                }), (event) => {
+                    return event.created_at;
+                }, 'desc');
             },
             events_pagination () {
                 return this.$store.state.events.events_pagination
