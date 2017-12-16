@@ -13,7 +13,7 @@
                     <div class="editor--actions">
 
                         <div class="flyform--footer-btns" v-if="!isReloading">
-                            <tooltip message="Fetch File from Remote Server" class="btn--tooltip">
+                            <tooltip message="Fetch File from Remote Server" class="btn--tooltip" v-if="siteServers">
                                 <a @click="isReloading = true" class="btn"><span class="icon-refresh2"></span></a>
                             </tooltip>
 
