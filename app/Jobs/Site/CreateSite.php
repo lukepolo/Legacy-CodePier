@@ -40,9 +40,8 @@ class CreateSite implements ShouldQueue
         $this->command = $this->makeCommand($this->site, $this->server, 'Setting up Server '.$server->name.' for '.$site->name);
 
         if (! empty($this->site->repository)) {
-            $this->chain([
-                DeploySite::dispatch($site)
-                    ->onQueue(config('queue.channels.server_commands')),
+            $this->withChain([
+                new DeploySite($site),
             ]);
         }
     }
@@ -51,6 +50,9 @@ class CreateSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function handle(SiteService $siteService)
     {
