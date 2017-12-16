@@ -51,7 +51,7 @@ class ServerCommandUpdated implements ShouldBroadcastNow
         }
 
         return [
-            'command' => strip_relations($command)
+            'command' => strip_relations($command),
         ];
     }
 }
