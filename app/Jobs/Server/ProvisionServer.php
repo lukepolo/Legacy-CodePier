@@ -59,11 +59,19 @@ class ProvisionServer implements ShouldQueue
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
 
-            foreach ($this->server->sites as $site) {
-                dispatch(
-                    (new CreateSite($this->server, $site))
-                        ->onQueue(config('queue.channels.server_commands'))
-                );
+            $serverType = $this->server->type;
+
+            if (
+                $serverType === SystemService::WEB_SERVER ||
+                $serverType === SystemService::WORKER_SERVER ||
+                $serverType === SystemService::FULL_STACK_SERVER
+            ) {
+                foreach ($this->server->sites as $site) {
+                    dispatch(
+                        (new CreateSite($this->server, $site))
+                            ->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
     }

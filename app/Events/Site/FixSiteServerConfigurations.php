@@ -16,14 +16,19 @@ class FixSiteServerConfigurations
      * Create a new job instance.
      *
      * @param Site $site
-     * @param Server $excludeServer
      */
-    public function __construct(Site $site, Server $excludeServer = null)
+    public function __construct(Site $site)
     {
-        foreach ($site->servers as $server) {
-            if (empty($excludeServer) || $server->id != $excludeServer->id) {
-                $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
-                event(new UpdateServerConfigurations($server, $site, $siteCommand));
+        $serverProvisioning = $site->servers->first(function($server) {
+            return $server->progress < 100;
+        });
+
+        if(empty($serverProvisioning)) {
+            foreach ($site->provisionedServers as $server) {
+                if (empty($excludeServer) || $server->id != $excludeServer->id) {
+                    $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
+                    event(new UpdateServerConfigurations($server, $site, $siteCommand));
+                }
             }
         }
     }

@@ -78,7 +78,6 @@ class CreateSite implements ShouldQueue
             $siteService->create($this->server, $this->site);
         }
 
-        event(new UpdateServerConfigurations($this->server, $this->site, $this->command));
-        event(new FixSiteServerConfigurations($this->site, $this->server));
+        event(new FixSiteServerConfigurations($this->site));
     }
 }

@@ -58,7 +58,7 @@ class UpdateServerFirewallRules
                                 $this->site,
                                 $port,
                                 'tcp',
-                                'Opening port '.$port.' for '.$database,
+                                $port.' for '.$database,
                                 $this->server->ip
                             );
                         }
@@ -74,7 +74,7 @@ class UpdateServerFirewallRules
                                 $this->site,
                                 $port,
                                 'tcp',
-                                'Opening port '.$port.' for '.$worker,
+                                $port.' for '.$worker,
                                 $this->server->ip
                             );
                         }
