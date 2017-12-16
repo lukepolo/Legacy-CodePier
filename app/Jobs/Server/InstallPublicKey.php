@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server;
 
+use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -27,13 +28,14 @@ class InstallPublicKey implements ShouldQueue
      *
      * @param Server $server
      * @param Site $site
+     * @param Command|null $command
      */
-    public function __construct(Server $server, Site $site)
+    public function __construct(Server $server, Site $site, Command $command = null)
     {
         $this->site = $site;
         $this->server = $server;
 
-        $this->makeCommand($server, $site, null, 'Installing sites public key for deployments');
+        $this->makeCommand($server, $site, $command, 'Installing sites public key for deployments');
     }
 
     /**

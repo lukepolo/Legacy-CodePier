@@ -51,13 +51,9 @@ Route::group([
     'prefix' => 'webhook',
     'domain' => config('app.url_stats'),
 ], function () {
-    Route::group([
-        'middleware' => 'subscribed',
-    ], function () {
-        Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
-        Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
-        Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
-    });
+    Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
+    Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
+    Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
@@ -87,11 +83,7 @@ Route::group([
 Route::group([
     'domain' => config('app.url_lifelines'),
 ], function () {
-    Route::group([
-        'middleware' => 'subscribed',
-    ], function () {
-        Route::get('{lifelineHashId}', 'LifeLineController@update');
-    });
+    Route::get('{lifelineHashId}', 'LifeLineController@update');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
