@@ -111,10 +111,11 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->client->key()->create($server->name, $server->public_ssh_key);
 
         /** @var Droplet $droplet */
+
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
-            $serverOption->memory,
+            $serverOption->memory.'mb',
             ServerService::$serverOperatingSystem,
             $backups,
             $ipv6,
