@@ -78,7 +78,7 @@ class CreateSite implements ShouldQueue
                 $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
             });
 
-            if($this->wasSuccessful() && ! empty($this->site->repository)) {
+            if ($this->wasSuccessful() && ! empty($this->site->repository)) {
                 dispatch_now(new DeploySite($this->site));
             }
         } else {
