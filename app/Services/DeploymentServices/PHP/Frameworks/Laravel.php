@@ -89,6 +89,18 @@ trait Laravel
     }
 
     /**
+     * @description Restarts Laravel Horizon Process
+     *
+     * @order 400
+     *
+     * @not_default
+     */
+    public function laravelTerminateRestartHorizon()
+    {
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan horizon:terminate');
+    }
+
+    /**
      * @description Restarts any queue workers
      *
      * @order 410
