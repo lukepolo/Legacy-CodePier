@@ -13,7 +13,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Site\FixSiteServerConfigurations;
-use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class CreateSite implements ShouldQueue
