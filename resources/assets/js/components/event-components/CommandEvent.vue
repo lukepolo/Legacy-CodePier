@@ -58,7 +58,7 @@
             <div class="events--item-commit"></div>
         </template>
         <div class="events--item-time">
-            <time-ago :timeago="event.created_at"></time-ago>
+            <time-ago :time="event.created_at"></time-ago>
         </div>
     </section>
 </template>
