@@ -95,6 +95,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $ipv6 = false;
         $backups = false;
+        $monitoring = false;
         $privateNetworking = false;
 
         $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
@@ -113,7 +114,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
-            strtolower($serverOption->getRamString()),
+            $serverOption->memory,
             ServerService::$serverOperatingSystem,
             $backups,
             $ipv6,
@@ -121,7 +122,10 @@ class DigitalOceanProvider implements ServerProviderContract
             $sshKeys = [
                 $sshPublicKey->getPublicKeyFingerprint(),
             ],
-            $userData = null
+            $userData = '',
+            $monitoring,
+            $volumes = [],
+            $tags = []
         );
 
         return $this->saveServer($server, $droplet->id);
@@ -133,6 +137,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getStatus(Server $server)
     {
@@ -145,6 +150,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     * @throws Exception
      */
     public function savePublicIP(Server $server)
     {
@@ -161,6 +167,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getPublicIP(Server $server)
     {
