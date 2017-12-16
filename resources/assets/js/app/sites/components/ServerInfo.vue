@@ -204,19 +204,20 @@
             </div>
 
             <div class="btn-container" v-if="server.progress >= 100">
-                <tooltip message="Restart web services" placement="top-right">
-                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
-                </tooltip>
 
                 <tooltip message="Restart server">
                     <confirm-sidebar dispatch="user_server_services/restart" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart databases">
+                <tooltip message="Restart web services" placement="top-right" v-if="server.type === 'full_stack' || server.type === 'web'">
+                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
+                </tooltip>
+
+                <tooltip message="Restart databases" v-if="server.type === 'full_stack' || server.type === 'database'">
                     <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart workers">
+                <tooltip message="Restart workers" v-if="server.type === 'full_stack' || server.type === 'worker'">
                     <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
                 </tooltip>
 
