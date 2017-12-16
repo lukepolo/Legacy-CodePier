@@ -50,7 +50,7 @@ class UpdateServerFirewallRules
             /** @var SiteService $siteService */
             $siteService = app(SiteServiceContract::class);
 
-            if ($this->site->hasDatabaseServers()) {
+            if ($this->site->hasDatabaseServers() || $this->site->hasFullStackServers()) {
                 foreach ($site->getDatabases() as $database) {
                     if (isset($servicesPorts[$database])) {
                         foreach ($servicesPorts[$database] as $port) {
@@ -66,7 +66,7 @@ class UpdateServerFirewallRules
                 }
             }
 
-            if ($this->site->hasWorkerServers()) {
+            if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
                 foreach ($site->getWorkers() as $worker) {
                     if (isset($servicesPorts[$worker])) {
                         foreach ($servicesPorts[$worker] as $port) {

@@ -5,20 +5,19 @@ namespace App\Jobs\Site;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use App\Traits\ModelCommandTrait;
-use App\Jobs\Server\InstallPublicKey;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Site\FixSiteServerConfigurations;
-use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CreateSite implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $site;
     private $server;
@@ -37,38 +36,27 @@ class CreateSite implements ShouldQueue
     {
         $this->site = $site;
         $this->server = $server;
-        $this->command = $this->makeCommand($this->site, $this->server, 'Setting up Server '.$server->name.' for '.$site->name);
-
-        if (! empty($this->site->repository)) {
-            $this->withChain([
-                new DeploySite($site),
-            ]);
-        }
+        $this->command = $this->makeCommand($this->server, $server, null, 'Setting up Server '.$server->name.' for '.$site->name);
     }
 
     /**
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
      */
-    public function handle(SiteService $siteService)
+    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
     {
-        $serverType = $this->server->type;
+        $start = microtime(true);
 
-        if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::WORKER_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            dispatch(
-                (new InstallPublicKey($this->server, $this->site))
-                    ->onQueue(config('queue.channels.server_commands'))
-            );
-        }
+        $this->serverCommand->update([
+            'started' => true,
+        ]);
+
+        $serverType = $this->server->type;
 
         if (
             $serverType === SystemService::WEB_SERVER ||
@@ -79,5 +67,22 @@ class CreateSite implements ShouldQueue
         }
 
         event(new FixSiteServerConfigurations($this->site));
+
+        if (
+            $serverType === SystemService::WEB_SERVER ||
+            $serverType === SystemService::WORKER_SERVER ||
+            $serverType === SystemService::LOAD_BALANCER ||
+            $serverType === SystemService::FULL_STACK_SERVER
+        ) {
+            $this->runOnServer(function () use ($remoteTaskService) {
+                $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+            });
+
+            if($this->wasSuccessful() && ! empty($this->site->repository)) {
+                dispatch_now(new DeploySite($this->site));
+            }
+        } else {
+            $this->updateServerCommand(microtime(true) - $start, ['Server Setup']);
+        }
     }
 }

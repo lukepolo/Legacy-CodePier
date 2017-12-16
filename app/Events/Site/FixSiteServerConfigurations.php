@@ -3,7 +3,6 @@
 namespace App\Events\Site;
 
 use App\Models\Site\Site;
-use App\Models\Server\Server;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Events\Server\UpdateServerConfigurations;
