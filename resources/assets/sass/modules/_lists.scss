@@ -180,10 +180,16 @@
   margin-bottom: $spacing/4;
 
   a {
+    display: flex;
+    align-items: baseline;
     color: $color-text-primary;
 
     &:hover {
       color: $color-primary;
+    }
+
+    small {
+      margin-left: 10px;
     }
   }
 
