@@ -267,20 +267,20 @@
                 }
             },
             highestDiskUsage() {
-              if(this.stats) {
+              if(this.stats && this.stats.disk_usage) {
                 return _.first(_.orderBy(this.stats.disk_usage, ['percent'], ['desc']))
               }
             },
             highestMemory() {
-              if(this.stats) {
+              if(this.stats && this.stats.memory) {
                 return _.first(_.orderBy(this.stats.memory, (memory) => {
                   return this.getMemoryUsage(memory)
                 }, ['desc']))
               }
             },
             latestLoad() {
-                if(this.stats) {
-                  return this.stats.loads[1];
+                if(this.stats && this.stats.loads) {
+                  return this.stats.loads[0];
                 }
             }
         },
