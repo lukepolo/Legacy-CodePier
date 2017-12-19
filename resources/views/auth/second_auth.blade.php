@@ -19,11 +19,11 @@
 
                         <form method="POST" action="{{ action('Auth\SecondAuthController@store') }}">
 
-                            @include('auth.errors')
-
                             {{ csrf_field() }}
 
                             <div class="flyform--content">
+                                @include('auth.errors')
+
                                 <p>Second auth is enabled for this account. Please enter your token below to log into your account.</p>
                             </div>
 
