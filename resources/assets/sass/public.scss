@@ -4,10 +4,12 @@
 @import 'modules/forms';
 
 @import 'layouts/footer';
-@import 'modules/_search-filter.scss';
+@import 'modules/search-filter.scss';
 @import 'modules/icons';
-@import 'modules/_dropdowns.scss';
-@import 'modules/_events.scss';
+@import 'modules/dropdowns.scss';
+@import 'modules/events.scss';
+
+@import 'modules/pricing';
 
 body {
   display: flex;
@@ -655,128 +657,3 @@ header {
 
 
 
-// Pricing Styles =====================
-// ====================================
-#section--pricingintro {
-  background-size: cover;
-  background-position: center bottom;
-  margin: 0px;
-  max-width: 100%;
-  background-color: rgba($gray, 1);
-  background-image: url('/assets/img/cover/Kids_Jumping.png');
-  background-size: contain;
-  background-position: left bottom;
-  height: 430px;
-
-  h1 {
-    margin-top: -180px;
-    font-size: 2.7em;
-    color: mix($color-primary, $white, 50%);
-    text-align: center;
-    padding: $spacing 0px;
-
-    @include breakpoint(sm) {
-      padding: $spacing;
-    }
-
-  }
-}
-
-#section--pricing {
-  @include breakpoint(md) {
-    position: relative;
-  }
-}
-
-
-.pricing {
-  display: flex;
-  justify-content: center;
-  margin-top: -150px;
-  margin-bottom: 100px;
-
-  &--item {
-    flex: 0 0 300px;
-    border: 1px solid $color-divider;
-    background-color: $color-background;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-
-    &:nth-child(2) {
-      margin: -20px -1px;
-      border: 3px solid $color-primary;
-
-      .pricing--header {
-        background-color: $color-primary;
-        color: $white;
-      }
-
-      small {
-        color: $color-text-inverse;
-      }
-    }
-  }
-
-  &--header {
-    text-align: center;
-    font-family: $font-heading;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    font-size: 2.5em;
-    border-bottom: 1px solid $color-divider;
-    background-color: rgba($grayLight, .2);
-
-    &-price {
-      font-size: 1.5em;
-      font-weight: 600;
-
-      small {
-        font-size: .4em;
-        font-weight: 700;
-        opacity: .6;
-        padding-left: 5px;
-      }
-    }
-  }
-
-  &--features {
-    flex: 1 0 auto;
-    font-size: 1.2em;
-    padding: 10px;
-
-    li {
-      margin-bottom: 10px;
-    }
-  }
-
-  &--footer {
-    border-top: 1px solid $color-divider;
-    text-align: center;
-    padding: 10px 20px; 
-  }
-
-  @include breakpoint(md) {
-    &--item {
-      flex: 1 1 1em;
-    }
-
-    &--header {
-      font-size: 2em;
-    }
-  }
-
-  @include breakpoint(sm) {
-    flex-direction: column;
-    margin: -50px 0px 0px;
-
-    &--item {
-      flex: 1 0 auto;
-      margin-bottom: $spacing*2;
-
-      &:nth-child(2) {
-        margin: 0px 0px $spacing*2;
-      }
-    }
-  }
-}
