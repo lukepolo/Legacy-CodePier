@@ -8,8 +8,16 @@
 header,
 footer {
   flex: 0 0 auto;
+}
+
+header {
   z-index: 300;
 }
+
+footer {
+  z-index: 200;
+}
+
 
 #xlarge-wrap {
   display: flex;
