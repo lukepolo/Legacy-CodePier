@@ -5,27 +5,52 @@
         <section id="middle" class="section-column">
             <div class="section-content">
                 <div class="login-wrap">
-                    <div class="jcf-form-wrap" id="login_form">
-                        <div class="heading">
-                            <h2>Login</h2>
+                    <div class="img-wrap">
+                        <router-link to="/">
+                            <img src="/assets/img/CP_Logo-Gray.svg" alt="CodePier" style="display: block;">
+                        </router-link>
+                    </div>
+
+
+                    <div id="login_form">
+                        <div class="flyform--heading">
+                            <h2>Second Authentication</h2>
                         </div>
 
-                        <form method="POST" class="validation-form floating-labels" action="{{ action('Auth\SecondAuthController@store') }}">
+                        <form method="POST" action="{{ action('Auth\SecondAuthController@store') }}">
 
                             @include('auth.errors')
 
                             {{ csrf_field() }}
 
-                            <div class="jcf-input-group">
-                                <input type="password" name="token" required>
-                                <label for="token"><span class="float-label">Token</span></label>
+                            <div class="flyform--content">
+                                <p>Second auth is enabled for this account. Please enter your token below to log into your account.</p>
                             </div>
 
-                            <div class="btn-footer">
-                                <button class="btn btn-primary" type="submit">Login</button>
+                            <div class="flyform--content">
+                                <div class="flyform--group">
+                                    <input type="password" name="token" placeholder="&nbsp;" required tabindex="1">
+                                    <label for="token">Token</label>
+                                </div>
+                            </div>
+
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-btns">
+                                    <button class="btn" type="submit" form="cancelForm">Cancel</button>
+                                    <button class="btn btn-primary" type="submit">Login</button>
+                                </div>
+                                <div class="flyform--footer-links">
+                                    Can't access your token? <a href="mailto:support@codepier.io">Email our support team.</a>
+                                </div>
                             </div>
                         </form>
+                        <form id="cancelForm" method="POST" action="/logout">
+                            {{ csrf_field() }}
+                        </form>
                     </div>
+
+                    @include('auth.create')
+                    @include('auth.reset')
                 </div>
             </div>
         </section>
