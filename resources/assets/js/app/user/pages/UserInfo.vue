@@ -41,19 +41,11 @@
             </div>
             <div class="flyform--footer-links">
                 <template v-if="user.second_auth_active">
-                    <a @click="deactivateSecondAuth">Deactivate Second Authentication</a>
+                    <a @click="deactivateSecondAuth" class="text-error">Deactivate Second Authentication</a>
                 </template>
                 <template v-else>
                     <template v-if="secondAuthImage">
                         <br>
-
-                        <div class="grid-10">
-                            <div class="span-1">
-
-                            </div>
-
-                            <h3 class="heading text-left span-8">Second Authentication</h3>
-                        </div>
 
                         <div class="grid-10">
                             <div class="span-1">
@@ -66,32 +58,37 @@
                             </div>
 
 
-                            <div class="span-5">
-                                <div class="flyform--group">
-                                    <input type="text" :value="secondAuthSecret" readonly placeholder=" ">
-                                    <label>Secret</label>
-                                </div>
-                                <div class="text-right">
-                                    <tooltip message="Copy to Clipboard" placement="top">
-                                        <clipboard :data="secondAuthSecret"></clipboard>
-                                    </tooltip>
-                                </div>
-
-                                <div class="flyform--group">
-                                    <input type="text" v-model="token" placeholder=" ">
-                                    <label>Token</label>
+                            <form @submit.prevent="validateSecondAuth" class="span-5">
+                                <div class="flex flex--baseline">
+                                    <div class="flyform--group flex--grow">
+                                        <input type="text" :value="secondAuthSecret" readonly placeholder=" ">
+                                        <label>Secret</label>
+                                    </div>
+                                    <div class="flex--spacing">
+                                        <tooltip message="Copy to Clipboard" placement="top">
+                                            <clipboard :data="secondAuthSecret"></clipboard>
+                                        </tooltip>
+                                    </div>
                                 </div>
 
-                                <div class="flyform--footer-btns">
-                                    <span class="btn" @click="validateSecondAuth">Validate</span>
+                                <div class="flex flex--baseline">
+                                    <div class="flyform--group flex--grow">
+                                        <input type="text" v-model="token" placeholder=" ">
+                                        <label>Token</label>
+                                    </div>
+
+                                    <div class="flex--spacing">
+                                        <button class="btn btn-small btn-primary" type="submit">Validate</button>
+                                    </div>
                                 </div>
-                            </div>
+
+                            </form>
                         </div>
 
 
                     </template>
                     <template v-else>
-                        <a @click="activateSecondAuth">Activate Second Authentication</a>
+                        <a @click="activateSecondAuth" class="text-success">Set Up Second Authentication</a>
                     </template>
                 </template>
             </div>
