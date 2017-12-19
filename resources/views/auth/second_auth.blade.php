@@ -40,7 +40,7 @@
                                     <button class="btn btn-primary" type="submit">Login</button>
                                 </div>
                                 <div class="flyform--footer-links">
-                                    Can't access your token? <a href="mailto:support@codepier.io">Email our support team.</a>
+                                    Can't access your token? <a href="mailto:support@codepier.io?subject=[2nd Auth Support]">Email our support team.</a>
                                 </div>
                             </div>
                         </form>
