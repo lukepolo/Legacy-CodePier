@@ -55,7 +55,6 @@ class SecondAuthController extends Controller
             ]);
 
             Session::put(self::SECOND_AUTH_SESSION, $valid);
-            $request->session()->save();
 
             if ($request->expectsJson()) {
                 return response()->json($request->user());
