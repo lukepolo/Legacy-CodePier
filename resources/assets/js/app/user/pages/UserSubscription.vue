@@ -1,60 +1,137 @@
 <template>
     <section>
         <template v-if="userSubscription">
-
             <div class="alert alert-warning" v-if="userSubscription.trial_ends_at">
-                You're currently on your free trial (ends {{ parseDate(userSubscription.trial_ends_at).format('l') }})
+                Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
-            <div class="alert alert-info">
-                You're currently subscribed to the <strong>{{ userSubscriptionData.subscriptionName }}</strong> plan, your next billing date is {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
-                @ {{ userSubscriptionData.subscriptionPrice }} per {{ userSubscriptionData.subscriptionInterval }}
-            </div>
-
-            <p v-if="isCanceled">
+            <div class="alert alert-error" v-if="isCanceled">
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
-            </p>
+            </div>
+
+            <div class="pricing pricing-inapp">
+                <div class="pricing--item">
+                    <div class="pricing--header">
+                        <div class="pricing--header-name">Riggers</div>
+
+                    </div>
+                    <div class="pricing--features">
+                        <div class="flyform--group-radio">
+                            <label>
+                                <input type="radio" name="plan">
+                                <span class="icon"></span>
+                                Free
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing--item">
+                    <div class="pricing--header">
+                        <div class="pricing--header-name">First Mate</div>
+                    </div>
+                    <div class="pricing--features">
+                        <div class="flyform--group-radio">
+                            <label>
+                                <input type="radio" name="plan">
+                                <span class="icon"></span>
+                                $29 / month
+                            </label>
+                        </div>
+
+                        <div class="flyform--group-radio">
+                            <label>
+                                <input type="radio" name="plan">
+                                <span class="icon"></span>
+                                $290 / year
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing--item selected">
+                    <div class="pricing--header">
+                        <div class="pricing--header-name">Captain</div>
+                    </div>
+                    <div class="pricing--features">
+                        <div class="flyform--group-radio">
+                            <label>
+                                <input type="radio" name="plan">
+                                <span class="icon"></span>
+                                $49 / month
+                            </label>
+                        </div>
+
+                        <div class="flyform--group-radio">
+                            <label>
+                                <input type="radio" name="plan" checked>
+                                <span class="icon"></span>
+                                $490 / year
+                                <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
+                            </label>
+                            <small>Next billing date: {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </template>
 
         <form @submit.prevent="createSubscription" method="post">
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
+                        <template v-if="userSubscription">
+                            Update Subscription
+                        </template>
+                        <template v-else>
+                            Select Plan
+                        </template>
+                    </button>
+                </div>
+                <div class="flyform--footer-links">
+                    <a @click="cancelSubscription" v-if="userSubscription && !isCanceled">Cancel Subscription</a>
+                </div>
+            </div>
+
+
+
+
 
             <template v-if="!userSubscription">
                 Start your 5 day free trial!
             </template>
 
-            <plans :selectedPlan.sync="form.plan"></plans>
+            <!--<plans :selectedPlan.sync="form.plan"></plans>-->
 
             <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
 
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
-                        <template v-if="userSubscription">
-                            Update
-                        </template>
-                        <template v-else>
-                            Create
-                        </template>
-                        Subscription
-                    </button>
-                </div>
-            </div>
+
         </form>
 
         <form @submit.prevent="updateCard" method="post" v-if="currentCard">
 
-            Current Card : {{ currentCard.brand }} {{ currentCard.last4 }}
+            <h3 class="flex">
+                Payment Method &nbsp;
+                <div class="heading--btns">
+                    <a class="btn-link" @click="showCreditForm = true">
+                        <span class="icon-pencil"></span>
+                    </a>
+                </div>
+            </h3>
+            {{ currentCard.brand }} ending in {{ currentCard.last4 }}
 
-            <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
+            <div v-if="showCreditForm">
+                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
+            </div>
 
-            <div class="flyform--footer">
+            <div v-if="showCreditForm" class="flyform--footer">
                 <div class="flyform--footer-btns">
+                    <span class="btn" @click="showCreditForm = false">Cancel</span>
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">Update Card</button>
                 </div>
             </div>
         </form>
 
-        <a @click="cancelSubscription" v-if="userSubscription && !isCanceled">Cancel Subscription</a>
+
 
         <template v-if="invoices.length">
             <table>
@@ -80,6 +157,7 @@
         data() {
             return {
                 card : null,
+                showCreditForm : false,
                 processing : false,
                 form: this.createForm({
                     plan: null,
