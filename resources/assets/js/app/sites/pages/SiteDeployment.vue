@@ -113,6 +113,7 @@
 </template>
 
 <script>
+
     import dr
 import draggable from "vuedraggable";
 

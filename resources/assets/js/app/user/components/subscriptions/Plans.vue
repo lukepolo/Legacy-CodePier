@@ -42,9 +42,9 @@ export default {
   },
   computed: {
     isActive() {
-      if(this.userSubscription) {
+      if (this.userSubscription) {
         return _.find(this.plans, {
-          id : this.userSubscription.stripe_plan
+          id: this.userSubscription.stripe_plan
         });
       }
     },

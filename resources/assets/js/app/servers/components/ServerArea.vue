@@ -56,6 +56,7 @@
 </template>
 
 <script>
+
     import LeftNav from '../../../components/LeftNav';
     import ServerHeader from './ServerHeader';
 
