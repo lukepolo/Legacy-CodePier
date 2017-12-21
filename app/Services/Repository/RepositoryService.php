@@ -46,10 +46,11 @@ class RepositoryService implements RepositoryServiceContract
 
         // We only import to github if we haven't said its private
         if (! $site->private && $this->isPrivate($site)) {
-            \Log::info('we should be importing');
-
             try {
                 $providerService->importSshKey($site);
+                $site->update([
+                    'ssh_key_imported' => true
+                ]);
             } catch (\Exception $e) {
                 if ($e instanceof DeployKeyAlreadyUsed) {
                     $this->importSshKey($site);
@@ -131,6 +132,7 @@ class RepositoryService implements RepositoryServiceContract
     public function generateNewSshKeys(Site $site)
     {
         $sshKey = $this->remoteTaskService->createSshKey();
+        $site->private = false;
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();

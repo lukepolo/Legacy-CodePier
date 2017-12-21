@@ -32,6 +32,7 @@ class CreateSitesTable extends Migration
             $table->unsignedInteger('keep_releases')->default(10);
 
             $table->boolean('private')->default(0);
+            $table->boolean('ssh_key_imported')->default(0);
 
             $table->text('public_ssh_key')->nullable();
             $table->text('private_ssh_key')->nullable();
