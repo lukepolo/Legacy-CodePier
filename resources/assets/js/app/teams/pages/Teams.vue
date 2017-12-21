@@ -106,69 +106,67 @@
 </template>
 
 <script>
-    import LeftNav from '../../../components/LeftNav';
-    export default {
-        components: {
-            LeftNav,
-        },
-        data() {
-            return {
-                updating_team: false,
-                creating_team: false,
-                create_form: this.createForm({
-                    piles: [],
-                    name: null
+import LeftNav from "../../../components/LeftNav";
+export default {
+  components: {
+    LeftNav
+  },
+  data() {
+    return {
+      updating_team: false,
+      creating_team: false,
+      create_form: this.createForm({
+        piles: [],
+        name: null
+      }),
+      edit_form: this.createForm({
+        piles: [],
+        name: null,
+        team: null
+      })
+    };
+  },
+  methods: {
+    createTeam() {
+      this.$store.dispatch("createTeam", this.create_form).then(() => {
+        this.create_form.reset();
+      });
+    },
+    updateTeam() {
+      this.$store.dispatch("updateTeam", this.edit_form).then(() => {
+        this.edit_form.reset();
+      });
+    },
+    deleteTeam: function(team_id) {
+      this.$store.dispatch("deleteTeam", team_id);
+    },
+    isOwnerOfTeam: function(team) {
+      return team.owner_id === this.$store.state.user.user.id;
+    },
+    createTeamForm() {
+      this.create_form.reset();
+      this.edit_form.reset();
+      this.creating_team = true;
+      this.updating_team = false;
+    },
+    editTeam: function(team) {
+      this.updating_team = true;
+      this.creating_team = false;
 
-                }),
-                edit_form: this.createForm({
-                    piles: [],
-                    name: null,
-                    team: null
-                })
-            }
-        },
-        methods: {
-            createTeam() {
-                this.$store.dispatch('createTeam', this.create_form).then(() => {
-                    this.create_form.reset()
-                });
-            },
-            updateTeam() {
-                this.$store.dispatch('updateTeam', this.edit_form).then(() => {
-                    this.edit_form.reset()
-                });
-            },
-            deleteTeam: function (team_id) {
-                this.$store.dispatch('deleteTeam', team_id);
-            },
-            isOwnerOfTeam: function (team) {
-                return team.owner_id === this.$store.state.user.user.id;
-            },
-            createTeamForm() {
-                this.create_form.reset()
-                this.edit_form.reset()
-                this.creating_team = true
-                this.updating_team = false
-            },
-            editTeam: function (team) {
+      this.create_form.reset();
 
-                this.updating_team = true;
-                this.creating_team = false;
-
-                this.create_form.reset()
-
-                this.edit_form.team = team.id;
-                this.edit_form.name = team.name;
-                this.edit_form.piles = _.map(team.piles, 'id');
-            }
-        },
-        computed: {
-            teams() {
-                return this.$store.state.user_teams.teams;
-            },
-            all_user_piles() {
-                return this.$store.state.user_piles.all_user_piles;
-            }
-        }
+      this.edit_form.team = team.id;
+      this.edit_form.name = team.name;
+      this.edit_form.piles = _.map(team.piles, "id");
     }
+  },
+  computed: {
+    teams() {
+      return this.$store.state.user_teams.teams;
+    },
+    all_user_piles() {
+      return this.$store.state.user_piles.all_user_piles;
+    }
+  }
+};
 </script>

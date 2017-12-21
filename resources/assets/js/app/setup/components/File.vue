@@ -60,90 +60,95 @@
 </template>
 
 <script>
-  export default {
-    props: ['file', 'running', 'forceShow', 'deletable'],
-    data () {
-      return {
-        showFile : this.forceShow,
-        reload_server: null,
-        isReloading : false,
+export default {
+  props: ["file", "running", "forceShow", "deletable"],
+  data() {
+    return {
+      showFile: this.forceShow,
+      reload_server: null,
+      isReloading: false
+    };
+  },
+  mounted() {
+    this.renderContent();
+  },
+  methods: {
+    renderContent() {
+      let editor = this.$refs.editor;
+      ace
+        .edit(editor)
+        .setValue(
+          this.file.unencrypted_content ? this.file.unencrypted_content : ""
+        );
+      ace.edit(editor).clearSelection(1);
+    },
+    deleteFile() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_files/destroy", {
+          site: this.siteId,
+          file: this.file.id
+        });
+      }
+
+      if (this.serverId) {
+        this.$store.dispatch("user_server_files/destroy", {
+          server: this.serverId,
+          file: this.file.id
+        });
       }
     },
-    mounted() {
-      this.renderContent();
+    saveFile() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_files/update", {
+          site: this.siteId,
+          content: this.getContent(),
+          file_id: this.file.id
+        });
+      }
+
+      if (this.serverId) {
+        this.$store.dispatch("user_server_files/update", {
+          server: this.serverId,
+          content: this.getContent(),
+          file_id: this.file.id
+        });
+      }
     },
-    methods: {
-      renderContent() {
-          let editor = this.$refs.editor
-          ace.edit(editor).setValue(this.file.unencrypted_content ? this.file.unencrypted_content : '')
-          ace.edit(editor).clearSelection(1)
-      },
-      deleteFile() {
-        if(this.siteId) {
-          this.$store.dispatch('user_site_files/destroy', {
-            site: this.siteId,
-            file: this.file.id
-          })
-        }
-
-        if(this.serverId) {
-          this.$store.dispatch('user_server_files/destroy', {
-            server: this.serverId,
-            file: this.file.id
-          })
-        }
-
-      },
-      saveFile () {
-        if(this.siteId) {
-          this.$store.dispatch('user_site_files/update', {
-            site: this.siteId,
-            content: this.getContent(),
-            file_id: this.file.id,
-          })
-        }
-
-        if(this.serverId) {
-          this.$store.dispatch('user_server_files/update', {
-            server: this.serverId,
-            content: this.getContent(),
-            file_id: this.file.id,
-          })
-        }
-
-      },
-      reloadFile () {
-        this.$store.dispatch('user_site_files/reload', {
+    reloadFile() {
+      this.$store
+        .dispatch("user_site_files/reload", {
           file: this.file.id,
           server: this.reload_server,
-          site: this.siteId,
+          site: this.siteId
         })
         .then(() => {
-            this.isReloading = false;
-            this.renderContent();
-        })
-      },
-      getContent () {
-        return ace.edit(this.$refs.editor).getValue()
-      },
+          this.isReloading = false;
+          this.renderContent();
+        });
     },
-    computed: {
-      siteId() {
-        return this.$route.params.site_id
-      },
-      serverId() {
-        return this.$route.params.server_id
-      },
-      siteServers () {
-        let servers = this.$store.getters['user_site_servers/getServers'](this.siteId)
+    getContent() {
+      return ace.edit(this.$refs.editor).getValue();
+    }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    siteServers() {
+      let servers = this.$store.getters["user_site_servers/getServers"](
+        this.siteId
+      );
 
-        let server = _.first(servers)
-        if (server) {
-          this.reload_server = server.id
-        }
+      let server = _.first(servers);
+      if (server) {
+        this.reload_server = server.id;
+      }
 
-        return servers
-      },
+      return servers;
     }
   }
+};
 </script>

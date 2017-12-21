@@ -94,66 +94,74 @@
 </template>
 
 <script>
-    import ServerInfo from './ServerInfo';
-    import ServerCreateList from './ServerCreateList'
+import ServerInfo from "./ServerInfo";
+import ServerCreateList from "./ServerCreateList";
 
-    export default {
-        components : {
-            ServerInfo,
-            ServerCreateList
-        },
-        data()  {
-            return {
-                connectServers : false,
-                form: this.createForm({
-                    connected_servers: []
-                }),
-            }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData',
-        },
-        methods: {
-            fetchData() {
-                this.connectServers = false
-                this.form.connected_servers = []
-            },
-            linkServers() {
-                this.form.site = this.$route.params.site_id
-                this.$store.dispatch('user_site_servers/updateLinks', this.form).then(() => {
-                    this.connectServers = false
-                })
-            },
-            resetAttachedServers() {
-                this.connectServers = false
-                this.form.connected_servers = _.map(this.siteServers, 'id')
-            }
-        },
-        computed: {
-            user() {
-                return this.$store.state.user.user
-            },
-            site() {
-                return this.$store.state.user_sites.site;
-            },
-            siteServers() {
-                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-            },
-            availableServers() {
-                return _.filter(this.$store.state.user_servers.servers, (server) => {
-                    if(server.progress >= 100 && server.pile_id === this.user.current_pile_id) {
-                        return true
-                    }
-                });
-            },
-            attachServersText() {
-                let serverCount = this.form.connected_servers.length
-                return 'Attach ' + _('server').pluralize(serverCount > 0 ? serverCount : 1)
-            }
-
-        }
+export default {
+  components: {
+    ServerInfo,
+    ServerCreateList
+  },
+  data() {
+    return {
+      connectServers: false,
+      form: this.createForm({
+        connected_servers: []
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      this.connectServers = false;
+      this.form.connected_servers = [];
+    },
+    linkServers() {
+      this.form.site = this.$route.params.site_id;
+      this.$store
+        .dispatch("user_site_servers/updateLinks", this.form)
+        .then(() => {
+          this.connectServers = false;
+        });
+    },
+    resetAttachedServers() {
+      this.connectServers = false;
+      this.form.connected_servers = _.map(this.siteServers, "id");
     }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
+    site() {
+      return this.$store.state.user_sites.site;
+    },
+    siteServers() {
+      return this.$store.getters["user_site_servers/getServers"](
+        this.$route.params.site_id
+      );
+    },
+    availableServers() {
+      return _.filter(this.$store.state.user_servers.servers, server => {
+        if (
+          server.progress >= 100 &&
+          server.pile_id === this.user.current_pile_id
+        ) {
+          return true;
+        }
+      });
+    },
+    attachServersText() {
+      let serverCount = this.form.connected_servers.length;
+      return (
+        "Attach " + _("server").pluralize(serverCount > 0 ? serverCount : 1)
+      );
+    }
+  }
+};
 </script>

@@ -18,81 +18,85 @@
 </template>
 
 <script>
-  import File from './File';
+import File from "./File";
 
-  export default {
-    data() {
-      return {
-        form : this.createForm({
-          file : ''
-        })
-      }
-    },
-    components : {
-      File
-    },
-    methods: {
-      isRunningCommandFor(file) {
-        if(this.siteId && this.modelFiles) {
-          let foundFile =_.find(this.modelFiles, { id : file.id });
-          if(foundFile) {
-            return this.isCommandRunning('App\\Models\\File', foundFile.id);
-          }
-        }
-        return false;
-      },
-      addCustomFile() {
-           if(this.siteId) {
-             this.$store.dispatch('user_site_files/find', {
-               custom : true,
-               site : this.siteId,
-               file : this.form.file,
-             }).then(() => {
-               this.form.file = '';
-             });
-           }
-
-           if(this.serverId) {
-             this.$store.dispatch('user_server_files/find', {
-               custom : true,
-               file : this.form.file,
-               server : this.serverId,
-             }).then(() => {
-               this.form.file = '';
-             });
-           }
-      },
-    },
-    computed: {
-      runningCommands() {
-        return this.$store.state.commands.running_commands;
-      },
-      siteId() {
-        return this.$route.params.site_id
-      },
-      serverId() {
-        return this.$route.params.server_id
-      },
-      site() {
-        return this.$store.state.user_sites.site;
-      },
-      server() {
-        return this.$store.state.user_servers.server;
-      },
-      files() {
-        return _.filter(this.modelFiles.files, function(file) {
-            return file.custom;
-        });
-      },
-      modelFiles() {
-        if(this.siteId) {
-          return this.$store.state.user_site_files;
-        }
-
-        if(this.serverId) {
-          return this.$store.state.user_server_files;
+export default {
+  data() {
+    return {
+      form: this.createForm({
+        file: ""
+      })
+    };
+  },
+  components: {
+    File
+  },
+  methods: {
+    isRunningCommandFor(file) {
+      if (this.siteId && this.modelFiles) {
+        let foundFile = _.find(this.modelFiles, { id: file.id });
+        if (foundFile) {
+          return this.isCommandRunning("App\\Models\\File", foundFile.id);
         }
       }
+      return false;
     },
+    addCustomFile() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_files/find", {
+            custom: true,
+            site: this.siteId,
+            file: this.form.file
+          })
+          .then(() => {
+            this.form.file = "";
+          });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_files/find", {
+            custom: true,
+            file: this.form.file,
+            server: this.serverId
+          })
+          .then(() => {
+            this.form.file = "";
+          });
+      }
+    }
+  },
+  computed: {
+    runningCommands() {
+      return this.$store.state.commands.running_commands;
+    },
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    site() {
+      return this.$store.state.user_sites.site;
+    },
+    server() {
+      return this.$store.state.user_servers.server;
+    },
+    files() {
+      return _.filter(this.modelFiles.files, function(file) {
+        return file.custom;
+      });
+    },
+    modelFiles() {
+      if (this.siteId) {
+        return this.$store.state.user_site_files;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_files;
+      }
+    }
   }
+};
 </script>

@@ -44,37 +44,40 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                this.$store.dispatch('user_server_sites/get', this.$route.params.server_id);
-            },
-            isZerotimeDeployment(site) {
-                if (site.zerotime_deployment) {
-                    return true;
-                }
-                return false;
-            },
-            hasActiveSSL(site) {
-                if (site.activeSsl) {
-                    return true;
-                }
-                return false;
-            }
-        },
-        computed: {
-            server() {
-                return this.$store.state.user_servers.server;
-            },
-            sites() {
-                return this.$store.state.user_server_sites.sites;
-            }
-        }
+export default {
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch(
+        "user_server_sites/get",
+        this.$route.params.server_id
+      );
+    },
+    isZerotimeDeployment(site) {
+      if (site.zerotime_deployment) {
+        return true;
+      }
+      return false;
+    },
+    hasActiveSSL(site) {
+      if (site.activeSsl) {
+        return true;
+      }
+      return false;
     }
+  },
+  computed: {
+    server() {
+      return this.$store.state.user_servers.server;
+    },
+    sites() {
+      return this.$store.state.user_server_sites.sites;
+    }
+  }
+};
 </script>

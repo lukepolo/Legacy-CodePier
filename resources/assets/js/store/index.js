@@ -13,7 +13,7 @@ Vue.Request = Request;
 
 Vue.action = action;
 
-Vue.request = (data) => {
+Vue.request = data => {
   return new Request(data);
 };
 

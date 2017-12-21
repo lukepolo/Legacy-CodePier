@@ -93,95 +93,93 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            this.$store.dispatch('admin_categories/get').then(() => {
-                this.$store.dispatch('buoys/show', this.buoyAppId).then((buoy) => {
-
-                    this.form.icon = buoy.icon
-                    this.form.ports = buoy.ports
-                    this.form.title = buoy.title
-                    this.form.active = buoy.active
-                    this.form.options = buoy.options
-                    this.form.buoy_class = buoy.buoy_class
-                    this.form.description = buoy.description
-                    if(buoy.categories.length) {
-                        this.form.category = buoy.categories[0].id
-                    }
-
-                })
-            })
-        },
-        data() {
-            return {
-                form : this.createForm({
-                    ports : [],
-                    icon : null,
-                    options : [],
-                    title : null,
-                    active : false,
-                    category : null,
-                    buoy_class : null,
-                    description : null,
-                }),
-                image : null
-            }
-        },
-        methods: {
-            saveBuoy() {
-                let form = this.form
-                let data = new FormData()
-
-                data.append('icon', form.icon)
-                data.append('title', form.title)
-                data.append('active', form.active)
-                data.append('category', form.category)
-                data.append('buoy_class', form.buoy_class)
-                data.append('description', form.description)
-                data.append('ports', JSON.stringify(form.ports))
-                data.append('options', JSON.stringify(form.options))
-
-                this.$store.dispatch('buoys/update', {
-                    form : data,
-                    buoy_app: this.buoyAppId,
-                })
-            },
-            createImage(file) {
-                const reader = new FileReader()
-
-                reader.onload = (e) => {
-                    this.image = e.target.result
-                }
-
-                reader.readAsDataURL(file)
-            },
-            removeImage() {
-                this.form.icon = null
-                this.image = null
-            },
-            onFileChange(e) {
-                const files = e.target.files || e.dataTransfer.files
-                if (!files.length) {
-                    return
-                }
-
-                const image = files[0]
-
-                this.form.icon = image
-
-                this.createImage(image)
-            }
-        },
-        computed: {
-            buoyAppId() {
-                return this.$route.params.buoy_id
-            },
-            buoy() {
-                return this.$store.state.buoys.buoy_app
-            },
-            categories() {
-                return this.$store.state.admin_categories.categories
-            }
+export default {
+  created() {
+    this.$store.dispatch("admin_categories/get").then(() => {
+      this.$store.dispatch("buoys/show", this.buoyAppId).then(buoy => {
+        this.form.icon = buoy.icon;
+        this.form.ports = buoy.ports;
+        this.form.title = buoy.title;
+        this.form.active = buoy.active;
+        this.form.options = buoy.options;
+        this.form.buoy_class = buoy.buoy_class;
+        this.form.description = buoy.description;
+        if (buoy.categories.length) {
+          this.form.category = buoy.categories[0].id;
         }
+      });
+    });
+  },
+  data() {
+    return {
+      form: this.createForm({
+        ports: [],
+        icon: null,
+        options: [],
+        title: null,
+        active: false,
+        category: null,
+        buoy_class: null,
+        description: null
+      }),
+      image: null
+    };
+  },
+  methods: {
+    saveBuoy() {
+      let form = this.form;
+      let data = new FormData();
+
+      data.append("icon", form.icon);
+      data.append("title", form.title);
+      data.append("active", form.active);
+      data.append("category", form.category);
+      data.append("buoy_class", form.buoy_class);
+      data.append("description", form.description);
+      data.append("ports", JSON.stringify(form.ports));
+      data.append("options", JSON.stringify(form.options));
+
+      this.$store.dispatch("buoys/update", {
+        form: data,
+        buoy_app: this.buoyAppId
+      });
+    },
+    createImage(file) {
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        this.image = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    removeImage() {
+      this.form.icon = null;
+      this.image = null;
+    },
+    onFileChange(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length) {
+        return;
+      }
+
+      const image = files[0];
+
+      this.form.icon = image;
+
+      this.createImage(image);
     }
+  },
+  computed: {
+    buoyAppId() {
+      return this.$route.params.buoy_id;
+    },
+    buoy() {
+      return this.$store.state.buoys.buoy_app;
+    },
+    categories() {
+      return this.$store.state.admin_categories.categories;
+    }
+  }
+};
 </script>

@@ -59,105 +59,103 @@
 </template>
 
 <script>
-    import FeatureArea from './FeatureArea'
+import FeatureArea from "./FeatureArea";
 
-    export default {
-        components: {
-            FeatureArea
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        data() {
-            return {
-                section : null,
-                currentSelectedFeatures : null
-            }
-        },
-        methods: {
-            fetchData() {
+export default {
+  components: {
+    FeatureArea
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  data() {
+    return {
+      section: null,
+      currentSelectedFeatures: null
+    };
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_server_features/get", {
+          site: this.siteId,
+          server_type: this.$route.params.type
+        });
+      }
 
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_server_features/get', {
-                        site : this.siteId,
-                        server_type : this.$route.params.type
-                    });
-                }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_features/get", this.serverId);
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_features/get', this.serverId);
-                }
+      this.$store.dispatch("server_features/get");
+      this.$store.dispatch("server_languages/get");
+      this.$store.dispatch("server_frameworks/get");
+    },
+    getSectionTitle: function(area) {
+      let areaName = area;
+      if (/[a-z]/.test(area)) {
+        areaName = area.replace(/([A-Z].*)(?=[A-Z]).*/g, "$1");
+      }
+      return areaName + " Features";
+    },
+    switchSection: function(area) {
+      Vue.set(this, "section", area);
+    },
+    updateSelectedFeatures(feature, enabled) {
+      if (!this.currentSelectedFeatures[feature.service]) {
+        Vue.set(this.currentSelectedFeatures, feature.service, {});
+      }
 
-                this.$store.dispatch('server_features/get');
-                this.$store.dispatch('server_languages/get');
-                this.$store.dispatch('server_frameworks/get');
-            },
-            getSectionTitle: function (area) {
-                let areaName = area;
-                if((/[a-z]/.test(area))) {
-                    areaName = area.replace(/([A-Z].*)(?=[A-Z]).*/g, '$1')
-                }
-                return areaName + ' Features';
-            },
-            switchSection: function(area) {
-                Vue.set(this, 'section', area)
-            },
-            updateSelectedFeatures(feature, enabled) {
+      let areaFeatures = this.currentSelectedFeatures[feature.service];
 
-                if(!this.currentSelectedFeatures[feature.service]) {
-                    Vue.set(this.currentSelectedFeatures, feature.service, {})
-                }
-
-                let areaFeatures = this.currentSelectedFeatures[feature.service];
-
-                if(!_.has(areaFeatures, feature.name)) {
-                    Vue.set(areaFeatures, feature.name, { enabled : enabled })
-                } else {
-                    Vue.set(areaFeatures[feature.name], 'enabled', enabled)
-                }
-            }
-        },
-        computed: {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            server() {
-                if(this.serverId) {
-                    return this.$store.state.user_servers.server;
-                }
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            serverFeatures() {
-                let serverFeatures = {}
-                if(this.siteId) {
-                    serverFeatures = this.$store.state.user_site_server_features.features;
-                }
-                if(this.serverId) {
-                    return this.$store.state.user_server_features.features;
-                }
-
-                this.currentSelectedFeatures = serverFeatures
-
-                return serverFeatures
-            },
-            availableServerFeatures() {
-                let serverFeatures = this.$store.state.server_features.features
-
-                this.section = _.keys(serverFeatures)[0]
-
-                return serverFeatures
-            },
-            availableServerLanguages() {
-                return this.$store.state.server_languages.languages
-            },
-            availableServerFrameworks() {
-                return this.$store.state.server_frameworks.frameworks
-            }
-        }
+      if (!_.has(areaFeatures, feature.name)) {
+        Vue.set(areaFeatures, feature.name, { enabled: enabled });
+      } else {
+        Vue.set(areaFeatures[feature.name], "enabled", enabled);
+      }
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    server() {
+      if (this.serverId) {
+        return this.$store.state.user_servers.server;
+      }
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    serverFeatures() {
+      let serverFeatures = {};
+      if (this.siteId) {
+        serverFeatures = this.$store.state.user_site_server_features.features;
+      }
+      if (this.serverId) {
+        return this.$store.state.user_server_features.features;
+      }
+
+      this.currentSelectedFeatures = serverFeatures;
+
+      return serverFeatures;
+    },
+    availableServerFeatures() {
+      let serverFeatures = this.$store.state.server_features.features;
+
+      this.section = _.keys(serverFeatures)[0];
+
+      return serverFeatures;
+    },
+    availableServerLanguages() {
+      return this.$store.state.server_languages.languages;
+    },
+    availableServerFrameworks() {
+      return this.$store.state.server_frameworks.frameworks;
+    }
+  }
+};
 </script>

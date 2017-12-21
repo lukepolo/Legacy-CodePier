@@ -26,40 +26,44 @@
 </template>
 
 <script>
-    export default {
-        props : ['notification_setting'],
-        methods : {
-            hasNotificationSetting(notification_setting, service) {
-                let notification = _.find(this.userNotificationSettings, {'notification_setting_id': notification_setting.id})
+export default {
+  props: ["notification_setting"],
+  methods: {
+    hasNotificationSetting(notification_setting, service) {
+      let notification = _.find(this.userNotificationSettings, {
+        notification_setting_id: notification_setting.id
+      });
 
-                if(notification) {
-                    return _.indexOf(notification.services, service) !==  -1
-                }
-                return false
-            },
-            isConnected(service) {
-              if(service === 'mail') {
-                return true;
-              }
-              let provider = _.find(this.notificationProviders, 'name', service)
+      if (notification) {
+        return _.indexOf(notification.services, service) !== -1;
+      }
+      return false;
+    },
+    isConnected(service) {
+      if (service === "mail") {
+        return true;
+      }
+      let provider = _.find(this.notificationProviders, "name", service);
 
-              if(provider) {
-                  return _.find(this.userNotificationProviders, {'notification_provider_id': provider.id});
-              }
+      if (provider) {
+        return _.find(this.userNotificationProviders, {
+          notification_provider_id: provider.id
+        });
+      }
 
-              return false;
-            },
-        },
-        computed : {
-            userNotificationSettings() {
-                return this.$store.state.user_notification_settings.settings
-            },
-            notificationProviders() {
-                return this.$store.state.notification_providers.providers;
-            },
-            userNotificationProviders() {
-                return this.$store.state.user_notification_providers.providers
-            },
-        }
+      return false;
     }
+  },
+  computed: {
+    userNotificationSettings() {
+      return this.$store.state.user_notification_settings.settings;
+    },
+    notificationProviders() {
+      return this.$store.state.notification_providers.providers;
+    },
+    userNotificationProviders() {
+      return this.$store.state.user_notification_providers.providers;
+    }
+  }
+};
 </script>

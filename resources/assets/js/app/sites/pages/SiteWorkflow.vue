@@ -175,43 +175,42 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                form : this.createForm({
-                    workflow: [
-                        'site_deployment',
-                        'site_databases',
-                        'site_workers',
-                        'site_daemons',
-                        'site_cron_jobs',
-                        'site_files',
-                        'site_ssl_certs'
-                    ]
-                })
-            }
-        },
-        methods: {
-            skipWorkflow() {
-                this.$store.dispatch('user_sites/updateWorkflow', {
-                    workflow : {},
-                    site : this.$route.params.site_id,
-                })
-            },
-            saveWorkflow() {
-                this.$store.dispatch('user_sites/updateWorkflow', {
-                    workflow : _.mapValues(_.invert(this.form.workflow), function() {
-                        return false
-                    }),
-                    site : this.$route.params.site_id,
-                })
-            }
-
-        },
-        computed: {
-            site() {
-                return this.$store.state.user_sites.site;
-            }
-        },
+export default {
+  data() {
+    return {
+      form: this.createForm({
+        workflow: [
+          "site_deployment",
+          "site_databases",
+          "site_workers",
+          "site_daemons",
+          "site_cron_jobs",
+          "site_files",
+          "site_ssl_certs"
+        ]
+      })
+    };
+  },
+  methods: {
+    skipWorkflow() {
+      this.$store.dispatch("user_sites/updateWorkflow", {
+        workflow: {},
+        site: this.$route.params.site_id
+      });
+    },
+    saveWorkflow() {
+      this.$store.dispatch("user_sites/updateWorkflow", {
+        workflow: _.mapValues(_.invert(this.form.workflow), function() {
+          return false;
+        }),
+        site: this.$route.params.site_id
+      });
     }
+  },
+  computed: {
+    site() {
+      return this.$store.state.user_sites.site;
+    }
+  }
+};
 </script>

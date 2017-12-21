@@ -54,104 +54,107 @@
 </template>
 
 <script>
-    export default {
-        props : ['schema'],
-        data() {
-            return {
-              showForm : false,
-              form : this.createForm({
-                name : null,
-                password : null,
-                schema_ids : [this.schema.id]
-              })
-            }
-        },
-        methods : {
-          deleteSchema(database) {
-            if(this.siteId) {
-              this.$store.dispatch('user_site_schemas/destroy', {
-                schema: database,
-                site: this.siteId
+export default {
+  props: ["schema"],
+  data() {
+    return {
+      showForm: false,
+      form: this.createForm({
+        name: null,
+        password: null,
+        schema_ids: [this.schema.id]
+      })
+    };
+  },
+  methods: {
+    deleteSchema(database) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_schemas/destroy", {
+          schema: database,
+          site: this.siteId
+        });
+      }
 
-              })
-            }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_schemas/destroy", {
+          schema: database,
+          server: this.serverId
+        });
+      }
+    },
+    deleteSchemaUser(user) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_schema_users/destroy", {
+          schema_user: user,
+          site: this.siteId
+        });
+      }
 
-            if(this.serverId) {
-              this.$store.dispatch('user_server_schemas/destroy', {
-                schema: database,
-                server: this.serverId
-              })
+      if (this.serverId) {
+        this.$store.dispatch("user_server_schema_users/destroy", {
+          schema_user: user,
+          server: this.serverId
+        });
+      }
+    },
+    createSchemaUser() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_schema_users/store", {
+            site: this.siteId,
+            name: this.form.name,
+            password: this.form.password,
+            schema_ids: this.form.schema_ids
+          })
+          .then(schema => {
+            if (schema.id) {
+              this.resetForm();
             }
-          },
-          deleteSchemaUser(user) {
-            if(this.siteId) {
-              this.$store.dispatch('user_site_schema_users/destroy', {
-                schema_user: user,
-                site: this.siteId
-              })
+          });
+      }
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_schema_users/store", {
+            server: this.serverId,
+            name: this.form.name,
+            password: this.form.password,
+            schema_ids: this.form.schema_ids
+          })
+          .then(schema => {
+            if (schema.id) {
+              this.resetForm();
             }
-
-            if(this.serverId) {
-              this.$store.dispatch('user_server_schema_users/destroy', {
-                schema_user: user,
-                server: this.serverId
-              })
-            }
-          },
-          createSchemaUser() {
-            if(this.siteId) {
-              this.$store.dispatch('user_site_schema_users/store', {
-                site : this.siteId,
-                name : this.form.name,
-                password : this.form.password,
-                schema_ids : this.form.schema_ids,
-              }).then((schema) => {
-                if(schema.id) {
-                  this.resetForm()
-                }
-              })
-            }
-            if(this.serverId) {
-              this.$store.dispatch('user_server_schema_users/store', {
-                server : this.serverId,
-                name : this.form.name,
-                password : this.form.password,
-                schema_ids : this.form.schema_ids,
-              }).then((schema) => {
-                if(schema.id) {
-                  this.resetForm()
-                }
-              })
-            }
-          },
-          resetForm() {
-            this.form.reset();
-            this.showForm = false;
-          }
-        },
-        computed : {
-          siteId() {
-            return this.$route.params.site_id
-          },
-          serverId() {
-            return this.$route.params.server_id
-          },
-          users() {
-            return _.filter(this.schemaUsers, (schemaUser) => {
-              return schemaUser.schema_ids.indexOf(this.schema.id) > -1;
-            })
-          },
-          schemaUsers() {
-            if(this.siteId) {
-              return this.$store.state.user_site_schema_users.users
-            }
-            if(this.serverId) {
-              return this.$store.state.user_server_schema_users.users
-            }
-          },
-          shouldShowForm() {
-            return this.users.length === 0 || this.showForm;
-          },
-        }
+          });
+      }
+    },
+    resetForm() {
+      this.form.reset();
+      this.showForm = false;
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    users() {
+      return _.filter(this.schemaUsers, schemaUser => {
+        return schemaUser.schema_ids.indexOf(this.schema.id) > -1;
+      });
+    },
+    schemaUsers() {
+      if (this.siteId) {
+        return this.$store.state.user_site_schema_users.users;
+      }
+      if (this.serverId) {
+        return this.$store.state.user_server_schema_users.users;
+      }
+    },
+    shouldShowForm() {
+      return this.users.length === 0 || this.showForm;
+    }
+  }
+};
 </script>

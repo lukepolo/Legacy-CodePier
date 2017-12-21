@@ -64,66 +64,67 @@
 </template>
 
 <script>
-    import DropDownEvent from './DropDownEvent.vue';
-    export default {
-        components : {
-            DropDownEvent,
-        },
-        props : ['event'],
-        methods: {
-            getLog(log) {
+import DropDownEvent from "./DropDownEvent.vue";
+export default {
+  components: {
+    DropDownEvent
+  },
+  props: ["event"],
+  methods: {
+    getLog(log) {
+      if (_.isArray(log)) {
+        return _.join(_.map(log, "message"), "<br>");
+      }
 
-                if(_.isArray(log)) {
-                    return _.join(_.map(log, 'message'), '<br>');
-                }
+      return log;
+    },
+    filterArray(data) {
+      if (Array.isArray(data.log)) {
+        return data.log.filter(String);
+      }
+      return [];
+    },
+    formatSeconds(number) {
+      let seconds = parseFloat(number).toFixed(2);
 
-                return log;
-            },
-            filterArray(data) {
-                if (Array.isArray(data.log)) {
-                    return data.log.filter(String);
-                }
-                return [];
-            },
-            formatSeconds(number) {
-                let seconds = parseFloat(number).toFixed(2);
-
-                if(!isNaN(seconds)) {
-                    return seconds;
-                }
-            },
-            commandsStatus(commands) {
-                let total = commands.length
-                let failed = _.sumBy(commands, 'failed')
-                let started = _.sumBy(commands, 'started')
-                let completed = _.sumBy(commands, 'completed')
-                if (failed > 0) {
-
-                    return 'events--item-status-error'
-                } else if (total === completed) {
-                    return 'events--item-status-success'
-                } else if (started > 0) {
-                    return 'icon-spinner'
-                }
-                return 'events--item-status-neutral'
-            }
-        },
-        computed : {
-            eventTitle() {
-               return this.event.description
-            },
-            servers() {
-                return _.groupBy(this.event.server_commands, 'server_id')
-            },
-            shouldGroupServers() {
-                let serverKeys = Object.keys(this.servers)
-                if(serverKeys.length >= 1) {
-                    if(serverKeys.length > 1 || Object.keys(_.values(this.servers)[0]).length > 1) {
-                        return true
-                    }
-                }
-                return false;
-            }
-        }
+      if (!isNaN(seconds)) {
+        return seconds;
+      }
+    },
+    commandsStatus(commands) {
+      let total = commands.length;
+      let failed = _.sumBy(commands, "failed");
+      let started = _.sumBy(commands, "started");
+      let completed = _.sumBy(commands, "completed");
+      if (failed > 0) {
+        return "events--item-status-error";
+      } else if (total === completed) {
+        return "events--item-status-success";
+      } else if (started > 0) {
+        return "icon-spinner";
+      }
+      return "events--item-status-neutral";
     }
+  },
+  computed: {
+    eventTitle() {
+      return this.event.description;
+    },
+    servers() {
+      return _.groupBy(this.event.server_commands, "server_id");
+    },
+    shouldGroupServers() {
+      let serverKeys = Object.keys(this.servers);
+      if (serverKeys.length >= 1) {
+        if (
+          serverKeys.length > 1 ||
+          Object.keys(_.values(this.servers)[0]).length > 1
+        ) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+};
 </script>

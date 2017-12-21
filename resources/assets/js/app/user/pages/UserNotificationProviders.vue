@@ -40,52 +40,70 @@
 </template>
 
 <script>
-    import NotificationGroup from './../components/NotificationGroup'
-    export default {
-        components : {
-            NotificationGroup
-        },
-        computed: {
-            notification_settings() {
-                return _.groupBy(this.$store.state.notification_settings.settings, 'group')
-            },
-            notification_providers() {
-                return this.$store.state.notification_providers.providers
-            },
-            user_notification_providers() {
-                return this.$store.state.user_notification_providers.providers
-            },
-        },
-        methods: {
-            connectProvider(provider) {
-                window.location.replace(
-                    this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
-                )
-            },
-            isConnected: function (notification_provider_id) {
-                if (_.find(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
-                    return true
-                }
-                return false
-            },
-            disconnectProvider: function (notification_provider_id) {
-                let notification_provider = _.find(this.user_notification_providers, function (notification_provider) {
-                    return notification_provider.notification_provider_id === notification_provider_id
-                }).id
-
-                this.$store.dispatch('user_notification_providers/destroy', {
-                    user: this.$store.state.user.user.id,
-                    notification_provider: notification_provider
-                })
-            },
-            updateUserNotifications() {
-                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$refs.notification_settings_form))
-            }
-        },
-        created() {
-            this.$store.dispatch('notification_settings/get')
-            this.$store.dispatch('notification_providers/get')
-            this.$store.dispatch('user_notification_settings/get')
-        },
+import NotificationGroup from "./../components/NotificationGroup";
+export default {
+  components: {
+    NotificationGroup
+  },
+  computed: {
+    notification_settings() {
+      return _.groupBy(
+        this.$store.state.notification_settings.settings,
+        "group"
+      );
+    },
+    notification_providers() {
+      return this.$store.state.notification_providers.providers;
+    },
+    user_notification_providers() {
+      return this.$store.state.user_notification_providers.providers;
     }
+  },
+  methods: {
+    connectProvider(provider) {
+      window.location.replace(
+        this.action("AuthOauthController@newProvider", {
+          provider: provider.provider_name
+        })
+      );
+    },
+    isConnected: function(notification_provider_id) {
+      if (
+        _.find(this.user_notification_providers, {
+          notification_provider_id: notification_provider_id
+        })
+      ) {
+        return true;
+      }
+      return false;
+    },
+    disconnectProvider: function(notification_provider_id) {
+      let notification_provider = _.find(
+        this.user_notification_providers,
+        function(notification_provider) {
+          return (
+            notification_provider.notification_provider_id ===
+            notification_provider_id
+          );
+        }
+      ).id;
+
+      this.$store.dispatch("user_notification_providers/destroy", {
+        user: this.$store.state.user.user.id,
+        notification_provider: notification_provider
+      });
+    },
+    updateUserNotifications() {
+      this.$store.dispatch(
+        "user_notification_settings/update",
+        this.getFormData(this.$refs.notification_settings_form)
+      );
+    }
+  },
+  created() {
+    this.$store.dispatch("notification_settings/get");
+    this.$store.dispatch("notification_providers/get");
+    this.$store.dispatch("user_notification_settings/get");
+  }
+};
 </script>

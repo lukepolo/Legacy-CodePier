@@ -6,25 +6,24 @@
 </template>
 
 <script>
-    import CpuLoads from './../../sites/components/CpuLoads'
-    export default {
-        components : {
-            CpuLoads
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-            }
-        },
-        computed: {
-            server() {
-                return this.$store.state.user_servers.server;
-            }
-        }
+import CpuLoads from "./../../sites/components/CpuLoads";
+export default {
+  components: {
+    CpuLoads
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {}
+  },
+  computed: {
+    server() {
+      return this.$store.state.user_servers.server;
     }
+  }
+};
 </script>

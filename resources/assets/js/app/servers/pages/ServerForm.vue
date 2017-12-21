@@ -124,73 +124,78 @@
 </template>
 
 <script>
-
-    import {ServerFeatures} from '../../setup/pages'
-    import LeftNav from '../../../components/LeftNav'
-    import ServerProviderSelector from './../components/ServerProviderSelector'
-    export default {
-        components: {
-            LeftNav,
-            ServerFeatures,
-            ServerProviderSelector
-        },
-        data() {
-         return {
-            is_custom : false,
-            server_provider_id : null,
-            customize_server : !this.$route.params.site_id,
-         }
-        },
-        watch : {
-            'server_provider_id' : function() {
-                if(this.server_provider_id) {
-                    this.getProviderData(this.server_provider_id)
-                }
-            }
-        },
-        methods: {
-            getProviderData(server_provider_id) {
-                this.is_custom = false
-                let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name
-                if(provider) {
-                    this.$store.dispatch('server_providers/getFeatures', provider)
-                    this.$store.dispatch('server_providers/getOptions', provider)
-                    this.$store.dispatch('server_providers/getRegions', provider)
-                }
-            },
-            createServer() {
-                this.$store.dispatch('user_servers/store', this.getFormData(this.$el)).then((server) => {
-                    if(server.id) {
-                        if (this.siteId) {
-                            this.$store.dispatch('user_sites/show', this.siteId).then(() => {
-                                app.$router.push({ name : 'site_overview', params : { site_id : this.siteId}})
-                            })
-                        } else {
-                            app.$router.push('/')
-                        }
-                    }
-                })
-            }
-        },
-        computed: {
-            pile() {
-                return this.$store.state.user.user.current_pile_id
-            },
-            siteId() {
-                return this.$route.params.site_id
-            },
-            server_options() {
-                return this.$store.state.server_providers.options
-            },
-            server_regions() {
-                return _.sortBy(this.$store.state.server_providers.regions, 'name')
-            },
-            server_providers() {
-                return this.$store.state.server_providers.providers
-            },
-            server_provider_features() {
-                return this.$store.state.server_providers.features
-            }
-        }
+import { ServerFeatures } from "../../setup/pages";
+import LeftNav from "../../../components/LeftNav";
+import ServerProviderSelector from "./../components/ServerProviderSelector";
+export default {
+  components: {
+    LeftNav,
+    ServerFeatures,
+    ServerProviderSelector
+  },
+  data() {
+    return {
+      is_custom: false,
+      server_provider_id: null,
+      customize_server: !this.$route.params.site_id
+    };
+  },
+  watch: {
+    server_provider_id: function() {
+      if (this.server_provider_id) {
+        this.getProviderData(this.server_provider_id);
+      }
     }
+  },
+  methods: {
+    getProviderData(server_provider_id) {
+      this.is_custom = false;
+      let provider = _.find(this.server_providers, { id: server_provider_id })
+        .provider_name;
+      if (provider) {
+        this.$store.dispatch("server_providers/getFeatures", provider);
+        this.$store.dispatch("server_providers/getOptions", provider);
+        this.$store.dispatch("server_providers/getRegions", provider);
+      }
+    },
+    createServer() {
+      this.$store
+        .dispatch("user_servers/store", this.getFormData(this.$el))
+        .then(server => {
+          if (server.id) {
+            if (this.siteId) {
+              this.$store.dispatch("user_sites/show", this.siteId).then(() => {
+                app.$router.push({
+                  name: "site_overview",
+                  params: { site_id: this.siteId }
+                });
+              });
+            } else {
+              app.$router.push("/");
+            }
+          }
+        });
+    }
+  },
+  computed: {
+    pile() {
+      return this.$store.state.user.user.current_pile_id;
+    },
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    server_options() {
+      return this.$store.state.server_providers.options;
+    },
+    server_regions() {
+      return _.sortBy(this.$store.state.server_providers.regions, "name");
+    },
+    server_providers() {
+      return this.$store.state.server_providers.providers;
+    },
+    server_provider_features() {
+      return this.$store.state.server_providers.features;
+    }
+  }
+};
 </script>

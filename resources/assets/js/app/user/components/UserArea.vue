@@ -31,11 +31,11 @@
 </template>
 
 <script>
-    import LeftNav from '../../../components/LeftNav';
+import LeftNav from "../../../components/LeftNav";
 
-    export default {
-        components: {
-            LeftNav,
-        },
-    }
+export default {
+  components: {
+    LeftNav
+  }
+};
 </script>

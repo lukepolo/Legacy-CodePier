@@ -8,72 +8,30 @@
             <div class="alert alert-error" v-if="isCanceled">
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
+        </template>
 
-            <div class="pricing pricing-inapp">
-                <div class="pricing--item">
-                    <div class="pricing--header">
-                        <div class="pricing--header-name">Riggers</div>
-
-                    </div>
-                    <div class="pricing--features">
-                        <div class="flyform--group-radio">
-                            <label>
-                                <input type="radio" name="plan">
-                                <span class="icon"></span>
-                                Free
-                            </label>
-                        </div>
-                    </div>
+        <div class="pricing pricing-inapp">
+            <div class="pricing--item" :class="{ selected : !this.userSubscription }">
+                <div class="pricing--header">
+                    <div class="pricing--header-name">Riggers</div>
                 </div>
-                <div class="pricing--item">
-                    <div class="pricing--header">
-                        <div class="pricing--header-name">First Mate</div>
-                    </div>
-                    <div class="pricing--features">
-                        <div class="flyform--group-radio">
-                            <label>
-                                <input type="radio" name="plan">
-                                <span class="icon"></span>
-                                $29 / month
-                            </label>
-                        </div>
-
-                        <div class="flyform--group-radio">
-                            <label>
-                                <input type="radio" name="plan">
-                                <span class="icon"></span>
-                                $290 / year
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="pricing--item selected">
-                    <div class="pricing--header">
-                        <div class="pricing--header-name">Captain</div>
-                    </div>
-                    <div class="pricing--features">
-                        <div class="flyform--group-radio">
-                            <label>
-                                <input type="radio" name="plan">
-                                <span class="icon"></span>
-                                $49 / month
-                            </label>
-                        </div>
-
-                        <div class="flyform--group-radio">
-                            <label>
-                                <input type="radio" name="plan" checked>
-                                <span class="icon"></span>
-                                $490 / year
-                                <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
-                            </label>
-                            <small>Next billing date: {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}</small>
-                        </div>
+                <div class="pricing--features">
+                    <div class="flyform--group-radio">
+                        <label>
+                            <input type="radio" name="plan" value="cancel" v-model="form.plan">
+                            <span class="icon"></span>
+                            Free
+                        </label>
                     </div>
                 </div>
             </div>
+            <plans :selectedPlan.sync="form.plan" title="First Mate" type="firstmate"></plans>
+            <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
+        </div>
 
-        </template>
+        <div class="text-center" v-if="!userSubscription">
+            <h3>Start your 5 day free trial!</h3>
+        </div>
 
         <form @submit.prevent="createSubscription" method="post">
             <div class="flyform--footer">
@@ -87,23 +45,9 @@
                         </template>
                     </button>
                 </div>
-                <div class="flyform--footer-links">
-                    <a @click="cancelSubscription" v-if="userSubscription && !isCanceled">Cancel Subscription</a>
-                </div>
             </div>
 
-
-
-
-
-            <template v-if="!userSubscription">
-                Start your 5 day free trial!
-            </template>
-
-            <!--<plans :selectedPlan.sync="form.plan"></plans>-->
-
             <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
-
 
         </form>
 
@@ -131,8 +75,6 @@
             </div>
         </form>
 
-
-
         <template v-if="invoices.length">
             <table>
                 <tr v-for="invoice in invoices">
@@ -146,141 +88,159 @@
 </template>
 
 <script>
-
-    import Card from './../components/subscriptions/Card'
-    import Plans from './../components/subscriptions/Plans'
-    export default {
-        components : {
-            Card,
-            Plans,
-        },
-        data() {
-            return {
-                card : null,
-                showCreditForm : false,
-                processing : false,
-                form: this.createForm({
-                    plan: null,
-                    token : null,
-                    subscription : null,
-                }),
-                createCardForm : {
-                    card : null,
-                    error : null,
-                    instance : null,
-                },
-                updateCardForm : {
-                    card : null,
-                    error : null,
-                    instance : null,
-                }
-            }
-        },
-        watch : {
-            userSubscription : function() {
-                if(this.userSubscription) {
-                    this.form.plan = this.userSubscription.stripe_plan
-                    this.form.subscription = this.userSubscription.id
-                }
-            }
-        },
-        created() {
-            this.$store.dispatch('subscriptions/plans');
-            this.$store.dispatch('user_subscription/get');
-            this.$store.dispatch('user_subscription/getInvoices');
-        },
-        methods: {
-            updateCard() {
-                this.processing = true;
-                this.createToken(this.updateCardForm).then(() => {
-                    if(!this.updateCardForm.error && this.form.token) {
-                        this.$store.dispatch('user_subscription/updateCard', this.form).then(() => {
-                            this.processing = false;
-                        }).catch(() => {
-                            this.processing = false;
-                        })
-                    } else {
-                        this.processing = false;
-                    }
-                });
-            },
-            createSubscription() {
-
-                this.processing = true;
-
-                if(this.userSubscription) {
-                    return this.updateSubscription()
-                }
-
-                this.createToken(this.createCardForm).then(() => {
-                    if(!this.createCardForm.error && this.form.token) {
-                        this.$store.dispatch('user_subscription/store', this.form).then(() => {
-                            this.$store.dispatch('user/get').then(() => {
-                                this.$router.push('/')
-                            })
-                        }).catch(() => {
-                            this.processing = false;
-                        })
-                    } else {
-                        this.processing = false;
-                    }
-                });
-            },
-            updateSubscription() {
-                this.$store.dispatch('user_subscription/patch', this.form).then(() => {
-                    this.$store.dispatch('user_subscription/getInvoices');
-                    this.processing = false;
-                }).catch(() => {
-                    this.processing = false;
-                })
-            },
-            createToken(cardForm) {
-                return new Promise((resolve) => {
-                    if(!this.form.token) {
-                        cardForm.instance.createToken(cardForm.card).then((result) => {
-                            if (result.error) {
-                                cardForm.error = result.error.message;
-                            }
-                            this.form.token = result.token.id
-                            resolve();
-                        }).catch(() => {
-                            resolve();
-                        });
-                    } else {
-                        resolve();
-                    }
-                })
-            },
-            cancelSubscription() {
-                this.$store.dispatch('user_subscription/cancel', this.userSubscription.id);
-            },
-            downloadLink: function (invoice) {
-                return '/subscription/invoices/'+invoice;
-            }
-        },
-        computed: {
-            invoices() {
-                return this.$store.state.user_subscription.invoices;
-            },
-            isCanceled() {
-                if(this.userSubscription) {
-                    return this.userSubscription.ends_at !== null;
-                }
-                return false
-            },
-            currentCard() {
-                if(this.userSubscriptionData) {
-                    return this.userSubscriptionData.card
-                }
-            },
-            userSubscription() {
-                if(this.userSubscriptionData) {
-                    return this.userSubscriptionData.subscription
-                }
-            },
-            userSubscriptionData() {
-                return this.$store.state.user_subscription.subscription
-            },
-        },
+import Card from "./../components/subscriptions/Card";
+import Plans from "./../components/subscriptions/Plans";
+export default {
+  components: {
+    Card,
+    Plans
+  },
+  data() {
+    return {
+      card: null,
+      showCreditForm: false,
+      processing: false,
+      form: this.createForm({
+        plan: null,
+        token: null,
+        subscription: null
+      }),
+      createCardForm: {
+        card: null,
+        error: null,
+        instance: null
+      },
+      updateCardForm: {
+        card: null,
+        error: null,
+        instance: null
+      }
+    };
+  },
+  watch: {
+    userSubscription: function() {
+      if (this.userSubscription) {
+        this.form.plan = this.userSubscription.stripe_plan;
+        this.form.subscription = this.userSubscription.id;
+      } else {
+        this.form.plan = "cancel";
+      }
     }
+  },
+  created() {
+    this.$store.dispatch("subscriptions/plans");
+    this.$store.dispatch("user_subscription/get");
+    this.$store.dispatch("user_subscription/getInvoices");
+  },
+  methods: {
+    updateCard() {
+      this.processing = true;
+      this.createToken(this.updateCardForm).then(() => {
+        if (!this.updateCardForm.error && this.form.token) {
+          this.$store
+            .dispatch("user_subscription/updateCard", this.form)
+            .then(() => {
+              this.processing = false;
+            })
+            .catch(() => {
+              this.processing = false;
+            });
+        } else {
+          this.processing = false;
+        }
+      });
+    },
+    createSubscription() {
+      if (this.form.plan === "cancel") {
+        this.cancelSubscription();
+        return true;
+      }
+
+      this.processing = true;
+
+      if (this.userSubscription) {
+        return this.updateSubscription();
+      }
+
+      this.createToken(this.createCardForm).then(() => {
+        if (!this.createCardForm.error && this.form.token) {
+          this.$store
+            .dispatch("user_subscription/store", this.form)
+            .then(() => {
+              this.$store.dispatch("user/get");
+            })
+            .catch(() => {
+              this.processing = false;
+            });
+        } else {
+          this.processing = false;
+        }
+      });
+    },
+    updateSubscription() {
+      this.$store
+        .dispatch("user_subscription/patch", this.form)
+        .then(() => {
+          this.$store.dispatch("user_subscription/getInvoices");
+          this.processing = false;
+        })
+        .catch(() => {
+          this.processing = false;
+        });
+    },
+    createToken(cardForm) {
+      return new Promise(resolve => {
+        if (!this.form.token) {
+          cardForm.instance
+            .createToken(cardForm.card)
+            .then(result => {
+              if (result.error) {
+                cardForm.error = result.error.message;
+              }
+              this.form.token = result.token.id;
+              resolve();
+            })
+            .catch(() => {
+              resolve();
+            });
+        } else {
+          resolve();
+        }
+      });
+    },
+    cancelSubscription() {
+      this.$store.dispatch(
+        "user_subscription/cancel",
+        this.userSubscription.id
+      );
+    },
+    downloadLink: function(invoice) {
+      return "/subscription/invoices/" + invoice;
+    }
+  },
+  computed: {
+    invoices() {
+      return this.$store.state.user_subscription.invoices;
+    },
+    isCanceled() {
+      if (this.userSubscription) {
+        return this.userSubscription.ends_at !== null;
+      }
+      return false;
+    },
+    currentCard() {
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.card;
+      }
+    },
+    userSubscription() {
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.subscription;
+      }
+    },
+    userSubscriptionData() {
+      return this.$store.state.user_subscription.subscription;
+    }
+  }
+};
 </script>

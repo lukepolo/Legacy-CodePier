@@ -31,71 +31,78 @@
 </template>
 
 <script>
-    import Schema from './Schema'
-    export default {
-        components : {
-            Schema
-        },
-        props : ['database'],
-        data() {
-            return {
-                loaded : true,
-                showForm : false,
-                form : this.createForm({
-                    name : null
-                })
-            }
-        },
-        methods : {
-            createSchema() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_schemas/store', {
-                        site : this.siteId,
-                        database : this.database,
-                        name : this.form.name
-                    }).then(() => {
-                        this.resetForm();
-                    })
-                }
+import Schema from "./Schema";
+export default {
+  components: {
+    Schema
+  },
+  props: ["database"],
+  data() {
+    return {
+      loaded: true,
+      showForm: false,
+      form: this.createForm({
+        name: null
+      })
+    };
+  },
+  methods: {
+    createSchema() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_schemas/store", {
+            site: this.siteId,
+            database: this.database,
+            name: this.form.name
+          })
+          .then(() => {
+            this.resetForm();
+          });
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_schemas/store', {
-                        server : this.serverId,
-                        database : this.database,
-                        name : this.form.name,
-                    }).then(() => {
-                        this.resetForm();
-                    })
-                }
-            },
-            resetForm() {
-                this.form.reset();
-                this.showForm = false;
-            }
-        },
-        computed : {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            schemas() {
-                if(this.siteId) {
-                    return _.filter(this.$store.state.user_site_schemas.schemas, (schema) => {
-                        return schema.database === this.database
-                    })
-                }
-
-                if(this.serverId) {
-                    return _.filter(this.$store.state.user_server_schemas.schemas, (schema) => {
-                        return schema.database === this.database
-                    })
-                }
-            },
-            shouldShowForm() {
-                return (this.loaded && this.schemas.length === 0) || this.showForm;
-            },
-        }
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_schemas/store", {
+            server: this.serverId,
+            database: this.database,
+            name: this.form.name
+          })
+          .then(() => {
+            this.resetForm();
+          });
+      }
+    },
+    resetForm() {
+      this.form.reset();
+      this.showForm = false;
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    schemas() {
+      if (this.siteId) {
+        return _.filter(this.$store.state.user_site_schemas.schemas, schema => {
+          return schema.database === this.database;
+        });
+      }
+
+      if (this.serverId) {
+        return _.filter(
+          this.$store.state.user_server_schemas.schemas,
+          schema => {
+            return schema.database === this.database;
+          }
+        );
+      }
+    },
+    shouldShowForm() {
+      return (this.loaded && this.schemas.length === 0) || this.showForm;
+    }
+  }
+};
 </script>

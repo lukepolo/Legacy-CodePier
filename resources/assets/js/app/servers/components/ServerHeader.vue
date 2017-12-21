@@ -40,16 +40,16 @@
 </template>
 
 <script>
-    export default {
-        computed : {
-            server() {
-                return this.$store.state.user_servers.server;
-            }
-        },
-        methods: {
-            archiveServer: function (server_id) {
-                this.$store.dispatch('archiveServer', server_id);
-            }
-        }
+export default {
+  computed: {
+    server() {
+      return this.$store.state.user_servers.server;
     }
+  },
+  methods: {
+    archiveServer: function(server_id) {
+      this.$store.dispatch("archiveServer", server_id);
+    }
+  }
+};
 </script>

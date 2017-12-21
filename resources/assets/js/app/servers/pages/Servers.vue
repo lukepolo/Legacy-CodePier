@@ -92,23 +92,22 @@
 </template>
 
 <script>
-
-    export default {
-        data() {
-            return {
-                showArchive : false
-            }
-        },
-        created() {
-            this.$store.dispatch('user_servers/getTrashed')
-        },
-        computed: {
-            servers() {
-                if(!this.showArchive) {
-                    return this.$store.state.user_servers.servers;
-                }
-                return this.$store.state.user_servers.trashed;
-            }
-        }
+export default {
+  data() {
+    return {
+      showArchive: false
+    };
+  },
+  created() {
+    this.$store.dispatch("user_servers/getTrashed");
+  },
+  computed: {
+    servers() {
+      if (!this.showArchive) {
+        return this.$store.state.user_servers.servers;
+      }
+      return this.$store.state.user_servers.trashed;
     }
+  }
+};
 </script>

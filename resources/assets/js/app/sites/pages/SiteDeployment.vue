@@ -1,7 +1,7 @@
 <style>
-    .dragArea {
-        min-height: 20px;
-    }
+.dragArea {
+  min-height: 20px;
+}
 </style>
 <template>
     <div v-if="site">
@@ -113,172 +113,186 @@
 </template>
 
 <script>
-    import draggable from 'vuedraggable';
+    import dr
+import draggable from "vuedraggable";
 
-    import {
-        DeploymentStepCard
-    } from '../components';
+import { DeploymentStepCard } from "../components";
 
-    export default {
-        components: {
-            draggable,
-            DeploymentStepCard
-        },
-        data() {
-            return {
-                active: [],
-                inactive: [],
-                form: this.createForm({
-                    keep_releases: 10,
-                    zerotime_deployment: true,
-                    site: this.$route.params.site_id,
-                })
-            }
-        },
-        created() {
-            this.fetchData()
-            this.siteChange()
-        },
-        watch: {
-            '$route': 'fetchData',
-            'site': 'siteChange',
-        },
-        methods: {
-            siteChange() {
+export default {
+  components: {
+    draggable,
+    DeploymentStepCard
+  },
+  data() {
+    return {
+      active: [],
+      inactive: [],
+      form: this.createForm({
+        keep_releases: 10,
+        zerotime_deployment: true,
+        site: this.$route.params.site_id
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+    this.siteChange();
+  },
+  watch: {
+    $route: "fetchData",
+    site: "siteChange"
+  },
+  methods: {
+    siteChange() {
+      this.form.empty();
 
-                this.form.empty()
+      let site = this.site;
 
-                let site = this.site
+      this.form.keep_releases = site.keep_releases;
+      this.form.zerotime_deployment = site.zerotime_deployment;
 
-                this.form.keep_releases = site.keep_releases
-                this.form.zerotime_deployment = site.zerotime_deployment
+      this.form.setOriginalData();
+    },
+    fetchData() {
+      this.$store
+        .dispatch(
+          "user_site_deployments/getDeploymentSteps",
+          this.$route.params.site_id
+        )
+        .then(() => {
+          this.$store
+            .dispatch(
+              "user_site_deployments/getSiteDeploymentSteps",
+              this.$route.params.site_id
+            )
+            .then(() => {
+              this.clearChanges();
+            });
+        });
+    },
+    updateSiteDeployment() {
+      this.$store.dispatch("user_site_deployments/updateSiteDeployment", {
+        site: this.$route.params.site_id,
+        deployment_steps: this.active
+      });
+    },
+    saveSiteDeploymentConfig() {
+      this.$store.dispatch(
+        "user_site_deployments/updateSiteDeploymentConfig",
+        this.form
+      );
+    },
+    hasStep(task) {
+      if (this.currentSiteDeploymentSteps.length) {
+        return _.find(this.currentSiteDeploymentSteps, {
+          internal_deployment_function: task
+        });
+      }
+      return false;
+    },
+    addCustomStep() {
+      let tempId =
+        parseInt(this.active.length + 1) + parseInt(this.inactive.length + 1);
 
-                this.form.setOriginalData()
+      this.active.push({
+        id: `temp_${tempId}`,
+        order: null,
+        script: "",
+        step: "Custom Step",
+        description: "Custom Step",
+        editing: true
+      });
+    },
+    sortInactiveList: function() {
+      this.$nextTick(function() {
+        this.inactive = _.sortBy(this.inactive, "order");
+      });
+    },
+    deselectAllDeployments() {
+      _.each(this.active, step => {
+        this.inactive.push(step);
+      });
 
-            },
-            fetchData() {
-                this.$store.dispatch('user_site_deployments/getDeploymentSteps', this.$route.params.site_id).then(() => {
-                    this.$store.dispatch('user_site_deployments/getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
-                        this.clearChanges()
-                    });
-                });
+      this.active = [];
 
-            },
-            updateSiteDeployment() {
-                this.$store.dispatch('user_site_deployments/updateSiteDeployment', {
-                    site: this.$route.params.site_id,
-                    deployment_steps: this.active
-                })
-            },
-            saveSiteDeploymentConfig() {
-                this.$store.dispatch('user_site_deployments/updateSiteDeploymentConfig', this.form)
-            },
-            hasStep(task) {
-                if (this.currentSiteDeploymentSteps.length) {
-                    return _.find(this.currentSiteDeploymentSteps, {'internal_deployment_function': task});
-                }
-                return false;
-            },
-            addCustomStep() {
+      this.sortInactiveList();
+    },
+    selectAllDeployments() {
+      _.each(this.inactive, step => {
+        this.active.push(step);
+      });
 
-                let tempId = parseInt(this.active.length+1) + parseInt(this.inactive.length+1)
+      this.inactive = [];
+    },
+    clearChanges() {
+      this.active = [];
+      this.inactive = [];
 
-                this.active.push({
-                    id : `temp_${tempId}`,
-                    order: null,
-                    script: '',
-                    step: "Custom Step",
-                    description: "Custom Step",
-                    editing: true,
-                })
-            },
-            sortInactiveList: function () {
-                this.$nextTick(function () {
-                    this.inactive = _.sortBy(this.inactive, 'order');
-                });
-            },
-            deselectAllDeployments() {
-                _.each(this.active, (step) => {
-                    this.inactive.push(step);
-                });
-
-                this.active = [];
-
-                this.sortInactiveList();
-            },
-            selectAllDeployments() {
-                _.each(this.inactive, (step) => {
-                    this.active.push(step);
-                });
-
-                this.inactive = [];
-            },
-            clearChanges() {
-                this.active = [];
-                this.inactive = [];
-
-                _.each(this.currentSiteDeploymentSteps, (step) => {
-                    if (step.script) {
-                        step.editing = false;
-                    }
-                    this.active.push(step);
-                });
-
-                _.each(this.deploymentSteps, (step) => {
-                    if (!this.hasStep(step.internal_deployment_function)) {
-                        this.inactive.push(step);
-                    }
-                });
-            },
-            updateStep(state) {
-                this[state] = Object.assign([], this[state], _.cloneDeep(this[state]))
-            },
-            deleteStep(deploymentStep, state) {
-                this[state].splice(deploymentStep, 1)
-            },
-            getSuggestedOrder(deploymentStep) {
-                let internalStep = this.internalStep(deploymentStep)
-                if (internalStep) {
-
-                    let activeSteps = _.filter(this.deploymentSteps, (step) => {
-                        return _.find(this.active, {step: step.step})
-                    })
-
-                    let steps = _.filter(activeSteps, (step) => {
-                        return step.order < internalStep.order
-                    })
-
-                    return steps.length + 1
-                }
-
-                return null
-            },
-            internalStep(deploymentStep) {
-                if (deploymentStep.internal_deployment_function && this.deploymentSteps) {
-                    return _.find(this.deploymentSteps, (step) => {
-                        return step.internal_deployment_function === deploymentStep.internal_deployment_function
-                    })
-                }
-
-                return false
-            }
-        },
-        computed: {
-            site() {
-                return this.$store.state.user_sites.site;
-            },
-            deploymentSteps() {
-                return this.$store.state.user_site_deployments.deployment_steps.map((value, index) => {
-                  value.id = `temp_${index}`
-                  return value;
-                });
-            },
-            currentSiteDeploymentSteps() {
-                return this.$store.state.user_site_deployments.site_deployment_steps;
-            },
-            showZeroTimeDeploymentOptions() {
-                return this.site.zerotime_deployment
-            }
+      _.each(this.currentSiteDeploymentSteps, step => {
+        if (step.script) {
+          step.editing = false;
         }
+        this.active.push(step);
+      });
+
+      _.each(this.deploymentSteps, step => {
+        if (!this.hasStep(step.internal_deployment_function)) {
+          this.inactive.push(step);
+        }
+      });
+    },
+    updateStep(state) {
+      this[state] = Object.assign([], this[state], _.cloneDeep(this[state]));
+    },
+    deleteStep(deploymentStep, state) {
+      this[state].splice(deploymentStep, 1);
+    },
+    getSuggestedOrder(deploymentStep) {
+      let internalStep = this.internalStep(deploymentStep);
+      if (internalStep) {
+        let activeSteps = _.filter(this.deploymentSteps, step => {
+          return _.find(this.active, { step: step.step });
+        });
+
+        let steps = _.filter(activeSteps, step => {
+          return step.order < internalStep.order;
+        });
+
+        return steps.length + 1;
+      }
+
+      return null;
+    },
+    internalStep(deploymentStep) {
+      if (deploymentStep.internal_deployment_function && this.deploymentSteps) {
+        return _.find(this.deploymentSteps, step => {
+          return (
+            step.internal_deployment_function ===
+            deploymentStep.internal_deployment_function
+          );
+        });
+      }
+
+      return false;
     }
-</script>
+  },
+  computed: {
+    site() {
+      return this.$store.state.user_sites.site;
+    },
+    deploymentSteps() {
+      return this.$store.state.user_site_deployments.deployment_steps.map(
+        (value, index) => {
+          value.id = `temp_${index}`;
+          return value;
+        }
+      );
+    },
+    currentSiteDeploymentSteps() {
+      return this.$store.state.user_site_deployments.site_deployment_steps;
+    },
+    showZeroTimeDeploymentOptions() {
+      return this.site.zerotime_deployment;
+    }
+  }
+};

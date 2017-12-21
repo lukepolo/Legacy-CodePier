@@ -8,11 +8,11 @@
 </template>
 
 <script>
-    import NotificationSetting from './NotificationSetting'
-    export default {
-        props : ['title', 'notification_settings'],
-        components : {
-            NotificationSetting
-        },
-    }
+import NotificationSetting from "./NotificationSetting";
+export default {
+  props: ["title", "notification_settings"],
+  components: {
+    NotificationSetting
+  }
+};
 </script>
