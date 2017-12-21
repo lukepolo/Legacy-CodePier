@@ -50,89 +50,104 @@
 </template>
 
 <script>
+import { ServerSelection } from "./../../setup/components";
 
-    import { ServerSelection } from "./../../setup/components"
-
-    export default {
-        components : {
-            ServerSelection
-        },
-        props : ['deploymentStep', 'order', 'suggestedOrder'],
-        data() {
-            return {
-                step : this.deploymentStep.step,
-                script : this.deploymentStep.script,
-                server_ids : this.deploymentStep.server_ids ? this.deploymentStep.server_ids : [],
-                server_types : this.deploymentStep.server_types ? this.deploymentStep.server_types : [],
-            }
-        },
-        watch : {
-            'step' : function() {
-                this.deploymentStep.step = this.step;
-            },
-            'script' : function() {
-                this.deploymentStep.script = this.script;
-            },
-            'server_ids' : function() {
-                this.deploymentStep.server_ids = this.server_ids
-            },
-            'server_types' : function() {
-                this.deploymentStep.server_types = this.server_types
-            }
-        },
-        methods: {
-            edit() {
-                this.deploymentStep.editing = true
-                this.updateStep()
-            },
-            save() {
-                this.deploymentStep.editing = false
-                this.deploymentStep.step = this.step
-                this.deploymentStep.script = this.script
-                this.deploymentStep.server_ids = this.server_ids
-                this.deploymentStep.description = this.description
-                this.updateStep()
-            },
-            cancel() {
-                this.deploymentStep.editing = false
-                this.updateStep()
-            },
-            updateStep() {
-                this.$emit('updateStep', this.deploymentStep)
-            },
-            deleteStep() {
-                this.$emit('deleteStep')
-            }
-        },
-        computed: {
-            siteServers() {
-                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-            },
-            displayServerSelection() {
-                if(this.$route.params.site_id) {
-                    if(this.siteServers && this.siteServers.length > 1) {
-                        return true
-                    }
-                    return false
-                }
-            },
-            availableServerTypes() {
-                return _.pickBy(window.Laravel.serverTypes, function(serverType) {
-                    return serverType === 'web' || serverType === 'full_stack' || serverType === 'worker'
-                })
-            },
-            deploymentSteps() {
-                return this.$store.state.user_site_deployments.deployment_steps;
-            },
-            internalStep() {
-                if(this.deploymentStep.internal_deployment_function && this.deploymentSteps) {
-                    return _.find(this.deploymentSteps, (step) => {
-                        return step.internal_deployment_function === this.deploymentStep.internal_deployment_function
-                    })
-                }
-
-                return false
-            }
-        }
+export default {
+  components: {
+    ServerSelection
+  },
+  props: ["deploymentStep", "order", "suggestedOrder"],
+  data() {
+    return {
+      step: this.deploymentStep.step,
+      script: this.deploymentStep.script,
+      server_ids: this.deploymentStep.server_ids
+        ? this.deploymentStep.server_ids
+        : [],
+      server_types: this.deploymentStep.server_types
+        ? this.deploymentStep.server_types
+        : []
+    };
+  },
+  watch: {
+    step: function() {
+      this.deploymentStep.step = this.step;
+    },
+    script: function() {
+      this.deploymentStep.script = this.script;
+    },
+    server_ids: function() {
+      this.deploymentStep.server_ids = this.server_ids;
+    },
+    server_types: function() {
+      this.deploymentStep.server_types = this.server_types;
     }
+  },
+  methods: {
+    edit() {
+      this.deploymentStep.editing = true;
+      this.updateStep();
+    },
+    save() {
+      this.deploymentStep.editing = false;
+      this.deploymentStep.step = this.step;
+      this.deploymentStep.script = this.script;
+      this.deploymentStep.server_ids = this.server_ids;
+      this.deploymentStep.description = this.description;
+      this.updateStep();
+    },
+    cancel() {
+      this.deploymentStep.editing = false;
+      this.updateStep();
+    },
+    updateStep() {
+      this.$emit("updateStep", this.deploymentStep);
+    },
+    deleteStep() {
+      this.$emit("deleteStep");
+    }
+  },
+  computed: {
+    siteServers() {
+      return this.$store.getters["user_site_servers/getServers"](
+        this.$route.params.site_id
+      );
+    },
+    displayServerSelection() {
+      if (this.$route.params.site_id) {
+        if (this.siteServers && this.siteServers.length > 1) {
+          return true;
+        }
+        return false;
+      }
+    },
+    availableServerTypes() {
+      return _.pickBy(window.Laravel.serverTypes, function(serverType) {
+        return (
+          serverType === "web" ||
+          serverType === "full_stack" ||
+          serverType === "worker"
+        );
+      });
+    },
+    deploymentSteps() {
+      return this.$store.state.user_site_deployments.deployment_steps;
+    },
+    internalStep() {
+      if (
+        this.deploymentStep.internal_deployment_function &&
+        this.deploymentSteps
+      ) {
+        return _.find(this.deploymentSteps, step => {
+          return (
+            step.internal_deployment_function ===
+            this.deploymentStep.internal_deployment_function
+          );
+        });
+      }
+
+      return false;
+    }
+  }
+};
 </script>

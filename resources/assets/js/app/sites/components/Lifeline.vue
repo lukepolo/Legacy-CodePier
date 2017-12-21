@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    export default {
-        props : ['lifeLine', 'site'],
-    }
+export default {
+  props: ["lifeLine", "site"]
+};
 </script>

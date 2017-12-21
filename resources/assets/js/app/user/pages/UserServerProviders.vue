@@ -44,63 +44,74 @@
 </template>
 
 <script>
-    import ServerProviderForm from '../components/ServerProviderForm'
-    export default {
-        props: [],
-        components : {
-            ServerProviderForm
-        },
-        data() {
-          return {
-              adding_provider : {}
-          }
-        },
-        computed: {
-            server_providers() {
-                return this.$store.state.server_providers.providers;
-            },
-            user_server_providers() {
-                return this.$store.state.user_server_providers.providers;
-            }
-        },
-        methods: {
-            connectOrDisconnectProvider(provider) {
-                if(this.isConnected(provider.id)) {
-                    this.disconnectProvider(provider)
-                } else {
-                    if(provider.oauth) {
-                        window.location = this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
-                    } else {
-                        Vue.set(this.adding_provider, provider.id, true)
-                    }
-                }
-            },
-            isConnected: function (server_provider_id) {
-                return _.find(this.user_server_providers, {'server_provider_id': server_provider_id});
-            },
-            disconnectProvider: function (provider) {
-                let server_provider = _.find(this.user_server_providers, function (server_provider) {
-                    return server_provider.server_provider_id === provider.id;
-                }).id;
-
-                this.$store.dispatch('user_server_providers/destroy', {
-                    user: this.$store.state.user.user.id,
-                    server_provider: server_provider
-                });
-            },
-            user_repository_providers() {
-                return this.$store.state.user_server_providers.providers
-            },
-
-            registerProvider(provider) {
-                window.location.replace(this.action('Auth\OauthController@newProvider', {
-                    provider : provider
-                }))
-            },
-        },
-        created() {
-            this.$store.dispatch('server_providers/get');
-            this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id);
-        },
+import ServerProviderForm from "../components/ServerProviderForm";
+export default {
+  props: [],
+  components: {
+    ServerProviderForm
+  },
+  data() {
+    return {
+      adding_provider: {}
+    };
+  },
+  computed: {
+    server_providers() {
+      return this.$store.state.server_providers.providers;
+    },
+    user_server_providers() {
+      return this.$store.state.user_server_providers.providers;
     }
+  },
+  methods: {
+    connectOrDisconnectProvider(provider) {
+      if (this.isConnected(provider.id)) {
+        this.disconnectProvider(provider);
+      } else {
+        if (provider.oauth) {
+          window.location = this.action("AuthOauthController@newProvider", {
+            provider: provider.provider_name
+          });
+        } else {
+          Vue.set(this.adding_provider, provider.id, true);
+        }
+      }
+    },
+    isConnected: function(server_provider_id) {
+      return _.find(this.user_server_providers, {
+        server_provider_id: server_provider_id
+      });
+    },
+    disconnectProvider: function(provider) {
+      let server_provider = _.find(this.user_server_providers, function(
+        server_provider
+      ) {
+        return server_provider.server_provider_id === provider.id;
+      }).id;
+
+      this.$store.dispatch("user_server_providers/destroy", {
+        user: this.$store.state.user.user.id,
+        server_provider: server_provider
+      });
+    },
+    user_repository_providers() {
+      return this.$store.state.user_server_providers.providers;
+    },
+
+    registerProvider(provider) {
+      window.location.replace(
+        this.action("AuthOauthController@newProvider", {
+          provider: provider
+        })
+      );
+    }
+  },
+  created() {
+    this.$store.dispatch("server_providers/get");
+    this.$store.dispatch(
+      "user_server_providers/get",
+      this.$store.state.user.user.id
+    );
+  }
+};
 </script>

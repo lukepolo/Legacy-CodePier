@@ -20,11 +20,11 @@
 </template>
 
 <script>
-    export default {
-        computed: {
-            buoy() {
-                return this.$store.state.buoys.buoy_app
-            }
-        }
+export default {
+  computed: {
+    buoy() {
+      return this.$store.state.buoys.buoy_app;
     }
+  }
+};
 </script>

@@ -3,17 +3,17 @@
 </template>
 
 <script>
-    import {
-        Clients,
-        AuthorizedClients,
-        PersonalAccessTokens,
-    } from '../components/passport';
+import {
+  Clients,
+  AuthorizedClients,
+  PersonalAccessTokens
+} from "../components/passport";
 
-    export default {
-        components: {
-            Clients,
-            AuthorizedClients,
-            PersonalAccessTokens
-        }
-    }
+export default {
+  components: {
+    Clients,
+    AuthorizedClients,
+    PersonalAccessTokens
+  }
+};
 </script>

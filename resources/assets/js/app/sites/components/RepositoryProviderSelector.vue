@@ -33,56 +33,62 @@
 
 <script>
 export default {
-    props : {
-        provider : {
-            default : null
-        }
+  props: {
+    provider: {
+      default: null
+    }
+  },
+  data() {
+    return {
+      user_provider: this.provider
+    };
+  },
+  created() {
+    this.$store.dispatch("repository_providers/get");
+  },
+  watch: {
+    provider: function(provider) {
+      this.user_provider = provider;
     },
-    data() {
-        return {
-            user_provider : this.provider
-        }
+    user_provider: function(provider) {
+      this.$emit("update:provider", provider);
+    }
+  },
+  methods: {
+    isConnected: function(repository_provider_id) {
+      return _.find(this.user_repository_providers, {
+        repository_provider_id: parseInt(repository_provider_id)
+      });
     },
-    created() {
-        this.$store.dispatch('repository_providers/get')
-    },
-    watch : {
-        'provider' : function (provider) {
-            this.user_provider = provider
-        },
-        'user_provider' : function(provider) {
-            this.$emit('update:provider', provider)
-        }
-    },
-    methods: {
-        isConnected: function (repository_provider_id) {
-            return _.find(this.user_repository_providers, {'repository_provider_id': parseInt(repository_provider_id)})
-        },
-        disconnectProvider: function (repository_provider_id) {
+    disconnectProvider: function(repository_provider_id) {
+      let repository_provider = _.find(this.user_repository_providers, function(
+        repository_provider
+      ) {
+        return (
+          repository_provider.repository_provider_id === repository_provider_id
+        );
+      }).id;
 
-            let repository_provider = _.find(this.user_repository_providers, function (repository_provider) {
-                return repository_provider.repository_provider_id === repository_provider_id
-            }).id
-
-            this.$store.dispatch('user_repository_providers/destroy', {
-                user: this.$store.state.user.user.id,
-                repository_provider: repository_provider
-            })
-
-        },
-        registerProvider(provider) {
-            window.location.replace(this.action('Auth\OauthController@newProvider', {
-                provider : provider
-            }))
-        },
+      this.$store.dispatch("user_repository_providers/destroy", {
+        user: this.$store.state.user.user.id,
+        repository_provider: repository_provider
+      });
     },
-    computed: {
-        repository_providers() {
-            return this.$store.state.repository_providers.providers
-        },
-        user_repository_providers() {
-            return this.$store.state.user_repository_providers.providers
-        }
+    registerProvider(provider) {
+      window.location.replace(
+        this.action("AuthOauthController@newProvider", {
+          provider: provider
+        })
+      );
+    }
+  },
+  computed: {
+    repository_providers() {
+      return this.$store.state.repository_providers.providers;
     },
-}
+    user_repository_providers() {
+      return this.$store.state.user_repository_providers.providers;
+    }
+  }
+};
 </script>

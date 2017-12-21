@@ -230,74 +230,87 @@
 </template>
 
 <script>
-    import CpuLoads from './../components/CpuLoads'
-    export default {
-        props : {
-            'server' : {},
-            'showInfo' : {
-                default : false
-            },
-        },
-        data() {
-            return {
-                'showing' : this.server.progress < 100 ? true : this.showInfo
-            }
-        },
-        components : {
-            CpuLoads
-        },
-        created() {
-            if(this.server.progress < 100) {
-                this.$store.dispatch('user_server_provisioning/getCurrentStep', this.server.id)
-            }
-        },
-        computed : {
-            serverType() {
-                return _.replace(this.server.type, '_', ' ')
-            },
-            showServerInfo() {
-                return this.showing
-            },
-            currentProvisioningStep() {
-                return this.$store.state.user_server_provisioning.current_step;
-            },
-            stats() {
-                if(this.server && this.server.stats) {
-                    return this.server.stats;
-                }
-            },
-            highestDiskUsage() {
-              if(this.stats && this.stats.disk_usage) {
-                return _.first(_.orderBy(this.stats.disk_usage, ['percent'], ['desc']))
-              }
-            },
-            highestMemory() {
-              if(this.stats && this.stats.memory) {
-                return _.first(_.orderBy(this.stats.memory, (memory) => {
-                  return this.getMemoryUsage(memory)
-                }, ['desc']))
-              }
-            },
-            latestLoad() {
-                if(this.stats && this.stats.loads) {
-                  return this.stats.loads[0];
-                }
-            }
-        },
-        methods : {
-            toggle() {
-               this.showing = !this.showing
-            },
-            retryProvision() {
-                this.$store.dispatch('user_server_provisioning/retry', this.server.id);
-            },
-            getCpuLoad(load) {
-                let loadPercent = (load / this.stats.cpus) * 100
-                return (loadPercent > 100 ? 100 : loadPercent)
-            },
-            getMemoryUsage(stats) {
-                return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100
-            }
-        },
+import CpuLoads from "./../components/CpuLoads";
+export default {
+  props: {
+    server: {},
+    showInfo: {
+      default: false
     }
+  },
+  data() {
+    return {
+      showing: this.server.progress < 100 ? true : this.showInfo
+    };
+  },
+  components: {
+    CpuLoads
+  },
+  created() {
+    if (this.server.progress < 100) {
+      this.$store.dispatch(
+        "user_server_provisioning/getCurrentStep",
+        this.server.id
+      );
+    }
+  },
+  computed: {
+    serverType() {
+      return _.replace(this.server.type, "_", " ");
+    },
+    showServerInfo() {
+      return this.showing;
+    },
+    currentProvisioningStep() {
+      return this.$store.state.user_server_provisioning.current_step;
+    },
+    stats() {
+      if (this.server && this.server.stats) {
+        return this.server.stats;
+      }
+    },
+    highestDiskUsage() {
+      if (this.stats && this.stats.disk_usage) {
+        return _.first(_.orderBy(this.stats.disk_usage, ["percent"], ["desc"]));
+      }
+    },
+    highestMemory() {
+      if (this.stats && this.stats.memory) {
+        return _.first(
+          _.orderBy(
+            this.stats.memory,
+            memory => {
+              return this.getMemoryUsage(memory);
+            },
+            ["desc"]
+          )
+        );
+      }
+    },
+    latestLoad() {
+      if (this.stats && this.stats.loads) {
+        return this.stats.loads[0];
+      }
+    }
+  },
+  methods: {
+    toggle() {
+      this.showing = !this.showing;
+    },
+    retryProvision() {
+      this.$store.dispatch("user_server_provisioning/retry", this.server.id);
+    },
+    getCpuLoad(load) {
+      let loadPercent = load / this.stats.cpus * 100;
+      return loadPercent > 100 ? 100 : loadPercent;
+    },
+    getMemoryUsage(stats) {
+      return (
+        this.getBytesFromString(stats.used) /
+        this.getBytesFromString(stats.total) *
+        100
+      );
+    }
+  }
+};
 </script>

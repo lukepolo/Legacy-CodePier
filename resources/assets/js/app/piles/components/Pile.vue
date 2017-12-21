@@ -65,71 +65,71 @@
 </template>
 
 <script>
-    import SiteForm from './../../../components/SiteForm'
-    export default {
-        props: ['pile', 'index'],
-        components: {
-            SiteForm
-        },
-        data () {
-            return {
-                form: this.createForm({
-                    pile: this.pile.id,
-                    name: this.pile.name
-                }),
-                addingSite: false,
-                editing: this.pile.editing
-            }
-        },
-        watch: {
-            'editing' () {
-                this.focus()
-            }
-        },
-        mounted() {
-            this.focus()
-        },
-        methods: {
-            focus() {
-                Vue.nextTick(() => {
-                    if (this.editing) {
-                        this.$refs.pile_name.focus()
-                    }
-                })
-            },
-            cancel () {
-                if (!this.pile.id) {
-                    this.$store.commit('user_piles/removeTemp', this.index)
-                }
-
-                this.editing = false
-            },
-            edit () {
-                this.editing = true
-            },
-            deletePile () {
-                if (this.pile.id) {
-                    return this.$store.dispatch('user_piles/destroy', this.pile.id)
-                }
-
-                this.cancel()
-            },
-            savePile () {
-                if (this.pile.id) {
-                    this.$store.dispatch('user_piles/update', this.form)
-                } else {
-                    this.$store.dispatch('user_piles/store', this.form).then(() => {
-                        this.cancel()
-                    })
-                }
-
-                this.editing = false
-            }
-        },
-        computed: {
-            sites () {
-                return this.$store.state.user_piles.piles[this.pile.id].sites
-            }
-        }
+import SiteForm from "./../../../components/SiteForm";
+export default {
+  props: ["pile", "index"],
+  components: {
+    SiteForm
+  },
+  data() {
+    return {
+      form: this.createForm({
+        pile: this.pile.id,
+        name: this.pile.name
+      }),
+      addingSite: false,
+      editing: this.pile.editing
+    };
+  },
+  watch: {
+    editing() {
+      this.focus();
     }
+  },
+  mounted() {
+    this.focus();
+  },
+  methods: {
+    focus() {
+      Vue.nextTick(() => {
+        if (this.editing) {
+          this.$refs.pile_name.focus();
+        }
+      });
+    },
+    cancel() {
+      if (!this.pile.id) {
+        this.$store.commit("user_piles/removeTemp", this.index);
+      }
+
+      this.editing = false;
+    },
+    edit() {
+      this.editing = true;
+    },
+    deletePile() {
+      if (this.pile.id) {
+        return this.$store.dispatch("user_piles/destroy", this.pile.id);
+      }
+
+      this.cancel();
+    },
+    savePile() {
+      if (this.pile.id) {
+        this.$store.dispatch("user_piles/update", this.form);
+      } else {
+        this.$store.dispatch("user_piles/store", this.form).then(() => {
+          this.cancel();
+        });
+      }
+
+      this.editing = false;
+    }
+  },
+  computed: {
+    sites() {
+      return this.$store.state.user_piles.piles[this.pile.id].sites;
+    }
+  }
+};
 </script>

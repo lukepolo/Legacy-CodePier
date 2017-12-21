@@ -103,63 +103,62 @@
 </template>
 
 <script>
-
-    import Notifications from './Notifications.vue'
+import Notifications from "./Notifications.vue";
 
 export default {
-        components: {
-            Notifications
-        },
-        data () {
-            return {
-                form: this.createForm({
-                    query: 'Sorry, its coming soon!'
-                }),
-                search: false,
-                current_version: Laravel.version
-            }
-        },
-        computed: {
-            version () {
-                return this.$store.state.system.version
-            },
-            piles () {
-                return this.$store.state.user_piles.piles
-            },
-            currentPile () {
-                if (this.user) {
-                    return this.getPile(this.user.current_pile_id)
-                }
-            },
-            currentTeam () {
-                const currentTeam = this.$store.state.user.user.current_team
+  components: {
+    Notifications
+  },
+  data() {
+    return {
+      form: this.createForm({
+        query: "Sorry, its coming soon!"
+      }),
+      search: false,
+      current_version: Laravel.version
+    };
+  },
+  computed: {
+    version() {
+      return this.$store.state.system.version;
+    },
+    piles() {
+      return this.$store.state.user_piles.piles;
+    },
+    currentPile() {
+      if (this.user) {
+        return this.getPile(this.user.current_pile_id);
+      }
+    },
+    currentTeam() {
+      const currentTeam = this.$store.state.user.user.current_team;
 
-                if (currentTeam) {
-                    return currentTeam.name
-                }
-                return 'Private'
-            },
-            user () {
-                return this.$store.state.user.user
-            },
-            teams () {
-                return this.$store.state.user_teams.teams
-            }
-        },
-        methods: {
-            toggleSearch () {
-                this.search = !this.search
-                this.$refs.search.focus()
-            },
-            logout () {
-                this.$store.dispatch('auth/logout')
-            },
-            changeTeam: function (teamID) {
-                this.$store.dispatch('changeTeams', teamID)
-            },
-            changePile: function (pile_id) {
-                this.$store.dispatch('user_piles/change', pile_id)
-            }
-        }
+      if (currentTeam) {
+        return currentTeam.name;
+      }
+      return "Private";
+    },
+    user() {
+      return this.$store.state.user.user;
+    },
+    teams() {
+      return this.$store.state.user_teams.teams;
     }
+  },
+  methods: {
+    toggleSearch() {
+      this.search = !this.search;
+      this.$refs.search.focus();
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+    },
+    changeTeam: function(teamID) {
+      this.$store.dispatch("changeTeams", teamID);
+    },
+    changePile: function(pile_id) {
+      this.$store.dispatch("user_piles/change", pile_id);
+    }
+  }
+};
 </script>

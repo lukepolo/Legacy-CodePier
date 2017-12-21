@@ -61,36 +61,43 @@
 </template>
 
 <script>
-    import DropDownEvent from './DropDownEvent.vue';
-    export default {
-        components: {
-            DropDownEvent,
-        },
-        props: ['event'],
-        methods: {
-            getRepositoryUrl(event) {
-                let site = this.getSite(event.site_id);
-                let repositoryProvider = this.getRepositoryProvider(site.user_repository_provider_id);
-                return 'https://'+ repositoryProvider.url + '/' + site.repository + '/'+repositoryProvider.commit_url+'/' + event.git_commit;
-            },
-            filterArray(data) {
+import DropDownEvent from "./DropDownEvent.vue";
+export default {
+  components: {
+    DropDownEvent
+  },
+  props: ["event"],
+  methods: {
+    getRepositoryUrl(event) {
+      let site = this.getSite(event.site_id);
+      let repositoryProvider = this.getRepositoryProvider(
+        site.user_repository_provider_id
+      );
+      return (
+        "https://" +
+        repositoryProvider.url +
+        "/" +
+        site.repository +
+        "/" +
+        repositoryProvider.commit_url +
+        "/" +
+        event.git_commit
+      );
+    },
+    filterArray(data) {
+      if (!Array.isArray(data)) {
+        data = [data];
+      }
 
-                if (!Array.isArray(data)) {
-                    data = [data]
-                }
+      return _.reject(_.reject(data, _.isEmpty), _.isNull);
+    },
+    formatSeconds(number) {
+      let seconds = parseFloat(number).toFixed(2);
 
-                return _.reject(
-                    _.reject(data, _.isEmpty),
-                    _.isNull
-                )
-            },
-            formatSeconds(number) {
-                let seconds = parseFloat(number).toFixed(2);
-
-                if (!isNaN(seconds)) {
-                    return seconds;
-                }
-            }
-        }
+      if (!isNaN(seconds)) {
+        return seconds;
+      }
     }
+  }
+};
 </script>

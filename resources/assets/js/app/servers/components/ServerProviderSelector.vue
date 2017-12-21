@@ -83,52 +83,61 @@
 </template>
 
 <script>
-    import ServerProviderForm from './../../user/components/ServerProviderForm'
-    export default {
-        props: ['server_provider_id', 'is_custom'],
-        components : {
-            ServerProviderForm
-        },
-        data() {
-          return {
-              adding_provider : {},
-          }
-        },
-        computed: {
-            server_providers() {
-                return this.$store.state.server_providers.providers;
-            },
-            user_server_providers() {
-                return this.$store.state.user_server_providers.providers;
-            }
-        },
-        methods: {
-            selectCustom() {
-                this.$emit('update:is_custom', true)
-                this.$emit('update:server_provider_id', null)
-            },
-            connectOrSelectProvider(provider) {
-                if(this.isConnected(provider.id)) {
-                    this.$emit('update:is_custom', false)
-                    this.$emit('update:server_provider_id', provider.id)
-                } else {
-                    if(provider.oauth) {
-                        window.location.replace(this.action('Auth\OauthController@newProvider', { provider : provider.provider_name}))
-                    } else {
-                        Vue.set(this.adding_provider, provider.id, true)
-                    }
-                }
-            },
-            isConnected: function (server_provider_id) {
-                return _.find(this.user_server_providers, {'server_provider_id': server_provider_id});
-            },
-            user_repository_providers() {
-                return this.$store.state.user_server_providers.providers
-            }
-        },
-        created() {
-            this.$store.dispatch('server_providers/get');
-            this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id);
-        },
+import ServerProviderForm from "./../../user/components/ServerProviderForm";
+export default {
+  props: ["server_provider_id", "is_custom"],
+  components: {
+    ServerProviderForm
+  },
+  data() {
+    return {
+      adding_provider: {}
+    };
+  },
+  computed: {
+    server_providers() {
+      return this.$store.state.server_providers.providers;
+    },
+    user_server_providers() {
+      return this.$store.state.user_server_providers.providers;
     }
+  },
+  methods: {
+    selectCustom() {
+      this.$emit("update:is_custom", true);
+      this.$emit("update:server_provider_id", null);
+    },
+    connectOrSelectProvider(provider) {
+      if (this.isConnected(provider.id)) {
+        this.$emit("update:is_custom", false);
+        this.$emit("update:server_provider_id", provider.id);
+      } else {
+        if (provider.oauth) {
+          window.location.replace(
+            this.action("AuthOauthController@newProvider", {
+              provider: provider.provider_name
+            })
+          );
+        } else {
+          Vue.set(this.adding_provider, provider.id, true);
+        }
+      }
+    },
+    isConnected: function(server_provider_id) {
+      return _.find(this.user_server_providers, {
+        server_provider_id: server_provider_id
+      });
+    },
+    user_repository_providers() {
+      return this.$store.state.user_server_providers.providers;
+    }
+  },
+  created() {
+    this.$store.dispatch("server_providers/get");
+    this.$store.dispatch(
+      "user_server_providers/get",
+      this.$store.state.user.user.id
+    );
+  }
+};
 </script>

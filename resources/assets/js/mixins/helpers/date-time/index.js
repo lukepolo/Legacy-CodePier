@@ -2,7 +2,7 @@ export const now = () => {
   return moment();
 };
 
-export const parseDate = (date) => {
+export const parseDate = date => {
   return moment(date);
 };
 

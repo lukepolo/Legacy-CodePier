@@ -25,40 +25,40 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            'pile': {
-                default: null
-            },
-            'adding': {
-                default: false
-            }
-        },
-        data () {
-            return {
-                form: this.createForm({
-                    domain: null,
-                    wildcard_domain : false,
-                    pile_id: this.pile && this.pile.id,
-                })
-            }
-        },
-        watch :  {
-            'adding' : function() {
-                Vue.nextTick(() => {
-                    if(this.adding) {
-                        this.$refs.domain.focus()
-                    }
-                })
-            }
-        },
-        methods: {
-            saveSite () {
-                this.$store.dispatch('user_sites/store', this.form)
-            },
-            cancel () {
-                this.$emit('update:adding', false)
-            }
-        }
+export default {
+  props: {
+    pile: {
+      default: null
+    },
+    adding: {
+      default: false
     }
+  },
+  data() {
+    return {
+      form: this.createForm({
+        domain: null,
+        wildcard_domain: false,
+        pile_id: this.pile && this.pile.id
+      })
+    };
+  },
+  watch: {
+    adding: function() {
+      Vue.nextTick(() => {
+        if (this.adding) {
+          this.$refs.domain.focus();
+        }
+      });
+    }
+  },
+  methods: {
+    saveSite() {
+      this.$store.dispatch("user_sites/store", this.form);
+    },
+    cancel() {
+      this.$emit("update:adding", false);
+    }
+  }
+};
 </script>

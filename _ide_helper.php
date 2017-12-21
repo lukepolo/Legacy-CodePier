@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.25 on 2017-12-18.
+ * Generated for Laravel 5.5.27 on 2017-12-20.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -7090,24 +7090,24 @@ namespace Illuminate\Support\Facades {
          * Merge new input into the current request's input array.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function merge($input)
         {
-            \Illuminate\Http\Request::merge($input);
+            return \Illuminate\Http\Request::merge($input);
         }
         
         /**
          * Replace the input for the current request.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function replace($input)
         {
-            \Illuminate\Http\Request::replace($input);
+            return \Illuminate\Http\Request::replace($input);
         }
         
         /**
@@ -12998,6 +12998,110 @@ namespace Sentry\SentryLaravel {
  
 }
 
+namespace Laravel\Socialite\Facades { 
+
+    class Socialite {
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+            return \Laravel\Socialite\SocialiteManager::with($driver);
+        }
+        
+        /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
+        }
+        
+        /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+        }
+        
+        /**
+         * Get the default driver name.
+         *
+         * @throws \InvalidArgumentException
+         * @return string 
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::driver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return $this 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
+        }
+        
+        /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+         
+    }
+ 
+}
+
+namespace Laravel\Horizon { 
+
+    class Horizon {
+         
+    }
+ 
+}
+
 namespace Vinkla\Hashids\Facades { 
 
     class Hashids {
@@ -13127,110 +13231,6 @@ namespace Vinkla\Hashids\Facades {
         {
             //Method inherited from \GrahamCampbell\Manager\AbstractManager            
             return \Vinkla\Hashids\HashidsManager::getConfig();
-        }
-         
-    }
- 
-}
-
-namespace Laravel\Horizon { 
-
-    class Horizon {
-         
-    }
- 
-}
-
-namespace Laravel\Socialite\Facades { 
-
-    class Socialite {
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function with($driver)
-        {
-            return \Laravel\Socialite\SocialiteManager::with($driver);
-        }
-        
-        /**
-         * Build an OAuth 2 provider instance.
-         *
-         * @param string $provider
-         * @param array $config
-         * @return \Laravel\Socialite\Two\AbstractProvider 
-         * @static 
-         */ 
-        public static function buildProvider($provider, $config)
-        {
-            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
-        }
-        
-        /**
-         * Format the server configuration.
-         *
-         * @param array $config
-         * @return array 
-         * @static 
-         */ 
-        public static function formatConfig($config)
-        {
-            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
-        }
-        
-        /**
-         * Get the default driver name.
-         *
-         * @throws \InvalidArgumentException
-         * @return string 
-         * @static 
-         */ 
-        public static function getDefaultDriver()
-        {
-            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
-        }
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function driver($driver = null)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::driver($driver);
-        }
-        
-        /**
-         * Register a custom driver creator Closure.
-         *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
-         * @static 
-         */ 
-        public static function extend($driver, $callback)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
-        }
-        
-        /**
-         * Get all of the created "drivers".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getDrivers()
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::getDrivers();
         }
          
     }
@@ -15450,11 +15450,11 @@ namespace  {
 
     class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
 
-    class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
+    class Socialite extends \Laravel\Socialite\Facades\Socialite {}
 
     class Horizon extends \Laravel\Horizon\Horizon {}
 
-    class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+    class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
 
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
  

@@ -277,112 +277,136 @@
 </template>
 
 <script>
-    import LifeLines from './../components/Lifelines'
-    export default {
-        data() {
-            return {
-                showSlackForm : false,
-                webhook : false,
-                sshKey: false,
-                notificationChannelsForm: this.createForm({
-                    site : null,
-                    server : null,
-                    lifelines : null
-                }),
-                renameForm : {
-                    domain : null,
-                }
-            }
-        },
-        components : {
-            LifeLines
-        },
-        created() {
-            this.fetchData()
-        },
-        watch: {
-            '$route' : 'fetchData',
-            'site' : function(site) {
-                Vue.set(this.renameForm, 'domain', site.domain);
-            }
-        },
-        methods: {
-            createDeployHook() {
-                return this.$store.dispatch('user_site_deployments/createDeployHook', this.$route.params.site_id)
-            },
-            removeDeployHook() {
-                this.$store.dispatch('user_site_deployments/removeDeployHook', {
-                    site : this.$route.params.site_id,
-                    hook : this.site.automatic_deployment_id
-                });
-            },
-            fetchData() {
-                this.getDns()
-                this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
-                Vue.set(this.renameForm, 'domain', this.site ? this.site.domain : null)
-            },
-            getDns(refresh) {
-
-                let data = {
-                    site : this.$route.params.site_id,
-                }
-
-                if(refresh) {
-                    data.refresh = true
-                }
-
-                this.$store.dispatch('user_site_dns/get', data)
-            },
-            updateNotificationChannels() {
-                this.$store.dispatch('user_sites/updateNotificationChannels', {
-                    site : this.$route.params.site_id,
-                    slack_channel_preferences : this.notificationChannelsForm.data(),
-                }).then(() => {
-                    this.showSlackForm = false;
-                })
-            },
-            resetForm() {
-                this.notificationChannelsForm.reset();
-                this.showSlackForm = false;
-            }
-        },
-        computed: {
-            site() {
-                let site = this.$store.state.user_sites.site
-                if(site && site.slack_channel_preferences) {
-                    Vue.set(this, 'notificationChannelsForm', this.createForm(_.cloneDeep(site.slack_channel_preferences)))
-                }
-                return site;
-            },
-            siteServers() {
-                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
-
-                if(siteServers && siteServers.length) {
-                    return siteServers
-                }
-            },
-            deployHook() {
-                if(this.site) {
-                    return location.protocol+'//'+location.hostname + Vue.action('WebHookController@deploy', { siteHashID : this.site.hash })
-                }
-            },
-            dns() {
-                return this.$store.state.user_site_dns.dns
-            },
-            siteServers() {
-                return _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
-            },
-            dnsIsPointedToServer() {
-                if(this.siteServers && this.dns.ip) {
-                    return _.indexOf(_.map(this.siteServers, 'ip'), this.dns.ip) > -1
-                }
-            },
-            recentDeployments() {
-                return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5)
-            },
-            hasNotificationProviders() {
-                return this.$store.state.user_notification_providers.providers.length > 0 ? true : false;
-            },
-        },
+import LifeLines from "./../components/Lifelines";
+export default {
+  data() {
+    return {
+      showSlackForm: false,
+      webhook: false,
+      sshKey: false,
+      notificationChannelsForm: this.createForm({
+        site: null,
+        server: null,
+        lifelines: null
+      }),
+      renameForm: {
+        domain: null
+      }
+    };
+  },
+  components: {
+    LifeLines
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData",
+    site: function(site) {
+      Vue.set(this.renameForm, "domain", site.domain);
     }
+  },
+  methods: {
+    createDeployHook() {
+      return this.$store.dispatch(
+        "user_site_deployments/createDeployHook",
+        this.$route.params.site_id
+      );
+    },
+    removeDeployHook() {
+      this.$store.dispatch("user_site_deployments/removeDeployHook", {
+        site: this.$route.params.site_id,
+        hook: this.site.automatic_deployment_id
+      });
+    },
+    fetchData() {
+      this.getDns();
+      this.$store.dispatch(
+        "user_site_deployments/get",
+        this.$route.params.site_id
+      );
+      Vue.set(this.renameForm, "domain", this.site ? this.site.domain : null);
+    },
+    getDns(refresh) {
+      let data = {
+        site: this.$route.params.site_id
+      };
+
+      if (refresh) {
+        data.refresh = true;
+      }
+
+      this.$store.dispatch("user_site_dns/get", data);
+    },
+    updateNotificationChannels() {
+      this.$store
+        .dispatch("user_sites/updateNotificationChannels", {
+          site: this.$route.params.site_id,
+          slack_channel_preferences: this.notificationChannelsForm.data()
+        })
+        .then(() => {
+          this.showSlackForm = false;
+        });
+    },
+    resetForm() {
+      this.notificationChannelsForm.reset();
+      this.showSlackForm = false;
+    }
+  },
+  computed: {
+    site() {
+      let site = this.$store.state.user_sites.site;
+      if (site && site.slack_channel_preferences) {
+        Vue.set(
+          this,
+          "notificationChannelsForm",
+          this.createForm(_.cloneDeep(site.slack_channel_preferences))
+        );
+      }
+      return site;
+    },
+    siteServers() {
+      let siteServers = _.get(
+        this.$store.state.user_site_servers.servers,
+        this.$route.params.site_id
+      );
+
+      if (siteServers && siteServers.length) {
+        return siteServers;
+      }
+    },
+    deployHook() {
+      if (this.site) {
+        return (
+          location.protocol +
+          "//" +
+          location.hostname +
+          Vue.action("WebHookController@deploy", { siteHashID: this.site.hash })
+        );
+      }
+    },
+    dns() {
+      return this.$store.state.user_site_dns.dns;
+    },
+    siteServers() {
+      return _.get(
+        this.$store.state.user_site_servers.servers,
+        this.$route.params.site_id
+      );
+    },
+    dnsIsPointedToServer() {
+      if (this.siteServers && this.dns.ip) {
+        return _.indexOf(_.map(this.siteServers, "ip"), this.dns.ip) > -1;
+      }
+    },
+    recentDeployments() {
+      return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5);
+    },
+    hasNotificationProviders() {
+      return this.$store.state.user_notification_providers.providers.length > 0
+        ? true
+        : false;
+    }
+  }
+};
 </script>

@@ -6,7 +6,8 @@
     "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch-poll": "npm run watch -- --watch-poll",
     "prod": "npm run production",
-    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "pretty" : "vue-prettier --write './resources/assets/js/**/*.*(ts|js|json)' && prettier --write './resources/assets/js/**/*.*(ts|js|json)'"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",
