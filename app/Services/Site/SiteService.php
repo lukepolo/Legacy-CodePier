@@ -140,7 +140,7 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        if (!$site->ssh_key_imported && $site->userRepositoryProvider) {
+        if (! $site->ssh_key_imported && $site->userRepositoryProvider) {
             $this->repositoryService->importSshKey($site);
         }
 

@@ -4,7 +4,6 @@ namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
