@@ -49,7 +49,7 @@ class RepositoryService implements RepositoryServiceContract
             try {
                 $providerService->importSshKey($site);
                 $site->update([
-                    'ssh_key_imported' => true
+                    'ssh_key_imported' => true,
                 ]);
             } catch (\Exception $e) {
                 if ($e instanceof DeployKeyAlreadyUsed) {
