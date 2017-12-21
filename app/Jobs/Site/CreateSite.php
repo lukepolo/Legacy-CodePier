@@ -4,6 +4,7 @@ namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
@@ -79,7 +80,7 @@ class CreateSite implements ShouldQueue
             });
 
             if ($this->wasSuccessful() && ! empty($this->site->repository)) {
-                dispatch_now(new DeploySite($this->site));
+                dispatch(new DeploySite($this->site));
             }
         } else {
             $this->updateServerCommand(microtime(true) - $start, ['Server Setup']);
