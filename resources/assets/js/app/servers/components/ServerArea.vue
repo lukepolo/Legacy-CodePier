@@ -1,34 +1,3 @@
-<style>
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-  animation: bounce-out 0.5s;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes bounce-out {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-</style>
-
 <template>
     <div class="parent">
 
@@ -56,13 +25,6 @@
 </template>
 
 <script>
-
-    import LeftNav from '../../../components/LeftNav';
-    import ServerHeader from './ServerHeader';
-
-    export default {
-        components: {
-            Lef
 import LeftNav from "../../../components/LeftNav";
 import ServerHeader from "./ServerHeader";
 
@@ -102,3 +64,4 @@ export default {
     }
   }
 };
+</script>
