@@ -1,30 +1,33 @@
 <template>
-    <section>
-        <template v-if="site && displayServerSelection">
-            <br>
-            <br>
-            <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
-            <template v-for="server in siteServers">
-                <div class="flyform--group-checkbox">
-                    <label>
-                        <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
-                        <span class="icon"></span>
-                        {{ server.name }} - {{ server.type }} -({{ server.ip }})
-                    </label>
-                </div>
-            </template>
+    <confirm message="Select servers to run on">
+        <tooltip message="Select servers to run on" placement="bottom">
+            <span class="icon-server"></span>
+        </tooltip>
+        <div slot="form">
+            <template v-if="site && displayServerSelection">
+                <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
+                <template v-for="server in siteServers">
+                    <div class="flyform--group-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
+                            <span class="icon"></span>
+                            {{ server.name }} - {{ server.type }} -({{ server.ip }})
+                        </label>
+                    </div>
+                </template>
 
-            <template v-for="(serverType, serverTypeName) in availableServerTypes">
-                <div class="flyform--group-checkbox">
-                    <label>
-                        <input type="checkbox" v-model="form.server_types" :value="serverType">
-                        <span class="icon"></span>
-                        {{ serverTypeName }}
-                    </label>
-                </div>
+                <template v-for="(serverType, serverTypeName) in availableServerTypes">
+                    <div class="flyform--group-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="form.server_types" :value="serverType">
+                            <span class="icon"></span>
+                            {{ serverTypeName }}
+                        </label>
+                    </div>
+                </template>
             </template>
-        </template>
-    </section>
+        </div>
+    </confirm>
 </template>
 
 <script>
