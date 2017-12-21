@@ -1,8 +1,3 @@
-<style>
-.dragArea {
-  min-height: 20px;
-}
-</style>
 <template>
     <div v-if="site">
         <p>
@@ -113,10 +108,7 @@
 </template>
 
 <script>
-
-    import dr
 import draggable from "vuedraggable";
-
 import { DeploymentStepCard } from "../components";
 
 export default {
@@ -297,3 +289,4 @@ export default {
     }
   }
 };
+</script>

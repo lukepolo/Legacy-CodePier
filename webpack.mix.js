@@ -43,7 +43,7 @@ mix
     clipboard: "Clipboard",
     jquery: ["$", "jQuery"]
   })
-  .sourceMaps()
+  .sourceMaps(true, 'eval-source-map')
   .version();
 
 if (!mix.inProduction()) {
