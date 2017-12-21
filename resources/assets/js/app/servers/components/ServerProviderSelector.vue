@@ -8,8 +8,8 @@
                 <input
                     type="radio"
                     :value="provider.id"
-                    name="server_provider_id"
-                    v-model="server_provider_id"
+                    name="currentServerProvider"
+                    v-model="currentServerProvider"
                 >
             </template>
 
@@ -46,13 +46,6 @@
         </label>
 
         <label>
-            <input
-                type="radio"
-                value="3"
-                name="server_provider_id"
-                v-model="server_provider_id"
-            >
-
             <template v-if="is_custom">
                 <input type="hidden" name="custom" value="true">
             </template>
@@ -91,7 +84,8 @@ export default {
   },
   data() {
     return {
-      adding_provider: {}
+      adding_provider: {},
+      currentServerProvider : this.server_provider_id
     };
   },
   computed: {
@@ -123,9 +117,9 @@ export default {
         }
       }
     },
-    isConnected: function(server_provider_id) {
+    isConnected: function(serverProviderId) {
       return _.find(this.user_server_providers, {
-        server_provider_id: server_provider_id
+        server_provider_id: serverProviderId
       });
     },
     user_repository_providers() {

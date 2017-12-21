@@ -19,7 +19,6 @@
                             <input type="hidden" name="type" :value="$route.params.type">
                         </template>
 
-
                         <server-provider-selector :server_provider_id.sync="server_provider_id" :is_custom.sync="is_custom"></server-provider-selector>
 
                         <template v-if="is_custom || server_provider_id">
