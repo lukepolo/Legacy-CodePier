@@ -24,11 +24,11 @@
             <tbody>
             <tr v-for="sshKey in sshKeys">
                 <td>{{ sshKey.name }}</td>
-                <template v-if="isRunningCommandFor(sshKey.id)">
-                    <td>
+                <td>
+                    <template v-if="isRunningCommandFor(sshKey.id)">
                         {{ isRunningCommandFor(sshKey.id).status }}
-                    </td>
-                </template>
+                    </template>
+                </td>
                 <td class="table--action">
                     <tooltip message="Delete">
                         <span class="table--action-delete">
