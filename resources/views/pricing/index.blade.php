@@ -56,7 +56,6 @@
                         <li>Buoys</li>
                         <li>Server Monitoring</li>
                         <li>API Access <small>(Coming Soon!)</small></li>
-                        <li>Teams <small>(Coming Soon!)</small></li>
                     </ul>
                 </div>
                 <div class="pricing--footer">
