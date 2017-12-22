@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use Cache;
-use App\Models\User\User;
 use Carbon\Carbon;
+use App\Models\User\User;
 use Illuminate\Http\Request;
+use Stripe\Error\InvalidRequest;
+use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
 use App\Http\Requests\User\UserSubscriptionUpdateRequest;
-use Laravel\Cashier\Subscription;
-use Stripe\Error\InvalidRequest;
 
 class UserSubscriptionController extends Controller
 {
@@ -60,7 +60,7 @@ class UserSubscriptionController extends Controller
         $subscription->create($request->get('token'));
 
         $user->update([
-            'trial_ends_at' => Carbon::now()->addDays(5)
+            'trial_ends_at' => Carbon::now()->addDays(5),
         ]);
 
         return response()->json(
@@ -95,22 +95,20 @@ class UserSubscriptionController extends Controller
             $tempSubscription->coupon = $request->get('coupon');
             try {
                 $tempSubscription->save();
-            } catch(InvalidRequest $e) {
+            } catch (InvalidRequest $e) {
                 return response()->json($e->getMessage(), 500);
             }
         }
 
-        if($subscription->onGracePeriod()) {
+        if ($subscription->onGracePeriod()) {
             $subscription->resume();
         } else {
-            if($plan !== $subscription->stripe_plan) {
+            if ($plan !== $subscription->stripe_plan) {
                 $subscription
                     ->noProrate()
                     ->swap($plan);
             }
         }
-
-
 
         return response()->json(
             $user->subscriptionInfo()

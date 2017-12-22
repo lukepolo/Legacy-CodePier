@@ -101,13 +101,13 @@ if (! function_exists('cents_to_dollars')) {
 
 if (! function_exists('ddd')) {
     /**
-     * Developer conveinence
+     * Developer conveinence.
      *
      * @return mixed
      */
-    function ddd(...$args){
+    function ddd(...$args)
+    {
         http_response_code(500);
         call_user_func_array('dd', $args);
     }
 }
-
