@@ -98,3 +98,16 @@ if (! function_exists('cents_to_dollars')) {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
     }
 }
+
+if (! function_exists('ddd')) {
+    /**
+     * Developer conveinence
+     *
+     * @return mixed
+     */
+    function ddd(...$args){
+        http_response_code(500);
+        call_user_func_array('dd', $args);
+    }
+}
+

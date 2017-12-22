@@ -37,7 +37,10 @@
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
-                        <template v-if="userSubscription">
+                        <template v-if="isCanceled">
+                            Resume Subscription
+                        </template>
+                        <template v-else-if="userSubscription">
                             Update Subscription
                         </template>
                         <template v-else>
@@ -47,9 +50,15 @@
                 </div>
             </div>
 
+            <label>Coupon</label>
+            <input type="text" v-model="form.coupon">
             <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
 
         </form>
+
+        <div class="btn btn-danger" @click="cancelSubscription" v-if="!isCanceled">
+            Cancel Subscription
+        </div>
 
         <form @submit.prevent="updateCard" method="post" v-if="currentCard">
 
@@ -103,7 +112,8 @@ export default {
       form: this.createForm({
         plan: null,
         token: null,
-        subscription: null
+        coupon : null,
+        subscription: null,
       }),
       createCardForm: {
         card: null,
@@ -140,6 +150,7 @@ export default {
           this.$store
             .dispatch("user_subscription/updateCard", this.form)
             .then(() => {
+              this.coupon = null;
               this.processing = false;
             })
             .catch(() => {
@@ -151,10 +162,6 @@ export default {
       });
     },
     createSubscription() {
-      if (this.form.plan === "cancel") {
-        this.cancelSubscription();
-        return true;
-      }
 
       this.processing = true;
 
@@ -167,6 +174,7 @@ export default {
           this.$store
             .dispatch("user_subscription/store", this.form)
             .then(() => {
+              this.coupon = null;
               this.$store.dispatch("user/get");
             })
             .catch(() => {
@@ -182,6 +190,7 @@ export default {
         .dispatch("user_subscription/patch", this.form)
         .then(() => {
           this.$store.dispatch("user_subscription/getInvoices");
+          this.coupon = null;
           this.processing = false;
         })
         .catch(() => {
