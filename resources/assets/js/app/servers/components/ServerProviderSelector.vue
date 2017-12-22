@@ -8,7 +8,7 @@
                 <input
                     type="radio"
                     :value="provider.id"
-                    name="currentServerProvider"
+                    name="server_provider_id"
                     v-model="currentServerProvider"
                 >
             </template>

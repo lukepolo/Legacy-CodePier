@@ -30,6 +30,9 @@ class Ruby
             'Yarn',
             'NodeJs',
         ],
+        'FirewallService' => [
+            'installFail2ban'
+        ],
         'WorkerService' => [
             'Beanstalk',
             'Supervisor',
