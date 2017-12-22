@@ -70,7 +70,9 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        URL::forceScheme('https');
+        if (config('app.force_https')) {
+            URL::forceScheme('https');
+        }
     }
 
     /**
