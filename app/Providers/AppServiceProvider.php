@@ -12,6 +12,7 @@ use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
+use Illuminate\Support\Facades\URL;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
@@ -68,6 +69,8 @@ class AppServiceProvider extends ServiceProvider
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
             }
         });
+
+        URL::forceScheme('https');
     }
 
     /**
