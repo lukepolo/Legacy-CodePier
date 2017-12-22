@@ -4,10 +4,13 @@ namespace App\Http\Controllers\User\Subscription;
 
 use Cache;
 use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
 use App\Http\Requests\User\UserSubscriptionUpdateRequest;
+use Laravel\Cashier\Subscription;
+use Stripe\Error\InvalidRequest;
 
 class UserSubscriptionController extends Controller
 {
@@ -56,6 +59,10 @@ class UserSubscriptionController extends Controller
 
         $subscription->create($request->get('token'));
 
+        $user->update([
+            'trial_ends_at' => Carbon::now()->addDays(5)
+        ]);
+
         return response()->json(
             $user->subscriptionInfo()
         );
@@ -79,7 +86,31 @@ class UserSubscriptionController extends Controller
         Cache::forget($user->id.'.card');
         Cache::forget($user->id.'.subscription');
 
-        $user->subscription('default')->swap($plan);
+        /** @var Subscription $subscription */
+        $subscription = $user->subscription('default');
+
+        if ($request->has('coupon')) {
+            /** @var \Stripe\Subscription $tempSubscription */
+            $tempSubscription = $subscription->asStripeSubscription();
+            $tempSubscription->coupon = $request->get('coupon');
+            try {
+                $tempSubscription->save();
+            } catch(InvalidRequest $e) {
+                return response()->json($e->getMessage(), 500);
+            }
+        }
+
+        if($subscription->onGracePeriod()) {
+            $subscription->resume();
+        } else {
+            if($plan !== $subscription->stripe_plan) {
+                $subscription
+                    ->noProrate()
+                    ->swap($plan);
+            }
+        }
+
+
 
         return response()->json(
             $user->subscriptionInfo()
@@ -98,7 +129,9 @@ class UserSubscriptionController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $user->subscription($request->get('subscription', 'default'))->cancel();
+        $user->subscription($request->get('subscription', 'default'))
+            ->noProrate()
+            ->cancel();
 
         Cache::forget($user->id.'.subscription');
 
