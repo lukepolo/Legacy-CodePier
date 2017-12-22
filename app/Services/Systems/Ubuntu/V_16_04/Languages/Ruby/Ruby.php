@@ -31,7 +31,7 @@ class Ruby
             'NodeJs',
         ],
         'FirewallService' => [
-            'installFail2ban'
+            'installFail2ban',
         ],
         'WorkerService' => [
             'Beanstalk',

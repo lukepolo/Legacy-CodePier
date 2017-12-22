@@ -27,7 +27,7 @@ class HTML
             'NodeJs',
         ],
         'FirewallService' => [
-            'installFail2ban'
+            'installFail2ban',
         ],
         'DatabaseService' => [
             'Redis',
