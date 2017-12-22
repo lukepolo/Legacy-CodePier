@@ -23,6 +23,18 @@ class FirewallService
         $this->remoteTaskService->run('echo "y" | ufw enable');
     }
 
+    /**
+     * @description Fail2Ban is an intrusion prevention software framework that protects computer servers from brute-force attacks.
+     */
+    public function installFail2ban()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban');
+        $this->remoteTaskService->run('cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local');
+        $this->remoteTaskService->run('service fail2ban restart');
+    }
+
     public function addFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();

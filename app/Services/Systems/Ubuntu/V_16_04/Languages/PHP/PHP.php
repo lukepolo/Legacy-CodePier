@@ -36,6 +36,9 @@ class PHP
             'Yarn',
             'NodeJs',
         ],
+        'FirewallService' => [
+            'installFail2ban'
+        ],
         'WorkerService' => [
             'Beanstalk',
             'Supervisor',
@@ -194,6 +197,12 @@ class PHP
     
     location ~ /\.ht {
         deny all;
+    }
+    
+    location ~ /\. {
+       deny all;
+       access_log off; 
+       log_not_found off;
     }
 ';
     }
