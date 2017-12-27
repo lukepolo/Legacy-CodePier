@@ -4,7 +4,6 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 trait CodeIgniter
 {
-
     /**
      * @description Creates a symbolic link for the cache and logs folders
      *
@@ -28,5 +27,4 @@ trait CodeIgniter
 
         return $output;
     }
-
 }
