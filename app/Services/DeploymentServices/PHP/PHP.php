@@ -4,12 +4,13 @@ namespace App\Services\DeploymentServices\PHP;
 
 use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\DeployTrait;
+use App\Services\DeploymentServices\PHP\Frameworks\Symfony;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
 
 class PHP
 {
-    use Laravel;
     use DeployTrait;
+    use Laravel, Symfony;
 
     /**
      * @description Install the vendors packages.
@@ -18,7 +19,7 @@ class PHP
      */
     public function installPhpDependencies()
     {
-        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-dev --no-progress --no-interaction');
+        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-dev --no-progress --no-interaction --optimize-autoloader');
     }
 
     /**

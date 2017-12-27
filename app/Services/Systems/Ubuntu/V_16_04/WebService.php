@@ -273,17 +273,32 @@ server {
     include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
 
     charset utf-8;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+        
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
     
     location /.well-known/acme-challenge {
         alias /home/codepier/.well-known/acme-challenge;
     }
     
-    access_log off;
-    error_log  /var/log/nginx/'.$domain.'-error.log error;
-    
     sendfile off;
     
     '.$config.'
+    
+    location ~ /\.ht {
+        deny all;
+    }
+    
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+    
+    access_log off;
+    error_log  /var/log/nginx/'.$domain.'-error.log error;
 }
 
 # codepier CONFIG (DO NOT REMOVE!)

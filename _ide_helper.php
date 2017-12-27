@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.27 on 2017-12-21.
+ * Generated for Laravel 5.5.28 on 2017-12-27.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1885,7 +1885,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the session store used by the guard.
          *
-         * @return \Illuminate\Contracts\Session\Session. 
+         * @return \Illuminate\Contracts\Session\Session 
          * @static 
          */ 
         public static function getSession()
@@ -16733,6 +16733,19 @@ if (! function_exists('cents_to_dollars')) {
     function cents_to_dollars($cents)
     {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
+    }
+}
+
+if (! function_exists('ddd')) {
+    /**
+     * Developer conveinence.
+     *
+     * @return mixed
+     */
+    function ddd(...$args)
+    {
+        http_response_code(500);
+        call_user_func_array('dd', $args);
     }
 }
  
