@@ -37,7 +37,7 @@ class PHP
             'NodeJs',
         ],
         'FirewallService' => [
-            'installFail2ban',
+            'Fail2ban',
         ],
         'WorkerService' => [
             'Beanstalk',
