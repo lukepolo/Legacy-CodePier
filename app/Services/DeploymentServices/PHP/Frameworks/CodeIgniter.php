@@ -11,7 +11,7 @@ trait CodeIgniter
      *
      * @order 150
      */
-    public function symfonyCreateSymbolicFolders()
+    public function codeIgniterCreateSymbolicFolders()
     {
         $output = [];
 
