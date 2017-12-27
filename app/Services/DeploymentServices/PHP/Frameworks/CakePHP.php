@@ -9,7 +9,7 @@ trait CakePHP
      *
      * @zerotime-deployment
      *
-     * @order 210
+     * @order 250
      */
     public function cakePHPCreatePluginSymlinks()
     {
@@ -19,7 +19,7 @@ trait CakePHP
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @order 210
+     * @order 300
      */
     public function cakePHPRunMigrations()
     {
