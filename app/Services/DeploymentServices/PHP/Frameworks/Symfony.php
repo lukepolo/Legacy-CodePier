@@ -14,13 +14,17 @@ trait Symfony
      */
     public function symfonyCreateSymbolicEnv()
     {
+        $output = [];
+
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.dist')) {
-            $this->remoteTaskService->run('cp '.$this->release.'/.env.dist '.$this->siteFolder.'/.env');
+            $output[] = $this->remoteTaskService->run('cp '.$this->release.'/.env.dist '.$this->siteFolder.'/.env');
         }
 
         if ($this->zerotimeDeployment) {
-            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
+
+        return $output;
     }
 
     /**
@@ -56,7 +60,7 @@ trait Symfony
      */
     public function symfonyDumpAsseticAssets()
     {
-        $this->remoteTaskService->run('cd '.$this->release.'; php bin/console assetic:dump --no-debug');
+        return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console assetic:dump --no-debug');
     }
 
     /**
@@ -66,7 +70,7 @@ trait Symfony
      */
     public function symfonyClearCache()
     {
-        $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:clear --no-debug --no-warmup');
+        return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:clear --no-debug --no-warmup');
     }
 
     /**
@@ -76,7 +80,7 @@ trait Symfony
      */
     public function symfonyWarmupCache()
     {
-        $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:warmup');
+        return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:warmup');
     }
 
     /**

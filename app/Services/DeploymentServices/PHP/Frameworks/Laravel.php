@@ -13,19 +13,23 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
+        $output = [];
+
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.example')) {
-            $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->siteFolder.'/.env');
+            $output = $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->siteFolder.'/.env');
         }
 
         $appKey = str_after($this->remoteTaskService->getFileLine($this->siteFolder.'/.env', '^APP_KEY='), '=');
 
         if ($this->zerotimeDeployment) {
-            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+            $output = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
 
         if (empty($appKey)) {
-            $this->remoteTaskService->run('cd '.$this->release.'; php artisan key:generate');
+            $output = $this->remoteTaskService->run('cd '.$this->release.'; php artisan key:generate');
         }
+
+        return $output;
     }
 
     /**
@@ -40,9 +44,9 @@ trait Laravel
         $output = [];
 
         if ($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
-            $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
-            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
+            $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
+            $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
+            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
         }
 
         return $output;
