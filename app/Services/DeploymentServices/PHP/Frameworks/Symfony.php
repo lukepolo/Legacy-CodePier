@@ -4,7 +4,6 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 trait Symfony
 {
-
     /**
      * @description Creates a symbolic link for the env file, should create environment variables for production usage
      *
@@ -60,7 +59,6 @@ trait Symfony
         $this->remoteTaskService->run('cd '.$this->release.'; php bin/console assetic:dump --no-debug');
     }
 
-
     /**
      * @description Clears the cache.
      *
@@ -70,7 +68,6 @@ trait Symfony
     {
         $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:clear --no-debug --no-warmup');
     }
-
 
     /**
      * @description Warms up the cache.
