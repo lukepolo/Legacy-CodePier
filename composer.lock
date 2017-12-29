@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e52a5310b4a856545f947492c9f4f7fa",
+    "content-hash": "5c38e0d039575b41733cda16f6c9aa55",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -934,6 +934,49 @@
             "time": "2017-11-26T14:49:08+00:00"
         },
         {
+            "name": "drewm/mailchimp-api",
+            "version": "v2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drewm/mailchimp-api.git",
+                "reference": "fe480bb652f85270227bf6d639b0026a531f21fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drewm/mailchimp-api/zipball/fe480bb652f85270227bf6d639b0026a531f21fc",
+                "reference": "fe480bb652f85270227bf6d639b0026a531f21fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*",
+                "vlucas/phpdotenv": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DrewM\\MailChimp\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Drew McLellan",
+                    "email": "drew.mclellan@gmail.com",
+                    "homepage": "http://allinthehead.com/"
+                }
+            ],
+            "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
+            "homepage": "https://github.com/drewm/mailchimp-api",
+            "time": "2017-02-16T13:24:20+00:00"
+        },
+        {
             "name": "egulias/email-validator",
             "version": "2.1.3",
             "source": {
@@ -1829,16 +1872,16 @@
         },
         {
             "name": "laravel/cashier",
-            "version": "v7.0.12",
+            "version": "v7.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/cashier.git",
-                "reference": "f5323837a9ff0d660cd28e4f05dc25d1a1580898"
+                "reference": "df8b12de451e2ad1b2285e67518e9fb97ebd7cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/cashier/zipball/f5323837a9ff0d660cd28e4f05dc25d1a1580898",
-                "reference": "f5323837a9ff0d660cd28e4f05dc25d1a1580898",
+                "url": "https://api.github.com/repos/laravel/cashier/zipball/df8b12de451e2ad1b2285e67518e9fb97ebd7cb2",
+                "reference": "df8b12de451e2ad1b2285e67518e9fb97ebd7cb2",
                 "shasum": ""
             },
             "require": {
@@ -1848,7 +1891,7 @@
                 "nesbot/carbon": "~1.0",
                 "php": ">=5.5.9",
                 "stripe/stripe-php": "~5.0",
-                "symfony/http-kernel": "~2.7|~3.0"
+                "symfony/http-kernel": "~2.7|~3.0|~4.0"
             },
             "require-dev": {
                 "illuminate/http": "~5.3",
@@ -1890,7 +1933,7 @@
                 "laravel",
                 "stripe"
             ],
-            "time": "2017-10-19T12:37:44+00:00"
+            "time": "2017-12-29T15:23:28+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4084,16 +4127,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.16",
+            "version": "v0.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "d4c8eab0683dc056f2ca54ca67f5388527c068b1"
+                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/d4c8eab0683dc056f2ca54ca67f5388527c068b1",
-                "reference": "d4c8eab0683dc056f2ca54ca67f5388527c068b1",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
+                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
                 "shasum": ""
             },
             "require": {
@@ -4152,7 +4195,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-12-10T21:49:27+00:00"
+            "time": "2017-12-28T16:14:16+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -4618,6 +4661,66 @@
             ],
             "description": "Slack OAuth2 Provider for Laravel Socialite",
             "time": "2017-04-10T05:10:48+00:00"
+        },
+        {
+            "name": "spatie/laravel-newsletter",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-newsletter.git",
+                "reference": "7a2b547a468babec0c0aa913052902b6e8a0f1ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-newsletter/zipball/7a2b547a468babec0c0aa913052902b6e8a0f1ea",
+                "reference": "7a2b547a468babec0c0aa913052902b6e8a0f1ea",
+                "shasum": ""
+            },
+            "require": {
+                "drewm/mailchimp-api": "^2.4",
+                "illuminate/support": "~5.5.0",
+                "php": "~7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^6.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Newsletter\\NewsletterServiceProvider"
+                    ],
+                    "aliases": {
+                        "Newsletter": "Spatie\\Newsletter\\NewsletterFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Newsletter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://murze.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Manage newsletters in Laravel",
+            "homepage": "https://github.com/spatie/laravel-newsletter",
+            "keywords": [
+                "laravel",
+                "mailchimp",
+                "newsletter"
+            ],
+            "time": "2017-08-30T23:11:15+00:00"
         },
         {
             "name": "stripe/stripe-php",

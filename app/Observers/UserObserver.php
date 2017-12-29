@@ -6,6 +6,7 @@ use App\Models\Pile;
 use App\Models\User\User;
 use App\Models\NotificationSetting;
 use App\Models\User\UserNotificationSetting;
+use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserObserver
 {
@@ -43,6 +44,20 @@ class UserObserver
                 'services' => $notificationSetting->services,
                 'notification_setting_id' => $notificationSetting->id,
             ]);
+        }
+
+        Newsletter::subscribeOrUpdate($user->email, [
+            'FNAME' => $user->name
+        ]);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function updated(User $user)
+    {
+        if ($user->isDirty('email') && !empty($user->getOriginal('email'))) {
+            Newsletter::updateEmailAddress($user->getOriginal('email'), $user->email);
         }
     }
 }
