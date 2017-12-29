@@ -47,7 +47,7 @@ class UserObserver
         }
 
         Newsletter::subscribeOrUpdate($user->email, [
-            'FNAME' => $user->name
+            'FNAME' => $user->name,
         ]);
     }
 
@@ -56,7 +56,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if ($user->isDirty('email') && !empty($user->getOriginal('email'))) {
+        if ($user->isDirty('email') && ! empty($user->getOriginal('email'))) {
             Newsletter::updateEmailAddress($user->getOriginal('email'), $user->email);
         }
     }
