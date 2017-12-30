@@ -2,10 +2,10 @@
 
 namespace App\Models\User;
 
-use App\Traits\Hashable;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
+use App\Traits\Hashable;
 use App\Models\Site\Site;
 use Laravel\Cashier\Card;
 use App\Traits\HasServers;

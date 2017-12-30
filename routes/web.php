@@ -5,8 +5,9 @@ use Illuminate\Mail\Markdown;
 
 Route::get('mail', function () {
     $markdown = new Markdown(view(), config('mail.markdown'));
+
     return $markdown->render('mail.welcome', [
-        'user' => \Auth::user()
+        'user' => \Auth::user(),
     ]);
 });
 

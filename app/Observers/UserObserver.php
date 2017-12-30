@@ -2,13 +2,13 @@
 
 namespace App\Observers;
 
-use App\Mail\ConfirmWelcome;
-use App\Mail\Welcome;
 use App\Models\Pile;
+use App\Mail\Welcome;
 use App\Models\User\User;
+use App\Mail\ConfirmWelcome;
 use App\Models\NotificationSetting;
-use App\Models\User\UserNotificationSetting;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User\UserNotificationSetting;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserObserver
@@ -53,7 +53,7 @@ class UserObserver
             'FNAME' => $user->name,
         ]);
 
-        if($user->confirmed) {
+        if ($user->confirmed) {
             Mail::to($user)->send(new Welcome($user));
         } else {
             Mail::to($user)->send(new ConfirmWelcome($user));
