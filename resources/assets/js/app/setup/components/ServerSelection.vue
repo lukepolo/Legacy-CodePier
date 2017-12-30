@@ -1,10 +1,10 @@
 <template>
-    <confirm message="Select servers to run on">
+    <confirm message="Select servers to run on" v-if="displayServerSelection">
         <tooltip message="Select servers to run on" placement="bottom">
             <span class="icon-server"></span>
         </tooltip>
         <div slot="form">
-            <template v-if="site && displayServerSelection">
+            <template v-if="site">
                 <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
                 <template v-for="server in siteServers">
                     <div class="flyform--group-checkbox">
