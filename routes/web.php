@@ -1,5 +1,15 @@
 <?php
 
+// Preview Emails
+use Illuminate\Mail\Markdown;
+
+Route::get('mail', function () {
+    $markdown = new Markdown(view(), config('mail.markdown'));
+    return $markdown->render('mail.welcome', [
+        'user' => \Auth::user()
+    ]);
+});
+
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -136,6 +146,9 @@ Route::group([
 ], function () {
     Route::get('second-auth', 'Auth\SecondAuthController@show');
     Route::post('second-auth', 'Auth\SecondAuthController@store');
+
+    Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
+    Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
 });
 
 Route::group([

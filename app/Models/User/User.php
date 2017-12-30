@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Traits\Hashable;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -22,7 +23,9 @@ class User extends Authenticatable
     const USER = 'user';
     const ADMIN = 'admin';
 
-    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers;
+    protected $hashConnection = 'users';
+
+    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers, Hashable;
 
     protected $subscription;
 
@@ -36,6 +39,7 @@ class User extends Authenticatable
         'email',
         'password',
         'workflow',
+        'confirmed',
         'current_pile_id',
         'second_auth_active',
         'second_auth_updated_at',

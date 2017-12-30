@@ -23,6 +23,10 @@ class CheckMaxServers
             return $next($request);
         }
 
+        if(!$user->confirmed) {
+            return response()->json('You need to confirm your email address before trying to create a server', 500);
+        }
+
         if (! $user->subscribed()) {
             if ($user->servers->count() > 1) {
                 return $this->toManyServersResponse(1);

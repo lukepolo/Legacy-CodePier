@@ -56,6 +56,9 @@
     </head>
     <body>
         <div id="app-layout">
+
+            <system-alerts></system-alerts>
+
             <navigation></navigation>
 
             <div id="xlarge-wrap">

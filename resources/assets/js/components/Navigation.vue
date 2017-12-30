@@ -3,7 +3,7 @@
         <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
-                <img src="/assets/img/CP_Logo_TX_Beta-onGray.svg">
+                <img src="/assets/img/CP_Logo_TX-Gray.svg">
             </router-link>
         </div>
 
@@ -33,23 +33,17 @@
             </drop-down>
         </ul>
 
-        <section v-if="current_version !==  version">
-            <div>
-                Hello, We've got a new version of CodePier ready for you. <a href="">Refresh now</a> to make it yours.
-            </div>
-        </section>
-
         <ul class="nav navbar-right nav-right">
 
             <template v-if="isSubscribed">
                 <!--<li class="search-container">-->
-                    <!--<div class="search-form" :class="{ open : search }">-->
-                        <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->
-                    <!--</div>-->
-                    <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
+                <!--<div class="search-form" :class="{ open : search }">-->
+                <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->
+                <!--</div>-->
+                <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
                 <!--</li>-->
                 <!--<li>-->
-                    <!--<router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>-->
+                <!--<router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>-->
                 <!--</li>-->
                 <li>
                     <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
@@ -72,32 +66,32 @@
                     </li>
                 </template>
             </drop-down>
-           <drop-down icon="icon-settings">
-               <li>
-                   <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
-               </li>
-               <li v-if="teamsEnabled">
-                   <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
-               </li>
-               <li>
-                   <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
-               </li>
-               <li>
-                   <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
-               </li>
-               <template v-if="isAdmin">
-                   <li class="nav-label"><span>Admin</span></li>
-                   <li>
-                       <a href="/horizon">Laravel Horizon</a>
-                   </li>
-                   <li>
-                       <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
-                   </li>
-               </template>
-               <li>
-                   <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
-               </li>
-           </drop-down>
+            <drop-down icon="icon-settings">
+                <li>
+                    <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
+                </li>
+                <li v-if="teamsEnabled">
+                    <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
+                </li>
+                <template v-if="isAdmin">
+                    <li class="nav-label"><span>Admin</span></li>
+                    <li>
+                        <a href="/horizon">Laravel Horizon</a>
+                    </li>
+                    <li>
+                        <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
+                    </li>
+                </template>
+                <li>
+                    <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
+                </li>
+            </drop-down>
         </ul>
     </header>
 </template>
@@ -115,13 +109,9 @@ export default {
         query: "Sorry, its coming soon!"
       }),
       search: false,
-      current_version: Laravel.version
     };
   },
   computed: {
-    version() {
-      return this.$store.state.system.version;
-    },
     piles() {
       return this.$store.state.user_piles.piles;
     },
@@ -153,12 +143,12 @@ export default {
     logout() {
       this.$store.dispatch("auth/logout");
     },
-    changeTeam: function(teamID) {
+    changeTeam(teamID) {
       this.$store.dispatch("changeTeams", teamID);
     },
-    changePile: function(pile_id) {
+    changePile(pile_id) {
       this.$store.dispatch("user_piles/change", pile_id);
-    }
+    },
   }
 };
 </script>

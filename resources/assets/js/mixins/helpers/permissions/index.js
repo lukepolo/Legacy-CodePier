@@ -49,6 +49,10 @@ export const serverActionsEnabled = function() {
     return true;
   }
 
+  if(!this.$store.state.user.user.confirmed) {
+    return false;
+  }
+
   let numberOfServers = this.$store.state.user_servers.servers.length;
 
   if (!this.isSubscribed) {
@@ -76,6 +80,10 @@ export const siteCreateEnabled = function() {
 export const serverCreateEnabled = function() {
   if (this.isAdmin) {
     return true;
+  }
+
+  if(!this.$store.state.user.user.confirmed) {
+    return false;
   }
 
   let numberOfServers = this.$store.state.user_servers.servers.length;
