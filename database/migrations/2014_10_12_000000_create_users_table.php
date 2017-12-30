@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('user');
             $table->boolean('workflow')->default(1);
             $table->string('password')->nullable();
+            $table->boolean('confirmed')->default(false);
             $table->unsignedInteger('current_pile_id')->nullable();
             $table->string('user_login_provider_id')->nullable();
             $table->string('second_auth_secret')->nullable();

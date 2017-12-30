@@ -169,9 +169,10 @@ class OauthController extends Controller
     public function createUser($user, UserLoginProvider $userLoginProvider)
     {
         return User::create([
+            'confirmed'              => true,
             'email'                  => $user->getEmail(),
-            'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
+            'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
         ]);
     }
 

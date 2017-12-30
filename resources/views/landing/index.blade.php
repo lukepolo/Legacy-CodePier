@@ -4,7 +4,7 @@
     <section id="section--hero" class="cover">
         <div class="cover--content">
             <div class="cover--logo">
-                <img src="{{ url('assets/img/CP_Logo_TX_Beta-onWhite.svg') }}">
+                <img src="{{ asset('assets/img/CP_Logo_TX-White.svg') }}">
             </div>
             <h1>Your dock for D<span class="small-caps">ev</span>Ops</h1>
 
