@@ -23,7 +23,7 @@ class CheckMaxServers
             return $next($request);
         }
 
-        if(!$user->confirmed) {
+        if (! $user->confirmed) {
             return response()->json('You need to confirm your email address before trying to create a server', 500);
         }
 
