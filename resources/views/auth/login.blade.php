@@ -47,8 +47,8 @@
                         </form>
                     </div>
 
-                    @include('auth.create')
-                    @include('auth.reset')
+                    @include('auth.forms.create')
+                    @include('auth.forms.reset')
 
                     <h5 class="text-center"> - Or sign in using -</h5>
 
