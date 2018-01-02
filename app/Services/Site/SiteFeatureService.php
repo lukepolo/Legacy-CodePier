@@ -5,10 +5,10 @@ namespace App\Services\Site;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\Site\SiteFeatureServiceContract;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
-use Illuminate\Support\Facades\Cache;
 
 class SiteFeatureService implements SiteFeatureServiceContract
 {
@@ -64,7 +64,6 @@ class SiteFeatureService implements SiteFeatureServiceContract
         $editableFiles = collect();
 
         if (! empty($site->framework)) {
-
             $files = [];
 
             foreach ($this->getSystemsFiles() as $system) {
@@ -96,7 +95,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
      */
     public function getSuggestedFeatures(Site $site)
     {
-        return Cache::rememberForever("suggestedFeatures.$site->type.$site->framework", function() use($site) {
+        return Cache::rememberForever("suggestedFeatures.$site->type.$site->framework", function () use ($site) {
             $suggestedFeatures = [];
 
             foreach ($this->getSystemsFiles() as $system) {

@@ -4,12 +4,11 @@ namespace App\Services\Server;
 
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
-use App\Contracts\Server\ServerFeatureServiceContract;
 use Illuminate\Support\Facades\Cache;
+use App\Contracts\Server\ServerFeatureServiceContract;
 
 /**
- * Class ServerFeatureService
- * @package App\Services\Server
+ * Class ServerFeatureService.
  */
 class ServerFeatureService implements ServerFeatureServiceContract
 {
@@ -62,7 +61,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
             foreach ($this->getSystemsFiles() as $system) {
                 foreach ($this->getVersionsFromSystem($system) as $version) {
                     foreach ($this->getLanguagesFromVersion($version) as $language) {
-                        $language .= '/' . basename($language) . '.php';
+                        $language .= '/'.basename($language).'.php';
                         $availableLanguages = $availableLanguages->merge(
                             $this->buildFeatureArray(
                                 $this->buildReflection($language)
