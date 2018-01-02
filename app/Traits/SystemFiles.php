@@ -5,6 +5,7 @@ namespace App\Traits;
 use ReflectionClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 trait SystemFiles
 {
@@ -227,5 +228,35 @@ trait SystemFiles
     private function getFrameworksFromLanguage($language)
     {
         return File::files($language.'/Frameworks');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getAvailableEditableFiles()
+    {
+        return Cache::rememberForever('siteEditableFiles', function () {
+            $files = [];
+
+            foreach ($this->getSystemsFiles() as $system) {
+                foreach ($this->getVersionsFromSystem($system) as $version) {
+                    foreach ($this->getServicesFromVersion($version) as $service) {
+                        $files = $files +
+                            $this->buildFileArray(
+                                $this->buildReflection($service)
+                            );
+                    }
+
+                    foreach ($this->getLanguagesFromVersion($version) as $language) {
+                        $files = $files +
+                            $this->buildFileArray(
+                                $this->buildReflection($language.'/'.basename($language).'.php')
+                            );
+                    }
+                }
+            }
+
+            return collect($files);
+        });
     }
 }
