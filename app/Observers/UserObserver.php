@@ -49,9 +49,11 @@ class UserObserver
             ]);
         }
 
-        Newsletter::subscribeOrUpdate($user->email, [
-            'FNAME' => $user->name,
-        ]);
+        if(config('app.env') === 'production') {
+            Newsletter::subscribeOrUpdate($user->email, [
+                'FNAME' => $user->name,
+            ]);
+        }
 
         if ($user->confirmed) {
             Mail::to($user)->send(new Welcome($user));
@@ -65,7 +67,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if ($user->isDirty('email') && ! empty($user->getOriginal('email'))) {
+        if (config('app.env') === 'production' && $user->isDirty('email') && ! empty($user->getOriginal('email'))) {
             Newsletter::updateEmailAddress($user->getOriginal('email'), $user->email);
         }
     }
