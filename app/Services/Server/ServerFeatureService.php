@@ -7,9 +7,6 @@ use App\Models\Server\Server;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\Server\ServerFeatureServiceContract;
 
-/**
- * Class ServerFeatureService.
- */
 class ServerFeatureService implements ServerFeatureServiceContract
 {
     use SystemFiles;
