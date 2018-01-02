@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-12-29.
+    * Generated on 2018-01-02.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -60,6 +60,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -229,6 +230,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -398,6 +400,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -567,6 +570,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -736,6 +740,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -905,6 +910,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
@@ -1074,6 +1080,7 @@ namespace PHPSTORM_META {
         'hashids.factory' => \Vinkla\Hashids\HashidsFactory::class,
         'hashids' => \Vinkla\Hashids\HashidsManager::class,
         'hashids.connection' => \Hashids\Hashids::class,
+        'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
         'Lord\Laroute\Generators\GeneratorInterface' => \Lord\Laroute\Generators\TemplateGenerator::class,
         'Lord\Laroute\Compilers\CompilerInterface' => \Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => \Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
