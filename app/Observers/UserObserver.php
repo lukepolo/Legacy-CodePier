@@ -49,7 +49,7 @@ class UserObserver
             ]);
         }
 
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             Newsletter::subscribeOrUpdate($user->email, [
                 'FNAME' => $user->name,
             ]);
