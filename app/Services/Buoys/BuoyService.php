@@ -6,6 +6,7 @@ use App\Models\Buoy;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Contracts\Buoys\BuoyContract;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\BuoyServiceContract;
 use App\Services\Systems\SystemService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -34,42 +35,44 @@ class BuoyService implements BuoyServiceContract
      */
     public function getBuoyClasses()
     {
-        $buoys = [];
-        foreach ($this->getBuoyFiles() as $buoyFile) {
-            $buoyReflection = $this->buildReflection($buoyFile);
+        return Cache::rememberForever('buoyClasses', function () {
+            $buoys = [];
+            foreach ($this->getBuoyFiles() as $buoyFile) {
+                $buoyReflection = $this->buildReflection($buoyFile);
 
-            if ($buoyReflection->implementsInterface(BuoyContract::class)) {
-                $installMethod = $buoyReflection->getMethod('install');
+                if ($buoyReflection->implementsInterface(BuoyContract::class)) {
+                    $installMethod = $buoyReflection->getMethod('install');
 
-                if ($this->getFirstDocParam($installMethod, 'buoy-enabled') == true) {
-                    $buoyClass = $buoyReflection->getName();
-                    $buoys[$buoyClass] = [
-                        'title' => $this->getFirstDocParam($installMethod, 'buoy-title'),
-                        'category' => $this->getFirstDocParam($installMethod, 'category'),
-                        'description' => $this->getFirstDocParam($installMethod, 'description'),
-                    ];
-
-                    foreach ($this->getDocParam($installMethod, 'buoy-ports') as $port) {
-                        $portParts = explode(':', $port);
-                        $buoys[$buoyClass]['ports'][$portParts[0]] = [
-                            'local_port' => $portParts[1],
-                            'docker_port' => $portParts[2],
+                    if ($this->getFirstDocParam($installMethod, 'buoy-enabled') == true) {
+                        $buoyClass = $buoyReflection->getName();
+                        $buoys[$buoyClass] = [
+                            'title' => $this->getFirstDocParam($installMethod, 'buoy-title'),
+                            'category' => $this->getFirstDocParam($installMethod, 'category'),
+                            'description' => $this->getFirstDocParam($installMethod, 'description'),
                         ];
-                    }
 
-                    foreach ($this->getDocParam($installMethod, 'buoy-options') as $option) {
-                        $optionParts = explode(':', $option);
+                        foreach ($this->getDocParam($installMethod, 'buoy-ports') as $port) {
+                            $portParts = explode(':', $port);
+                            $buoys[$buoyClass]['ports'][$portParts[0]] = [
+                                'local_port' => $portParts[1],
+                                'docker_port' => $portParts[2],
+                            ];
+                        }
 
-                        $buoys[$buoyClass]['options'][$optionParts[0]] = [
-                            'value' => $optionParts[1],
-                            'description' => $this->getFirstDocParam($installMethod, 'buoy-option-desc-'.$optionParts[0]),
-                        ];
+                        foreach ($this->getDocParam($installMethod, 'buoy-options') as $option) {
+                            $optionParts = explode(':', $option);
+
+                            $buoys[$buoyClass]['options'][$optionParts[0]] = [
+                                'value' => $optionParts[1],
+                                'description' => $this->getFirstDocParam($installMethod, 'buoy-option-desc-'.$optionParts[0]),
+                            ];
+                        }
                     }
                 }
             }
-        }
 
-        return collect($buoys);
+            return collect($buoys);
+        });
     }
 
     /**
@@ -92,6 +95,9 @@ class BuoyService implements BuoyServiceContract
      * Removes a buoy from the server.
      * @param Server $server
      * @param Buoy $buoy
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function removeBuoy(Server $server, Buoy $buoy)
     {

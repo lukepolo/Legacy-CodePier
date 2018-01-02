@@ -4,6 +4,7 @@ namespace App\Services\Server;
 
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\Server\ServerFeatureServiceContract;
 
 class ServerFeatureService implements ServerFeatureServiceContract
@@ -27,21 +28,23 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getBaseFeatures()
     {
-        $availableFeatures = collect();
+        return Cache::rememberForever('availableFeatures', function () {
+            $availableFeatures = collect();
 
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getServicesFromVersion($version) as $service) {
-                    $availableFeatures = $availableFeatures->merge(
-                        $this->buildFeatureArray(
-                            $this->buildReflection($service)
-                        )
-                    );
+            foreach ($this->getSystemsFiles() as $system) {
+                foreach ($this->getVersionsFromSystem($system) as $version) {
+                    foreach ($this->getServicesFromVersion($version) as $service) {
+                        $availableFeatures = $availableFeatures->merge(
+                            $this->buildFeatureArray(
+                                $this->buildReflection($service)
+                            )
+                        );
+                    }
                 }
             }
-        }
 
-        return $availableFeatures;
+            return $availableFeatures;
+        });
     }
 
     /**
@@ -49,22 +52,24 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getLanguages()
     {
-        $availableLanguages = collect();
+        return Cache::rememberForever('availableLanguages', function () {
+            $availableLanguages = collect();
 
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $language .= '/'.basename($language).'.php';
-                    $availableLanguages = $availableLanguages->merge(
-                        $this->buildFeatureArray(
-                            $this->buildReflection($language)
-                        )
-                    );
+            foreach ($this->getSystemsFiles() as $system) {
+                foreach ($this->getVersionsFromSystem($system) as $version) {
+                    foreach ($this->getLanguagesFromVersion($version) as $language) {
+                        $language .= '/'.basename($language).'.php';
+                        $availableLanguages = $availableLanguages->merge(
+                            $this->buildFeatureArray(
+                                $this->buildReflection($language)
+                            )
+                        );
+                    }
                 }
             }
-        }
 
-        return $availableLanguages;
+            return $availableLanguages;
+        });
     }
 
     /**
@@ -72,25 +77,27 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getFrameworks()
     {
-        $availableFrameworks = collect();
+        return Cache::rememberForever('availableFrameworks', function () {
+            $availableFrameworks = collect();
 
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $languageIndex = substr($language, strrpos($language, '/') + 1);
+            foreach ($this->getSystemsFiles() as $system) {
+                foreach ($this->getVersionsFromSystem($system) as $version) {
+                    foreach ($this->getLanguagesFromVersion($version) as $language) {
+                        $languageIndex = substr($language, strrpos($language, '/') + 1);
 
-                    $availableFrameworks[$languageIndex] = collect();
+                        $availableFrameworks[$languageIndex] = collect();
 
-                    foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                        $availableFrameworks[$languageIndex] = $availableFrameworks[$languageIndex]->merge($this->buildFeatureArray(
-                            $this->buildReflection($framework)
-                        ));
+                        foreach ($this->getFrameworksFromLanguage($language) as $framework) {
+                            $availableFrameworks[$languageIndex] = $availableFrameworks[$languageIndex]->merge($this->buildFeatureArray(
+                                $this->buildReflection($framework)
+                            ));
+                        }
                     }
                 }
             }
-        }
 
-        return collect($availableFrameworks);
+            return collect($availableFrameworks);
+        });
     }
 
     /**
@@ -99,29 +106,9 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getEditableFiles(Server $server)
     {
+        $files = $this->getAvailableEditableFiles();
+
         $editableFiles = collect();
-
-        $files = [];
-
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getServicesFromVersion($version) as $service) {
-                    $files = $files +
-                        $this->buildFileArray(
-                            $this->buildReflection($service)
-                        );
-                }
-
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $files = $files +
-                        $this->buildFileArray(
-                            $this->buildReflection($language.'/'.basename($language).'.php')
-                        );
-                }
-            }
-        }
-
-        $files = collect($files);
 
         foreach ($server->server_features as $service => $features) {
             if (isset($server->server_features[$service])) {
