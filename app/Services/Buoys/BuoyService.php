@@ -5,8 +5,8 @@ namespace App\Services\Buoys;
 use App\Models\Buoy;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
-use Illuminate\Support\Facades\Cache;
 use App\Contracts\Buoys\BuoyContract;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\BuoyServiceContract;
 use App\Services\Systems\SystemService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -35,7 +35,7 @@ class BuoyService implements BuoyServiceContract
      */
     public function getBuoyClasses()
     {
-        return Cache::rememberForever('buoyClasses', function() {
+        return Cache::rememberForever('buoyClasses', function () {
             $buoys = [];
             foreach ($this->getBuoyFiles() as $buoyFile) {
                 $buoyReflection = $this->buildReflection($buoyFile);
