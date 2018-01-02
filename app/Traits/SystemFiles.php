@@ -2,10 +2,10 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Cache;
 use ReflectionClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 trait SystemFiles
 {
@@ -233,9 +233,9 @@ trait SystemFiles
     /**
      * @return mixed
      */
-    private function getAvailableEditableFiles() {
+    private function getAvailableEditableFiles()
+    {
         return Cache::rememberForever('siteEditableFiles', function () {
-
             $files = [];
 
             foreach ($this->getSystemsFiles() as $system) {
