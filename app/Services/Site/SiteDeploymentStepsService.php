@@ -2,11 +2,11 @@
 
 namespace App\Services\Site;
 
-use Illuminate\Support\Facades\Cache;
 use ReflectionClass;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Services\DeploymentServices\DeployTrait;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract;
@@ -99,29 +99,29 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function buildDeploymentOptions($class, $frameworkClass = null)
     {
-       return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function() use($class, $frameworkClass) {
-           $deploymentSteps = [];
+        return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
+            $deploymentSteps = [];
 
-           $reflection = new ReflectionClass($class);
+            $reflection = new ReflectionClass($class);
 
-           $traitMethods = collect();
+            $traitMethods = collect();
 
-           foreach ($reflection->getTraits() as $reflectionTraitClass) {
-               if ($reflectionTraitClass->name != $frameworkClass && $reflectionTraitClass->name != DeployTrait::class) {
-                   foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                       $traitMethods->push($method->name);
-                   }
-               }
-           }
+            foreach ($reflection->getTraits() as $reflectionTraitClass) {
+                if ($reflectionTraitClass->name != $frameworkClass && $reflectionTraitClass->name != DeployTrait::class) {
+                    foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                        $traitMethods->push($method->name);
+                    }
+                }
+            }
 
-           foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-               if ($method->name != '__construct' && ! $traitMethods->contains($method->name)) {
-                   $order = $this->getFirstDocParam($method, 'order');
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                if ($method->name != '__construct' && ! $traitMethods->contains($method->name)) {
+                    $order = $this->getFirstDocParam($method, 'order');
 
-                   if (! empty($order)) {
-                       $description = $this->getFirstDocParam($method, 'description');
+                    if (! empty($order)) {
+                        $description = $this->getFirstDocParam($method, 'description');
 
-                       $deploymentSteps[] = [
+                        $deploymentSteps[] = [
                            'order' => (int) $order,
                            'zerotime_deployment' => $this->getFirstDocParam($method, 'zerotime-deployment') ? true : false,
                            'description' => $description,
@@ -129,16 +129,16 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                            'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
                            'enabled' => $this->getFirstDocParam($method, 'not_default') ? false : true,
                        ];
-                   }
-               }
-           }
+                    }
+                }
+            }
 
-           return collect(collect($deploymentSteps)->sortBy('order')->values())->map(function ($deploymentStep, $index) {
-               $deploymentStep['order'] = $index + 1;
+            return collect(collect($deploymentSteps)->sortBy('order')->values())->map(function ($deploymentStep, $index) {
+                $deploymentStep['order'] = $index + 1;
 
-               return $deploymentStep;
-           });
-       });
+                return $deploymentStep;
+            });
+        });
     }
 
     /**
