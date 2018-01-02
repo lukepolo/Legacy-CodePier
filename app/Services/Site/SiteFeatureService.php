@@ -63,6 +63,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
     {
         $editableFiles = collect();
 
+        // TODO - we need to make this cacheable , and do a foreach on the path isntead
         if (! empty($site->framework)) {
             $files = [];
 
