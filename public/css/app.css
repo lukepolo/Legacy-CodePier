@@ -5391,13 +5391,20 @@ header .muted {
 
 .logo-container {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 265px;
-          flex: 0 0 265px;
-  padding: 5px 10px;
+      -ms-flex: 0 0 220px;
+          flex: 0 0 220px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 20px;
 }
 
 .logo-container a {
   width: 100%;
+  display: inline-block;
 }
 
 footer {

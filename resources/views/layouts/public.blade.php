@@ -40,7 +40,7 @@
                     <div class="nav--logo">
                         @if(url('/') != url()->current())
                             <a href="{{ url('/') }}" style="width:100%">
-                                <img src="{{ asset('assets/img/CP_Logo_TX-White.svg') }}">
+                                <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
                             </a>
                         @endif
                     </div>
