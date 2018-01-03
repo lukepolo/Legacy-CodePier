@@ -8,7 +8,7 @@ trait Symfony
      * @description Creates a symbolic link for the env file, should create environment variables for production usage
      *
      * @not-default
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 210
      */
@@ -20,7 +20,7 @@ trait Symfony
             $output[] = $this->remoteTaskService->run('cp '.$this->release.'/.env.dist '.$this->siteFolder.'/.env');
         }
 
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
 
@@ -30,7 +30,7 @@ trait Symfony
     /**
      * @description Creates a symbolic link for the logs and sessions folders
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 150
      */
@@ -38,7 +38,7 @@ trait Symfony
     {
         $output = [];
 
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $output[] = $this->remoteTaskService->run('cp -r '.$this->release.'/var/logs '.$this->siteFolder);
             $output[] = $this->remoteTaskService->run('rm '.$this->release.'/var/logs -rf');
             $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/var/logs '.$this->release);
