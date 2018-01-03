@@ -68,7 +68,7 @@ class ProvisionDevEnvironment extends Command
             'web_directory'               => 'public',
             'keep_releases'               => 10,
             'wildcard_domain'             => false,
-            'zerotime_deployment'         => true,
+            'zero_downtime_deployment'         => true,
             'user_repository_provider_id' => 1,
         ]);
 

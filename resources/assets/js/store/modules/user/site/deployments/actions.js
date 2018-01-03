@@ -125,6 +125,6 @@ export const updateSiteDeploymentConfig = (context, data) => {
       "user_sites/update"
     )
     .then(() => {
-      app.showSuccess("You have updated the site deployment config");
+      // app.showSuccess("You have updated the site deployment config");
     });
 };

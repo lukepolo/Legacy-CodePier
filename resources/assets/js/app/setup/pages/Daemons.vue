@@ -139,7 +139,7 @@ export default {
 
       if (site) {
         this.form.command =
-          site.path + (site.zerotime_deployment ? "/current/" : "/");
+          site.path + (site.zero_downtime_deployment ? "/current/" : "/");
       }
 
       return site;
