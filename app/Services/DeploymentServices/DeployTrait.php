@@ -21,7 +21,7 @@ trait DeployTrait
     private $rollback = false;
     private $remoteTaskService;
     private $repositoryProvider;
-    private $zerotimeDeployment;
+    private $zeroDowntimeDeployment;
 
     /**
      * @param RemoteTaskService $remoteTaskService
@@ -40,7 +40,7 @@ trait DeployTrait
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->siteFolder = '/home/codepier/'.$site->domain;
-        $this->zerotimeDeployment = $site->zero_downtime_deployment;
+        $this->zeroDowntimeDeployment = $site->zero_downtime_deployment;
         $this->releaseTime = Carbon::now()->format('YmdHis');
 
         if (! empty($siteDeployment)) {
@@ -54,7 +54,7 @@ trait DeployTrait
 
         $this->release = $this->siteFolder;
 
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $this->release = $this->release.'/'.$this->releaseTime;
         }
 
@@ -92,7 +92,7 @@ trait DeployTrait
 
             $this->remoteTaskService->run('ssh-keyscan -t rsa '.$host.' | tee -a ~/.ssh/known_hosts');
 
-            if ($this->zerotimeDeployment) {
+            if ($this->zeroDowntimeDeployment) {
                 $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
             } else {
                 if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
@@ -113,13 +113,13 @@ trait DeployTrait
     /**
      * @description Setups the folders for web service.
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 400
      */
     public function setupFolders()
     {
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $currentFolder = $this->siteFolder.'/current';
 
             // Remove the docked with codepier index
@@ -132,13 +132,13 @@ trait DeployTrait
     /**
      * @description Cleans up the old deploys.
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 600
      */
     public function cleanup()
     {
-        if ($this->zerotimeDeployment && $this->site->keep_releases > 0) {
+        if ($this->zeroDowntimeDeployment && $this->site->keep_releases > 0) {
             $this->remoteTaskService->ssh($this->server, 'root');
 
             return $this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf');

@@ -7,7 +7,7 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 210
      */
@@ -21,7 +21,7 @@ trait Laravel
 
         $appKey = str_after($this->remoteTaskService->getFileLine($this->siteFolder.'/.env', '^APP_KEY='), '=');
 
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $output = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
 
@@ -35,7 +35,7 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the storage folder so it retains the storage files
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 150
      */
@@ -43,7 +43,7 @@ trait Laravel
     {
         $output = [];
 
-        if ($this->zerotimeDeployment) {
+        if ($this->zeroDowntimeDeployment) {
             $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
             $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
             $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);

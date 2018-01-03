@@ -7,7 +7,7 @@ trait CakePHP
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 250
      */
