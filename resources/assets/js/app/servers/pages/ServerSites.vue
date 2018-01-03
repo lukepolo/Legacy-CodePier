@@ -5,7 +5,7 @@
                 <tr>
                     <th>Domain</th>
                     <th>Repository</th>
-                    <th>ZeroTime Deployment</th>
+                    <th>Zero Downtime Deployment</th>
                     <th># of Workers</th>
                     <th>WildCard Domain</th>
                     <th>SSL</th>
@@ -20,7 +20,7 @@
                     </td>
                     <td>{{ site.repository }}</td>
                     <td class="text-center">
-                        <span v-if="isZerotimeDeployment(site)">
+                        <span v-if="iszeroDowntimeDeployment(site)">
                             Yes
                         </span>
                         <span v-else>
@@ -58,7 +58,7 @@ export default {
         this.$route.params.server_id
       );
     },
-    isZerotimeDeployment(site) {
+    iszeroDowntimeDeployment(site) {
       if (site.zero_downtime_deployment) {
         return true;
       }

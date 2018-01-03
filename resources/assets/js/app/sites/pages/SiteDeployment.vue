@@ -12,7 +12,7 @@
                         <input type="checkbox" v-model="form.zero_downtime_deployment" name="zero_downtime_deployment" value="1">
                         <span class="icon"></span>
                         Zero-Downtime Deployment
-                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!"
+                        <tooltip message="Your app can be deployed in zero downtime deployment, we suggest you go for it!"
                                  size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
@@ -24,7 +24,7 @@
                         <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
                         <label for="keep_releases" class="flyform--group-iconlabel">Number of Releases to keep</label>
                         <tooltip
-                                message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all"
+                                message="When using zero downtime deployments you can keep a number of releases, if set to zero we will keep them all"
                                 size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
@@ -51,7 +51,7 @@
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}"
                                    @sort="sortInactiveList">
                             <div class="drag-element" v-for="(deploymentStep, key) in inactive"
-                                 v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showZeroTimeDeploymentOptions)">
+                                 v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showzeroDowntimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         :suggestedOrder="getSuggestedOrder(deploymentStep)"
@@ -76,7 +76,7 @@
                             <div
                                 class="drag-element"
                                 v-for="(deploymentStep, key) in active"
-                                v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showZeroTimeDeploymentOptions)"
+                                v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showzeroDowntimeDeploymentOptions)"
                             >
                                 <deployment-step-card
                                     :order="key + 1"
@@ -284,7 +284,7 @@ export default {
     currentSiteDeploymentSteps() {
       return this.$store.state.user_site_deployments.site_deployment_steps;
     },
-    showZeroTimeDeploymentOptions() {
+    showzeroDowntimeDeploymentOptions() {
       return this.site.zero_downtime_deployment;
     }
   }
