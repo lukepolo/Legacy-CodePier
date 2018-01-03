@@ -71,7 +71,9 @@
                         <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
                         </div>
-                        <div v-if="currentProvisioningStep.failed" @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</div>
+                        <div v-if="!currentProvisioningStep.failed"class="server-btns">
+                          <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</span>
+                        </div>
 
                         <div class="server-status-text" v-else>
                             {{ server.status }}
@@ -82,11 +84,14 @@
                     </div>
 
                     <template v-if="server.progress === 0 && server.custom_server_url">
-                        <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-right">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
-                        <clipboard :data="server.custom_server_url"></clipboard>
+                        <div class="server-btns">
+                          <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-left">
+                              <span class="fa fa-info-circle"></span>
+                          </tooltip>
+                          &nbsp;
+                          <clipboard :data="server.custom_server_url"></clipboard>
+                        </div>
                     </template>
 
                 </template>
