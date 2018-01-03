@@ -17,6 +17,10 @@
 #middle {
     @include card(2);
     background-color: mix($color-background, $white, 95%);
+
+    &.full-form {
+        background-color: $color-background;
+    }
 }
 
 #right {
