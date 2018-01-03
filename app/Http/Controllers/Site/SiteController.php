@@ -22,7 +22,6 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Services\Site\SiteFeatureService;
 
 class SiteController extends Controller
 {
