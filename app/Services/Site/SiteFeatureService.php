@@ -71,9 +71,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
                 foreach ($this->getVersionsFromSystem($system) as $version) {
                     foreach ($this->getLanguagesFromVersion($version) as $language) {
                         foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                            $language = substr($language, strrpos($language, '/') + 1);
+                            $tempLanguage = substr($language, strrpos($language, '/') + 1);
                             $reflectionClass = $this->buildReflection($framework);
-                            $files[$language][$reflectionClass->getShortName()] = $this->buildFileArray($reflectionClass, $site->path.'/');
+                            $files[$tempLanguage][$reflectionClass->getShortName()] = $this->buildFileArray($reflectionClass, $site->path.'/');
                         }
                     }
                 }
