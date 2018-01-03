@@ -146,7 +146,7 @@ class OauthController extends Controller
 
             if (config('app.env') === 'local') {
                 /* @var ClientException $e */
-                dd($e->getMessage());
+                ddd($e->getMessage());
             }
 
             if (\Auth::check()) {
@@ -291,7 +291,7 @@ class OauthController extends Controller
                 break;
             default:
                 // TODO - other server providers
-                dd($socialUser);
+                ddd($socialUser);
                 break;
         }
 
