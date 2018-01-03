@@ -82,7 +82,7 @@
                             and let the site dictate how your server is built.
                         </h3>
                         <router-link :to="{ name : 'server_form' }">
-                            <a class="btn btn-primary">Create A Server</a>
+                            <a class="btn btn-primary" :class="{ 'btn-disabled' : !serverCreateEnabled }">Create A Server</a>
                         </router-link>
                     </div>
                 </div>
@@ -92,23 +92,22 @@
 </template>
 
 <script>
-
-    export default {
-        data() {
-            return {
-                showArchive : false
-            }
-        },
-        created() {
-            this.$store.dispatch('user_servers/getTrashed')
-        },
-        computed: {
-            servers() {
-                if(!this.showArchive) {
-                    return this.$store.state.user_servers.servers;
-                }
-                return this.$store.state.user_servers.trashed;
-            }
-        }
+export default {
+  data() {
+    return {
+      showArchive: false
+    };
+  },
+  created() {
+    this.$store.dispatch("user_servers/getTrashed");
+  },
+  computed: {
+    servers() {
+      if (!this.showArchive) {
+        return this.$store.state.user_servers.servers;
+      }
+      return this.$store.state.user_servers.trashed;
     }
+  }
+};
 </script>

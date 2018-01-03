@@ -35,6 +35,18 @@ class ServerController extends Controller
         $this->siteService = $siteService;
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
+
+        $this->middleware('checkMaxServers')
+            ->except([
+                'index',
+                'show',
+                'destroy',
+            ]);
+
+        $this->middleware('checkServerCreationLimit')
+            ->only([
+                'store',
+            ]);
     }
 
     /**
@@ -63,6 +75,7 @@ class ServerController extends Controller
     public function store(ServerRequest $request)
     {
         $site = null;
+
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
 
@@ -87,7 +100,7 @@ class ServerController extends Controller
             'pile_id' => $pileId,
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
-            'type' => $request->get('type', SystemService::FULL_STACK_SERVER),
+            'type' => $request->user()->subscribed() ? $request->get('type', SystemService::FULL_STACK_SERVER) : SystemService::FULL_STACK_SERVER,
         ]);
 
         if (! empty($site)) {
@@ -209,6 +222,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartServer($serverId)
     {
@@ -227,6 +241,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartWebServices($serverId)
     {
@@ -245,6 +260,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartDatabases($serverId)
     {
@@ -263,6 +279,7 @@ class ServerController extends Controller
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function restartWorkerServices($serverId)
     {

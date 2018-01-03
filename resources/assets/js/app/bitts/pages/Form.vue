@@ -87,57 +87,57 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            this.$store.dispatch('getCategories').then(() => {
-                this.$store.dispatch('getSystems').then(() => {
-                    if(this.bittId) {
-                        this.$store.dispatch('getBitt', this.bittId).then((bitt) => {
-                            this.form.title = bitt.title
-                            this.form.script = bitt.script
-                            this.form.private = bitt.private
-                            this.form.description = bitt.description
-                            this.form.category = bitt.categories[0].id
-                            this.form.systems = _.map(bitt.systems, 'id')
-                        })
-                    }
-                })
-            })
-        },
-        data() {
-            return {
-                form : this.createForm({
-                    title : null,
-                    script: null,
-                    systems : [],
-                    private : true,
-                    category : null,
-                    description : null,
-                }),
-            }
-        },
-        methods: {
-            saveUpdateBitt() {
-                if(this.bittId) {
-                    this.$store.dispatch('updateBitt', {
-                        form : this.form,
-                        bitt : this.bittId,
-                    });
-                } else {
-                    this.$store.dispatch('createBitt', this.form);
-                }
-            },
-        },
-        computed: {
-            bittId() {
-                return this.$route.params.bitt_id
-            },
-            systems() {
-                return this.$store.state.systemsStore.systems
-            },
-            categories() {
-                return this.$store.state.categoriesStore.categories
-            },
+export default {
+  created() {
+    this.$store.dispatch("getCategories").then(() => {
+      this.$store.dispatch("getSystems").then(() => {
+        if (this.bittId) {
+          this.$store.dispatch("getBitt", this.bittId).then(bitt => {
+            this.form.title = bitt.title;
+            this.form.script = bitt.script;
+            this.form.private = bitt.private;
+            this.form.description = bitt.description;
+            this.form.category = bitt.categories[0].id;
+            this.form.systems = _.map(bitt.systems, "id");
+          });
         }
+      });
+    });
+  },
+  data() {
+    return {
+      form: this.createForm({
+        title: null,
+        script: null,
+        systems: [],
+        private: true,
+        category: null,
+        description: null
+      })
+    };
+  },
+  methods: {
+    saveUpdateBitt() {
+      if (this.bittId) {
+        this.$store.dispatch("updateBitt", {
+          form: this.form,
+          bitt: this.bittId
+        });
+      } else {
+        this.$store.dispatch("createBitt", this.form);
+      }
     }
+  },
+  computed: {
+    bittId() {
+      return this.$route.params.bitt_id;
+    },
+    systems() {
+      return this.$store.state.systemsStore.systems;
+    },
+    categories() {
+      return this.$store.state.categoriesStore.categories;
+    }
+  }
+};
 </script>

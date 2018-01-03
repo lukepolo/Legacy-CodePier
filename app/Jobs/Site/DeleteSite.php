@@ -5,7 +5,6 @@ namespace App\Jobs\Site;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
@@ -16,7 +15,7 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeleteSite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     private $server;
     private $site;
@@ -40,6 +39,8 @@ class DeleteSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \Exception
      */
     public function handle(SiteService $siteService)
     {

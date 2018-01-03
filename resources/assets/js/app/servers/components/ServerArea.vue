@@ -1,34 +1,3 @@
-<style>
-    .bounce-enter-active {
-        animation: bounce-in .5s;
-    }
-    .bounce-leave-active {
-        animation: bounce-out .5s;
-    }
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
-    @keyframes bounce-out {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(0);
-        }
-    }
-</style>
-
 <template>
     <div class="parent">
 
@@ -56,43 +25,43 @@
 </template>
 
 <script>
-    import LeftNav from '../../../components/LeftNav.vue';
-    import ServerHeader from './ServerHeader.vue';
+import LeftNav from "../../../components/LeftNav";
+import ServerHeader from "./ServerHeader";
 
-    export default {
-        components: {
-            LeftNav,
-            ServerHeader,
-        },
-        data() {
-            return {
-                transitionName : null
-            }
-        },
-        watch: {
-            '$route' (to, from) {
-                const toDepth = to.path.split('/').length
-                const fromDepth = from.path.split('/').length
-//                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-                this.transitionName = 'bounce';
-                this.fetchData()
-            }
-        },
-        created() {
-            this.fetchData();
-        },
-        methods: {
-            fetchData() {
-                let serverId = this.$route.params.server_id
-                if(!this.server || this.server.id !== parseInt(serverId)) {
-                    this.$store.dispatch('user_servers/show', serverId);
-                }
-            },
-        },
-        computed : {
-            server() {
-               return this.$store.state.user_servers.server
-            }
-        }
+export default {
+  components: {
+    LeftNav,
+    ServerHeader
+  },
+  data() {
+    return {
+      transitionName: null
+    };
+  },
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split("/").length;
+      const fromDepth = from.path.split("/").length;
+      //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+      this.transitionName = "bounce";
+      this.fetchData();
     }
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      let serverId = this.$route.params.server_id;
+      if (!this.server || this.server.id !== parseInt(serverId)) {
+        this.$store.dispatch("user_servers/show", serverId);
+      }
+    }
+  },
+  computed: {
+    server() {
+      return this.$store.state.user_servers.server;
+    }
+  }
+};
 </script>

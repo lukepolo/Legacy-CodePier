@@ -72,7 +72,7 @@ trait ServerProviderTrait
             $server_provider_id
         )->first()
         ) {
-            if (! empty($serverProvider->expires_in) && Carbon::now()->gte($serverProvider->expires_in)) {
+            if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
                 return $this->refreshToken($serverProvider);
             }
 
@@ -98,7 +98,7 @@ trait ServerProviderTrait
             $server->server_provider_id
         )->first()
         ) {
-            if (! empty($serverProvider->expires_in) && Carbon::now()->gte($serverProvider->expires_in)) {
+            if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
                 return $this->refreshToken($serverProvider);
             }
 

@@ -1,11 +1,9 @@
 @if (session('status'))
-    <div class="text-error">
-    <div class="text-center">
-        <ul style="list-style: none; padding: 0">
-            {{ session('status') }}
+    <div class="alert-success">
+        <ul>
+            <li>{{ session('status') }}</li>
         </ul>
     </div>
-    </p>
 @endif
 
 @if (count($errors) > 0)

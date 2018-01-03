@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
@@ -40,7 +41,7 @@ class WebHookController extends Controller
 
         if (empty($branch) || $site->branch === $branch) {
             dispatch(
-                (new \App\Jobs\Site\DeploySite($site, null, true))
+                (new DeploySite($site, null, true))
                     ->onQueue(config('queue.channels.server_commands'))
             );
         }

@@ -5,7 +5,7 @@
                 <tr>
                     <th>Domain</th>
                     <th>Repository</th>
-                    <th>ZeroTime Deployment</th>
+                    <th>Zero Downtime Deployment</th>
                     <th># of Workers</th>
                     <th>WildCard Domain</th>
                     <th>SSL</th>
@@ -20,7 +20,7 @@
                     </td>
                     <td>{{ site.repository }}</td>
                     <td class="text-center">
-                        <span v-if="isZerotimeDeployment(site)">
+                        <span v-if="iszeroDowntimeDeployment(site)">
                             Yes
                         </span>
                         <span v-else>
@@ -44,37 +44,40 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                this.$store.dispatch('user_server_sites/get', this.$route.params.server_id);
-            },
-            isZerotimeDeployment(site) {
-                if (site.zerotime_deployment) {
-                    return true;
-                }
-                return false;
-            },
-            hasActiveSSL(site) {
-                if (site.activeSsl) {
-                    return true;
-                }
-                return false;
-            }
-        },
-        computed: {
-            server() {
-                return this.$store.state.user_servers.server;
-            },
-            sites() {
-                return this.$store.state.user_server_sites.sites;
-            }
-        }
+export default {
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch(
+        "user_server_sites/get",
+        this.$route.params.server_id
+      );
+    },
+    iszeroDowntimeDeployment(site) {
+      if (site.zero_downtime_deployment) {
+        return true;
+      }
+      return false;
+    },
+    hasActiveSSL(site) {
+      if (site.activeSsl) {
+        return true;
+      }
+      return false;
     }
+  },
+  computed: {
+    server() {
+      return this.$store.state.user_servers.server;
+    },
+    sites() {
+      return this.$store.state.user_server_sites.sites;
+    }
+  }
+};
 </script>

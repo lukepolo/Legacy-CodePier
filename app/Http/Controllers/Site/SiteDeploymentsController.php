@@ -52,7 +52,7 @@ class SiteDeploymentsController extends Controller
 
         $site->update([
             'keep_releases'               => $request->get('keep_releases', 10),
-            'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
+            'zero_downtime_deployment'         => $request->get('zero_downtime_deployment', 0),
         ]);
 
         return response()->json($site);

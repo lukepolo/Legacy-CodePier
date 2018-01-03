@@ -75,129 +75,131 @@
 </template>
 
 <script>
+import { ServerSelection, CronJob } from "./../components";
 
-    import { ServerSelection, CronJob } from "./../components"
+export default {
+  components: {
+    CronJob,
+    ServerSelection
+  },
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        cron: null,
+        user: "root",
+        cron_timing: null,
+        server_ids: [],
+        server_types: []
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_cron_jobs/get", this.siteId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
 
-    export default {
-        components : {
-            CronJob,
-            ServerSelection
-        },
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form : this.createForm({
-                    cron: null,
-                    user: 'root',
-                    cron_timing: null,
-                    server_ids : [],
-                    server_types : [],
-                }),
-            }
-        },
-        created() {
-            this.fetchData()
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_cron_jobs/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    createCronJob() {
+      if (this.getCronTimings()) {
+        let job = this.getCronTimings() + " " + this.form.cron;
 
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_cron_jobs/get', this.siteId).then(() => {
-                      this.loaded = true
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_cron_jobs/get', this.serverId).then(() => {
-                      this.loaded = true
-                    })
-                }
-            },
-            createCronJob() {
-
-                if(this.getCronTimings()) {
-
-                    let job = this.getCronTimings() + ' ' + this.form.cron
-
-                    if(this.siteId) {
-                        this.$store.dispatch('user_site_cron_jobs/store', {
-                            job: job,
-                            site: this.siteId,
-                            user: this.form.user,
-                            server_ids : this.form.server_ids,
-                            server_types : this.form.server_types,
-                        }).then((cronJob) => {
-                            if(cronJob) {
-                                this.resetForm()
-                            }
-                        })
-                    }
-
-                    if(this.serverId) {
-                        this.$store.dispatch('user_server_cron_jobs/store', {
-                            job: job,
-                            user: this.form.user,
-                            server: this.serverId,
-                            server_ids : this.form.server_ids,
-                            server_types : this.form.server_types,
-                        }).then((cronJob) => {
-                            if(cronJob) {
-                                this.resetForm()
-                            }
-                        })
-                    }
-
-                } else {
-                    app.showError('You need to set a time for the cron to run.')
-                }
-            },
-            getCronTimings() {
-                return $('#cronjob-maker').cron('value')
-            },
-            resetForm() {
-                this.form.reset()
-                this.form.user = 'root';
-                if(this.site) {
-                    this.form.cron = this.site.path
-                } else {
-                    this.form.cron = null
-                }
-                this.showForm = false;
-            }
-        },
-        computed: {
-            site() {
-
-                let site = this.$store.state.user_sites.site
-
-                if(site) {
-                    this.form.cron = site.path ? site.path : null
-                }
-
-                return site
-            },
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            cronJobs() {
-                if(this.siteId) {
-                    return this.$store.state.user_site_cron_jobs.cron_jobs
-                }
-
-                if(this.serverId) {
-                    return this.$store.state.user_server_cron_jobs.cron_jobs
-                }
-            },
-            shouldShowForm() {
-                return (this.loaded && this.cronJobs.length === 0) || this.showForm;
-            },
+        if (this.siteId) {
+          this.$store
+            .dispatch("user_site_cron_jobs/store", {
+              job: job,
+              site: this.siteId,
+              user: this.form.user,
+              server_ids: this.form.server_ids,
+              server_types: this.form.server_types
+            })
+            .then(cronJob => {
+              if (cronJob) {
+                this.resetForm();
+              }
+            });
         }
+
+        if (this.serverId) {
+          this.$store
+            .dispatch("user_server_cron_jobs/store", {
+              job: job,
+              user: this.form.user,
+              server: this.serverId,
+              server_ids: this.form.server_ids,
+              server_types: this.form.server_types
+            })
+            .then(cronJob => {
+              if (cronJob) {
+                this.resetForm();
+              }
+            });
+        }
+      } else {
+        app.showError("You need to set a time for the cron to run.");
+      }
+    },
+    getCronTimings() {
+      return $("#cronjob-maker").cron("value");
+    },
+    resetForm() {
+      this.form.reset();
+      this.form.user = "root";
+      if (this.site) {
+        this.form.cron = this.site.path;
+      } else {
+        this.form.cron = null;
+      }
+      this.showForm = false;
     }
+  },
+  computed: {
+    site() {
+      let site = this.$store.state.user_sites.site;
+
+      if (site) {
+        this.form.cron = site.path ? site.path : null;
+      }
+
+      return site;
+    },
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    cronJobs() {
+      if (this.siteId) {
+        return this.$store.state.user_site_cron_jobs.cron_jobs;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_cron_jobs.cron_jobs;
+      }
+    },
+    shouldShowForm() {
+      return (this.loaded && this.cronJobs.length === 0) || this.showForm;
+    }
+  }
+};
 </script>

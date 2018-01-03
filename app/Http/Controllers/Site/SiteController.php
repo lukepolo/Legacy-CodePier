@@ -38,6 +38,18 @@ class SiteController extends Controller
     {
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
+
+        $this->middleware('checkMaxSites')
+            ->except([
+                'index',
+                'show',
+                'destroy',
+            ]);
+
+        $this->middleware('checkSiteCreationLimit')
+            ->only([
+                'store',
+            ]);
     }
 
     /**
@@ -69,7 +81,7 @@ class SiteController extends Controller
             'workflow'            => \Auth::user()->workflow ? null : [],
             'wildcard_domain'     => $request->get('wildcard_domain', 0),
             'keep_releases'       => 10,
-            'zerotime_deployment' => true,
+            'zero_downtime_deployment' => true,
         ]);
 
         return response()->json($site);
@@ -113,10 +125,8 @@ class SiteController extends Controller
             event(new SiteUpdatedWebConfig($site));
         }
 
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
+        if ($site->isDirty('repository') && ! empty($site->getOriginal('repository'))) {
+            $this->repositoryService->generateNewSshKeys($site);
         }
 
         $site->save();

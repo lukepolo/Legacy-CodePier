@@ -8,8 +8,16 @@
 header,
 footer {
   flex: 0 0 auto;
+}
+
+header {
   z-index: 300;
 }
+
+footer {
+  z-index: 200;
+}
+
 
 #xlarge-wrap {
   display: flex;
@@ -47,7 +55,7 @@ footer {
   &.in-workflow {
 
     @include breakpoint(lxl) {
-      max-width: calc(100% - (325px + 275px + 270px);
+      max-width: calc(100% - (325px + 275px + 270px));
     }
     @include breakpoint(mxl) {
       max-width: unset;

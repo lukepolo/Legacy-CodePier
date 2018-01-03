@@ -44,7 +44,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.axios.defaults.headers.common["X-CSRF-TOKEN"] = window.Laravel.csrfToken;
 
 axios.interceptors.request.use(
-  (config) => {
+  config => {
     NProgress.configure({
       easing: "ease",
       speed: 500,
@@ -60,7 +60,7 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-  (response) => {
+  response => {
     NProgress.done();
     return response;
   },

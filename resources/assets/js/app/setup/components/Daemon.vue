@@ -25,55 +25,53 @@
 </template>
 
 <script>
+import ServerSelection from "./ServerSelection";
 
-    import ServerSelection from "./ServerSelection.vue"
+export default {
+  props: ["daemon"],
+  components: {
+    ServerSelection
+  },
+  data() {
+    return {
+      form: this.createForm({
+        daemon: this.daemon.id,
+        site: this.$route.params.site_id,
+        server_ids: this.daemon.server_ids,
+        server_types: this.daemon.server_types
+      })
+    };
+  },
+  methods: {
+    updateDaemon() {
+      this.$store.dispatch("user_site_daemons/patch", this.form);
+    },
+    deleteDaemon: function() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_daemons/destroy", {
+          site: this.siteId,
+          daemon: this.daemon.id
+        });
+      }
 
-    export default {
-        props : ['daemon'],
-        components : {
-            ServerSelection
-        },
-        data() {
-            return {
-                form : this.createForm({
-                    daemon : this.daemon.id,
-                    site : this.$route.params.site_id,
-                    server_ids : this.daemon.server_ids,
-                    server_types : this.daemon.server_types,
-                }),
-            }
-        },
-        methods: {
-            updateDaemon() {
-                this.$store.dispatch('user_site_daemons/patch', this.form)
-            },
-            deleteDaemon: function () {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_daemons/destroy', {
-                        site: this.siteId,
-                        daemon: this.daemon.id,
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_daemons/destroy', {
-                        server: this.serverId,
-                        daemon: this.daemon.id,
-                    });
-                }
-            },
-        },
-        computed : {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            isRunningCommand() {
-                return this.isCommandRunning('App\\Models\\Daemon', this.daemon.id)
-            },
-        }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_daemons/destroy", {
+          server: this.serverId,
+          daemon: this.daemon.id
+        });
+      }
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    isRunningCommand() {
+      return this.isCommandRunning("App\\Models\\Daemon", this.daemon.id);
+    }
+  }
+};
 </script>

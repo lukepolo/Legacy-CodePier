@@ -35,6 +35,7 @@
         "socialiteproviders/digitalocean": "^3.0",
         "socialiteproviders/gitlab": "^3.0.1",
         "socialiteproviders/slack": "^3.0",
+        "spatie/laravel-newsletter": "^4.1",
         "toin0u/digitalocean-v2": "^2.2",
         "vinkla/hashids": "^3.3.0"
     },

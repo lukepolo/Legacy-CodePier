@@ -81,104 +81,108 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form: this.createForm({
-                    port: null,
-                    type : 'tcp',
-                    from_ip: null,
-                    description: null
-                })
+export default {
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        port: null,
+        type: "tcp",
+        from_ip: null,
+        description: null
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_firewall_rules/get", this.siteId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_firewall_rules/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    createFirewallRule() {
+      if (this.siteId) {
+        this.form.site = this.siteId;
+        this.$store
+          .dispatch("user_site_firewall_rules/store", this.form)
+          .then(firewallRule => {
+            if (firewallRule.id) {
+              this.resetForm();
             }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
+          });
+      }
 
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_firewall_rules/get', this.siteId).then(() => {
-                        this.loaded = true
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_firewall_rules/get', this.serverId).then(() => {
-                        this.loaded = true
-                    })
-                }
-
-            },
-            createFirewallRule() {
-
-                if(this.siteId) {
-                    this.form.site = this.siteId
-                    this.$store.dispatch('user_site_firewall_rules/store', this.form).then((firewallRule) => {
-                        if (firewallRule.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-                if(this.serverId) {
-                    this.form.server = this.serverId
-                    this.$store.dispatch('user_server_firewall_rules/store', this.form).then((firewallRule) => {
-                        if (firewallRule.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-            },
-            deleteFirewallRule(firewallRuleId) {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_firewall_rules/destroy', {
-                        site: this.siteId,
-                        firewall_rule: firewallRuleId
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_firewall_rules/destroy', {
-                        server: this.serverId,
-                        firewall_rule: firewallRuleId
-                    })
-                }
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\FirewallRule', id)
-            },
-            resetForm() {
-                this.form.reset();
-                this.showForm = false;
+      if (this.serverId) {
+        this.form.server = this.serverId;
+        this.$store
+          .dispatch("user_server_firewall_rules/store", this.form)
+          .then(firewallRule => {
+            if (firewallRule.id) {
+              this.resetForm();
             }
-        },
-        computed: {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            shouldShowForm() {
-                return (this.loaded && this.firewallRules.length === 0) || this.showForm;
-            },
-            firewallRules() {
-                if(this.siteId) {
-                    return this.$store.state.user_site_firewall_rules.firewall_rules
-                }
+          });
+      }
+    },
+    deleteFirewallRule(firewallRuleId) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_firewall_rules/destroy", {
+          site: this.siteId,
+          firewall_rule: firewallRuleId
+        });
+      }
 
-                if(this.serverId) {
-                    return this.$store.state.user_server_firewall_rules.firewall_rules;
-                }
-            }
-        }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_firewall_rules/destroy", {
+          server: this.serverId,
+          firewall_rule: firewallRuleId
+        });
+      }
+    },
+    isRunningCommandFor(id) {
+      return this.isCommandRunning("App\\Models\\FirewallRule", id);
+    },
+    resetForm() {
+      this.form.reset();
+      this.showForm = false;
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    shouldShowForm() {
+      return (this.loaded && this.firewallRules.length === 0) || this.showForm;
+    },
+    firewallRules() {
+      if (this.siteId) {
+        return this.$store.state.user_site_firewall_rules.firewall_rules;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_firewall_rules.firewall_rules;
+      }
+    }
+  }
+};
 </script>

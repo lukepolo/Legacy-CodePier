@@ -49,13 +49,13 @@
                 </div>
                 <div class="pricing--features">
                     <ul>
+                        <li><strong>Priority Support</strong></li>
                         <li><strong>Unlimited</strong> Sites</li>
                         <li><strong>Unlimited</strong> Servers</li>
                         <li>Multiple Server Types</li>
                         <li>Buoys</li>
                         <li>Server Monitoring</li>
                         <li>API Access <small>(Coming Soon!)</small></li>
-                        <li>Teams <small>(Coming Soon!)</small></li>
                     </ul>
                 </div>
                 <div class="pricing--footer">

@@ -57,14 +57,22 @@ class ProvisionServer implements ShouldQueue
                 );
             }
 
-            foreach ($this->server->sites as $site) {
-                dispatch(
-                    (new CreateSite($this->server, $site))
-                        ->onQueue(config('queue.channels.server_commands'))
-                );
-            }
-
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+
+            $serverType = $this->server->type;
+
+            if (
+                $serverType === SystemService::WEB_SERVER ||
+                $serverType === SystemService::WORKER_SERVER ||
+                $serverType === SystemService::FULL_STACK_SERVER
+            ) {
+                foreach ($this->server->sites as $site) {
+                    dispatch(
+                        (new CreateSite($this->server, $site))
+                            ->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
+            }
         }
     }
 
@@ -121,5 +129,10 @@ class ProvisionServer implements ShouldQueue
             'step' => $step,
             'parameters' => $parameters,
         ]);
+    }
+
+    public function fail($exception = null)
+    {
+        // we will let our system fail it out
     }
 }

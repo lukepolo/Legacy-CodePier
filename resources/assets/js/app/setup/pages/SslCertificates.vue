@@ -43,7 +43,7 @@
                             <template v-if="sslCertificate.failed">
                                 <tooltip message="Retry Install">
                                     <span class="table--action-retry">
-                                        <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh"></span></a>
+                                        <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh2"></span></a>
                                     </span>
                                 </tooltip>
                             </template>
@@ -126,169 +126,178 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form  : this.createForm({
-                    type : null,
-                    domains : null,
-                    private_key : null,
-                    certificate : null,
-                })
+export default {
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        type: null,
+        domains: null,
+        private_key: null,
+        certificate: null
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_ssl_certificates/get", this.siteId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_ssl_certificates/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    installCertificate() {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_ssl_certificates/store", {
+            site_id: this.siteId,
+            type: this.form.type,
+            domains: this.form.domains,
+            private_key: this.form.private_key,
+            certificate: this.form.certificate
+          })
+          .then(data => {
+            if (data) {
+              this.resetForm();
             }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/get', this.siteId).then(() => {
-                        this.loaded = true;
-                    });
-                }
+          });
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssl_certificates/get', this.serverId).then(() => {
-                      this.loaded = true;
-                    });
-                }
-            },
-            installCertificate() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/store', {
-                        site_id: this.siteId,
-                        type : this.form.type,
-                        domains: this.form.domains,
-                        private_key : this.form.private_key,
-                        certificate : this.form.certificate,
-                    }).then((data) => {
-                        if(data) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssl_certificates/store', {
-                        type : this.form.type,
-                        server_id: this.serverId,
-                        domains: this.form.domains,
-                        private_key : this.form.private_key,
-                        certificate : this.form.certificate,
-                    }).then((data) => {
-                        if(data) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-            },
-            activateSslCertificate : function(ssl_certificate_id) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/update', {
-                        active : true,
-                        site : this.siteId,
-                        ssl_certificate : ssl_certificate_id
-                    })
-                }
-            },
-            deactivateSslCertificate : function(ssl_certificate_id) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/update', {
-                        active : false,
-                        site : this.siteId,
-                        ssl_certificate : ssl_certificate_id
-                    })
-                }
-            },
-            deleteSslCertificate: function (ssl_certificate_id) {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/destroy', {
-                        site : this.siteId,
-                        ssl_certificate : ssl_certificate_id
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssl_certificates/destroy', {
-                        server : this.serverId,
-                        ssl_certificate : ssl_certificate_id
-                    })
-                }
-
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\SslCertificate', id);
-            },
-            retryInstall(domains) {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssl_certificates/store', {
-                        site_id: this.siteId,
-                        domains: domains,
-                        type : 'Let\'s Encrypt'
-                    }).then(() => {
-                        this.form.reset()
-                    })
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssl_certificates/store', {
-                        domains: domains,
-                        type : 'Let\'s Encrypt',
-                        server_id: this.serverId,
-                    }).then(() => {
-                        this.form.reset()
-                    })
-                }
-
-            },
-            resetForm() {
-                this.form.reset()
-                if(this.siteId) {
-                    this.form.type = 'Let\'s Encrypt'
-                    this.form.domains = this.site.domain
-                } else {
-                    this.form.type = 'existing'
-                }
-                this.showForm = false;
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_ssl_certificates/store", {
+            type: this.form.type,
+            server_id: this.serverId,
+            domains: this.form.domains,
+            private_key: this.form.private_key,
+            certificate: this.form.certificate
+          })
+          .then(data => {
+            if (data) {
+              this.resetForm();
             }
-        },
-        computed: {
-            site() {
-                let site = this.$store.state.user_sites.site
-                if(site) {
-                    this.form.domains = site.domain
-                }
-                return site
-            },
-            siteId() {
-                let siteId = this.$route.params.site_id
-                if(siteId) {
-                    this.form.type = 'Let\'s Encrypt'
-                }
-                return siteId
-            },
-            serverId() {
-                let serverId = this.$route.params.server_id
-                if(serverId) {
-                    this.form.type = 'existing'
-                }
-                return serverId
-            },
-            sslCertificates() {
-                return this.$store.state.user_site_ssl_certificates.ssl_certificates;
-            },
-            shouldShowForm() {
-                return (this.loaded && this.sslCertificates.length === 0) || this.showForm;
-            },
-        }
+          });
+      }
+    },
+    activateSslCertificate: function(ssl_certificate_id) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_ssl_certificates/update", {
+          active: true,
+          site: this.siteId,
+          ssl_certificate: ssl_certificate_id
+        });
+      }
+    },
+    deactivateSslCertificate: function(ssl_certificate_id) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_ssl_certificates/update", {
+          active: false,
+          site: this.siteId,
+          ssl_certificate: ssl_certificate_id
+        });
+      }
+    },
+    deleteSslCertificate: function(ssl_certificate_id) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_ssl_certificates/destroy", {
+          site: this.siteId,
+          ssl_certificate: ssl_certificate_id
+        });
+      }
+
+      if (this.serverId) {
+        this.$store.dispatch("user_server_ssl_certificates/destroy", {
+          server: this.serverId,
+          ssl_certificate: ssl_certificate_id
+        });
+      }
+    },
+    isRunningCommandFor(id) {
+      return this.isCommandRunning("App\\Models\\SslCertificate", id);
+    },
+    retryInstall(domains) {
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_ssl_certificates/store", {
+            site_id: this.siteId,
+            domains: domains,
+            type: "Let's Encrypt"
+          })
+          .then(() => {
+            this.form.reset();
+          });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_ssl_certificates/store", {
+            domains: domains,
+            type: "Let's Encrypt",
+            server_id: this.serverId
+          })
+          .then(() => {
+            this.form.reset();
+          });
+      }
+    },
+    resetForm() {
+      this.form.reset();
+      if (this.siteId) {
+        this.form.type = "Let's Encrypt";
+        this.form.domains = this.site.domain;
+      } else {
+        this.form.type = "existing";
+      }
+      this.showForm = false;
     }
+  },
+  computed: {
+    site() {
+      let site = this.$store.state.user_sites.site;
+      if (site) {
+        this.form.domains = site.domain;
+      }
+      return site;
+    },
+    siteId() {
+      let siteId = this.$route.params.site_id;
+      if (siteId) {
+        this.form.type = "Let's Encrypt";
+      }
+      return siteId;
+    },
+    serverId() {
+      let serverId = this.$route.params.server_id;
+      if (serverId) {
+        this.form.type = "existing";
+      }
+      return serverId;
+    },
+    sslCertificates() {
+      return this.$store.state.user_site_ssl_certificates.ssl_certificates;
+    },
+    shouldShowForm() {
+      return (
+        (this.loaded && this.sslCertificates.length === 0) || this.showForm
+      );
+    }
+  }
+};
 </script>

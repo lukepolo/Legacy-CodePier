@@ -67,7 +67,7 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
-        $location = '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
+        $location = '/home/codepier/'.$site->domain.($site->zero_downtime_deployment ? '/current' : null).'/'.$site->web_directory;
 
         $this->remoteTaskService->makeDirectory($location);
         $this->remoteTaskService->run("ln -sf /opt/codepier/landing/index.html $location/index.html");
@@ -140,7 +140,7 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        if ($site->userRepositoryProvider) {
+        if (! $site->ssh_key_imported && $site->userRepositoryProvider) {
             $this->repositoryService->importSshKey($site);
         }
 

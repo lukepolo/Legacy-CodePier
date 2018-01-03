@@ -26,51 +26,51 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            'tag': {
-                default: 'li'
-            },
-            'name': {
-                default: null
-            },
-            'muted': {
-                default: null
-            },
-            'icon': {
-                default: null
-            }
-        },
-        data () {
-            return {
-                'open': false
-            }
-        },
-        methods: {
-            show (target) {
-                if (
-                    this.open &&
-                    !app.isTag(target, 'textarea') &&
-                    !app.isTag(target, 'input') &&
-                    !app.isTag(target, 'select') &&
-                    !app.isTag(target, 'option')
-                ) {
-                    this.open = false
-
-                    return this.open
-                }
-
-                app.$emit('close-dropdowns')
-                this.open = true
-            }
-        },
-        created () {
-            app.$on('close-dropdowns', () => {
-                this.open = false
-            })
-        },
-        slots () {
-            return this.$slots
-        }
+export default {
+  props: {
+    tag: {
+      default: "li"
+    },
+    name: {
+      default: null
+    },
+    muted: {
+      default: null
+    },
+    icon: {
+      default: null
     }
+  },
+  data() {
+    return {
+      open: false
+    };
+  },
+  methods: {
+    show(target) {
+      if (
+        this.open &&
+        !app.isTag(target, "textarea") &&
+        !app.isTag(target, "input") &&
+        !app.isTag(target, "select") &&
+        !app.isTag(target, "option")
+      ) {
+        this.open = false;
+
+        return this.open;
+      }
+
+      app.$emit("close-dropdowns");
+      this.open = true;
+    }
+  },
+  created() {
+    app.$on("close-dropdowns", () => {
+      this.open = false;
+    });
+  },
+  slots() {
+    return this.$slots;
+  }
+};
 </script>

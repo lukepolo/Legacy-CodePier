@@ -22,7 +22,7 @@ export const update = (context, data) => {
       Vue.action("BuoyAppController@update", { buoy_app: data.buoy_app }),
       "buoys/set"
     )
-    .then((buoy) => {
+    .then(buoy => {
       app.$router.push({ name: "buoy_market_place" });
       return buoy;
     });

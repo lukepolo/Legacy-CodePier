@@ -48,19 +48,29 @@ class CheckSshConnection implements ShouldQueue
                     ->onQueue(config('queue.channels.server_provisioning'))
             );
         } else {
-            if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
-                dispatch(
-                    (new self($this->server))
-                        ->delay(10)
-                        ->onQueue(config('queue.channels.server_provisioning'))
-                );
-
-                return;
-            }
-
-            event(
-                new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
-            );
+            $this->tryAgain();
         }
+    }
+
+    public function failed()
+    {
+        $this->tryAgain();
+    }
+
+    private function tryAgain()
+    {
+        if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
+            dispatch(
+                (new self($this->server))
+                    ->delay(10)
+                    ->onQueue(config('queue.channels.server_provisioning'))
+            );
+
+            return;
+        }
+
+        event(
+            new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
+        );
     }
 }

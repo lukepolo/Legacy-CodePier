@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use GuzzleHttp\Client;
 use App\Models\User\User;
 use GuzzleHttp\Psr7\Response;
 use App\Http\Controllers\Controller;
@@ -67,51 +66,5 @@ class UserController extends Controller
         return response()->json(
             \Auth::user()->getRunningDeployments()
         );
-    }
-
-    /**
-     *  Sends a slack invite.
-     */
-    public function slackInvite()
-    {
-        $email = \Auth::user()->email;
-        $response = $this->inviteToSlackChannel($email);
-
-        \Auth::user()->update([
-            'invited_to_slack' => 1,
-        ]);
-
-        if (isset($response->error)) {
-            if ($response->error == 'already_invited') {
-                return back()->withErrors(['You have already been invited. Please check your email : '.$email]);
-            } else {
-                return back()->withErrors([$response->error]);
-            }
-        } else {
-            return back()->with('success',
-                'We have invited you to our slack channel please look at your email : '.$email);
-        }
-    }
-
-    /**
-     * Invites a user to the slack channel via email.
-     * @param $email
-     * @return mixed
-     */
-    private function inviteToSlackChannel($email)
-    {
-        $client = new Client();
-
-        /** @var Response $response */
-        $response = $client->post('https://'.config('services.slack.domain').'.slack.com/api/users.admin.invite?t='.time(), [
-            'form_params' => [
-                'email'      => $email,
-                'token'      => config('services.slack.token'),
-                'set_active' => true,
-                '_attempts'  => '1',
-            ],
-        ]);
-
-        return json_decode($response->getBody()->getContents());
     }
 }

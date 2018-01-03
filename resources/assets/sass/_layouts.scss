@@ -9,6 +9,14 @@
 
 // COLORS --------------------------------------------------
 // ---------------------------------------------------------
+.primary {
+  color: $color-primary;
+}
+
+.accent {
+  color: $color-accent;
+}
+
 .text-success {
   background-color: transparent;
   color: $green;
@@ -24,14 +32,19 @@
   color: $yellow;
 }
 
-.primary {
-  color: $color-primary;
-}
+a:hover {
+  &.text-success {
+    color: mix($white, $green, 30%);
+  }
 
-.accent {
-  color: $color-accent;
-}
+  &.text-error {
+    color: mix($white, $red, 30%);
+  }
 
+  &.text-warning {
+    color: mix($white, $yellow, 30%);
+  }
+}
 
 
 // LABELS --------------------------------------------------

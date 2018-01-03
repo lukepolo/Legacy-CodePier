@@ -30,6 +30,8 @@ return [
 
     'subscriptions' => env('APP_SUBSCRIPTIONS', false),
 
+    'force_https' => env('APP_FORCE_HTTPS', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
