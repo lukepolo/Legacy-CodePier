@@ -11,10 +11,10 @@
                             name : 'server_form_with_site' ,
                             params : {
                                 site_id : site.id ,
-                                type : serverType
-                            }
+                                type : serverType,
+                                disabled : !serverTypesEnabled && serverType !== 'full_stack'
+                            },
                         }"
-                        :disabled="!serverTypesEnabled"
                     >
                         {{ serverTypeText }} Server
                     </router-link>
