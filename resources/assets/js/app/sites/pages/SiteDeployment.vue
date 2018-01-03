@@ -11,7 +11,7 @@
                     <label>
                         <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
                         <span class="icon"></span>
-                        Zerotime Deployment
+                        Zero-Downtime Deployment
                         <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!"
                                  size="medium">
                             <span class="fa fa-info-circle"></span>
