@@ -72,7 +72,7 @@
                             Failed {{ currentProvisioningStep.step}}
                         </div>
                         <div v-if="currentProvisioningStep.failed"class="server-btns">
-                          <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh2"></span> Retry</span>
+                          <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</span>
                         </div>
 
                         <div class="server-status-text" v-else>
@@ -214,20 +214,28 @@
                     <confirm-sidebar dispatch="user_server_services/restart" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart web services" placement="top-right" v-if="server.type === 'full_stack' || server.type === 'web'">
-                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
+                <tooltip message="Restart web services" placement="top-right">
+                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'web' }">
+                        <span class="icon-web"></span>
+                    </confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart databases" v-if="server.type === 'full_stack' || server.type === 'database'">
-                    <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
+                <tooltip message="Restart databases">
+                    <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'database' }">
+                        <span class="icon-database"></span>
+                    </confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart workers" v-if="server.type === 'full_stack' || server.type === 'worker'">
-                    <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
+                <tooltip message="Restart workers">
+                    <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'worker' }">
+                        <span class="icon-worker"></span>
+                    </confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">
-                    <confirm-sidebar dispatch="user_servers/archive" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_servers/archive" :params="server.id">
+                        <span class="icon-archive"></span>
+                    </confirm-sidebar>
                 </tooltip>
             </div>
         </div>
