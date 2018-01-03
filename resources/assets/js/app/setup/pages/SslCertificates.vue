@@ -43,7 +43,7 @@
                             <template v-if="sslCertificate.failed">
                                 <tooltip message="Retry Install">
                                     <span class="table--action-retry">
-                                        <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh"></span></a>
+                                        <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh2"></span></a>
                                     </span>
                                 </tooltip>
                             </template>
