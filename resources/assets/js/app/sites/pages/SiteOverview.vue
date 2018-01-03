@@ -93,7 +93,7 @@
             <div class="grid--item">
                 <h3>DNS
                     <tooltip message="Refresh DNS">
-                        <span class="icon-refresh text-link" @click="getDns(true)"></span>
+                        <span class="icon-refresh2 text-link" @click="getDns(true)"></span>
                     </tooltip>
                 </h3>
 
