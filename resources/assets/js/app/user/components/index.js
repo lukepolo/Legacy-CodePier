@@ -1,2 +1,2 @@
-export const UserNav = require("./UserNav.vue");
-export const UserArea = require("./UserArea.vue");
+export const UserNav = require("./UserNav");
+export const UserArea = require("./UserArea");

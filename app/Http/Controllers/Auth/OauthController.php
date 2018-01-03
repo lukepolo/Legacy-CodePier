@@ -146,7 +146,7 @@ class OauthController extends Controller
 
             if (config('app.env') === 'local') {
                 /* @var ClientException $e */
-                dd($e->getMessage());
+                ddd($e->getMessage());
             }
 
             if (\Auth::check()) {
@@ -169,9 +169,10 @@ class OauthController extends Controller
     public function createUser($user, UserLoginProvider $userLoginProvider)
     {
         return User::create([
+            'confirmed'              => true,
             'email'                  => $user->getEmail(),
-            'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
+            'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
         ]);
     }
 
@@ -227,7 +228,7 @@ class OauthController extends Controller
 
         $userLoginProvider->fill([
             'token'         => $socialUser->token,
-            'expires_in'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
+            'expires_at'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
             'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
             'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
         ]);
@@ -255,7 +256,7 @@ class OauthController extends Controller
         $userRepositoryProvider->fill([
             'token'         => $socialUser->token,
             'user_id'       => \Auth::user()->id,
-            'expires_in'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
+            'expires_at'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
             'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
             'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
         ]);
@@ -290,13 +291,13 @@ class OauthController extends Controller
                 break;
             default:
                 // TODO - other server providers
-                dd($socialUser);
+                ddd($socialUser);
                 break;
         }
 
         $userServerProvider->fill([
             'token'         => $token,
-            'expires_in'    => $expiresIn,
+            'expires_at'    => $expiresIn,
             'user_id'       => \Auth::user()->id,
             'refresh_token' => $refreshToken,
             'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
@@ -327,7 +328,7 @@ class OauthController extends Controller
         $userNotificationProvider->fill([
             'token'         => $tokenData->token,
             'user_id'       => \Auth::user()->id,
-            'expires_in'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
+            'expires_at'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
             'token_secret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
         ]);

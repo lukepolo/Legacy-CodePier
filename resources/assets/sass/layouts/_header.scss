@@ -3,8 +3,7 @@
 header {
     background-color: $black;
     display: flex;
-    
-    
+
     .muted {
         font-size: .8em;
         text-transform: uppercase;
@@ -15,10 +14,13 @@ header {
 }
 
 .logo-container {
-    flex: 0 0 265px;
-    padding: ($spacing/4) ($spacing/2);
+    flex: 0 0 220px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
 
     a {
-        width : 100%;
+        width: 100%;
+        display: inline-block;
     }
 }

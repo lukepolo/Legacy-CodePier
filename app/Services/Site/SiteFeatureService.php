@@ -5,6 +5,7 @@ namespace App\Services\Site;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\Site\SiteFeatureServiceContract;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
@@ -33,29 +34,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
      */
     public function getEditableFiles(Site $site)
     {
+        $files = $this->getAvailableEditableFiles();
+
         $editableFiles = collect();
-
-        $files = [];
-
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getServicesFromVersion($version) as $service) {
-                    $files = $files +
-                        $this->buildFileArray(
-                            $this->buildReflection($service)
-                        );
-                }
-
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $files = $files +
-                        $this->buildFileArray(
-                            $this->buildReflection($language.'/'.basename($language).'.php')
-                        );
-                }
-            }
-        }
-
-        $files = collect($files);
 
         if (! empty($site->server_features)) {
             foreach ($site->server_features as $service => $features) {
@@ -82,6 +63,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
     {
         $editableFiles = collect();
 
+        // TODO - we need to make this cacheable , and do a foreach on the path isntead
         if (! empty($site->framework)) {
             $files = [];
 
@@ -89,9 +71,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
                 foreach ($this->getVersionsFromSystem($system) as $version) {
                     foreach ($this->getLanguagesFromVersion($version) as $language) {
                         foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                            $language = substr($language, strrpos($language, '/') + 1);
+                            $tempLanguage = substr($language, strrpos($language, '/') + 1);
                             $reflectionClass = $this->buildReflection($framework);
-                            $files[$language][$reflectionClass->getShortName()] = $this->buildFileArray($reflectionClass, $site->path.'/');
+                            $files[$tempLanguage][$reflectionClass->getShortName()] = $this->buildFileArray($reflectionClass, $site->path.'/');
                         }
                     }
                 }
@@ -114,47 +96,49 @@ class SiteFeatureService implements SiteFeatureServiceContract
      */
     public function getSuggestedFeatures(Site $site)
     {
-        $suggestedFeatures = [];
+        return Cache::rememberForever("suggestedFeatures.$site->type.$site->framework", function () use ($site) {
+            $suggestedFeatures = [];
 
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    if (strtolower(basename($language)) == strtolower($site->type)) {
-                        $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
+            foreach ($this->getSystemsFiles() as $system) {
+                foreach ($this->getVersionsFromSystem($system) as $version) {
+                    foreach ($this->getLanguagesFromVersion($version) as $language) {
+                        if (strtolower(basename($language)) == strtolower($site->type)) {
+                            $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
-                        $siteSuggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
+                            $siteSuggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
-                        if (! empty($site->framework)) {
-                            $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
-                            $siteSuggestedFeatures = array_merge($siteSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
-                        }
-
-                        $servicePath = '\Services\Systems\Ubuntu\V_16_04\\';
-
-                        foreach ($siteSuggestedFeatures as $service => $features) {
-                            $reflectionClass = $this->buildReflection($servicePath.$service.'.php');
-                            foreach ($features as $feature) {
-                                $method = $reflectionClass->getMethod('install'.$feature);
-
-                                $parameters = [];
-                                foreach ($method->getParameters() as $parameter) {
-                                    $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
-                                }
-
-                                $suggestedFeatures[$service][$feature] = array_filter([
-                                    'enabled' => true,
-                                    'parameters' => $parameters,
-                                ]);
+                            if (! empty($site->framework)) {
+                                $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
+                                $siteSuggestedFeatures = array_merge($siteSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                             }
-                        }
 
-                        break;
+                            $servicePath = '\Services\Systems\Ubuntu\V_16_04\\';
+
+                            foreach ($siteSuggestedFeatures as $service => $features) {
+                                $reflectionClass = $this->buildReflection($servicePath.$service.'.php');
+                                foreach ($features as $feature) {
+                                    $method = $reflectionClass->getMethod('install'.$feature);
+
+                                    $parameters = [];
+                                    foreach ($method->getParameters() as $parameter) {
+                                        $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
+                                    }
+
+                                    $suggestedFeatures[$service][$feature] = array_filter([
+                                        'enabled' => true,
+                                        'parameters' => $parameters,
+                                    ]);
+                                }
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        return collect($suggestedFeatures);
+            return collect($suggestedFeatures);
+        });
     }
 
     /**
@@ -174,6 +158,10 @@ class SiteFeatureService implements SiteFeatureServiceContract
         return $site;
     }
 
+    /**
+     * @param Site $site
+     * @return \Illuminate\Support\Collection|static
+     */
     public function getSuggestedCronJobs(Site $site)
     {
         // TODO - we need to move suggestions out of the systems , cause its not going to end well
@@ -183,7 +171,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             return collect($reflectionClass->getDefaultProperties()['cronJobs'])->map(function ($cronJob) use ($site) {
                 $path = '/home/codepier/'.$site->domain;
 
-                if ($site->zerotime_deployment) {
+                if ($site->zero_downtime_deployment) {
                     $path .= '/current';
                 }
 
@@ -194,6 +182,10 @@ class SiteFeatureService implements SiteFeatureServiceContract
         return collect();
     }
 
+    /**
+     * @param Site $site
+     * @param Site $tempSite
+     */
     public function detachSuggestedCronJobs(Site $site, Site $tempSite)
     {
         if (! empty($tempSite->framework)) {
@@ -207,6 +199,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
         }
     }
 
+    /**
+     * @param Site $site
+     */
     public function saveSuggestedFiles(Site $site)
     {
         foreach ($this->getEditableFiles($site) as $file) {
@@ -218,6 +213,10 @@ class SiteFeatureService implements SiteFeatureServiceContract
         }
     }
 
+    /**
+     * @param Site $site
+     * @param Site $tempSite
+     */
     public function detachSuggestedFiles(Site $site, Site $tempSite)
     {
         foreach ($this->getEditableFiles($tempSite) as $file) {
@@ -243,6 +242,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
         }
     }
 
+    /**
+     * @param Site $site
+     */
     public function saveSuggestedCronJobs(Site $site)
     {
         foreach ($this->getSuggestedCronJobs($site) as $cronJob) {

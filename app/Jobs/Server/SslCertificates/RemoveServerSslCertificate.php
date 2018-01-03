@@ -8,7 +8,6 @@ use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,8 +41,7 @@ class RemoveServerSslCertificate implements ShouldQueue
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -58,16 +56,14 @@ class RemoveServerSslCertificate implements ShouldQueue
                 }
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->sslCertificates()->detach($this->sslCertificate->id);
 
-            $this->server->sslCertificates()->detach($this->sslCertificate->id);
+                $this->sslCertificate->load('servers');
 
-            $this->sslCertificate->load('servers');
-
-            if ($this->sslCertificate->servers->count() == 0) {
-                $this->sslCertificate->delete();
+                if ($this->sslCertificate->servers->count() == 0) {
+                    $this->sslCertificate->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this ssl certificate', false);

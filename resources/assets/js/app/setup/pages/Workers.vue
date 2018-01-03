@@ -105,116 +105,120 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form: this.createForm({
-                    user : null,
-                    command: null,
-                    auto_start: true,
-                    auto_restart: true,
-                    number_of_workers: 1,
-                })
+export default {
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        user: null,
+        command: null,
+        auto_start: true,
+        auto_restart: true,
+        number_of_workers: 1
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_workers/get", this.siteId).then(() => {
+          this.loaded = true;
+        });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_workers/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    installWorker() {
+      if (this.siteId) {
+        this.form.site = this.siteId;
+        this.$store
+          .dispatch("user_site_workers/store", this.form)
+          .then(worker => {
+            if (worker.id) {
+              this.resetForm();
             }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_workers/get', this.siteId).then(() => {
-                      this.loaded = true
-                    })
-                }
+          });
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_workers/get', this.serverId).then(() => {
-                      this.loaded = true
-                    })
-                }
-
-            },
-            installWorker() {
-                if(this.siteId) {
-                    this.form.site = this.siteId
-                    this.$store.dispatch('user_site_workers/store', this.form).then((worker) => {
-                        if(worker.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-                if(this.serverId) {
-                    this.form.server = this.serverId
-                    this.$store.dispatch('user_server_workers/store', this.form).then((worker) => {
-                        if(worker.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-            },
-            deleteWorker: function (worker_id) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_workers/destroy', {
-                        worker: worker_id,
-                        site: this.siteId,
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_workers/destroy', {
-                        worker: worker_id,
-                        server: this.serverId
-                    });
-                }
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Worker', id)
-            },
-            resetForm() {
-                this.form.reset()
-                if(this.site) {
-                    this.form.command = this.site.path
-                }
-                this.showForm = false;
+      if (this.serverId) {
+        this.form.server = this.serverId;
+        this.$store
+          .dispatch("user_server_workers/store", this.form)
+          .then(worker => {
+            if (worker.id) {
+              this.resetForm();
             }
-        },
-        computed: {
-            site() {
-                let site = this.$store.state.user_sites.site
+          });
+      }
+    },
+    deleteWorker: function(worker_id) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_workers/destroy", {
+          worker: worker_id,
+          site: this.siteId
+        });
+      }
 
-                if(site) {
-                    this.form.command = site.path + (site.zerotime_deployment ? '/current/' : '/')
-                }
-
-                return site
-            },
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            workers() {
-                if(this.siteId) {
-                    return this.$store.state.user_site_workers.workers
-                }
-
-                if(this.serverId) {
-                    return this.$store.state.user_server_workers.workers
-                }
-
-            },
-            shouldShowForm() {
-                return (this.loaded && this.workers.length === 0) || this.showForm;
-            },
-        }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_workers/destroy", {
+          worker: worker_id,
+          server: this.serverId
+        });
+      }
+    },
+    isRunningCommandFor(id) {
+      return this.isCommandRunning("App\\Models\\Worker", id);
+    },
+    resetForm() {
+      this.form.reset();
+      if (this.site) {
+        this.form.command = this.site.path;
+      }
+      this.showForm = false;
     }
+  },
+  computed: {
+    site() {
+      let site = this.$store.state.user_sites.site;
+
+      if (site) {
+        this.form.command =
+          site.path + (site.zero_downtime_deployment ? "/current/" : "/");
+      }
+
+      return site;
+    },
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    workers() {
+      if (this.siteId) {
+        return this.$store.state.user_site_workers.workers;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_workers.workers;
+      }
+    },
+    shouldShowForm() {
+      return (this.loaded && this.workers.length === 0) || this.showForm;
+    }
+  }
+};
 </script>

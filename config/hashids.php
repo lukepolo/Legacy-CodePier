@@ -42,6 +42,12 @@ return [
             'length'   => 40,
             'alphabet' => 'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
+
+        'users' => [
+            'salt'     => env('APP_KEY'),
+            'length'   => 60,
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+        ],
     ],
 
 ];

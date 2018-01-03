@@ -29,7 +29,7 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->removeDirectory('onpremise');
         $this->remoteTaskService->run('git clone https://github.com/getsentry/onpremise');
 
-        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.21-onbuild');
+        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.22-onbuild');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install make');
 
         $this->remoteTaskService->run('cd onpremise && mkdir -p /data/{sentry,postgres} && make build');
@@ -103,7 +103,7 @@ class SentryBuoy implements BuoyContract
             --env GITHUB_API_SECRET=$GITHUB_API_SECRET \
             --name sentry-web-01 \
             -v /data/sentry:/var/lib/sentry/files \
-            -p 9000:9000 \
+            -p '.$ports[0].':9000 \
             sentry-onpremise \
             run web');
 

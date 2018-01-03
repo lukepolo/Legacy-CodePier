@@ -8,7 +8,6 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,8 +39,7 @@ class InstallServerWorker implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -52,11 +50,9 @@ class InstallServerWorker implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->addWorker($this->worker);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            if ($this->wasSuccessful()) {
+                $this->server->workers()->save($this->worker);
             }
-
-            $this->server->workers()->save($this->worker);
         }
     }
 }

@@ -16,12 +16,14 @@ class CreateUserProvidersTable extends Migration
             $table->increments('id');
             $table->string('provider');
             $table->string('provider_id');
-            $table->string('token');
-            $table->string('refresh_token')->nullable();
-            $table->string('expires_in')->nullable();
-            $table->string('tokenSecret')->nullable();
+            $table->longText('token');
+            $table->longText('refresh_token')->nullable();
+            $table->longText('token_secret')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['provider', 'provider_id']);
         });
     }
 

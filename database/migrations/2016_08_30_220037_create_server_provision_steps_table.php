@@ -15,7 +15,7 @@ class CreateServerProvisionStepsTable extends Migration
     {
         Schema::create('server_provision_steps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_id');
+            $table->unsignedInteger('server_id');
             $table->string('service');
             $table->string('function');
             $table->string('step');
@@ -25,6 +25,8 @@ class CreateServerProvisionStepsTable extends Migration
             $table->json('log')->nullable();
 
             $table->timestamps();
+
+            $table->index('server_id');
         });
     }
 

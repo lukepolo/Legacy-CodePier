@@ -59,104 +59,109 @@
 </template>
 
 <script>
-    import { ServerSelection, Daemon } from "./../components"
-    export default {
-        components: {
-            Daemon,
-            ServerSelection
-        },
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form: this.createForm({
-                    user: null,
-                    command: null,
-                    server_ids : [],
-                    server_types : [],
-                })
+import { ServerSelection, Daemon } from "./../components";
+export default {
+  components: {
+    Daemon,
+    ServerSelection
+  },
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        user: null,
+        command: null,
+        server_ids: [],
+        server_types: []
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_daemons/get", this.siteId).then(() => {
+          this.loaded = true;
+        });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_daemons/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    installDaemon() {
+      if (this.siteId) {
+        this.form.site = this.siteId;
+        this.$store
+          .dispatch("user_site_daemons/store", this.form)
+          .then(daemon => {
+            if (daemon.id) {
+              this.resetForm();
             }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_daemons/get', this.siteId).then(() => {
-                      this.loaded = true
-                    })
-                }
+          });
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_daemons/get', this.serverId).then(() => {
-                      this.loaded = true
-                    })
-                }
-
-            },
-            installDaemon() {
-                if(this.siteId) {
-                    this.form.site = this.siteId
-                    this.$store.dispatch('user_site_daemons/store', this.form).then((daemon) => {
-                        if(daemon.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-                if(this.serverId) {
-                    this.form.server = this.serverId
-                    this.$store.dispatch('user_server_daemons/store', this.form).then((daemon) => {
-                        if(daemon.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Daemon', id)
-            },
-            resetForm() {
-                this.form.reset()
-                if(this.site) {
-                    this.form.command = this.site.path
-                }
-                this.showForm = false;
-            },
-        },
-        computed: {
-            site() {
-                let site = this.$store.state.user_sites.site
-
-                if(site) {
-                    this.form.command = site.path + (site.zerotime_deployment ? '/current/' : '/')
-                }
-
-                return site
-            },
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            daemons() {
-                if(this.siteId) {
-                    return this.$store.state.user_site_daemons.daemons
-                }
-
-                if(this.serverId) {
-                    return this.$store.state.user_server_daemons.daemons
-                }
-            },
-            shouldShowForm() {
-                return (this.loaded && this.daemons.length === 0) || this.showForm;
-            },
-        }
+      if (this.serverId) {
+        this.form.server = this.serverId;
+        this.$store
+          .dispatch("user_server_daemons/store", this.form)
+          .then(daemon => {
+            if (daemon.id) {
+              this.resetForm();
+            }
+          });
+      }
+    },
+    isRunningCommandFor(id) {
+      return this.isCommandRunning("App\\Models\\Daemon", id);
+    },
+    resetForm() {
+      this.form.reset();
+      if (this.site) {
+        this.form.command = this.site.path;
+      }
+      this.showForm = false;
     }
+  },
+  computed: {
+    site() {
+      let site = this.$store.state.user_sites.site;
+
+      if (site) {
+        this.form.command =
+          site.path + (site.zero_downtime_deployment ? "/current/" : "/");
+      }
+
+      return site;
+    },
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    daemons() {
+      if (this.siteId) {
+        return this.$store.state.user_site_daemons.daemons;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_daemons.daemons;
+      }
+    },
+    shouldShowForm() {
+      return (this.loaded && this.daemons.length === 0) || this.showForm;
+    }
+  }
+};
 </script>

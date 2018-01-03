@@ -14,14 +14,18 @@ class CreateDeploymentEventsTable extends Migration
     {
         Schema::create('deployment_events', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_deployment_id');
-            $table->integer('deployment_step_id');
+            $table->unsignedInteger('deployment_step_id');
             $table->boolean('started')->default(0);
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
             $table->json('log')->nullable();
             $table->timestamps();
+
+            $table->unsignedInteger('site_server_deployment_id');
+
+            $table->index('deployment_step_id');
+            $table->index('site_server_deployment_id');
         });
     }
 

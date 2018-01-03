@@ -188,7 +188,7 @@ h1, h2, h3, h4, h5, h6 {
 // LINKS ---------------------------------------------------
 // ---------------------------------------------------------
 a {
-  display: inline-block;
+  display: inline-flex;
   color: $color-primary;
 
   &:hover,

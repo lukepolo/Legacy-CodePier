@@ -1,43 +1,66 @@
 <template>
-    <div>
-        <div class="flyform--group-radio" v-for="plan in plans">
-            <label>
-                <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
-                <span class="icon"></span>
-                <p>
-                    {{ plan.name }} (${{ (plan.amount/ 100) }} / {{ plan.interval }})
-                </p>
-
-                <b v-if="plan.metadata.save">
-                    SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
-                </b>
-            </label>
+    <div class="pricing--item" :class="{ selected : isActive }">
+        <div class="pricing--header">
+            <div class="pricing--header-name">{{ title }}</div>
+        </div>
+        <div class="pricing--features">
+            <div class="flyform--group-radio" v-for="plan in plans">
+                <label>
+                    <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
+                    <span class="icon"></span>
+                    ${{ (plan.amount/ 100) }} / {{ plan.interval }}
+                    <strong v-if="plan.metadata.save">
+                        SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
+                    </strong>
+                    <template v-if="userSubscription && userSubscription.stripe_plan === plan.id">
+                        <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
+                        <small v-if="userSubscription">Next billing date: {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}</small>
+                    </template>
+                </label>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props : ['selectedPlan'],
-        data() {
-            return {
-                form : {
-                    plan : null
-                }
-            }
-        },
-        watch : {
-            'selectedPlan' : function() {
-                Vue.set(this.form, 'plan', this.selectedPlan)
-            },
-            'form.plan' : function() {
-                this.$emit('update:selectedPlan', this.form.plan)
-            }
-        },
-        computed: {
-            plans() {
-                return this.$store.state.subscriptions.plans;
-            },
-        }
+export default {
+  props: ["selectedPlan", "title", "type"],
+  data() {
+    return {
+      form: {
+        plan: this.selectedPlan
+      }
+    };
+  },
+  watch: {
+    selectedPlan: function() {
+      Vue.set(this.form, "plan", this.selectedPlan);
+    },
+    "form.plan": function() {
+      this.$emit("update:selectedPlan", this.form.plan);
     }
+  },
+  computed: {
+    isActive() {
+      if (this.userSubscription) {
+        return _.find(this.plans, {
+          id: this.userSubscription.stripe_plan
+        });
+      }
+    },
+    plans() {
+      return _.filter(this.$store.state.subscriptions.plans, plan => {
+        return plan.id.indexOf(this.type) > -1;
+      });
+    },
+    userSubscription() {
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.subscription;
+      }
+    },
+    userSubscriptionData() {
+      return this.$store.state.user_subscription.subscription;
+    }
+  }
+};
 </script>

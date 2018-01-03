@@ -7,27 +7,25 @@
 </template>
 
 <script>
-    import {
-        BuoyApp
-    } from '../components'
+import { BuoyApp } from "../components";
 
-    export default {
-        components : {
-          BuoyApp
-        },
-        created() {
-            this.$store.dispatch('buoys/get')
-            this.$store.dispatch('user_server_buoys/all')
-        },
-        computed: {
-            buoyApps() {
-                if(this.buoyAppsPagination) {
-                    return this.buoyAppsPagination.data
-                }
-            },
-            buoyAppsPagination() {
-                return this.$store.state.buoys.buoy_apps
-            },
-        }
+export default {
+  components: {
+    BuoyApp
+  },
+  created() {
+    this.$store.dispatch("buoys/get");
+    this.$store.dispatch("user_server_buoys/all");
+  },
+  computed: {
+    buoyApps() {
+      if (this.buoyAppsPagination) {
+        return this.buoyAppsPagination.data;
+      }
+    },
+    buoyAppsPagination() {
+      return this.$store.state.buoys.buoy_apps;
     }
+  }
+};
 </script>

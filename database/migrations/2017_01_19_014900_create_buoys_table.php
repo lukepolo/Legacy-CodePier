@@ -22,26 +22,28 @@ class CreateBuoysTable extends Migration
             $table->json('options')->nullable();
             $table->json('ports')->nullable();
             $table->boolean('active')->default(1);
-            $table->timestamps();
+            $table->unsignedInteger('installs')->default(0);
 
-            $table->index('title');
+            $table->timestamps();
         });
 
         Schema::create('buoys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('domain')->nullable();
-            $table->integer('buoy_app_id');
+            $table->unsignedInteger('buoy_app_id');
             $table->json('options')->nullable();
             $table->json('ports')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
 
             $table->index('buoy_app_id');
+
+            $table->json('container_ids')->nullable();
         });
 
         Schema::create('buoyables', function (Blueprint $table) {
-            $table->integer('buoy_id');
-            $table->integer('buoyable_id');
+            $table->unsignedInteger('buoy_id');
+            $table->unsignedInteger('buoyable_id');
             $table->string('buoyable_type');
             $table->timestamps();
 

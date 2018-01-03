@@ -9,29 +9,27 @@
 </template>
 
 <script>
-    import {
-        Bitt
-    } from '../components'
+import { Bitt } from "../components";
 
-    export default {
-        components: {
-            Bitt
-        },
-        created() {
-            this.$store.dispatch('getCategories').then(() => {
-                this.$store.dispatch('getBitts')
-            })
-        },
-        computed : {
-            bitts() {
-                return this.$store.state.bittsStore.bitts.data
-            },
-            pagination() {
-                return this.$store.state.bittsStore.bitts
-            },
-            categories() {
-                return this.$store.state.categoriesStore.categories
-            },
-        }
+export default {
+  components: {
+    Bitt
+  },
+  created() {
+    this.$store.dispatch("getCategories").then(() => {
+      this.$store.dispatch("getBitts");
+    });
+  },
+  computed: {
+    bitts() {
+      return this.$store.state.bittsStore.bitts.data;
+    },
+    pagination() {
+      return this.$store.state.bittsStore.bitts;
+    },
+    categories() {
+      return this.$store.state.categoriesStore.categories;
     }
+  }
+};
 </script>

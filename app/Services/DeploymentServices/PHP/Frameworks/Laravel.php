@@ -7,31 +7,35 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 210
      */
     public function laravelCreateSymbolicEnv()
     {
+        $output = [];
+
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.example')) {
-            $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->siteFolder.'/.env');
+            $output = $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->siteFolder.'/.env');
         }
 
         $appKey = str_after($this->remoteTaskService->getFileLine($this->siteFolder.'/.env', '^APP_KEY='), '=');
 
-        if ($this->zerotimeDeployment) {
-            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+        if ($this->zeroDowntimeDeployment) {
+            $output = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
 
         if (empty($appKey)) {
-            $this->remoteTaskService->run('cd '.$this->release.'; php artisan key:generate');
+            $output = $this->remoteTaskService->run('cd '.$this->release.'; php artisan key:generate');
         }
+
+        return $output;
     }
 
     /**
      * @description Creates a symbolic link for the storage folder so it retains the storage files
      *
-     * @zerotime-deployment
+     * @zero-downtime-deployment
      *
      * @order 150
      */
@@ -39,10 +43,10 @@ trait Laravel
     {
         $output = [];
 
-        if ($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
-            $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
-            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
+        if ($this->zeroDowntimeDeployment) {
+            $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
+            $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
+            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
         }
 
         return $output;
@@ -86,6 +90,18 @@ trait Laravel
     public function laravelCacheConfig()
     {
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
+    }
+
+    /**
+     * @description Restarts Laravel Horizon Process
+     *
+     * @order 400
+     *
+     * @not_default
+     */
+    public function laravelTerminateRestartHorizon()
+    {
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan horizon:terminate');
     }
 
     /**

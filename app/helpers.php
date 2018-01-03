@@ -80,7 +80,7 @@ if (! function_exists('second_authed')) {
         if ($user && $user->second_auth_active) {
             return
                 ! empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
-                Session::get(SecondAuthController::SECOND_AUTH_SESSION) === $user->second_auth_updated_at;
+                Session::get(SecondAuthController::SECOND_AUTH_SESSION) == $user->second_auth_updated_at;
         }
 
         return true;
@@ -96,5 +96,18 @@ if (! function_exists('cents_to_dollars')) {
     function cents_to_dollars($cents)
     {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
+    }
+}
+
+if (! function_exists('ddd')) {
+    /**
+     * Developer conveinence.
+     *
+     * @return mixed
+     */
+    function ddd(...$args)
+    {
+        http_response_code(500);
+        call_user_func_array('dd', $args);
     }
 }

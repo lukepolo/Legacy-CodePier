@@ -14,12 +14,19 @@ class CreateDeploymentStepsTable extends Migration
     {
         Schema::create('deployment_steps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_id');
+            $table->unsignedInteger('site_id');
             $table->string('step');
-            $table->integer('order');
+            $table->unsignedInteger('order');
             $table->longText('script')->nullable();
             $table->string('internal_deployment_function')->nullable();
+
+            $table->json('server_ids')->nullable();
+            $table->json('server_types')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('site_id');
         });
     }
 

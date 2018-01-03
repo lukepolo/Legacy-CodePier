@@ -8,32 +8,32 @@ export default {
       return Vue.http
         .get(Vue.action("BittsController@show", { bitt: bitt }))
         .then(
-          (response) => {
+          response => {
             commit("SET_BITT", response.data);
             return response.data;
           },
-          (errors) => {
+          errors => {
             app.handleApiError(errors);
           }
         );
     },
     getBitts: ({ commit }) => {
       Vue.http.get(Vue.action("BittsController@index")).then(
-        (response) => {
+        response => {
           commit("SET_BITTS", response.data);
         },
-        (errors) => {
+        errors => {
           app.handleApiError(errors);
         }
       );
     },
     createBitt: ({ commit }, data) => {
       Vue.http.post(Vue.action("BittsController@store"), data).then(
-        (response) => {
+        response => {
           commit("ADD_BITT", response.data);
           app.$router.push({ name: "bitts_market_place" });
         },
-        (errors) => {
+        errors => {
           app.handleApiError(errors);
         }
       );
@@ -45,11 +45,11 @@ export default {
           data.form
         )
         .then(
-          (response) => {
+          response => {
             commit("UPDATE_BITT", response.data);
             app.$router.push({ name: "bitts_market_place" });
           },
-          (errors) => {
+          errors => {
             app.handleApiError(errors);
           }
         );
@@ -58,10 +58,10 @@ export default {
       Vue.http
         .delete(Vue.action("BittsController@destroy", { bitt: bitt }))
         .then(
-          (response) => {
+          response => {
             commit("REMOVE_BITT", bitt);
           },
-          (errors) => {
+          errors => {
             app.handleApiError(errors);
           }
         );
@@ -75,11 +75,11 @@ export default {
           data
         )
         .then(
-          (response) => {
+          response => {
             commit("SET_BITT", null);
             app.showSuccess("Your bitt has been queued");
           },
-          (errors) => {
+          errors => {
             app.handleApiError(errors);
           }
         );

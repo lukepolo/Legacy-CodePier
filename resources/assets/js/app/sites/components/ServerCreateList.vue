@@ -5,19 +5,24 @@
         <ul>
             <li v-for="(serverType, serverTypeText) in serverTypes">
                 <template v-if="site.repository">
-
                     <router-link
                         :to="{
                             name : 'server_form_with_site' ,
                             params : {
                                 site_id : site.id ,
-                                type : serverType
-                            }
-                        }">
-
+                                type : serverType,
+                                disabled : !serverTypesEnabled && serverType !== 'full_stack'
+                            },
+                        }"
+                        :class="{disabled : !serverTypesEnabled && serverType !== 'full_stack'}"
+                    >
                         {{ serverTypeText }} Server
                     </router-link>
-
+                    <template v-if="serverType === 'full_stack' && !serverTypesEnabled">
+                        <div class="server-type-list-text">
+                            Subscribe to a paid account to create the following server types.
+                        </div>
+                    </template>
                 </template>
             </li>
         </ul>
@@ -25,36 +30,40 @@
 </template>
 
 <script>
-    export default {
-        props : {
-            classes : {
-                default : ''
-            }
-        },
-        created() {
-            this.$store.dispatch('server_types/get')
-        },
-        computed: {
-            site() {
-                return this.$store.state.user_sites.site;
-            },
-            serverTypes() {
-                return _.pickBy(this.$store.state.server_types.types, (type) => {
-                    if(this.hasLoadBalancer && type === 'load_balancer') {
-                        return false;
-                    }
-
-                    return true;
-                })
-            },
-            siteServers() {
-                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-            },
-            hasLoadBalancer() {
-                return _.filter(this.siteServers, function(server) {
-                    return server.type === 'load_balancer'
-                }).length > 0
-            }
-        }
+export default {
+  props: {
+    classes: {
+      default: ""
     }
+  },
+  created() {
+    this.$store.dispatch("server_types/get");
+  },
+  computed: {
+    site() {
+      return this.$store.state.user_sites.site;
+    },
+    serverTypes() {
+      return _.pickBy(this.$store.state.server_types.types, type => {
+        if (this.hasLoadBalancer && type === "load_balancer") {
+          return false;
+        }
+
+        return true;
+      });
+    },
+    siteServers() {
+      return this.$store.getters["user_site_servers/getServers"](
+        this.$route.params.site_id
+      );
+    },
+    hasLoadBalancer() {
+      return (
+        _.filter(this.siteServers, function(server) {
+          return server.type === "load_balancer";
+        }).length > 0
+      );
+    }
+  }
+};
 </script>

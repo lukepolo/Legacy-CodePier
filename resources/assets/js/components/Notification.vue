@@ -10,26 +10,31 @@
     </transition>
 </template>
 <script>
-    export default {
-        props: ['notification'],
-        data () {
-            return {
-                timer: null
-            }
-        },
-        created () {
-            const timeout = this.notification.hasOwnProperty('timeout') ? this.notification.timeout : true
-            if (timeout) {
-                this.timer = setTimeout(function () {
-                    this.close(this.notification)
-                }.bind(this), this.notification.timeout)
-            }
-        },
-        methods: {
-            close: function (notification) {
-                clearTimeout(this.timer)
-                this.$store.dispatch('notifications/remove', notification)
-            }
-        }
+export default {
+  props: ["notification"],
+  data() {
+    return {
+      timer: null
+    };
+  },
+  created() {
+    const timeout = this.notification.hasOwnProperty("timeout")
+      ? this.notification.timeout
+      : true;
+    if (timeout) {
+      this.timer = setTimeout(
+        function() {
+          this.close(this.notification);
+        }.bind(this),
+        this.notification.timeout
+      );
     }
+  },
+  methods: {
+    close: function(notification) {
+      clearTimeout(this.timer);
+      this.$store.dispatch("notifications/remove", notification);
+    }
+  }
+};
 </script>

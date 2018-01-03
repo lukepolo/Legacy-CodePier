@@ -55,39 +55,42 @@
 </template>
 
 <script>
-    import LifeLine from './Lifeline.vue'
-    export default {
-        components : {
-            LifeLine
-        },
-        data() {
-            return {
-                showLifelineForm : true,
-                form: this.createForm({
-                    name : null,
-                    threshold : 5,
-                    site : this.$route.params.site_id,
-                })
-            }
-        },
-        created() {
-            this.$store.dispatch('user_site_life_lines/get', this.$route.params.site_id)
-        },
-        methods : {
-            createLifeline() {
-                this.$store.dispatch('user_site_life_lines/store', this.form).then(() => {
-                    this.form.reset()
-                    this.showLifelineForm = true
-                })
-            }
-        },
-        computed : {
-            site() {
-                return this.$store.state.user_sites.site
-            },
-            lifeLines() {
-                return this.$store.state.user_site_life_lines.life_lines
-            },
-        }
+import LifeLine from "./Lifeline";
+export default {
+  components: {
+    LifeLine
+  },
+  data() {
+    return {
+      showLifelineForm: true,
+      form: this.createForm({
+        name: null,
+        threshold: 5,
+        site: this.$route.params.site_id
+      })
+    };
+  },
+  created() {
+    this.$store.dispatch(
+      "user_site_life_lines/get",
+      this.$route.params.site_id
+    );
+  },
+  methods: {
+    createLifeline() {
+      this.$store.dispatch("user_site_life_lines/store", this.form).then(() => {
+        this.form.reset();
+        this.showLifelineForm = true;
+      });
     }
+  },
+  computed: {
+    site() {
+      return this.$store.state.user_sites.site;
+    },
+    lifeLines() {
+      return this.$store.state.user_site_life_lines.life_lines;
+    }
+  }
+};
 </script>

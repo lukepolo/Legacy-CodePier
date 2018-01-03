@@ -114,129 +114,134 @@
 </template>
 
 <script>
-    export default {
-        name: 'featureArea',
-        props: ['area', 'features', 'frameworks', 'server', 'selected_server_features', 'current_selected_features'],
-        methods: {
-            updateValue(feature, enabled) {
-                this.$emit('featuresChanged', feature, enabled)
-            },
-            getInputName : function(feature, parameter) {
+export default {
+  name: "featureArea",
+  props: [
+    "area",
+    "features",
+    "frameworks",
+    "server",
+    "selected_server_features",
+    "current_selected_features"
+  ],
+  methods: {
+    updateValue(feature, enabled) {
+      this.$emit("featuresChanged", feature, enabled);
+    },
+    getInputName: function(feature, parameter) {
+      let name =
+        "services[" + feature.service + "]" + "[" + feature.input_name + "]";
 
-                let name = 'services[' + feature.service + ']' + '[' + feature.input_name + ']';
+      if (parameter) {
+        name = name + "[parameters][" + parameter + "]";
 
-                if(parameter) {
-                    name = name + '[parameters][' + parameter + ']';
-
-                    if(feature.multiple === true) {
-                        name = name + '[]';
-                    }
-
-                    return name;
-                }
-
-                return name + '[enabled]';
-            },
-            hasFeature: function (feature) {
-
-                let areaFeatures = null;
-
-                if (this.server && this.server.server_features) {
-                    areaFeatures = _.get(this.server.server_features, feature.service);
-                } else if (this.selected_server_features) {
-                    areaFeatures = _.get(this.selected_server_features, feature.service);
-                }
-
-                if(
-                    areaFeatures &&
-                    _.has(areaFeatures, feature.input_name) &&
-                    (
-                        areaFeatures[feature.input_name].enabled ||
-                        areaFeatures[feature.input_name].installing
-                    )
-                ) {
-                    return _.get(areaFeatures, feature.input_name);
-                }
-
-                return false;
-            },
-            isInstalling: function(feature) {
-                let foundFeature = this.hasFeature(feature)
-                if(foundFeature) {
-                    return foundFeature.installing;
-                }
-                return false
-            },
-            currentlySelectedHasFeature: function (service, feature) {
-                let areaFeatures = null;
-
-                if(this.current_selected_features) {
-                    areaFeatures = _.get(this.current_selected_features, service);
-                } else {
-                    areaFeatures = _.get(this.selected_server_features, service);
-                }
-
-                if(_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
-                    return feature;
-                }
-
-                return false
-
-            },
-            getParameterValue: function (feature, parameter, default_value) {
-                let area = this.hasFeature(feature);
-
-                if (area && area.parameters) {
-                    return area.parameters[parameter];
-                }
-
-                return default_value;
-            },
-            installFeature: function (feature) {
-                let parameters = {};
-
-                _.each(feature.parameters, function (value, parameter) {
-                    parameters[parameter] = $('#' + parameter).val();
-                });
-
-                this.$store.dispatch('user_server_features/install', {
-                    feature: feature.input_name,
-                    parameters: parameters,
-                    server: this.server.id,
-                    service: feature.service,
-                });
-
-            },
-            getFrameworks: function (area) {
-                return this.availableServerFrameworks[area];
-            },
-            hasConflicts: function(feature) {
-                if(feature.conflicts.length) {
-                    return this.currentlySelectedHasFeature(feature.service, feature.conflicts[0]);
-                }
-                return false
-            },
-            isObject(params) {
-                return _.keys(params).length
-            },
-            getType(feature, parameter) {
-                let options = feature.parameter_options[parameter]
-                if(options && options.type) {
-                    return options.type
-                }
-                return 'text'
-            },
-            hasSuffix(feature, parameter) {
-                let options = feature.parameter_options[parameter]
-                if(options && options.suffix) {
-                    return options.suffix
-                }
-            }
-        },
-        computed: {
-            availableServerFrameworks() {
-                return this.$store.state.server_frameworks.frameworks;
-            }
+        if (feature.multiple === true) {
+          name = name + "[]";
         }
+
+        return name;
+      }
+
+      return name + "[enabled]";
+    },
+    hasFeature: function(feature) {
+      let areaFeatures = null;
+
+      if (this.server && this.server.server_features) {
+        areaFeatures = _.get(this.server.server_features, feature.service);
+      } else if (this.selected_server_features) {
+        areaFeatures = _.get(this.selected_server_features, feature.service);
+      }
+
+      if (
+        areaFeatures &&
+        _.has(areaFeatures, feature.input_name) &&
+        (areaFeatures[feature.input_name].enabled ||
+          areaFeatures[feature.input_name].installing)
+      ) {
+        return _.get(areaFeatures, feature.input_name);
+      }
+
+      return false;
+    },
+    isInstalling: function(feature) {
+      let foundFeature = this.hasFeature(feature);
+      if (foundFeature) {
+        return foundFeature.installing;
+      }
+      return false;
+    },
+    currentlySelectedHasFeature: function(service, feature) {
+      let areaFeatures = null;
+
+      if (this.current_selected_features) {
+        areaFeatures = _.get(this.current_selected_features, service);
+      } else {
+        areaFeatures = _.get(this.selected_server_features, service);
+      }
+
+      if (_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
+        return feature;
+      }
+
+      return false;
+    },
+    getParameterValue: function(feature, parameter, default_value) {
+      let area = this.hasFeature(feature);
+
+      if (area && area.parameters) {
+        return area.parameters[parameter];
+      }
+
+      return default_value;
+    },
+    installFeature: function(feature) {
+      let parameters = {};
+
+      _.each(feature.parameters, function(value, parameter) {
+        parameters[parameter] = $("#" + parameter).val();
+      });
+
+      this.$store.dispatch("user_server_features/install", {
+        feature: feature.input_name,
+        parameters: parameters,
+        server: this.server.id,
+        service: feature.service
+      });
+    },
+    getFrameworks: function(area) {
+      return this.availableServerFrameworks[area];
+    },
+    hasConflicts: function(feature) {
+      if (feature.conflicts.length) {
+        return this.currentlySelectedHasFeature(
+          feature.service,
+          feature.conflicts[0]
+        );
+      }
+      return false;
+    },
+    isObject(params) {
+      return _.keys(params).length;
+    },
+    getType(feature, parameter) {
+      let options = feature.parameter_options[parameter];
+      if (options && options.type) {
+        return options.type;
+      }
+      return "text";
+    },
+    hasSuffix(feature, parameter) {
+      let options = feature.parameter_options[parameter];
+      if (options && options.suffix) {
+        return options.suffix;
+      }
     }
+  },
+  computed: {
+    availableServerFrameworks() {
+      return this.$store.state.server_frameworks.frameworks;
+    }
+  }
+};
 </script>

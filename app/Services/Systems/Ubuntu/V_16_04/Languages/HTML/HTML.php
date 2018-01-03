@@ -26,6 +26,9 @@ class HTML
             'Yarn',
             'NodeJs',
         ],
+        'FirewallService' => [
+            'Fail2ban',
+        ],
         'DatabaseService' => [
             'Redis',
             'MySQL',

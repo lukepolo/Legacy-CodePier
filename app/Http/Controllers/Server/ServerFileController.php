@@ -97,6 +97,22 @@ class ServerFileController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param $serverId
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($serverId, $id)
+    {
+        return response()->json(
+            $this->fileRepository->destroy(
+                $this->fileRepository->findOnModelById(Server::with('files')->findOrFail($serverId), $id)
+            )
+        );
+    }
+
+    /**
      * Reloads a file from a server.
      *
      * @param $serverId

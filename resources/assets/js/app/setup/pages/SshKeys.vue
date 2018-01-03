@@ -24,11 +24,11 @@
             <tbody>
             <tr v-for="sshKey in sshKeys">
                 <td>{{ sshKey.name }}</td>
-                <template v-if="isRunningCommandFor(sshKey.id)">
-                    <td>
+                <td>
+                    <template v-if="isRunningCommandFor(sshKey.id)">
                         {{ isRunningCommandFor(sshKey.id).status }}
-                    </td>
-                </template>
+                    </template>
+                </td>
                 <td class="table--action">
                     <tooltip message="Delete">
                         <span class="table--action-delete">
@@ -63,100 +63,104 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                loaded : false,
-                showForm : false,
-                form: this.createForm({
-                    name: null,
-                    ssh_key: null
-                })
+export default {
+  data() {
+    return {
+      loaded: false,
+      showForm: false,
+      form: this.createForm({
+        name: null,
+        ssh_key: null
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_ssh_keys/get", this.siteId).then(() => {
+          this.loaded = true;
+        });
+      }
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_ssh_keys/get", this.serverId)
+          .then(() => {
+            this.loaded = true;
+          });
+      }
+    },
+    createKey() {
+      if (this.siteId) {
+        this.form.site = this.siteId;
+        this.$store
+          .dispatch("user_site_ssh_keys/store", this.form)
+          .then(sshKey => {
+            if (sshKey.id) {
+              this.resetForm();
             }
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssh_keys/get', this.siteId).then(() => {
-                        this.loaded = true
-                    })
-                }
+          });
+      }
 
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssh_keys/get', this.serverId).then(() => {
-                        this.loaded = true
-                    })
-                }
-            },
-            createKey() {
-
-                if(this.siteId) {
-                    this.form.site = this.siteId
-                    this.$store.dispatch('user_site_ssh_keys/store', this.form).then((sshKey) => {
-                        if(sshKey.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-                if(this.serverId) {
-                    this.form.server = this.serverId
-                    this.$store.dispatch('user_server_ssh_keys/store', this.form).then((sshKey) => {
-                        if(sshKey.id) {
-                            this.resetForm()
-                        }
-                    })
-                }
-
-            },
-            deleteKey(sshKeyId) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_ssh_keys/destroy', {
-                        ssh_key: sshKeyId,
-                        site: this.siteId
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_ssh_keys/destroy', {
-                        ssh_key: sshKeyId,
-                        server: this.serverId
-                    });
-                }
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\SshKey', id)
-            },
-            resetForm() {
-                this.form.reset();
-                this.showForm = false;
+      if (this.serverId) {
+        this.form.server = this.serverId;
+        this.$store
+          .dispatch("user_server_ssh_keys/store", this.form)
+          .then(sshKey => {
+            if (sshKey.id) {
+              this.resetForm();
             }
-        },
-        computed: {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            serverId() {
-                return this.$route.params.server_id
-            },
-            shouldShowForm() {
-                return (this.loaded && this.sshKeys.length === 0) || this.showForm;
-            },
-            sshKeys() {
-                if(this.siteId) {
-                    return this.$store.state.user_site_ssh_keys.ssh_keys
-                }
+          });
+      }
+    },
+    deleteKey(sshKeyId) {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_ssh_keys/destroy", {
+          ssh_key: sshKeyId,
+          site: this.siteId
+        });
+      }
 
-                if(this.serverId) {
-                    return this.$store.state.user_server_ssh_keys.ssh_keys;
-                }
-            }
-        }
+      if (this.serverId) {
+        this.$store.dispatch("user_server_ssh_keys/destroy", {
+          ssh_key: sshKeyId,
+          server: this.serverId
+        });
+      }
+    },
+    isRunningCommandFor(id) {
+      return this.isCommandRunning("App\\Models\\SshKey", id);
+    },
+    resetForm() {
+      this.form.reset();
+      this.showForm = false;
     }
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    serverId() {
+      return this.$route.params.server_id;
+    },
+    shouldShowForm() {
+      return (this.loaded && this.sshKeys.length === 0) || this.showForm;
+    },
+    sshKeys() {
+      if (this.siteId) {
+        return this.$store.state.user_site_ssh_keys.ssh_keys;
+      }
+
+      if (this.serverId) {
+        return this.$store.state.user_server_ssh_keys.ssh_keys;
+      }
+    }
+  }
+};
 </script>

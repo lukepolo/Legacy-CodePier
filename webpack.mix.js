@@ -43,14 +43,14 @@ mix
     clipboard: "Clipboard",
     jquery: ["$", "jQuery"]
   })
-  .sourceMaps()
+  .sourceMaps(true, 'eval-source-map')
   .version();
 
 if (!mix.inProduction()) {
   mix.browserSync({
     open: "external",
-    host: "codepier.dev",
-    proxy: "codepier.dev",
+    host: "codepier.test",
+    proxy: "codepier.test",
     files: [
       "resources/views/**/*.php",
       "public/js/**/*.js",

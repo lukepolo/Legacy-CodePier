@@ -3,9 +3,13 @@
 namespace App\Observers;
 
 use App\Models\Pile;
+use App\Mail\Welcome;
 use App\Models\User\User;
+use App\Mail\ConfirmWelcome;
 use App\Models\NotificationSetting;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User\UserNotificationSetting;
+use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserObserver
 {
@@ -18,12 +22,12 @@ class UserObserver
      */
     public function created(User $user)
     {
-        // lets create some piles for them
         $defaultPiles = [
             'dev',
             'qa',
             'production',
         ];
+
         foreach ($defaultPiles as $index => $defaultPile) {
             $pile = Pile::create([
                 'name'    => $defaultPile,
@@ -43,6 +47,28 @@ class UserObserver
                 'services' => $notificationSetting->services,
                 'notification_setting_id' => $notificationSetting->id,
             ]);
+        }
+
+        if (config('app.env') === 'production') {
+            Newsletter::subscribeOrUpdate($user->email, [
+                'FNAME' => $user->name,
+            ]);
+        }
+
+        if ($user->confirmed) {
+            Mail::to($user)->send(new Welcome($user));
+        } else {
+            Mail::to($user)->send(new ConfirmWelcome($user));
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    public function updated(User $user)
+    {
+        if (config('app.env') === 'production' && $user->isDirty('email') && ! empty($user->getOriginal('email'))) {
+            Newsletter::updateEmailAddress($user->getOriginal('email'), $user->email);
         }
     }
 }

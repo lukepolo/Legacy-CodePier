@@ -95,6 +95,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $ipv6 = false;
         $backups = false;
+        $monitoring = false;
         $privateNetworking = false;
 
         $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
@@ -121,7 +122,10 @@ class DigitalOceanProvider implements ServerProviderContract
             $sshKeys = [
                 $sshPublicKey->getPublicKeyFingerprint(),
             ],
-            $userData = null
+            $userData = '',
+            $monitoring,
+            $volumes = [],
+            $tags = []
         );
 
         return $this->saveServer($server, $droplet->id);
@@ -133,6 +137,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getStatus(Server $server)
     {
@@ -145,6 +150,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     * @throws Exception
      */
     public function savePublicIP(Server $server)
     {
@@ -161,6 +167,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getPublicIP(Server $server)
     {
@@ -218,7 +225,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
             $userServerProvider->token = $tokenData['access_token'];
             $userServerProvider->refresh_token = $tokenData['refresh_token'];
-            $userServerProvider->expires_in = $tokenData['expires_in'];
+            $userServerProvider->expires_at = $tokenData['expires_in'];
 
             $userServerProvider->save();
 

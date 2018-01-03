@@ -32,6 +32,10 @@ $flyform-transition: all .5s;
             padding: 0px;
             color: rgba($color-text-primary, .8);
         }
+
+        &-transparent {
+            background-color: transparent;
+        }
     }
 
     &--content {
@@ -65,6 +69,12 @@ $flyform-transition: all .5s;
         top: $flyform-spacing*1.5;
         right: 10px;
         font-size: 1.5em;
+
+        a:active,
+        a:focus,
+        a:hover {
+            outline: none;
+        }
     }
 
     // INPUT TEXT STYLES ----------------------------------------

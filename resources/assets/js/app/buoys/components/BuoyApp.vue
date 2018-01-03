@@ -54,29 +54,32 @@
 </template>
 
 <script>
-    export default {
-        props: ['buoyApp'],
-        methods : {
-            install() {
-                this.$store.dispatch('buoys/show', this.buoyApp.id)
-            }
-        },
-        computed : {
-            allServerBuoys() {
-                return this.$store.state.user_server_buoys.all
-            },
-            serversHasBuoyApp() {
-                return _.omitBy(_.map(this.allServerBuoys, (serverBuoyApps, server) => {
-                    if((_.indexOf(serverBuoyApps, this.buoyApp.id) >= 0)) {
-                        return server
-                    }
-                }), _.isEmpty)
-            },
-            servers() {
-                return _.filter(this.$store.state.user_servers.servers, function(server) {
-                    return server.progress >= 100
-                })
-            }
-        }
+export default {
+  props: ["buoyApp"],
+  methods: {
+    install() {
+      this.$store.dispatch("buoys/show", this.buoyApp.id);
     }
+  },
+  computed: {
+    allServerBuoys() {
+      return this.$store.state.user_server_buoys.all;
+    },
+    serversHasBuoyApp() {
+      return _.omitBy(
+        _.map(this.allServerBuoys, (serverBuoyApps, server) => {
+          if (_.indexOf(serverBuoyApps, this.buoyApp.id) >= 0) {
+            return server;
+          }
+        }),
+        _.isEmpty
+      );
+    },
+    servers() {
+      return _.filter(this.$store.state.user_servers.servers, function(server) {
+        return server.progress >= 100;
+      });
+    }
+  }
+};
 </script>

@@ -74,52 +74,52 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData() {
-                this.$store.dispatch('getTeam', this.$route.params.team_id);
-                this.$store.dispatch('getTeamMembers', this.$route.params.team_id);
-            },
-            sendInvite() {
-                this.$store.dispatch('sendTeamInvite', {
-                    email: this.email,
-                    team_id: this.$store.state.user_teams.team.id
-                })
-            },
-            resendInvite: function (invite_id) {
-                this.$store.dispatch('resendTeamInvite', invite_id);
-            },
-            deleteMember: function (member_id) {
-                this.$store.dispatch('deleteTeamMember', {
-                    member_id: member_id,
-                    team_id: this.$store.state.user_teams.team.id
-                });
-            }
-        },
-        data() {
-            return {
-                email: null
-            }
-        },
-        computed: {
-            current_user() {
-                return this.$store.state.user.user;
-            },
-            team() {
-                return this.$store.state.user_teams.team;
-            },
-            members() {
-                return this.$store.state.user_teams.team_members;
-            },
-            isOwnerOfTeam() {
-                return this.team.owner_id === this.$store.state.user.user.id;
-            }
-        }
+export default {
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch("getTeam", this.$route.params.team_id);
+      this.$store.dispatch("getTeamMembers", this.$route.params.team_id);
+    },
+    sendInvite() {
+      this.$store.dispatch("sendTeamInvite", {
+        email: this.email,
+        team_id: this.$store.state.user_teams.team.id
+      });
+    },
+    resendInvite: function(invite_id) {
+      this.$store.dispatch("resendTeamInvite", invite_id);
+    },
+    deleteMember: function(member_id) {
+      this.$store.dispatch("deleteTeamMember", {
+        member_id: member_id,
+        team_id: this.$store.state.user_teams.team.id
+      });
     }
+  },
+  data() {
+    return {
+      email: null
+    };
+  },
+  computed: {
+    current_user() {
+      return this.$store.state.user.user;
+    },
+    team() {
+      return this.$store.state.user_teams.team;
+    },
+    members() {
+      return this.$store.state.user_teams.team_members;
+    },
+    isOwnerOfTeam() {
+      return this.team.owner_id === this.$store.state.user.user.id;
+    }
+  }
+};
 </script>

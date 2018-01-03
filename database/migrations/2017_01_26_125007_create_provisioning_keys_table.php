@@ -15,9 +15,11 @@ class CreateProvisioningKeysTable extends Migration
     {
         Schema::create('provisioning_keys', function (Blueprint $table) {
             $table->string('key', 40);
-            $table->integer('user_id');
-            $table->integer('server_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('server_id');
             $table->timestamps();
+
+            $table->index(['user_id', 'server_id']);
         });
     }
 

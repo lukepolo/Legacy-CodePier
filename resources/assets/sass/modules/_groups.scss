@@ -124,6 +124,18 @@
                     background-color: mix($blue, $white, 80%);
                 }
             }
+
+            &.disabled,
+            &.disabled:hover {
+                color: $color-text-secondary;
+                pointer-events: none;
+                cursor: not-allowed;
+                opacity: .3;
+
+                [class^="icon-"], [class*=" icon-"] {
+                    background-color: $color-text-secondary;
+                }
+            }
         }
 
         .add-pile {
