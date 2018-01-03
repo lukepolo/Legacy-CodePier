@@ -6,7 +6,7 @@ export const setAll = (state, { response }) => {
   state.events_pagination = response;
 };
 
-export const clear = state => {
+export const clear = (state) => {
   state.events = [];
   state.events_pagination = null;
 };
