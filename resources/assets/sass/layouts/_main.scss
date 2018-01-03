@@ -1,27 +1,27 @@
 // MAIN CONTENT STYLES =====================================
 // =========================================================
 .section-column {
-    display: flex; 
+    display: flex;
     flex-direction: column;
 
     &:not(:first-child) {
         border-left: 1px solid $color-divider;
     }
+}
 
-    // todo jf -- write mixin for this
-    &:nth-child(1) {
-        background-color: $color-background;
-    }
+// Section Colors
+#left {
+    background-color: $color-background;
+}
 
-    &:nth-child(2) {
-        @include card(2);
-        background-color: mix($color-background, $white, 95%);
-    }
-    
-    &:nth-child(3) {
-        @include card(2);
-        background-color: mix($color-background, $white, 90%);
-    }
+#middle {
+    @include card(2);
+    background-color: mix($color-background, $white, 95%);
+}
+
+#right {
+    @include card(2);
+    background-color: mix($color-background, $white, 90%);
 }
 
 // SECTION HEADER
@@ -42,13 +42,13 @@
         transform: translateY(-50%);
         z-index: 200;
 
-        .dropdown + .dropdown,
-        .dropdown + .btn {
+        .dropdown + .btn,
+        .dropdown + .dropdown {
             margin-left: $spacing*.75;
         }
 
         .dropdown-menu {
-            right: 0px;
+            right: 0;
             left: auto;
 
             > li a {
@@ -62,7 +62,7 @@
         }
 
         .jcf-input-group {
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         textarea {
@@ -76,8 +76,9 @@
         }
 
         .clipboard {
-            [class^="icon-"], [class*=" icon-"] {
-                right: 0px;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                right: 0;
             }
         }
     }
@@ -90,7 +91,7 @@
         .dropdown-menu {
             list-style: none;
             right: auto;
-            left: 0px;
+            left: 0;
         }
     }
 
@@ -108,7 +109,7 @@
     overflow-y: auto;
     overflow-x: visible;
     -webkit-overflow-scrolling: touch;
-    
+
     .container {
         padding: $spacing*2;
     }
