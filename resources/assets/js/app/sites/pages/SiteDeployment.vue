@@ -164,6 +164,7 @@ export default {
         });
     },
     updateSiteDeployment() {
+      this.saveSiteDeploymentConfig();
       this.$store.dispatch("user_site_deployments/updateSiteDeployment", {
         site: this.$route.params.site_id,
         deployment_steps: this.active
