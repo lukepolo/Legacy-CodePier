@@ -547,6 +547,11 @@
 // ---------------------------------------------------------
 .server-type-list {
   min-width: 230px;
+
+  &-text {
+    border-top: 1px solid $color-divider;
+    padding: 60px 20px 20px;
+  }
   
   p {
     padding: 0px $spacing;
@@ -583,28 +588,15 @@
         font-size: 1.5em;
       }
     }
+
+    &.disabled {
+      opacity: .5;
+      pointer-events: none;
+    }
+
   }
 
   li:not(:last-child) {
     border-bottom: 1px solid $color-divider;
   }
-
-  //.btn {
-  //  display: block;
-  //  text-align: center;
-  //  background-color: rgba($color-text-inverse, .2);
-  //  text-transform: none;
-  //
-  //  + .btn {
-  //    margin: 0px;
-  //  }
-  //
-  //  &:hover,
-  //  &:active,
-  //  &:focus {
-  //    background-color: rgba($color-text-inverse, .4);
-  //
-  //
-  //  }
-  //}
 }

@@ -5,7 +5,6 @@
         <ul>
             <li v-for="(serverType, serverTypeText) in serverTypes">
                 <template v-if="site.repository">
-
                     <router-link
                         :to="{
                             name : 'server_form_with_site' ,
@@ -15,10 +14,15 @@
                                 disabled : !serverTypesEnabled && serverType !== 'full_stack'
                             },
                         }"
+                        :class="{disabled : !serverTypesEnabled && serverType !== 'full_stack'}"
                     >
                         {{ serverTypeText }} Server
                     </router-link>
-
+                    <template v-if="serverType === 'full_stack' && !serverTypesEnabled">
+                        <div class="server-type-list-text">
+                            Subscribe to a paid account to create the following server types.
+                        </div>
+                    </template>
                 </template>
             </li>
         </ul>
