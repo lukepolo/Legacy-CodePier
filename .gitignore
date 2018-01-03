@@ -5,6 +5,7 @@
 /public/js
 /public/css
 /pubic/fonts
+/public/mix-manifest.json
 /.idea
 /.vagrant
 Homestead.yaml
