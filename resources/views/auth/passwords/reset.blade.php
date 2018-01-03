@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="view">
-        <section id="middle" class="section-column">
+        <section id="middle" class="section-column full-form">
             <div class="section-content">
                 <div class="login-wrap">
                     <div class="img-wrap">
