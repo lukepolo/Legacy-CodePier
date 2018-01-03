@@ -5,6 +5,14 @@
             By dragging steps from the inactive to the active we automatically suggest the order.
             Once in the active list you can change the order.
         </p>
+
+        <div class="flyform--heading flyform--heading-transparent">
+            <div class="flyform--footer-btns">
+                <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
+                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            </div>
+        </div>
+
         <form @submit.prevent="saveSiteDeploymentConfig">
             <div class="grid-2">
                 <div class="flyform--group-checkbox">
@@ -97,12 +105,6 @@
                 </div>
             </div>
 
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
-                    <button type="submit" class="btn btn-primary">Update Deployment</button>
-                </div>
-            </div>
         </form>
     </div>
 </template>
