@@ -71,7 +71,7 @@
                         <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
                         </div>
-                        <div v-if="!currentProvisioningStep.failed"class="server-btns">
+                        <div v-if="currentProvisioningStep.failed"class="server-btns">
                           <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</span>
                         </div>
 
