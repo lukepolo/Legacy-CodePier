@@ -50,13 +50,16 @@
 
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}"
                                    @sort="sortInactiveList">
-                            <div class="drag-element" v-for="(deploymentStep, key) in inactive"
-                                 v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showzeroDowntimeDeploymentOptions)">
+                            <div
+                                class="drag-element"
+                                v-for="(deploymentStep, key) in inactive"
+                                v-if="showstep(deploymentStep)"
+                            >
                                 <deployment-step-card
-                                        :deployment-step="deploymentStep"
-                                        :suggestedOrder="getSuggestedOrder(deploymentStep)"
-                                        v-on:updateStep="updateStep('inactive')"
-                                        v-on:deleteStep="deleteStep(key, 'inactive')"
+                                    :deployment-step="deploymentStep"
+                                    :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                    v-on:updateStep="updateStep('inactive')"
+                                    v-on:deleteStep="deleteStep(key, 'inactive')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -76,7 +79,7 @@
                             <div
                                 class="drag-element"
                                 v-for="(deploymentStep, key) in active"
-                                v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showzeroDowntimeDeploymentOptions)"
+                                v-if="showStep(deploymentStep)"
                             >
                                 <deployment-step-card
                                     :order="key + 1"
@@ -268,6 +271,19 @@ export default {
       }
 
       return false;
+    },
+    showStep(deploymentStep) {
+        if(!this.showZeroDowntimeDeploymentOptions && this.isZeroTimeDeploymentStep(deploymentStep)) {
+            return false;
+        }
+        return true;
+    },
+    isZeroTimeDeploymentStep(deploymentStep) {
+      let step = this.internalStep(deploymentStep);
+      if(step) {
+        return step.zero_downtime_deployment;
+      }
+      return false
     }
   },
   computed: {
@@ -285,8 +301,8 @@ export default {
     currentSiteDeploymentSteps() {
       return this.$store.state.user_site_deployments.site_deployment_steps;
     },
-    showzeroDowntimeDeploymentOptions() {
-      return this.site.zero_downtime_deployment;
+    showZeroDowntimeDeploymentOptions() {
+      return this.form.zero_downtime_deployment;
     }
   }
 };
