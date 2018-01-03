@@ -81,7 +81,7 @@ class SiteController extends Controller
             'workflow'            => \Auth::user()->workflow ? null : [],
             'wildcard_domain'     => $request->get('wildcard_domain', 0),
             'keep_releases'       => 10,
-            'zerotime_deployment' => true,
+            'zero_downtime_deployment' => true,
         ]);
 
         return response()->json($site);

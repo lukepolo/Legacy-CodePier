@@ -171,7 +171,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             return collect($reflectionClass->getDefaultProperties()['cronJobs'])->map(function ($cronJob) use ($site) {
                 $path = '/home/codepier/'.$site->domain;
 
-                if ($site->zerotime_deployment) {
+                if ($site->zero_downtime_deployment) {
                     $path .= '/current';
                 }
 

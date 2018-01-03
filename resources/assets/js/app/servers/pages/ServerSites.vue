@@ -59,7 +59,7 @@ export default {
       );
     },
     isZerotimeDeployment(site) {
-      if (site.zerotime_deployment) {
+      if (site.zero_downtime_deployment) {
         return true;
       }
       return false;

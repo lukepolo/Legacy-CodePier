@@ -24,8 +24,8 @@ class SiteDeploymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'zerotime_deployment' => 'nullable|boolean',
-            'keep_releases' => 'required_if:zerotime_deployment,true',
+            'zero_downtime_deployment' => 'nullable|boolean',
+            'keep_releases' => 'required_if:zero_downtime_deployment,true',
         ];
     }
 }
