@@ -181,7 +181,7 @@ location / {
 }
 ';
         } else {
-            $location = 'root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';';
+            $location = 'root /home/codepier/'.$site->domain.($site->zero_downtime_deployment ? '/current' : null).'/'.$site->web_directory.';';
         }
 
         $this->createWebServerSite($site);

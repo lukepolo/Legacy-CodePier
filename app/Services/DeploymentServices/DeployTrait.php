@@ -40,7 +40,7 @@ trait DeployTrait
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->siteFolder = '/home/codepier/'.$site->domain;
-        $this->zerotimeDeployment = $site->zerotime_deployment;
+        $this->zerotimeDeployment = $site->zero_downtime_deployment;
         $this->releaseTime = Carbon::now()->format('YmdHis');
 
         if (! empty($siteDeployment)) {

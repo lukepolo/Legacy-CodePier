@@ -27,7 +27,7 @@ class CreateSitesTable extends Migration
             $table->string('framework')->nullable();
             $table->string('web_directory')->nullable();
             $table->boolean('wildcard_domain')->default(0);
-            $table->boolean('zerotime_deployment')->default(0);
+            $table->boolean('zero_downtime_deployment')->default(0);
             $table->unsignedInteger('automatic_deployment_id')->nullable();
             $table->unsignedInteger('keep_releases')->default(10);
 

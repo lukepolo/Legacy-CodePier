@@ -9,7 +9,7 @@
             <div class="grid-2">
                 <div class="flyform--group-checkbox">
                     <label>
-                        <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
+                        <input type="checkbox" v-model="form.zero_downtime_deployment" name="zero_downtime_deployment" value="1">
                         <span class="icon"></span>
                         Zero-Downtime Deployment
                         <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!"
@@ -19,7 +19,7 @@
                     </label>
                 </div>
 
-                <template v-if="form.zerotime_deployment">
+                <template v-if="form.zero_downtime_deployment">
                     <div class="flyform--group">
                         <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
                         <label for="keep_releases" class="flyform--group-iconlabel">Number of Releases to keep</label>
@@ -51,7 +51,7 @@
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}"
                                    @sort="sortInactiveList">
                             <div class="drag-element" v-for="(deploymentStep, key) in inactive"
-                                 v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
+                                 v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         :suggestedOrder="getSuggestedOrder(deploymentStep)"
@@ -76,7 +76,7 @@
                             <div
                                 class="drag-element"
                                 v-for="(deploymentStep, key) in active"
-                                v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)"
+                                v-if="!deploymentStep.zero_downtime_deployment || (deploymentStep.zero_downtime_deployment && showZeroTimeDeploymentOptions)"
                             >
                                 <deployment-step-card
                                     :order="key + 1"
@@ -122,7 +122,7 @@ export default {
       inactive: [],
       form: this.createForm({
         keep_releases: 10,
-        zerotime_deployment: true,
+        zero_downtime_deployment: true,
         site: this.$route.params.site_id
       })
     };
@@ -142,7 +142,7 @@ export default {
       let site = this.site;
 
       this.form.keep_releases = site.keep_releases;
-      this.form.zerotime_deployment = site.zerotime_deployment;
+      this.form.zero_downtime_deployment = site.zero_downtime_deployment;
 
       this.form.setOriginalData();
     },
@@ -285,7 +285,7 @@ export default {
       return this.$store.state.user_site_deployments.site_deployment_steps;
     },
     showZeroTimeDeploymentOptions() {
-      return this.site.zerotime_deployment;
+      return this.site.zero_downtime_deployment;
     }
   }
 };
