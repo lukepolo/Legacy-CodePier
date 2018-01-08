@@ -21,7 +21,7 @@ class Domain implements Rule
             ':',
             'www',
         ])) {
-            return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
+            return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,63}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}$/', $value) > 0;
         } else {
             return true;
         }
