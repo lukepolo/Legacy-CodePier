@@ -4,7 +4,7 @@
         <h3 class="section-header">
             Servers
 
-            <div class="section-header--btn-right">
+            <div class="section-header--btn-right" v-if="siteServers && siteServers.length">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
@@ -25,6 +25,16 @@
             <template v-if="!connectServers && siteServers">
                 <template v-for="server in siteServers">
                     <server-info :server="server" :showInfo="siteServers.length < 2" :key="server.id"></server-info>
+                </template>
+
+                <template v-if="!isSubscribed">
+                    <div>
+                        Currently your limited to 1 server, you can
+                        <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
+                            upgrade
+                        </router-link>
+                        your account to get more features!
+                    </div>
                 </template>
             </template>
            <template v-else>
