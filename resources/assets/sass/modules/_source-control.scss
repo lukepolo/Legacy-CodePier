@@ -5,8 +5,6 @@
   margin: 0px 0px $spacing;
   padding: 0px 0px $spacing*2;
   border-bottom: 2px solid rgba($white, .1);
-  //override grid-4
-  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
 
   input[type="radio"] {
     position: absolute;
@@ -119,19 +117,19 @@
 
 }
 
-//  ----------------------------------------
-//// ---------------------------------------------------------
-//.tab-container:not(.in-workflow) {
-//  .providers {
-//    label {
-//
-//      @include breakpoint(mxl) {
-//        grid-column-end: span 2;
-//      }
-//
-//      @include breakpoint(lg) {
-//        grid-column-end: span 4;
-//      }
-//    }
-//  }
-//}
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+.tab-container:not(.in-workflow) {
+  .providers {
+    label {
+
+      @include breakpoint(mxl) {
+        grid-column-end: span 2;
+      }
+
+      @include breakpoint(lg) {
+        grid-column-end: span 4;
+      }
+    }
+  }
+}
