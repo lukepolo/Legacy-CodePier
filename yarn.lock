@@ -5027,6 +5027,10 @@ pngquant-bin@^3.0.0:
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
 
+portal-vue@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-1.2.2.tgz#99b08ab810786041cc7821f3984309b951bea8da"
+
 portfinder@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"

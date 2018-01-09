@@ -41,7 +41,7 @@
                                         <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
                                         <hr>
                                     </template>
-                                    <router-view></router-view>
+                                    <router-view> /// </router-view>
 
 
                                 </router-view>
@@ -60,8 +60,10 @@
 
         </section>
 
-        <servers v-if="workFlowCompleted === true"></servers>
-
+        <section id="right" v-if="site" class="section-column">
+            <servers v-if="workFlowCompleted === true"></servers>
+            <portal-target name="right-panel"></portal-target>
+        </section>
     </div>
 
 </template>
