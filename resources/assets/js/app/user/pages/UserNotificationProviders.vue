@@ -26,7 +26,6 @@
                <notification-group title="Site Deployment Notifications" :notification_settings="notification_settings['site_deployment']"></notification-group>
                <notification-group title="LifeLines Notifications" :notification_settings="notification_settings['lifelines']"></notification-group>
                <notification-group title="Server Monitoring Notifications" :notification_settings="notification_settings['server_monitoring']"></notification-group>
-               <notification-group title="Servers Notifications" :notification_settings="notification_settings['servers']"></notification-group>
                <notification-group title="Buoys Notifications" :notification_settings="notification_settings['buoys']"></notification-group>
            </form>
            <div class="flyform--footer">

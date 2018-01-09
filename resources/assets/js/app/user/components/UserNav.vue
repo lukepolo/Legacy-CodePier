@@ -11,7 +11,7 @@
         <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }">
             <a>
                 Subscription
-                <div class="small">Sadly we require a subscription, but there are options for everyone!</div>
+                <div class="small">Get more features by switching plans, there are options for everyone!</div>
             </a>
         </router-link>
         <router-link tag="li" class="wizard-item" :to="{ name : 'user_ssh_keys' }">
@@ -24,7 +24,7 @@
         <router-link tag="li" class="wizard-item" :to="{ name : 'user_server_providers' }">
             <a>
                 Server Providers
-                <div class="small">Connect to your existing server providers : Digital Ocean</div>
+                <div class="small">Connect to your existing server providers : Digital Ocean / Linode</div>
             </a>
         </router-link>
 
