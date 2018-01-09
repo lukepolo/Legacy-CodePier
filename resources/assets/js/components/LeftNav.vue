@@ -36,7 +36,7 @@
                 </router-link>
                 <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
                     Upgrade Account
-                    <div class="small">Upgrade your account to get more features!</div>
+                    <div class="small">Currently you only are getting 1 site and 1 server, upgrade now!</div>
                 </router-link>
             </div>
         </div>
