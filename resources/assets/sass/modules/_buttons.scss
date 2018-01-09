@@ -158,3 +158,19 @@ button[disabled=disabled] {
         margin-left: 5px;
     }
 }
+
+// Button to Trigger Server Panel
+.btn--trigger-panel {
+    color: mix($blue, $white, 30%);
+
+    &:hover {
+        color: $blue;
+    }
+}
+
+.table .btn--trigger-panel {
+    [class^="icon-"], [class*=" icon-"] {
+        margin-right: 10px;
+        transform: scale(.85);
+    }
+}
