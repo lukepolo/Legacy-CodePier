@@ -36,7 +36,7 @@
                 </router-link>
                 <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
                     Subscribe
-                    <div class="small">Subscribe to a plan to get more features!</div>
+                    <div class="small">Subscribe to a paid account to get more features!</div>
                 </router-link>
             </div>
         </div>
