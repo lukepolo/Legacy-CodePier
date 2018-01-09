@@ -1,9 +1,7 @@
 <template>
-    <confirm message="Select servers to run on" v-if="displayServerSelection">
-        <tooltip message="Select servers to run on" placement="bottom">
-            <span class="icon-server"></span>
-        </tooltip>
-        <div slot="form">
+    <div>
+        <span class="btn" v-if="displayServerSelection" @click="showingModal = !showingModal">temp</span>
+        <modal message="Select servers to run on" v-if="showingModal">
             <template v-if="site">
                 <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
                 <template v-for="server in siteServers">
@@ -26,8 +24,8 @@
                     </div>
                 </template>
             </template>
-        </div>
-    </confirm>
+        </modal>
+    </div>
 </template>
 
 <script>
@@ -41,14 +39,15 @@ export default {
     },
     availableServerTypes: {
       default: () => window.Laravel.serverTypes
-    }
+    },
   },
   data() {
     return {
       form: {
         server_ids: this.server_ids,
         server_types: this.server_types
-      }
+      },
+    showingModal : false,
     };
   },
   watch: {

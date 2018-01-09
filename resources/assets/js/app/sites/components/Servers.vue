@@ -1,6 +1,5 @@
 <template>
-    <section id="right" v-if="site" class="section-column">
-
+    <portal to="right-panel" v-if="site">
         <h3 class="section-header">
             Servers
 
@@ -90,7 +89,7 @@
 
            </template>
         </div>
-    </section>
+    </portal>
 </template>
 
 <script>
