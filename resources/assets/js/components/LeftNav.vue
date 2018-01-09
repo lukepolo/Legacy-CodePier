@@ -35,8 +35,8 @@
                     <div class="small">You have not created an account ssh key</div>
                 </router-link>
                 <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
-                    Subscribe
-                    <div class="small">Subscribe to a plan to get more features!</div>
+                    Upgrade Account
+                    <div class="small">Currently you only are getting 1 site and 1 server, upgrade now!</div>
                 </router-link>
             </div>
         </div>

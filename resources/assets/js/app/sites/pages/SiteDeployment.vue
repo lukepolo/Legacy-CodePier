@@ -61,7 +61,7 @@
                             <div
                                 class="drag-element"
                                 v-for="(deploymentStep, key) in inactive"
-                                v-if="showstep(deploymentStep)"
+                                v-if="showStep(deploymentStep)"
                             >
                                 <deployment-step-card
                                     :deployment-step="deploymentStep"

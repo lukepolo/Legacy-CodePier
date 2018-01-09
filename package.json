@@ -10,7 +10,7 @@
     "pretty": "vue-prettier --write './resources/assets/js/**/*.*(vue)' && prettier --write './resources/assets/js/**/*.*(ts|js|json)'"
   },
   "devDependencies": {
-    "browser-sync": "^2.18.13",
+    "browser-sync": "^2.23.3",
     "browser-sync-webpack-plugin": "^1.2.0",
     "laravel-mix": "1.7.2"
   },
