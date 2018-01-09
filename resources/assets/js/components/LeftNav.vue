@@ -34,6 +34,10 @@
                     Create A SSH Key
                     <div class="small">You have not created an account ssh key</div>
                 </router-link>
+                <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
+                    Subscribe
+                    <div class="small">Subscribe to a plan to get more features!</div>
+                </router-link>
             </div>
         </div>
 
