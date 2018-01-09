@@ -20,7 +20,7 @@
                     </router-link>
                     <template v-if="serverType === 'full_stack' && !serverTypesEnabled">
                         <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
-                            Subscribe to a paid account to create the following server types.
+                            Upgrade your account to create the following server types.
                         </router-link>
                     </template>
                 </template>
