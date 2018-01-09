@@ -7,6 +7,8 @@
                 <div class="section-content section-content-padding">
                     <p>By default we install on all servers. To select specific servers, choose from the list below:</p>
 
+                    <h4 class="text-primary">2. Laravel Create Symbolic Storage Folder</h4>
+
                     <br>
 
                     <ul class="wizard">

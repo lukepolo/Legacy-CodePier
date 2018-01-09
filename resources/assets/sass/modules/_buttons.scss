@@ -159,7 +159,10 @@ button[disabled=disabled] {
     }
 }
 
-// Button to Trigger Server Panel
+
+
+// BUTTON TO TRIGGER SERVER PANEL --------------------------
+// ---------------------------------------------------------
 .btn--trigger-panel {
     color: mix($blue, $white, 30%);
 
@@ -179,6 +182,7 @@ button[disabled=disabled] {
 // Inside Forms
 .flyform--group + .btn--trigger-panel {
     margin-left: 20px;
+    margin-top: -10px;
 
 
     [class^="icon-"], [class*=" icon-"] {
@@ -195,5 +199,12 @@ button[disabled=disabled] {
         &:hover:after {
             color: $color-text-accent;
         }
+    }
+}
+
+// Inside Deployment Steps
+.drag-element {
+    .btn--trigger-panel {
+        display: inline-block;
     }
 }
