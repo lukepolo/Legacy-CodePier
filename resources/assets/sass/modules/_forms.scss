@@ -30,6 +30,8 @@
 .table--action {
   text-align: right;
   white-space: nowrap;
+  display: flex;
+  justify-content: flex-end;
 
   [class^="icon-"],
   [class*=" icon-"],
