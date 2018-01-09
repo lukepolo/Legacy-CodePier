@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.28 on 2018-01-02.
+ * Generated for Laravel 5.5.28 on 2018-01-09.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12998,6 +12998,102 @@ namespace Sentry\SentryLaravel {
  
 }
 
+namespace Laravel\Socialite\Facades { 
+
+    class Socialite {
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+            return \Laravel\Socialite\SocialiteManager::with($driver);
+        }
+        
+        /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
+        }
+        
+        /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+        }
+        
+        /**
+         * Get the default driver name.
+         *
+         * @throws \InvalidArgumentException
+         * @return string 
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::driver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return $this 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
+        }
+        
+        /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+         
+    }
+ 
+}
+
 namespace Vinkla\Hashids\Facades { 
 
     class Hashids {
@@ -13133,105 +13229,178 @@ namespace Vinkla\Hashids\Facades {
  
 }
 
-namespace Laravel\Horizon { 
+namespace Spatie\Newsletter { 
 
-    class Horizon {
+    class NewsletterFacade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribe($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribe($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribePending($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribePending($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribeOrUpdate($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribeOrUpdate($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMembers($listName = '', $parameters = array())
+        {
+            return \Spatie\Newsletter\Newsletter::getMembers($listName, $parameters);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMember($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::getMember($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMemberActivity($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::getMemberActivity($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasMember($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::hasMember($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isSubscribed($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::isSubscribed($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function unsubscribe($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::unsubscribe($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function updateEmailAddress($currentEmailAddress, $newEmailAddress, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::updateEmailAddress($currentEmailAddress, $newEmailAddress, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function delete($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::delete($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function createCampaign($fromName, $replyTo, $subject, $html = '', $listName = '', $options = array(), $contentOptions = array())
+        {
+            return \Spatie\Newsletter\Newsletter::createCampaign($fromName, $replyTo, $subject, $html, $listName, $options, $contentOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function updateContent($campaignId, $html, $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::updateContent($campaignId, $html, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getApi()
+        {
+            return \Spatie\Newsletter\Newsletter::getApi();
+        }
+        
+        /**
+         * 
+         *
+         * @return array|false 
+         * @static 
+         */ 
+        public static function getLastError()
+        {
+            return \Spatie\Newsletter\Newsletter::getLastError();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function lastActionSucceeded()
+        {
+            return \Spatie\Newsletter\Newsletter::lastActionSucceeded();
+        }
          
     }
  
 }
 
-namespace Laravel\Socialite\Facades { 
+namespace Laravel\Horizon { 
 
-    class Socialite {
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function with($driver)
-        {
-            return \Laravel\Socialite\SocialiteManager::with($driver);
-        }
-        
-        /**
-         * Build an OAuth 2 provider instance.
-         *
-         * @param string $provider
-         * @param array $config
-         * @return \Laravel\Socialite\Two\AbstractProvider 
-         * @static 
-         */ 
-        public static function buildProvider($provider, $config)
-        {
-            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
-        }
-        
-        /**
-         * Format the server configuration.
-         *
-         * @param array $config
-         * @return array 
-         * @static 
-         */ 
-        public static function formatConfig($config)
-        {
-            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
-        }
-        
-        /**
-         * Get the default driver name.
-         *
-         * @throws \InvalidArgumentException
-         * @return string 
-         * @static 
-         */ 
-        public static function getDefaultDriver()
-        {
-            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
-        }
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function driver($driver = null)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::driver($driver);
-        }
-        
-        /**
-         * Register a custom driver creator Closure.
-         *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
-         * @static 
-         */ 
-        public static function extend($driver, $callback)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
-        }
-        
-        /**
-         * Get all of the created "drivers".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getDrivers()
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::getDrivers();
-        }
+    class Horizon {
          
     }
  
@@ -15450,11 +15619,13 @@ namespace  {
 
     class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
 
+    class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+
     class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
 
-    class Horizon extends \Laravel\Horizon\Horizon {}
+    class Newsletter extends \Spatie\Newsletter\NewsletterFacade {}
 
-    class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+    class Horizon extends \Laravel\Horizon\Horizon {}
 
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
  
