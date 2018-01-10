@@ -10,6 +10,11 @@
             </div>
         </template>
 
+
+        <div class="text-center" v-if="!userSubscription">
+            <h2>Start your 5 day free trial!</h2>
+        </div>
+
         <div class="pricing pricing-inapp">
             <div class="pricing--item" :class="{ selected : !this.userSubscription }">
                 <div class="pricing--header">
@@ -29,19 +34,54 @@
             <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
         </div>
 
-        <div class="text-center" v-if="!userSubscription">
-            <h3>Start your 5 day free trial!</h3>
-        </div>
 
         <form @submit.prevent="createSubscription" method="post">
-            <div class="flyform--group coupon-form">
-                <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
-                <label for="coupon">Coupon Code</label>
+            <br><br>
+
+            <div class="grid-2">
+                <div class="grid--item">
+                    <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
+
+                    <form @submit.prevent="updateCard" method="post" v-if="currentCard">
+                        <div class="flyform--group">
+                            <div class="flyform--input-icon-right" v-if="!showCreditForm">
+                                <a @click="showCreditForm = true"><span class="icon-pencil"></span> </a>
+                            </div>
+                            <input type="text" value="my payment" disabled v-if="!showCreditForm">
+                            <label>Payment Method</label>
+
+                            <div v-if="showCreditForm" class="stripeContainer">
+                                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
+                            </div>
+
+                        </div>
+
+                        <div class="flyform--footer-btns" v-if="showCreditForm">
+                            <span class="btn btn-small" @click="showCreditForm = false">Cancel</span>
+                            <button class="btn btn-primary btn-small" :class="{ 'btn-disabled' : processing }">Update Card</button>
+                        </div>
+
+
+
+                        {{ currentCard.brand }} ending in {{ currentCard.last4 }}
+                    </form>
+                </div>
+                <div class="grid--item">
+                    <div class="flyform--group coupon-form">
+                        <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
+                        <label for="coupon">Coupon Code</label>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>LETSDOIT - </strong>20% off once
+                    </div>
+                </div>
+
             </div>
+
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
                         <template v-if="isCanceled">
                             Resume Subscription
@@ -61,38 +101,12 @@
                     </a>
                 </div>
             </div>
-
-            <br><br>
-
-            <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
-
         </form>
 
-        <form @submit.prevent="updateCard" method="post" v-if="currentCard">
-
-            <h3 class="flex">
-                Payment Method &nbsp;
-                <div class="heading--btns">
-                    <a class="btn-link" @click="showCreditForm = true">
-                        <span class="icon-pencil"></span>
-                    </a>
-                </div>
-            </h3>
-            {{ currentCard.brand }} ending in {{ currentCard.last4 }}
-
-            <div v-if="showCreditForm">
-                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
-            </div>
-
-            <div v-if="showCreditForm" class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <span class="btn" @click="showCreditForm = false">Cancel</span>
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">Update Card</button>
-                </div>
-            </div>
-        </form>
 
         <template v-if="invoices.length">
+            <br><br>
+            <h3>Payment History</h3>
             <table>
                 <tr v-for="invoice in invoices">
                     <td> {{ parseDate(invoice.date.date).format('l') }}</td>

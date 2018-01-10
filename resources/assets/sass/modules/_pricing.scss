@@ -153,8 +153,17 @@
     }
 }
 
-// Coupon Form After Pricing
-.coupon-form {
-    max-width: 400px;
-    margin: 0px auto;
+// SUBSCRIPTION FORM
+
+.StripeElement {
+    border: 1px solid $color-divider;
+    border-top: none;
+    padding: 7px 10px;
+}
+
+.stripeContainer {
+    .flyform--group {
+        margin-top: 0px;
+        padding-top: 0px;
+    }
 }
