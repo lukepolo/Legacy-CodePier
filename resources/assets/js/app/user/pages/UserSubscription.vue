@@ -34,8 +34,15 @@
         </div>
 
         <form @submit.prevent="createSubscription" method="post">
+            <div class="flyform--group coupon-form">
+                <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
+                <label for="coupon">Coupon Code</label>
+            </div>
+
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
+
+
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
                         <template v-if="isCanceled">
                             Resume Subscription
@@ -48,17 +55,20 @@
                         </template>
                     </button>
                 </div>
+
+                <div class="flyform--footer-links">
+                    <a class="text-error" @click="cancelSubscription" v-if="!isCanceled">
+                        Cancel Subscription
+                    </a>
+                </div>
             </div>
 
-            <label>Coupon</label>
-            <input type="text" v-model="form.coupon">
+            <br><br>
+
             <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
 
         </form>
 
-        <div class="btn btn-danger" @click="cancelSubscription" v-if="!isCanceled">
-            Cancel Subscription
-        </div>
 
         <form @submit.prevent="updateCard" method="post" v-if="currentCard">
 
