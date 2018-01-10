@@ -129,6 +129,8 @@
 
     &-inapp {
         margin-top: 50px;
+        margin-bottom: 50px;
+
         .pricing--item {
             margin-left: 10px;
             margin-right: 10px;
@@ -149,4 +151,10 @@
 
 
     }
+}
+
+// Coupon Form After Pricing
+.coupon-form {
+    max-width: 400px;
+    margin: 0px auto;
 }
