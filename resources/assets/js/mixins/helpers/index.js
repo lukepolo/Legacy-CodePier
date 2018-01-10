@@ -4,7 +4,7 @@ import { getPile } from "./pile";
 
 import { getSite, hasSites, workFlowCompleted } from "./site";
 
-import { back, action } from "./routes";
+import { action } from "./routes";
 
 import { getServer, serverHasFeature } from "./server";
 
@@ -37,7 +37,6 @@ import { getRepositoryProvider } from "./repository-provider";
 Vue.mixin({
   methods: {
     now,
-    back,
     diff,
     isTag,
     action,
