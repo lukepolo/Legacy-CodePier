@@ -27,12 +27,11 @@
                 </template>
 
                 <template v-if="!isSubscribed">
-                    <div>
-                        Currently your limited to 1 server, you can
-                        <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
-                            upgrade
+                    <div class="slack-invite">
+                        <router-link :to="{ name : 'subscription' }">
+                            Upgrade Account
+                            <div class="small">The free plan only allows for 1 server. <br>Upgrade now to add more!</div>
                         </router-link>
-                        your account to get more features!
                     </div>
                 </template>
             </template>
