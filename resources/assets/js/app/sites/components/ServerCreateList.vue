@@ -19,9 +19,12 @@
                         {{ serverTypeText }} Server
                     </router-link>
                     <template v-if="serverType === 'full_stack' && !serverTypesEnabled">
-                        <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
-                            Upgrade your account to create the following server types.
-                        </router-link>
+                        <div class="slack-invite">
+                            <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
+                                Upgrade Account
+                                <div class="small">Upgrade now to create the following server types:</div>
+                            </router-link>
+                        </div>
                     </template>
                 </template>
             </li>

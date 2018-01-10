@@ -109,6 +109,12 @@
   }
 }
 
+// After server list
+.server + .slack-invite a {
+  border-top: none;
+  border-bottom: 1px solid $color-divider;
+}
+
 
 .status {
   flex: 0 0 auto;
@@ -548,9 +554,18 @@
 .server-type-list {
   min-width: 230px;
 
-  &-text {
+  .server-type-list-text {
+    display: block;
+    color: $color-text-accent;
+    text-align: center;
+    font-weight: 300;
     border-top: 1px solid $color-divider;
     padding: 60px 20px 20px;
+
+    &:hover:after {
+      display: none;
+    }
+
   }
   
   p {
