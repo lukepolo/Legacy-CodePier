@@ -42,7 +42,6 @@
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
 
-
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
                         <template v-if="isCanceled">
                             Resume Subscription
@@ -56,7 +55,7 @@
                     </button>
                 </div>
 
-                <div class="flyform--footer-links">
+                <div class="flyform--footer-links" v-if="userSubscription">
                     <a class="text-error" @click="cancelSubscription" v-if="!isCanceled">
                         Cancel Subscription
                     </a>
@@ -68,7 +67,6 @@
             <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
 
         </form>
-
 
         <form @submit.prevent="updateCard" method="post" v-if="currentCard">
 
@@ -98,7 +96,7 @@
             <table>
                 <tr v-for="invoice in invoices">
                     <td> {{ parseDate(invoice.date.date).format('l') }}</td>
-                    <td> ${{ invoice.total }}</td>
+                    <td> ${{ invoiceTotal(invoice.total) }}</td>
                     <td><a :href="downloadLink(invoice.id)">Download</a></td>
                 </tr>
             </table>
@@ -185,7 +183,9 @@ export default {
             .dispatch("user_subscription/store", this.form)
             .then(() => {
               this.coupon = null;
+              this.processing = false;
               this.$store.dispatch("user/get");
+              this.$store.dispatch("user_subscription/getInvoices");
             })
             .catch(() => {
               this.processing = false;
@@ -196,16 +196,24 @@ export default {
       });
     },
     updateSubscription() {
-      this.$store
-        .dispatch("user_subscription/patch", this.form)
-        .then(() => {
-          this.$store.dispatch("user_subscription/getInvoices");
-          this.coupon = null;
-          this.processing = false;
-        })
-        .catch(() => {
-          this.processing = false;
-        });
+      if(this.form.plan !== 'cancel') {
+
+        this.processing = true;
+
+        return this.$store
+          .dispatch("user_subscription/patch", this.form)
+          .then(() => {
+            this.$store.dispatch("user_subscription/getInvoices");
+            this.coupon = null;
+            this.processing = false;
+          })
+          .catch(() => {
+            this.processing = false;
+          });
+      }
+
+      this.cancelSubscription();
+
     },
     createToken(cardForm) {
       return new Promise(resolve => {
@@ -228,13 +236,21 @@ export default {
       });
     },
     cancelSubscription() {
+      this.processing = true;
+
       this.$store.dispatch(
         "user_subscription/cancel",
         this.userSubscription.id
-      );
+      ).then(() => {
+        this.processing = false;
+        this.$store.dispatch("user_subscription/getInvoices");
+      });
     },
     downloadLink: function(invoice) {
       return "/subscription/invoices/" + invoice;
+    },
+    invoiceTotal(total) {
+      return (total / 100).toFixed(2);
     }
   },
   computed: {

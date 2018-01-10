@@ -102,8 +102,13 @@ class UserSubscriptionController extends Controller
 
         if ($subscription->onGracePeriod()) {
             $subscription->resume();
-        } else {
-            if ($plan !== $subscription->stripe_plan) {
+        }
+
+        if ($plan !== $subscription->stripe_plan) {
+            if ($subscription->onGracePeriod()) {
+                $subscription
+                    ->swap($plan);
+            } else {
                 $subscription
                     ->noProrate()
                     ->swap($plan);
