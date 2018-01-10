@@ -26,7 +26,7 @@
     <section>
         <div class="flyform--group">
             <div :id="cardType + '-card-element'"></div>
-            <div id="card-errors" class="alert alert-danger" role="alert" v-if="stripe.error">
+            <div id="card-errors" class="alert alert-error" role="alert" v-if="stripe.error">
                 {{ stripe.error }}
             </div>
         </div>
