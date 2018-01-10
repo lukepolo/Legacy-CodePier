@@ -97,7 +97,7 @@
                 <tr v-for="invoice in invoices">
                     <td> {{ parseDate(invoice.date.date).format('l') }}</td>
                     <td> ${{ invoiceTotal(invoice.total) }}</td>
-                    <td><a :href="downloadLink(invoice.id)">Download</a></td>
+                    <td class="text-right"><a :href="downloadLink(invoice.id)">Download</a></td>
                 </tr>
             </table>
         </template>
