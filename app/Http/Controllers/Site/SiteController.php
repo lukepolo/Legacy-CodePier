@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Exceptions\SiteUserProviderNotConnected;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -315,16 +314,16 @@ class SiteController extends Controller
                     'hash' => create_redis_hash(),
                 ]);
                 $success = true;
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json($site);
             }
-        } while(!$success);
+        } while (! $success);
 
         if (! empty($site->automatic_deployment_id)) {
             try {
                 $this->repositoryService->deleteDeployHook($site);
                 $this->repositoryService->createDeployHook($site);
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 // its ok to fail here
             }
         }

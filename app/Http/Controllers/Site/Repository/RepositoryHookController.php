@@ -52,10 +52,11 @@ class RepositoryHookController extends Controller
             return response()->json(
                 $this->siteService->deleteDeployHook($site)
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $site->update([
-                'automatic_deployment_id' => null
+                'automatic_deployment_id' => null,
             ]);
+
             return response()->json('We were unable to delete the webhook, you should remove this manually', 500);
         }
     }
