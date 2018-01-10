@@ -306,13 +306,26 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        $site->update([
-            'hash' => create_redis_hash(),
-        ]);
+        do {
+            $success = false;
+
+            try {
+                $site->update([
+                    'hash' => create_redis_hash(),
+                ]);
+                $success = true;
+            } catch (\Exception $e) {
+                return response()->json($site);
+            }
+        } while (! $success);
 
         if (! empty($site->automatic_deployment_id)) {
-            $this->repositoryService->deleteDeployHook($site);
-            $this->repositoryService->createDeployHook($site);
+            try {
+                $this->repositoryService->deleteDeployHook($site);
+                $this->repositoryService->createDeployHook($site);
+            } catch (\Exception $e) {
+                // its ok to fail here
+            }
         }
 
         return response()->json($site);
