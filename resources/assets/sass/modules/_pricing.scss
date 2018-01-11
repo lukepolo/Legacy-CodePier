@@ -134,10 +134,12 @@
         .pricing--item {
             margin-left: 10px;
             margin-right: 10px;
+            flex-shrink: 1;
 
             small {
+                display: block;
                 color: $color-text-secondary;
-                padding-left: 30px;
+                margin-top: 5px;
             }
         }
 
@@ -146,7 +148,7 @@
         }
 
         .pricing--features {
-            padding-left: 40px;
+            padding: 10px 20px;
         }
 
 
