@@ -38,7 +38,7 @@
                                                 </div>
                                             </template>
                                         </div>
-                                        <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
+                                        <div class="alert-info" v-if="workflowMessage"><span class="alert-wrap" v-html="workflowMessage"></span></div>
                                         <hr>
                                     </template>
                                     <router-view> /// </router-view>
