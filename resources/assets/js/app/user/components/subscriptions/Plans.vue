@@ -12,9 +12,17 @@
                     <strong v-if="plan.metadata.save">
                         SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
                     </strong>
-                    <template v-if="userSubscription && userSubscription.stripe_plan === plan.id">
+                    <template v-if="userSubscription && userSubscription.active_plan === plan.id">
                         <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
-                        <small v-if="userSubscription">Next billing date: {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}</small>
+                            <small>
+                                <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
+                                    Valid Until
+                                </template>
+                                <template v-else>
+                                   Next billing date
+                                </template>
+                                : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
+                            </small>
                     </template>
                 </label>
             </div>
@@ -44,7 +52,7 @@ export default {
     isActive() {
       if (this.userSubscription) {
         return _.find(this.plans, {
-          id: this.userSubscription.stripe_plan
+          id: this.userSubscription.active_plan
         });
       }
     },
@@ -52,6 +60,12 @@ export default {
       return _.filter(this.$store.state.subscriptions.plans, plan => {
         return plan.id.indexOf(this.type) > -1;
       });
+    },
+    isCanceled() {
+      if (this.userSubscription) {
+        return this.userSubscription.ends_at !== null;
+      }
+      return false;
     },
     userSubscription() {
       if (this.userSubscriptionData) {

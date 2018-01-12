@@ -60,9 +60,11 @@
 
         </section>
 
+
         <section id="right" v-if="site" class="section-column">
-            <servers v-if="workFlowCompleted === true"></servers>
-            <portal-target name="right-panel"></portal-target>
+            <portal-target name="right-panel">
+                <servers></servers>
+            </portal-target>
         </section>
     </div>
 
