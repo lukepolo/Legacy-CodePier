@@ -223,22 +223,18 @@ export default {
     },
     createToken(cardForm) {
       return new Promise(resolve => {
-        if (!this.form.token) {
-          cardForm.instance
-            .createToken(cardForm.card)
-            .then(result => {
-              if (result.error) {
-                cardForm.error = result.error.message;
-              }
-              this.form.token = result.token.id;
-              resolve();
-            })
-            .catch(() => {
-              resolve();
-            });
-        } else {
-          resolve();
-        }
+        cardForm.instance
+          .createToken(cardForm.card)
+          .then(result => {
+            if (result.error) {
+              cardForm.error = result.error.message;
+            }
+            this.form.token = result.token.id;
+            resolve();
+          })
+          .catch(() => {
+            resolve();
+          });
       });
     },
     cancelSubscription() {
