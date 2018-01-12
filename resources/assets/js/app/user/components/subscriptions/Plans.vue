@@ -15,7 +15,7 @@
                     <template v-if="userSubscription && userSubscription.active_plan === plan.id">
                         <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
                             <small>
-                                <template v-if="isCanceled">
+                                <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
                                     Valid Until
                                 </template>
                                 <template v-else>
