@@ -19,7 +19,9 @@ export const patch = (context, data) => {
       cron_job: data.cron_job
     }),
     "user_site_cron_jobs/update"
-  );
+  ).then(() => {
+    app.showSuccess('Updated Cron Job');
+  });
 };
 
 export const destroy = (context, data) => {

@@ -32,9 +32,8 @@
 
                     <template v-for="server in siteServers" v-if="!showServerTypes">
                         <div class="flyform--group-checkbox">
-                            <label>
-                                <input type="checkbox" v-model="form.server_ids" :value="server.id"
-                                       :disabled="serverTypeSelected(server.type)">
+                            <label :class="{ disabled : serverTypeSelected(server.type) }">
+                                <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
                                 <span class="icon"></span>
                                 {{ server.name }} <small>({{ server.type | startCase }}) <br> <span v-if="server.ip">({{ server.ip }})</span></small>
                             </label>
@@ -44,6 +43,7 @@
                     <div class="flyform--footer">
                         <div class="flyform--footer-btns">
                             <span class="btn btn-small" @click="close()">Close</span>
+                            <span class="btn btn-small btn-primary" v-if="update" @click="updateData()">Update</span>
                         </div>
                     </div>
                 </div>
@@ -57,6 +57,9 @@ export default {
   props: {
     title: {
       default: ""
+    },
+    update : {
+      default: null
     },
     server_ids: {
       default: () => []
@@ -94,6 +97,11 @@ export default {
   methods: {
     close() {
       Vue.set(this, "showingModal", false);
+    },
+    updateData() {
+        this.update().then(() => {
+          this.close();
+        });
     },
     serverTypeSelected(serverType) {
       return _.find(this.form.server_types, selectedServerType => {
