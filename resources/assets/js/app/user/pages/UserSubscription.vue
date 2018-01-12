@@ -135,11 +135,11 @@ export default {
         error: null,
         instance: null
       },
-      updateCardForm: {
+      updateCardForm: this.createForm({
         card: null,
         error: null,
         instance: null
-      }
+      })
     };
   },
   watch: {
@@ -167,6 +167,8 @@ export default {
             .then(() => {
               this.coupon = null;
               this.processing = false;
+              this.updateCardForm.reset();
+              this.showCreditForm = false;
             })
             .catch(() => {
               this.processing = false;
