@@ -1,7 +1,7 @@
 <template>
     <section>
         <template v-if="userSubscription">
-            <div class="alert alert-warning" v-if="userSubscription.trial_ends_at">
+            <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
                 Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
@@ -9,7 +9,6 @@
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
         </template>
-
 
         <div class="text-center" v-if="!userSubscription">
             <h2>Start your 5 day free trial!</h2>
@@ -34,7 +33,6 @@
             <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
         </div>
 
-
         <form @submit.prevent="createSubscription" method="post">
             <br><br>
 
@@ -47,7 +45,7 @@
                             <div class="flyform--input-icon-right" v-if="!showCreditForm">
                                 <a @click="showCreditForm = true"><span class="icon-pencil"></span> </a>
                             </div>
-                            <input type="text" value="my payment" disabled v-if="!showCreditForm">
+                            <input type="text" :value="`${currentCard.brand} ending in ${currentCard.last4}`" disabled v-if="!showCreditForm">
                             <label>Payment Method</label>
 
                             <div v-if="showCreditForm" class="stripeContainer">
@@ -60,11 +58,8 @@
                             <span class="btn btn-small" @click="showCreditForm = false">Cancel</span>
                             <button class="btn btn-primary btn-small" :class="{ 'btn-disabled' : processing }">Update Card</button>
                         </div>
-
-
-
-                        {{ currentCard.brand }} ending in {{ currentCard.last4 }}
                     </form>
+
                 </div>
                 <div class="grid--item">
                     <div class="flyform--group coupon-form">
@@ -72,13 +67,12 @@
                         <label for="coupon">Coupon Code</label>
                     </div>
 
-                    <div class="alert alert-success">
-                        <strong>LETSDOIT - </strong>20% off once
+                    <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
+                        <strong>{{ hasCoupon.coupon.id }} -</strong> {{ hasCoupon.coupon.percent_off }}% off {{ hasCoupon.coupon.duration }}
                     </div>
                 </div>
 
             </div>
-
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
@@ -102,7 +96,6 @@
                 </div>
             </div>
         </form>
-
 
         <template v-if="invoices.length">
             <br><br>
@@ -152,7 +145,7 @@ export default {
   watch: {
     userSubscription: function() {
       if (this.userSubscription) {
-        this.form.plan = this.userSubscription.stripe_plan;
+        this.form.plan = this.userSubscription.active_plan;
         this.form.subscription = this.userSubscription.id;
       } else {
         this.form.plan = "cancel";
@@ -268,6 +261,12 @@ export default {
     }
   },
   computed: {
+    hasCoupon() {
+      if (this.userSubscriptionData && this.userSubscriptionData.subscriptionDiscount) {
+        return this.userSubscriptionData.subscriptionDiscount;
+      }
+      return false;
+    },
     invoices() {
       return this.$store.state.user_subscription.invoices;
     },

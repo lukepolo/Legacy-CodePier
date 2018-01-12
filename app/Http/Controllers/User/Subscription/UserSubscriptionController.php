@@ -60,6 +60,7 @@ class UserSubscriptionController extends Controller
         $subscription->create($request->get('token'));
 
         $user->update([
+            'active_plan' => $plan,
             'trial_ends_at' => Carbon::now()->addDays(5),
         ]);
 
@@ -89,9 +90,10 @@ class UserSubscriptionController extends Controller
         /** @var Subscription $subscription */
         $subscription = $user->subscription('default');
 
+        /** @var \Stripe\Subscription $tempSubscription */
+        $tempSubscription = $subscription->asStripeSubscription();
+
         if ($request->has('coupon')) {
-            /** @var \Stripe\Subscription $tempSubscription */
-            $tempSubscription = $subscription->asStripeSubscription();
             $tempSubscription->coupon = $request->get('coupon');
             try {
                 $tempSubscription->save();
@@ -105,10 +107,23 @@ class UserSubscriptionController extends Controller
         }
 
         if ($plan !== $subscription->stripe_plan) {
-            if ($subscription->onGracePeriod()) {
+            if(
+                str_contains($plan, 'yr') && !str_contains($subscription->stripe_plan, 'yr') ||
+                str_contains($plan, 'captain') && str_contains($subscription->stripe_plan, 'firstmate')
+            ) {
+                $subscription->active_plan = $plan;
+
+                // upgrading
                 $subscription
                     ->swap($plan);
             } else {
+                // downgrading
+                $subscription->trial_ends_at = Carbon::createFromTimestamp(
+                    $tempSubscription->current_period_end
+                );
+
+                $subscription->active_plan = $subscription->stripe_plan;
+
                 $subscription
                     ->noProrate()
                     ->swap($plan);

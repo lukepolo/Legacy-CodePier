@@ -85,6 +85,15 @@ class User extends Authenticatable
         return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($this->subscription()) ? $this->subscription()->stripe_plan : null;
     }
 
+    public function getActivePlanAttribute()
+    {
+        $subscription = $this->subscriptionPlan;
+        if(!empty($subscription) && $this->onTrial()) {
+            $subscription = $this->subscription()->active_plan;
+        }
+        return $this->attributes['subscription_plan'] = $subscription;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -261,7 +270,7 @@ class User extends Authenticatable
             return $subscription->valid();
         }
 
-        return $subscription->valid() && $subscription->stripe_plan === $plan;
+        return $subscription->valid() && $subscription->active_plan === $plan;
     }
 
     public function getSubscriptionPrice()
@@ -381,12 +390,15 @@ class User extends Authenticatable
 
         return [
             'card'                 => $this->card(),
+            'switchingPlans'       => $this->onTrial(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
+            'isOnTrail'            => $this->onGenericTrial(),
             'subscriptionEnds'     => $this->getNextBillingCycle(),
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
+            'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
 }
