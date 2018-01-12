@@ -48,7 +48,7 @@ export default {
     updateCronJob() {
       return () => {
         return this.$store.dispatch("user_site_cron_jobs/patch", this.form);
-      }
+      };
     },
     deleteCronJob() {
       if (this.siteId) {
