@@ -29,7 +29,7 @@
                                     Archived
                                 </template>
                             </th>
-                            <th>Actions</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,21 +47,21 @@
                             <td>{{ server.ip }}</td>
                             <td>
                                 <template v-if="server.deleted_at">
-                                    <confirm dispatch="user_servers/restore" :params="server.id">
-                                        Restore
-                                    </confirm>
+                                    Archived
                                 </template>
                                 <template v-else>
                                     <template v-if="server.status !==  'Provisioned' && server.custom_server_url">
-                                        <textarea rows="1" readonly>{{ server.custom_server_url }}</textarea>
-                                        <clipboard :data="server.custom_server_url"></clipboard>
+                                        <div class="flex flex--center">
+                                            <textarea rows="2" style="min-width:350px;" readonly>{{ server.custom_server_url }}</textarea>
+                                            <div class="flex--spacing"><clipboard :data="server.custom_server_url"></clipboard></div>
+                                        </div>
                                     </template>
                                     <template v-else>
                                         {{ server.status }}
                                     </template>
-                                    <confirm dispatch="user_servers/archive" :params="server.id">
-                                        Archive Server
-                                    </confirm>
+                                    <!--<confirm dispatch="user_servers/archive" :params="server.id">-->
+                                        <!--Archive Server-->
+                                    <!--</confirm>-->
                                 </template>
                             </td>
                             <td>
@@ -72,6 +72,18 @@
                                     {{ parseDate(server.updated_at).format('LLLL') }}
                                 </template>
 
+                            </td>
+                            <td class="text-right">
+                                <template v-if="server.deleted_at">
+                                    <confirm dispatch="user_servers/restore" :params="server.id">
+                                        <span class="icon-refresh2"></span> &nbsp; Restore
+                                    </confirm>
+                                </template>
+                                <template v-else>
+                                    <confirm dispatch="user_servers/archive" :params="server.id">
+                                        <span class="icon-archive"></span> &nbsp; Archive
+                                    </confirm>
+                                </template>
                             </td>
                         </tr>
                         </tbody>
