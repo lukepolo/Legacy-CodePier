@@ -48,7 +48,7 @@ export default {
     updateDaemon() {
       return () => {
         return this.$store.dispatch("user_site_daemons/patch", this.form);
-      }
+      };
     },
     deleteDaemon: function() {
       if (this.siteId) {

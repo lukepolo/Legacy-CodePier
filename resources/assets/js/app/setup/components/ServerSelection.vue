@@ -58,7 +58,7 @@ export default {
     title: {
       default: ""
     },
-    update : {
+    update: {
       default: null
     },
     server_ids: {
@@ -99,9 +99,9 @@ export default {
       Vue.set(this, "showingModal", false);
     },
     updateData() {
-        this.update().then(() => {
-          this.close();
-        });
+      this.update().then(() => {
+        this.close();
+      });
     },
     serverTypeSelected(serverType) {
       return _.find(this.form.server_types, selectedServerType => {
