@@ -16,20 +16,20 @@ export default {
   data() {
     return {
       current_version: Laravel.version
-    }
+    };
   },
-  methods : {
+  methods: {
     resendConfirmation() {
-      this.$store.dispatch('user/resendConfirmation')
+      this.$store.dispatch("user/resendConfirmation");
     }
   },
-  computed : {
+  computed: {
     user() {
       return this.$store.state.user.user;
     },
     version() {
       return this.$store.state.system.version;
-    },
+    }
   }
 };
 </script>

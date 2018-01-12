@@ -10,10 +10,10 @@ export const update = (context, data) => {
 };
 
 export const resendConfirmation = () => {
-  return Vue.request().post(
-    Vue.action("UserUserConfirmController@store"),
-  ).then((response) => {
-    app.showSuccess('We have sent you another confirmation email');
-    return response;
-  });
+  return Vue.request()
+    .post(Vue.action("UserUserConfirmController@store"))
+    .then(response => {
+      app.showSuccess("We have sent you another confirmation email");
+      return response;
+    });
 };

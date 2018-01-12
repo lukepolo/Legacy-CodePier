@@ -108,7 +108,7 @@ export default {
       form: this.createForm({
         query: "Sorry, its coming soon!"
       }),
-      search: false,
+      search: false
     };
   },
   computed: {
@@ -148,7 +148,7 @@ export default {
     },
     changePile(pile_id) {
       this.$store.dispatch("user_piles/change", pile_id);
-    },
+    }
   }
 };
 </script>

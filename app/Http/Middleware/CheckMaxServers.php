@@ -35,7 +35,7 @@ class CheckMaxServers
             return $next($request);
         }
 
-        $stripePlan = $user->subscription()->stripe_plan;
+        $stripePlan = $user->subscription()->active_plan;
 
         if (str_contains($stripePlan, 'firstmate')) {
             if ($user->servers->count() > 30) {

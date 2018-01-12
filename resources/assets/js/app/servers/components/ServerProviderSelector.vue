@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       adding_provider: {},
-      currentServerProvider : this.server_provider_id
+      currentServerProvider: this.server_provider_id
     };
   },
   computed: {

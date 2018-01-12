@@ -8,8 +8,13 @@
           </template>
 
           <div class="drag-name">
-
-              <server-selection :availableServerTypes="availableServerTypes" :server_ids.sync="server_ids" :server_types.sync="server_types"></server-selection>
+              <server-selection
+                  :showModal="deploymentStep.showModal"
+                  :title="`${order}. ${deploymentStep.step}`"
+                  :availableServerTypes="availableServerTypes"
+                  :server_ids.sync="server_ids"
+                  :server_types.sync="server_types"
+              ></server-selection>
               <tooltip
                   v-if="internalStep"
                   :message="'Suggested order ' + suggestedOrder"

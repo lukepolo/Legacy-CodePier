@@ -6,7 +6,7 @@ require("./components");
 require("./directives");
 require("./emitters");
 require("./filters");
-require('./plugins');
+require("./plugins");
 require("./mixins");
 
 window.store = store;

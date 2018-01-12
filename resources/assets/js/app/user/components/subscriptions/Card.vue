@@ -1,27 +1,3 @@
-<!--<style>-->
-    <!--.StripeElement {-->
-        <!--background-color: white;-->
-        <!--height: 40px;-->
-        <!--padding: 10px 12px;-->
-        <!--border-radius: 4px;-->
-        <!--border: 1px solid transparent;-->
-        <!--box-shadow: 0 1px 3px 0 #e6ebf1;-->
-        <!-- -webkit-transition: box-shadow 150ms ease;-->
-        <!--transition: box-shadow 150ms ease;-->
-    <!--}-->
-
-    <!--.StripeElement&#45;&#45;focus {-->
-        <!--box-shadow: 0 1px 3px 0 #cfd7df;-->
-    <!--}-->
-
-    <!--.StripeElement&#45;&#45;invalid {-->
-        <!--border-color: #fa755a;-->
-    <!--}-->
-
-    <!--.StripeElement&#45;&#45;webkit-autofill {-->
-        <!--background-color: #fefde5 !important;-->
-    <!--}-->
-<!--</style>-->
 <template>
     <section>
         <div class="flyform--group">

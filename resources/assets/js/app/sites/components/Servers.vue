@@ -1,5 +1,5 @@
 <template>
-    <portal to="right-panel" v-if="site">
+    <div v-if="site">
         <h3 class="section-header">
             Servers
 
@@ -37,7 +37,7 @@
             </template>
            <template v-else>
 
-               <template v-if="site.repository">
+               <template v-if="site.repository && workFlowCompleted">
                    <template v-if="availableServers.length">
 
                        <h3 class="section-header--secondary">Available Servers</h3>
@@ -90,7 +90,7 @@
                    <div class="jcf-form-wrap">
                        <div class="jcf-input-group">
                            <h5 class="section-header--secondary">
-                               Please fill out your <br>repository information before creating a server
+                               Please fill out your <br>site information before creating a server
                            </h5>
                        </div>
                    </div>
@@ -98,7 +98,7 @@
 
            </template>
         </div>
-    </portal>
+    </div>
 </template>
 
 <script>

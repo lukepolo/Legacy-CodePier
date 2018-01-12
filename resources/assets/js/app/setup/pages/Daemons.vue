@@ -45,7 +45,11 @@
             <div class="flyform--group">
                 <label>Servers to Run On</label>
             </div>
-            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
+            <server-selection
+                title="New Daemon"
+                :server_ids.sync="form.server_ids"
+                :server_types.sync="form.server_types"
+            ></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
