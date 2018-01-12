@@ -12,12 +12,10 @@
 
             <server-selection
                 :title="daemon.command"
+                :update="updateDaemon(daemon)"
                 :server_ids.sync="form.server_ids"
                 :server_types.sync="form.server_types"
             ></server-selection>
-
-            <div class="btn btn-success" v-if="form.diff().length" @click="updateDaemon(daemon)">update</div>
-
 
             <tooltip message="Delete">
                 <span class="table--action-delete">
@@ -48,7 +46,9 @@ export default {
   },
   methods: {
     updateDaemon() {
-      this.$store.dispatch("user_site_daemons/patch", this.form);
+      return () => {
+        return this.$store.dispatch("user_site_daemons/patch", this.form);
+      }
     },
     deleteDaemon: function() {
       if (this.siteId) {

@@ -19,7 +19,9 @@ export const patch = (context, data) => {
       daemon: data.daemon
     }),
     "user_site_daemons/update"
-  );
+  ).then(() => {
+    app.showSuccess('Updated Daemon');
+  });
 };
 
 export const destroy = (context, data) => {
