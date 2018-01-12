@@ -49,7 +49,7 @@ export const serverActionsEnabled = function() {
     return true;
   }
 
-  if(!this.$store.state.user.user.confirmed) {
+  if (!this.$store.state.user.user.confirmed) {
     return false;
   }
 
@@ -82,7 +82,7 @@ export const serverCreateEnabled = function() {
     return true;
   }
 
-  if(!this.$store.state.user.user.confirmed) {
+  if (!this.$store.state.user.user.confirmed) {
     return false;
   }
 

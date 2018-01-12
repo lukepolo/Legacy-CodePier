@@ -57,6 +57,7 @@ export default {
           cron_job: this.cronJob.id
         });
       }
+
       if (this.serverId) {
         this.$store.dispatch("user_server_cron_jobs/destroy", {
           server: this.serverId,

@@ -127,8 +127,8 @@ export default {
       form: this.createForm({
         plan: null,
         token: null,
-        coupon : null,
-        subscription: null,
+        coupon: null,
+        subscription: null
       }),
       createCardForm: {
         card: null,
@@ -177,7 +177,6 @@ export default {
       });
     },
     createSubscription() {
-
       this.processing = true;
 
       if (this.userSubscription) {
@@ -203,8 +202,7 @@ export default {
       });
     },
     updateSubscription() {
-      if(this.form.plan !== 'cancel') {
-
+      if (this.form.plan !== "cancel") {
         this.processing = true;
 
         return this.$store
@@ -220,7 +218,6 @@ export default {
       }
 
       this.cancelSubscription();
-
     },
     createToken(cardForm) {
       return new Promise(resolve => {
@@ -245,13 +242,12 @@ export default {
     cancelSubscription() {
       this.processing = true;
 
-      this.$store.dispatch(
-        "user_subscription/cancel",
-        this.userSubscription.id
-      ).then(() => {
-        this.processing = false;
-        this.$store.dispatch("user_subscription/getInvoices");
-      });
+      this.$store
+        .dispatch("user_subscription/cancel", this.userSubscription.id)
+        .then(() => {
+          this.processing = false;
+          this.$store.dispatch("user_subscription/getInvoices");
+        });
     },
     downloadLink: function(invoice) {
       return "/subscription/invoices/" + invoice;
@@ -262,7 +258,10 @@ export default {
   },
   computed: {
     hasCoupon() {
-      if (this.userSubscriptionData && this.userSubscriptionData.subscriptionDiscount) {
+      if (
+        this.userSubscriptionData &&
+        this.userSubscriptionData.subscriptionDiscount
+      ) {
         return this.userSubscriptionData.subscriptionDiscount;
       }
       return false;

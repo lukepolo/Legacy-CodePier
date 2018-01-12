@@ -11,9 +11,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(!to.params || !to.params.disabled) {
+  if (!to.params || !to.params.disabled) {
     next();
   }
-})
+});
 
 export default router;

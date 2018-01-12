@@ -1,5 +1,5 @@
 <template>
-    <portal to="right-panel">
-        <slot></slot>
-    </portal>
-</template>
+  <portal to="right-panel">
+    <slot />
+  </portal>
+</template>;
