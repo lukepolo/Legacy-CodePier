@@ -382,7 +382,7 @@ $flyform-transition: all .5s;
         }
     }
 
-    .btn:not(.btn-success):not(.btn-danger):not(.dropdown-toggle) {
+    .btn:not(.btn-success):not(.btn-danger):not(.btn-primary):not(.dropdown-toggle) {
         background-color: $color-background;
     }
 
