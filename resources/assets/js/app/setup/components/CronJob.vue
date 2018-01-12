@@ -10,7 +10,11 @@
 
         <td class="table--action">
 
-            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
+            <server-selection
+                :title="cronJob.job"
+                :server_ids.sync="form.server_ids"
+                :server_types.sync="form.server_types"
+            ></server-selection>
 
             <div class="btn btn-success" v-if="form.diff().length" @click="updateCronJob(cronJob)">update</div>
 
