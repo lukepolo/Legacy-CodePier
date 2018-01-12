@@ -272,17 +272,20 @@ export default {
       return false;
     },
     showStep(deploymentStep) {
-        if(!this.showZeroDowntimeDeploymentOptions && this.isZeroTimeDeploymentStep(deploymentStep)) {
-            return false;
-        }
-        return true;
+      if (
+        !this.showZeroDowntimeDeploymentOptions &&
+        this.isZeroTimeDeploymentStep(deploymentStep)
+      ) {
+        return false;
+      }
+      return true;
     },
     isZeroTimeDeploymentStep(deploymentStep) {
       let step = this.internalStep(deploymentStep);
-      if(step) {
+      if (step) {
         return step.zero_downtime_deployment;
       }
-      return false
+      return false;
     }
   },
   computed: {
