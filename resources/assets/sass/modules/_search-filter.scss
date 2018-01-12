@@ -142,4 +142,24 @@
     border-top: 1px solid $gray;
     padding: ($spacing/2) $spacing;
   }
+
+  //
+  @include breakpoint(xl) {
+    .dropup {
+      bottom: auto;
+
+      &:before {
+        border-top: none;
+        border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+        top: -11px;
+        bottom: auto;
+      }
+
+      &:after {
+        border-top: none;
+        border-bottom: 10px solid #343536;
+        top: -10px;
+      }
+    }
+  }
 }
