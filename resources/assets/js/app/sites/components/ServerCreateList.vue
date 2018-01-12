@@ -39,15 +39,12 @@ export default {
       default: ""
     }
   },
-  created() {
-    this.$store.dispatch("server_types/get");
-  },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
     },
     serverTypes() {
-      return _.pickBy(this.$store.state.server_types.types, type => {
+      return _.pickBy(window.Laravel.serverTypes, type => {
         if (this.hasLoadBalancer && type === "load_balancer") {
           return false;
         }
