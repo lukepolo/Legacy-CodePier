@@ -107,8 +107,8 @@ class UserSubscriptionController extends Controller
         }
 
         if ($plan !== $subscription->stripe_plan) {
-            if(
-                str_contains($plan, 'yr') && !str_contains($subscription->stripe_plan, 'yr') ||
+            if (
+                str_contains($plan, 'yr') && ! str_contains($subscription->stripe_plan, 'yr') ||
                 str_contains($plan, 'captain') && str_contains($subscription->stripe_plan, 'firstmate')
             ) {
                 $subscription->active_plan = $plan;

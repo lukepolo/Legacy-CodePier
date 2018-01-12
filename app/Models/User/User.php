@@ -88,9 +88,10 @@ class User extends Authenticatable
     public function getActivePlanAttribute()
     {
         $subscription = $this->subscriptionPlan;
-        if(!empty($subscription) && $this->onTrial()) {
+        if (! empty($subscription) && $this->onTrial()) {
             $subscription = $this->subscription()->active_plan;
         }
+
         return $this->attributes['subscription_plan'] = $subscription;
     }
 
