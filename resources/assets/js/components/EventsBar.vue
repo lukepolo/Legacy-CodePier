@@ -14,163 +14,10 @@
                 <li class="filter--label">
                     <span>Event Filters</span>
                 </li>
-                <li class="filter--item dropdown" ref="piles">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('piles')">
-                        <strong>Pile:</strong>
-                        <span class="filter--item-selection">
-                            {{ pilesList }}
-                        </span>
-                        <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <form class="dropup-form">
-                            <div class="flyform--group-checkbox select-all">
-                                <label>
-                                    <input type="checkbox">
-                                    <span class="icon"></span>
-                                    Select All
-                                </label>
-                            </div>
-
-                            <div class="dropup-scroll">
-                                <div class="flyform--group-checkbox" v-for="pile in piles">
-                                    <label>
-                                        <input type="checkbox" v-model="form.filters.piles" :value="pile.id">
-                                        <span class="icon"></span>
-                                        {{ pile.name }}
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('piles')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-                        </form>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="sites">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('sites')">
-                        <strong>Site:</strong>
-                        <span class="filter--item-selection">
-                            {{ siteList }}
-                        </span>
-                        <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <form class="dropup-form">
-                            <div class="flyform--group-checkbox select-all">
-                                <label>
-                                    <input type="checkbox">
-                                    <span class="icon"></span>
-                                    Select All
-                                </label>
-                            </div>
-
-                            <div class="dropup-scroll">
-                                <div class="flyform--group-checkbox" v-for="site in sites">
-                                    <label>
-                                        <input type="checkbox" v-model="form.filters.sites" :value="site.id">
-                                        <span class="icon"></span>
-                                        {{ site.name }}
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('sites')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-                        </form>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="servers">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('servers')">
-                        <strong>Server:</strong>
-                        <span class="filter--item-selection">
-                            {{ serverList }}
-                        </span>
-                        <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <form class="dropup-form">
-                            <div class="flyform--group-checkbox select-all">
-                                <label>
-                                    <input type="checkbox">
-                                    <span class="icon"></span>
-                                    Select All
-                                </label>
-                            </div>
-
-                            <div class="dropup-scroll">
-                                <div class="flyform--group-checkbox" v-for="server in servers">
-                                    <label>
-                                        <input type="checkbox" v-model="form.filters.servers" :value="server.id">
-                                        <span class="icon"></span>
-                                        {{ server.name }} ({{ server.ip }})
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('servers')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-                        </form>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="types">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('types')">
-                        <strong>Event Type:</strong>
-                        <span class="filter--item-selection">
-                            {{ eventList }}
-                        </span>
-                        <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <form class="dropup-form">
-                            <div class="flyform--group-checkbox select-all">
-                                <label>
-                                    <input type="checkbox">
-                                    <span class="icon"></span>
-                                    Select All
-                                </label>
-                            </div>
-
-                            <div class="dropup-scroll">
-                                <template v-for="(types, area) in defaultNotificationTypes">
-                                    <div class="flyform--group-checkbox" v-for="type in types">
-                                        <label>
-                                            <template v-if="area === 'site_deployments'">
-                                                <input type="checkbox" v-model="form.filters.types.site_deployments"
-                                                       :value="type">
-                                            </template>
-                                            <template v-else-if="area === 'commands'">
-                                                <input type="checkbox" v-model="form.filters.types.commands"
-                                                       :value="type">
-                                            </template>
-                                            <span class="icon"></span>
-                                            {{ renderType(type) }}
-                                        </label>
-                                    </div>
-                                </template>
-
-                            </div>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('servers')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-                        </form>
-                    </ul>
-                </li>
+                <event-filter title="Piles" :filters="piles" :selected-filters.sync="form.filters.piles"></event-filter>
+                <event-filter title="Sites" :filters="sites" :selected-filters.sync="form.filters.sites"></event-filter>
+                <event-filter title="Servers" :filters="servers" :selected-filters.sync="form.filters.servers"></event-filter>
+                <event-filter title="Events" :filters="servers" :selected-filters.sync="form.filters.events"></event-filter>
             </ul>
 
             <div class="events--container">
@@ -204,6 +51,7 @@
 </template>
 
 <script>
+    import EventFilter from "./event-components/EventFilter.vue";
     import CommandEvent from "./event-components/CommandEvent.vue";
     import DeploymentEvent from "./event-components/DeploymentEvent.vue";
 
@@ -278,6 +126,7 @@
 
     export default {
         components: {
+            EventFilter,
             CommandEvent,
             DeploymentEvent
         },
@@ -298,15 +147,6 @@
                         servers: []
                     }
                 }),
-                prev_filters: {
-                    types: {
-                        commands: [],
-                        site_deployments: []
-                    },
-                    piles: [],
-                    sites: [],
-                    servers: []
-                }
             };
         },
         created() {
@@ -318,102 +158,34 @@
                 this.getWindowWidth();
             });
         },
+        watch : {
+            'form.filters' : {
+              deep : true,
+              handler : function() {
+                this.form.page = 1;
+                this.$store.commit("events/clear");
+                this.$store.dispatch("events/get", this.form);
+              }
+            }
+        },
         methods: {
-            showFilter(filter) {
-                const filterList = $(this.$refs[filter]);
-                $("#collapseEvents .dropdown").removeClass("open");
-                filterList
-                    .toggleClass("open")
-                    .find(".dropdown-menu")
-                    .css("left", filterList.position().left);
-            },
             fetchData() {
                 this.$store.dispatch("events/get");
                 this.$store.dispatch("user_servers/get");
             },
-            updateFilters() {
-                this.$store.commit("events/clear");
-                this.form.page = 1;
-
-                this.prev_filters = _.cloneDeep(this.form.filters);
-                this.$store.dispatch("events/get", this.form);
-            },
-            renderType(type) {
-                const title = type.substring(type.lastIndexOf("\\") + 1);
-
-                return (
-                    title.replace(/([A-Z])/g, " $1").replace(/^./, function (type) {
-                        return type.toUpperCase();
-                    }) + "s"
-                );
-            },
-            cancel(type) {
-                $("#collapseEvents .dropdown").removeClass("open");
-
-                const filters = _.cloneDeep(this.prev_filters[type]);
-
-                Vue.set(this.form.filters, type, filters);
-            },
+            // renderType(type) {
+            //     const title = type.substring(type.lastIndexOf("\\") + 1);
+            //     return (
+            //         title.replace(/([A-Z])/g, " $1").replace(/^./, function (type) {
+            //             return type.toUpperCase();
+            //         }) + "s"
+            //     );
+            // },
             getWindowWidth() {
                 this.windowWidth = document.documentElement.clientWidth;
             }
         },
         computed: {
-            pilesList() {
-                const piles = this.form.filters.piles;
-                if (!piles.length) {
-                    return "All";
-                }
-
-                return _.join(
-                    _.map(piles, pile => {
-                        return this.getPile(pile, "name");
-                    }),
-                    ", "
-                );
-            },
-            siteList() {
-                const sites = this.form.filters.sites;
-                if (!sites.length) {
-                    return "All";
-                }
-
-                return _.join(
-                    _.map(sites, site => {
-                        return this.getSite(site, "name");
-                    }),
-                    ", "
-                );
-            },
-            serverList() {
-                const servers = this.form.filters.servers;
-                if (!servers.length) {
-                    return "All";
-                }
-
-                return _.join(
-                    _.map(servers, server => {
-                        return this.getServer(server, "name");
-                    }),
-                    ", "
-                );
-            },
-            eventList() {
-                const types = this.form.filters.types;
-
-                const events = _.map(
-                    _.merge(types.site_deployments, types.commands),
-                    event => {
-                        return this.renderType(event);
-                    }
-                );
-
-                if (!events.length) {
-                    return "All";
-                }
-
-                return _.join(events, ", ");
-            },
             piles() {
                 return this.$store.state.user_piles.piles;
             },
@@ -423,7 +195,6 @@
             servers() {
                 return this.$store.state.user_servers.servers;
             },
-
             events() {
                 return _.orderBy(
                     _.uniqBy(this.$store.state.events.events, event => {

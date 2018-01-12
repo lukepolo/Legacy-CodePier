@@ -67,18 +67,6 @@
     @include card(2);
     min-width: 200px;
     background-color: mix($gray, $black, 50%);
-
-    .select-all {
-      //position: absolute;
-      //top: -38px;
-      //bottom: auto;
-      //border-bottom: 1px solid $gray;
-      //padding-bottom: $spacing/4;
-      //
-      //+ label {
-      //  margin-top: 40px;
-      //}
-    }
   }
 
   .dropup {
@@ -93,7 +81,7 @@
       border-right-color: transparent;
       border-bottom: none;
       position: absolute;
-      left: 10%;
+      right: 10%;
       transform: translateX(-50%);
       bottom: -10px;
       z-index: 2;
@@ -108,7 +96,7 @@
       border-right-color: transparent;
       border-bottom: none;
       position: absolute;
-      left: 10%;
+      right: 10%;
       transform: translateX(-50%);
       bottom: -11px;
       z-index: 2;
