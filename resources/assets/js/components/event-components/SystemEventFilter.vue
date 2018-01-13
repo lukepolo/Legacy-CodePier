@@ -168,7 +168,7 @@ export default {
         return "All";
       }
 
-      return site_deployments.concat(commands).join(', ');
+      return site_deployments.concat(commands).join(", ");
     }
   }
 };
