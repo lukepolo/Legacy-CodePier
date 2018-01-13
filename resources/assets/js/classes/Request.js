@@ -14,7 +14,7 @@ class Request {
       this["value"] = data;
     } else {
       this.emptyData = data;
-      this.originalData = data;
+      this.originalData = _.cloneDeep(data);
     }
 
     if (data instanceof FormData) {
@@ -176,7 +176,7 @@ class Request {
    * Sets the current data to the original data
    */
   setOriginalData() {
-    this.originalData = this.data();
+    this.originalData = _.cloneDeep(this.data());
   }
 
   /**

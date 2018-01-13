@@ -81,7 +81,7 @@
       border-right-color: transparent;
       border-bottom: none;
       position: absolute;
-      right: 10%;
+      left: 10%;
       transform: translateX(-50%);
       bottom: -10px;
       z-index: 2;
@@ -96,7 +96,7 @@
       border-right-color: transparent;
       border-bottom: none;
       position: absolute;
-      right: 10%;
+      left: 10%;
       transform: translateX(-50%);
       bottom: -11px;
       z-index: 2;
@@ -116,6 +116,13 @@
     .flyform--group-checkbox {
       margin: 10px;
       font-size: 14px;
+
+      label {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     .select-all {
@@ -131,23 +138,43 @@
     padding: ($spacing/2) $spacing;
   }
 
+  .no-items {
+    padding: 20px;
+    color: $color-text-secondary;
+    font-weight: 700;
+    text-align: center;
+  }
+
   //
   @include breakpoint(xl) {
+    .filter--item {
+      position: relative;
+    }
     .dropup {
       bottom: auto;
+      left: auto !important;
+      right: 10px;
 
       &:before {
         border-top: none;
         border-bottom: 10px solid rgba(0, 0, 0, 0.4);
         top: -11px;
         bottom: auto;
+        left: auto;
+        right: 4px;
       }
 
       &:after {
         border-top: none;
         border-bottom: 10px solid #343536;
         top: -10px;
+        left: auto;
+        right: 4px;
       }
+    }
+
+    .icon-arrow-up:before {
+      content: '\F107';
     }
   }
 }
