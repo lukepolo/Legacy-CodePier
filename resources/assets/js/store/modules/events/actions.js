@@ -10,7 +10,7 @@ export const get = (context, data) => {
         piles: filters ? filters.piles : null,
         sites: filters ? filters.sites : null,
         servers: filters ? filters.servers : null,
-        events: filters ? _.omitBy(filters.events, _.isEmpty) : null,
+        events: filters ? _.omitBy(filters.events, _.isEmpty) : null
       },
       _.isEmpty
     )

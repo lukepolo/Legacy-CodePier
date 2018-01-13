@@ -1,5 +1,5 @@
 <template>
-    <footer class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+    <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div id="drag" class="events--drag"></div>
         <div class="header events--header">
             <h4>
@@ -66,44 +66,45 @@ import SystemEventFilter from "./event-components/SystemEventFilter.vue";
 
 Vue.directive("resizeable", {
   inserted: function(el, bindings) {
-    const container = $("footer");
-    const bottom = $("#collapseEvents");
-    const handle = $("#drag");
+    const container = el;
+    const bottom = document.getElementById("collapseEvents");
+    const handle = document.getElementById("drag");
 
     let isResizing = false;
     let lastOffset = null;
 
-    handle.on("mousedown", function(e) {
+    handle.onmousedown = () => {
       isResizing = true;
-      bottom.addClass("dragging");
-    });
+      bottom.classList.add("dragging");
+    };
 
-    $(document)
-      .on("mousemove", function(e) {
-        if (!isResizing) {
-          return;
-        }
+    document.onmousemove = () => {
+      if (!isResizing) {
+        return;
+      }
 
-        lastOffset = container.height() - (e.clientY - container.offset().top);
+      lastOffset =
+        container.offsetHeight - (event.clientY - container.offsetTop);
 
-        if (lastOffset < 100) {
-          lastOffset = 100;
-        }
+      if (lastOffset < 100) {
+        lastOffset = 100;
+      }
 
-        bottom.css("height", lastOffset - 40);
-      })
-      .on("mouseup", function(e) {
-        isResizing = false;
-        bottom.removeClass("dragging");
-      });
+      bottom.style.height = lastOffset - 40 + "px";
+    };
+
+    document.onmouseup = () => {
+      isResizing = false;
+      bottom.classList.remove("dragging");
+    };
   }
 });
 
 Vue.directive("watch-scroll", {
   update: function(el, bindings) {
-    const container = $("#collapseEvents");
-
-    container.unbind("scroll");
+    const container = document.getElementById("collapseEvents");
+    const eventsLoading = document.getElementById("events-loading");
+    delete container.scroll;
 
     const pagination = bindings.value.events_pagination;
     const form = bindings.value.form;
@@ -111,23 +112,23 @@ Vue.directive("watch-scroll", {
     if (pagination) {
       const nextPage = pagination.current_page + 1;
       if (nextPage <= pagination.last_page) {
-        container.bind("scroll", function() {
+        container.onscroll = () => {
           if (
-            container[0].scrollHeight -
-              container[0].scrollTop -
-              container[0].offsetHeight <
+            container.scrollHeight -
+              container.scrollTop -
+              container.offsetHeight <
             1
           ) {
             if (form.page !== nextPage) {
               form.page = nextPage;
-              $("#events-loading").removeClass("hide");
+              eventsLoading.classList.remove("hide");
 
-              app.$store.dispatch("events/get", form).then(data => {
-                $("#events-loading").addClass("hide");
+              app.$store.dispatch("events/get", form).then(() => {
+                eventsLoading.classList.add("hide");
               });
             }
           }
-        });
+        };
       }
     }
   }
