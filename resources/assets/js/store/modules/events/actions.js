@@ -7,10 +7,10 @@ export const get = (context, data) => {
     },
     _.omitBy(
       {
-        types: filters ? _.omitBy(filters.types, _.isEmpty) : null,
         piles: filters ? filters.piles : null,
         sites: filters ? filters.sites : null,
-        servers: filters ? filters.servers : null
+        servers: filters ? filters.servers : null,
+        events: filters ? _.omitBy(filters.events, _.isEmpty) : null,
       },
       _.isEmpty
     )
