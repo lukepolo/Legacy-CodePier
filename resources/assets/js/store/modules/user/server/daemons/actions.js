@@ -12,7 +12,7 @@ export const store = (context, data) => {
   );
 };
 
-export const patch = data => {
+export const patch = (data) => {
   return Vue.request(data).put(
     Vue.action("ServerServerDaemonsController@update", { server: data.server }),
     "user_server_daemons/update"
