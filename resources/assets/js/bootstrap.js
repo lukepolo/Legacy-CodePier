@@ -18,7 +18,6 @@ moment.tz.setDefault("UTC");
  */
 
 _.mixin(require("lodash-inflection"));
-require("../bower/jquery-cron/cron/jquery-cron.js");
 
 /**
  * Ace editor

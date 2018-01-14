@@ -39,13 +39,6 @@ node() {
   node $@
 }
 
-
-
-
-
-
-
-
 npm() {
   lazynvm
   npm $@
