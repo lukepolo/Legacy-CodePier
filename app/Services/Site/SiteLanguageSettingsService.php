@@ -4,9 +4,9 @@ namespace App\Services\Site;
 
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
+use Illuminate\Support\Facades\Cache;
 use App\Contracts\Site\SiteLanguageSettingsServiceContract;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
-use Illuminate\Support\Facades\Cache;
 
 class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
 {
@@ -29,8 +29,7 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
      */
     public function getLanguageSettings(Site $site)
     {
-        return Cache::rememberForever("languageSettings.{$site->type}", function () use($site) {
-
+        return Cache::rememberForever("languageSettings.{$site->type}", function () use ($site) {
             $languageSettings = [];
 
             // TODO - so how should we handle things like this, i think i was just assuming before hand
@@ -49,7 +48,6 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
             }
 
             foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-
                 $parameters = [];
 
                 foreach ($method->getParameters() as $parameter) {
