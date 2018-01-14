@@ -62,7 +62,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $types = collect($request->get('types', self::DEFAULT_TYPES));
+        $types = collect($request->get('events', self::DEFAULT_TYPES));
 
         $piles = $request->get('piles', []);
         $sites = $request->get('sites', []);

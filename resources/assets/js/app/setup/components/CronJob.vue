@@ -10,10 +10,12 @@
 
         <td class="table--action">
 
-            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
-
-            <div class="btn btn-success" v-if="form.diff().length" @click="updateCronJob(cronJob)">update</div>
-
+            <server-selection
+                :title="cronJob.job"
+                :update="updateCronJob(cronJob)"
+                :server_ids.sync="form.server_ids"
+                :server_types.sync="form.server_types"
+            ></server-selection>
 
             <tooltip message="Delete">
                 <span class="table--action-delete">
@@ -44,7 +46,9 @@ export default {
   },
   methods: {
     updateCronJob() {
-      this.$store.dispatch("user_site_cron_jobs/patch", this.form);
+      return () => {
+        return this.$store.dispatch("user_site_cron_jobs/patch", this.form);
+      };
     },
     deleteCronJob() {
       if (this.siteId) {
@@ -53,6 +57,7 @@ export default {
           cron_job: this.cronJob.id
         });
       }
+
       if (this.serverId) {
         this.$store.dispatch("user_server_cron_jobs/destroy", {
           server: this.serverId,

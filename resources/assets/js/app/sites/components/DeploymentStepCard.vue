@@ -8,6 +8,13 @@
           </template>
 
           <div class="drag-name">
+              <server-selection
+                  :showModal="deploymentStep.showModal"
+                  :title="`${order}. ${deploymentStep.step}`"
+                  :availableServerTypes="availableServerTypes"
+                  :server_ids.sync="server_ids"
+                  :server_types.sync="server_types"
+              ></server-selection>
               <tooltip
                   v-if="internalStep"
                   :message="'Suggested order ' + suggestedOrder"
@@ -17,7 +24,6 @@
                   <span class="fa fa-info-circle"></span>
               </tooltip>
               <span v-if="order">{{ order }}.</span> {{ deploymentStep.step }}
-              <server-selection :availableServerTypes="availableServerTypes" :server_ids.sync="server_ids" :server_types.sync="server_types"></server-selection>
 
           </div>
 

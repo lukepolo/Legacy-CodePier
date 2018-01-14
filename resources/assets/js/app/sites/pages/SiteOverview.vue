@@ -314,10 +314,14 @@ export default {
       );
     },
     removeDeployHook() {
-      this.$store.dispatch("user_site_deployments/removeDeployHook", {
-        site: this.$route.params.site_id,
-        hook: this.site.automatic_deployment_id
-      });
+      this.$store
+        .dispatch("user_site_deployments/removeDeployHook", {
+          site: this.$route.params.site_id,
+          hook: this.site.automatic_deployment_id
+        })
+        .catch(() => {
+          this.site.automatic_deployment_id = false;
+        });
     },
     fetchData() {
       this.getDns();
@@ -381,7 +385,7 @@ export default {
           location.protocol +
           "//" +
           location.hostname +
-          Vue.action("WebHookController@deploy", { siteHashID: this.site.hash })
+          Vue.action("WebHookController@deploy", { siteHashId: this.site.hash })
         );
       }
     },

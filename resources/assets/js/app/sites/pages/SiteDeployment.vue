@@ -5,22 +5,22 @@
             By dragging steps from the inactive to the active we automatically suggest the order.
             Once in the active list you can change the order.
         </p>
+        <form @submit.prevent="updateSiteDeployment">
 
-        <div class="flyform--heading flyform--heading-transparent">
-            <div class="flyform--footer-btns">
-                <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
-                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            <div class="flyform--heading flyform--heading-sticky">
+                <div class="flyform--footer-btns">
+                    <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
+                    <button type="submit" class="btn btn-primary">Update Deployment</button>
+                </div>
             </div>
-        </div>
 
-        <form @submit.prevent="saveSiteDeploymentConfig">
             <div class="grid-2">
                 <div class="flyform--group-checkbox">
                     <label>
                         <input type="checkbox" v-model="form.zero_downtime_deployment" name="zero_downtime_deployment" value="1">
                         <span class="icon"></span>
                         Zero Downtime Deployment
-                        <tooltip message="Your app can be deployed in zero downtime deployment, we suggest you go for it!"
+                        <tooltip message="Your app can be deployed in zero d`owntime deployment, we suggest you go for it!"
                                  size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
@@ -39,10 +39,7 @@
                     </div>
                 </template>
             </div>
-        </form>
 
-
-        <form @submit.prevent="updateSiteDeployment">
             <div class="col-split col-break-sm">
                 <div class="drag">
                     <div class="col">
@@ -61,7 +58,7 @@
                             <div
                                 class="drag-element"
                                 v-for="(deploymentStep, key) in inactive"
-                                v-if="showstep(deploymentStep)"
+                                v-if="showStep(deploymentStep)"
                             >
                                 <deployment-step-card
                                     :deployment-step="deploymentStep"
@@ -275,17 +272,20 @@ export default {
       return false;
     },
     showStep(deploymentStep) {
-        if(!this.showZeroDowntimeDeploymentOptions && this.isZeroTimeDeploymentStep(deploymentStep)) {
-            return false;
-        }
-        return true;
+      if (
+        !this.showZeroDowntimeDeploymentOptions &&
+        this.isZeroTimeDeploymentStep(deploymentStep)
+      ) {
+        return false;
+      }
+      return true;
     },
     isZeroTimeDeploymentStep(deploymentStep) {
       let step = this.internalStep(deploymentStep);
-      if(step) {
+      if (step) {
         return step.zero_downtime_deployment;
       }
-      return false
+      return false;
     }
   },
   computed: {

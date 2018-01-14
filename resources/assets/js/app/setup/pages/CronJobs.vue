@@ -33,7 +33,7 @@
             <div class="flyform--group">
                 <div class="flyform--group-prefix">
                     <input type="text" name="cron" v-model="form.cron" placeholder=" ">
-                    <label for="repository">Cron Job</label>
+                    <label>Cron Job</label>
                     <template v-if="!form.custom_provider">
                         <div class="flyform--group-prefix-label">
                             <span id="cron-preview"></span>
@@ -59,7 +59,15 @@
                 </div>
             </div>
 
-            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
+
+            <div class="flyform--group">
+                <label>Servers to Run On</label>
+            </div>
+            <server-selection
+                title="New Cron Job"
+                :server_ids.sync="form.server_ids"
+                :server_types.sync="form.server_types"
+            ></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">

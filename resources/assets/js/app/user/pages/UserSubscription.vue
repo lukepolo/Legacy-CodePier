@@ -1,7 +1,7 @@
 <template>
     <section>
         <template v-if="userSubscription">
-            <div class="alert alert-warning" v-if="userSubscription.trial_ends_at">
+            <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
                 Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
@@ -9,6 +9,10 @@
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
         </template>
+
+        <div class="text-center" v-if="!userSubscription">
+            <h2>Start your 5 day free trial!</h2>
+        </div>
 
         <div class="pricing pricing-inapp">
             <div class="pricing--item" :class="{ selected : !this.userSubscription }">
@@ -29,11 +33,47 @@
             <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
         </div>
 
-        <div class="text-center" v-if="!userSubscription">
-            <h3>Start your 5 day free trial!</h3>
-        </div>
-
         <form @submit.prevent="createSubscription" method="post">
+            <br><br>
+
+            <div class="grid-2">
+                <div class="grid--item">
+                    <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
+
+                    <form @submit.prevent="updateCard" method="post" v-if="currentCard">
+                        <div class="flyform--group">
+                            <div class="flyform--input-icon-right" v-if="!showCreditForm">
+                                <a @click="showCreditForm = true"><span class="icon-pencil"></span> </a>
+                            </div>
+                            <input type="text" :value="`${currentCard.brand} ending in ${currentCard.last4}`" disabled v-if="!showCreditForm">
+                            <label>Payment Method</label>
+
+                            <div v-if="showCreditForm" class="stripeContainer">
+                                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
+                            </div>
+
+                        </div>
+
+                        <div class="flyform--footer-btns" v-if="showCreditForm">
+                            <span class="btn btn-small" @click="showCreditForm = false">Cancel</span>
+                            <button class="btn btn-primary btn-small" :class="{ 'btn-disabled' : processing }">Update Card</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="grid--item">
+                    <div class="flyform--group coupon-form">
+                        <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
+                        <label for="coupon">Coupon Code</label>
+                    </div>
+
+                    <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
+                        <strong>{{ hasCoupon.coupon.id }} -</strong> {{ hasCoupon.coupon.percent_off }}% off {{ hasCoupon.coupon.duration }}
+                    </div>
+                </div>
+
+            </div>
+
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
@@ -48,48 +88,23 @@
                         </template>
                     </button>
                 </div>
-            </div>
 
-            <label>Coupon</label>
-            <input type="text" v-model="form.coupon">
-            <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
-
-        </form>
-
-        <div class="btn btn-danger" @click="cancelSubscription" v-if="!isCanceled">
-            Cancel Subscription
-        </div>
-
-        <form @submit.prevent="updateCard" method="post" v-if="currentCard">
-
-            <h3 class="flex">
-                Payment Method &nbsp;
-                <div class="heading--btns">
-                    <a class="btn-link" @click="showCreditForm = true">
-                        <span class="icon-pencil"></span>
+                <div class="flyform--footer-links" v-if="userSubscription">
+                    <a class="text-error" @click="cancelSubscription" v-if="!isCanceled">
+                        Cancel Subscription
                     </a>
-                </div>
-            </h3>
-            {{ currentCard.brand }} ending in {{ currentCard.last4 }}
-
-            <div v-if="showCreditForm">
-                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
-            </div>
-
-            <div v-if="showCreditForm" class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <span class="btn" @click="showCreditForm = false">Cancel</span>
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">Update Card</button>
                 </div>
             </div>
         </form>
 
         <template v-if="invoices.length">
+            <br><br>
+            <h3>Payment History</h3>
             <table>
                 <tr v-for="invoice in invoices">
                     <td> {{ parseDate(invoice.date.date).format('l') }}</td>
-                    <td> ${{ invoice.total }}</td>
-                    <td><a :href="downloadLink(invoice.id)">Download</a></td>
+                    <td> ${{ invoiceTotal(invoice.total) }}</td>
+                    <td class="text-right"><a :href="downloadLink(invoice.id)">Download</a></td>
                 </tr>
             </table>
         </template>
@@ -112,25 +127,25 @@ export default {
       form: this.createForm({
         plan: null,
         token: null,
-        coupon : null,
-        subscription: null,
+        coupon: null,
+        subscription: null
       }),
       createCardForm: {
         card: null,
         error: null,
         instance: null
       },
-      updateCardForm: {
+      updateCardForm: this.createForm({
         card: null,
         error: null,
         instance: null
-      }
+      })
     };
   },
   watch: {
     userSubscription: function() {
       if (this.userSubscription) {
-        this.form.plan = this.userSubscription.stripe_plan;
+        this.form.plan = this.userSubscription.active_plan;
         this.form.subscription = this.userSubscription.id;
       } else {
         this.form.plan = "cancel";
@@ -152,6 +167,8 @@ export default {
             .then(() => {
               this.coupon = null;
               this.processing = false;
+              this.updateCardForm.reset();
+              this.showCreditForm = false;
             })
             .catch(() => {
               this.processing = false;
@@ -162,7 +179,6 @@ export default {
       });
     },
     createSubscription() {
-
       this.processing = true;
 
       if (this.userSubscription) {
@@ -175,7 +191,9 @@ export default {
             .dispatch("user_subscription/store", this.form)
             .then(() => {
               this.coupon = null;
+              this.processing = false;
               this.$store.dispatch("user/get");
+              this.$store.dispatch("user_subscription/getInvoices");
             })
             .catch(() => {
               this.processing = false;
@@ -186,48 +204,66 @@ export default {
       });
     },
     updateSubscription() {
-      this.$store
-        .dispatch("user_subscription/patch", this.form)
-        .then(() => {
-          this.$store.dispatch("user_subscription/getInvoices");
-          this.coupon = null;
-          this.processing = false;
-        })
-        .catch(() => {
-          this.processing = false;
-        });
+      if (this.form.plan !== "cancel") {
+        this.processing = true;
+
+        return this.$store
+          .dispatch("user_subscription/patch", this.form)
+          .then(() => {
+            this.$store.dispatch("user_subscription/getInvoices");
+            this.coupon = null;
+            this.processing = false;
+          })
+          .catch(() => {
+            this.processing = false;
+          });
+      }
+
+      this.cancelSubscription();
     },
     createToken(cardForm) {
       return new Promise(resolve => {
-        if (!this.form.token) {
-          cardForm.instance
-            .createToken(cardForm.card)
-            .then(result => {
-              if (result.error) {
-                cardForm.error = result.error.message;
-              }
-              this.form.token = result.token.id;
-              resolve();
-            })
-            .catch(() => {
-              resolve();
-            });
-        } else {
-          resolve();
-        }
+        cardForm.instance
+          .createToken(cardForm.card)
+          .then(result => {
+            if (result.error) {
+              cardForm.error = result.error.message;
+            }
+            this.form.token = result.token.id;
+            resolve();
+          })
+          .catch(() => {
+            resolve();
+          });
       });
     },
     cancelSubscription() {
-      this.$store.dispatch(
-        "user_subscription/cancel",
-        this.userSubscription.id
-      );
+      this.processing = true;
+
+      this.$store
+        .dispatch("user_subscription/cancel", this.userSubscription.id)
+        .then(() => {
+          this.processing = false;
+          this.$store.dispatch("user_subscription/getInvoices");
+        });
     },
     downloadLink: function(invoice) {
       return "/subscription/invoices/" + invoice;
+    },
+    invoiceTotal(total) {
+      return (total / 100).toFixed(2);
     }
   },
   computed: {
+    hasCoupon() {
+      if (
+        this.userSubscriptionData &&
+        this.userSubscriptionData.subscriptionDiscount
+      ) {
+        return this.userSubscriptionData.subscriptionDiscount;
+      }
+      return false;
+    },
     invoices() {
       return this.$store.state.user_subscription.invoices;
     },

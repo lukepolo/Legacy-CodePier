@@ -129,13 +129,17 @@
 
     &-inapp {
         margin-top: 50px;
+        margin-bottom: 50px;
+
         .pricing--item {
             margin-left: 10px;
             margin-right: 10px;
+            flex-shrink: 1;
 
             small {
+                display: block;
                 color: $color-text-secondary;
-                padding-left: 30px;
+                margin-top: 5px;
             }
         }
 
@@ -144,9 +148,24 @@
         }
 
         .pricing--features {
-            padding-left: 40px;
+            padding: 10px 20px;
         }
 
 
+    }
+}
+
+// SUBSCRIPTION FORM
+
+.StripeElement {
+    border: 1px solid $color-divider;
+    border-top: none;
+    padding: 7px 10px;
+}
+
+.stripeContainer {
+    .flyform--group {
+        margin-top: 0px;
+        padding-top: 0px;
     }
 }

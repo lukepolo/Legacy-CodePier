@@ -13,13 +13,17 @@ export const store = (context, data) => {
 };
 
 export const patch = (context, data) => {
-  return Vue.request(data).put(
-    Vue.action("SiteSiteDaemonsController@update", {
-      site: data.site,
-      daemon: data.daemon
-    }),
-    "user_site_daemons/update"
-  );
+  return Vue.request(data)
+    .put(
+      Vue.action("SiteSiteDaemonsController@update", {
+        site: data.site,
+        daemon: data.daemon
+      }),
+      "user_site_daemons/update"
+    )
+    .then(() => {
+      app.showSuccess("Updated Daemon");
+    });
 };
 
 export const destroy = (context, data) => {
