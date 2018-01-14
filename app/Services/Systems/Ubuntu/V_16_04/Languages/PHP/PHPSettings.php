@@ -11,7 +11,8 @@ class PHPSettings
     /**
      * @description Max File Upload in Megabytes (MB)
      */
-    public function uploadSize($maxSize = '250', $postMaxSize = '250') {
+    public function uploadSize($maxSize = '250', $postMaxSize = '250')
+    {
         $phpVersion = $this->server->getLanguages()['PHP']['version'];
 
         $this->connectToServer();
