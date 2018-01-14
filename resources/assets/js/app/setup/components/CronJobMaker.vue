@@ -132,9 +132,9 @@ export default {
       }
     };
   },
-  watch : {
-    'cronJobFormat' : function(cronTiming) {
-      this.$emit('update:cronTiming', cronTiming)
+  watch: {
+    cronJobFormat: function(cronTiming) {
+      this.$emit("update:cronTiming", cronTiming);
     }
   },
   methods: {
