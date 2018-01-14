@@ -38,11 +38,19 @@ node() {
   lazynvm
   node $@
 }
- 
+
+
+
+
+
+
+
+
 npm() {
   lazynvm
   npm $@
 }
+
 ');
 
         $this->remoteTaskService->run('nvm install '.$version);

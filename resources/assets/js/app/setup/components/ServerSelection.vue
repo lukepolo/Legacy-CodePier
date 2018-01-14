@@ -69,15 +69,15 @@ export default {
     server_ids: {
       default: () => []
     },
-    showFormGroup : {
-      default : false
+    showFormGroup: {
+      default: false
     },
     server_types: {
       default: () => []
     },
     availableServerTypes: {
       default: () => window.Laravel.serverTypes
-    },
+    }
   },
   data() {
     return {
