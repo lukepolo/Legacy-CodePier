@@ -90,9 +90,9 @@ export default {
       loaded: false,
       showForm: false,
       form: this.createForm({
-        cron: '',
+        cron: "",
         user: "root",
-        cronTiming: '* * * * *',
+        cronTiming: "* * * * *",
         server_ids: [],
         server_types: []
       })
@@ -123,39 +123,39 @@ export default {
       }
     },
     createCronJob() {
-        let job = this.form.cronTiming + " " + this.form.cron;
+      let job = this.form.cronTiming + " " + this.form.cron;
 
-        if (this.siteId) {
-          this.$store
-            .dispatch("user_site_cron_jobs/store", {
-              job: job,
-              site: this.siteId,
-              user: this.form.user,
-              server_ids: this.form.server_ids,
-              server_types: this.form.server_types
-            })
-            .then(cronJob => {
-              if (cronJob) {
-                this.resetForm();
-              }
-            });
-        }
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_cron_jobs/store", {
+            job: job,
+            site: this.siteId,
+            user: this.form.user,
+            server_ids: this.form.server_ids,
+            server_types: this.form.server_types
+          })
+          .then(cronJob => {
+            if (cronJob) {
+              this.resetForm();
+            }
+          });
+      }
 
-        if (this.serverId) {
-          this.$store
-            .dispatch("user_server_cron_jobs/store", {
-              job: job,
-              user: this.form.user,
-              server: this.serverId,
-              server_ids: this.form.server_ids,
-              server_types: this.form.server_types
-            })
-            .then(cronJob => {
-              if (cronJob) {
-                this.resetForm();
-              }
-            });
-        }
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_cron_jobs/store", {
+            job: job,
+            user: this.form.user,
+            server: this.serverId,
+            server_ids: this.form.server_ids,
+            server_types: this.form.server_types
+          })
+          .then(cronJob => {
+            if (cronJob) {
+              this.resetForm();
+            }
+          });
+      }
     },
     resetForm() {
       this.form.reset();
@@ -163,7 +163,7 @@ export default {
       if (this.site) {
         this.form.cron = this.site.path;
       } else {
-        this.form.cron = '';
+        this.form.cron = "";
       }
       this.showForm = false;
     }
