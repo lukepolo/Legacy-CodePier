@@ -114,7 +114,19 @@
     overflow-x: visible;
     -webkit-overflow-scrolling: touch;
 
+    &-padding {
+        padding: $spacing;
+    }
+
     .container {
         padding: $spacing*2;
     }
+}
+
+// Scroll Fix for Portal View in Right Panel
+#right .vue-portal-target {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }

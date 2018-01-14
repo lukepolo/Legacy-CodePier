@@ -1,38 +1,66 @@
 <template>
-    <confirm message="Select servers to run on" v-if="displayServerSelection">
-        <tooltip message="Select servers to run on" placement="bottom">
-            <span class="icon-server"></span>
-        </tooltip>
-        <div slot="form">
+    <div class="btn--trigger-panel">
+        <tooltip message="Servers to Run On" v-if="displayServerSelection"><span class="icon-server" @click="showModal()"></span></tooltip>
+        <modal v-if="showingModal">
             <template v-if="site">
-                <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
-                <template v-for="server in siteServers">
-                    <div class="flyform--group-checkbox">
-                        <label>
-                            <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
-                            <span class="icon"></span>
-                            {{ server.name }} - {{ server.type }} -({{ server.ip }})
-                        </label>
-                    </div>
-                </template>
+                <h3 class="section-header">Select Servers</h3>
+                <div class="section-content section-content-padding">
+                    <p>By default we install on all servers. To select specific servers, choose from the list below:</p>
 
-                <template v-for="(serverType, serverTypeName) in availableServerTypes">
-                    <div class="flyform--group-checkbox">
-                        <label>
-                            <input type="checkbox" v-model="form.server_types" :value="serverType">
-                            <span class="icon"></span>
-                            {{ serverTypeName }}
-                        </label>
+                    <h4 class="text-primary">{{ title }}</h4>
+
+                    <br>
+
+                    <ul class="wizard">
+                        <li class="wizard-item" :class="{ 'router-link-active' : showServerTypes }" @click="showServerTypes = true">
+                            <a>Server Types</a>
+                        </li>
+                        <li class="wizard-item" :class="{ 'router-link-active' : !showServerTypes }" @click="showServerTypes = false">
+                            <a>Specific Servers</a>
+                        </li>
+                    </ul>
+
+                    <template v-for="(serverType, serverTypeName) in availableServerTypes" v-if="showServerTypes">
+                        <div class="flyform--group-checkbox">
+                            <label>
+                                <input type="checkbox" v-model="form.server_types" :value="serverType">
+                                <span class="icon"></span>
+                                {{ serverTypeName }}
+                            </label>
+                        </div>
+                    </template>
+
+                    <template v-for="server in siteServers" v-if="!showServerTypes">
+                        <div class="flyform--group-checkbox">
+                            <label :class="{ disabled : serverTypeSelected(server.type) }">
+                                <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
+                                <span class="icon"></span>
+                                {{ server.name }} <small>({{ server.type | startCase }}) <br> <span v-if="server.ip">({{ server.ip }})</span></small>
+                            </label>
+                        </div>
+                    </template>
+
+                    <div class="flyform--footer">
+                        <div class="flyform--footer-btns">
+                            <span class="btn btn-small" @click="close()">Close</span>
+                            <span class="btn btn-small btn-primary" v-if="update" @click="updateData()">Update</span>
+                        </div>
                     </div>
-                </template>
+                </div>
             </template>
-        </div>
-    </confirm>
+        </modal>
+    </div>
 </template>
 
 <script>
 export default {
   props: {
+    title: {
+      default: ""
+    },
+    update: {
+      default: null
+    },
     server_ids: {
       default: () => []
     },
@@ -46,10 +74,17 @@ export default {
   data() {
     return {
       form: {
-        server_ids: this.server_ids,
-        server_types: this.server_types
-      }
+        server_ids: this.server_ids ? this.server_ids : [],
+        server_types: this.server_types ? this.server_types : []
+      },
+      showingModal: false,
+      showServerTypes: true
     };
+  },
+  created() {
+    app.$on("close-server-selections", () => {
+      this.close();
+    });
   },
   watch: {
     "form.server_ids": function() {
@@ -60,9 +95,23 @@ export default {
     }
   },
   methods: {
+    close() {
+      Vue.set(this, "showingModal", false);
+    },
+    updateData() {
+      this.update().then(() => {
+        this.close();
+      });
+    },
     serverTypeSelected(serverType) {
       return _.find(this.form.server_types, selectedServerType => {
         return selectedServerType === serverType;
+      });
+    },
+    showModal() {
+      app.$emit("close-server-selections");
+      Vue.nextTick(() => {
+        Vue.set(this, "showingModal", true);
       });
     }
   },

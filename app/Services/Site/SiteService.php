@@ -308,7 +308,7 @@ class SiteService implements SiteServiceContract
                     'order' => 3,
                     'completed' => false,
                 ],
-                'message' => 'You have multiple servers and may have to update your settings.',
+                'message' => 'You have multiple servers and may have to update your settings. Use the server icon <span class="icon-server"></span> to specify which server you want items to run on.',
             ];
 
             if ($site->filterServersByType([

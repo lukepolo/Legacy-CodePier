@@ -41,7 +41,7 @@ class CreateSitesTable extends Migration
             $table->json('server_features')->nullable();
             $table->json('slack_channel_preferences')->nullable();
 
-            $table->string('hash', 40)->nullable();
+            $table->string('hash', 40)->nullable()->unique();
 
             $table->timestamps();
             $table->softDeletes();

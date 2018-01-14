@@ -19,8 +19,11 @@
                         {{ serverTypeText }} Server
                     </router-link>
                     <template v-if="serverType === 'full_stack' && !serverTypesEnabled">
-                        <div class="server-type-list-text">
-                            Subscribe to a paid account to create the following server types.
+                        <div class="slack-invite">
+                            <router-link :to="{ name : 'subscription' }" class="server-type-list-text">
+                                Upgrade Account
+                                <div class="small">Upgrade now to create the following server types:</div>
+                            </router-link>
                         </div>
                     </template>
                 </template>
@@ -36,15 +39,12 @@ export default {
       default: ""
     }
   },
-  created() {
-    this.$store.dispatch("server_types/get");
-  },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
     },
     serverTypes() {
-      return _.pickBy(this.$store.state.server_types.types, type => {
+      return _.pickBy(window.Laravel.serverTypes, type => {
         if (this.hasLoadBalancer && type === "load_balancer") {
           return false;
         }

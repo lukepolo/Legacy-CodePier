@@ -1,10 +1,9 @@
 <template>
-    <section id="right" v-if="site" class="section-column">
-
+    <div v-if="site">
         <h3 class="section-header">
             Servers
 
-            <div class="section-header--btn-right">
+            <div class="section-header--btn-right" v-if="siteServers && siteServers.length">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
@@ -26,10 +25,19 @@
                 <template v-for="server in siteServers">
                     <server-info :server="server" :showInfo="siteServers.length < 2" :key="server.id"></server-info>
                 </template>
+
+                <template v-if="!isSubscribed">
+                    <div class="slack-invite">
+                        <router-link :to="{ name : 'subscription' }">
+                            Upgrade Account
+                            <div class="small">The free plan only allows for 1 server. <br>Upgrade now to add more!</div>
+                        </router-link>
+                    </div>
+                </template>
             </template>
            <template v-else>
 
-               <template v-if="site.repository">
+               <template v-if="site.repository && workFlowCompleted">
                    <template v-if="availableServers.length">
 
                        <h3 class="section-header--secondary">Available Servers</h3>
@@ -82,7 +90,7 @@
                    <div class="jcf-form-wrap">
                        <div class="jcf-input-group">
                            <h5 class="section-header--secondary">
-                               Please fill out your <br>repository information before creating a server
+                               Please fill out your <br>site information before creating a server
                            </h5>
                        </div>
                    </div>
@@ -90,7 +98,7 @@
 
            </template>
         </div>
-    </section>
+    </div>
 </template>
 
 <script>
