@@ -54,13 +54,11 @@
 
             <cron-job-maker :cronTiming.sync="form.cronTiming"></cron-job-maker>
 
-            <div class="flyform--group">
-                <label>Servers to Run On</label>
-            </div>
             <server-selection
                 title="New Cron Job"
                 :server_ids.sync="form.server_ids"
                 :server_types.sync="form.server_types"
+                :showFormGroup="true"
             ></server-selection>
 
             <div class="flyform--footer">

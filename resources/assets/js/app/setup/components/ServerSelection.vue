@@ -1,54 +1,59 @@
 <template>
-    <div class="btn--trigger-panel">
-        <tooltip message="Servers to Run On" v-if="displayServerSelection"><span class="icon-server" @click="showModal()"></span></tooltip>
-        <modal v-if="showingModal">
-            <template v-if="site">
-                <h3 class="section-header">Select Servers</h3>
-                <div class="section-content section-content-padding">
-                    <p>By default we install on all servers. To select specific servers, choose from the list below:</p>
+    <div v-if="displayServerSelection">
+        <div class="flyform--group" v-if="showFormGroup">
+            <label>Servers to Run On</label>
+        </div>
+        <div class="btn--trigger-panel">
+            <tooltip message="Servers to Run On"><span class="icon-server" @click="showModal()"></span></tooltip>
+            <modal v-if="showingModal">
+                <template v-if="site">
+                    <h3 class="section-header">Select Servers</h3>
+                    <div class="section-content section-content-padding">
+                        <p>By default we install on all servers. To select specific servers, choose from the list below:</p>
 
-                    <h4 class="text-primary">{{ title }}</h4>
+                        <h4 class="text-primary">{{ title }}</h4>
 
-                    <br>
+                        <br>
 
-                    <ul class="wizard">
-                        <li class="wizard-item" :class="{ 'router-link-active' : showServerTypes }" @click="showServerTypes = true">
-                            <a>Server Types</a>
-                        </li>
-                        <li class="wizard-item" :class="{ 'router-link-active' : !showServerTypes }" @click="showServerTypes = false">
-                            <a>Specific Servers</a>
-                        </li>
-                    </ul>
+                        <ul class="wizard">
+                            <li class="wizard-item" :class="{ 'router-link-active' : showServerTypes }" @click="showServerTypes = true">
+                                <a>Server Types</a>
+                            </li>
+                            <li class="wizard-item" :class="{ 'router-link-active' : !showServerTypes }" @click="showServerTypes = false">
+                                <a>Specific Servers</a>
+                            </li>
+                        </ul>
 
-                    <template v-for="(serverType, serverTypeName) in availableServerTypes" v-if="showServerTypes">
-                        <div class="flyform--group-checkbox">
-                            <label>
-                                <input type="checkbox" v-model="form.server_types" :value="serverType">
-                                <span class="icon"></span>
-                                {{ serverTypeName }}
-                            </label>
-                        </div>
-                    </template>
+                        <template v-for="(serverType, serverTypeName) in availableServerTypes" v-if="showServerTypes">
+                            <div class="flyform--group-checkbox">
+                                <label>
+                                    <input type="checkbox" v-model="form.server_types" :value="serverType">
+                                    <span class="icon"></span>
+                                    {{ serverTypeName }}
+                                </label>
+                            </div>
+                        </template>
 
-                    <template v-for="server in siteServers" v-if="!showServerTypes">
-                        <div class="flyform--group-checkbox">
-                            <label :class="{ disabled : serverTypeSelected(server.type) }">
-                                <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
-                                <span class="icon"></span>
-                                {{ server.name }} <small>({{ server.type | startCase }}) <br> <span v-if="server.ip">({{ server.ip }})</span></small>
-                            </label>
-                        </div>
-                    </template>
+                        <template v-for="server in siteServers" v-if="!showServerTypes">
+                            <div class="flyform--group-checkbox">
+                                <label :class="{ disabled : serverTypeSelected(server.type) }">
+                                    <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
+                                    <span class="icon"></span>
+                                    {{ server.name }} <small>({{ server.type | startCase }}) <br> <span v-if="server.ip">({{ server.ip }})</span></small>
+                                </label>
+                            </div>
+                        </template>
 
-                    <div class="flyform--footer">
-                        <div class="flyform--footer-btns">
-                            <span class="btn btn-small" @click="close()">Close</span>
-                            <span class="btn btn-small btn-primary" v-if="update" @click="updateData()">Update</span>
+                        <div class="flyform--footer">
+                            <div class="flyform--footer-btns">
+                                <span class="btn btn-small" @click="close()">Close</span>
+                                <span class="btn btn-small btn-primary" v-if="update" @click="updateData()">Update</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </template>
-        </modal>
+                </template>
+            </modal>
+        </div>
     </div>
 </template>
 
@@ -64,12 +69,15 @@ export default {
     server_ids: {
       default: () => []
     },
+    showFormGroup : {
+      default : false
+    },
     server_types: {
       default: () => []
     },
     availableServerTypes: {
       default: () => window.Laravel.serverTypes
-    }
+    },
   },
   data() {
     return {
