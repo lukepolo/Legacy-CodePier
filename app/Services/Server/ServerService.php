@@ -531,10 +531,11 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param LanguageSetting $languageSetting
-     * @return bool
      */
     public function runLanguageSetting(Server $server, LanguageSetting $languageSetting)
     {
-        $this->getService('Languages\\'.$languageSetting->language.'\\'.$languageSetting->language.'Settings', $server)->{$languageSetting->setting}($languageSetting);
+        $systemService = $this->getService('Languages\\'.$languageSetting->language.'\\'.$languageSetting->language.'Settings', $server);
+
+        call_user_func_array([$systemService, $languageSetting->setting], $languageSetting->params);
     }
 }
