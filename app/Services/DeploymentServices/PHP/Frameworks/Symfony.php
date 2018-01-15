@@ -7,8 +7,8 @@ trait Symfony
     /**
      * @description Creates a symbolic link for the env file, should create environment variables for production usage
      *
-     * @not-default
-     * @zero-downtime-deployment
+     * @not_default
+     * @zero_downtime_deployment
      *
      * @order 210
      */
@@ -30,7 +30,7 @@ trait Symfony
     /**
      * @description Creates a symbolic link for the logs and sessions folders
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 150
      */
@@ -54,7 +54,7 @@ trait Symfony
     /**
      * @description If your using Assetic, you should dump the assets.
      *
-     * @not-default
+     * @not_default
      *
      * @order 325
      */
