@@ -44,6 +44,11 @@ npm() {
   npm $@
 }
 
+yarn() {
+  lazynvm
+  yarn $@
+}
+
 ');
 
         $this->remoteTaskService->run('nvm install '.$version);
