@@ -7,7 +7,7 @@
         <form @submit.prevent="saveWorkflow">
             <div class="grid-2">
                 <div class="grid-item">
-                    <template v-for="(workflow, index) in workflows" v-if="index <= 6">
+                    <template v-for="(workflow, index) in workflows" v-if="index <= 5">
                         <div class="flyform--group-checkbox">
                             <label>
                                 <input type="checkbox" v-model="form.workflow" name="workflow[]" :value="workflow">
@@ -27,7 +27,7 @@
                     </template>
                 </div>
                 <div class="grid-item">
-                    <template v-for="(workflow, index) in workflows" v-if="index > 6">
+                    <template v-for="(workflow, index) in workflows" v-if="index > 5">
                         <div class="flyform--group-checkbox">
                             <label>
                                 <input type="checkbox" v-model="form.workflow" name="workflow[]" :value="workflow">
@@ -80,30 +80,30 @@ export default {
         },
         {
           order: 4,
-          name: "site_workers",
-          description: "Set up Workers"
-        },
-        {
-          order: 5,
-          name: "site_daemons",
-          description: "Set up Daemons"
-        },
-        {
-          order: 6,
-          name: "site_cron_jobs",
-          description: "Set up Cron Jobs"
-        },
-        {
-          order: 7,
           name: "site_files",
           description: "Update Your Site Files"
         },
         {
-          order: 8,
+          order: 5,
           name: "site_ssl_certs",
           description: "Set up SSL Certificates",
           tooltip:
             "You can install a free Lets Encrypt certificate or include your own"
+        },
+        {
+          order: 6,
+          name: "site_workers",
+          description: "Set up Workers"
+        },
+        {
+          order: 7,
+          name: "site_daemons",
+          description: "Set up Daemons"
+        },
+        {
+          order: 8,
+          name: "site_cron_jobs",
+          description: "Set up Cron Jobs"
         },
         {
           order: 9,
@@ -139,9 +139,9 @@ export default {
   created() {
     Vue.set(this.form, "workflow", [
       this.workflows[0],
+      this.workflows[1],
       this.workflows[2],
-      this.workflows[5],
-      this.workflows[6]
+      this.workflows[3]
     ]);
   },
   methods: {
