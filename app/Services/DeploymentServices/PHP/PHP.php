@@ -35,7 +35,7 @@ class PHP
     {
         $output = [];
 
-        $nvm = 'nvm use default &&';
+        $nvm = '';
 
         if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
             $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
@@ -58,7 +58,7 @@ class PHP
     {
         $output = [];
 
-        $nvm = 'nvm use default &&';
+        $nvm = '';
 
         if ($this->remoteTaskService->hasFile($this->release.'/.nvmrc')) {
             $version = $this->remoteTaskService->getFileContents($this->release.'/.nvmrc');
