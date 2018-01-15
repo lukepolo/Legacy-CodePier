@@ -7,6 +7,7 @@
                 <input
                     type="radio"
                     v-model="form.user_repository_provider_id"
+                    value="custom"
                 >
 
                 <div class="providers--item providers--item-custom" @click="form.custom_provider = true">

@@ -34,6 +34,14 @@
                         </router-link>
                     </div>
                 </template>
+                <template v-else-if="!serverCreateEnabled">
+                    <div class="slack-invite">
+                        <router-link :to="{ name : 'subscription' }">
+                            Upgrade Account
+                            <div class="small">Your current plan only allows for 30 servers. <br>Upgrade now to add more!</div>
+                        </router-link>
+                    </div>
+                </template>
             </template>
            <template v-else>
 

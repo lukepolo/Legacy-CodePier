@@ -17,7 +17,6 @@
                             </template>
                         </button>
                     </div>
-
                 </template>
                 <template v-else>
                     <template v-if="pile.name && pile.name.length > 23">
