@@ -152,7 +152,9 @@ export default {
       });
     },
     saveWorkflow() {
-      let workflow = _.invert(_.map(_.orderBy(this.form.workflow, 'order'), 'name'));
+      let workflow = _.invert(
+        _.map(_.orderBy(this.form.workflow, "order"), "name")
+      );
       this.$store.dispatch("user_sites/updateWorkflow", {
         workflow: _.mapValues(workflow, function() {
           return false;
