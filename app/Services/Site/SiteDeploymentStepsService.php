@@ -99,7 +99,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function buildDeploymentOptions($class, $frameworkClass = null)
     {
-        return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
+//        return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
             $deploymentSteps = [];
 
             $reflection = new ReflectionClass($class);
@@ -127,7 +127,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                            'description' => $description,
                            'internal_deployment_function' => $method->name,
                            'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                           'enabled' => $this->getFirstDocParam($method, 'not_default') ? false : true,
+                           'enabled' => $this->getFirstDocParam($method, 'not-default') ? false : true,
                        ];
                     }
                 }
@@ -138,7 +138,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
                 return $deploymentStep;
             });
-        });
+//        });
     }
 
     /**
