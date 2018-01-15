@@ -25,7 +25,7 @@
 </template>
 
 <script>
-export default {
+export default   {
   props: {
     pile: {
       default: null
