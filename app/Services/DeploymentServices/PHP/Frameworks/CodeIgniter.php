@@ -7,7 +7,7 @@ trait CodeIgniter
     /**
      * @description Creates a symbolic link for the cache and logs folders
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 150
      */

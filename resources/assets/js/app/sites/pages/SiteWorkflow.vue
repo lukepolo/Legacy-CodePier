@@ -71,7 +71,7 @@ export default {
         {
           order: 2,
           name: "site_deployment",
-          description: "Setup Site Deployment"
+          description: "Set up Site Deployment"
         },
         {
           order: 3,
