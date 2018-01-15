@@ -64,7 +64,7 @@ class UserSubscriptionController extends Controller
         ]);
 
         $subscription->update([
-            'active_plan' => $plan
+            'active_plan' => $plan,
         ]);
 
         return response()->json(
