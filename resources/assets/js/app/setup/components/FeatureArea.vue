@@ -2,19 +2,19 @@
     <section>
         <template v-for="feature in features">
 
-            <div class="flyform--group-checkbox">
+            <div class="flyform--group-checkbox action-right">
 
                 <label :class="{ disabled : hasConflicts(feature) }">
 
                     <template v-if="!server">
                         <input
-                            v-on:click="updateValue(feature, $event.target.checked)"
-                            value="1"
-                            type="checkbox"
-                            :name="getInputName(feature)"
-                            :disabled="hasConflicts(feature)"
-                            :checked="(server && feature.required) || hasFeature(feature)"
-                            v-if="!server"
+                                v-on:click="updateValue(feature, $event.target.checked)"
+                                value="1"
+                                type="checkbox"
+                                :name="getInputName(feature)"
+                                :disabled="hasConflicts(feature)"
+                                :checked="(server && feature.required) || hasFeature(feature)"
+                                v-if="!server"
                         >
                         <span class="icon"></span>
                     </template>
@@ -25,27 +25,30 @@
                     <small>
                         {{ feature.description }}
                     </small>
+                </label>
 
-                    <template v-if="server && hasFeature(feature)">
+                <template v-if="server && hasFeature(feature)">
+                    <div class="flyform--group-actions">
                         <template v-if="isInstalling(feature)">
-                            [Installing]
+                            <small class="text-warning">[ Installing ]</small>
                         </template>
                         <template v-else>
-                            [Installed]
+                            <small class="text-success">[ Installed ]</small>
                         </template>
-                    </template>
-                    <template v-else-if="server && !hasFeature(feature)">
+                    </div>
+                </template>
+                <template v-else-if="server && !hasFeature(feature)">
+                    <div class="flyform--group-actions">
                         <template v-if="hasConflicts(feature)">
-                            <p>
-                                conflicts with {{ hasConflicts(feature) }}
-                            </p>
+                            <small class="text-error">
+                                conflicts with <br> {{ hasConflicts(feature) }}
+                            </small>
                         </template>
                         <template v-else>
                             <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
                         </template>
-                    </template>
-
-                </label>
+                    </div>
+                </template>
 
             </div>
 
@@ -58,7 +61,9 @@
                                 <div class="flyform--group-select">
                                     <select :name="getInputName(feature, parameter)">
                                         <template v-for="option in feature.options">
-                                            <option :selected="getParameterValue(feature, parameter, value) === option" :value="option">{{ option }}</option>
+                                            <option :selected="getParameterValue(feature, parameter, value) === option"
+                                                    :value="option">{{ option }}
+                                            </option>
                                         </template>
                                     </select>
                                 </div>
@@ -72,11 +77,11 @@
 
                                 <div :class="{ 'flyform--group-postfix' : hasSuffix(feature, parameter) } ">
                                     <input
-                                        :id="parameter"
-                                        :name="getInputName(feature, parameter)"
-                                        :type="getType(feature, parameter)"
-                                        :value="getParameterValue(feature, parameter, value)"
-                                        placeholder=" "
+                                            :id="parameter"
+                                            :name="getInputName(feature, parameter)"
+                                            :type="getType(feature, parameter)"
+                                            :value="getParameterValue(feature, parameter, value)"
+                                            placeholder=" "
                                     >
                                     <label :for="parameter">
                                         <span>{{ parameter }}</span>
@@ -101,12 +106,12 @@
                 <h3>Frameworks Features for {{ area }}</h3>
             </div>
             <feature-area
-                :server="server"
-                :area="framework"
-                :features="features"
-                :selected_server_features="selected_server_features"
-                v-for="(features, framework) in getFrameworks(area)"
-                :key="framework"
+                    :server="server"
+                    :area="framework"
+                    :features="features"
+                    :selected_server_features="selected_server_features"
+                    v-for="(features, framework) in getFrameworks(area)"
+                    :key="framework"
             >
             </feature-area>
         </template>
@@ -114,134 +119,134 @@
 </template>
 
 <script>
-export default {
-  name: "featureArea",
-  props: [
-    "area",
-    "features",
-    "frameworks",
-    "server",
-    "selected_server_features",
-    "current_selected_features"
-  ],
-  methods: {
-    updateValue(feature, enabled) {
-      this.$emit("featuresChanged", feature, enabled);
-    },
-    getInputName: function(feature, parameter) {
-      let name =
-        "services[" + feature.service + "]" + "[" + feature.input_name + "]";
+    export default {
+        name: "featureArea",
+        props: [
+            "area",
+            "features",
+            "frameworks",
+            "server",
+            "selected_server_features",
+            "current_selected_features"
+        ],
+        methods: {
+            updateValue(feature, enabled) {
+                this.$emit("featuresChanged", feature, enabled);
+            },
+            getInputName: function (feature, parameter) {
+                let name =
+                    "services[" + feature.service + "]" + "[" + feature.input_name + "]";
 
-      if (parameter) {
-        name = name + "[parameters][" + parameter + "]";
+                if (parameter) {
+                    name = name + "[parameters][" + parameter + "]";
 
-        if (feature.multiple === true) {
-          name = name + "[]";
+                    if (feature.multiple === true) {
+                        name = name + "[]";
+                    }
+
+                    return name;
+                }
+
+                return name + "[enabled]";
+            },
+            hasFeature: function (feature) {
+                let areaFeatures = null;
+
+                if (this.server && this.server.server_features) {
+                    areaFeatures = _.get(this.server.server_features, feature.service);
+                } else if (this.selected_server_features) {
+                    areaFeatures = _.get(this.selected_server_features, feature.service);
+                }
+
+                if (
+                    areaFeatures &&
+                    _.has(areaFeatures, feature.input_name) &&
+                    (areaFeatures[feature.input_name].enabled ||
+                        areaFeatures[feature.input_name].installing)
+                ) {
+                    return _.get(areaFeatures, feature.input_name);
+                }
+
+                return false;
+            },
+            isInstalling: function (feature) {
+                let foundFeature = this.hasFeature(feature);
+                if (foundFeature) {
+                    return foundFeature.installing;
+                }
+                return false;
+            },
+            currentlySelectedHasFeature: function (service, feature) {
+                let areaFeatures = null;
+
+                if (this.current_selected_features) {
+                    areaFeatures = _.get(this.current_selected_features, service);
+                } else {
+                    areaFeatures = _.get(this.selected_server_features, service);
+                }
+
+                if (_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
+                    return feature;
+                }
+
+                return false;
+            },
+            getParameterValue: function (feature, parameter, default_value) {
+                let area = this.hasFeature(feature);
+
+                if (area && area.parameters) {
+                    return area.parameters[parameter];
+                }
+
+                return default_value;
+            },
+            installFeature: function (feature) {
+                let parameters = {};
+
+                _.each(feature.parameters, function (value, parameter) {
+                    parameters[parameter] = $("#" + parameter).val();
+                });
+
+                this.$store.dispatch("user_server_features/install", {
+                    feature: feature.input_name,
+                    parameters: parameters,
+                    server: this.server.id,
+                    service: feature.service
+                });
+            },
+            getFrameworks: function (area) {
+                return this.availableServerFrameworks[area];
+            },
+            hasConflicts: function (feature) {
+                if (feature.conflicts.length) {
+                    return this.currentlySelectedHasFeature(
+                        feature.service,
+                        feature.conflicts[0]
+                    );
+                }
+                return false;
+            },
+            isObject(params) {
+                return _.keys(params).length;
+            },
+            getType(feature, parameter) {
+                let options = feature.parameter_options[parameter];
+                if (options && options.type) {
+                    return options.type;
+                }
+                return "text";
+            },
+            hasSuffix(feature, parameter) {
+                let options = feature.parameter_options[parameter];
+                if (options && options.suffix) {
+                    return options.suffix;
+                }
+            }
+        },
+        computed: {
+            availableServerFrameworks() {
+                return this.$store.state.server_frameworks.frameworks;
+            }
         }
-
-        return name;
-      }
-
-      return name + "[enabled]";
-    },
-    hasFeature: function(feature) {
-      let areaFeatures = null;
-
-      if (this.server && this.server.server_features) {
-        areaFeatures = _.get(this.server.server_features, feature.service);
-      } else if (this.selected_server_features) {
-        areaFeatures = _.get(this.selected_server_features, feature.service);
-      }
-
-      if (
-        areaFeatures &&
-        _.has(areaFeatures, feature.input_name) &&
-        (areaFeatures[feature.input_name].enabled ||
-          areaFeatures[feature.input_name].installing)
-      ) {
-        return _.get(areaFeatures, feature.input_name);
-      }
-
-      return false;
-    },
-    isInstalling: function(feature) {
-      let foundFeature = this.hasFeature(feature);
-      if (foundFeature) {
-        return foundFeature.installing;
-      }
-      return false;
-    },
-    currentlySelectedHasFeature: function(service, feature) {
-      let areaFeatures = null;
-
-      if (this.current_selected_features) {
-        areaFeatures = _.get(this.current_selected_features, service);
-      } else {
-        areaFeatures = _.get(this.selected_server_features, service);
-      }
-
-      if (_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
-        return feature;
-      }
-
-      return false;
-    },
-    getParameterValue: function(feature, parameter, default_value) {
-      let area = this.hasFeature(feature);
-
-      if (area && area.parameters) {
-        return area.parameters[parameter];
-      }
-
-      return default_value;
-    },
-    installFeature: function(feature) {
-      let parameters = {};
-
-      _.each(feature.parameters, function(value, parameter) {
-        parameters[parameter] = $("#" + parameter).val();
-      });
-
-      this.$store.dispatch("user_server_features/install", {
-        feature: feature.input_name,
-        parameters: parameters,
-        server: this.server.id,
-        service: feature.service
-      });
-    },
-    getFrameworks: function(area) {
-      return this.availableServerFrameworks[area];
-    },
-    hasConflicts: function(feature) {
-      if (feature.conflicts.length) {
-        return this.currentlySelectedHasFeature(
-          feature.service,
-          feature.conflicts[0]
-        );
-      }
-      return false;
-    },
-    isObject(params) {
-      return _.keys(params).length;
-    },
-    getType(feature, parameter) {
-      let options = feature.parameter_options[parameter];
-      if (options && options.type) {
-        return options.type;
-      }
-      return "text";
-    },
-    hasSuffix(feature, parameter) {
-      let options = feature.parameter_options[parameter];
-      if (options && options.suffix) {
-        return options.suffix;
-      }
-    }
-  },
-  computed: {
-    availableServerFrameworks() {
-      return this.$store.state.server_frameworks.frameworks;
-    }
-  }
-};
+    };
 </script>
