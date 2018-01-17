@@ -1,0 +1,73 @@
+// Footer Styles ======================
+// ====================================
+.footer {
+    flex: 0 0 auto;
+    display: flex;
+    border-top: 1px solid $color-divider;
+    padding: $spacing*4;
+    position: relative;
+
+    &--links {
+        flex: 0 1 300px;
+        padding: 0 $spacing/2;
+        transition: all .3s;
+        z-index: 5;
+
+        &-heading {
+            font-weight: 700;
+        }
+
+        &-list {
+            list-style: none;
+            margin: 0;
+            padding: $spacing 0;
+
+            li {
+                margin-bottom: 6px;
+            }
+
+            a {
+                color: $color-text-primary;
+
+                &:active,
+                &:focus,
+                &:hover {
+                    color: $blue;
+                }
+            }
+        }
+    }
+
+    &--img {
+        position: absolute;
+        right: $spacing;
+        bottom: $spacing;
+        width: 920px;
+        max-width: 70%;
+        z-index: 1;
+    }
+
+    @include breakpoint(md) {
+        &--links {
+            flex-basis: 200px;
+            transition: all .3s;
+
+        }
+    }
+
+    @include breakpoint(sm) {
+        padding: 40px 40px 150px;
+
+        &--links {
+            flex: 1 1 1em;
+            flex-basis: 200px;
+            transition: all .3s;
+        }
+    }
+
+    @include breakpoint(xs) {
+        &--img {
+            max-width: 100%;
+        }
+    }
+}
