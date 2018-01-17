@@ -69,7 +69,7 @@ class DeploySite implements ShouldQueue
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
             dispatch(
                 (new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment))
-                    ->onQueue(config('queue.channels.server_commands'))
+                    ->onQueue(config('queue.channels.site_deployments'))
             );
         }
     }
