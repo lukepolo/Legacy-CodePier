@@ -47,28 +47,35 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
-                'processes' => 5,
+                'processes' => 15,
                 'tries' => 3,
             ],
-            'server_features-1' => [
+            'server_features' => [
                 'connection' => 'redis',
                 'queue' => ['server_features'],
                 'balance' => 'auto',
-                'processes' => 10,
+                'processes' => 15,
                 'tries' => 3,
             ],
-            'server_commands-1' => [
+            'server_commands' => [
                 'connection' => 'redis',
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
-                'processes' => 10,
+                'processes' => 15,
                 'tries' => 3,
             ],
-            'server_provisioning-1' => [
-                'connection' => 'redis',
+            'site_deployments' => [
+                'connection' => 'redis-deploying',
+                'queue' => ['site_deployments'],
+                'balance' => 'auto',
+                'processes' => 30,
+                'tries' => 3,
+            ],
+            'server_provisioning' => [
+                'connection' => 'redis-provisioning',
                 'queue' => ['server_provisioning'],
                 'balance' => 'auto',
-                'processes' => 10,
+                'processes' => 30,
                 'tries' => 3,
             ],
         ],
@@ -78,25 +85,32 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
-                'processes' => 5,
+                'processes' => 3,
                 'tries' => 3,
             ],
-            'server_features-1' => [
+            'server_features' => [
                 'connection' => 'redis',
                 'queue' => ['server_features'],
                 'balance' => 'auto',
                 'processes' => 3,
                 'tries' => 3,
             ],
-            'server_commands-1' => [
+            'server_commands' => [
                 'connection' => 'redis',
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
                 'processes' => 3,
                 'tries' => 3,
             ],
-            'server_provisioning-1' => [
-                'connection' => 'redis',
+            'site_deployments' => [
+                'connection' => 'redis-deploying',
+                'queue' => ['site_deployments'],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'server_provisioning' => [
+                'connection' => 'redis-provisioning',
                 'queue' => ['server_provisioning'],
                 'balance' => 'auto',
                 'processes' => 3,

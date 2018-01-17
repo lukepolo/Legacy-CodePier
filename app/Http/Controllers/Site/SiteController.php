@@ -177,7 +177,7 @@ class SiteController extends Controller
             $lastDeploymentStatus = $site->last_deployment_status;
             if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
                 dispatch(
-                    (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+                    (new DeploySite($site))->onQueue(config('queue.channels.site_deployments'))
                 );
             } else {
                 return response()->json('You have a deployment currently running', 409);
@@ -196,7 +196,7 @@ class SiteController extends Controller
         if ($site->provisionedServers->count()) {
             dispatch(
                 (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))
-                    ->onQueue(config('queue.channels.server_commands'))
+                    ->onQueue(config('queue.channels.site_deployments'))
             );
         }
     }

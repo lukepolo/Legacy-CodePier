@@ -192,7 +192,7 @@ export default {
     },
     isServerOptionInRegion(region) {
       let serverOption = _.find(this.server_options, { id : this.form.serverOptionId })
-      if(serverOption && serverOption.meta.regions) {
+      if(serverOption && serverOption.meta && serverOption.meta.regions) {
         return _.indexOf(serverOption.meta.regions, region.provider_name) > -1;
       }
       return true;
