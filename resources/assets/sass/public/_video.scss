@@ -1,8 +1,17 @@
 // Video Container Styles =============
 // ====================================
+#section--video {
+    background-color: mix($gray, $white, 90%);
+    margin-top: 0px;
+
+    h2 {
+        color: $color-text-inverse;
+    }
+}
+
 .video {
     max-width: 800px;
-    margin: 0 auto;
+    margin: $spacing*3 auto $spacing;
 
     &--header {
         text-align: center;
@@ -12,6 +21,8 @@
 
     &--item {
         //video container
+        border: 5px solid $black;
+
         &-embed {
             // styles for responsive embed
             position: relative;
@@ -35,16 +46,21 @@
 
     &--controls {
         display: flex;
-        border: 1px solid $color-text-secondary;
-        background-color: $color-text-primary;
+        justify-content: center;
+        margin-top: $spacing*2;
 
         &-item {
-            flex: 1 1 1em;
+            flex: 0 0 200px;
             text-align: center;
-            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: $font-web-heading;
+            font-weight: 500;
             color: $color-text-inverse;
             padding: $spacing $spacing*2;
             position: relative;
+            margin: 0px $spacing;
+            border-top: 9px solid $black;
 
             &:hover {
                 background-color: darken($color-text-primary, 2);
@@ -56,9 +72,9 @@
                     content: '';
                     height: 3px;
                     position: absolute;
-                    right: 0;
-                    bottom: 100%;
-                    left: 0;
+                    right: 3px;
+                    bottom: calc(100% + 3px);
+                    left: 3px;
                     background-color: $color-primary;
                 }
             }
