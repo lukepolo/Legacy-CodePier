@@ -168,7 +168,8 @@ export default {
         this.form.branch = site.branch;
         this.form.repository = site.repository;
         this.form.web_directory = site.web_directory;
-        this.form.user_repository_provider_id = site.user_repository_provider_id;
+        this.form.user_repository_provider_id =
+          site.user_repository_provider_id;
 
         if (this.form.repository && !this.form.user_repository_provider_id) {
           this.form.custom_provider = true;
@@ -195,7 +196,9 @@ export default {
         repository: this.form.repository,
         web_directory: this.form.web_directory,
         custom_provider: this.form.custom_provider,
-        user_repository_provider_id: !this.form.custom_provider ? this.form.user_repository_provider_id : null
+        user_repository_provider_id: !this.form.custom_provider
+          ? this.form.user_repository_provider_id
+          : null
       });
     },
     getProviderByUrl(providerUrl) {
