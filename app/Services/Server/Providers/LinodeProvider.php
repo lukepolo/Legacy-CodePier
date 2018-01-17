@@ -30,7 +30,6 @@ class LinodeProvider implements ServerProviderContract
         $options = [];
 
         foreach ($this->makeRequest('get') as $plan) {
-
             $option = ServerProviderOption::withTrashed()->firstOrNew([
                 'external_id' => $plan->PLANID,
                 'server_provider_id' => $this->getServerProviderID(),
@@ -67,7 +66,6 @@ class LinodeProvider implements ServerProviderContract
         $regions = [];
 
         foreach ($this->makeRequest('get') as $region) {
-
             $tempRegion = ServerProviderRegion::firstOrNew([
                 'server_provider_id' => $this->getServerProviderID(),
                 'external_id' => $region->DATACENTERID,

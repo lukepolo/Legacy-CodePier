@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
@@ -43,11 +43,10 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            if(starts_with($size->slug, ['s', 'c']) && !empty($size->regions)) {
+            if (starts_with($size->slug, ['s', 'c']) && ! empty($size->regions)) {
+                $description = null;
 
-                $description =  null;
-
-                if(starts_with($size->slug, 'c')) {
+                if (starts_with($size->slug, 'c')) {
                     $description = 'Optimized Droplet';
                 }
 
@@ -65,15 +64,14 @@ class DigitalOceanProvider implements ServerProviderContract
                     'priceMonthly' => $size->priceMonthly,
 
                     'meta' => [
-                        'regions' => $size->regions
+                        'regions' => $size->regions,
                     ],
-                    'deleted_at' => !$size->available ? Carbon::now() : null
+                    'deleted_at' => ! $size->available ? Carbon::now() : null,
                 ]);
 
                 $option->save();
 
                 $options[] = $option;
-
             }
         }
 
@@ -94,8 +92,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
-
-            if($region->available) {
+            if ($region->available) {
                 $tempRegion = ServerProviderRegion::firstOrNew([
                     'server_provider_id' => $this->getServerProviderID(),
                     'provider_name' => $region->slug,
