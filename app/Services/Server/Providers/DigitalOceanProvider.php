@@ -42,14 +42,29 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            $options[] = ServerProviderOption::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'memory' => $size->memory,
-                'cpus' => $size->vcpus,
-                'space' => $size->disk,
-                'priceHourly' => $size->priceHourly,
-                'priceMonthly' => $size->priceMonthly,
-            ]);
+            if($size->available && starts_with($size->slug, ['s', 'c']) && !empty($size->regions)) {
+
+                $description =  null;
+
+                if(starts_with($size->slug, 'c')) {
+                    $description = 'Optimized Droplet';
+                }
+
+                $options[] = ServerProviderOption::firstOrCreate([
+                    'description' => $description,
+                    'server_provider_id' => $this->getServerProviderID(),
+                    'memory' => $size->memory,
+                    'cpus' => $size->vcpus,
+                    'space' => $size->disk,
+                    'priceHourly' => $size->priceHourly,
+                    'priceMonthly' => $size->priceMonthly,
+                    'external_id' => $size->slug,
+                    'meta' => [
+                        'regions' => $size->regions
+                    ]
+
+                ]);
+            }
         }
 
         return $options;
@@ -69,11 +84,13 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
-            $regions[] = ServerProviderRegion::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'name' => $region->name,
-                'provider_name' => $region->slug,
-            ]);
+            if($region->available) {
+                $regions[] = ServerProviderRegion::firstOrCreate([
+                    'server_provider_id' => $this->getServerProviderID(),
+                    'name' => $region->name,
+                    'provider_name' => $region->slug,
+                ]);
+            }
         }
 
         return $regions;
@@ -114,7 +131,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
-            strtolower($serverOption->getRamString()),
+            $serverOption->external_id,
             ServerService::$serverOperatingSystem,
             $backups,
             $ipv6,

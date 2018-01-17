@@ -37,7 +37,7 @@ class LinodeProvider implements ServerProviderContract
                 'space' => $plan->DISK,
                 'priceHourly' => $plan->HOURLY,
                 'priceMonthly' => $plan->PRICE,
-                'plan_id' => $plan->PLANID,
+                'external_id' => $plan->PLANID,
             ]);
         }
 
@@ -89,7 +89,7 @@ class LinodeProvider implements ServerProviderContract
 
         $data = [
             'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-            'PlanID' => $serverProviderOption->plan_id,
+            'PlanID' => $serverProviderOption->external_id,
         ];
 
         $serverInfo = $this->makeRequest('post', $data);

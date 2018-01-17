@@ -33,8 +33,7 @@
                                 <div class="flyform--group" v-if="is_custom">
 
                                     <input type="number" name="port" required value="22" placeholder=" ">
-                                    <label for="port"class="flyform--group-iconlabel">Number of Releases to keep</label>
-
+                                    <label for="port" class="flyform--group-iconlabel">Number of Releases to keep</label>
 
                                     <tooltip message="We will use this port ssh connections" size="medium">
                                         <span class="fa fa-info-circle"></span>
@@ -47,11 +46,13 @@
                                 <div class="flyform--group">
                                     <label>Server Size</label>
                                     <div class="flyform--group-select">
-                                        <select name="server_option">
+                                        <select name="server_option" v-model="form.serverOptionId">
+                                            <option></option>
                                             <option v-for="option in server_options" :value="option.id">
-                                                {{ option.memory }} MB RAM
-                                                - {{ option.cpus }} CPUS
-                                                - {{ option.space }} SSD
+                                                {{ option.description ? option.description + ' : ' : null }}
+                                                {{ option.memory | ram }} RAM
+                                                - {{ option.cpus }} vCPUs
+                                                - {{ option.space | diskSize }} Disk
                                                 - ${{ option.priceHourly }} / Hour
                                                 - ${{ option.priceMonthly }} / Month
                                             </option>
@@ -62,8 +63,12 @@
                                 <div class="flyform--group">
                                     <label>Region</label>
                                     <div class="flyform--group-select">
-                                        <select name="server_region">
-                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
+                                        <select name="server_region" v-model="form.serverOptionRegion">
+                                            <option
+                                                v-for="region in server_regions"
+                                                :value="region.id"
+                                                :disabled="!isServerOptionInRegion(region)"
+                                            >{{ region.name }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -134,6 +139,10 @@ export default {
   },
   data() {
     return {
+      form : {
+        serverOptionId : null,
+        serverOptionRegion : null
+      },
       is_custom: false,
       server_provider_id: null,
       customize_server: !this.$route.params.site_id
@@ -144,6 +153,12 @@ export default {
       if (this.server_provider_id) {
         this.getProviderData(this.server_provider_id);
       }
+    },
+    'form.serverOptionId' : function() {
+      let region = _.find(this.server_regions, { id : this.form.serverOptionRegion })
+        if(region && !this.isServerOptionInRegion(region)) {
+            Vue.set(this.form, 'serverOptionRegion', null);
+        }
     }
   },
   methods: {
@@ -174,6 +189,13 @@ export default {
             }
           }
         });
+    },
+    isServerOptionInRegion(region) {
+      let serverOption = _.find(this.server_options, { id : this.form.serverOptionId })
+      if(serverOption && serverOption.meta.regions) {
+        return _.indexOf(serverOption.meta.regions, region.provider_name) > -1;
+      }
+      return true;
     }
   },
   computed: {
