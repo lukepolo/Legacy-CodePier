@@ -1,0 +1,37 @@
+// Main Layout ========================
+// ====================================
+header {
+    flex: 0 0 auto;
+    border-bottom: 1px solid $color-divider;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: $white;
+    z-index: 99999;
+
+    @include breakpoint(sm) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+#content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+
+    &:before {
+        content: '';
+        display: block;
+        min-height: 61px;
+    }
+}
+
+#main {
+    flex: 1 0 auto;
+    -webkit-overflow-scrolling: touch;
+}

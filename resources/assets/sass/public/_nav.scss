@@ -1,0 +1,56 @@
+// Main Navigation ====================
+// ====================================
+.nav {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    &--right {
+        justify-content: flex-end;
+    }
+
+    &--logo {
+        width: 250px;
+        margin-left: $spacing/2;
+        padding: 0 $spacing;
+    }
+
+    &--link {
+        color: $color-text-primary;
+        font-size: 14px;
+        font-weight: 400;
+        font-family: $font-heading;
+        text-transform: uppercase;
+        padding: $spacing $spacing*1.5;
+        position: relative;
+
+        &:active,
+        &:focus,
+        &:hover {
+            color: $color-primary;
+
+            &:after {
+                content: '';
+                background-color: $color-primary;
+                height: 2px;
+                position: absolute;
+                right: 0;
+                bottom: -1px;
+                left: 0;
+            }
+        }
+
+        &-highlight {
+            color: $color-primary;
+            font-weight: 600;
+
+            &:active,
+            &:focus,
+            &:hover {
+                color: $color-primary;
+            }
+        }
+    }
+}
