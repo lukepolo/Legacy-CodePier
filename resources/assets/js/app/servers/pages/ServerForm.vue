@@ -139,9 +139,9 @@ export default {
   },
   data() {
     return {
-      form : {
-        serverOptionId : null,
-        serverOptionRegion : null
+      form: {
+        serverOptionId: null,
+        serverOptionRegion: null
       },
       is_custom: false,
       server_provider_id: null,
@@ -154,11 +154,13 @@ export default {
         this.getProviderData(this.server_provider_id);
       }
     },
-    'form.serverOptionId' : function() {
-      let region = _.find(this.server_regions, { id : this.form.serverOptionRegion })
-        if(region && !this.isServerOptionInRegion(region)) {
-            Vue.set(this.form, 'serverOptionRegion', null);
-        }
+    "form.serverOptionId": function() {
+      let region = _.find(this.server_regions, {
+        id: this.form.serverOptionRegion
+      });
+      if (region && !this.isServerOptionInRegion(region)) {
+        Vue.set(this.form, "serverOptionRegion", null);
+      }
     }
   },
   methods: {
@@ -191,8 +193,10 @@ export default {
         });
     },
     isServerOptionInRegion(region) {
-      let serverOption = _.find(this.server_options, { id : this.form.serverOptionId })
-      if(serverOption && serverOption.meta && serverOption.meta.regions) {
+      let serverOption = _.find(this.server_options, {
+        id: this.form.serverOptionId
+      });
+      if (serverOption && serverOption.meta && serverOption.meta.regions) {
         return _.indexOf(serverOption.meta.regions, region.provider_name) > -1;
       }
       return true;
