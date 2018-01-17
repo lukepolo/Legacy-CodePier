@@ -10,7 +10,7 @@ class ServerProviderOption extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'meta' => 'array'
+        'meta' => 'array',
     ];
 
     use SoftDeletes;
