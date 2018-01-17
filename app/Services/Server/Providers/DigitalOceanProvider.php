@@ -3,6 +3,7 @@
 namespace App\Services\Server\Providers;
 
 use Exception;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
@@ -42,14 +43,36 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            $options[] = ServerProviderOption::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'memory' => $size->memory,
-                'cpus' => $size->vcpus,
-                'space' => $size->disk,
-                'priceHourly' => $size->priceHourly,
-                'priceMonthly' => $size->priceMonthly,
-            ]);
+            if (starts_with($size->slug, ['s', 'c']) && ! empty($size->regions)) {
+                $description = null;
+
+                if (starts_with($size->slug, 'c')) {
+                    $description = 'Optimized Droplet';
+                }
+
+                $option = ServerProviderOption::withTrashed()->firstOrNew([
+                    'external_id' => $size->slug,
+                    'server_provider_id' => $this->getServerProviderID(),
+                ]);
+
+                $option->fill([
+                    'description' => $description,
+                    'memory' => $size->memory,
+                    'cpus' => $size->vcpus,
+                    'space' => $size->disk,
+                    'priceHourly' => $size->priceHourly,
+                    'priceMonthly' => $size->priceMonthly,
+
+                    'meta' => [
+                        'regions' => $size->regions,
+                    ],
+                    'deleted_at' => ! $size->available ? Carbon::now() : null,
+                ]);
+
+                $option->save();
+
+                $options[] = $option;
+            }
         }
 
         return $options;
@@ -69,11 +92,20 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
-            $regions[] = ServerProviderRegion::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'name' => $region->name,
-                'provider_name' => $region->slug,
-            ]);
+            if ($region->available) {
+                $tempRegion = ServerProviderRegion::firstOrNew([
+                    'server_provider_id' => $this->getServerProviderID(),
+                    'provider_name' => $region->slug,
+                ]);
+
+                $tempRegion->fill([
+                    'name' => $region->name,
+                ]);
+
+                $tempRegion->save();
+
+                $regions[] = $tempRegion;
+            }
         }
 
         return $regions;
@@ -114,7 +146,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
-            strtolower($serverOption->getRamString()),
+            $serverOption->external_id,
             ServerService::$serverOperatingSystem,
             $backups,
             $ipv6,
