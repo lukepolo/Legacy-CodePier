@@ -42,11 +42,10 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            if($size->available && starts_with($size->slug, ['s', 'c']) && !empty($size->regions)) {
+            if ($size->available && starts_with($size->slug, ['s', 'c']) && ! empty($size->regions)) {
+                $description = null;
 
-                $description =  null;
-
-                if(starts_with($size->slug, 'c')) {
+                if (starts_with($size->slug, 'c')) {
                     $description = 'Optimized Droplet';
                 }
 
@@ -60,8 +59,8 @@ class DigitalOceanProvider implements ServerProviderContract
                     'priceMonthly' => $size->priceMonthly,
                     'external_id' => $size->slug,
                     'meta' => [
-                        'regions' => $size->regions
-                    ]
+                        'regions' => $size->regions,
+                    ],
 
                 ]);
             }
@@ -84,7 +83,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
-            if($region->available) {
+            if ($region->available) {
                 $regions[] = ServerProviderRegion::firstOrCreate([
                     'server_provider_id' => $this->getServerProviderID(),
                     'name' => $region->name,
