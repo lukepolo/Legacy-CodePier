@@ -35,9 +35,21 @@ a {
     }
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    font-family: $font-web-heading;
+}
+
 h1 {
     color: $color-text-primary;
+    font-size: 32px;
+}
+
+h3 {
+    text-transform: none;
     font-weight: 700;
+    font-size: 20px;
+    line-height: 1em;
 }
 
 .btn-primary {
@@ -49,7 +61,8 @@ h1 {
 }
 
 .subheading {
-    font-size: 1.4em;
+    font-size: 1.3em;
+    margin-bottom: $spacing*2;
 }
 
 .small-caps {

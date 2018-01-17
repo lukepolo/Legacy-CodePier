@@ -26,15 +26,7 @@
 
 // Section Specific Styles ============
 // ====================================
-#section--hero {
-    padding: 30px 0;
-    background-image: url('/assets//img/Boat_Dock.svg');
-    background-size: 55%;
 
-    @include breakpoint(lg) {
-        background-size: contain;
-    }
-}
 
 #section--events {
     background-color: rgba($white, 1);
