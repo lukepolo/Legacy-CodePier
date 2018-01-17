@@ -30,15 +30,22 @@ class LinodeProvider implements ServerProviderContract
         $options = [];
 
         foreach ($this->makeRequest('get') as $plan) {
-            $options[] = ServerProviderOption::firstOrCreate([
+            $option = ServerProviderOption::withTrashed()->firstOrNew([
+                'external_id' => $plan->PLANID,
                 'server_provider_id' => $this->getServerProviderID(),
+            ]);
+
+            $option->fill([
                 'memory' => $plan->RAM,
                 'cpus' => $plan->CORES,
                 'space' => $plan->DISK,
                 'priceHourly' => $plan->HOURLY,
                 'priceMonthly' => $plan->PRICE,
-                'plan_id' => $plan->PLANID,
             ]);
+
+            $option->save();
+
+            $options[] = $option;
         }
 
         return $options;
@@ -59,12 +66,19 @@ class LinodeProvider implements ServerProviderContract
         $regions = [];
 
         foreach ($this->makeRequest('get') as $region) {
-            $regions[] = ServerProviderRegion::firstOrCreate([
+            $tempRegion = ServerProviderRegion::firstOrNew([
                 'server_provider_id' => $this->getServerProviderID(),
+                'external_id' => $region->DATACENTERID,
+            ]);
+
+            $tempRegion->fill([
                 'name' => $region->LOCATION,
                 'provider_name' => $region->ABBR,
-                'region_id' => $region->DATACENTERID,
             ]);
+
+            $tempRegion->save();
+
+            $regions[] = $tempRegion;
         }
 
         return $regions;
@@ -88,8 +102,8 @@ class LinodeProvider implements ServerProviderContract
         $serverProviderOption = ServerProviderOption::findOrFail($server->options['server_option']);
 
         $data = [
-            'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-            'PlanID' => $serverProviderOption->plan_id,
+            'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->external_id,
+            'PlanID' => $serverProviderOption->external_id,
         ];
 
         $serverInfo = $this->makeRequest('post', $data);
