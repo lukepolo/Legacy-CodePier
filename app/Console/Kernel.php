@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckLifeLines;
+use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -27,6 +28,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(CheckLifeLines::class)->everyMinute();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        $schedule->command(GetServerProviderOptions::class)->daily();
+        $schedule->command(GetServerProviderOptions::class)->daily();
     }
 
     /**

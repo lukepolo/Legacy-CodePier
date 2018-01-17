@@ -2,6 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
@@ -42,7 +43,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            if($size->available && starts_with($size->slug, ['s', 'c']) && !empty($size->regions)) {
+            if(starts_with($size->slug, ['s', 'c']) && !empty($size->regions)) {
 
                 $description =  null;
 
@@ -50,20 +51,29 @@ class DigitalOceanProvider implements ServerProviderContract
                     $description = 'Optimized Droplet';
                 }
 
-                $options[] = ServerProviderOption::firstOrCreate([
-                    'description' => $description,
+                $option = ServerProviderOption::withTrashed()->firstOrNew([
+                    'external_id' => $size->slug,
                     'server_provider_id' => $this->getServerProviderID(),
+                ]);
+
+                $option->fill([
+                    'description' => $description,
                     'memory' => $size->memory,
                     'cpus' => $size->vcpus,
                     'space' => $size->disk,
                     'priceHourly' => $size->priceHourly,
                     'priceMonthly' => $size->priceMonthly,
-                    'external_id' => $size->slug,
+
                     'meta' => [
                         'regions' => $size->regions
-                    ]
-
+                    ],
+                    'deleted_at' => !$size->available ? Carbon::now() : null
                 ]);
+
+                $option->save();
+
+                $options[] = $option;
+
             }
         }
 
@@ -84,12 +94,20 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
+
             if($region->available) {
-                $regions[] = ServerProviderRegion::firstOrCreate([
+                $tempRegion = ServerProviderRegion::firstOrNew([
                     'server_provider_id' => $this->getServerProviderID(),
-                    'name' => $region->name,
                     'provider_name' => $region->slug,
                 ]);
+
+                $tempRegion->fill([
+                    'name' => $region->name,
+                ]);
+
+                $tempRegion->save();
+
+                $regions[] = $tempRegion;
             }
         }
 
