@@ -22,7 +22,6 @@ class CreateServerProviderRegionsTable extends Migration
             $table->timestamps();
 
             $table->index('server_provider_id');
-
         });
     }
 
