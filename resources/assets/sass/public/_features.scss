@@ -1,0 +1,45 @@
+// Feature Styles =====================
+// ====================================
+.feature {
+    color: $color-text-inverse;
+    font-size: 1.4em;
+
+    &--item {
+        display: flex;
+        align-items: center;
+        border-bottom: 3px solid rgba($white, .4);
+        margin: 50px 0;
+        padding: 50px 0 100px;
+
+        &:nth-child(even) {
+            .feature--info {
+                order: 1;
+                margin-top: -30px;
+                padding: 10px 40px 10px 0;
+            }
+
+            .feature--img {
+                order: 2;
+            }
+
+        }
+    }
+
+    &--img {
+        flex: 0 0 50%;
+        position: relative;
+    }
+
+    &--info {
+        flex: 0 0 50%;
+        padding: 10px 0 10px 40px;
+    }
+
+    &--heading {
+        font-weight: 600;
+        letter-spacing: 1px;
+        font-family: $font-heading;
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+}

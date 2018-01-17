@@ -1,0 +1,69 @@
+// Video Container Styles =============
+// ====================================
+.video {
+    max-width: 800px;
+    margin: 0 auto;
+
+    &--header {
+        text-align: center;
+        color: $color-text-inverse;
+        margin: -$spacing/2 0 $spacing;
+    }
+
+    &--item {
+        //video container
+        &-embed {
+            // styles for responsive embed
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+
+            embed,
+            iframe,
+            object {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+    }
+
+    &--controls {
+        display: flex;
+        border: 1px solid $color-text-secondary;
+        background-color: $color-text-primary;
+
+        &-item {
+            flex: 1 1 1em;
+            text-align: center;
+            font-weight: 600;
+            color: $color-text-inverse;
+            padding: $spacing $spacing*2;
+            position: relative;
+
+            &:hover {
+                background-color: darken($color-text-primary, 2);
+                cursor: pointer;
+            }
+
+            &.active {
+                &:before {
+                    content: '';
+                    height: 3px;
+                    position: absolute;
+                    right: 0;
+                    bottom: 100%;
+                    left: 0;
+                    background-color: $color-primary;
+                }
+            }
+        }
+
+    }
+
+}
