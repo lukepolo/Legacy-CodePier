@@ -52,7 +52,7 @@
 
             </div>
 
-            <template v-if="isObject(feature.parameters)">
+            <template v-if="isObject(feature.parameters) && (!server || !hasFeature(feature))">
                 <div class="flyform--subform">
                     <template v-for="(value, parameter) in feature.parameters">
                         <template v-if="feature.options">
