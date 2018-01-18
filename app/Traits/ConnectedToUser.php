@@ -19,7 +19,7 @@ trait ConnectedToUser
                     if (! empty($userModels)) {
                         $builder->where(function ($builder) use ($userModels) {
                             foreach ((array) $userModels as $index => $userModel) {
-                                if($index === 0) {
+                                if ($index === 0) {
                                     $builder->whereHas($userModel, function (Builder $builder) {
                                         $builder->where('user_id', auth()->user()->id);
                                     });
