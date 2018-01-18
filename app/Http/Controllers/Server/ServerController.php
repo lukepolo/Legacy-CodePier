@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Jobs\Server\UpdateSudoPassword;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
@@ -309,5 +310,44 @@ class ServerController extends Controller
     public function getCustomServerScriptUrl(ProvisioningKey $key)
     {
         return 'curl '.config('app.url_provision').' | bash -s '.$key->key;
+    }
+
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSudoPassword($serverId) {
+        $server = Server::findOrFail($serverId);
+        return response()->json($server->sudo_password);
+    }
+
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDatabasePassword($serverId) {
+        $server = Server::findOrFail($serverId);
+        return response()->json($server->database_password);
+    }
+
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshSudoPassword($serverId) {
+        $server = Server::findOrFail($serverId);
+        $server->generateSudoPassword();
+        dispatch(new UpdateSudoPassword($server, $server->sudo_password));
+        return response()->json($server->sudo_password);
+    }
+
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshDatabasePassword($serverId) {
+        $server = Server::findOrFail($serverId);
+        $server->generateDatabasePassword();
+        return response()->json($server->database_password);
     }
 }

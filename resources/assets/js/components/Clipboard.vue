@@ -6,9 +6,7 @@
 
 <script>
 export default {
-  props: {
-    data: String
-  },
+  props: ['data'],
   created() {
     new Clipboard(".clipboard", {
       text: this.data
