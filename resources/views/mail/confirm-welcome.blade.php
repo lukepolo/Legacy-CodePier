@@ -2,8 +2,7 @@
 # Thanks for joining CodePier!
 
 @component('vendor.mail.html.cover')
-    Hi {{ $user->name }}, we are excited to get you up and running but we need to verify your email address , otherwise you
-    may not get your very important server details!
+    Hi {{ $user->name }}, we are excited to get you up and running but we need to verify your email address to continue.
     @component('mail::button', ['url' => action('User\UserConfirmController@update', $user->encode())])
         Confirm Email
     @endcomponent
