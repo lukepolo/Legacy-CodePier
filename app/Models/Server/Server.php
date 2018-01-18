@@ -177,14 +177,15 @@ class Server extends Model
         return $this->morphToMany(LanguageSetting::class, 'language_settingable');
     }
 
-    public function generateSudoPassword() {
+    public function generateSudoPassword()
+    {
         $this->sudo_password = str_random(32);
     }
 
-    public function generateDatabasePassword() {
+    public function generateDatabasePassword()
+    {
         $this->database_password = str_random(32);
     }
-
 
     /*
     |--------------------------------------------------------------------------
