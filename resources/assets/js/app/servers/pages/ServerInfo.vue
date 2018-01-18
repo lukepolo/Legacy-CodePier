@@ -60,12 +60,7 @@
                 <div slot="content" class="dropdown-menu dropdown-content nowrap">
 
                     <h3>
-                        <confirm-dropdown dispatch="user_site_deployments/refreshDeployKey" :params="server.id">
-                            Database Password
-                            <tooltip message="Refresh Sudo Password">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
-                            </tooltip>
-                        </confirm-dropdown>
+                        Database Password
                     </h3>
 
                     <button class="btn btn-primary" @click.stop="revealDatabasePassword">Reveal</button>
