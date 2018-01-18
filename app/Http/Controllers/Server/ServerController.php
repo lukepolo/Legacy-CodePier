@@ -340,14 +340,4 @@ class ServerController extends Controller
         dispatch(new UpdateSudoPassword($server, $server->sudo_password));
         return response()->json($server->sudo_password);
     }
-
-    /**
-     * @param $serverId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refreshDatabasePassword($serverId) {
-        $server = Server::findOrFail($serverId);
-        $server->generateDatabasePassword();
-        return response()->json($server->database_password);
-    }
 }
