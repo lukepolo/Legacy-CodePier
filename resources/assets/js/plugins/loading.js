@@ -41,10 +41,10 @@ export default function loadProgressBar(config) {
 
   const getNprogressElement = () => {
     return document.getElementById("nprogress");
-  }
+  };
 
   const turnOnSpinner = () => {
-    if(getNprogressElement()) {
+    if (getNprogressElement()) {
       getNprogressElement().classList.add("show-spinner");
     }
   };
@@ -52,7 +52,7 @@ export default function loadProgressBar(config) {
   const turnOffSpinner = () => {
     clearTimeout(spinnerTimeout);
     spinnerTimeout = null;
-    if(getNprogressElement()) {
+    if (getNprogressElement()) {
       getNprogressElement().classList.remove("show-spinner");
     }
   };
