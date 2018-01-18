@@ -39,14 +39,22 @@ export default function loadProgressBar(config) {
     axios.interceptors.response.use(responseFunc, errorFunc);
   };
 
+  const getNprogressElement = () => {
+    return document.getElementById("nprogress");
+  }
+
   const turnOnSpinner = () => {
-    document.getElementById("nprogress").classList.add("show-spinner");
+    if(getNprogressElement()) {
+      getNprogressElement().classList.add("show-spinner");
+    }
   };
 
   const turnOffSpinner = () => {
     clearTimeout(spinnerTimeout);
     spinnerTimeout = null;
-    document.getElementById("nprogress").classList.remove("show-spinner");
+    if(getNprogressElement()) {
+      getNprogressElement().classList.remove("show-spinner");
+    }
   };
 
   NProgress.configure(config);

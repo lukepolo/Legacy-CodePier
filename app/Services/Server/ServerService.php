@@ -47,6 +47,10 @@ class ServerService implements ServerServiceContract
         $this->systemService = $systemService;
     }
 
+    /**
+     * @param ServerProvider $serverProvider
+     * @return mixed
+     */
     public function getServerProviderUser(ServerProvider $serverProvider)
     {
         return $this->getProvider($serverProvider)->getUser(\Auth::user());
@@ -497,11 +501,19 @@ class ServerService implements ServerServiceContract
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
     }
 
+    /**
+     * @param Server $server
+     * @param SchemaUser $schemaUser
+     */
     public function addSchemaUser(Server $server, SchemaUser $schemaUser)
     {
         $this->getService(SystemService::DATABASE, $server)->addSchemaUser($schemaUser);
     }
 
+    /**
+     * @param Server $server
+     * @param SchemaUser $schemaUser
+     */
     public function removeSchemaUser(Server $server, SchemaUser $schemaUser)
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchemaUser($schemaUser);
@@ -537,5 +549,18 @@ class ServerService implements ServerServiceContract
         $systemService = $this->getService('Languages\\'.$languageSetting->language.'\\'.$languageSetting->language.'Settings', $server);
 
         call_user_func_array([$systemService, $languageSetting->setting], $languageSetting->params);
+    }
+
+    /**
+     * @param Server $server
+     * @param $newSudoPassword
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function updateSudoPassword(Server $server, $newSudoPassword)
+    {
+        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->run('echo \'codepier:'.$newSudoPassword.'\' | chpasswd');
     }
 }

@@ -46,6 +46,18 @@ export const getTrashed = () => {
   );
 };
 
+export const getSudoPassword = (context, { server }) => {
+  return Vue.request().get(Vue.action("ServerServerController@getSudoPassword", { server }));
+};
+
+export const refreshSudoPassword = (context, { server }) => {
+  return Vue.request().post(Vue.action("ServerServerController@refreshSudoPassword", { server }));
+};
+
+export const getDatabasePassword = (context, { server }) => {
+  return Vue.request().get(Vue.action("ServerServerController@getDatabasePassword", { server }));
+};
+
 export const restore = ({ dispatch }, server) => {
   return Vue.request(server)
     .post(Vue.action("ServerServerController@restore", { server: server }), [

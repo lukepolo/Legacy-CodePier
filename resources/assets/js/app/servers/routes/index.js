@@ -1,6 +1,7 @@
 import {
   Servers,
   ServerForm,
+  ServerInfo,
   ServerSites,
   ServerFiles,
   ServerBuoys,
@@ -44,6 +45,15 @@ export default [
       {
         alias: "",
         path: "info",
+        name: "server_info",
+        components: {
+          default: ServerInfo,
+          nav: ServerNav,
+          subNav: ServerInformationNav
+        }
+      },
+      {
+        path: "info/sites",
         name: "server_sites",
         components: {
           default: ServerSites,
