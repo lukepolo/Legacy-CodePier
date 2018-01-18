@@ -87,30 +87,34 @@
 export default {
   data() {
     return {
-        sudoPassword : null,
-        databasePassword : null,
-    }
+      sudoPassword: null,
+      databasePassword: null
+    };
   },
   methods: {
     revealSudoPassword() {
-      this.$store.dispatch('user_servers/getSudoPassword', {
-        server : this.server.id
-      }).then((response) => {
-        this.sudoPassword = response;
-      })
+      this.$store
+        .dispatch("user_servers/getSudoPassword", {
+          server: this.server.id
+        })
+        .then(response => {
+          this.sudoPassword = response;
+        });
     },
     revealDatabasePassword() {
-      this.$store.dispatch('user_servers/getDatabasePassword', {
-        server : this.server.id
-      }).then((response) => {
-        this.databasePassword = response;
-      })
-    },
+      this.$store
+        .dispatch("user_servers/getDatabasePassword", {
+          server: this.server.id
+        })
+        .then(response => {
+          this.databasePassword = response;
+        });
+    }
   },
   computed: {
     server() {
       return this.$store.state.user_servers.server;
-    },
+    }
   }
 };
 </script>
