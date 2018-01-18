@@ -15,7 +15,7 @@ class Command extends Model
 
     protected $with = [
         'site.user',
-        'server.user'
+        'server.user',
     ];
 
     protected $guarded = ['id'];
