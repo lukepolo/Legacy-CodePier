@@ -12,7 +12,7 @@
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
-            <p class="subheading">Build, Deploy & Mange your applications easily, all on your own servers.</p>
+            <p class="subheading">Provision, Deploy & Mange your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
                 <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
