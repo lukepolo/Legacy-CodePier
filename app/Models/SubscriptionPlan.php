@@ -12,7 +12,6 @@ class SubscriptionPlan extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'metadata' => 'array'
+        'metadata' => 'array',
     ];
-
 }
