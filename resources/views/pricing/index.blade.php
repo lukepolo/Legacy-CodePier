@@ -27,8 +27,8 @@
             </div>
             <div class="pricing--item">
                 <div class="pricing--header">
-                    <div class="pricing--header-name">First Mate</div>
-                    <div class="pricing--header-price">$29<small>/ month</small></div>
+                    <div class="pricing--header-name">First Mate <strong>Early Bird Speical!</strong></div>
+                    <div class="pricing--header-price">$19<small>/ month</small></div>
                 </div>
                 <div class="pricing--features">
                     <ul>
@@ -61,7 +61,7 @@
                     </ul>
                 </div>
                 <div class="pricing--footer">
-                    <a class="btn btn-primary btn-large">Start Trial</a>
+                    <strong>Coming Soon!</strong>
                 </div>
             </div>
         </div>
