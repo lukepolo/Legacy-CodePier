@@ -18,6 +18,7 @@
                     <ul>
                         <li>1 Site</li>
                         <li>1 Full Stack Server</li>
+                        <li><strong>Unlimited</strong> Deployments</li>
                     </ul>
                 </div>
                 <div class="pricing--footer">
@@ -55,7 +56,8 @@
                         <li>Multiple Server Types</li>
                         <li>Buoys</li>
                         <li>Server Monitoring</li>
-                        <li>API Access <small>(Coming Soon!)</small></li>
+                        <li>Teams</li>
+                        <li>API Access</li>
                     </ul>
                 </div>
                 <div class="pricing--footer">

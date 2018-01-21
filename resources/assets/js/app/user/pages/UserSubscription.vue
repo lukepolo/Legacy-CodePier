@@ -27,6 +27,11 @@
                             Free
                         </label>
                     </div>
+                    <ul>
+                        <li>1 Site</li>
+                        <li>1 Full Stack Server</li>
+                        <li><strong>Unlimited</strong> Deployments</li>
+                    </ul>
                 </div>
             </div>
             <plans :selectedPlan.sync="form.plan" title="First Mate" type="firstmate"></plans>
