@@ -25,6 +25,8 @@
 
         <!-- Styles -->
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 
         @if(env('APP_ENV') == 'production')
             <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
@@ -94,6 +96,8 @@
         </div>
 
         <!-- Scripts -->
+        <script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
         @stack('scripts')
     </body>
 </html>
