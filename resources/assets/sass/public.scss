@@ -17,8 +17,12 @@
 @import 'public/features';
 @import 'public/sections';
 @import 'public/video';
+@import 'public/slider';
+@import 'public/testimonials';
 //@import 'public/tables';
 //@import 'public/tabs';
+
+
 
 
 // BASE STYLING
@@ -46,13 +50,13 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     color: $color-text-primary;
-    font-size: 32px;
+    font-size: 34px;
 }
 
 h2 {
     text-transform: none;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 28px;
     color: $color-text-primary;
 }
 
@@ -61,6 +65,24 @@ h3 {
     font-weight: 700;
     font-size: 20px;
     line-height: 1em;
+}
+
+h5 {
+    font-family: $font-heading;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: $spacing*2;
+
+    &:after {
+        content: '';
+        display: block;
+        height: 4px;
+        width: 40px;
+        background-color: $color-primary;
+        border-radius: 4px;
+        margin-top: 6px;
+    }
 }
 
 .btn-primary {

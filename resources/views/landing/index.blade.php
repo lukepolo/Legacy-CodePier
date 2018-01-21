@@ -106,15 +106,76 @@
             </div>
         </div>
     </section>
-    <section class="section">
+    <section id="section--slider" class="section">
+        <div class="section--content" >
+            <div class="slider">
+                <div class="slider--item">
+                    <div class="slider--img">
+                        <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                    </div>
+                    <div class="slider--content">
+                        <h5>Dashboard</h5>
+                        <h2>A powerful event system help you monitor what's going on.</h2>
+                        <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                    </div>
+                </div>
+
+                <div class="slider--item">
+                    boo
+                </div>
+
+                <div class="slider--item">
+                    bye
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="section--testimonials" class="section">
         <div class="section--content">
-            slider stuff
+            <h2 class="text-center">Build deploy and manage your applications easily, all on your own servers.</h2>
+            <div class="testimonials">
+                <div class="slider">
+                    <div class="testimonials--item">
+                        <div class="testimonials--quote">
+                            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                        </div>
+                        <div class="testimonials--author">
+                            <div class="testimonials--img">
+                                <img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">
+                            </div>
+                            <div>
+                                <div class="testimonials--name">
+                                    Chris Johnson
+                                </div>
+                                <div class="testimonials--location">
+                                    Indianapolis, IN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
+                    <button class="btn btn-primary">Sign Up Today</button>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
 
 @push('scripts')
     <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.slider').slick({
+                arrows: false,
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 8000,
+            });
+        });
+    </script>
 
     <script>
         var player;

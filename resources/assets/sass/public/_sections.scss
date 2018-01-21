@@ -14,6 +14,7 @@
     &--content {
         grid-column-start: 2;
         padding: $spacing*2 0px;
+        min-width: 0px;
     }
 
     &--img {
@@ -46,86 +47,3 @@
         }
     }
 }
-
-    //padding: $spacing*4;
-    //
-    //&--header {
-    //    font-weight: 400;
-    //    font-size: 2em;
-    //    text-align: center;
-    //    margin-bottom: 20px;
-    //}
-    //
-    //&--content {
-    //    max-width: 800px;
-    //    margin: 0 auto;
-    //
-    //    &-large {
-    //        max-width: 1300px;
-    //    }
-    //}
-    //
-    //@include breakpoint(sm) {
-    //    padding: $spacing;
-    //}
-
-
-// Section Specific Styles ============
-// ====================================
-//#section--events {
-//    background-color: rgba($white, 1);
-//    border-top: 1px solid $color-divider;
-//
-//    .section--header {
-//        margin-top: -50px;
-//
-//        @include breakpoint(sm) {
-//            margin-top: 0;
-//        }
-//    }
-//
-//    .events {
-//        @include card(2);
-//        color: $white;
-//        margin-bottom: -120px;
-//
-//        @include breakpoint(md) {
-//            .filter {
-//                display: none;
-//            }
-//
-//            &--item {
-//                &-pile,
-//                &-site,
-//                &-time {
-//                    display: none;
-//                }
-//            }
-//        }
-//
-//        @include breakpoint(sm) {
-//            margin-bottom: 0;
-//        }
-//
-//        &--collapse {
-//            height: 40vh;
-//            min-height: 420px;
-//        }
-//    }
-//}
-//
-//#section--features {
-//    background-color: $color-primary;
-//
-//    .section--header {
-//        color: $color-text-inverse;
-//        text-transform: uppercase;
-//        letter-spacing: 1px;
-//    }
-//}
-//
-//#section--video {
-//    background-color: $blue;
-//}
-//
-//#section--comparison {}

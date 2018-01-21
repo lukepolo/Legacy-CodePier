@@ -26,7 +26,7 @@
         <!-- Styles -->
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+        {{--<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>--}}
 
         @if(env('APP_ENV') == 'production')
             <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
@@ -67,7 +67,6 @@
                     <h4 class="footer--links-heading">Resources</h4>
                     <ul class="footer--links-list">
                         <li><a href="#">Getting Started</a></li>
-                        <li><a href="#">Documentation</a></li>
                         <li><a href="#">FAQs</a></li>
                         <li><a href="{{ action('PublicController@privacy') }}">Privacy Policy</a></li>
                         <li><a href="{{ action('PublicController@termsOfService') }}">Terms Of Service</a></li>
@@ -78,14 +77,12 @@
                     <ul class="footer--links-list">
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Our Customers</a></li>
-                        <li><a href="#">Careers</a></li>
                     </ul>
                 </div>
                 <div class="footer--links">
                     <h4 class="footer--links-heading">Support</h4>
                     <ul class="footer--links-list">
                         <li><a target="_blank" href="https://support.codepier.io">Get Help</a></li>
-                        <li><a target="_blank" href="https://github.com/CodePier/CodePier-Issues/issues">Report a Bug</a></li>
                         <li><a href="mailto:support@codepier.io">Contact Us</a></li>
                     </ul>
                 </div>
