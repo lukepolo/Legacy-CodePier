@@ -3,8 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckLifeLines;
-use App\Console\Commands\UpdateSubscriptionPlans;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\UpdateSubscriptionPlans;
 use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
