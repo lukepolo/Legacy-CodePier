@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\SubscriptionPlan;
-use App\Models\SubscriptionPlans;
 use Stripe\Plan;
 use Stripe\Stripe;
 use Illuminate\Console\Command;
+use App\Models\SubscriptionPlan;
 
 class UpdateSubscriptionPlans extends Command
 {
@@ -33,7 +32,6 @@ class UpdateSubscriptionPlans extends Command
         parent::__construct();
     }
 
-
     /**
      * Execute the console command.
      *
@@ -41,9 +39,9 @@ class UpdateSubscriptionPlans extends Command
      */
     public function handle()
     {
-        foreach(Plan::all()->data as $plan) {
+        foreach (Plan::all()->data as $plan) {
             $planModel = SubscriptionPlan::firstOrNew([
-                'plan_id' => $plan->id
+                'plan_id' => $plan->id,
             ]);
 
             $planModel->fill([
@@ -62,5 +60,3 @@ class UpdateSubscriptionPlans extends Command
         }
     }
 }
-
-
