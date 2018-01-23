@@ -18,12 +18,10 @@ trait ConnectedToUser
                 if (empty(auth()->user()->current_team_id)) {
                     if (! empty($userModels)) {
                         $builder->where(function ($builder) use ($userModels) {
-                            foreach ((array) $userModels as $index => $userModel) {
-                                if ($index === 0) {
-                                    $builder->whereHas($userModel, function (Builder $builder) {
-                                        $builder->where('user_id', auth()->user()->id);
-                                    });
-                                }
+                            foreach ((array) $userModels as $userModel) {
+                                $builder->orWhereHas($userModel, function (Builder $builder) {
+                                    $builder->where('user_id', auth()->user()->id);
+                                });
                             }
                         });
                     } else {

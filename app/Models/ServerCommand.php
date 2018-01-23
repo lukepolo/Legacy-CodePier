@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerCommand extends Model
 {
-    //    use ConnectedToUser;
+    use ConnectedToUser;
 
     public static $userModel = 'server';
 
