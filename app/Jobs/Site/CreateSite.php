@@ -75,11 +75,6 @@ class CreateSite implements ShouldQueue
             $this->runOnServer(function () use ($remoteTaskService) {
                 $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
             });
-
-            if ($this->wasSuccessful() && ! empty($this->site->repository)) {
-                dispatch(new DeploySite($this->site))
-                    ->onQueue(config('queue.channels.site_deployments'));
-            }
         } else {
             $this->updateServerCommand(microtime(true) - $start, ['Server Setup']);
         }

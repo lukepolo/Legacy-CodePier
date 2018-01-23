@@ -63,7 +63,7 @@ class CheckSshConnection implements ShouldQueue
             dispatch(
                 (new self($this->server))
                     ->delay(10)
-                    ->onQueue(config('queue.channels.server_provisioning'))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return;
