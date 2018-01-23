@@ -41,33 +41,33 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                form : this.createForm({
-                    bitt : null,
-                    servers : [],
-                })
-            }
-        },
-        methods: {
-            runBitt() {
-                this.form.bitt_id = this.bitt.id
-                this.$store.dispatch('runBittOnServers', this.form)
-            }
-        },
-        computed: {
-            bitt() {
-                let bitt = this.$store.state.bittsStore.bitt
-
-                if(bitt) {
-                    this.form.bitt = bitt.id
-                    return bitt
-                }
-            },
-            servers() {
-                return this.$store.state.serversStore.provisioned_servers
-            }
-        }
+export default {
+  data() {
+    return {
+      form: this.createForm({
+        bitt: null,
+        servers: []
+      })
+    };
+  },
+  methods: {
+    runBitt() {
+      this.form.bitt_id = this.bitt.id;
+      this.$store.dispatch("runBittOnServers", this.form);
     }
+  },
+  computed: {
+    bitt() {
+      let bitt = this.$store.state.bittsStore.bitt;
+
+      if (bitt) {
+        this.form.bitt = bitt.id;
+        return bitt;
+      }
+    },
+    servers() {
+      return this.$store.state.serversStore.provisioned_servers;
+    }
+  }
+};
 </script>

@@ -16,9 +16,12 @@ class CreateAuthCodesTable extends Migration
         Schema::create('auth_codes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
-            $table->integer('user_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('email')->nullable();
+
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

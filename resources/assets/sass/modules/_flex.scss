@@ -11,7 +11,23 @@
         flex-shrink: 1;
     }
 
+    &--center {
+        align-items: center;
+    }
+
+    &--jcenter {
+        justify-content: center;
+    }
+
     &--baseline {
         align-items: baseline;
+    }
+
+    &--spacing {
+        margin-left: $spacing;
+    }
+
+    &--column {
+        flex-direction: column;
     }
 }

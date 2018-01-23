@@ -2,7 +2,7 @@
 
     <ul class="wizard" v-if="serverId">
 
-        <router-link :to="{ name : 'server_sites', params : { server_id : serverId } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_info', params : { server_id : serverId } }" tag="li" class="wizard-item">
             <a>Server Information</a>
         </router-link>
 
@@ -18,11 +18,11 @@
 </template>
 
 <script>
-    export default {
-        computed : {
-            serverId() {
-                return this.$route.params.server_id
-            }
-        }
+export default {
+  computed: {
+    serverId() {
+      return this.$route.params.server_id;
     }
+  }
+};
 </script>

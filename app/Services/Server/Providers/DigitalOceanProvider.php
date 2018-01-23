@@ -3,6 +3,7 @@
 namespace App\Services\Server\Providers;
 
 use Exception;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
@@ -42,14 +43,36 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->size()->getAll() as $size) {
-            $options[] = ServerProviderOption::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'memory' => $size->memory,
-                'cpus' => $size->vcpus,
-                'space' => $size->disk,
-                'priceHourly' => $size->priceHourly,
-                'priceMonthly' => $size->priceMonthly,
-            ]);
+            if (starts_with($size->slug, ['s', 'c']) && ! empty($size->regions)) {
+                $description = null;
+
+                if (starts_with($size->slug, 'c')) {
+                    $description = 'Optimized Droplet';
+                }
+
+                $option = ServerProviderOption::withTrashed()->firstOrNew([
+                    'external_id' => $size->slug,
+                    'server_provider_id' => $this->getServerProviderID(),
+                ]);
+
+                $option->fill([
+                    'description' => $description,
+                    'memory' => $size->memory,
+                    'cpus' => $size->vcpus,
+                    'space' => $size->disk,
+                    'priceHourly' => $size->priceHourly,
+                    'priceMonthly' => $size->priceMonthly,
+
+                    'meta' => [
+                        'regions' => $size->regions,
+                    ],
+                    'deleted_at' => ! $size->available ? Carbon::now() : null,
+                ]);
+
+                $option->save();
+
+                $options[] = $option;
+            }
         }
 
         return $options;
@@ -69,11 +92,20 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach ($this->client->region()->getAll() as $region) {
-            $regions[] = ServerProviderRegion::firstOrCreate([
-                'server_provider_id' => $this->getServerProviderID(),
-                'name' => $region->name,
-                'provider_name' => $region->slug,
-            ]);
+            if ($region->available) {
+                $tempRegion = ServerProviderRegion::firstOrNew([
+                    'server_provider_id' => $this->getServerProviderID(),
+                    'provider_name' => $region->slug,
+                ]);
+
+                $tempRegion->fill([
+                    'name' => $region->name,
+                ]);
+
+                $tempRegion->save();
+
+                $regions[] = $tempRegion;
+            }
         }
 
         return $regions;
@@ -95,6 +127,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $ipv6 = false;
         $backups = false;
+        $monitoring = false;
         $privateNetworking = false;
 
         $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
@@ -113,7 +146,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
-            strtolower($serverOption->getRamString()),
+            $serverOption->external_id,
             ServerService::$serverOperatingSystem,
             $backups,
             $ipv6,
@@ -121,7 +154,10 @@ class DigitalOceanProvider implements ServerProviderContract
             $sshKeys = [
                 $sshPublicKey->getPublicKeyFingerprint(),
             ],
-            $userData = null
+            $userData = '',
+            $monitoring,
+            $volumes = [],
+            $tags = []
         );
 
         return $this->saveServer($server, $droplet->id);
@@ -133,6 +169,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getStatus(Server $server)
     {
@@ -145,6 +182,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     * @throws Exception
      */
     public function savePublicIP(Server $server)
     {
@@ -161,6 +199,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws Exception
      */
     public function getPublicIP(Server $server)
     {
@@ -218,7 +257,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
             $userServerProvider->token = $tokenData['access_token'];
             $userServerProvider->refresh_token = $tokenData['refresh_token'];
-            $userServerProvider->expires_in = $tokenData['expires_in'];
+            $userServerProvider->expires_at = $tokenData['expires_in'];
 
             $userServerProvider->save();
 

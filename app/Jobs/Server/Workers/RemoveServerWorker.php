@@ -8,7 +8,6 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,8 +39,7 @@ class RemoveServerWorker implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -52,15 +50,13 @@ class RemoveServerWorker implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->cronJobs()->detach($this->worker->id);
 
-            $this->server->cronJobs()->detach($this->worker->id);
-
-            $this->worker->load('servers');
-            if ($this->worker->servers->count() == 0) {
-                $this->worker->delete();
+                $this->worker->load('servers');
+                if ($this->worker->servers->count() == 0) {
+                    $this->worker->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this worker', false);

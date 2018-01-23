@@ -23,29 +23,29 @@ trait UsedByTeams
      */
     protected static function bootUsedByTeams()
     {
-        $teamworkModel = static::$teamworkModel;
-
-        static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
-            if (auth()->user()) {
-                if (auth()->user()->current_team_id) {
-                    $builder->whereHas($teamworkModel, function ($query) {
-                        $query->whereHas('users', function ($query) {
-                            $query->where('user_id', auth()->user()->id);
-                        })->where('team_id', auth()->user()->currentTeam->getKey());
-                    });
-                } else {
-                    $builder->doesntHave($teamworkModel);
-                }
-            }
-        });
-
-        static::saved(function (Model $model) {
-            if (auth()->user()) {
-                if (auth()->user()->current_team_id && $model->teamworkSync) {
-                    $model->teams()->attach(auth()->user()->currentTeam->getKey());
-                }
-            }
-        });
+//        $teamworkModel = static::$teamworkModel;
+//
+//        static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
+//            if (auth()->user()) {
+//                if (auth()->user()->current_team_id) {
+//                    $builder->whereHas($teamworkModel, function ($query) {
+//                        $query->whereHas('users', function ($query) {
+//                            $query->where('user_id', auth()->user()->id);
+//                        })->where('team_id', auth()->user()->currentTeam->getKey());
+//                    });
+//                } else {
+//                    $builder->doesntHave($teamworkModel);
+//                }
+//            }
+//        });
+//
+//        static::saved(function (Model $model) {
+//            if (auth()->user()) {
+//                if (auth()->user()->current_team_id && $model->teamworkSync) {
+//                    $model->teams()->attach(auth()->user()->currentTeam->getKey());
+//                }
+//            }
+//        });
     }
 
     /**
@@ -54,7 +54,7 @@ trait UsedByTeams
      */
     public function scopeAllTeams(Builder $query)
     {
-        return $query->withoutGlobalScope('team');
+//        return $query->withoutGlobalScope('team');
     }
 
     /**
@@ -62,6 +62,6 @@ trait UsedByTeams
      */
     public function team()
     {
-        return $this->belongsTo(Config::get('teamwork.team_model'));
+//        return $this->belongsTo(Config::get('teamwork.team_model'));
     }
 }

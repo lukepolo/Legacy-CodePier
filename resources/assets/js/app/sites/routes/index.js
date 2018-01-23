@@ -34,7 +34,7 @@ export default [
     component: SiteArea,
     children: [
       {
-        path: "overview",
+        path: "/",
         name: "site_overview",
         components: {
           default: SiteOverview,

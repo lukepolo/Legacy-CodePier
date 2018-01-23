@@ -81,6 +81,7 @@ class SystemService implements SystemServiceContract
         self::WORKER_SERVER => [
             self::NODE,
             self::SYSTEM,
+            self::FIREWALL,
             self::WORKERS,
             self::MONITORING,
             self::REPOSITORY,
@@ -88,6 +89,7 @@ class SystemService implements SystemServiceContract
         ],
         self::DATABASE_SERVER => [
             self::SYSTEM,
+            self::FIREWALL,
             self::DATABASE,
             self::MONITORING,
             self::REPOSITORY,

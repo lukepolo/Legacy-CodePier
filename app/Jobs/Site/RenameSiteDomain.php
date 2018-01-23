@@ -48,6 +48,7 @@ class RenameSiteDomain implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @throws \Exception
      */
     public function handle(SiteService $siteService)
     {

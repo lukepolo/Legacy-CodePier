@@ -8,7 +8,6 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,7 +38,7 @@ class InstallBuoy implements ShouldQueue
 
     /**
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(BuoyService $buoyService)
     {
@@ -47,9 +46,8 @@ class InstallBuoy implements ShouldQueue
             $buoyService->installBuoy($this->server, $this->buoy);
         });
 
-        if (! $this->wasSuccessful()) {
+        if ($this->wasSuccessful()) {
             $this->server->buoys()->detach($this->buoy);
-            throw new ServerCommandFailed($this->getCommandErrors());
         }
     }
 }

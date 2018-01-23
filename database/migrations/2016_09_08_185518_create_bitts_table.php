@@ -15,14 +15,25 @@ class CreateBittsTable extends Migration
     {
         Schema::create('bitts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->longText('script');
-            $table->integer('user_id');
-            $table->string('system')->nullable();
-            $table->string('version')->nullable();
+            $table->unsignedInteger('user_id');
             $table->boolean('official')->nullable()->default(0);
-            $table->boolean('approved')->nullable()->default(0);
+            $table->boolean('verified')->nullable()->default(0);
+            $table->longText('description');
+            $table->boolean('private');
+            $table->unsignedInteger('uses')->default(0);
+            $table->unsignedInteger('stars')->default(0);
+
             $table->timestamps();
+
+            // This is because we should stick these into elasticsearch
+            $table->index(['private']);
+        });
+
+        Schema::create('bitt_system', function (Blueprint $table) {
+            $table->unsignedInteger('bitt_id');
+            $table->unsignedInteger('system_id');
         });
     }
 
@@ -34,5 +45,6 @@ class CreateBittsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('bitts');
+        Schema::dropIfExists('bitt_system');
     }
 }

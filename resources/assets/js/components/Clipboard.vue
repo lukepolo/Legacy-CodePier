@@ -5,14 +5,12 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            data: String
-        },
-        created () {
-            new Clipboard('.clipboard', {
-                text: this.data
-            })
-        }
-    }
+export default {
+  props: ["data"],
+  created() {
+    new Clipboard(".clipboard", {
+      text: this.data
+    });
+  }
+};
 </script>

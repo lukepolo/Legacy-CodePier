@@ -1,9 +1,15 @@
 // ALERT STYLES ============================================
 // =========================================================
 .alert {
-    margin: $spacing $spacing 0px;
+    margin: $spacing 0px 0px;
     padding: $spacing/4 $spacing/2;
     border-radius: 3px;
+
+    &:before {
+        font-family: 'icomoon';
+        float: left;
+        padding-right: 10px;
+    }
 
     ul {
         list-style: none;
@@ -15,6 +21,11 @@
         margin: 0px;
         padding: 0px;
     }
+
+    &-wrap {
+        display: inline;
+
+    } 
 }
 
 // ALERT STATE STYLES --------------------------------------
@@ -25,8 +36,6 @@
 
     &:before {
         content: '\e900';
-        font-family: 'icomoon';
-        float: left;
     }
 }
 
@@ -36,8 +45,6 @@
 
     &:before {
         content: '\e86c';
-        font-family: 'icomoon';
-        float: left;
     }
 }
 
@@ -47,8 +54,6 @@
 
     &:before {
         content: '\e900';
-        font-family: 'icomoon';
-        float: left;
     }
 }
 
@@ -58,7 +63,5 @@
 
     &:before {
         content: '\e913';
-        font-family: 'icomoon';
-        float: left;
     }
 }

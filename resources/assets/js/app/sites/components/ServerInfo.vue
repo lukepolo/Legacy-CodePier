@@ -4,16 +4,56 @@
             <div class="server-name">
                 <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
-                <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
+                <router-link :to="{ name : 'server_info', params : { server_id : server.id } }">
                     {{ server.name }} <small>({{ serverType }})</small>
                 </router-link>
             </div>
             <div class="server-ip">
                 {{ server.ip }} &nbsp;
             </div>
+        </div>
 
-            <template v-if="server.stats && server.stats.loads && !showServerInfo">
-            </template>
+        <div class="server-info-collapsed" v-if="!showServerInfo">
+            <div class="grid-3">
+
+                <tooltip class="server-info condensed" message="Disk Usage" delay=.5 v-if="highestDiskUsage">
+                    <div class="server-progress-container">
+                        <div
+                        class="server-progress"
+                        :class="{
+                            danger : parseInt(highestDiskUsage.percent) >= 75,
+                            warning : parseInt(highestDiskUsage.percent) < 75 && parseInt(highestDiskUsage.percent) >= 50
+                        }"
+                        :style="{ width : highestDiskUsage.percent }"></div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="Memory" delay=.5 v-if="highestMemory">
+                    <div class="server-progress-container">
+                        <div
+                            class="server-progress"
+                            :class="{
+                                danger : getMemoryUsage(highestMemory) >= 75,
+                                warning : getMemoryUsage(highestMemory) < 75 && getMemoryUsage(highestMemory) >= 50
+                            }"
+                            :style="{ width : getMemoryUsage(highestMemory)+'%' }"
+                        ></div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="Latest CPU Load" delay=.5 v-if="latestLoad">
+                    <div class="server-progress-container">
+                        <div
+                            class="server-progress"
+                            :class="{
+                                danger : getCpuLoad(latestLoad) >= 75,
+                                warning :  getCpuLoad(latestLoad) < 75 && getCpuLoad(latestLoad) >= 50
+                            }"
+                            :style="{ width : getCpuLoad(latestLoad) + '%' }">
+                        </div>
+                    </div>
+                </tooltip>
+            </div>
         </div>
 
         <div class="server-info" v-if="showServerInfo">
@@ -28,10 +68,13 @@
                     </div>
 
                     <div v-if="currentProvisioningStep">
-                        <div class="server-status-text" v-if="currentProvisioningStep.failed">
+                        <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
-                            <div @click="retryProvision" class="btn btn-xs">retry</div>
                         </div>
+                        <div v-if="currentProvisioningStep.failed"class="server-btns">
+                          <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</span>
+                        </div>
+
                         <div class="server-status-text" v-else>
                             {{ server.status }}
                         </div>
@@ -41,11 +84,14 @@
                     </div>
 
                     <template v-if="server.progress === 0 && server.custom_server_url">
-                        <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-right">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
-                        <clipboard :data="server.custom_server_url"></clipboard>
+                        <div class="server-btns">
+                          <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-left">
+                              <span class="fa fa-info-circle"></span>
+                          </tooltip>
+                          &nbsp;
+                          <clipboard :data="server.custom_server_url"></clipboard>
+                        </div>
                     </template>
 
                 </template>
@@ -134,6 +180,7 @@
                                             <div class="stats-label stats-available">N/A</div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="cpu-group">
                                     <div class="cpu-min">5 mins</div>
@@ -162,24 +209,33 @@
             </div>
 
             <div class="btn-container" v-if="server.progress >= 100">
-                <tooltip message="Restart web services" placement="top-right">
-                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
-                </tooltip>
 
                 <tooltip message="Restart server">
                     <confirm-sidebar dispatch="user_server_services/restart" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
+                <tooltip message="Restart web services" placement="top-right">
+                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'web' }">
+                        <span class="icon-web"></span>
+                    </confirm-sidebar>
+                </tooltip>
+
                 <tooltip message="Restart databases">
-                    <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'database' }">
+                        <span class="icon-database"></span>
+                    </confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart workers">
-                    <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'worker' }">
+                        <span class="icon-worker"></span>
+                    </confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">
-                    <confirm-sidebar dispatch="user_servers/archive" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_servers/archive" :params="server.id">
+                        <span class="icon-archive"></span>
+                    </confirm-sidebar>
                 </tooltip>
             </div>
         </div>
@@ -187,48 +243,87 @@
 </template>
 
 <script>
-    import CpuLoads from './../components/CpuLoads.vue'
-    export default {
-        props : {
-            'server' : {},
-            'showInfo' : {
-                default : false
-            },
-        },
-        data() {
-            return {
-                'showing' : this.server.progress < 100 ? true : this.showInfo
-            }
-        },
-        components : {
-            CpuLoads
-        },
-        created() {
-            if(this.server.progress < 100) {
-                this.$store.dispatch('user_server_provisioning/getCurrentStep', this.server.id)
-            }
-        },
-        computed : {
-            serverType() {
-                return _.replace(this.server.type, '_', ' ')
-            },
-            showServerInfo() {
-                return this.showing
-            },
-            currentProvisioningStep() {
-                return this.$store.state.user_server_provisioning.current_step;
-            }
-        },
-        methods : {
-            toggle() {
-               this.showing = !this.showing
-            },
-            retryProvision() {
-                this.$store.dispatch('user_server_provisioning/retry', this.server.id);
-            },
-            getMemoryUsage(stats) {
-                return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100
-            }
-        },
+import CpuLoads from "./../components/CpuLoads";
+export default {
+  props: {
+    server: {},
+    showInfo: {
+      default: false
     }
+  },
+  data() {
+    return {
+      showing: this.server.progress < 100 ? true : this.showInfo
+    };
+  },
+  components: {
+    CpuLoads
+  },
+  created() {
+    if (this.server.progress < 100) {
+      this.$store.dispatch(
+        "user_server_provisioning/getCurrentStep",
+        this.server.id
+      );
+    }
+  },
+  computed: {
+    serverType() {
+      return _.replace(this.server.type, "_", " ");
+    },
+    showServerInfo() {
+      return this.showing;
+    },
+    currentProvisioningStep() {
+      return this.$store.state.user_server_provisioning.current_step;
+    },
+    stats() {
+      if (this.server && this.server.stats) {
+        return this.server.stats;
+      }
+    },
+    highestDiskUsage() {
+      if (this.stats && this.stats.disk_usage) {
+        return _.first(_.orderBy(this.stats.disk_usage, ["percent"], ["desc"]));
+      }
+    },
+    highestMemory() {
+      if (this.stats && this.stats.memory) {
+        return _.first(
+          _.orderBy(
+            this.stats.memory,
+            memory => {
+              return this.getMemoryUsage(memory);
+            },
+            ["desc"]
+          )
+        );
+      }
+    },
+    latestLoad() {
+      if (this.stats && this.stats.loads) {
+        return this.stats.loads[0];
+      }
+    }
+  },
+  methods: {
+    toggle() {
+      this.showing = !this.showing;
+    },
+    retryProvision() {
+      this.$store.dispatch("user_server_provisioning/retry", this.server.id);
+    },
+    getCpuLoad(load) {
+      let loadPercent = load / this.stats.cpus * 100;
+      return loadPercent > 100 ? 100 : loadPercent;
+    },
+    getMemoryUsage(stats) {
+      return (
+        this.getBytesFromString(stats.used) /
+        this.getBytesFromString(stats.total) *
+        100
+      );
+    }
+  }
+};
 </script>

@@ -63,6 +63,11 @@
     left: 0px;
     width: 284px;
   }
+
+  &.disabled {
+    opacity: .3;
+    pointer-events: none;
+  }
 }
 
 #right {
@@ -108,6 +113,7 @@
   background-color: $color-background;
   border: 1px solid mix($black, $gray, 50%);
   border-radius: 3px;
+  z-index: 300;
 
   &:before {
     content: '';
@@ -143,6 +149,46 @@
     border-top: 1px solid $black;
     margin: 0px;
     padding: $spacing/2;
+  }
+
+  // Bottom Aligned Styles
+  &.bottom {
+    bottom: auto;
+    top: 55px;
+
+    &:before {
+      border-top: none;
+      border-bottom: 10px solid $color-background;
+      bottom: auto;
+      top: -10px;
+    }
+
+    &:after {
+      border-top: none;
+      border-bottom: 10px solid mix($black, $gray, 50%);
+      bottom: auto;
+      top: -12px;
+    }
+  }
+
+  // Left Aligned Styles
+  &.left {
+    transform: translateX(calc(-100% + 40px));
+
+    &:before,
+    &:after {
+      left: auto;
+      right: 20px;
+    }
+  }
+
+  // Button only Styles
+  &.btns-only {
+    width: 200px;
+
+    .btn-footer {
+      border: none;
+    }
   }
 }
 

@@ -14,10 +14,14 @@ class CreateServerProviderRegionsTable extends Migration
     {
         Schema::create('server_provider_regions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_provider_id');
             $table->string('name');
+            $table->unsignedInteger('external_id')->nullable();
             $table->string('provider_name');
+            $table->unsignedInteger('server_provider_id');
+
             $table->timestamps();
+
+            $table->index('server_provider_id');
         });
     }
 

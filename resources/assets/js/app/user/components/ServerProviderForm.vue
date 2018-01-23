@@ -35,32 +35,39 @@
 
 
 <script>
-    export default {
-        props: {
-            provider : {
-                default : null
-            },
-            adding : {
-                default : false
-            }
-        },
-        data() {
-            return {
-                form : this.createForm({
-                    token : null,
-                    secret_token : null
-                })
-            }
-        },
-        methods : {
-            cancel() {
-                this.$emit('update:adding', false)
-            },
-            connectProvider() {
-                this.form.post('/api/server/providers/'+this.provider.provider_name+'/provider ').then(() => {
-                    this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id);
-                })
-            }
-        }
+export default {
+  props: {
+    provider: {
+      default: null
+    },
+    adding: {
+      default: false
     }
+  },
+  data() {
+    return {
+      form: this.createForm({
+        token: null,
+        secret_token: null
+      })
+    };
+  },
+  methods: {
+    cancel() {
+      this.$emit("update:adding", false);
+    },
+    connectProvider() {
+      this.form
+        .post(
+          "/api/server/providers/" + this.provider.provider_name + "/provider "
+        )
+        .then(() => {
+          this.$store.dispatch(
+            "user_server_providers/get",
+            this.$store.state.user.user.id
+          );
+        });
+    }
+  }
+};
 </script>

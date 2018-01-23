@@ -18,7 +18,12 @@ class CreateRepositoryProvidersTable extends Migration
             $table->string('url');
             $table->string('git_url');
             $table->string('provider_name');
+            $table->string('repository_class');
+            $table->string('commit_url')->nullable();
+
             $table->timestamps();
+
+            $table->index('provider_name');
         });
     }
 

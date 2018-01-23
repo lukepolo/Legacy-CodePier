@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use Cache;
+use Carbon\Carbon;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Stripe\Error\InvalidRequest;
+use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
 use App\Http\Requests\User\UserSubscriptionUpdateRequest;
@@ -54,7 +57,15 @@ class UserSubscriptionController extends Controller
             $subscription->withCoupon($request->get('coupon'));
         }
 
-        $subscription->create($request->get('token'));
+        $subscription = $subscription->create($request->get('token'));
+
+        $user->update([
+            'trial_ends_at' => Carbon::now()->addDays(5),
+        ]);
+
+        $subscription->update([
+            'active_plan' => $plan,
+        ]);
 
         return response()->json(
             $user->subscriptionInfo()
@@ -79,7 +90,48 @@ class UserSubscriptionController extends Controller
         Cache::forget($user->id.'.card');
         Cache::forget($user->id.'.subscription');
 
-        $user->subscription('default')->swap($plan);
+        /** @var Subscription $subscription */
+        $subscription = $user->subscription('default');
+
+        /** @var \Stripe\Subscription $tempSubscription */
+        $tempSubscription = $subscription->asStripeSubscription();
+
+        if ($request->has('coupon')) {
+            $tempSubscription->coupon = $request->get('coupon');
+            try {
+                $tempSubscription->save();
+            } catch (InvalidRequest $e) {
+                return response()->json($e->getMessage(), 500);
+            }
+        }
+
+        if ($subscription->onGracePeriod()) {
+            $subscription->resume();
+        }
+
+        if ($plan !== $subscription->stripe_plan) {
+            if (
+                str_contains($plan, 'yr') && ! str_contains($subscription->stripe_plan, 'yr') ||
+                str_contains($plan, 'captain') && str_contains($subscription->stripe_plan, 'firstmate')
+            ) {
+                $subscription->active_plan = $plan;
+
+                // upgrading
+                $subscription
+                    ->swap($plan);
+            } else {
+                // downgrading
+                $subscription->trial_ends_at = Carbon::createFromTimestamp(
+                    $tempSubscription->current_period_end
+                );
+
+                $subscription->active_plan = $subscription->stripe_plan;
+
+                $subscription
+                    ->noProrate()
+                    ->swap($plan);
+            }
+        }
 
         return response()->json(
             $user->subscriptionInfo()
@@ -98,7 +150,9 @@ class UserSubscriptionController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $user->subscription($request->get('subscription', 'default'))->cancel();
+        $user->subscription($request->get('subscription', 'default'))
+            ->noProrate()
+            ->cancel();
 
         Cache::forget($user->id.'.subscription');
 

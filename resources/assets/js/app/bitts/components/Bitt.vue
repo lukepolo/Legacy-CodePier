@@ -34,15 +34,15 @@
 </template>
 
 <script>
-    export default {
-        props: ['bitt'],
-        methods : {
-            install() {
-                this.$store.dispatch('getBitt', this.bitt.id)
-            },
-            deleteBitt() {
-                this.$store.dispatch('deleteBitt', this.bitt.id)
-            }
-        },
+export default {
+  props: ["bitt"],
+  methods: {
+    install() {
+      this.$store.dispatch("getBitt", this.bitt.id);
+    },
+    deleteBitt() {
+      this.$store.dispatch("deleteBitt", this.bitt.id);
     }
+  }
+};
 </script>

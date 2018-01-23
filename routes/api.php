@@ -76,7 +76,6 @@ Route::group(['middleware' => [
 
 Route::group(['middleware' => [
         'auth:api',
-        'subscribed',
     ],
 ], function () {
 
@@ -167,24 +166,29 @@ Route::group(['middleware' => [
 
         Route::apiResource('servers', 'Server\ServerController');
 
-        Route::post('server/{server}/find-file', 'Server\ServerFileController@find');
-        Route::post('server/{server}/reload-file/{file}', 'Server\ServerFileController@reloadFile');
-
-        Route::post('server/{server}/custom', 'Server\ServerController@generateCustomServerSh')->middleware('scope:create-custom-server');
-
         Route::get('all_servers/buoys', 'Server\ServerBuoyController@myServerBuoys');
 
-        Route::group(['namespace' => 'Server'], function () {
+        Route::group([
+            'namespace' => 'Server',
+            'middleware' => 'checkMaxServers',
+        ], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('{server}/file', 'ServerController@getFile');
                 Route::post('restore/{server}', 'ServerController@restore');
+                Route::post('{server}/find-file', 'ServerFileController@find');
                 Route::post('{server}/file/save', 'ServerController@saveFile');
                 Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
                 Route::post('restart-server/{server}', 'ServerController@restartServer');
+                Route::post('ssh-connection/{server}', 'ServerController@testSSHConnection');
                 Route::post('restart-database/{server}', 'ServerController@restartDatabases');
+                Route::post('{server}/reload-file/{file}', 'ServerFileController@reloadFile');
                 Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');
-                Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
+
+                Route::get('{server}/database-password', 'ServerController@getDatabasePassword');
+
+                Route::get('{server}/sudo-password', 'ServerController@getSudoPassword');
+                Route::post('{server}/sudo-password/refresh', 'ServerController@refreshSudoPassword');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');
@@ -214,15 +218,20 @@ Route::group(['middleware' => [
 
         Route::apiResource('sites', 'Site\SiteController');
 
-        Route::post('site/{site}/rename', 'Site\SiteController@rename');
-        Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
-        Route::post('site/{site}/workflow', 'Site\SiteWorkflowController@store');
-        Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
-        Route::post('site/{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
-        Route::delete('site/{site}/clear-commands', 'Site\SiteServerCommandsController@destroy');
-        Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
+        Route::group([
+            'namespace' => 'Site',
+            'middleware' => 'checkMaxSites',
+        ], function () {
+            Route::group(['prefix' => 'site'], function () {
+                Route::post('{site}/rename', 'SiteController@rename');
+                Route::post('{site}/find-file', 'SiteFileController@find');
+                Route::post('{site}/workflow', 'SiteWorkflowController@store');
+                Route::post('{site}/refresh-ssh-keys', 'SiteController@refreshPublicKey');
+                Route::post('{site}/refresh-deploy-key', 'SiteController@refreshDeployKey');
+                Route::delete('{site}/clear-commands', 'SiteServerCommandsController@destroy');
+                Route::post('{site}/reload-file/{file}/server/{server}', 'SiteFileController@reloadFile');
+            });
 
-        Route::group(['namespace' => 'Site'], function () {
             Route::post('deploy/{site}', 'SiteController@deploy');
             Route::post('rollback/{site}', 'SiteController@rollback');
             Route::get('site/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
@@ -266,9 +275,6 @@ Route::group(['middleware' => [
     Route::get('server/features', 'Server\ServerFeatureController@getFeatures');
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
-    Route::get('site/{site}/editable-files', 'Site\SiteFeatureController@getEditableFiles');
-    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableFiles');
-    Route::get('site/{site}/framework/editable-files', 'Site\SiteFeatureController@getEditableFrameworkFiles');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {

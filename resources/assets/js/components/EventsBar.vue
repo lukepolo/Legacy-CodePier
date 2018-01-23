@@ -1,5 +1,5 @@
 <template>
-    <footer class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+    <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div id="drag" class="events--drag"></div>
         <div class="header events--header">
             <h4>
@@ -13,145 +13,10 @@
                 <li class="filter--label">
                     <span>Event Filters</span>
                 </li>
-                <li class="filter--item dropdown" ref="piles">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('piles')">
-                        <strong>Pile:</strong>
-                        <span class="filter--item-selection">
-                            {{ pilesList }}
-                        </span>
-                        <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <div class="jcf-form-wrap">
-                            <form>
-                                <div class="jcf-input-group input-checkbox">
-                                    <label class="select-all">
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Select All
-                                    </label>
-
-                                    <label v-for="pile in piles">
-                                        <input type="checkbox" v-model="form.filters.piles" :value="pile.id">
-                                        <span class="icon"></span>
-                                        {{ pile.name }}
-                                    </label>
-                                </div>
-                            </form>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('piles')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-
-                        </div>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="sites">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('sites')">
-                        <strong>Site:</strong> <span class="filter--item-selection">{{ siteList }}</span> <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <div class="jcf-form-wrap">
-                            <form>
-                                <div class="jcf-input-group input-checkbox">
-                                    <label class="select-all">
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Select All
-                                    </label>
-                                    <label v-for="site in sites">
-                                        <input type="checkbox" v-model="form.filters.sites" :value="site.id">
-                                        <span class="icon"></span>
-                                        {{ site.name }}
-                                    </label>
-                                </div>
-                            </form>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('sites')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-
-                        </div>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="servers">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('servers')">
-                        <strong>Server:</strong> <span class="filter--item-selection">{{ serverList }}</span> <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <div class="jcf-form-wrap">
-                            <form>
-                                <div class="jcf-input-group input-checkbox">
-                                    <label class="select-all">
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Select All
-                                    </label>
-                                    <label v-for="server in servers">
-                                        <input type="checkbox" v-model="form.filters.servers" :value="server.id">
-                                        <span class="icon"></span>
-                                        {{ server.name }} ({{ server.ip }})
-                                    </label>
-                                </div>
-                            </form>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('servers')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-
-                        </div>
-                    </ul>
-                </li>
-
-                <li class="filter--item dropdown" ref="types">
-                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('types')">
-                        <strong>Event Type:</strong> <span class="filter--item-selection">{{ eventList }}</span> <span class="icon-arrow-up"></span>
-                    </a>
-
-                    <ul class="dropdown-menu dropup">
-                        <div class="jcf-form-wrap">
-                            <form>
-                                <div class="jcf-input-group input-checkbox">
-                                    <label class="select-all">
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Select All
-                                    </label>
-
-                                    <template v-for="(types, area) in defaultNotificationTypes">
-                                        <template v-for="type in types">
-                                            <label>
-                                                <template v-if="area === 'site_deployments'">
-                                                    <input type="checkbox" v-model="form.filters.types.site_deployments" :value="type">
-                                                </template>
-                                                <template v-else-if="area === 'commands'">
-                                                    <input type="checkbox" v-model="form.filters.types.commands" :value="type">
-                                                </template>
-                                                <span class="icon"></span>
-                                                {{ renderType(type) }}
-                                            </label>
-                                        </template>
-
-                                    </template>
-                                </div>
-                            </form>
-
-                            <div class="btn-footer">
-                                <a class="btn btn-small" @click="cancel('types')">Cancel</a>
-                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
-                            </div>
-
-                        </div>
-                    </ul>
-                </li>
+                <event-filter title="Piles" :filters="piles" :selected-filters.sync="form.filters.piles"></event-filter>
+                <event-filter title="Sites" :filters="sites" :selected-filters.sync="form.filters.sites"></event-filter>
+                <event-filter title="Servers" :filters="servers" :selected-filters.sync="form.filters.servers"></event-filter>
+                <system-event-filter title="Events" :filters="defaultNotificationTypes" :selected-filters.sync="form.filters.events"></system-event-filter>
             </ul>
 
             <div class="events--container">
@@ -161,16 +26,26 @@
                     </div>
                 </section>
                 <section v-else>
-                    <template  v-for="event in events">
+                    <template v-for="event in events">
+
                         <template v-if="event.event_type === 'App\\Models\\Site\\SiteDeployment'">
-                            <deployment-event :event="event" :key="event.event_type+event.id"></deployment-event>
+                            <deployment-event
+                                :event="event"
+                                :key="event.event_type + '\\'  + event.id"
+                            ></deployment-event>
                         </template>
+
                         <template v-else-if="event.event_type === 'App\\Models\\Command'">
-                            <command-event :event="event" :key="event.event_type+event.id"></command-event>
+                            <command-event
+                                :event="event"
+                                :key="event.event_type + '\\'  + event.id"
+                            ></command-event>
                         </template>
+
                         <template v-else>
                             Invalid type {{ event.event_type }}
                         </template>
+
                     </template>
                 </section>
 
@@ -184,216 +59,161 @@
 </template>
 
 <script>
+import EventFilter from "./event-components/EventFilter.vue";
+import CommandEvent from "./event-components/CommandEvent.vue";
+import DeploymentEvent from "./event-components/DeploymentEvent.vue";
+import SystemEventFilter from "./event-components/SystemEventFilter.vue";
 
-    import CommandEvent from './event-components/CommandEvent.vue'
-import DeploymentEvent from './event-components/DeploymentEvent.vue'
+Vue.directive("resizeable", {
+  inserted: function(el, bindings) {
+    const container = el;
+    const bottom = document.getElementById("collapseEvents");
+    const handle = document.getElementById("drag");
 
-Vue.directive('resizeable', {
-        inserted: function (el, bindings) {
-            const container = $('footer')
-            const bottom = $('#collapseEvents')
-            const handle = $('#drag')
+    let isResizing = false;
+    let lastOffset = null;
 
-            let isResizing = false
-            let lastOffset = null
+    handle.onmousedown = () => {
+      isResizing = true;
+      bottom.classList.add("dragging");
+    };
 
-            handle.on('mousedown', function (e) {
-                isResizing = true
-                bottom.addClass('dragging')
-            })
+    document.onmousemove = () => {
+      if (!isResizing) {
+        return;
+      }
 
-            $(document).on('mousemove', function (e) {
-                if (!isResizing) {
-                    return
-                }
+      lastOffset =
+        container.offsetHeight - (event.clientY - container.offsetTop);
 
-                lastOffset = container.height() - (e.clientY - container.offset().top)
+      if (lastOffset < 100) {
+        lastOffset = 100;
+      }
 
-                if (lastOffset < 100) {
-                    lastOffset = 100
-                }
+      bottom.style.height = lastOffset - 40 + "px";
+    };
 
-                bottom.css('height', lastOffset - 40)
-            }).on('mouseup', function (e) {
-                isResizing = false
-                bottom.removeClass('dragging')
-            })
-        }
-    })
+    document.onmouseup = () => {
+      isResizing = false;
+      bottom.classList.remove("dragging");
+    };
+  }
+});
 
-Vue.directive('watch-scroll', {
-        update: function (el, bindings) {
-            const container = $('#collapseEvents')
+Vue.directive("watch-scroll", {
+  update: function(el, bindings) {
+    const container = document.getElementById("collapseEvents");
+    const eventsLoading = document.getElementById("events-loading");
+    delete container.scroll;
 
-            container.unbind('scroll')
+    const pagination = bindings.value.events_pagination;
+    const form = bindings.value.form;
 
-            const pagination = bindings.value.events_pagination
-            const form = bindings.value.form
+    if (pagination) {
+      const nextPage = pagination.current_page + 1;
+      if (nextPage <= pagination.last_page) {
+        container.onscroll = () => {
+          if (
+            container.scrollHeight -
+              container.scrollTop -
+              container.offsetHeight <
+            1
+          ) {
+            if (form.page !== nextPage) {
+              form.page = nextPage;
+              eventsLoading.classList.remove("hide");
 
-            if (pagination) {
-                const nextPage = pagination.current_page + 1
-                if (nextPage <= pagination.last_page) {
-                    container.bind('scroll', function () {
-                        if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
-                            form.page = nextPage
-                            $('#events-loading').removeClass('hide')
-                            app.$store.dispatch('events/get', form).then((data) => {
-                                $('#events-loading').addClass('hide')
-                            })
-                        }
-                    })
-                }
+              app.$store.dispatch("events/get", form).then(() => {
+                eventsLoading.classList.add("hide");
+              });
             }
-        }
-    })
+          }
+        };
+      }
+    }
+  }
+});
 
 export default {
-        components: {
-            CommandEvent,
-            DeploymentEvent
-        },
-        data () {
-            return {
-                windowWidth: 0,
-                showEvents: false,
-                defaultNotificationTypes: Laravel.defaultNotificationTypes,
-                form: this.createForm({
-                    page: 1,
-                    filters: {
-                        types: {
-                            commands: [],
-                            site_deployments: []
-                        },
-                        piles: [],
-                        sites: [],
-                        servers: []
-                    }
-                }),
-                prev_filters: {
-                    types: {
-                        commands: [],
-                        site_deployments: []
-                    },
-                    piles: [],
-                    sites: [],
-                    servers: []
-                }
-            }
-        },
-        created () {
-            this.fetchData()
-        },
-        mounted () {
-            this.$nextTick(function () {
-                window.addEventListener('resize', this.getWindowWidth)
-                this.getWindowWidth()
-            })
-        },
-        methods: {
-            showFilter (filter) {
-                const filterList = $(this.$refs[filter])
-                $('#collapseEvents .dropdown').removeClass('open')
-                filterList.toggleClass('open').find('.dropdown-menu').css('left', filterList.position().left)
-            },
-            fetchData () {
-                this.$store.dispatch('events/get')
-                this.$store.dispatch('user_servers/get')
-            },
-            updateFilters () {
-                this.$store.commit('events/clear')
-                this.form.page = 1
-
-                this.prev_filters = _.cloneDeep(this.form.filters)
-                this.$store.dispatch('events/get', this.form)
-            },
-            renderType (type) {
-                const title = type.substring(type.lastIndexOf('\\') + 1)
-
-                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function (type) {
-                    return type.toUpperCase()
-                }) + 's'
-            },
-            cancel (type) {
-                $('#collapseEvents .dropdown').removeClass('open')
-
-                const filters = _.cloneDeep(this.prev_filters[type])
-
-                Vue.set(this.form.filters, type, filters)
-            },
-            getWindowWidth () {
-                this.windowWidth = document.documentElement.clientWidth
-            }
-        },
-        computed: {
-            pilesList () {
-                const piles = this.form.filters.piles
-                if (!piles.length) {
-                    return 'All'
-                }
-
-                return _.join(
-                    _.map(piles, (pile) => {
-                        return this.getPile(pile, 'name')
-                    }
-                    ), ', '
-                )
-            },
-            siteList () {
-                const sites = this.form.filters.sites
-                if (!sites.length) {
-                    return 'All'
-                }
-
-                return _.join(
-                    _.map(sites, (site) => {
-                        return this.getSite(site, 'name')
-                    }
-                    ), ', '
-                )
-            },
-            serverList () {
-                const servers = this.form.filters.servers
-                if (!servers.length) {
-                    return 'All'
-                }
-
-                return _.join(
-                    _.map(servers, (server) => {
-                        return this.getServer(server, 'name')
-                    }
-                    ), ', '
-                )
-            },
-            eventList () {
-                const types = this.form.filters.types
-
-                const events = _.map(_.merge(types.site_deployments, types.commands), (event) => {
-                    return this.renderType(event)
-                })
-
-                if (!events.length) {
-                    return 'All'
-                }
-
-                return _.join(events, ', ')
-            },
-            piles () {
-                return this.$store.state.user_piles.piles
-            },
-            sites () {
-                return this.$store.state.user_sites.sites
-            },
-            servers () {
-                return this.$store.state.user_servers.servers
-            },
-
-            events () {
-                return this.$store.state.events.events
-            },
-            events_pagination () {
-                return this.$store.state.events.events_pagination
-            }
+  components: {
+    EventFilter,
+    CommandEvent,
+    DeploymentEvent,
+    SystemEventFilter
+  },
+  data() {
+    return {
+      windowWidth: 0,
+      showEvents: false,
+      form: this.createForm({
+        page: 1,
+        filters: {
+          events: {
+            commands: [],
+            site_deployments: []
+          },
+          piles: [],
+          sites: [],
+          servers: []
         }
+      })
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowWidth);
+      this.getWindowWidth();
+    });
+  },
+  watch: {
+    "form.filters": {
+      deep: true,
+      handler: function() {
+        this.form.page = 1;
+        this.$store.commit("events/clear");
+        this.$store.dispatch("events/get", this.form);
+      }
     }
-
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch("events/get");
+      this.$store.dispatch("user_servers/get");
+    },
+    getWindowWidth() {
+      this.windowWidth = document.documentElement.clientWidth;
+    }
+  },
+  computed: {
+    piles() {
+      return this.$store.state.user_piles.piles;
+    },
+    sites() {
+      return this.$store.state.user_sites.sites;
+    },
+    servers() {
+      return this.$store.state.user_servers.servers;
+    },
+    events() {
+      return _.orderBy(
+        _.uniqBy(this.$store.state.events.events, event => {
+          return event.event_type + event.id;
+        }),
+        event => {
+          return event.id;
+        },
+        "desc"
+      );
+    },
+    events_pagination() {
+      return this.$store.state.events.events_pagination;
+    },
+    defaultNotificationTypes() {
+      return window.Laravel.defaultNotificationTypes;
+    }
+  }
+};
 </script>

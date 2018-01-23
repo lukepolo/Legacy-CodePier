@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
@@ -105,23 +104,5 @@ class ServerFeatureController extends Controller
     public function getFrameworks()
     {
         return response()->json($this->serverFeatureService->getFrameworks());
-    }
-
-    /**
-     * @param $serverId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getEditableFiles($serverId)
-    {
-        return response()->json($this->serverFeatureService->getEditableFiles(Server::findOrFail($serverId)));
-    }
-
-    /**
-     * @param $siteId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getEditableFrameworkFiles($siteId)
-    {
-        return response()->json($this->serverFeatureService->getEditableFrameworkFiles(Site::findOrFail($siteId)));
     }
 }

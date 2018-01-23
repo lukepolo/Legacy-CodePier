@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Mail\BetaInvite;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -53,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -73,8 +71,6 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'referrer' => Cookie::get('referrer'),
         ]);
-
-        Mail::to($user)->send(new BetaInvite());
 
         return $user;
     }

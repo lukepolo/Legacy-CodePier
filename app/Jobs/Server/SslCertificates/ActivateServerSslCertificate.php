@@ -9,7 +9,6 @@ use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -45,8 +44,7 @@ class ActivateServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -55,9 +53,5 @@ class ActivateServerSslCertificate implements ShouldQueue
         });
 
         event(new SiteUpdatedWebConfig($this->site));
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

@@ -39,7 +39,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        $this->remoteTaskService->updateText('/etc/mysql/mariadb.conf.d', 'bind-address            = 127.0.0.1', 'bind-address            = 0.0.0.0');
+        $this->remoteTaskService->updateText('/etc/mysql/mariadb.conf.d', 'bind-address', 'bind-address            = 0.0.0.0');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }

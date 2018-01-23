@@ -3,7 +3,7 @@
         <div class="group--item-heading">
             <h4>
                 <template v-if="editing">
-                    <input ref="pile_name" v-model="form.name" type="text" :value="pile.name" placeholder="Pile Name" @keyup.enter="savePile">
+                    <input ref="pile_name" v-model="form.name" type="text" placeholder="Pile Name" @keyup.enter="savePile">
 
                     <div class="action-btn">
                         <button @click="savePile" class="btn btn-small btn-primary"><span class="icon-check_circle"></span></button>
@@ -17,7 +17,6 @@
                             </template>
                         </button>
                     </div>
-
                 </template>
                 <template v-else>
                     <template v-if="pile.name && pile.name.length > 23">
@@ -55,7 +54,7 @@
                 <h4>No Sites</h4>
             </template>
 
-            <div class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
+            <div :class="{ 'disabled' : !siteCreateEnabled }" class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
                 <span class="icon-plus"></span> Create New Site
             </div>
 
@@ -65,71 +64,71 @@
 </template>
 
 <script>
-    import SiteForm from './../../../components/SiteForm.vue'
-    export default {
-        props: ['pile', 'index'],
-        components: {
-            SiteForm
-        },
-        data () {
-            return {
-                form: this.createForm({
-                    pile: this.pile.id,
-                    name: this.pile.name
-                }),
-                addingSite: false,
-                editing: this.pile.editing
-            }
-        },
-        watch: {
-            'editing' () {
-                this.focus()
-            }
-        },
-        mounted() {
-            this.focus()
-        },
-        methods: {
-            focus() {
-                Vue.nextTick(() => {
-                    if (this.editing) {
-                        this.$refs.pile_name.focus()
-                    }
-                })
-            },
-            cancel () {
-                if (!this.pile.id) {
-                    this.$store.commit('user_piles/removeTemp', this.index)
-                }
-
-                this.editing = false
-            },
-            edit () {
-                this.editing = true
-            },
-            deletePile () {
-                if (this.pile.id) {
-                    return this.$store.dispatch('user_piles/destroy', this.pile.id)
-                }
-
-                this.cancel()
-            },
-            savePile () {
-                if (this.pile.id) {
-                    this.$store.dispatch('user_piles/update', this.form)
-                } else {
-                    this.$store.dispatch('user_piles/store', this.form).then(() => {
-                        this.cancel()
-                    })
-                }
-
-                this.editing = false
-            }
-        },
-        computed: {
-            sites () {
-                return this.$store.state.user_piles.piles[this.pile.id].sites
-            }
-        }
+import SiteForm from "./../../../components/SiteForm";
+export default {
+  props: ["pile", "index"],
+  components: {
+    SiteForm
+  },
+  data() {
+    return {
+      form: this.createForm({
+        pile: this.pile.id,
+        name: this.pile.name
+      }),
+      addingSite: false,
+      editing: this.pile.editing
+    };
+  },
+  watch: {
+    editing() {
+      this.focus();
     }
+  },
+  mounted() {
+    this.focus();
+  },
+  methods: {
+    focus() {
+      Vue.nextTick(() => {
+        if (this.editing) {
+          this.$refs.pile_name.focus();
+        }
+      });
+    },
+    cancel() {
+      if (!this.pile.id) {
+        this.$store.commit("user_piles/removeTemp", this.index);
+      }
+
+      this.editing = false;
+    },
+    edit() {
+      this.editing = true;
+    },
+    deletePile() {
+      if (this.pile.id) {
+        return this.$store.dispatch("user_piles/destroy", this.pile.id);
+      }
+
+      this.cancel();
+    },
+    savePile() {
+      if (this.pile.id) {
+        this.$store.dispatch("user_piles/update", this.form);
+      } else {
+        this.$store.dispatch("user_piles/store", this.form).then(() => {
+          this.cancel();
+        });
+      }
+
+      this.editing = false;
+    }
+  },
+  computed: {
+    sites() {
+      return this.$store.state.user_piles.piles[this.pile.id].sites;
+    }
+  }
+};
 </script>

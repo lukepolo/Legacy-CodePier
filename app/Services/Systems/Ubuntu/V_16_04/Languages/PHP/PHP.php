@@ -36,6 +36,9 @@ class PHP
             'Yarn',
             'NodeJs',
         ],
+        'FirewallService' => [
+            'Fail2ban',
+        ],
         'WorkerService' => [
             'Beanstalk',
             'Supervisor',
@@ -62,11 +65,10 @@ class PHP
     /**
      * @description PHP
      *
-     * @options 7.0, 7.1
+     * @options 7.0, 7.1, 7.2
      * @multiple false
-     * @param string $version
      */
-    public function installPHP($version = '7.1')
+    public function installPHP($version = '7.2')
     {
         $this->connectToServer();
 
@@ -162,38 +164,17 @@ class PHP
     {
         $frameworkConfig = '';
         if (! empty($site->framework)) {
-            $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig();
+            $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig($site, $this->server->getLanguages()['PHP']['version']);
         }
 
         return '
     index index.html index.htm index.php;
-
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Content-Type-Options "nosniff";
     
     '.$frameworkConfig.'
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
 
-    access_log off;
-    error_log  /var/log/nginx/'.$site->domain.' error;
   
-    location / {
-        include '.WebService::NGINX_SERVER_FILES.'/'.$site->domain.'/root-location/*;
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-    
     location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php/php'.$this->getPhpVersion().'-fpm.sock;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-    
-    location ~ /\.ht {
-        deny all;
+        return 404;
     }
 ';
     }

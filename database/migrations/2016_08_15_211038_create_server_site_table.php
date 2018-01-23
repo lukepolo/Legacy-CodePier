@@ -15,9 +15,12 @@ class CreateServerSiteTable extends Migration
     {
         Schema::create('server_site', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_id');
-            $table->integer('site_id');
+            $table->unsignedInteger('server_id');
+            $table->unsignedInteger('site_id');
             $table->timestamps();
+
+            $table->index('server_id');
+            $table->index('site_id');
         });
     }
 

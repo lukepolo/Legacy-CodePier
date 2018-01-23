@@ -120,7 +120,7 @@
   }
 }
 
-.tab-content .tab-left-small {
+.tab-container:not(.in-workflow) .tab-left-small {
   margin-left: -$spacing*2;
 }
 
@@ -153,6 +153,10 @@
     font-weight: 400;
     border-color: $color-accent;
   }
+}
+
+#right .wizard-item {
+  flex-basis: 120px;
 }
 
 

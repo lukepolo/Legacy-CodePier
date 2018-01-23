@@ -4,7 +4,6 @@ namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
-use App\Exceptions\DeploymentFailed;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\DeploymentStepFailed;
@@ -53,7 +52,6 @@ class Deploy implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws DeploymentFailed
      */
     public function handle(SiteService $siteService)
     {

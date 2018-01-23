@@ -25,6 +25,13 @@
                                 </div>
                             </a>
                         </div>
+
+                        <div class="group--item" v-if="!isSubscribed">
+                            <router-link :to="{ name : 'subscription' }" class="subscribe-pile">
+                                Upgrade Account
+                                <div class="small">The free plan only allows for 1 site. <br>Upgrade now to add more!</div>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,32 +40,30 @@
 </template>
 
 <script>
-    import {
-        Pile
-    } from '../components'
+import { Pile } from "../components";
 
-    import LeftNav from '../../../components/LeftNav.vue'
+import LeftNav from "../../../components/LeftNav";
 
-    export default {
-        components: {
-            Pile,
-            LeftNav
-        },
-        computed: {
-            piles () {
-                return this.$store.state.user_piles.piles
-            }
-        },
-        methods: {
-            deletePile (index) {
-                this.$store.commit('REMOVE_TEMP_PILE', index)
-            },
-            newPile () {
-                this.$store.state.user_piles.piles.push({
-                    name: null,
-                    editing: true
-                })
-            }
-        }
+export default {
+  components: {
+    Pile,
+    LeftNav
+  },
+  computed: {
+    piles() {
+      return this.$store.state.user_piles.piles;
     }
+  },
+  methods: {
+    deletePile(index) {
+      this.$store.commit("REMOVE_TEMP_PILE", index);
+    },
+    newPile() {
+      this.$store.state.user_piles.piles.push({
+        name: null,
+        editing: true
+      });
+    }
+  }
+};
 </script>

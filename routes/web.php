@@ -1,5 +1,18 @@
 <?php
 
+// Preview Emails
+use Illuminate\Mail\Markdown;
+
+if (config('app.env') === 'local') {
+    Route::get('welcomeEmail', function () {
+        $markdown = new Markdown(view(), config('mail.markdown'));
+
+        return $markdown->render('mail.welcome', [
+            'user' => \Auth::user(),
+        ]);
+    });
+}
+
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -60,8 +73,16 @@ Route::group([
 Route::group([
     'prefix' => 'webhook',
 ], function () {
-    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
-    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    Route::group([
+        'middleware' => 'checkMaxSites',
+    ], function () {
+        Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    });
+    Route::group([
+        'middleware' => 'checkMaxServers',
+    ], function () {
+        Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    });
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
@@ -107,6 +128,7 @@ Route::group([
 |
 */
 
+Route::get('/pricing', 'PricingController@index');
 Route::get('/privacy', 'PublicController@privacy');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
@@ -127,6 +149,9 @@ Route::group([
 ], function () {
     Route::get('second-auth', 'Auth\SecondAuthController@show');
     Route::post('second-auth', 'Auth\SecondAuthController@store');
+
+    Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
+    Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
 });
 
 Route::group([
@@ -135,7 +160,6 @@ Route::group([
         'second_auth',
     ],
 ], function () {
-    Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

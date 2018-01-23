@@ -38,6 +38,18 @@ class SiteController extends Controller
     {
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
+
+        $this->middleware('checkMaxSites')
+            ->except([
+                'index',
+                'show',
+                'destroy',
+            ]);
+
+        $this->middleware('checkSiteCreationLimit')
+            ->only([
+                'store',
+            ]);
     }
 
     /**
@@ -69,7 +81,7 @@ class SiteController extends Controller
             'workflow'            => \Auth::user()->workflow ? null : [],
             'wildcard_domain'     => $request->get('wildcard_domain', 0),
             'keep_releases'       => 10,
-            'zerotime_deployment' => true,
+            'zero_downtime_deployment' => true,
         ]);
 
         return response()->json($site);
@@ -113,10 +125,8 @@ class SiteController extends Controller
             event(new SiteUpdatedWebConfig($site));
         }
 
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
+        if ($site->isDirty('repository') && ! empty($site->getOriginal('repository'))) {
+            $this->repositoryService->generateNewSshKeys($site);
         }
 
         $site->save();
@@ -167,7 +177,7 @@ class SiteController extends Controller
             $lastDeploymentStatus = $site->last_deployment_status;
             if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
                 dispatch(
-                    (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+                    (new DeploySite($site))->onQueue(config('queue.channels.site_deployments'))
                 );
             } else {
                 return response()->json('You have a deployment currently running', 409);
@@ -186,7 +196,7 @@ class SiteController extends Controller
         if ($site->provisionedServers->count()) {
             dispatch(
                 (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))
-                    ->onQueue(config('queue.channels.server_commands'))
+                    ->onQueue(config('queue.channels.site_deployments'))
             );
         }
     }
@@ -296,13 +306,26 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        $site->update([
-            'hash' => create_redis_hash(),
-        ]);
+        do {
+            $success = false;
+
+            try {
+                $site->update([
+                    'hash' => create_redis_hash(),
+                ]);
+                $success = true;
+            } catch (\Exception $e) {
+                return response()->json($site);
+            }
+        } while (! $success);
 
         if (! empty($site->automatic_deployment_id)) {
-            $this->repositoryService->deleteDeployHook($site);
-            $this->repositoryService->createDeployHook($site);
+            try {
+                $this->repositoryService->deleteDeployHook($site);
+                $this->repositoryService->createDeployHook($site);
+            } catch (\Exception $e) {
+                // its ok to fail here
+            }
         }
 
         return response()->json($site);

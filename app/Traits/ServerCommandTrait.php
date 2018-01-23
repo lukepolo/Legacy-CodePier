@@ -97,6 +97,7 @@ trait ServerCommandTrait
                         throw $e;
                     }
                     $message = 'We had a system error please contact support.';
+                    app('sentry')->captureException($e);
                     break;
             }
 

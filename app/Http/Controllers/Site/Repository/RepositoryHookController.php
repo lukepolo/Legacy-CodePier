@@ -47,8 +47,17 @@ class RepositoryHookController extends Controller
      */
     public function destroy($siteId)
     {
-        return response()->json(
-            $this->siteService->deleteDeployHook(Site::findOrFail($siteId))
-        );
+        $site = Site::findOrFail($siteId);
+        try {
+            return response()->json(
+                $this->siteService->deleteDeployHook($site)
+            );
+        } catch (\Exception $e) {
+            $site->update([
+                'automatic_deployment_id' => null,
+            ]);
+
+            return response()->json('We were unable to delete the webhook, you should remove this manually', 500);
+        }
     }
 }

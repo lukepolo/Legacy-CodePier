@@ -1,6 +1,5 @@
 import {
   UserInfo,
-  UserOauth,
   UserSshKeys,
   UserSubscription,
   UserServerProviders,
@@ -20,14 +19,6 @@ export default [
         name: "my_account",
         components: {
           default: UserInfo,
-          nav: UserNav
-        }
-      },
-      {
-        path: "account/oauth",
-        name: "oauth",
-        components: {
-          default: UserOauth,
           nav: UserNav
         }
       },
