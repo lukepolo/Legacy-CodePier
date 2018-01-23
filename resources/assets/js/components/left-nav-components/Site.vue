@@ -20,36 +20,34 @@
 </template>
 
 <script>
+import SiteDeploy from "./SiteDeploy.vue";
 
-    import SiteDeploy from './SiteDeploy.vue'
+export default {
+  props: ["site"],
+  components: {
+    SiteDeploy
+  },
+  computed: {
+    deploymentStatus() {
+      let status = null;
 
-    export default {
-        props : ['site'],
-        components : {
-            SiteDeploy
-        },
-        computed : {
-            deploymentStatus () {
+      switch (this.site.last_deployment_status) {
+        case "Completed":
+          status = "All Good";
+          break;
+        case "Failed":
+          status = "Something Failed";
+          break;
+        case "Queued":
+          status = "Queued";
+          break;
+        default:
+          status = "Deploying";
+          break;
+      }
 
-                let status = null
-
-                switch (this.site.last_deployment_status) {
-                    case 'Completed':
-                        status = 'All Good'
-                        break
-                    case 'Failed' :
-                        status = 'Something Failed'
-                        break
-                    case 'Queued' :
-                        status = 'Queued'
-                        break
-                    default :
-                        status = 'Deploying'
-                        break
-                }
-
-                return status
-            },
-        }
+      return status;
     }
+  }
+};
 </script>

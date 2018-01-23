@@ -55,38 +55,38 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                form : this.createForm({
-                    ports : [],
-                    options : [],
-                    server : null,
-                    buoy_app_id : null,
-                })
-            }
-        },
-        methods: {
-            installBuoy() {
-                this.form.buoy_app_id = this.buoyApp.id
-                return this.$store.dispatch('buoys/installOnServer', this.form)
-            }
-        },
-        computed: {
-            buoyApp() {
-                let buoyApp = this.$store.state.buoys.buoy_app
-
-                if(buoyApp) {
-                    this.form.ports = buoyApp.ports
-                    this.form.options = buoyApp.options
-                    return buoyApp
-                }
-            },
-            servers() {
-                return _.filter(this.$store.state.user_servers.servers, function(server) {
-                    return server.progress >= 100
-                })
-            }
-        }
+export default {
+  data() {
+    return {
+      form: this.createForm({
+        ports: [],
+        options: [],
+        server: null,
+        buoy_app_id: null
+      })
+    };
+  },
+  methods: {
+    installBuoy() {
+      this.form.buoy_app_id = this.buoyApp.id;
+      return this.$store.dispatch("buoys/installOnServer", this.form);
     }
+  },
+  computed: {
+    buoyApp() {
+      let buoyApp = this.$store.state.buoys.buoy_app;
+
+      if (buoyApp) {
+        this.form.ports = buoyApp.ports;
+        this.form.options = buoyApp.options;
+        return buoyApp;
+      }
+    },
+    servers() {
+      return _.filter(this.$store.state.user_servers.servers, function(server) {
+        return server.progress >= 100;
+      });
+    }
+  }
+};
 </script>

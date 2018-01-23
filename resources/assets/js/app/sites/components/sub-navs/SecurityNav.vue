@@ -33,19 +33,19 @@
     </div>
 </template>
 <script>
-    export default{
-        computed : {
-            siteId() {
-                return this.$route.params.site_id
-            },
-            site() {
-                return this.$store.state.user_sites.site;
-            }
-        },
-        watch: {
-            '$route': function() {
-                $('#middle .section-content').scrollTop(0)
-            }
-        }
+export default {
+  computed: {
+    siteId() {
+      return this.$route.params.site_id;
+    },
+    site() {
+      return this.$store.state.user_sites.site;
     }
+  },
+  watch: {
+    $route: function() {
+      $("#middle .section-content").scrollTop(0);
+    }
+  }
+};
 </script>

@@ -32,6 +32,7 @@
             color: rgba($color-text-primary, .7);
             font-size: 14px;
             padding: ($spacing/2) ($spacing) !important;
+            white-space: nowrap;
             
             [class^="icon-"], [class*=" icon-"] {
                 font-size: 1.4em;

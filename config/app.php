@@ -190,6 +190,7 @@ return [
         /*
          * Custom Service Providers
          */
+        App\Providers\RepositoriesServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\RemoteTaskServiceProvider::class,
         App\Providers\ServerServiceProvider::class,

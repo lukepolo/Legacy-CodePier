@@ -43,8 +43,20 @@
         padding: 0px;
         background-color: transparent;
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             color: $color-primary;
+            outline: none;
+        }
+
+        &.btn-link-danger {
+            &:hover,
+            &:focus,
+            &:active {
+                color: $red;
+                outline: none;
+            }
         }
     }
 }
@@ -55,6 +67,11 @@ span.btn {
     
 .btn-primary { 
     background-color: $jcf-color-primary;
+    color: $jcf-color-text-primary !important;
+}
+
+.btn-success {
+    background-color: $green;
     color: $jcf-color-text-primary !important;
 }
 
@@ -111,4 +128,83 @@ button[disabled=disabled] {
 // ---------------------------------------------------------
 .btn-container {
     padding: $spacing;
+}
+
+
+// TOOLTIPS AROUND BUTTON MARGIN ---------------------------
+// ---------------------------------------------------------
+.btn--tooltip {
+    + .btn--tooltip,
+    + .btn {
+        margin-left: 15px;
+    }
+}
+
+.btn {
+    + .btn--tooltip {
+        margin-left: 15px;
+    }
+}
+
+.btn--tooltip-small {
+    + .btn--tooltip-small,
+    + .btn-small {
+        margin-left: 5px;
+    }
+}
+
+.btn-small {
+    + .btn--tooltip-small {
+        margin-left: 5px;
+    }
+}
+
+
+
+// BUTTON TO TRIGGER SERVER PANEL --------------------------
+// ---------------------------------------------------------
+.btn--trigger-panel {
+    color: mix($blue, $white, 30%);
+
+    &:hover {
+        color: $blue;
+    }
+}
+
+// Inside Tables
+.table .btn--trigger-panel {
+    [class^="icon-"], [class*=" icon-"] {
+        margin-right: 10px;
+        transform: scale(.85);
+    }
+}
+
+// Inside Forms
+.flyform--group + .btn--trigger-panel {
+    margin-left: 20px;
+    margin-top: -10px;
+
+
+    [class^="icon-"], [class*=" icon-"] {
+        transform: scale(1.2);
+
+        &:after {
+            content: 'Choose Servers';
+            display: inline-block;
+            padding-left: 10px;
+            font-family: $font-body;
+            color: $color-text-primary;
+        }
+
+        &:hover:after {
+            color: $color-text-accent;
+        }
+    }
+}
+
+// Inside Deployment Steps
+.drag-element {
+    .btn--trigger-panel {
+        display: inline-block;
+    }
 }

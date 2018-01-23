@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.20 on 2017-12-22.
+ * Generated for Laravel 5.5.32 on 2018-01-22.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -375,6 +375,18 @@ namespace Illuminate\Support\Facades {
         public static function getProvider($provider)
         {
             return \Illuminate\Foundation\Application::getProvider($provider);
+        }
+        
+        /**
+         * Get the registered service provider instances if any exist.
+         *
+         * @param \Illuminate\Support\ServiceProvider|string $provider
+         * @return array 
+         * @static 
+         */ 
+        public static function getProviders($provider)
+        {
+            return \Illuminate\Foundation\Application::getProviders($provider);
         }
         
         /**
@@ -1632,6 +1644,394 @@ namespace Illuminate\Support\Facades {
         {
             return \Illuminate\Auth\AuthManager::getDefaultUserProvider();
         }
+        
+        /**
+         * Get the currently authenticated user.
+         *
+         * @return \App\Models\User\User|null 
+         * @static 
+         */ 
+        public static function user()
+        {
+            return \Illuminate\Auth\SessionGuard::user();
+        }
+        
+        /**
+         * Get the ID for the currently authenticated user.
+         *
+         * @return int|null 
+         * @static 
+         */ 
+        public static function id()
+        {
+            return \Illuminate\Auth\SessionGuard::id();
+        }
+        
+        /**
+         * Log a user into the application without sessions or cookies.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */ 
+        public static function once($credentials = array())
+        {
+            return \Illuminate\Auth\SessionGuard::once($credentials);
+        }
+        
+        /**
+         * Log the given user ID into the application without sessions or cookies.
+         *
+         * @param mixed $id
+         * @return \App\Models\User\User|false 
+         * @static 
+         */ 
+        public static function onceUsingId($id)
+        {
+            return \Illuminate\Auth\SessionGuard::onceUsingId($id);
+        }
+        
+        /**
+         * Validate a user's credentials.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */ 
+        public static function validate($credentials = array())
+        {
+            return \Illuminate\Auth\SessionGuard::validate($credentials);
+        }
+        
+        /**
+         * Attempt to authenticate using HTTP Basic Auth.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */ 
+        public static function basic($field = 'email', $extraConditions = array())
+        {
+            return \Illuminate\Auth\SessionGuard::basic($field, $extraConditions);
+        }
+        
+        /**
+         * Perform a stateless HTTP Basic login attempt.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */ 
+        public static function onceBasic($field = 'email', $extraConditions = array())
+        {
+            return \Illuminate\Auth\SessionGuard::onceBasic($field, $extraConditions);
+        }
+        
+        /**
+         * Attempt to authenticate a user using the given credentials.
+         *
+         * @param array $credentials
+         * @param bool $remember
+         * @return bool 
+         * @static 
+         */ 
+        public static function attempt($credentials = array(), $remember = false)
+        {
+            return \Illuminate\Auth\SessionGuard::attempt($credentials, $remember);
+        }
+        
+        /**
+         * Log the given user ID into the application.
+         *
+         * @param mixed $id
+         * @param bool $remember
+         * @return \App\Models\User\User|false 
+         * @static 
+         */ 
+        public static function loginUsingId($id, $remember = false)
+        {
+            return \Illuminate\Auth\SessionGuard::loginUsingId($id, $remember);
+        }
+        
+        /**
+         * Log a user into the application.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @param bool $remember
+         * @return void 
+         * @static 
+         */ 
+        public static function login($user, $remember = false)
+        {
+            \Illuminate\Auth\SessionGuard::login($user, $remember);
+        }
+        
+        /**
+         * Log the user out of the application.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function logout()
+        {
+            \Illuminate\Auth\SessionGuard::logout();
+        }
+        
+        /**
+         * Register an authentication attempt event listener.
+         *
+         * @param mixed $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function attempting($callback)
+        {
+            \Illuminate\Auth\SessionGuard::attempting($callback);
+        }
+        
+        /**
+         * Get the last user we attempted to authenticate.
+         *
+         * @return \App\Models\User\User 
+         * @static 
+         */ 
+        public static function getLastAttempted()
+        {
+            return \Illuminate\Auth\SessionGuard::getLastAttempted();
+        }
+        
+        /**
+         * Get a unique identifier for the auth session value.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getName()
+        {
+            return \Illuminate\Auth\SessionGuard::getName();
+        }
+        
+        /**
+         * Get the name of the cookie used to store the "recaller".
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getRecallerName()
+        {
+            return \Illuminate\Auth\SessionGuard::getRecallerName();
+        }
+        
+        /**
+         * Determine if the user was authenticated via "remember me" cookie.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function viaRemember()
+        {
+            return \Illuminate\Auth\SessionGuard::viaRemember();
+        }
+        
+        /**
+         * Get the cookie creator instance used by the guard.
+         *
+         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function getCookieJar()
+        {
+            return \Illuminate\Auth\SessionGuard::getCookieJar();
+        }
+        
+        /**
+         * Set the cookie creator instance used by the guard.
+         *
+         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
+         * @return void 
+         * @static 
+         */ 
+        public static function setCookieJar($cookie)
+        {
+            \Illuminate\Auth\SessionGuard::setCookieJar($cookie);
+        }
+        
+        /**
+         * Get the event dispatcher instance.
+         *
+         * @return \Illuminate\Contracts\Events\Dispatcher 
+         * @static 
+         */ 
+        public static function getDispatcher()
+        {
+            return \Illuminate\Auth\SessionGuard::getDispatcher();
+        }
+        
+        /**
+         * Set the event dispatcher instance.
+         *
+         * @param \Illuminate\Contracts\Events\Dispatcher $events
+         * @return void 
+         * @static 
+         */ 
+        public static function setDispatcher($events)
+        {
+            \Illuminate\Auth\SessionGuard::setDispatcher($events);
+        }
+        
+        /**
+         * Get the session store used by the guard.
+         *
+         * @return \Illuminate\Contracts\Session\Session 
+         * @static 
+         */ 
+        public static function getSession()
+        {
+            return \Illuminate\Auth\SessionGuard::getSession();
+        }
+        
+        /**
+         * Return the currently cached user.
+         *
+         * @return \App\Models\User\User|null 
+         * @static 
+         */ 
+        public static function getUser()
+        {
+            return \Illuminate\Auth\SessionGuard::getUser();
+        }
+        
+        /**
+         * Set the current user.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return $this 
+         * @static 
+         */ 
+        public static function setUser($user)
+        {
+            return \Illuminate\Auth\SessionGuard::setUser($user);
+        }
+        
+        /**
+         * Get the current request instance.
+         *
+         * @return \Symfony\Component\HttpFoundation\Request 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+            return \Illuminate\Auth\SessionGuard::getRequest();
+        }
+        
+        /**
+         * Set the current request instance.
+         *
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @return $this 
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {
+            return \Illuminate\Auth\SessionGuard::setRequest($request);
+        }
+        
+        /**
+         * Determine if the current user is authenticated.
+         *
+         * @return \App\Models\User\User 
+         * @throws \Illuminate\Auth\AuthenticationException
+         * @static 
+         */ 
+        public static function authenticate()
+        {
+            return \Illuminate\Auth\SessionGuard::authenticate();
+        }
+        
+        /**
+         * Determine if the current user is authenticated.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function check()
+        {
+            return \Illuminate\Auth\SessionGuard::check();
+        }
+        
+        /**
+         * Determine if the current user is a guest.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function guest()
+        {
+            return \Illuminate\Auth\SessionGuard::guest();
+        }
+        
+        /**
+         * Get the user provider used by the guard.
+         *
+         * @return \Illuminate\Contracts\Auth\UserProvider 
+         * @static 
+         */ 
+        public static function getProvider()
+        {
+            return \Illuminate\Auth\SessionGuard::getProvider();
+        }
+        
+        /**
+         * Set the user provider used by the guard.
+         *
+         * @param \Illuminate\Contracts\Auth\UserProvider $provider
+         * @return void 
+         * @static 
+         */ 
+        public static function setProvider($provider)
+        {
+            \Illuminate\Auth\SessionGuard::setProvider($provider);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Auth\SessionGuard::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @return void 
+         * @static 
+         */ 
+        public static function mixin($mixin)
+        {
+            \Illuminate\Auth\SessionGuard::mixin($mixin);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Auth\SessionGuard::hasMacro($name);
+        }
          
     }
 
@@ -1779,6 +2179,17 @@ namespace Illuminate\Support\Facades {
         public static function setEchoFormat($format)
         {
             \Illuminate\View\Compilers\BladeCompiler::setEchoFormat($format);
+        }
+        
+        /**
+         * Set the echo format to double encode entities.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function doubleEncode()
+        {
+            \Illuminate\View\Compilers\BladeCompiler::doubleEncode();
         }
         
         /**
@@ -2883,6 +3294,98 @@ namespace Illuminate\Support\Facades {
         public static function getQueuedCookies()
         {
             return \Illuminate\Cookie\CookieJar::getQueuedCookies();
+        }
+         
+    }
+
+    class Crypt {
+        
+        /**
+         * Determine if the given key and cipher combination is valid.
+         *
+         * @param string $key
+         * @param string $cipher
+         * @return bool 
+         * @static 
+         */ 
+        public static function supported($key, $cipher)
+        {
+            return \Illuminate\Encryption\Encrypter::supported($key, $cipher);
+        }
+        
+        /**
+         * Create a new encryption key for the given cipher.
+         *
+         * @param string $cipher
+         * @return string 
+         * @static 
+         */ 
+        public static function generateKey($cipher)
+        {
+            return \Illuminate\Encryption\Encrypter::generateKey($cipher);
+        }
+        
+        /**
+         * Encrypt the given value.
+         *
+         * @param mixed $value
+         * @param bool $serialize
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encrypt($value, $serialize = true)
+        {
+            return \Illuminate\Encryption\Encrypter::encrypt($value, $serialize);
+        }
+        
+        /**
+         * Encrypt a string without serialization.
+         *
+         * @param string $value
+         * @return string 
+         * @static 
+         */ 
+        public static function encryptString($value)
+        {
+            return \Illuminate\Encryption\Encrypter::encryptString($value);
+        }
+        
+        /**
+         * Decrypt the given value.
+         *
+         * @param mixed $payload
+         * @param bool $unserialize
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decrypt($payload, $unserialize = true)
+        {
+            return \Illuminate\Encryption\Encrypter::decrypt($payload, $unserialize);
+        }
+        
+        /**
+         * Decrypt the given string without unserialization.
+         *
+         * @param string $payload
+         * @return string 
+         * @static 
+         */ 
+        public static function decryptString($payload)
+        {
+            return \Illuminate\Encryption\Encrypter::decryptString($payload);
+        }
+        
+        /**
+         * Get the encryption key.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getKey()
+        {
+            return \Illuminate\Encryption\Encrypter::getKey();
         }
          
     }
@@ -5364,7 +5867,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|array $view
          * @param array $data
-         * @return \Illuminate\View\View 
+         * @return string 
          * @static 
          */ 
         public static function render($view, $data = array())
@@ -5877,29 +6380,29 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Get the size of the queue.
+         * Get the number of queue jobs that are ready to process.
          *
-         * @param string $queue
+         * @param string|null $queue
          * @return int 
          * @static 
          */ 
-        public static function size($queue = null)
+        public static function readyNow($queue = null)
         {
-            return \Illuminate\Queue\DatabaseQueue::size($queue);
+            return \Laravel\Horizon\RedisQueue::readyNow($queue);
         }
         
         /**
          * Push a new job onto the queue.
          *
-         * @param string $job
+         * @param object|string $job
          * @param mixed $data
-         * @param string $queue
+         * @param string|null $queue
          * @return mixed 
          * @static 
          */ 
         public static function push($job, $data = '', $queue = null)
         {
-            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
+            return \Laravel\Horizon\RedisQueue::push($job, $data, $queue);
         }
         
         /**
@@ -5913,7 +6416,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function pushRaw($payload, $queue = null, $options = array())
         {
-            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
+            return \Laravel\Horizon\RedisQueue::pushRaw($payload, $queue, $options);
         }
         
         /**
@@ -5923,40 +6426,12 @@ namespace Illuminate\Support\Facades {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return void 
+         * @return mixed 
          * @static 
          */ 
         public static function later($delay, $job, $data = '', $queue = null)
         {
-            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
-        }
-        
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array $jobs
-         * @param mixed $data
-         * @param string $queue
-         * @return mixed 
-         * @static 
-         */ 
-        public static function bulk($jobs, $data = '', $queue = null)
-        {
-            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
-        }
-        
-        /**
-         * Release a reserved job back onto the queue.
-         *
-         * @param string $queue
-         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
-         * @param int $delay
-         * @return mixed 
-         * @static 
-         */ 
-        public static function release($queue, $job, $delay)
-        {
-            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
+            return \Laravel\Horizon\RedisQueue::later($delay, $job, $data, $queue);
         }
         
         /**
@@ -5968,20 +6443,60 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function pop($queue = null)
         {
-            return \Illuminate\Queue\DatabaseQueue::pop($queue);
+            return \Laravel\Horizon\RedisQueue::pop($queue);
+        }
+        
+        /**
+         * Migrate the delayed jobs that are ready to the regular queue.
+         *
+         * @param string $from
+         * @param string $to
+         * @return void 
+         * @static 
+         */ 
+        public static function migrateExpiredJobs($from, $to)
+        {
+            \Laravel\Horizon\RedisQueue::migrateExpiredJobs($from, $to);
         }
         
         /**
          * Delete a reserved job from the queue.
          *
          * @param string $queue
-         * @param string $id
+         * @param \Illuminate\Queue\Jobs\RedisJob $job
          * @return void 
          * @static 
          */ 
-        public static function deleteReserved($queue, $id)
+        public static function deleteReserved($queue, $job)
         {
-            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
+            \Laravel\Horizon\RedisQueue::deleteReserved($queue, $job);
+        }
+        
+        /**
+         * Delete a reserved job from the reserved queue and release it.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\RedisJob $job
+         * @param int $delay
+         * @return void 
+         * @static 
+         */ 
+        public static function deleteAndRelease($queue, $job, $delay)
+        {
+            \Laravel\Horizon\RedisQueue::deleteAndRelease($queue, $job, $delay);
+        }
+        
+        /**
+         * Get the size of the queue.
+         *
+         * @param string $queue
+         * @return int 
+         * @static 
+         */ 
+        public static function size($queue = null)
+        {
+            //Method inherited from \Illuminate\Queue\RedisQueue            
+            return \Laravel\Horizon\RedisQueue::size($queue);
         }
         
         /**
@@ -5993,18 +6508,20 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getQueue($queue)
         {
-            return \Illuminate\Queue\DatabaseQueue::getQueue($queue);
+            //Method inherited from \Illuminate\Queue\RedisQueue            
+            return \Laravel\Horizon\RedisQueue::getQueue($queue);
         }
         
         /**
-         * Get the underlying database instance.
+         * Get the underlying Redis instance.
          *
-         * @return \Illuminate\Database\Connection 
+         * @return \Illuminate\Contracts\Redis\Factory 
          * @static 
          */ 
-        public static function getDatabase()
+        public static function getRedis()
         {
-            return \Illuminate\Queue\DatabaseQueue::getDatabase();
+            //Method inherited from \Illuminate\Queue\RedisQueue            
+            return \Laravel\Horizon\RedisQueue::getRedis();
         }
         
         /**
@@ -6019,7 +6536,7 @@ namespace Illuminate\Support\Facades {
         public static function pushOn($queue, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
+            return \Laravel\Horizon\RedisQueue::pushOn($queue, $job, $data);
         }
         
         /**
@@ -6035,7 +6552,22 @@ namespace Illuminate\Support\Facades {
         public static function laterOn($queue, $delay, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
+            return \Laravel\Horizon\RedisQueue::laterOn($queue, $delay, $job, $data);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */ 
+        public static function bulk($jobs, $data = '', $queue = null)
+        {
+            //Method inherited from \Illuminate\Queue\Queue            
+            return \Laravel\Horizon\RedisQueue::bulk($jobs, $data, $queue);
         }
         
         /**
@@ -6048,7 +6580,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobExpiration($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::getJobExpiration($job);
+            return \Laravel\Horizon\RedisQueue::getJobExpiration($job);
         }
         
         /**
@@ -6060,7 +6592,7 @@ namespace Illuminate\Support\Facades {
         public static function getConnectionName()
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::getConnectionName();
+            return \Laravel\Horizon\RedisQueue::getConnectionName();
         }
         
         /**
@@ -6073,7 +6605,7 @@ namespace Illuminate\Support\Facades {
         public static function setConnectionName($name)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::setConnectionName($name);
+            return \Laravel\Horizon\RedisQueue::setConnectionName($name);
         }
         
         /**
@@ -6086,7 +6618,213 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\DatabaseQueue::setContainer($container);
+            \Laravel\Horizon\RedisQueue::setContainer($container);
+        }
+         
+    }
+
+    class Redirect {
+        
+        /**
+         * Create a new redirect response to the "home" route.
+         *
+         * @param int $status
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function home($status = 302)
+        {
+            return \Illuminate\Routing\Redirector::home($status);
+        }
+        
+        /**
+         * Create a new redirect response to the previous location.
+         *
+         * @param int $status
+         * @param array $headers
+         * @param mixed $fallback
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function back($status = 302, $headers = array(), $fallback = false)
+        {
+            return \Illuminate\Routing\Redirector::back($status, $headers, $fallback);
+        }
+        
+        /**
+         * Create a new redirect response to the current URI.
+         *
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function refresh($status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\Redirector::refresh($status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response, while putting the current URL in the session.
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @param bool $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function guest($path, $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\Redirector::guest($path, $status, $headers, $secure);
+        }
+        
+        /**
+         * Create a new redirect response to the previously intended location.
+         *
+         * @param string $default
+         * @param int $status
+         * @param array $headers
+         * @param bool $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function intended($default = '/', $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\Redirector::intended($default, $status, $headers, $secure);
+        }
+        
+        /**
+         * Create a new redirect response to the given path.
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @param bool $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function to($path, $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\Redirector::to($path, $status, $headers, $secure);
+        }
+        
+        /**
+         * Create a new redirect response to an external URL (no validation).
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function away($path, $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\Redirector::away($path, $status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response to the given HTTPS path.
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function secure($path, $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\Redirector::secure($path, $status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response to a named route.
+         *
+         * @param string $route
+         * @param array $parameters
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function route($route, $parameters = array(), $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\Redirector::route($route, $parameters, $status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response to a controller action.
+         *
+         * @param string $action
+         * @param array $parameters
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function action($action, $parameters = array(), $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\Redirector::action($action, $parameters, $status, $headers);
+        }
+        
+        /**
+         * Get the URL generator instance.
+         *
+         * @return \Illuminate\Routing\UrlGenerator 
+         * @static 
+         */ 
+        public static function getUrlGenerator()
+        {
+            return \Illuminate\Routing\Redirector::getUrlGenerator();
+        }
+        
+        /**
+         * Set the active session store.
+         *
+         * @param \Illuminate\Session\Store $session
+         * @return void 
+         * @static 
+         */ 
+        public static function setSession($session)
+        {
+            \Illuminate\Routing\Redirector::setSession($session);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Routing\Redirector::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @return void 
+         * @static 
+         */ 
+        public static function mixin($mixin)
+        {
+            \Illuminate\Routing\Redirector::mixin($mixin);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Routing\Redirector::hasMacro($name);
         }
          
     }
@@ -6363,24 +7101,24 @@ namespace Illuminate\Support\Facades {
          * Merge new input into the current request's input array.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function merge($input)
         {
-            \Illuminate\Http\Request::merge($input);
+            return \Illuminate\Http\Request::merge($input);
         }
         
         /**
          * Replace the input for the current request.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function replace($input)
         {
-            \Illuminate\Http\Request::replace($input);
+            return \Illuminate\Http\Request::replace($input);
         }
         
         /**
@@ -6849,8 +7587,8 @@ namespace Illuminate\Support\Facades {
          * 
          * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
          *
-         * @param string $key the key
-         * @param mixed $default the default value if the parameter key does not exist
+         * @param string $key The key
+         * @param mixed $default The default value if the parameter key does not exist
          * @return mixed 
          * @static 
          */ 
@@ -7486,6 +8224,24 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Returns the protocol version.
+         * 
+         * If the application is behind a proxy, the protocol version used in the
+         * requests between the client and the proxy and between the proxy and the
+         * server might be different. This returns the former (from the "Via" header)
+         * if the proxy is trusted (see "setTrustedProxies()"), otherwise it returns
+         * the latter (from the "SERVER_PROTOCOL" server parameter).
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getProtocolVersion()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::getProtocolVersion();
+        }
+        
+        /**
          * Returns the request body content.
          *
          * @param bool $asResource If true, a resource will be returned
@@ -8067,6 +8823,224 @@ namespace Illuminate\Support\Facades {
         public static function validate($rules, $params = null)
         {
             return \Illuminate\Http\Request::validate($rules, $params);
+        }
+         
+    }
+
+    class Response {
+        
+        /**
+         * Return a new response from the application.
+         *
+         * @param string $content
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\Response 
+         * @static 
+         */ 
+        public static function make($content = '', $status = 200, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::make($content, $status, $headers);
+        }
+        
+        /**
+         * Return a new view response from the application.
+         *
+         * @param string $view
+         * @param array $data
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\Response 
+         * @static 
+         */ 
+        public static function view($view, $data = array(), $status = 200, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::view($view, $data, $status, $headers);
+        }
+        
+        /**
+         * Return a new JSON response from the application.
+         *
+         * @param mixed $data
+         * @param int $status
+         * @param array $headers
+         * @param int $options
+         * @return \Illuminate\Http\JsonResponse 
+         * @static 
+         */ 
+        public static function json($data = array(), $status = 200, $headers = array(), $options = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::json($data, $status, $headers, $options);
+        }
+        
+        /**
+         * Return a new JSONP response from the application.
+         *
+         * @param string $callback
+         * @param mixed $data
+         * @param int $status
+         * @param array $headers
+         * @param int $options
+         * @return \Illuminate\Http\JsonResponse 
+         * @static 
+         */ 
+        public static function jsonp($callback, $data = array(), $status = 200, $headers = array(), $options = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::jsonp($callback, $data, $status, $headers, $options);
+        }
+        
+        /**
+         * Return a new streamed response from the application.
+         *
+         * @param \Closure $callback
+         * @param int $status
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function stream($callback, $status = 200, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::stream($callback, $status, $headers);
+        }
+        
+        /**
+         * Create a new file download response.
+         *
+         * @param \SplFileInfo|string $file
+         * @param string $name
+         * @param array $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse 
+         * @static 
+         */ 
+        public static function download($file, $name = null, $headers = array(), $disposition = 'attachment')
+        {
+            return \Illuminate\Routing\ResponseFactory::download($file, $name, $headers, $disposition);
+        }
+        
+        /**
+         * Return the raw contents of a binary file.
+         *
+         * @param \SplFileInfo|string $file
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse 
+         * @static 
+         */ 
+        public static function file($file, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::file($file, $headers);
+        }
+        
+        /**
+         * Create a new redirect response to the given path.
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @param bool|null $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function redirectTo($path, $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\ResponseFactory::redirectTo($path, $status, $headers, $secure);
+        }
+        
+        /**
+         * Create a new redirect response to a named route.
+         *
+         * @param string $route
+         * @param array $parameters
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function redirectToRoute($route, $parameters = array(), $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::redirectToRoute($route, $parameters, $status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response to a controller action.
+         *
+         * @param string $action
+         * @param array $parameters
+         * @param int $status
+         * @param array $headers
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function redirectToAction($action, $parameters = array(), $status = 302, $headers = array())
+        {
+            return \Illuminate\Routing\ResponseFactory::redirectToAction($action, $parameters, $status, $headers);
+        }
+        
+        /**
+         * Create a new redirect response, while putting the current URL in the session.
+         *
+         * @param string $path
+         * @param int $status
+         * @param array $headers
+         * @param bool|null $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function redirectGuest($path, $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\ResponseFactory::redirectGuest($path, $status, $headers, $secure);
+        }
+        
+        /**
+         * Create a new redirect response to the previously intended location.
+         *
+         * @param string $default
+         * @param int $status
+         * @param array $headers
+         * @param bool|null $secure
+         * @return \Illuminate\Http\RedirectResponse 
+         * @static 
+         */ 
+        public static function redirectToIntended($default = '/', $status = 302, $headers = array(), $secure = null)
+        {
+            return \Illuminate\Routing\ResponseFactory::redirectToIntended($default, $status, $headers, $secure);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Routing\ResponseFactory::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @return void 
+         * @static 
+         */ 
+        public static function mixin($mixin)
+        {
+            \Illuminate\Routing\ResponseFactory::mixin($mixin);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Routing\ResponseFactory::hasMacro($name);
         }
          
     }
@@ -9838,6 +10812,35 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a streamed response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function response($path, $name = null, $headers = array(), $disposition = 'inline')
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::response($path, $name, $headers, $disposition);
+        }
+        
+        /**
+         * Create a streamed download response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function download($path, $name = null, $headers = array())
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::download($path, $name, $headers);
+        }
+        
+        /**
          * Write the contents of a file.
          *
          * @param string $path
@@ -10054,7 +11057,7 @@ namespace Illuminate\Support\Facades {
          * @param \League\Flysystem\Rackspace\RackspaceAdapter $adapter
          * @param string $path
          * @param \DateTimeInterface $expiration
-         * @param $options
+         * @param array $options
          * @return string 
          * @static 
          */ 
@@ -10135,6 +11138,17 @@ namespace Illuminate\Support\Facades {
         public static function deleteDirectory($directory)
         {
             return \Illuminate\Filesystem\FilesystemAdapter::deleteDirectory($directory);
+        }
+        
+        /**
+         * Flush the Flysystem cache.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushCache()
+        {
+            \Illuminate\Filesystem\FilesystemAdapter::flushCache();
         }
         
         /**
@@ -10354,6 +11368,17 @@ namespace Illuminate\Support\Facades {
         public static function defaults($defaults)
         {
             \Illuminate\Routing\UrlGenerator::defaults($defaults);
+        }
+        
+        /**
+         * Get the default named parameters used by the URL generator.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDefaultParameters()
+        {
+            return \Illuminate\Routing\UrlGenerator::getDefaultParameters();
         }
         
         /**
@@ -11408,110 +12433,6 @@ namespace Illuminate\Support\Facades {
  
 }
 
-namespace Laravel\Horizon { 
-
-    class Horizon {
-         
-    }
- 
-}
-
-namespace Laravel\Socialite\Facades { 
-
-    class Socialite {
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function with($driver)
-        {
-            return \Laravel\Socialite\SocialiteManager::with($driver);
-        }
-        
-        /**
-         * Build an OAuth 2 provider instance.
-         *
-         * @param string $provider
-         * @param array $config
-         * @return \Laravel\Socialite\Two\AbstractProvider 
-         * @static 
-         */ 
-        public static function buildProvider($provider, $config)
-        {
-            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
-        }
-        
-        /**
-         * Format the server configuration.
-         *
-         * @param array $config
-         * @return array 
-         * @static 
-         */ 
-        public static function formatConfig($config)
-        {
-            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
-        }
-        
-        /**
-         * Get the default driver name.
-         *
-         * @throws \InvalidArgumentException
-         * @return string 
-         * @static 
-         */ 
-        public static function getDefaultDriver()
-        {
-            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
-        }
-        
-        /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function driver($driver = null)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::driver($driver);
-        }
-        
-        /**
-         * Register a custom driver creator Closure.
-         *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
-         * @static 
-         */ 
-        public static function extend($driver, $callback)
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
-        }
-        
-        /**
-         * Get all of the created "drivers".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getDrivers()
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::getDrivers();
-        }
-         
-    }
- 
-}
-
 namespace Sentry\SentryLaravel { 
 
     class SentryFacade {
@@ -12099,6 +13020,102 @@ namespace Sentry\SentryLaravel {
  
 }
 
+namespace Laravel\Socialite\Facades { 
+
+    class Socialite {
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+            return \Laravel\Socialite\SocialiteManager::with($driver);
+        }
+        
+        /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
+        }
+        
+        /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+        }
+        
+        /**
+         * Get the default driver name.
+         *
+         * @throws \InvalidArgumentException
+         * @return string 
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::driver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return $this 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
+        }
+        
+        /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+         
+    }
+ 
+}
+
 namespace Vinkla\Hashids\Facades { 
 
     class Hashids {
@@ -12234,6 +13251,183 @@ namespace Vinkla\Hashids\Facades {
  
 }
 
+namespace Spatie\Newsletter { 
+
+    class NewsletterFacade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribe($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribe($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribePending($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribePending($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function subscribeOrUpdate($email, $mergeFields = array(), $listName = '', $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::subscribeOrUpdate($email, $mergeFields, $listName, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMembers($listName = '', $parameters = array())
+        {
+            return \Spatie\Newsletter\Newsletter::getMembers($listName, $parameters);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMember($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::getMember($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMemberActivity($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::getMemberActivity($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasMember($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::hasMember($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isSubscribed($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::isSubscribed($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function unsubscribe($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::unsubscribe($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function updateEmailAddress($currentEmailAddress, $newEmailAddress, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::updateEmailAddress($currentEmailAddress, $newEmailAddress, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function delete($email, $listName = '')
+        {
+            return \Spatie\Newsletter\Newsletter::delete($email, $listName);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function createCampaign($fromName, $replyTo, $subject, $html = '', $listName = '', $options = array(), $contentOptions = array())
+        {
+            return \Spatie\Newsletter\Newsletter::createCampaign($fromName, $replyTo, $subject, $html, $listName, $options, $contentOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function updateContent($campaignId, $html, $options = array())
+        {
+            return \Spatie\Newsletter\Newsletter::updateContent($campaignId, $html, $options);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getApi()
+        {
+            return \Spatie\Newsletter\Newsletter::getApi();
+        }
+        
+        /**
+         * 
+         *
+         * @return array|false 
+         * @static 
+         */ 
+        public static function getLastError()
+        {
+            return \Spatie\Newsletter\Newsletter::getLastError();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function lastActionSucceeded()
+        {
+            return \Spatie\Newsletter\Newsletter::lastActionSucceeded();
+        }
+         
+    }
+ 
+}
+
+namespace Laravel\Horizon { 
+
+    class Horizon {
+         
+    }
+ 
+}
+
 namespace Mpociot\Teamwork\Facades { 
 
     class Teamwork {
@@ -12350,6 +13544,8 @@ namespace  {
     class Config extends \Illuminate\Support\Facades\Config {}
 
     class Cookie extends \Illuminate\Support\Facades\Cookie {}
+
+    class Crypt extends \Illuminate\Support\Facades\Crypt {}
 
     class DB extends \Illuminate\Support\Facades\DB {}
 
@@ -14421,9 +15617,13 @@ namespace  {
 
     class Queue extends \Illuminate\Support\Facades\Queue {}
 
+    class Redirect extends \Illuminate\Support\Facades\Redirect {}
+
     class Redis extends \Illuminate\Support\Facades\Redis {}
 
     class Request extends \Illuminate\Support\Facades\Request {}
+
+    class Response extends \Illuminate\Support\Facades\Response {}
 
     class Route extends \Illuminate\Support\Facades\Route {}
 
@@ -14439,13 +15639,15 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
-    class Horizon extends \Laravel\Horizon\Horizon {}
+    class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
 
     class Socialite extends \Laravel\Socialite\Facades\Socialite {}
 
-    class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
-
     class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
+
+    class Newsletter extends \Spatie\Newsletter\NewsletterFacade {}
+
+    class Horizon extends \Laravel\Horizon\Horizon {}
 
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
  
@@ -15003,11 +16205,13 @@ if (! function_exists('dd')) {
     /**
      * Dump the passed variables and end the script.
      *
-     * @param  mixed
+     * @param  mixed  $args
      * @return void
      */
     function dd(...$args)
     {
+        http_response_code(500);
+
         foreach ($args as $x) {
             (new Dumper)->dump($x);
         }
@@ -15021,15 +16225,16 @@ if (! function_exists('e')) {
      * Escape HTML special characters in a string.
      *
      * @param  \Illuminate\Contracts\Support\Htmlable|string  $value
+     * @param  bool  $doubleEncode
      * @return string
      */
-    function e($value)
+    function e($value, $doubleEncode = false)
     {
         if ($value instanceof Htmlable) {
             return $value->toHtml();
         }
 
-        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode);
     }
 }
 
@@ -15172,7 +16377,7 @@ if (! function_exists('optional')) {
      * @param  mixed  $value
      * @return mixed
      */
-    function optional($value)
+    function optional($value = null)
     {
         return new Optional($value);
     }
@@ -15319,7 +16524,7 @@ if (! function_exists('str_is')) {
     /**
      * Determine if a given string matches a given pattern.
      *
-     * @param  string  $pattern
+     * @param  string|array  $pattern
      * @param  string  $value
      * @return bool
      */
@@ -15495,37 +16700,41 @@ if (! function_exists('tap')) {
 
 if (! function_exists('throw_if')) {
     /**
-     * Throw the given exception if the given boolean is true.
+     * Throw the given exception if the given condition is true.
      *
-     * @param  bool  $boolean
+     * @param  mixed  $condition
      * @param  \Throwable|string  $exception
      * @param  array  ...$parameters
-     * @return void
+     * @return mixed
      * @throws \Throwable
      */
-    function throw_if($boolean, $exception, ...$parameters)
+    function throw_if($condition, $exception, ...$parameters)
     {
-        if ($boolean) {
+        if ($condition) {
             throw (is_string($exception) ? new $exception(...$parameters) : $exception);
         }
+
+        return $condition;
     }
 }
 
 if (! function_exists('throw_unless')) {
     /**
-     * Throw the given exception unless the given boolean is true.
+     * Throw the given exception unless the given condition is true.
      *
-     * @param  bool  $boolean
+     * @param  mixed  $condition
      * @param  \Throwable|string  $exception
      * @param  array  ...$parameters
-     * @return void
+     * @return mixed
      * @throws \Throwable
      */
-    function throw_unless($boolean, $exception, ...$parameters)
+    function throw_unless($condition, $exception, ...$parameters)
     {
-        if (! $boolean) {
+        if (! $condition) {
             throw (is_string($exception) ? new $exception(...$parameters) : $exception);
         }
+
+        return $condition;
     }
 }
 
@@ -15704,7 +16913,7 @@ if (! function_exists('second_authed')) {
         if ($user && $user->second_auth_active) {
             return
                 ! empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
-                Session::get(SecondAuthController::SECOND_AUTH_SESSION) === $user->second_auth_updated_at;
+                Session::get(SecondAuthController::SECOND_AUTH_SESSION) == $user->second_auth_updated_at;
         }
 
         return true;
@@ -15720,6 +16929,19 @@ if (! function_exists('cents_to_dollars')) {
     function cents_to_dollars($cents)
     {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
+    }
+}
+
+if (! function_exists('ddd')) {
+    /**
+     * Developer conveinence.
+     *
+     * @return mixed
+     */
+    function ddd(...$args)
+    {
+        http_response_code(500);
+        call_user_func_array('dd', $args);
     }
 }
  

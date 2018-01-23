@@ -3,7 +3,7 @@
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
             <div class="logo">
-                <img src="https://codepier.io/assets/img/codepier.png">
+                <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.png') }}">
             </div>
         @endcomponent
     @endslot
@@ -23,7 +23,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved. &nbsp; | &nbsp; <a href="%unsubscribe_url%">Unsubscribe</a>
+            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved. &nbsp;
         @endcomponent
     @endslot
 @endcomponent

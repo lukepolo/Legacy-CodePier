@@ -8,3 +8,12 @@ export const update = (context, data) => {
     "user/set"
   );
 };
+
+export const resendConfirmation = () => {
+  return Vue.request()
+    .post(Vue.action("UserUserConfirmController@store"))
+    .then(response => {
+      app.showSuccess("We have sent you another confirmation email");
+      return response;
+    });
+};

@@ -14,13 +14,20 @@ class CreateServerProviderOptionsTable extends Migration
     {
         Schema::create('server_provider_options', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_provider_id');
+            $table->string('description')->nullable();
+            $table->unsignedInteger('server_provider_id');
             $table->string('memory');
-            $table->integer('cpus');
-            $table->integer('space');
+            $table->unsignedInteger('cpus');
+            $table->unsignedInteger('space');
             $table->float('priceHourly');
             $table->float('priceMonthly');
+            $table->string('external_id')->nullable();
+            $table->json('meta')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->index('server_provider_id');
         });
     }
 

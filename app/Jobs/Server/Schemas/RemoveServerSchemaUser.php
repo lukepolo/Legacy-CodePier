@@ -8,7 +8,6 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,8 +40,7 @@ class RemoveServerSchemaUser implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -53,15 +51,13 @@ class RemoveServerSchemaUser implements ShouldQueue
                 $serverService->removeSchemaUser($this->server, $this->schemaUser);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            if ($this->wasSuccessful()) {
+                $this->server->schemaUsers()->detach($this->schemaUser->id);
 
-            $this->server->schemaUsers()->detach($this->schemaUser->id);
-
-            $this->schemaUser->load('servers');
-            if ($this->schemaUser->servers->count() == 0) {
-                $this->schemaUser->delete();
+                $this->schemaUser->load('servers');
+                if ($this->schemaUser->servers->count() == 0) {
+                    $this->schemaUser->delete();
+                }
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server are using this schema user', false);

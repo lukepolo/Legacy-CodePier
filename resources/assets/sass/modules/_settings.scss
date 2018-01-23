@@ -1,0 +1,35 @@
+.settings {
+    @extend .grid-2;
+
+    &--container {
+        margin-bottom: 30px;
+    }
+
+    &--group {
+        border-left: 1px solid $color-divider;
+        margin: 10px 0px 0px 15px;
+        padding-left: 15px;
+    }
+
+    &--name {
+        font-size: 16px;
+        letter-spacing: .5px;
+
+        small {
+            display: block;
+            font-weight: 400;
+        }
+    }
+
+    &--options {
+        display: flex;
+
+        label {
+            text-transform: capitalize;
+        }
+
+        .flyform--group-checkbox + .flyform--group-checkbox {
+            margin-left: 25px;
+        }
+    }
+}

@@ -99,7 +99,7 @@ class Server extends Model
 
     public function cronJobs()
     {
-        return $this->morphToMany(CronJob::class, 'cronjobable');
+        return $this->morphToMany(CronJob::class, 'cronJobable');
     }
 
     public function files()
@@ -175,6 +175,16 @@ class Server extends Model
     public function languageSettings()
     {
         return $this->morphToMany(LanguageSetting::class, 'language_settingable');
+    }
+
+    public function generateSudoPassword()
+    {
+        $this->sudo_password = str_random(32);
+    }
+
+    public function generateDatabasePassword()
+    {
+        $this->database_password = str_random(32);
     }
 
     /*

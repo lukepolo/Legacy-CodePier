@@ -2,12 +2,12 @@
 
 @section('content')
     <section class="view">
-        <section id="middle" class="section-column">
+        <section id="middle" class="section-column full-form">
             <div class="section-content">
                 <div class="login-wrap">
                     <div class="img-wrap">
                         <router-link to="/">
-                            <img src="/assets/img/codepier_w.svg" alt="CodePier" style="display: block;">
+                            <img src="/assets/img/CP_Logo-onGray.svg" alt="CodePier" style="display: block;">
                         </router-link>
                     </div>
 
@@ -47,8 +47,8 @@
                         </form>
                     </div>
 
-                    @include('auth.create')
-                    @include('auth.reset')
+                    @include('auth.forms.create')
+                    @include('auth.forms.reset')
 
                     <h5 class="text-center"> - Or sign in using -</h5>
 

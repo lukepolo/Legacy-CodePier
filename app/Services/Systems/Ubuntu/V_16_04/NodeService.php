@@ -11,16 +11,16 @@ class NodeService
     /**
      * @description NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
      *
-     * @options v6.11.1, v8.2.1
+     * @options v8.9.4, v9.4.0
      * @multiple false
      *
      * @param string $version
      */
-    public function installNodeJs($version = 'v6.11.1')
+    public function installNodeJs($version = 'v8.9.4')
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash');
+        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash');
 
         $this->remoteTaskService->appendTextToFile('/etc/profile', '
 lazynvm() {
@@ -38,11 +38,17 @@ node() {
   lazynvm
   node $@
 }
- 
+
 npm() {
   lazynvm
   npm $@
 }
+
+yarn() {
+  lazynvm
+  yarn $@
+}
+
 ');
 
         $this->remoteTaskService->run('nvm install '.$version);

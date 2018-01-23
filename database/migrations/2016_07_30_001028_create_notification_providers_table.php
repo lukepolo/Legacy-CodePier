@@ -16,7 +16,10 @@ class CreateNotificationProvidersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('provider_name');
+
             $table->timestamps();
+
+            $table->index('provider_name');
         });
     }
 

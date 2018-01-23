@@ -10,6 +10,15 @@ footer {
   flex: 0 0 auto;
 }
 
+header {
+  z-index: 300;
+}
+
+footer {
+  z-index: 200;
+}
+
+
 #xlarge-wrap {
   display: flex;
   flex-direction: column;
@@ -19,8 +28,7 @@ footer {
     flex-direction: row;
 
     footer {
-      flex: 0 0 25%;
-      max-width: 25%;
+      flex: 1 0 25%;
     }
   }
 }
@@ -43,6 +51,17 @@ footer {
 
 #middle {
   flex: 1 1 auto;
+
+  &.in-workflow {
+
+    @include breakpoint(lxl) {
+      max-width: calc(100% - (325px + 275px + 270px));
+    }
+    @include breakpoint(mxl) {
+      max-width: unset;
+    }
+
+  }
 }
 
 #right {
@@ -66,17 +85,80 @@ footer {
   .section-content {
     opacity: 1;
   }
+
+  .section-header .icon-web {
+    position: absolute;
+    opacity: 0;
+  }
+}
+
+#right {
+  .section-header .icon-server {
+    position: absolute;
+    opacity: 0;
+  }
 }
 
 @include breakpoint(lg) {
   #left {
     flex-basis: 40px;
-    overflow: hidden;
-    transition: all .5s ease;
+    transition: all .3s ease;
+    position: relative;
+    z-index: 250;
+
+    .section-header,
+    .section-content {
+      position: absolute;
+      left: -234px;
+      width: 275px;
+      border-right: 1px solid $color-divider;
+      background-color: $color-background;
+      transition: all .3s ease;
+    }
+
+    .section-header {
+      top: 0px;
+      background-color: mix($color-background, $black, 90%);
+    }
 
     .section-content {
-      width: 275px;
+      top: 64px;
+      bottom: 0px;
+    }
+
+    .site-container,
+    .slack-invite {
       opacity: 0;
+      transition: all .3s ease;
+    }
+
+    .icon-web {
+      position: absolute;
+      right: 8px;
+      font-size: 1.2em;
+      color: $color-text-accent;
+      opacity: 1;
+      transition: all .3s ease;
+    }
+
+    &:hover {
+      .section-header,
+      .section-content {
+        left: 0px;
+        @include card(2);
+        transition: all .3s ease;
+      }
+
+      .site-container,
+      .slack-invite {
+        opacity: 1;
+        transition: all .3s ease;
+      }
+
+      .icon-web {
+        opacity: 0;
+        transition: all .3s ease;
+      }
     }
   }
 }
@@ -84,12 +166,61 @@ footer {
 @include breakpoint(md) {
   #right {
     flex-basis: 40px;
-    overflow: hidden;
-    transition: all .5s ease;
+    transition: all .3s ease;
+    position: relative;
+    z-index: 250;
+
+    .section-header,
+    .section-content {
+      position: absolute;
+      right: -285px;
+      width: 325px;
+      border-left: 1px solid $color-divider;
+      background-color: mix($color-background, $white, 90%);
+      transition: all .3s ease;
+    }
+
+    .section-header {
+      top: 0px;
+      background-color: mix(mix($color-background, $white, 90%), $black, 90%);
+    }
 
     .section-content {
-      width: 275px;
+      top: 64px;
+      bottom: 0px;
+    }
+
+    .server {
       opacity: 0;
+      transition: all .3s ease;
+    }
+
+    .section-header .icon-server {
+      position: absolute;
+      left: 8px;
+      font-size: 1.2em;
+      color: $color-text-accent;
+      opacity: 1;
+      transition: all .3s ease;
+    }
+
+    &:hover {
+      .section-header,
+      .section-content {
+        right: 0px;
+        @include card(2);
+        transition: all .3s ease;
+      }
+
+      .server {
+        opacity: 1;
+        transition: all .3s ease;
+      }
+
+      .section-header .icon-server {
+        opacity: 0;
+        transition: all .3s ease;
+      }
     }
   }
 }

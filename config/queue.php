@@ -57,6 +57,20 @@ return [
             'region' => 'us-east-1',
         ],
 
+        'redis-deploying' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 600,
+        ],
+
+        'redis-provisioning' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 900,
+        ],
+
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
@@ -92,6 +106,7 @@ return [
         'default'         => 'default',
         'server_features' => 'server_features',
         'server_commands' => 'server_commands',
+        'site_deployments' => 'site_deployments',
         'server_provisioning' => 'server_provisioning',
     ],
 ];

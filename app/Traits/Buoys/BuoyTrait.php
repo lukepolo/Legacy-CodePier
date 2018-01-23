@@ -21,6 +21,7 @@ trait BuoyTrait
      * @param \App\Services\Server\ServerService |ServerService $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      * @param Server $server
+     * @throws \App\Exceptions\SshConnectionFailed
      */
     public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService, Server $server)
     {
@@ -54,6 +55,9 @@ trait BuoyTrait
 
     /**
      * @return string
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
+     * @throws \Exception
      */
     public function getContainerId()
     {

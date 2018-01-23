@@ -13,6 +13,8 @@
             </template>
 
             Sites
+
+            <span class="icon-web"></span>
         </h3>
 
         <div class="section-content">
@@ -24,7 +26,7 @@
                 </div>
 
                 <site-form :pile="currentPile.id"></site-form>
-
+                
             </div>
 
             <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
@@ -32,13 +34,10 @@
                     Create A SSH Key
                     <div class="small">You have not created an account ssh key</div>
                 </router-link>
-            </div>
-
-            <div class="slack-invite" v-if="!user.invited_to_slack">
-                <a :href="slackInviteLink()">
-                    <i class="fa fa-slack" aria-hidden="true"></i>
-                    Get Invite to Slack
-                </a>
+                <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
+                    Upgrade Account
+                    <div class="small">Currently you only are getting 1 site and 1 server, upgrade now!</div>
+                </router-link>
             </div>
         </div>
 
@@ -47,38 +46,33 @@
 </template>
 
 <script>
+import SiteForm from "./SiteForm.vue";
+import Site from "./left-nav-components/Site.vue";
 
-    import SiteForm from './SiteForm.vue'
-    import Site from './left-nav-components/Site.vue'
+export default {
+  components: {
+    Site,
+    SiteForm
+  },
 
-    export default {
-        components: {
-            Site,
-            SiteForm
-        },
-        methods: {
-            slackInviteLink () {
-                return this.action('User\UserController@slackInvite')
-            }
-        },
-        computed: {
-            userSshKeys () {
-                return this.$store.state.user_ssh_keys.ssh_keys
-            },
-            currentPile () {
-                return this.getPile(this.$store.state.user.user.current_pile_id)
-            },
-            user () {
-                return this.$store.state.user.user
-            },
-            sites () {
-                return _.filter(this.$store.state.user_sites.sites, (site) => {
-                    return site.pile_id === this.current_pile_id
-                })
-            },
-            current_pile_id () {
-                return this.$store.state.user.user.current_pile_id
-            }
-        }
+  computed: {
+    userSshKeys() {
+      return this.$store.state.user_ssh_keys.ssh_keys;
+    },
+    currentPile() {
+      return this.getPile(this.$store.state.user.user.current_pile_id);
+    },
+    user() {
+      return this.$store.state.user.user;
+    },
+    sites() {
+      return _.filter(this.$store.state.user_sites.sites, site => {
+        return site.pile_id === this.current_pile_id;
+      });
+    },
+    current_pile_id() {
+      return this.$store.state.user.user.current_pile_id;
     }
+  }
+};
 </script>

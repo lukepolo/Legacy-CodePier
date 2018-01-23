@@ -21,7 +21,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\EnvironmentVariable;
 use App\Models\Site\SiteDeployment;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
@@ -62,43 +62,41 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $types = collect($request->get('types', self::DEFAULT_TYPES));
+        $types = collect($request->get('events', self::DEFAULT_TYPES));
 
         $piles = $request->get('piles', []);
         $sites = $request->get('sites', []);
         $servers = $request->get('servers', []);
 
         $queryTypes = collect([
-            self::SITE_DEPLOYMENTS => DB::table('site_deployments')
-                ->select(['site_deployments.id', 'site_deployments.created_at', DB::raw('"'.self::SITE_DEPLOYMENTS.'" as type')])
-                ->when($piles, function (Builder $query) use ($piles) {
-                    return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
-                        ->whereIn('sites.pile_id', $piles);
-                })
-                ->when($sites, function (Builder $query) use ($sites) {
-                    return $query->whereIn('site_deployments.site_id', $sites);
-                })
-                ->when($servers, function (Builder $query) use ($servers) {
-                    return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
-                        ->join('server_site', 'sites.id', '=', 'server_site.site_id')
-                        ->whereIn('server_site.server_id', $servers);
-                }),
-            self::COMMANDS => DB::table('commands')
-                ->select(['commands.id', 'commands.created_at', DB::raw('"'.self::COMMANDS.'" as type')])
-                ->when($piles, function (Builder $query) use ($piles) {
-                    return $query->join('sites', 'commands.site_id', '=', 'sites.id')
-                        ->whereIn('sites.pile_id', $piles);
-                })
-                ->when($sites, function (Builder $query) use ($sites) {
-                    return $query->whereIn('commands.site_id', $sites);
-                })
-                ->when($servers, function (Builder $query) use ($servers) {
-                    return $query->join('server_commands', 'server_commands.command_id', '=', 'commands.id')
-                        ->whereIn('server_commands.server_id', $servers);
-                })
-                ->when($types->has('commands'), function (Builder $query) use ($types) {
-                    return $query->whereIn('commands.commandable_type', $types->get('commands'));
-                }),
+            self::SITE_DEPLOYMENTS => SiteDeployment::select(['site_deployments.id', 'site_deployments.created_at', DB::raw('"'.self::SITE_DEPLOYMENTS.'" as type')])
+                    ->when($piles, function (Builder $query) use ($piles) {
+                        return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
+                            ->whereIn('sites.pile_id', $piles);
+                    })
+                    ->when($sites, function (Builder $query) use ($sites) {
+                        return $query->whereIn('site_deployments.site_id', $sites);
+                    })
+                    ->when($servers, function (Builder $query) use ($servers) {
+                        return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
+                            ->join('server_site', 'sites.id', '=', 'server_site.site_id')
+                            ->whereIn('server_site.server_id', $servers);
+                    }),
+            self::COMMANDS => Command::select(['commands.id', 'commands.created_at', DB::raw('"'.self::COMMANDS.'" as type')])
+                    ->when($piles, function (Builder $query) use ($piles) {
+                        return $query->join('sites', 'commands.site_id', '=', 'sites.id')
+                            ->whereIn('sites.pile_id', $piles);
+                    })
+                    ->when($sites, function (Builder $query) use ($sites) {
+                        return $query->whereIn('commands.site_id', $sites);
+                    })
+                    ->when($servers, function (Builder $query) use ($servers) {
+                        return $query->join('server_commands', 'server_commands.command_id', '=', 'commands.id')
+                            ->whereIn('server_commands.server_id', $servers);
+                    })
+                    ->when($types->has('commands'), function (Builder $query) use ($types) {
+                        return $query->whereIn('commands.commandable_type', $types->get('commands'));
+                    }),
         ])->only($types->keys()->toArray());
 
         /** @var Builder $combinedQuery */
@@ -110,7 +108,7 @@ class EventController extends Controller
 
         $tempCombinedQuery = clone $combinedQuery;
 
-        $topResults = $combinedQuery->latest()
+        $topResults = $combinedQuery->latest('id')
             ->offset(($request->get('page', 1) - 1) * self::PER_PAGE)
             ->take(self::PER_PAGE)
             ->get();
@@ -138,7 +136,7 @@ class EventController extends Controller
                     return $query->get();
                 })
                 ->flatten()
-                ->sortByDesc('created_at'),
+                ->sortByDesc('id'),
             $request->get('page')
         ));
     }

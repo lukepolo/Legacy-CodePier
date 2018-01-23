@@ -5,6 +5,8 @@ namespace App\Models\User;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
+use App\Traits\Hashable;
+use App\Models\Site\Site;
 use Laravel\Cashier\Card;
 use App\Traits\HasServers;
 use App\Models\Server\Server;
@@ -21,7 +23,9 @@ class User extends Authenticatable
     const USER = 'user';
     const ADMIN = 'admin';
 
-    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers;
+    protected $hashConnection = 'users';
+
+    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers, Hashable;
 
     protected $subscription;
 
@@ -35,8 +39,8 @@ class User extends Authenticatable
         'email',
         'password',
         'workflow',
+        'confirmed',
         'current_pile_id',
-        'invited_to_slack',
         'second_auth_active',
         'second_auth_updated_at',
         'user_login_provider_id',
@@ -62,6 +66,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'is_subscribed',
+        'subscription_plan',
     ];
 
     /*
@@ -75,11 +80,31 @@ class User extends Authenticatable
         return $this->attributes['is_subscribed'] = $this->subscribed();
     }
 
+    public function getSubscriptionPlanAttribute()
+    {
+        return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($this->subscription()) ? $this->subscription()->stripe_plan : null;
+    }
+
+    public function getActivePlanAttribute()
+    {
+        $subscription = $this->subscriptionPlan;
+        if (! empty($subscription) && $this->onTrial()) {
+            $subscription = $this->subscription()->active_plan;
+        }
+
+        return $this->attributes['subscription_plan'] = $subscription;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relations
     |--------------------------------------------------------------------------
     */
+
+    public function sites()
+    {
+        return $this->hasMany(Site::class);
+    }
 
     public function servers()
     {
@@ -228,7 +253,7 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
-        if (! config('app.subscriptions')) {
+        if ($this->role === 'admin') {
             return true;
         }
 
@@ -246,8 +271,7 @@ class User extends Authenticatable
             return $subscription->valid();
         }
 
-        return $subscription->valid() &&
-            $subscription->stripe_plan === $plan;
+        return $subscription->valid() && $subscription->active_plan === $plan;
     }
 
     public function getSubscriptionPrice()
@@ -367,12 +391,15 @@ class User extends Authenticatable
 
         return [
             'card'                 => $this->card(),
+            'switchingPlans'       => $this->onTrial(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
+            'isOnTrail'            => $this->onGenericTrial(),
             'subscriptionEnds'     => $this->getNextBillingCycle(),
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
+            'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
 }

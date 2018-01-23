@@ -10,16 +10,8 @@ const router = new VueRouter({
   routes: routes
 });
 
-router.beforeResolve((to, from, next) => {
-  if (!store.state.user.user.is_subscribed) {
-    if (to.name !== "subscription") {
-      next({
-        name: "subscription"
-      });
-    } else {
-      next();
-    }
-  } else {
+router.beforeEach((to, from, next) => {
+  if (!to.params || !to.params.disabled) {
     next();
   }
 });

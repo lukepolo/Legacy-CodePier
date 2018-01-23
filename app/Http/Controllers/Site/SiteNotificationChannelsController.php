@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NotificationChannelsRequest;
 
 class SiteNotificationChannelsController extends Controller
 {
     /**
-     * @param Request $request
+     * @param NotificationChannelsRequest $request
      * @param $siteId
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(NotificationChannelsRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

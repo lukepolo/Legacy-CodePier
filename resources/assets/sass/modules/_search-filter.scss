@@ -67,18 +67,6 @@
     @include card(2);
     min-width: 200px;
     background-color: mix($gray, $black, 50%);
-
-    .select-all {
-      position: absolute;
-      top: -38px;
-      bottom: auto;
-      border-bottom: 1px solid $gray;
-      padding-bottom: $spacing/4;
-
-      + label {
-        margin-top: 40px;
-      }
-    }
   }
 
   .dropup {
@@ -113,24 +101,98 @@
       bottom: -11px;
       z-index: 2;
     }
-  }
 
-  .jcf-form-wrap {
-    padding: $spacing/2;
+    &-form {
+      display: flex;
+      flex-direction: column;
+      position: relative;
 
-    .jcf-input-group {
-      margin: 0px;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 70px;
+        height: 70px;
+        background: linear-gradient(to bottom, rgba(mix($gray, $black, 50%), 0) , rgba(mix($gray, $black, 50%), 1));
+        pointer-events: none;
+      }
     }
 
-    .input-checkbox label {
-      margin-bottom: 12px;
+    &-scroll {
+      flex: 0 1 auto;
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    .flyform--group-checkbox {
+      margin: 10px;
+      font-size: 14px;
+
+      label {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:last-child {
+        margin-bottom: 40px;
+      }
+    }
+
+    .select-all {
+      flex: 0 0 auto;
+      border-bottom: 1px solid $gray;
+      padding-bottom: $spacing/4;
     }
   }
 
   .btn-footer {
-    //TODO:  Decide if we need the margin here
+    flex: 0 0 auto;
     border-top: 1px solid $gray;
-    margin: ($spacing/2) (-$spacing/2) (-$spacing/2);
     padding: ($spacing/2) $spacing;
+  }
+
+  .no-items {
+    padding: 20px;
+    color: $color-text-secondary;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  //
+  @include breakpoint(xl) {
+    .filter--item {
+      position: relative;
+    }
+    .dropup {
+      bottom: auto;
+      left: auto !important;
+      right: 10px;
+
+      &:before {
+        border-top: none;
+        border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+        top: -11px;
+        bottom: auto;
+        left: auto;
+        right: 4px;
+      }
+
+      &:after {
+        border-top: none;
+        border-bottom: 10px solid #343536;
+        top: -10px;
+        left: auto;
+        right: 4px;
+      }
+    }
+
+    .icon-arrow-up:before {
+      content: '\F107';
+    }
   }
 }

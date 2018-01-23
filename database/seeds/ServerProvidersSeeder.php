@@ -20,6 +20,7 @@ class ServerProvidersSeeder extends Seeder
                 'features' => [
                     ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
                     ['feature' => 'IPV6', 'cost' => null, 'default' => true, 'option' => 'ipv6'],
+                    ['feature' => 'Monitoring', 'cost' => null, 'default' => true, 'option' => 'monitoring'],
                     ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
                 ],
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,

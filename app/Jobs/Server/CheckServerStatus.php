@@ -38,6 +38,7 @@ class CheckServerStatus implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     * @throws \Exception
      */
     public function handle(ServerServiceContract $serverService)
     {
@@ -52,14 +53,14 @@ class CheckServerStatus implements ShouldQueue
                 $serverService->saveInfo($this->server);
                 dispatch(
                     (new CheckSshConnection($this->server))
-                        ->onQueue(config('queue.channels.server_provisioning'))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             } else {
-                if ($this->server->created_at->addMinutes(555555) > Carbon::now()) {
+                if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
                     dispatch(
                         (new self($this->server, $this->provision))
                             ->delay(10)
-                            ->onQueue(config('queue.channels.server_provisioning'))
+                            ->onQueue(config('queue.channels.server_commands'))
                     );
 
                     return;

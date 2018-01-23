@@ -34,39 +34,41 @@
 </template>
 
 <script>
-    export default {
-        created() {
-            if(this.categoryId) {
-                this.$store.dispatch('admin_categories/show', this.categoryId).then((category) => {
-                    this.form.name = category.name
-                })
-            }
-        },
-        data() {
-          return {
-              form : this.createForm({
-                  name : null,
-              })
-          }
-        },
-        methods: {
-            saveCategory() {
-                if(this.categoryId) {
-                    let data = this.form;
-                    data.category = this.categoryId
-                    this.$store.dispatch('admin_categories/update', data)
-                } else {
-                    this.$store.dispatch('admin_categories/store', this.form)
-                }
-            }
-        },
-        computed: {
-            categoryId() {
-                return this.$route.params.category_id
-            },
-            category() {
-                return this.$store.state.admin_categories.category
-            }
-        }
+export default {
+  created() {
+    if (this.categoryId) {
+      this.$store
+        .dispatch("admin_categories/show", this.categoryId)
+        .then(category => {
+          this.form.name = category.name;
+        });
     }
+  },
+  data() {
+    return {
+      form: this.createForm({
+        name: null
+      })
+    };
+  },
+  methods: {
+    saveCategory() {
+      if (this.categoryId) {
+        let data = this.form;
+        data.category = this.categoryId;
+        this.$store.dispatch("admin_categories/update", data);
+      } else {
+        this.$store.dispatch("admin_categories/store", this.form);
+      }
+    }
+  },
+  computed: {
+    categoryId() {
+      return this.$route.params.category_id;
+    },
+    category() {
+      return this.$store.state.admin_categories.category;
+    }
+  }
+};
 </script>

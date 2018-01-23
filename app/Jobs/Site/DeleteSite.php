@@ -5,18 +5,17 @@ namespace App\Jobs\Site;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class DeleteSite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     private $server;
     private $site;
@@ -40,9 +39,10 @@ class DeleteSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \Exception
      */
-    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
+    public function handle(SiteService $siteService)
     {
         $serverType = $this->server->type;
 
@@ -51,7 +51,11 @@ class DeleteSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            $siteService->deleteSite($this->server, $this->site);
+            try {
+                $siteService->deleteSite($this->server, $this->site);
+            } catch (SshConnectionFailed $e) {
+                // continue on
+            }
         }
 
         event(new FixSiteServerConfigurations($this->site));

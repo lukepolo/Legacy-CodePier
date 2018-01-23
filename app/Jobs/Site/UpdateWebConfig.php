@@ -8,7 +8,6 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -41,16 +40,12 @@ class UpdateWebConfig implements ShouldQueue
     /**
      * Execute the job.
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws ServerCommandFailed
+     * @throws \Exception
      */
     public function handle(SiteService $siteService)
     {
         $this->runOnServer(function () use ($siteService) {
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

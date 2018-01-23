@@ -15,11 +15,15 @@ class CreateSlackChannelsTable extends Migration
     {
         Schema::create('slack_channels', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('slackable_id')->nullable();
+            $table->unsignedInteger('slackable_id')->nullable();
             $table->string('slackable_type')->nullable();
             $table->string('channel');
             $table->boolean('created')->default(0);
+
             $table->timestamps();
+
+            $table->index('slackable_id');
+            $table->index('slackable_type');
         });
     }
 

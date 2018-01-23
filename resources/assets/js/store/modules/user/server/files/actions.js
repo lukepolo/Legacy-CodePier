@@ -20,15 +20,12 @@ export const update = (context, data) => {
 };
 
 export const destroy = (context, data) => {
-  return Vue.request(data).delete("");
-};
-
-export const getEditableFiles = (context, server) => {
-  Vue.request().get(
-    Vue.action("ServerServerFeatureController@getEditableFiles", {
-      server: server
+  return Vue.request(data).delete(
+    Vue.action("ServerServerFileController@destroy", {
+      server: data.server,
+      file: data.file
     }),
-    "user_server_files/setEditableFiles"
+    "user_server_files/remove"
   );
 };
 

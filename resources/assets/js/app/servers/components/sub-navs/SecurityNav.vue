@@ -34,16 +34,16 @@
     </div>
 </template>
 <script>
-    export default{
-        computed : {
-            serverId() {
-                return this.$route.params.server_id
-            }
-        },
-        watch: {
-            '$route': function() {
-                $('#middle .section-content').scrollTop(0)
-            }
-        }
+export default {
+  computed: {
+    serverId() {
+      return this.$route.params.server_id;
     }
+  },
+  watch: {
+    $route: function() {
+      $("#middle .section-content").scrollTop(0);
+    }
+  }
+};
 </script>

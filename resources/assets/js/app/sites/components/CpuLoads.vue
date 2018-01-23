@@ -26,28 +26,28 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            'stats' : {},
-            'showLabels' : {
-                default : true
-            },
-            'lastUpdatedAt' : {
-                default : null
-            },
-        },
-        methods : {
-            getCpuLoad(load) {
-                let loadPercent = (load / this.stats.cpus) * 100
-                return (loadPercent > 100 ? 100 : loadPercent)
-            },
-            getTime(ago) {
-                if(this.lastUpdatedAt) {
-                    return this.parseDate(this.lastUpdatedAt).add(-ago, 'minutes')
-                }
-
-                return moment().add(-ago, 'minutes')
-            }
-        }
+export default {
+  props: {
+    stats: {},
+    showLabels: {
+      default: true
+    },
+    lastUpdatedAt: {
+      default: null
     }
+  },
+  methods: {
+    getCpuLoad(load) {
+      let loadPercent = load / this.stats.cpus * 100;
+      return loadPercent > 100 ? 100 : loadPercent;
+    },
+    getTime(ago) {
+      if (this.lastUpdatedAt) {
+        return this.parseDate(this.lastUpdatedAt).add(-ago, "minutes");
+      }
+
+      return moment().add(-ago, "minutes");
+    }
+  }
+};
 </script>

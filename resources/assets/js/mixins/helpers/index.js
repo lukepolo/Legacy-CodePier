@@ -4,7 +4,7 @@ import { getPile } from "./pile";
 
 import { getSite, hasSites, workFlowCompleted } from "./site";
 
-import { back, action } from "./routes";
+import { action } from "./routes";
 
 import { getServer, serverHasFeature } from "./server";
 
@@ -16,7 +16,17 @@ import { getBytesFromString } from "./file-size";
 
 import { local } from "./environment";
 
-import { isAdmin, isSubscribed, teamsEnabled } from "./permissions";
+import {
+  isAdmin,
+  isSubscribed,
+  teamsEnabled,
+  siteActionsEnabled,
+  serverActionsEnabled,
+  serverTypesEnabled,
+  apiEnabled,
+  siteCreateEnabled,
+  serverCreateEnabled
+} from "./permissions";
 
 import { showError, showSuccess, handleApiError } from "./notifications";
 
@@ -27,7 +37,6 @@ import { getRepositoryProvider } from "./repository-provider";
 Vue.mixin({
   methods: {
     now,
-    back,
     diff,
     isTag,
     action,
@@ -50,8 +59,16 @@ Vue.mixin({
     local,
     isAdmin,
     hasSites,
-    teamsEnabled,
+    workFlowCompleted,
+
+    // Security of features
+    apiEnabled,
     isSubscribed,
-    workFlowCompleted
+    teamsEnabled,
+    siteCreateEnabled,
+    siteActionsEnabled,
+    serverTypesEnabled,
+    serverCreateEnabled,
+    serverActionsEnabled
   }
 });
