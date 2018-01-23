@@ -108,6 +108,8 @@ trait Laravel
      * @description Restarts any queue workers
      *
      * @order 410
+     *
+     * @not_default
      */
     public function laravelRestartWorkers()
     {
