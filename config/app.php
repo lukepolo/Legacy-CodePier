@@ -32,6 +32,8 @@ return [
 
     'force_https' => env('APP_FORCE_HTTPS', false),
 
+    'white_listed_ips' => env('APP_DOWN_WHITELIST_IPS', '127.0.0.1'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

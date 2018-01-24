@@ -26,7 +26,6 @@
         <!-- Styles -->
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
-        {{--<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>--}}
 
         @if(env('APP_ENV') == 'production')
             <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>

@@ -53,6 +53,8 @@ class CheckForMaintenanceMode
      */
     private function isIpWhiteListed(Request $request)
     {
-        return in_array($request->getClientIp(), explode(',', getenv('APP_DOWN_WHITELIST_IPS')));
+        \Log::info($request->getClientIp());
+
+        return in_array($request->getClientIp(), explode(',', config('app.white_listed_ips')));
     }
 }
