@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -18,6 +19,7 @@ use App\Events\Site\SiteRestartDatabases;
 use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
+use App\Events\Site\FixSiteServerConfigurations;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -351,5 +353,18 @@ class SiteController extends Controller
         event(new SiteRenamed($site, $site->domain, $oldDomain));
 
         return response()->json($site);
+    }
+
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fixServerConfigurations($siteId) {
+
+        $site = Site::findOrFail($siteId);
+
+        $this->dispatch(new FixSiteServerConfigurations($site));
+
+        return response()->json('OK');
     }
 }
