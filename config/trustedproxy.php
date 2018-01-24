@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 return [
 
     /*
@@ -25,8 +27,7 @@ return [
      * subsequently passed through.
      */
     'proxies' => [
-//        '45.55.92.120',
-//        '45.55.92.147',
+        '165.227.108.142',
     ],
 
     /*
@@ -63,10 +64,10 @@ return [
      * as they are currently unsupported there.
      */
     'headers' => [
-        (defined('Illuminate\Http\Request::HEADER_FORWARDED') ? Illuminate\Http\Request::HEADER_FORWARDED : 'forwarded') => 'FORWARDED',
-        Illuminate\Http\Request::HEADER_X_FORWARDED_FOR    => 'X_FORWARDED_FOR',
-        Illuminate\Http\Request::HEADER_X_FORWARDED_HOST  => 'X_FORWARDED_HOST',
-        Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
-        Illuminate\Http\Request::HEADER_X_FORWARDED_PORT  => 'X_FORWARDED_PORT',
+        Request::HEADER_FORWARDED => 'FORWARDED',
+        Request::HEADER_X_FORWARDED_FOR => 'X_FORWARDED_FOR',
+        Request::HEADER_X_FORWARDED_HOST => 'X_FORWARDED_HOST',
+        Request::HEADER_X_FORWARDED_PORT => 'X_FORWARDED_PORT',
+        Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
     ],
 ];
