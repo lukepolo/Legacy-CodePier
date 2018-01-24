@@ -65,7 +65,8 @@ trait HasServers
         return ! empty($servers) && $servers->count() && $servers->pluck('id')->contains($server->id);
     }
 
-    public function installableOnServer(Server $server) {
+    public function installableOnServer(Server $server)
+    {
         if (
             (empty($this->server_ids) && empty($this->server_types)) ||
             (! empty($this->server_ids) && collect($this->server_ids)->contains($server->id)) ||
@@ -73,6 +74,7 @@ trait HasServers
         ) {
             return true;
         }
+
         return false;
     }
 }
