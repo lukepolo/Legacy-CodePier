@@ -158,3 +158,14 @@ export const updateNotificationChannels = ({}, data) => {
       return response;
     });
 };
+
+export const fixServerConfigurations = ({}, site) => {
+  return Vue.request()
+    .post(Vue.action("SiteSiteController@fixServerConfigurations", { site }))
+    .then(response => {
+      app.showSuccess(
+        "Your server configurations will be fixed for this site."
+      );
+      return response;
+    });
+};
