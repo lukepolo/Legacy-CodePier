@@ -1,4 +1,4 @@
-document.onclick = event => {
+document.onclick = (event) => {
   const target = event.target;
   if (
     !app.hasClass(target, [
