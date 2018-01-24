@@ -174,10 +174,12 @@ upstream '.$upstreamName.' {
 location / {
     include proxy_params;
     proxy_pass http://'.$upstreamName.';
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_redirect off;
+    
+    # Handle Web Socket connections
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
 }
 ';
         } else {
