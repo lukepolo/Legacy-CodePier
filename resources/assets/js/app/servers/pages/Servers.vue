@@ -36,7 +36,7 @@
                         <tr v-for="server in servers">
                             <td>
                                 <template v-if="server.status === 'Provisioned'">
-                                    <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
+                                    <router-link :to="{ name : 'server_info', params : { server_id : server.id } }">
                                         {{ server.name }}
                                     </router-link>
                                 </template>

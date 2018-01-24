@@ -3,7 +3,14 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
 
-                <router-link :to="{ name : 'server_sites', params : { server_id : serverId } }" tag="li" class="wizard-item" exact>
+
+                <router-link :to="{ name : 'server_info', params : { server_id : serverId } }" tag="li" class="wizard-item" exact>
+                    <a>
+                        Basic Information
+                    </a>
+                </router-link>
+
+                <router-link :to="{ name : 'server_sites', params : { server_id : serverId } }" tag="li" class="wizard-item">
                     <a>
                         Sites
                         <div class="small">Connected Sites</div>

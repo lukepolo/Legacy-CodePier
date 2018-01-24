@@ -7,7 +7,7 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 210
      */
@@ -35,7 +35,7 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the storage folder so it retains the storage files
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 150
      */
@@ -108,6 +108,8 @@ trait Laravel
      * @description Restarts any queue workers
      *
      * @order 410
+     *
+     * @not_default
      */
     public function laravelRestartWorkers()
     {

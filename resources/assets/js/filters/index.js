@@ -1,1 +1,2 @@
+require("./sizes");
 require("./startCase");

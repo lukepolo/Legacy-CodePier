@@ -1,0 +1,46 @@
+#section--testimonials {
+    background: linear-gradient(to bottom, rgba($color-background-web, 1), rgba($color-background-web, 0));
+    padding: $spacing*2 0px;
+
+    h2 {
+        max-width: 720px;
+        margin: 0px auto;
+    }
+}
+
+.testimonials {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: $spacing*3;
+    margin-top: $spacing*3;
+
+    &--author {
+        display: flex;
+        align-items: center;
+        margin-top: $spacing;
+        padding: 0px 0px 10px 10px;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: .5px;
+        color: rgba($color-text-primary, .5);
+    }
+
+    &--name {
+        color: $color-text-primary;
+    }
+
+    &--img {
+        width: 50px;
+        margin-right: $spacing;
+
+        img {
+            border-radius: 50%;
+            @include card(2);
+        }
+    }
+
+    .slick-dots {
+        justify-content: flex-start;
+        margin-top: $spacing;
+    }
+}

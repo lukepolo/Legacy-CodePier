@@ -1,12 +1,12 @@
 <template>
     <section>
         <h3 class="heading">
-            {{ setting.name }}
+            {{ setting.name | startCase }}
             <br>
             <small>{{ setting.description }}</small>
         </h3>
 
-        <template v-for="param in setting.params">
+        <template v-for="(defaultValue, param) in setting.params">
             <div class="flyform--group">
                 <input type="text" :name="param" v-model="form.params[param]" placeholder=" ">
                 <label>{{ ucwords(param) }}</label>
@@ -23,11 +23,11 @@
             <template v-else>
                 <div class="flyform--footer-btns">
                     <span class="btn btn-primary" @click="runSetting">
-                        <template v-if="setting.params.length">
-                            Update {{ setting.name }}
+                        <template v-if="Object.keys(setting.params).length">
+                            Update {{ setting.name | startCase}}
                         </template>
                         <template v-else>
-                            Run {{ setting.name }}
+                            Run {{ setting.name | startCase }}
                         </template>
                     </span>
                 </div>
@@ -53,10 +53,10 @@ export default {
     let languageSetting = null;
     if (this.setting.params) {
       languageSetting = this.languageSetting;
-      _.each(this.setting.params, param => {
+      _.each(this.setting.params, (defaultValue, param) => {
         this.form.params[param] = languageSetting
           ? languageSetting["params"][param]
-          : null;
+          : defaultValue;
       });
     }
   },

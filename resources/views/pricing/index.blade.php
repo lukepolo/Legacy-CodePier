@@ -18,6 +18,7 @@
                     <ul>
                         <li>1 Site</li>
                         <li>1 Full Stack Server</li>
+                        <li><strong>Unlimited</strong> Deployments</li>
                     </ul>
                 </div>
                 <div class="pricing--footer">
@@ -26,8 +27,8 @@
             </div>
             <div class="pricing--item">
                 <div class="pricing--header">
-                    <div class="pricing--header-name">First Mate</div>
-                    <div class="pricing--header-price">$29<small>/ month</small></div>
+                    <div class="pricing--header-name">First Mate <strong>Early Bird Speical!</strong></div>
+                    <div class="pricing--header-price">$19<small>/ month</small></div>
                 </div>
                 <div class="pricing--features">
                     <ul>
@@ -55,11 +56,12 @@
                         <li>Multiple Server Types</li>
                         <li>Buoys</li>
                         <li>Server Monitoring</li>
-                        <li>API Access <small>(Coming Soon!)</small></li>
+                        <li>Teams</li>
+                        <li>API Access</li>
                     </ul>
                 </div>
                 <div class="pricing--footer">
-                    <a class="btn btn-primary btn-large">Start Trial</a>
+                    <strong>Coming Soon!</strong>
                 </div>
             </div>
         </div>

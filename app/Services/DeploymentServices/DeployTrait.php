@@ -113,7 +113,7 @@ trait DeployTrait
     /**
      * @description Setups the folders for web service.
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 400
      */
@@ -132,7 +132,7 @@ trait DeployTrait
     /**
      * @description Cleans up the old deploys.
      *
-     * @zero-downtime-deployment
+     * @zero_downtime_deployment
      *
      * @order 600
      */

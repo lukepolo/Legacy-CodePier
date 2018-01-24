@@ -2,19 +2,19 @@
     <section>
         <template v-for="feature in features">
 
-            <div class="flyform--group-checkbox">
+            <div class="flyform--group-checkbox action-right">
 
                 <label :class="{ disabled : hasConflicts(feature) }">
 
                     <template v-if="!server">
                         <input
-                            v-on:click="updateValue(feature, $event.target.checked)"
-                            value="1"
-                            type="checkbox"
-                            :name="getInputName(feature)"
-                            :disabled="hasConflicts(feature)"
-                            :checked="(server && feature.required) || hasFeature(feature)"
-                            v-if="!server"
+                                v-on:click="updateValue(feature, $event.target.checked)"
+                                value="1"
+                                type="checkbox"
+                                :name="getInputName(feature)"
+                                :disabled="hasConflicts(feature)"
+                                :checked="(server && feature.required) || hasFeature(feature)"
+                                v-if="!server"
                         >
                         <span class="icon"></span>
                     </template>
@@ -25,31 +25,34 @@
                     <small>
                         {{ feature.description }}
                     </small>
+                </label>
 
-                    <template v-if="server && hasFeature(feature)">
+                <template v-if="server && hasFeature(feature)">
+                    <div class="flyform--group-actions">
                         <template v-if="isInstalling(feature)">
-                            [Installing]
+                            <small class="text-warning">[ Installing ]</small>
                         </template>
                         <template v-else>
-                            [Installed]
+                            <small class="text-success">[ Installed ]</small>
                         </template>
-                    </template>
-                    <template v-else-if="server && !hasFeature(feature)">
+                    </div>
+                </template>
+                <template v-else-if="server && !hasFeature(feature)">
+                    <div class="flyform--group-actions">
                         <template v-if="hasConflicts(feature)">
-                            <p>
-                                conflicts with {{ hasConflicts(feature) }}
-                            </p>
+                            <small class="text-error">
+                                conflicts with <br> {{ hasConflicts(feature) }}
+                            </small>
                         </template>
                         <template v-else>
                             <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
                         </template>
-                    </template>
-
-                </label>
+                    </div>
+                </template>
 
             </div>
 
-            <template v-if="isObject(feature.parameters)">
+            <template v-if="isObject(feature.parameters) && (!server || !hasFeature(feature))">
                 <div class="flyform--subform">
                     <template v-for="(value, parameter) in feature.parameters">
                         <template v-if="feature.options">
@@ -58,7 +61,9 @@
                                 <div class="flyform--group-select">
                                     <select :name="getInputName(feature, parameter)">
                                         <template v-for="option in feature.options">
-                                            <option :selected="getParameterValue(feature, parameter, value) === option" :value="option">{{ option }}</option>
+                                            <option :selected="getParameterValue(feature, parameter, value) === option"
+                                                    :value="option">{{ option }}
+                                            </option>
                                         </template>
                                     </select>
                                 </div>
@@ -72,11 +77,11 @@
 
                                 <div :class="{ 'flyform--group-postfix' : hasSuffix(feature, parameter) } ">
                                     <input
-                                        :id="parameter"
-                                        :name="getInputName(feature, parameter)"
-                                        :type="getType(feature, parameter)"
-                                        :value="getParameterValue(feature, parameter, value)"
-                                        placeholder=" "
+                                            :id="parameter"
+                                            :name="getInputName(feature, parameter)"
+                                            :type="getType(feature, parameter)"
+                                            :value="getParameterValue(feature, parameter, value)"
+                                            placeholder=" "
                                     >
                                     <label :for="parameter">
                                         <span>{{ parameter }}</span>
@@ -101,12 +106,12 @@
                 <h3>Frameworks Features for {{ area }}</h3>
             </div>
             <feature-area
-                :server="server"
-                :area="framework"
-                :features="features"
-                :selected_server_features="selected_server_features"
-                v-for="(features, framework) in getFrameworks(area)"
-                :key="framework"
+                    :server="server"
+                    :area="framework"
+                    :features="features"
+                    :selected_server_features="selected_server_features"
+                    v-for="(features, framework) in getFrameworks(area)"
+                    :key="framework"
             >
             </feature-area>
         </template>

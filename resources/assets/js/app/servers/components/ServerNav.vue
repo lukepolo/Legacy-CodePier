@@ -2,7 +2,7 @@
 
     <ul class="wizard" v-if="serverId">
 
-        <router-link :to="{ name : 'server_sites', params : { server_id : serverId } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_info', params : { server_id : serverId } }" tag="li" class="wizard-item">
             <a>Server Information</a>
         </router-link>
 

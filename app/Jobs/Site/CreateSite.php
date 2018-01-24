@@ -60,7 +60,6 @@ class CreateSite implements ShouldQueue
 
         if (
             $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $siteService->create($this->server, $this->site);
@@ -71,16 +70,11 @@ class CreateSite implements ShouldQueue
         if (
             $serverType === SystemService::WEB_SERVER ||
             $serverType === SystemService::WORKER_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $this->runOnServer(function () use ($remoteTaskService) {
                 $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
             });
-
-            if ($this->wasSuccessful() && ! empty($this->site->repository)) {
-                dispatch(new DeploySite($this->site));
-            }
         } else {
             $this->updateServerCommand(microtime(true) - $start, ['Server Setup']);
         }

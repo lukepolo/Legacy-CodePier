@@ -2,22 +2,97 @@
 
 @section('content')
     <section id="section--hero" class="cover">
+        <div class="cover--img">
+            <img src="{{ asset('/assets//img/Boat_Dock.svg') }}">
+        </div>
         <div class="cover--content">
-            <div class="cover--logo">
-                <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
-            </div>
-            <h1>Your dock for D<span class="small-caps">ev</span>Ops</h1>
+            {{--<div class="cover--logo">--}}
+                {{--<img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">--}}
+            {{--</div>--}}
+            <h3>You build it,</h3>
+            <h1>We Deploy It.</h1>
 
-            <p class="subheading">Build, Deploy & Mange your applications easily, all on your own servers.</p>
+            <p class="subheading">Provision, Deploy & Mange your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="/login" class="btn btn-primary btn-large">Join our Beta</a>
+                <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
             </div>
         </div>
     </section>
 
+    <section id="section--intro" class="section">
+        <div class="section--content">
+            <h2>Your dock for DevOps</h2>
+            <p>Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'?</p>
+
+            <br><br>
+
+            <h2>A powerful event system help you monitor what's going on.</h2>
+            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+        </div>
+
+        <div class="section--img">
+        </div>
+    </section>
+
+    <section id="section--features" class="section">
+        <div class="section--content">
+            <h2 class="text-center text-primary">Say something cool about features</h2>
+            <h4 class="text-center">People love the fuck outta features</h4>
+
+            <div class="features">
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Feature Headline</h3>
+                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
+                        </p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Feature Headline</h3>
+                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
+                        </p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Feature Headline</h3>
+                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
+                        </p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Feature Headline</h3>
+                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="" class="btn btn-primary">Start your free trial!</a>
+            </div>
+        </div>
+    </section>
+
+
     <section id="section--video" class="section">
         <div class="section--content">
+            <h2 class="text-center">Deploying your app is easy!</h2>
             <div class="video">
                 <div class="video--item">
                     <div class="video--item-embed">
@@ -31,11 +106,76 @@
             </div>
         </div>
     </section>
+    <section id="section--slider" class="section">
+        <div class="section--content" >
+            <div class="slider">
+                <div class="slider--item">
+                    <div class="slider--img">
+                        <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                    </div>
+                    <div class="slider--content">
+                        <h5>Dashboard</h5>
+                        <h2>A powerful event system help you monitor what's going on.</h2>
+                        <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                    </div>
+                </div>
+
+                <div class="slider--item">
+                    boo
+                </div>
+
+                <div class="slider--item">
+                    bye
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="section--testimonials" class="section">
+        <div class="section--content">
+            <h2 class="text-center">Build deploy and manage your applications easily, all on your own servers.</h2>
+            <div class="testimonials">
+                <div class="slider">
+                    <div class="testimonials--item">
+                        <div class="testimonials--quote">
+                            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                        </div>
+                        <div class="testimonials--author">
+                            <div class="testimonials--img">
+                                <img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">
+                            </div>
+                            <div>
+                                <div class="testimonials--name">
+                                    Chris Johnson
+                                </div>
+                                <div class="testimonials--location">
+                                    Indianapolis, IN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
+                    <button class="btn btn-primary">Sign Up Today</button>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
 @push('scripts')
     <script src="https://player.vimeo.com/api/player.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $('.slider').slick({
+                arrows: false,
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 8000,
+            });
+        });
+    </script>
 
     <script>
         var player;

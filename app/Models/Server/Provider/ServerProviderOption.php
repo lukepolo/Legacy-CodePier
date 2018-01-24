@@ -3,10 +3,17 @@
 namespace App\Models\Server\Provider;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ServerProviderOption extends Model
 {
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'meta' => 'array',
+    ];
+
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
