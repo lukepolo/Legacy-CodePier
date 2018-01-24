@@ -2,7 +2,7 @@
   var laroute = function() {
     var routes = {
       absolute: false,
-      rootUrl: "https://codepier.io",
+      rootUrl: "http://codepier.test",
       routes: [
         {
           host: null,
@@ -114,7 +114,7 @@
           host: null,
           methods: ["GET", "HEAD"],
           uri: "horizon/{view?}",
-          name: null,
+          name: "horizon.index",
           action: "LaravelHorizonHttpControllersHomeController@index"
         },
         {
@@ -240,35 +240,35 @@
           action: "IlluminateBroadcastingBroadcastController@authenticate"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "/",
           name: null,
           action: "ServerCustomServerProvisioningController@provision"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["POST"],
           uri: "start/{provisioning_key}",
           name: null,
           action: "ServerCustomServerProvisioningController@start"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "keys/{provisioning_key}/public",
           name: null,
           action: "ServerCustomServerProvisioningController@returnPublicKey"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "keys/{provisioning_key/private}",
           name: null,
           action: "ServerCustomServerProvisioningController@returnPrivateKey"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "end/{provisioning_key}",
           name: null,
@@ -1089,6 +1089,13 @@
         {
           host: null,
           methods: ["POST"],
+          uri: "api/my/server/{server}/reload-file/{file}",
+          name: null,
+          action: "ServerServerFileController@reloadFile"
+        },
+        {
+          host: null,
+          methods: ["POST"],
           uri: "api/my/server/restart-workers/{server}",
           name: null,
           action: "ServerServerController@restartWorkerServices"
@@ -1102,10 +1109,24 @@
         },
         {
           host: null,
-          methods: ["POST"],
-          uri: "api/my/server/{server}/reload-file/{file}",
+          methods: ["GET", "HEAD"],
+          uri: "api/my/server/{server}/database-password",
           name: null,
-          action: "ServerServerFileController@reloadFile"
+          action: "ServerServerController@getDatabasePassword"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
+          uri: "api/my/server/{server}/sudo-password",
+          name: null,
+          action: "ServerServerController@getSudoPassword"
+        },
+        {
+          host: null,
+          methods: ["POST"],
+          uri: "api/my/server/{server}/sudo-password/refresh",
+          name: null,
+          action: "ServerServerController@refreshSudoPassword"
         },
         {
           host: null,
@@ -2950,7 +2971,7 @@
         {
           host: null,
           methods: ["GET", "HEAD"],
-          uri: "mail",
+          uri: "welcomeEmail",
           name: null,
           action: "Closure"
         },
@@ -3074,28 +3095,28 @@
           action: "SubscriptionController@destroy"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/loads/{serverHashId}",
           name: null,
           action: "WebHookController@loadMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/memory/{serverHashId}",
           name: null,
           action: "WebHookController@memoryMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/diskusage/{serverHashId}",
           name: null,
           action: "WebHookController@diskUsageMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/{any}",
           name: null,
@@ -3123,14 +3144,14 @@
           action: "Controller@redirectToApp"
         },
         {
-          host: "lifeline.codepier.io",
+          host: "lifeline.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "{lifelineHashId}",
           name: null,
           action: "LifeLineController@update"
         },
         {
-          host: "lifeline.codepier.io",
+          host: "lifeline.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "{any}",
           name: null,

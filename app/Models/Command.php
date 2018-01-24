@@ -13,6 +13,11 @@ class Command extends Model
 
     public static $userModel = ['site.user', 'server.user'];
 
+    protected $with = [
+        'site.user',
+        'server.user',
+    ];
+
     protected $guarded = ['id'];
 
     protected $appends = [

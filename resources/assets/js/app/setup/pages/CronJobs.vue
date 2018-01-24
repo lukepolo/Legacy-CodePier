@@ -28,10 +28,9 @@
         </table>
 
         <form @submit.prevent="createCronJob" v-if="shouldShowForm">
-            <input type="hidden" name="cron_timing" v-model="form.cron_timing">
-
             <div class="flyform--group">
                 <div class="flyform--group-prefix">
+                    {{ this.form.cronTiming }}
                     <input type="text" name="cron" v-model="form.cron" placeholder=" ">
                     <label>Cron Job</label>
                     <template v-if="!form.custom_provider">
@@ -53,20 +52,13 @@
                 </div>
             </div>
 
-            <div class="jcf-input-group">
-                <div class="select-wrap">
-                    <div id="cronjob-maker" v-cronjob></div>
-                </div>
-            </div>
+            <cron-job-maker :cronTiming.sync="form.cronTiming"></cron-job-maker>
 
-
-            <div class="flyform--group">
-                <label>Servers to Run On</label>
-            </div>
             <server-selection
                 title="New Cron Job"
                 :server_ids.sync="form.server_ids"
                 :server_types.sync="form.server_types"
+                :showFormGroup="true"
             ></server-selection>
 
             <div class="flyform--footer">
@@ -83,11 +75,12 @@
 </template>
 
 <script>
-import { ServerSelection, CronJob } from "./../components";
+import { ServerSelection, CronJob, CronJobMaker } from "./../components";
 
 export default {
   components: {
     CronJob,
+    CronJobMaker,
     ServerSelection
   },
   data() {
@@ -95,9 +88,9 @@ export default {
       loaded: false,
       showForm: false,
       form: this.createForm({
-        cron: null,
+        cron: "",
         user: "root",
-        cron_timing: null,
+        cronTiming: "* * * * *",
         server_ids: [],
         server_types: []
       })
@@ -128,46 +121,39 @@ export default {
       }
     },
     createCronJob() {
-      if (this.getCronTimings()) {
-        let job = this.getCronTimings() + " " + this.form.cron;
+      let job = this.form.cronTiming + " " + this.form.cron;
 
-        if (this.siteId) {
-          this.$store
-            .dispatch("user_site_cron_jobs/store", {
-              job: job,
-              site: this.siteId,
-              user: this.form.user,
-              server_ids: this.form.server_ids,
-              server_types: this.form.server_types
-            })
-            .then(cronJob => {
-              if (cronJob) {
-                this.resetForm();
-              }
-            });
-        }
-
-        if (this.serverId) {
-          this.$store
-            .dispatch("user_server_cron_jobs/store", {
-              job: job,
-              user: this.form.user,
-              server: this.serverId,
-              server_ids: this.form.server_ids,
-              server_types: this.form.server_types
-            })
-            .then(cronJob => {
-              if (cronJob) {
-                this.resetForm();
-              }
-            });
-        }
-      } else {
-        app.showError("You need to set a time for the cron to run.");
+      if (this.siteId) {
+        this.$store
+          .dispatch("user_site_cron_jobs/store", {
+            job: job,
+            site: this.siteId,
+            user: this.form.user,
+            server_ids: this.form.server_ids,
+            server_types: this.form.server_types
+          })
+          .then(cronJob => {
+            if (cronJob) {
+              this.resetForm();
+            }
+          });
       }
-    },
-    getCronTimings() {
-      return $("#cronjob-maker").cron("value");
+
+      if (this.serverId) {
+        this.$store
+          .dispatch("user_server_cron_jobs/store", {
+            job: job,
+            user: this.form.user,
+            server: this.serverId,
+            server_ids: this.form.server_ids,
+            server_types: this.form.server_types
+          })
+          .then(cronJob => {
+            if (cronJob) {
+              this.resetForm();
+            }
+          });
+      }
     },
     resetForm() {
       this.form.reset();
@@ -175,7 +161,7 @@ export default {
       if (this.site) {
         this.form.cron = this.site.path;
       } else {
-        this.form.cron = null;
+        this.form.cron = "";
       }
       this.showForm = false;
     }

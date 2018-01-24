@@ -181,9 +181,14 @@ Route::group(['middleware' => [
                 Route::post('restart-server/{server}', 'ServerController@restartServer');
                 Route::post('ssh-connection/{server}', 'ServerController@testSSHConnection');
                 Route::post('restart-database/{server}', 'ServerController@restartDatabases');
+                Route::post('{server}/reload-file/{file}', 'ServerFileController@reloadFile');
                 Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
-                Route::post('{server}/reload-file/{file}', 'ServerFileController@reloadFile');
+
+                Route::get('{server}/database-password', 'ServerController@getDatabasePassword');
+
+                Route::get('{server}/sudo-password', 'ServerController@getSudoPassword');
+                Route::post('{server}/sudo-password/refresh', 'ServerController@refreshSudoPassword');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');

@@ -3,11 +3,7 @@
         <form @submit.prevent="updateSite">
 
             <repository-provider-selector :provider.sync="form.user_repository_provider_id">
-
-                <input
-                    type="radio"
-                    v-model="form.user_repository_provider_id"
-                >
+                <input type="radio" checked v-if="form.custom_provider">
 
                 <div class="providers--item providers--item-custom" @click="form.custom_provider = true">
                     <div class="providers--item-header">
@@ -200,7 +196,9 @@ export default {
         repository: this.form.repository,
         web_directory: this.form.web_directory,
         custom_provider: this.form.custom_provider,
-        user_repository_provider_id: this.form.user_repository_provider_id
+        user_repository_provider_id: !this.form.custom_provider
+          ? this.form.user_repository_provider_id
+          : null
       });
     },
     getProviderByUrl(providerUrl) {

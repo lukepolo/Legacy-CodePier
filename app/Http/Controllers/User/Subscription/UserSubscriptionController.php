@@ -57,11 +57,14 @@ class UserSubscriptionController extends Controller
             $subscription->withCoupon($request->get('coupon'));
         }
 
-        $subscription->create($request->get('token'));
+        $subscription = $subscription->create($request->get('token'));
 
         $user->update([
-            'active_plan' => $plan,
             'trial_ends_at' => Carbon::now()->addDays(5),
+        ]);
+
+        $subscription->update([
+            'active_plan' => $plan,
         ]);
 
         return response()->json(

@@ -176,16 +176,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "56d98330d366a469745848b07540373846c40561"
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/56d98330d366a469745848b07540373846c40561",
-                "reference": "56d98330d366a469745848b07540373846c40561",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/85bcaea6a832684b32ef54b2487b0c14a172e9e6",
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6",
                 "shasum": ""
             },
             "require": {
@@ -229,7 +229,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-12-25T22:42:18+00:00"
+            "time": "2018-01-13T12:19:50+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -1937,16 +1937,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.28",
+            "version": "v5.5.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "cfafae1f2043208390a7c984e3070696f4969605"
+                "reference": "254e4c3e133f5bc8d6068cdf28ea062abc10adf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/cfafae1f2043208390a7c984e3070696f4969605",
-                "reference": "cfafae1f2043208390a7c984e3070696f4969605",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/254e4c3e133f5bc8d6068cdf28ea062abc10adf2",
+                "reference": "254e4c3e133f5bc8d6068cdf28ea062abc10adf2",
                 "shasum": ""
             },
             "require": {
@@ -2067,20 +2067,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-12-26T16:24:40+00:00"
+            "time": "2018-01-18T13:27:23+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v1.0.9",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "0979469b0b8290dc7e01c0207aad7f49c805ee70"
+                "reference": "b8685baf4720565bd79fdf9ba187cd973b6df9c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/0979469b0b8290dc7e01c0207aad7f49c805ee70",
-                "reference": "0979469b0b8290dc7e01c0207aad7f49c805ee70",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/b8685baf4720565bd79fdf9ba187cd973b6df9c2",
+                "reference": "b8685baf4720565bd79fdf9ba187cd973b6df9c2",
                 "shasum": ""
             },
             "require": {
@@ -2135,7 +2135,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2018-01-03T18:00:20+00:00"
+            "time": "2018-01-17T14:33:51+00:00"
         },
         {
             "name": "laravel/passport",
@@ -4251,16 +4251,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.7.1",
+            "version": "3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334"
+                "reference": "44abcdad877d9a46685a3a4d221e3b2c4b87cb76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/45cffe822057a09e05f7bd09ec5fb88eeecd2334",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/44abcdad877d9a46685a3a4d221e3b2c4b87cb76",
+                "reference": "44abcdad877d9a46685a3a4d221e3b2c4b87cb76",
                 "shasum": ""
             },
             "require": {
@@ -4271,17 +4271,15 @@
                 "rhumsaa/uuid": "self.version"
             },
             "require-dev": {
-                "apigen/apigen": "^4.1",
-                "codeception/aspect-mock": "^1.0 | ^2.0",
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
                 "doctrine/annotations": "~1.2.0",
                 "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ^2.1",
                 "ircmaxell/random-lib": "^1.1",
                 "jakub-onderka/php-parallel-lint": "^0.9.0",
-                "mockery/mockery": "^0.9.4",
+                "mockery/mockery": "^0.9.9",
                 "moontoast/math": "^1.1",
                 "php-mock/php-mock-phpunit": "^0.3|^1.1",
-                "phpunit/phpunit": "^4.7|>=5.0 <5.4",
-                "satooshi/php-coveralls": "^0.6.1",
+                "phpunit/phpunit": "^4.7|^5.0",
                 "squizlabs/php_codesniffer": "^2.3"
             },
             "suggest": {
@@ -4329,7 +4327,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-09-22T20:46:04+00:00"
+            "time": "2018-01-20T00:28:24+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -4724,16 +4722,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v5.8.0",
+            "version": "v5.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "bb3d932721977d1110b766b842f72cb32712b7f1"
+                "reference": "d1978a7f20cdbd05c5c462ffa6728f279f03e0c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/bb3d932721977d1110b766b842f72cb32712b7f1",
-                "reference": "bb3d932721977d1110b766b842f72cb32712b7f1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d1978a7f20cdbd05c5c462ffa6728f279f03e0c9",
+                "reference": "d1978a7f20cdbd05c5c462ffa6728f279f03e0c9",
                 "shasum": ""
             },
             "require": {
@@ -4775,7 +4773,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-12-20T21:47:27+00:00"
+            "time": "2018-01-17T20:53:33+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -4,29 +4,58 @@
             <div class="pricing--header-name">{{ title }}</div>
         </div>
         <div class="pricing--features">
-            <div class="flyform--group-radio" v-for="plan in plans">
-                <label>
-                    <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
-                    <span class="icon"></span>
-                    ${{ (plan.amount/ 100) }} / {{ plan.interval }}
-                    <strong v-if="plan.metadata.save">
-                        SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
-                    </strong>
-                    <template v-if="userSubscription && userSubscription.active_plan === plan.id">
-                        <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
+            <template v-if="type !== 'captain'">
+                <div class="flyform--group-radio" v-for="plan in plans">
+                    <label>
+                        <input v-model="form.plan" type="radio" name="plan" :value="plan.plan_id">
+                        <span class="icon"></span>
+                        ${{ (plan.amount/ 100) }} / {{ plan.interval }}
+                        <strong v-if="plan.metadata.save">
+                            SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
+                        </strong>
+                        <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
+                            <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
                             <small>
                                 <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
                                     Valid Until
                                 </template>
                                 <template v-else>
-                                   Next billing date
+                                    Next billing date
                                 </template>
                                 : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
                             </small>
-                    </template>
-                </label>
-            </div>
+                        </template>
+                    </label>
+                </div>
+            </template>
+            <template v-else>
+                COMING SOON!
+            </template>
         </div>
+        <template v-if="type === 'captain'">
+            <ul>
+                <li><strong>Priority Support</strong></li>
+                <li><strong>Unlimited</strong> Sites</li>
+                <li><strong>Unlimited</strong> Servers</li>
+                <li><strong>Unlimited</strong> Deployments</li>
+                <li>Multiple Server Types</li>
+                <li>Buoys (1 Click Apps)</li>
+                <li>Server Monitoring</li>
+                <li>Teams</li>
+                <li>API Access</li>
+
+            </ul>
+        </template>
+        <template v-else-if="type === 'firstmate'">
+            <ul>
+                <li><strong>Unlimited</strong> Sites</li>
+                <li>30 Servers</li>
+                <li><strong>Unlimited</strong> Deployments</li>
+                <li>Multiple Server Types</li>
+                <li>Buoys (1 Click Apps)</li>
+                <li>Server Monitoring</li>
+            </ul>
+        </template>
     </div>
 </template>
 
@@ -58,7 +87,7 @@ export default {
     },
     plans() {
       return _.filter(this.$store.state.subscriptions.plans, plan => {
-        return plan.id.indexOf(this.type) > -1;
+        return plan.plan_id.indexOf(this.type) > -1;
       });
     },
     isCanceled() {
