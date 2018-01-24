@@ -34,14 +34,12 @@ class UpdateServerDaemons
         $this->serverType = $server->type;
 
         $this->site->daemons->each(function (Daemon $daemon) {
-            if (
-                (empty($daemon->server_ids) && empty($daemon->server_types)) ||
-                (! empty($daemon->server_ids) && collect($daemon->server_ids)->contains($this->server->id)) ||
-                (! empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
-            ) {
+            if($daemon->installableOnServer($this->server)) {
                 $this->installDaemon($daemon);
             } else {
-                $this->removeDeamon($daemon);
+                if (! $daemon->hasServer($this->server)) {
+                    $this->removeDaemon($daemon);
+                }
             }
         });
     }
@@ -60,10 +58,10 @@ class UpdateServerDaemons
     /**
      * @param Daemon $daemon
      */
-    private function removeDeamon(Daemon $daemon)
+    private function removeDaemon(Daemon $daemon)
     {
         dispatch(
-            (new RemoveServerDaemon($this->server, $daemon, $this->command))
+            (new RemoveServerDaemon($this->server, $daemon, $this->command, true))
                 ->onQueue(config('queue.channels.server_commands'))
         );
     }
