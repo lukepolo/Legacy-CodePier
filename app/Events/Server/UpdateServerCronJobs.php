@@ -33,7 +33,7 @@ class UpdateServerCronJobs
         $this->command = $siteCommand;
         $this->serverType = $server->type;
 
-        $this->site->cronJobs->each(function (CronJob $cronJob) {
+        $this->site->cronJobs->each(function (CronJob $cronJob) use($server) {
             if (
                 (empty($cronJob->server_ids) && empty($cronJob->server_types)) ||
                 (! empty($cronJob->server_ids) && collect($cronJob->server_ids)->contains($this->server->id)) ||
@@ -41,7 +41,9 @@ class UpdateServerCronJobs
             ) {
                 $this->installCronJob($cronJob);
             } else {
-                $this->removeCronJob($cronJob);
+                if($server->cronJobs->keyBy('id')->get($cronJob->id)) {
+                    $this->removeCronJob($cronJob);
+                }
             }
         });
     }

@@ -61,6 +61,7 @@ class RemoveServerCronJob implements ShouldQueue
                 }
             }
         } else {
+            // TODO -This isn't exactly true, mabye these cronjobs dont belong on this server , so we need to check
             $this->updateServerCommand(0, 'Sites that are on this server using this cron job', false);
         }
     }
