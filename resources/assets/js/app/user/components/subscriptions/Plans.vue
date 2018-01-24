@@ -29,33 +29,37 @@
                 </div>
             </template>
             <template v-else>
-                COMING SOON!
+                <div class="pricing--coming">COMING SOON!</div>
+            </template>
+
+
+            <template v-if="type === 'captain'">
+                <hr>
+                <ul>
+                    <li><strong>Priority Support</strong></li>
+                    <li><strong>Unlimited</strong> Sites</li>
+                    <li><strong>Unlimited</strong> Servers</li>
+                    <li><strong>Unlimited</strong> Deployments</li>
+                    <li>Multiple Server Types</li>
+                    <li>Buoys (1 Click Apps)</li>
+                    <li>Server Monitoring</li>
+                    <li>Teams</li>
+                    <li>API Access</li>
+
+                </ul>
+            </template>
+            <template v-else-if="type === 'firstmate'">
+                <hr>
+                <ul>
+                    <li><strong>Unlimited</strong> Sites</li>
+                    <li>30 Servers</li>
+                    <li><strong>Unlimited</strong> Deployments</li>
+                    <li>Multiple Server Types</li>
+                    <li>Buoys (1 Click Apps)</li>
+                    <li>Server Monitoring</li>
+                </ul>
             </template>
         </div>
-        <template v-if="type === 'captain'">
-            <ul>
-                <li><strong>Priority Support</strong></li>
-                <li><strong>Unlimited</strong> Sites</li>
-                <li><strong>Unlimited</strong> Servers</li>
-                <li><strong>Unlimited</strong> Deployments</li>
-                <li>Multiple Server Types</li>
-                <li>Buoys (1 Click Apps)</li>
-                <li>Server Monitoring</li>
-                <li>Teams</li>
-                <li>API Access</li>
-
-            </ul>
-        </template>
-        <template v-else-if="type === 'firstmate'">
-            <ul>
-                <li><strong>Unlimited</strong> Sites</li>
-                <li>30 Servers</li>
-                <li><strong>Unlimited</strong> Deployments</li>
-                <li>Multiple Server Types</li>
-                <li>Buoys (1 Click Apps)</li>
-                <li>Server Monitoring</li>
-            </ul>
-        </template>
     </div>
 </template>
 

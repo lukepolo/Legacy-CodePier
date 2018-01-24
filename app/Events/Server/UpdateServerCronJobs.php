@@ -33,8 +33,8 @@ class UpdateServerCronJobs
         $this->command = $siteCommand;
         $this->serverType = $server->type;
 
-        $this->site->cronJobs->each(function (CronJob $cronJob) use($server) {
-            if($cronJob->installableOnServer($this->server)) {
+        $this->site->cronJobs->each(function (CronJob $cronJob) use ($server) {
+            if ($cronJob->installableOnServer($this->server)) {
                 $this->installCronJob($cronJob);
             } else {
                 if (! $cronJob->hasServer($this->server)) {
