@@ -29,7 +29,7 @@ return [
     'connections' => [
 
         'laravel-echo-server' => [
-            'host' => env('LARAVEL_ECHO_SERVER_HOST')
+            'host' => env('LARAVEL_ECHO_SERVER_HOST'),
         ],
 
         'pusher' => [
