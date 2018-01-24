@@ -6,6 +6,10 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: $spacing*3;
 
+        @include breakpoint(md) {
+            grid-template-columns: 1fr;
+        }
+
         &:focus {
             outline: none;
         }

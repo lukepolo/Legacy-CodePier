@@ -39,20 +39,21 @@
             <ul class="nav nav--left">
                 <li>
                     <div class="nav--logo">
-                        @if(url('/') != url()->current())
+                        {{--@if(url('/') != url()->current())--}}
                             <a href="{{ url('/') }}" style="width:100%">
                                 <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
                             </a>
-                        @endif
+                        {{--@endif--}}
                     </div>
                 </li>
             </ul>
             <ul class="nav nav--right">
                 <li><a href="/#section--features" class="nav--link">Features</a></li>
                 <li><a href="{{ action('PricingController@index') }}" class="nav--link">Pricing</a></li>
-                <li><a href="#" class="nav--link">Documentation</a></li>
-                <li><a href="#" class="nav--link">FAQs</a></li>
+                {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
+                {{--<li><a href="#" class="nav--link">FAQs</a></li>--}}
                 <li><a href="{{ action('Auth\LoginController@login') }}" class="nav--link nav--link-highlight">Login</a></li>
+                <li><a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="nav--link nav--link-block">Sign Up</a></li>
             </ul>
         </header>
 

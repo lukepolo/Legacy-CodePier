@@ -14,6 +14,10 @@
     grid-gap: $spacing*3;
     margin-top: $spacing*3;
 
+    @include breakpoint(md) {
+        grid-template-columns: 1fr;
+    }
+
     &--author {
         display: flex;
         align-items: center;
