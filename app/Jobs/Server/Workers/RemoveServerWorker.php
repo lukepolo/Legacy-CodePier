@@ -20,6 +20,7 @@ class RemoveServerWorker implements ShouldQueue
 
     private $server;
     private $worker;
+    private $forceRemove;
 
     public $tries = 1;
     public $timeout = 60;
@@ -29,11 +30,13 @@ class RemoveServerWorker implements ShouldQueue
      * @param Server $server
      * @param Worker $worker
      * @param Command $siteCommand
+     * @param bool $forceRemove
      */
-    public function __construct(Server $server, Worker $worker, Command $siteCommand = null)
+    public function __construct(Server $server, Worker $worker, Command $siteCommand = null, $forceRemove = false)
     {
         $this->server = $server;
         $this->worker = $worker;
+        $this->forceRemove = $forceRemove;
         $this->makeCommand($server, $worker, $siteCommand, 'Removing');
     }
 
@@ -45,7 +48,7 @@ class RemoveServerWorker implements ShouldQueue
     {
         $sitesCount = $this->worker->sites->count();
 
-        if (! $sitesCount) {
+        if ($this->forceRemove || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
             });

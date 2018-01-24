@@ -11,6 +11,8 @@ class FixSiteServerConfigurations
 {
     use SerializesModels, ModelCommandTrait;
 
+    public $site;
+
     /**
      * Create a new job instance.
      *
@@ -18,15 +20,20 @@ class FixSiteServerConfigurations
      */
     public function __construct(Site $site)
     {
-        $serverProvisioning = $site->servers->first(function ($server) {
+        $this->site = $site;
+    }
+
+    public function handle()
+    {
+        $serverProvisioning = $this->site->servers->first(function ($server) {
             return $server->progress < 100;
         });
 
         if (empty($serverProvisioning)) {
-            foreach ($site->provisionedServers as $server) {
+            foreach ($this->site->provisionedServers as $server) {
                 if (empty($excludeServer) || $server->id != $excludeServer->id) {
-                    $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
-                    event(new UpdateServerConfigurations($server, $site, $siteCommand));
+                    $siteCommand = $this->makeCommand($this->site, $server, 'Updating Server '.$server->name.' for '.$this->site->name);
+                    event(new UpdateServerConfigurations($server, $this->site, $siteCommand));
                 }
             }
         }
