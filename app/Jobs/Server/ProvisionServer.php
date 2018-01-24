@@ -64,6 +64,7 @@ class ProvisionServer implements ShouldQueue
             if (
                 $serverType === SystemService::WEB_SERVER ||
                 $serverType === SystemService::WORKER_SERVER ||
+                $serverType === SystemService::LOAD_BALANCER ||
                 $serverType === SystemService::FULL_STACK_SERVER
             ) {
                 foreach ($this->server->sites as $site) {
