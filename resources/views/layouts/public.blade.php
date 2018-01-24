@@ -72,13 +72,13 @@
                         <li><a href="{{ action('PublicController@termsOfService') }}">Terms Of Service</a></li>
                     </ul>
                 </div>
-                <div class="footer--links">
-                    <h4 class="footer--links-heading">About</h4>
-                    <ul class="footer--links-list">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Customers</a></li>
-                    </ul>
-                </div>
+                {{--<div class="footer--links">--}}
+                    {{--<h4 class="footer--links-heading">About</h4>--}}
+                    {{--<ul class="footer--links-list">--}}
+                        {{--<li><a href="#">About Us</a></li>--}}
+                        {{--<li><a href="#">Our Customers</a></li>--}}
+                    {{--</ul>--}}
+                {{--</div>--}}
                 <div class="footer--links">
                     <h4 class="footer--links-heading">Support</h4>
                     <ul class="footer--links-list">
