@@ -20,6 +20,7 @@ class RemoveServerDaemon implements ShouldQueue
 
     private $server;
     private $daemon;
+    private $forceRemove;
 
     public $tries = 1;
     public $timeout = 60;
@@ -29,11 +30,13 @@ class RemoveServerDaemon implements ShouldQueue
      * @param Server $server
      * @param Daemon $daemon
      * @param Command $siteCommand
+     * @param bool $forceRemove
      */
-    public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null)
+    public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null, $forceRemove = false)
     {
         $this->server = $server;
         $this->daemon = $daemon;
+        $this->forceRemove = $forceRemove;
         $this->makeCommand($server, $daemon, $siteCommand, 'Removing');
     }
 
@@ -45,7 +48,7 @@ class RemoveServerDaemon implements ShouldQueue
     {
         $sitesCount = $this->daemon->sites->count();
 
-        if (! $sitesCount) {
+        if ($this->forceRemove || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeDaemon($this->daemon);
             });

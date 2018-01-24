@@ -229,6 +229,7 @@ Route::group(['middleware' => [
                 Route::post('{site}/refresh-ssh-keys', 'SiteController@refreshPublicKey');
                 Route::post('{site}/refresh-deploy-key', 'SiteController@refreshDeployKey');
                 Route::delete('{site}/clear-commands', 'SiteServerCommandsController@destroy');
+                Route::post('{site}/fix-server-configurations', 'SiteController@fixServerConfigurations');
                 Route::post('{site}/reload-file/{file}/server/{server}', 'SiteFileController@reloadFile');
             });
 
