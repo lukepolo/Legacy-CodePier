@@ -25,7 +25,7 @@
                 'stripeKey' => config('services.stripe.key'),
                 'echoServerKey' => config('broadcasting.connections.pusher.key'),
                 'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
-
+                'echoServerHost' => config('broadcasting.connections.laravel-echo-server.host'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
             ]); ?>
         </script>
