@@ -23,7 +23,8 @@ class FixSiteServerConfigurations
         $this->site = $site;
     }
 
-    public function handle() {
+    public function handle()
+    {
         $serverProvisioning = $this->site->servers->first(function ($server) {
             return $server->progress < 100;
         });
