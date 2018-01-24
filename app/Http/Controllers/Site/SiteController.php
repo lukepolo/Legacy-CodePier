@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -359,8 +358,8 @@ class SiteController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fixServerConfigurations($siteId) {
-
+    public function fixServerConfigurations($siteId)
+    {
         $site = Site::findOrFail($siteId);
 
         $this->dispatch(new FixSiteServerConfigurations($site));
