@@ -58,9 +58,9 @@ loadProgressBar({
 import Echo from "laravel-echo";
 
 window.Echo = new Echo({
-  broadcaster: 'socket.io',
+  broadcaster: "socket.io",
   key: Laravel.echoServerKey,
-  host: Laravel.echoServerHost,
+  host: Laravel.echoServerHost
 });
 
 /*

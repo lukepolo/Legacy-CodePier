@@ -1,7 +1,7 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
     .get(Vue.action("SiteSiteController@index"), "user_sites/setAll")
-    .then(sites => {
+    .then((sites) => {
       _.each(sites, function(site) {
         dispatch("listen", site);
       });
@@ -18,7 +18,7 @@ export const show = (context, site) => {
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(Vue.action("SiteSiteController@store"), "user_sites/add")
-    .then(site => {
+    .then((site) => {
       dispatch("user_piles/change", data.pile_id, {
         root: true
       }).then(() => {
@@ -60,7 +60,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
   if (_.indexOf(state.listening_to, site.id) === -1) {
     commit("listenTo", site.id);
     Echo.private("App.Models.Site.Site." + site.id)
-      .listen("Site\\DeploymentStepStarted", data => {
+      .listen("Site\\DeploymentStepStarted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
@@ -73,7 +73,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
           }
         );
       })
-      .listen("Site\\DeploymentStepCompleted", data => {
+      .listen("Site\\DeploymentStepCompleted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
@@ -86,7 +86,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
           }
         );
       })
-      .listen("Site\\DeploymentStepFailed", data => {
+      .listen("Site\\DeploymentStepFailed", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
@@ -99,7 +99,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
           }
         );
       })
-      .listen("Site\\DeploymentCompleted", data => {
+      .listen("Site\\DeploymentCompleted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
@@ -112,7 +112,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
           }
         );
       })
-      .notification(notification => {
+      .notification((notification) => {
         if (
           notification.type === "App\\Notifications\\Site\\NewSiteDeployment"
         ) {
@@ -153,7 +153,7 @@ export const updateNotificationChannels = ({}, data) => {
       }),
       ["user_sites/set", "user_sites/update"]
     )
-    .then(response => {
+    .then((response) => {
       app.showSuccess("You updated your sites slack notification channels.");
       return response;
     });
@@ -162,7 +162,7 @@ export const updateNotificationChannels = ({}, data) => {
 export const fixServerConfigurations = ({}, site) => {
   return Vue.request()
     .post(Vue.action("SiteSiteController@fixServerConfigurations", { site }))
-    .then(response => {
+    .then((response) => {
       app.showSuccess(
         "Your server configurations will be fixed for this site."
       );

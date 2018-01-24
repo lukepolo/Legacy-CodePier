@@ -31,7 +31,7 @@ export const change = (context, pile) => {
     pile: pile
   })
     .post(Vue.action("PilePileController@changePile"), "user/set")
-    .then(pile => {
+    .then((pile) => {
       if (
         app.$router.currentRoute.params.server_id ||
         app.$router.currentRoute.params.site_id
