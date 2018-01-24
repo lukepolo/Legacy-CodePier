@@ -12,7 +12,9 @@ class TrustProxies extends Middleware
      *
      * @var array
      */
-    protected $proxies;
+    protected $proxies = [
+        '165.227.108.142',
+    ];
 
     /**
      * The current proxy header mappings.
