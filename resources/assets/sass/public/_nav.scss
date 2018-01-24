@@ -9,6 +9,11 @@
 
     &--right {
         justify-content: flex-end;
+
+        @include breakpoint(sm) {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 
     &--logo {
@@ -51,6 +56,16 @@
             &:hover {
                 color: $color-primary;
             }
+        }
+
+        &-block {
+            background-color: $color-primary;
+            color: $color-text-inverse;
+            font-weight: 600;
+        }
+
+        @include breakpoint(sm) {
+            padding: 15px 18px;
         }
     }
 }
