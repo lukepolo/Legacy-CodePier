@@ -27,6 +27,7 @@
                             Free
                         </label>
                     </div>
+                    <hr>
                     <ul>
                         <li>1 Site</li>
                         <li>1 Full Stack Server</li>
