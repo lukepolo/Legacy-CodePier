@@ -34,7 +34,7 @@ class UpdateServerDaemons
         $this->serverType = $server->type;
 
         $this->site->daemons->each(function (Daemon $daemon) {
-            if($daemon->installableOnServer($this->server)) {
+            if ($daemon->installableOnServer($this->server)) {
                 $this->installDaemon($daemon);
             } else {
                 if (! $daemon->hasServer($this->server)) {

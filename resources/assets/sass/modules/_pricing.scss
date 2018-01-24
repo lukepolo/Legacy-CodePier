@@ -87,6 +87,14 @@
         }
     }
 
+    &--coming {
+        text-align: center;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: $green;
+        margin: $spacing;
+    }
+
     &--features {
         flex: 1 0 auto;
         font-size: 1.2em;
@@ -149,6 +157,15 @@
 
         .pricing--features {
             padding: 10px 20px;
+
+            li {
+                font-size: 15px;
+
+                strong {
+                    font-weight: 600;
+                    letter-spacing: .5px;
+                }
+            }
         }
 
 
