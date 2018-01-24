@@ -7,7 +7,6 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 
 class TrustProxies extends Middleware
 {
-
     /**
      * The trusted proxies for this application.
      *
