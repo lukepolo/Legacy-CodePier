@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Server\Server;
 use App\Services\Systems\SystemService;
 
 trait HasServers
@@ -57,10 +58,23 @@ trait HasServers
         });
     }
 
-    public function hasServer($server)
+    public function hasServer(Server $server)
     {
         $servers = $this->servers;
 
         return ! empty($servers) && $servers->count() && $servers->pluck('id')->contains($server->id);
+    }
+
+    public function installableOnServer(Server $server)
+    {
+        if (
+            (empty($this->server_ids) && empty($this->server_types)) ||
+            (! empty($this->server_ids) && collect($this->server_ids)->contains($server->id)) ||
+            (! empty($this->server_types) && collect($this->server_types)->contains($server->type))
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

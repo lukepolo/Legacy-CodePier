@@ -23,9 +23,9 @@
                 'teams' => config('app.teams'),
                 'version' => app()->make('gitCommit'),
                 'stripeKey' => config('services.stripe.key'),
-                'pusherKey' => config('broadcasting.connections.pusher.key'),
+                'echoServerKey' => config('broadcasting.connections.pusher.key'),
                 'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
-                'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
+
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
             ]); ?>
         </script>
@@ -77,6 +77,7 @@
         @if(\Auth::check() && second_authed())
 
             <script src="https://js.stripe.com/v3/"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>

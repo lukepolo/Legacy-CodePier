@@ -41,6 +41,9 @@
 
                 <ul slot="content" class="dropdown-menu nowrap dropdown-list">
                     <li>
+                        <confirm-dropdown dispatch="user_sites/fixServerConfigurations" :params="site.id"><a href="#"><span class="fa fa-medkit"></span> Fix Server Configurations</a></confirm-dropdown>
+                    </li>
+                    <li>
                         <confirm-dropdown dispatch="user_site_server_commands/clearStuckCommands" :params="site.id"><a href="#"><span class="fa fa-bomb"></span> Clear Stuck Commands</a></confirm-dropdown>
                     </li>
                 </ul>

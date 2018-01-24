@@ -19,6 +19,7 @@ class RemoveServerCronJob implements ShouldQueue
 
     private $server;
     private $cronJob;
+    private $forceRemove;
 
     public $tries = 1;
     public $timeout = 60;
@@ -28,12 +29,14 @@ class RemoveServerCronJob implements ShouldQueue
      * @param Server $server
      * @param CronJob $cronJob
      * @param Command $siteCommand
+     * @param bool $forceRemove
      * @internal param ServerCronJob $serverCronJob
      */
-    public function __construct(Server $server, CronJob $cronJob, Command $siteCommand = null)
+    public function __construct(Server $server, CronJob $cronJob, Command $siteCommand = null, $forceRemove = false)
     {
         $this->server = $server;
         $this->cronJob = $cronJob;
+        $this->forceRemove = $forceRemove;
         $this->makeCommand($server, $cronJob, $siteCommand, 'Removing');
     }
 
@@ -47,7 +50,7 @@ class RemoveServerCronJob implements ShouldQueue
     {
         $sitesCount = $this->cronJob->sites->count();
 
-        if (! $sitesCount) {
+        if ($this->forceRemove || ! $this->daemon->installableOnServer($this->server) || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->removeCron($this->server, $this->cronJob);
             });
@@ -61,6 +64,7 @@ class RemoveServerCronJob implements ShouldQueue
                 }
             }
         } else {
+            // TODO -This isn't exactly true, mabye these cronjobs dont belong on this server , so we need to check
             $this->updateServerCommand(0, 'Sites that are on this server using this cron job', false);
         }
     }
