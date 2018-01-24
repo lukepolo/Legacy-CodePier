@@ -28,6 +28,10 @@ return [
 
     'connections' => [
 
+        'laravel-echo-server' => [
+            'host' => env('LARAVEL_ECHO_SERVER_HOST')
+        ],
+
         'pusher' => [
             'driver'  => 'pusher',
             'key'     => env('PUSHER_APP_KEY'),
