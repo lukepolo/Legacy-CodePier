@@ -25,15 +25,17 @@ class FixSiteServerConfigurations
 
     public function handle()
     {
-        $serverProvisioning = $this->site->servers->first(function ($server) {
+        $site = $this->site->refresh()->with('servers');
+
+        $serverProvisioning = $site->servers->first(function ($server) {
             return $server->progress < 100;
         });
 
         if (empty($serverProvisioning)) {
-            foreach ($this->site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 if (empty($excludeServer) || $server->id != $excludeServer->id) {
-                    $siteCommand = $this->makeCommand($this->site, $server, 'Updating Server '.$server->name.' for '.$this->site->name);
-                    event(new UpdateServerConfigurations($server, $this->site, $siteCommand));
+                    $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
+                    event(new UpdateServerConfigurations($server, $site, $siteCommand));
                 }
             }
         }
