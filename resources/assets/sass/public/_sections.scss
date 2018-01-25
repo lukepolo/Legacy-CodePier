@@ -31,19 +31,26 @@
 #section--intro {
     &.section {
         grid-template-columns: 1fr 3fr 2fr 1fr;
+
+        @include breakpoint(sm) {
+            grid-template-columns: 20px 1fr 20px;
+        }
     }
 
     .section {
-        @include breakpoint(sm) {
-            grid-template-columns: 20px 3fr 2fr 20px;
-        }
-
         &--content {
             grid-column-start: 2;
-
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        &--img {
+            @include breakpoint(sm) {
+                grid-column-start: 2;
+                grid-column-end: -1;
+                height: 300px;
+            }
         }
     }
 }
