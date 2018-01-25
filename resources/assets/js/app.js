@@ -27,7 +27,7 @@ app.$store.dispatch("repository_providers/get");
 app.$store.dispatch("user_teams/get");
 app.$store.dispatch("user_notification_providers/get");
 
-Echo.channel("app").listen("ReleasedNewVersion", data => {
+Echo.channel("app").listen("ReleasedNewVersion", (data) => {
   app.$store.dispatch("system/setVersion", data);
 });
 
