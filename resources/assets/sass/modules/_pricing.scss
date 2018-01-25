@@ -1,22 +1,22 @@
 // Pricing Styles =====================
 // ====================================
 #section--pricingintro {
-    background-size: cover;
-    background-position: center bottom;
-    margin: 0px;
-    max-width: 100%;
-    background-color: rgba($gray, 1);
+    height: 350px;
+    background-color: mix($gray, $white, 90%);
     background-image: url('/assets/img/cover/Kids_Jumping.png');
     background-size: contain;
     background-position: left bottom;
-    height: 430px;
+    background-repeat: no-repeat;
 
     h1 {
-        margin-top: -180px;
         font-size: 2.7em;
         color: mix($color-primary, $white, 50%);
         text-align: center;
         padding: $spacing 0px;
+
+        @include breakpoint(md) {
+            font-size: 2em;
+        }
 
         @include breakpoint(sm) {
             padding: $spacing;
@@ -87,14 +87,6 @@
         }
     }
 
-    &--coming {
-        text-align: center;
-        font-weight: 800;
-        letter-spacing: 1px;
-        color: $green;
-        margin: $spacing;
-    }
-
     &--features {
         flex: 1 0 auto;
         font-size: 1.2em;
@@ -111,6 +103,24 @@
         padding: 10px 20px;
     }
 
+    &--banner {
+        font-family: $font-web-heading;
+        font-size: 20px;
+        text-transform: uppercase;
+        text-align: center;
+        background-color: $green;
+        color: $color-text-inverse;
+        padding: 10px;
+    }
+
+    &--coming {
+        text-align: center;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: $green;
+        margin: $spacing;
+    }
+
     @include breakpoint(md) {
         &--item {
             flex: 1 1 1em;
@@ -121,7 +131,7 @@
         }
     }
 
-    @include breakpoint(sm) {
+    @include breakpoint(md) {
         flex-direction: column;
         margin: -50px 0px 0px;
 

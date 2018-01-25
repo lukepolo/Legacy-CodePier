@@ -9,12 +9,21 @@
 
     &--right {
         justify-content: flex-end;
+
+        @include breakpoint(sm) {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 
     &--logo {
         width: 250px;
         margin-left: $spacing/2;
         padding: 0 $spacing;
+
+        @include breakpoint(sm) {
+            padding: $spacing/2;
+        }
     }
 
     &--link {
@@ -51,6 +60,23 @@
             &:hover {
                 color: $color-primary;
             }
+        }
+
+        &-block {
+            background-color: $color-primary;
+            color: $color-text-inverse;
+            font-weight: 600;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: $color-text-inverse;
+                background-color: mix($color-primary, $white, 90%);
+            }
+        }
+
+        @include breakpoint(sm) {
+            padding: 15px 18px;
         }
     }
 }

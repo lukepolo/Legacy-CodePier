@@ -61,6 +61,10 @@
             position: relative;
             border-top: 9px solid $black;
 
+            @include breakpoint(sm) {
+                flex-basis: 100px;
+            }
+
             &:hover {
                 background-color: darken($color-text-primary, 2);
                 cursor: pointer;

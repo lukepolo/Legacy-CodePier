@@ -14,11 +14,15 @@
     grid-gap: $spacing*3;
     margin-top: $spacing*3;
 
+    @include breakpoint(md) {
+        grid-template-columns: 1fr;
+    }
+
     &--author {
         display: flex;
         align-items: center;
         margin-top: $spacing;
-        padding: 0px 0px 10px 10px;
+        padding: 0px /*10px* if img back in*/ ;
         text-transform: uppercase;
         font-weight: 600;
         letter-spacing: .5px;
