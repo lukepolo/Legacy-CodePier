@@ -136,7 +136,7 @@ class EventController extends Controller
                     return $query->get();
                 })
                 ->flatten()
-                ->sortByDesc('id'),
+                ->sortByDesc('created_at'),
             $request->get('page')
         ));
     }
