@@ -59,8 +59,6 @@ import Echo from "laravel-echo";
 
 window.io = require('socket.io-client');
 
-console.info(Laravel.echoServerHost);
-
 window.Echo = new Echo({
   broadcaster: "socket.io",
   key: Laravel.echoServerKey,
