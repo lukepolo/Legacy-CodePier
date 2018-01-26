@@ -29,7 +29,7 @@ class PHP
      *
      * @order 300
      *
-     * @not_default
+     * @not_default true
      */
     public function installNodeDependencies()
     {
@@ -52,7 +52,7 @@ class PHP
      *
      * @order 301
      *
-     * @not_default
+     * @not_default true
      */
     public function installNodeDependenciesWithYarn()
     {
