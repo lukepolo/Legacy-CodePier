@@ -105,7 +105,7 @@ class SiteSslController extends Controller
             'active' => $request->get('active'),
         ]);
 
-        event(new SiteSslCertificateUpdated($site, $sslCertificate, $request->get('active')));
+        broadcast(new SiteSslCertificateUpdated($site, $sslCertificate));
 
         return response()->json($sslCertificate);
     }

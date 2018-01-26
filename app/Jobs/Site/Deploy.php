@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Events\Site\DeploymentStepStarted;
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -59,9 +60,10 @@ class Deploy implements ShouldQueue
 
         try {
             $start = microtime(true);
+            $firstEvent = $this->serverDeployment->events->first();
+            broadcast(new DeploymentStepStarted($this->site, $this->server, $firstEvent, $firstEvent->step));
             $siteService->deploy($this->server, $this->site, $this->serverDeployment, $this->oldSiteDeployment);
         } catch (\Exception $e) {
-            \Log::error($e);
 
             $message = $e->getMessage();
 
@@ -81,7 +83,7 @@ class Deploy implements ShouldQueue
             }
 
             if (! $event->failed) {
-                event(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message, microtime(true) - $start));
+                broadcast(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message, microtime(true) - $start));
             }
 
             $this->site->notify(new SiteDeploymentFailed($this->serverDeployment, $message));

@@ -155,7 +155,7 @@ class SiteService implements SiteServiceContract
 
                 $start = microtime(true);
 
-                event(new DeploymentStepStarted($site, $server, $event, $event->step));
+                broadcast(new DeploymentStepStarted($site, $server, $event, $event->step));
 
                 if (! empty($event->step->script)) {
                     $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
@@ -175,16 +175,16 @@ class SiteService implements SiteServiceContract
                     ]);
                 }
 
-                event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
+                broadcast(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
                 $log = collect($e->getMessage())->filter()->implode("\n");
 
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
+                broadcast(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
 
-        event(new DeploymentCompleted($site, $server, $siteServerDeployment));
+        broadcast(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
 
     /**

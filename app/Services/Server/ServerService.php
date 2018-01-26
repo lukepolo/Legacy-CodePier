@@ -108,7 +108,7 @@ class ServerService implements ServerServiceContract
 
             return true;
         } catch (SshConnectionFailed $e) {
-            event(new ServerSshConnectionFailed($server, $e->getMessage()));
+            broadcast(new ServerSshConnectionFailed($server, $e->getMessage()));
 
             return false;
         }

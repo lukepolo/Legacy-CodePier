@@ -227,7 +227,7 @@ class SiteController extends Controller
      */
     public function restartServer($siteId)
     {
-        event(new SiteRestartServers(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartServers(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -241,7 +241,7 @@ class SiteController extends Controller
      */
     public function restartWebServices($siteId)
     {
-        event(new SiteRestartWebServices(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartWebServices(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -255,7 +255,7 @@ class SiteController extends Controller
      */
     public function restartDatabases($siteId)
     {
-        event(new SiteRestartDatabases(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartDatabases(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -269,7 +269,7 @@ class SiteController extends Controller
      */
     public function restartWorkerServices($siteId)
     {
-        event(new SiteRestartWorkers(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartWorkers(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }

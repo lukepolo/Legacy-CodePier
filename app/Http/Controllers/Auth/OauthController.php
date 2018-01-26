@@ -82,7 +82,6 @@ class OauthController extends Controller
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
-                    \Log::debug($tokenData);
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
