@@ -51,7 +51,7 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <button class="btn" v-if="daemons.length" @click.prevent="resetForm">Cancel</button>
+                    <span class="btn" v-if="daemons.length" @click.prevent="resetForm">Cancel</span>
                     <button class="btn btn-primary" type="submit">Create Daemon</button>
                 </div>
             </div>

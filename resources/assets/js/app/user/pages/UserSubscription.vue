@@ -96,9 +96,9 @@
                 </div>
 
                 <div class="flyform--footer-links" v-if="userSubscription">
-                    <a class="text-error" @click="cancelSubscription" v-if="!isCanceled">
+                    <button class="text-error" @click="cancelSubscription" v-if="!isCanceled">
                         Cancel Subscription
-                    </a>
+                    </button>
                 </div>
             </div>
         </form>
