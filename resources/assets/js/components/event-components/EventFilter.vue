@@ -43,8 +43,8 @@
                 </template>
 
                 <div class="btn-footer">
-                    <a class="btn btn-small" @click="cancel">Cancel</a>
-                    <a class="btn btn-small btn-primary" @click="updateFilters" v-if="filters.length">Apply</a>
+                    <span class="btn btn-small" @click="cancel">Cancel</span>
+                    <button class="btn btn-small btn-primary" @click="updateFilters" v-if="filters.length">Apply</button>
                 </div>
             </div>
         </ul>

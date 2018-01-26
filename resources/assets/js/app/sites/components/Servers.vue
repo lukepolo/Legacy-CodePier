@@ -77,7 +77,7 @@
 
                                <div class="btn-footer">
                                    <template v-if="siteServers">
-                                       <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
+                                       <span class="btn danger" @click.prevent="resetAttachedServers">Cancel</span>
                                    </template>
                                    <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
                                </div>
