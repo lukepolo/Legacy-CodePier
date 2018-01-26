@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Site;
 
-use App\Events\Site\DeploymentStepStarted;
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\SiteServerDeployment;
+use App\Events\Site\DeploymentStepStarted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Site\SiteDeploymentFailed;
 use App\Notifications\Site\SiteDeploymentSuccessful;
@@ -64,7 +64,6 @@ class Deploy implements ShouldQueue
             broadcast(new DeploymentStepStarted($this->site, $this->server, $firstEvent, $firstEvent->step));
             $siteService->deploy($this->server, $this->site, $this->serverDeployment, $this->oldSiteDeployment);
         } catch (\Exception $e) {
-
             $message = $e->getMessage();
 
             if (get_class($e) == \Exception::class) {
