@@ -39,20 +39,21 @@
             <ul class="nav nav--left">
                 <li>
                     <div class="nav--logo">
-                        @if(url('/') != url()->current())
+                        {{--@if(url('/') != url()->current())--}}
                             <a href="{{ url('/') }}" style="width:100%">
                                 <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
                             </a>
-                        @endif
+                        {{--@endif--}}
                     </div>
                 </li>
             </ul>
             <ul class="nav nav--right">
                 <li><a href="/#section--features" class="nav--link">Features</a></li>
                 <li><a href="{{ action('PricingController@index') }}" class="nav--link">Pricing</a></li>
-                <li><a href="#" class="nav--link">Documentation</a></li>
-                <li><a href="#" class="nav--link">FAQs</a></li>
+                {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
+                {{--<li><a href="#" class="nav--link">FAQs</a></li>--}}
                 <li><a href="{{ action('Auth\LoginController@login') }}" class="nav--link nav--link-highlight">Login</a></li>
+                <li><a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="nav--link nav--link-block">Sign Up</a></li>
             </ul>
         </header>
 
@@ -71,13 +72,13 @@
                         <li><a href="{{ action('PublicController@termsOfService') }}">Terms Of Service</a></li>
                     </ul>
                 </div>
-                <div class="footer--links">
-                    <h4 class="footer--links-heading">About</h4>
-                    <ul class="footer--links-list">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Customers</a></li>
-                    </ul>
-                </div>
+                {{--<div class="footer--links">--}}
+                    {{--<h4 class="footer--links-heading">About</h4>--}}
+                    {{--<ul class="footer--links-list">--}}
+                        {{--<li><a href="#">About Us</a></li>--}}
+                        {{--<li><a href="#">Our Customers</a></li>--}}
+                    {{--</ul>--}}
+                {{--</div>--}}
                 <div class="footer--links">
                     <h4 class="footer--links-heading">Support</h4>
                     <ul class="footer--links-list">

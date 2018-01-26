@@ -11,7 +11,6 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -21,7 +20,6 @@ class CreateSite implements ShouldQueue
 
     private $site;
     private $server;
-    private $command;
 
     public $tries = 1;
     public $timeout = 60;
@@ -36,7 +34,6 @@ class CreateSite implements ShouldQueue
     {
         $this->site = $site;
         $this->server = $server;
-        $this->command = $this->makeCommand($this->server, $server, null, 'Setting up Server '.$server->name.' for '.$site->name);
     }
 
     /**
@@ -50,12 +47,6 @@ class CreateSite implements ShouldQueue
      */
     public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
     {
-        $start = microtime(true);
-
-        $this->serverCommand->update([
-            'started' => true,
-        ]);
-
         $serverType = $this->server->type;
 
         if (
@@ -66,7 +57,10 @@ class CreateSite implements ShouldQueue
             $siteService->create($this->server, $this->site);
         }
 
-        event(new FixSiteServerConfigurations($this->site));
+        dispatch(
+            (new FixSiteServerConfigurations($this->site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         if (
             $serverType === SystemService::WEB_SERVER ||
@@ -76,8 +70,6 @@ class CreateSite implements ShouldQueue
             $this->runOnServer(function () use ($remoteTaskService) {
                 $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
             });
-        } else {
-            $this->updateServerCommand(microtime(true) - $start, ['Server Setup']);
         }
     }
 }

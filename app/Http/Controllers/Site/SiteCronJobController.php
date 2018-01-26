@@ -9,7 +9,7 @@ use App\Http\Requests\CronJobRequest;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
 use App\Http\Requests\CronJobUpdatedRequest;
-use App\Events\Site\FixSiteServerConfigurations;
+use App\Jobs\Site\FixSiteServerConfigurations;
 
 class SiteCronJobController extends Controller
 {
@@ -79,7 +79,10 @@ class SiteCronJobController extends Controller
             'server_types' => $request->get('server_types', []),
         ]);
 
-        event(new FixSiteServerConfigurations($site));
+        dispatch(
+            (new FixSiteServerConfigurations($site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json($cronJob);
     }
