@@ -52,8 +52,8 @@
                 </div>
 
                 <div class="btn-footer">
-                    <a class="btn btn-small" @click="cancel">Cancel</a>
-                    <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
+                    <span class="btn btn-small" @click="cancel">Cancel</span>
+                    <button class="btn btn-small btn-primary" @click="updateFilters">Apply</button>
                 </div>
             </div>
         </ul>
