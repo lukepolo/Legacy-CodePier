@@ -9,7 +9,7 @@ class ServerCommandObserver
 {
     public function created(ServerCommand $serverCommand)
     {
-        event(new ServerCommandUpdated($serverCommand));
+        broadcast(new ServerCommandUpdated($serverCommand));
         $serverCommand->command->updateStatus();
     }
 
@@ -19,6 +19,6 @@ class ServerCommandObserver
     public function updated(ServerCommand $serverCommand)
     {
         $serverCommand->command->updateStatus();
-        event(new ServerCommandUpdated($serverCommand));
+        broadcast(new ServerCommandUpdated($serverCommand));
     }
 }
