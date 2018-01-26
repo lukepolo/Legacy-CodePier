@@ -270,7 +270,7 @@ add_header Strict-Transport-Security max-age=0;
 ';
 
                 if ($this->server->type !== SystemService::LOAD_BALANCER) {
-                    if($site->isLoadBalanced()) {
+                    if ($site->isLoadBalanced()) {
                         $headers = '';
                     }
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
