@@ -10,7 +10,6 @@ use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Jobs\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeleteSite implements ShouldQueue
