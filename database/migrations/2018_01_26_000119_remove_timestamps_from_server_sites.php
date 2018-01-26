@@ -14,7 +14,7 @@ class RemoveTimestampsFromServerSites extends Migration
     public function up()
     {
         Schema::table('server_site', function (Blueprint $table) {
-             $table->dropTimestamps();
+            $table->dropTimestamps();
         });
     }
 
