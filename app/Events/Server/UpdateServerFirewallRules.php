@@ -41,7 +41,6 @@ class UpdateServerFirewallRules
             }
         });
 
-
         if (
             $this->serverType !== SystemService::LOAD_BALANCER
         ) {
@@ -50,8 +49,7 @@ class UpdateServerFirewallRules
             /** @var SiteService $siteService */
             $siteService = app(SiteServiceContract::class);
 
-
-            if($this->serverType !== SystemService::DATABASE_SERVER) {
+            if ($this->serverType !== SystemService::DATABASE_SERVER) {
                 if ($this->site->hasDatabaseServers() || $this->site->hasFullStackServers()) {
                     foreach ($site->getDatabases() as $database) {
                         if (isset($servicesPorts[$database])) {
@@ -69,7 +67,7 @@ class UpdateServerFirewallRules
                 }
             }
 
-            if($this->serverType !== SystemService::WORKER_SERVER && $this->serverType !== SystemService::DATABASE_SERVER) {
+            if ($this->serverType !== SystemService::WORKER_SERVER && $this->serverType !== SystemService::DATABASE_SERVER) {
                 if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
                     foreach ($site->getWorkers() as $worker) {
                         if (isset($servicesPorts[$worker])) {
@@ -78,7 +76,7 @@ class UpdateServerFirewallRules
                                     $this->site,
                                     $port,
                                     'tcp',
-                                    $port . ' for ' . $worker,
+                                    $port.' for '.$worker,
                                     $this->server->ip
                                 );
                             }
