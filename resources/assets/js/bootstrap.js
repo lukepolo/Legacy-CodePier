@@ -62,7 +62,7 @@ window.io = require("socket.io-client");
 window.Echo = new Echo({
   broadcaster: "socket.io",
   key: Laravel.echoServerKey,
-  host: `${window.location.hostname}:6001`
+  host: Laravel.env === 'local' ? `${window.location.hostname}:6001` : 'https://ws.codepier.io',
 });
 
 /*
