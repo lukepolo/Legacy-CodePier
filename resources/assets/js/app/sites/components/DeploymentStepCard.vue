@@ -45,8 +45,8 @@
             </div>
 
             <div class="flyform--footer-btns">
-                <a class="btn btn-small" @click="cancel">Cancel</a>
-                <a class="btn btn-primary btn-small" @click="save">Save</a>
+                <span class="btn btn-small" @click="cancel">Cancel</span>
+                <button class="btn btn-primary btn-small" @click="save">Save</button>
             </div>
         </form>
       </template>

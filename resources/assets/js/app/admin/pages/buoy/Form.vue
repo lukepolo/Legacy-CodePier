@@ -22,7 +22,7 @@
                     </div>
                     <div v-else>
                         <img :src="image" style="max-width:100px">
-                        <button @click="removeImage">Cancel</button>
+                        <span @click="removeImage">Cancel</span>
                     </div>
 
                     <div class="jcf-input-group">

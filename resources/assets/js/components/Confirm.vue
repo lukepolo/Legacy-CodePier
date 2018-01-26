@@ -22,7 +22,7 @@
                     <slot name="form"></slot>
                 </div>
                 <div class="btn-footer">
-                    <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
+                    <span class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</span>
                     <slot name="confirm-button">
                         <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
                     </slot>
