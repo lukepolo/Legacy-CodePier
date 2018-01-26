@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'pusher'),
+    'default' => env('BROADCAST_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -27,11 +27,6 @@ return [
     */
 
     'connections' => [
-
-        'laravel-echo-server' => [
-            'host' => env('LARAVEL_ECHO_SERVER_HOST'),
-        ],
-
         'pusher' => [
             'driver'  => 'pusher',
             'key'     => env('PUSHER_APP_KEY'),

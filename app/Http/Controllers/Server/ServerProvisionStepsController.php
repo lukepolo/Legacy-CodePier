@@ -43,7 +43,7 @@ class ServerProvisionStepsController extends Controller
         $currentStep->log = null;
         $currentStep->save();
 
-        event(new ServerProvisionStatusChanged($server, $currentStep->step, $server->provisioningProgress()));
+        broadcast(new ServerProvisionStatusChanged($server, $currentStep->step, $server->provisioningProgress()));
 
         return response()->json($currentStep);
     }

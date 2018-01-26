@@ -57,7 +57,7 @@ class ProvisionServer implements ShouldQueue
                 );
             }
 
-            event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+            broadcast(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
 
             $serverType = $this->server->type;
 

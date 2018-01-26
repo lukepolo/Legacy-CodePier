@@ -12,7 +12,7 @@
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
-            <p class="subheading">Provision, Deploy & Mange your applications easily, all on your own servers.</p>
+            <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
                 <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
@@ -46,7 +46,27 @@
                         <span class="icon-layers"></span>
                     </div>
                     <div class="features--content">
-                        <h3>Feature Headline</h3>
+                        <h3>Site priority design</h3>
+                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup.
+                        </p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Select the server setup you need</h3>
+                        <p>Whether you need a straight forward full stack server or multiple servers to handle your databases and workers, CodePier can configure them for you.
+                        </p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Advanced server configuration</h3>
                         <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
                         </p>
                     </div>
@@ -56,27 +76,7 @@
                         <span class="icon-layers"></span>
                     </div>
                     <div class="features--content">
-                        <h3>Feature Headline</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
-                    </div>
-                </div>
-                <div class="features--item">
-                    <div class="features--img">
-                        <span class="icon-layers"></span>
-                    </div>
-                    <div class="features--content">
-                        <h3>Feature Headline</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
-                    </div>
-                </div>
-                <div class="features--item">
-                    <div class="features--img">
-                        <span class="icon-layers"></span>
-                    </div>
-                    <div class="features--content">
-                        <h3>Feature Headline</h3>
+                        <h3>Customize your deployment</h3>
                         <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
                         </p>
                     </div>
@@ -108,41 +108,33 @@
     </section>
     <section id="section--slider" class="section">
         <div class="section--content" >
-            <div class="slider">
+            <div class="slider" id="features-slider">
                 <div class="slider--item">
                     <div class="slider--img">
                         <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
                     </div>
                     <div class="slider--content">
-                        <h5>Dashboard</h5>
-                        <h2>A powerful event system help you monitor what's going on.</h2>
-                        <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                        <h5>Visibility</h5>
+                        <h2>Server monitoring available at a glance.</h2>
+                        <p>stuff</p>
                     </div>
-                </div>
-
-                <div class="slider--item">
-                    boo
-                </div>
-
-                <div class="slider--item">
-                    bye
                 </div>
             </div>
         </div>
     </section>
     <section id="section--testimonials" class="section">
         <div class="section--content">
-            <h2 class="text-center">Build deploy and manage your applications easily, all on your own servers.</h2>
+            <h2 class="text-center">Build, provision, deploy and manage your applications easily, all on your own servers.</h2>
             <div class="testimonials">
-                <div class="slider">
+                <div class="slider" id="testimonials-slider">
                     <div class="testimonials--item">
                         <div class="testimonials--quote">
-                            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+                            <p>quote</p>
                         </div>
                         <div class="testimonials--author">
-                            <div class="testimonials--img">
-                                <img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">
-                            </div>
+                            {{--<div class="testimonials--img">--}}
+                                {{--<img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">--}}
+                            {{--</div>--}}
                             <div>
                                 <div class="testimonials--name">
                                     Chris Johnson
@@ -168,7 +160,14 @@
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
         $(document).ready(function(){
-            $('.slider').slick({
+            $('#features-slider').slick({
+                arrows: false,
+                //dots: true,
+                autoplay: true,
+                autoplaySpeed: 8000,
+            });
+
+            $('#testimonials-slider').slick({
                 arrows: false,
                 dots: true,
                 autoplay: true,

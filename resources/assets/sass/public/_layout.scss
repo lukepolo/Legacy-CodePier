@@ -1,14 +1,14 @@
 // Main Layout ========================
 // ====================================
+body {
+    display: grid !important;
+    grid-template-rows: auto auto;
+
+}
 header {
-    flex: 0 0 auto;
-    border-bottom: 1px solid $color-divider;
     display: flex;
+    border-bottom: 1px solid $color-divider;
     justify-content: space-between;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
     background-color: $white;
     z-index: 99999;
 
@@ -19,19 +19,13 @@ header {
 }
 
 #content {
-    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
-    -webkit-overflow-scrolling: touch;
-
-    &:before {
-        content: '';
-        display: block;
-        min-height: 61px;
-    }
+    height: 100%;
 }
 
 #main {
     flex: 1 0 auto;
-    -webkit-overflow-scrolling: touch;
 }

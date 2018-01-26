@@ -45,7 +45,7 @@ class UpdateServerSslCertificate implements ShouldQueue
         ]);
 
         foreach ($this->sslCertificate->sites as $site) {
-            event(new SiteSslCertificateUpdated($site, $this->sslCertificate));
+            broadcast(new SiteSslCertificateUpdated($site, $this->sslCertificate));
         }
     }
 }

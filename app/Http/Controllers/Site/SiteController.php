@@ -18,7 +18,7 @@ use App\Events\Site\SiteRestartDatabases;
 use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
-use App\Events\Site\FixSiteServerConfigurations;
+use App\Jobs\Site\FixSiteServerConfigurations;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -227,7 +227,7 @@ class SiteController extends Controller
      */
     public function restartServer($siteId)
     {
-        event(new SiteRestartServers(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartServers(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -241,7 +241,7 @@ class SiteController extends Controller
      */
     public function restartWebServices($siteId)
     {
-        event(new SiteRestartWebServices(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartWebServices(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -255,7 +255,7 @@ class SiteController extends Controller
      */
     public function restartDatabases($siteId)
     {
-        event(new SiteRestartDatabases(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartDatabases(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -269,7 +269,7 @@ class SiteController extends Controller
      */
     public function restartWorkerServices($siteId)
     {
-        event(new SiteRestartWorkers(Site::findOrFail($siteId)));
+        broadcast(new SiteRestartWorkers(Site::findOrFail($siteId)));
 
         return $this->remoteResponse('OK');
     }
@@ -362,7 +362,10 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        $this->dispatch(new FixSiteServerConfigurations($site));
+        dispatch(
+            (new FixSiteServerConfigurations($site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json('OK');
     }

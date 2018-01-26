@@ -41,7 +41,7 @@ class CheckSshConnection implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         if ($serverService->testSshConnection($this->server)) {
-            event(new ServerProvisionStatusChanged($this->server, 'Queue for Provisioning', 0));
+            broadcast(new ServerProvisionStatusChanged($this->server, 'Queue for Provisioning', 0));
 
             dispatch(
                 (new ProvisionServer($this->server))
@@ -62,7 +62,7 @@ class CheckSshConnection implements ShouldQueue
         if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
             dispatch(
                 (new self($this->server))
-                    ->delay(10)
+                    ->delay(20)
                     ->onQueue(config('queue.channels.server_commands'))
             );
 
