@@ -21,7 +21,7 @@ class CreateServer implements ShouldQueue
     protected $options;
     protected $serverProvider;
 
-    public $tries = 1;
+    public $tries = 3;
     public $timeout = 60;
 
     /**
