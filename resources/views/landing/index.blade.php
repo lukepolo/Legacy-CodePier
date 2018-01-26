@@ -12,7 +12,7 @@
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
-            <p class="subheading">Provision, Deploy & Mange your applications easily, all on your own servers.</p>
+            <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
                 <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
@@ -124,7 +124,7 @@
     </section>
     <section id="section--testimonials" class="section">
         <div class="section--content">
-            <h2 class="text-center">Build deploy and manage your applications easily, all on your own servers.</h2>
+            <h2 class="text-center">Build, provision, deploy and manage your applications easily, all on your own servers.</h2>
             <div class="testimonials">
                 <div class="slider" id="testimonials-slider">
                     <div class="testimonials--item">
