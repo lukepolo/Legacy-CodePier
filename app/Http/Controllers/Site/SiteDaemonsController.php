@@ -9,7 +9,7 @@ use App\Http\Requests\DaemonRequest;
 use App\Events\Site\SiteDaemonCreated;
 use App\Events\Site\SiteDaemonDeleted;
 use App\Http\Requests\DaemonUpdatedRequest;
-use App\Events\Site\FixSiteServerConfigurations;
+use App\Jobs\Site\FixSiteServerConfigurations;
 
 class SiteDaemonsController extends Controller
 {
@@ -71,7 +71,10 @@ class SiteDaemonsController extends Controller
             'server_types' => $request->get('server_types', []),
         ]);
 
-        event(new FixSiteServerConfigurations($site));
+        dispatch(
+            (new FixSiteServerConfigurations($site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json($daemon);
     }

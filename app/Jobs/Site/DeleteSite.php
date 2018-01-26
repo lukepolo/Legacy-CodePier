@@ -10,7 +10,7 @@ use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Events\Site\FixSiteServerConfigurations;
+use App\Jobs\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeleteSite implements ShouldQueue
@@ -58,6 +58,9 @@ class DeleteSite implements ShouldQueue
             }
         }
 
-        event(new FixSiteServerConfigurations($this->site));
+        dispatch(
+            (new FixSiteServerConfigurations($this->site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
     }
 }

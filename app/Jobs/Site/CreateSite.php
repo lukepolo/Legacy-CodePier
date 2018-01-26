@@ -11,7 +11,7 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\Site\FixSiteServerConfigurations;
+use App\Jobs\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -58,7 +58,10 @@ class CreateSite implements ShouldQueue
             $siteService->create($this->server, $this->site);
         }
 
-        event(new FixSiteServerConfigurations($this->site));
+        dispatch(
+            (new FixSiteServerConfigurations($this->site))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         if (
             $serverType === SystemService::WEB_SERVER ||
