@@ -76,7 +76,6 @@
         @if(\Auth::check() && second_authed())
 
             <script src="https://js.stripe.com/v3/"></script>
-            <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>
