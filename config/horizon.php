@@ -90,7 +90,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
-                'processes' => 15,
+                'processes' => 30,
                 'tries' => 3,
             ],
             'site_deployments' => [
