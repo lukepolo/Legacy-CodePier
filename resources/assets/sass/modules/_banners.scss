@@ -1,0 +1,15 @@
+.banner {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .4px;
+    text-align: center;
+    padding: 15px 40px;
+
+    &-info {
+        background-color: $color-primary;
+    }
+
+    .btn {
+        margin-left: 15px;
+    }
+}

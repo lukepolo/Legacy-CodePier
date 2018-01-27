@@ -49,7 +49,7 @@ class SiteObserver
 
     public function creating(Site $site)
     {
-        $site->hash = create_redis_hash();
+        $site->hash = unique_hash();
     }
 
     public function created(Site $site)
