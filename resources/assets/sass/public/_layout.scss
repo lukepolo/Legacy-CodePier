@@ -2,7 +2,7 @@
 // ====================================
 body {
     display: grid !important;
-    grid-template-rows: auto auto;
+    grid-template-rows: min-content auto;
 
 }
 header {
@@ -23,7 +23,6 @@ header {
     -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 #main {
