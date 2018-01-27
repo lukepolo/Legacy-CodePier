@@ -5,8 +5,8 @@
               Hello, we've got a new version of CodePier ready for you! Please <a href="">refresh now</a>.
           </div>
       </div>
-      <div class="alert text-center" v-if="!user.confirmed">
-          You have not confirmed your email. You will be unable to create servers until confirmed. <a @click="resendConfirmation()">(resend)</a>
+      <div class="banner banner-info" v-if="!user.confirmed">
+          You have not confirmed your email. You will be unable to create servers until confirmed. <a class="btn btn-small" @click="resendConfirmation()">Resend Now</a>
       </div>
   </div>
 </template>
