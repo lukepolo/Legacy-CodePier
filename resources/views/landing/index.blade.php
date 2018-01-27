@@ -15,7 +15,7 @@
             <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
+                <a href="/login" class="btn btn-primary btn-large">Get Started Now!</a>
             </div>
         </div>
     </section>
@@ -23,12 +23,12 @@
     <section id="section--intro" class="section">
         <div class="section--content">
             <h2>Your dock for DevOps</h2>
-            <p>Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'?</p>
+            <p>Look, just because you can, don't spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
 
             <br><br>
 
             <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Expand events to view terminal output to easily de-bug any issues.</p>
         </div>
 
         <div class="section--img">
