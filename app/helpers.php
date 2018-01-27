@@ -48,7 +48,7 @@ if (! function_exists('unique_hash')) {
      */
     function unique_hash()
     {
-       return Ramsey\Uuid\Uuid::uuid1();
+        return Ramsey\Uuid\Uuid::uuid1();
     }
 }
 
