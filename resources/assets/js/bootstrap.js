@@ -40,12 +40,10 @@ import loadProgressBar from "./plugins/loading";
 window.axios = require("axios");
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-window.axios.defaults.headers.common["X-CSRF-TOKEN"] = window.Laravel.csrfToken;
+axios.defaults.headers.common["X-CSRF-TOKEN"] = window.Laravel.csrfToken;
 
 loadProgressBar({
   easing: "ease",
-  speed: 500,
-  showSpinner: true
 });
 
 /*
