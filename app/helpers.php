@@ -50,7 +50,7 @@ if (! function_exists('create_redis_hash')) {
      */
     function create_redis_hash($key = 'default')
     {
-        return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::command('INCR', [$key]));
+        return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::incr($key));
     }
 }
 
