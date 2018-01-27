@@ -263,7 +263,16 @@ add_header Strict-Transport-Security max-age=0;
         switch ($webserver) {
             case 'Nginx':
 
+                $headers = '
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+';
+
                 if ($this->server->type !== SystemService::LOAD_BALANCER) {
+                    if ($site->isLoadBalanced()) {
+                        $headers = '';
+                    }
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
                 }
 
@@ -275,10 +284,8 @@ server {
     include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
 
     charset utf-8;
-
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Content-Type-Options "nosniff";
+    
+    '.$headers.'
         
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }

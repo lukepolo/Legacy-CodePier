@@ -7,7 +7,7 @@ trait Symfony
     /**
      * @description Creates a symbolic link for the env file, should create environment variables for production usage
      *
-     * @not_default
+     * @not_default true
      * @zero_downtime_deployment
      *
      * @order 210
@@ -54,7 +54,7 @@ trait Symfony
     /**
      * @description If your using Assetic, you should dump the assets.
      *
-     * @not_default
+     * @not_default true
      *
      * @order 325
      */

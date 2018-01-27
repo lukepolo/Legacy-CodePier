@@ -18,7 +18,7 @@
                     </div>
                 </template>
                 <div class="confirm--btns">
-                    <button class="btn btn-small" @click.stop="close()">{{ cancelText }}</button>
+                    <span class="btn btn-small" @click.stop="close()">{{ cancelText }}</span>
                     <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
                 </div>
             </div>

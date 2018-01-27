@@ -21,7 +21,7 @@ class CreateServer implements ShouldQueue
     protected $options;
     protected $serverProvider;
 
-    public $tries = 1;
+    public $tries = 3;
     public $timeout = 60;
 
     /**
@@ -45,7 +45,7 @@ class CreateServer implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
+        broadcast(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
         /* @var Server $server */
         try {
@@ -60,7 +60,7 @@ class CreateServer implements ShouldQueue
             if (config('app.env') === 'local') {
                 throw $e;
             }
-            event(
+            broadcast(
                 new ServerFailedToCreate($this->server, $e->getMessage())
             );
         }

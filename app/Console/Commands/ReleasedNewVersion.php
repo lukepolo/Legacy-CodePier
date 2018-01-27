@@ -27,6 +27,6 @@ class ReleasedNewVersion extends Command
      */
     public function handle()
     {
-        event(new \App\Events\ReleasedNewVersion());
+        broadcast(new \App\Events\ReleasedNewVersion());
     }
 }

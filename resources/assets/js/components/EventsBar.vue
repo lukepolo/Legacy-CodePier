@@ -203,7 +203,7 @@ export default {
           return event.event_type + event.id;
         }),
         event => {
-          return event.id;
+          return event.created_at;
         },
         "desc"
       );

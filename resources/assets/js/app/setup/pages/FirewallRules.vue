@@ -72,7 +72,7 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <button class="btn" v-if="firewallRules.length" @click.prevent="resetForm">Cancel</button>
+                    <span class="btn" v-if="firewallRules.length" @click.prevent="resetForm">Cancel</span>
                     <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
                 </div>
             </div>

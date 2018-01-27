@@ -24,27 +24,30 @@ class NodeService
 
         $this->remoteTaskService->appendTextToFile('/etc/profile', '
 lazynvm() {
-  unset -f nvm node npm
   export NVM_DIR=~/.nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 }
 
 nvm() {
+  unset -f nvm
   lazynvm 
   nvm $@
 }
  
 node() {
+  unset -f node
   lazynvm
   node $@
 }
 
 npm() {
+  unset -f npm
   lazynvm
   npm $@
 }
 
 yarn() {
+  unset -f yarn
   lazynvm
   yarn $@
 }
