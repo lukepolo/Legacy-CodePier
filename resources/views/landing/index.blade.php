@@ -28,7 +28,7 @@
             <br><br>
 
             <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Expand events to view terminal output to easily de-bug any issues.</p>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and de-bug your app.</p>
         </div>
 
         <div class="section--img">
@@ -37,8 +37,8 @@
 
     <section id="section--features" class="section">
         <div class="section--content">
-            <h2 class="text-center text-primary">Say something cool about features</h2>
-            <h4 class="text-center">People love the fuck outta features</h4>
+            <h2 class="text-center text-primary">Everything you need to manage complex deployments</h2>
+            <h4 class="text-center">Designed around the way you work</h4>
 
             <div class="features">
                 <div class="features--item">
@@ -47,17 +47,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Site priority design</h3>
-                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup.
-                        </p>
-                    </div>
-                </div>
-                <div class="features--item">
-                    <div class="features--img">
-                        <span class="icon-layers"></span>
-                    </div>
-                    <div class="features--content">
-                        <h3>Select the server setup you need</h3>
-                        <p>Whether you need a straight forward full stack server or multiple servers to handle your databases and workers, CodePier can configure them for you.
+                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup and boosting your productivity.
                         </p>
                     </div>
                 </div>
@@ -67,8 +57,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Advanced server configuration</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
+                        <p>Though CodePier configures your server based off of site requirements, sometimes you need a bit more control. Want to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
                     </div>
                 </div>
                 <div class="features--item">
@@ -77,8 +66,16 @@
                     </div>
                     <div class="features--content">
                         <h3>Customize your deployment</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
+                        <p>CodePier initiates steps for your deployment, but allows for the flexibility you need. Reorder, remove, or add addional scripts to your deployment process to ensure the exact configuration you need for each application.</p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Zero downtime deployments</h3>
+                        <p>Deploy as often as you need and your users will never experience interruptions. Enable auto deploy to start a deployment from a push on your git repo.</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +113,7 @@
                     <div class="slider--content">
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
-                        <p>stuff</p>
+                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. And don't worry, CodePier will notifiy you via email if you missed something.</p>
                     </div>
                 </div>
             </div>
