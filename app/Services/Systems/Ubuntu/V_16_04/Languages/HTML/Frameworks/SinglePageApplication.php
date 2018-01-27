@@ -11,7 +11,7 @@ class SinglePageApplication
     use ServiceConstructorTrait;
 
     public static $files = [
-        '.env',
+
     ];
 
     public $suggestedFeatures = [
