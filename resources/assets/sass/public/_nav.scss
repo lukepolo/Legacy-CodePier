@@ -71,7 +71,7 @@
             &:active,
             &:focus {
                 color: $color-text-inverse;
-                background-color: mix($color-primary, $white, 90%);
+                background-color: mix($color-primary, $white, 80%);
             }
         }
 
