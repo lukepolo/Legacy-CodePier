@@ -41,16 +41,14 @@ if (! function_exists('create_system_service')) {
     }
 }
 
-if (! function_exists('create_redis_hash')) {
+if (! function_exists('unique_hash')) {
 
     /**
      * Gets Makes a new hash based on redis.
-     * @param string $key
-     * @return mixed
      */
-    function create_redis_hash($key = 'default')
+    function unique_hash()
     {
-        return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::incr($key));
+       return Ramsey\Uuid\Uuid::uuid1();
     }
 }
 

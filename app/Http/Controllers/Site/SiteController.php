@@ -312,7 +312,7 @@ class SiteController extends Controller
 
             try {
                 $site->update([
-                    'hash' => create_redis_hash(),
+                    'hash' => unique_hash(),
                 ]);
                 $success = true;
             } catch (\Exception $e) {
