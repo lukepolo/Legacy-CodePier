@@ -15,7 +15,7 @@
             <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="/login" class="btn btn-primary btn-large">Start Now!</a>
+                <a href="/login" class="btn btn-primary btn-large">Get Started Now!</a>
             </div>
         </div>
     </section>
@@ -23,12 +23,12 @@
     <section id="section--intro" class="section">
         <div class="section--content">
             <h2>Your dock for DevOps</h2>
-            <p>Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'?</p>
+            <p>Look, just because you can, don't spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
 
             <br><br>
 
             <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</p>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
         </div>
 
         <div class="section--img">
@@ -37,8 +37,8 @@
 
     <section id="section--features" class="section">
         <div class="section--content">
-            <h2 class="text-center text-primary">Say something cool about features</h2>
-            <h4 class="text-center">People love the fuck outta features</h4>
+            <h2 class="text-center text-primary">Everything you need to manage complex deployments</h2>
+            <h4 class="text-center">Designed around the way you work</h4>
 
             <div class="features">
                 <div class="features--item">
@@ -47,17 +47,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Site priority design</h3>
-                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup.
-                        </p>
-                    </div>
-                </div>
-                <div class="features--item">
-                    <div class="features--img">
-                        <span class="icon-layers"></span>
-                    </div>
-                    <div class="features--content">
-                        <h3>Select the server setup you need</h3>
-                        <p>Whether you need a straight forward full stack server or multiple servers to handle your databases and workers, CodePier can configure them for you.
+                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup and boosting your productivity.
                         </p>
                     </div>
                 </div>
@@ -67,8 +57,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Advanced server configuration</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
+                        <p>Though CodePier configures your server based off of site requirements, sometimes you need a bit more control. Want to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
                     </div>
                 </div>
                 <div class="features--item">
@@ -77,8 +66,16 @@
                     </div>
                     <div class="features--content">
                         <h3>Customize your deployment</h3>
-                        <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.
-                        </p>
+                        <p>CodePier initiates steps for your deployment, but allows for the flexibility you need. Reorder, remove, or add addional scripts to your deployment process to ensure the exact configuration you need for each application.</p>
+                    </div>
+                </div>
+                <div class="features--item">
+                    <div class="features--img">
+                        <span class="icon-layers"></span>
+                    </div>
+                    <div class="features--content">
+                        <h3>Zero downtime deployments</h3>
+                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No Problem. Easily rollback to a working version.</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +113,7 @@
                     <div class="slider--content">
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
-                        <p>stuff</p>
+                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. And don't worry, CodePier will notifiy you via email if you missed something.</p>
                     </div>
                 </div>
             </div>
