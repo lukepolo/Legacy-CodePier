@@ -57,10 +57,15 @@ loadProgressBar({
 
 import Echo from "laravel-echo";
 
+window.io = require("socket.io-client");
+
 window.Echo = new Echo({
-  broadcaster: 'socket.io',
+  broadcaster: "socket.io",
   key: Laravel.echoServerKey,
-  host: Laravel.echoServerHost,
+  host:
+    Laravel.env === "local"
+      ? `${window.location.hostname}:6001`
+      : "https://ws.codepier.io:6001"
 });
 
 /*

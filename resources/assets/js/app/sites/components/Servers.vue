@@ -3,7 +3,7 @@
         <h3 class="section-header">
             Servers
 
-            <div class="section-header--btn-right" v-if="siteServers && siteServers.length">
+            <div class="section-header--btn-right" v-if="siteServers && siteServers.length || availableServers.length">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
@@ -77,7 +77,7 @@
 
                                <div class="btn-footer">
                                    <template v-if="siteServers">
-                                       <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
+                                       <span class="btn danger" @click.prevent="resetAttachedServers">Cancel</span>
                                    </template>
                                    <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
                                </div>

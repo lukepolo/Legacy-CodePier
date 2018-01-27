@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Events\Site;
+namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
+use Illuminate\Bus\Queueable;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\Server\UpdateServerConfigurations;
 
-class FixSiteServerConfigurations
+class FixSiteServerConfigurations implements ShouldQueue
 {
-    use SerializesModels, ModelCommandTrait;
+    use InteractsWithQueue, ModelCommandTrait, Queueable, SerializesModels;
 
     public $site;
 

@@ -108,7 +108,7 @@ class EventController extends Controller
 
         $tempCombinedQuery = clone $combinedQuery;
 
-        $topResults = $combinedQuery->latest('id')
+        $topResults = $combinedQuery->latest('created_at')
             ->offset(($request->get('page', 1) - 1) * self::PER_PAGE)
             ->take(self::PER_PAGE)
             ->get();
@@ -136,7 +136,7 @@ class EventController extends Controller
                     return $query->get();
                 })
                 ->flatten()
-                ->sortByDesc('id'),
+                ->sortByDesc('created_at'),
             $request->get('page')
         ));
     }

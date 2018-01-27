@@ -41,6 +41,7 @@
                     </div>
                 </tooltip>
 
+
                 <tooltip class="server-info condensed" message="Latest CPU Load" delay=.5 v-if="latestLoad">
                     <div class="server-progress-container">
                         <div
@@ -302,7 +303,7 @@ export default {
     },
     latestLoad() {
       if (this.stats && this.stats.loads) {
-        return this.stats.loads[0];
+        return this.stats.loads[1];
       }
     }
   },
