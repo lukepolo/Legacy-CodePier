@@ -28,7 +28,7 @@
             <br><br>
 
             <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and de-bug your app.</p>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
         </div>
 
         <div class="section--img">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Zero downtime deployments</h3>
-                        <p>Deploy as often as you need and your users will never experience interruptions. Enable auto deploy to start a deployment from a push on your git repo.</p>
+                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No Problem. Easily rollback to a working version.</p>
                     </div>
                 </div>
             </div>
