@@ -8,15 +8,18 @@
         <template v-if="site && files">
             <file :site="site" :file="file" v-for="file in files" :key="file.id" :running="isRunningCommandFor(file)"></file>
         </template>
+        <custom-files></custom-files>
     </section>
 </template>
 
 <script>
 import File from "./../../setup/components/File";
+import CustomFiles from "./../../setup/components/CustomFiles";
 
 export default {
   components: {
-    File
+    File,
+    CustomFiles
   },
   created() {
     this.fetchData();
