@@ -23,12 +23,12 @@
     <section id="section--intro" class="section">
         <div class="section--content">
             <h2>Your dock for DevOps</h2>
-            <p>Look, just because you can, don't spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
+            <p>Look, just because you can, it doesn't mean you have to spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
 
             <br><br>
 
-            <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
+            <h2>A powerful events system helps you monitor what's going on.</h2>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar provides a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
         </div>
 
         <div class="section--img">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Advanced server configuration</h3>
-                        <p>Though CodePier configures your server based off of site requirements, sometimes you need a bit more control. Want to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
+                        <p>Although CodePier configures your server based on site requirements, sometimes you need a bit more control. So you'd like to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
                     </div>
                 </div>
                 <div class="features--item">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Zero downtime deployments</h3>
-                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No Problem. Easily rollback to a working version.</p>
+                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No worries! You can easily rollback to a working version.</p>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                     <div class="slider--content">
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
-                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. And don't worry, CodePier will notifiy you via email if you missed something.</p>
+                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. We've got your back! CodePier will even notify you via email if you've missed something.</p>
                     </div>
                 </div>
             </div>
