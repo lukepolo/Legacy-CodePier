@@ -161,7 +161,7 @@ export default {
       if (region && !this.isServerOptionInRegion(region)) {
         Vue.set(this.form, "serverOptionRegion", null);
       }
-    }
+    },
   },
   methods: {
     getProviderData(server_provider_id) {
