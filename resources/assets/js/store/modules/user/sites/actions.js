@@ -169,3 +169,17 @@ export const fixServerConfigurations = ({}, site) => {
       return response;
     });
 };
+
+export const updateSiteWildcardDomain = ({}, data) => {
+  return Vue.request(data)
+    .post(
+      Vue.action("SiteSiteController@updateWildcardDomain", {
+        site: data.site
+      }),
+      ["user_sites/set", "user_sites/update"]
+    )
+    .then(response => {
+      app.showSuccess("Your site configurations will be fixed for this site.");
+      return response;
+    });
+};

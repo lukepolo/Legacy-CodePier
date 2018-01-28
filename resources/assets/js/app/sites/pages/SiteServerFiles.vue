@@ -26,9 +26,12 @@ export default {
   },
   watch: {
     $route: "fetchData",
-    siteServers : function(siteServers) {
-      if(siteServers.length > 1) {
-            this.$router.push({ name: 'site_overview', params : { site_id : this.site.id} })
+    siteServers: function(siteServers) {
+      if (siteServers.length > 1) {
+        this.$router.push({
+          name: "site_overview",
+          params: { site_id: this.site.id }
+        });
       }
     }
   },
@@ -72,7 +75,7 @@ export default {
       }
 
       return [];
-    },
+    }
   }
 };
 </script>
