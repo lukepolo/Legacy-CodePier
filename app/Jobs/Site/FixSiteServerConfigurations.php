@@ -35,10 +35,8 @@ class FixSiteServerConfigurations implements ShouldQueue
 
         if (empty($serverProvisioning)) {
             foreach ($this->site->provisionedServers as $server) {
-                if (empty($excludeServer) || $server->id != $excludeServer->id) {
-                    $siteCommand = $this->makeCommand($this->site, $server, 'Updating Server '.$server->name.' for '.$this->site->name);
-                    event(new UpdateServerConfigurations($server, $this->site, $siteCommand));
-                }
+                $siteCommand = $this->makeCommand($this->site, $server, 'Updating Server '.$server->name.' for '.$this->site->name);
+                event(new UpdateServerConfigurations($server, $this->site, $siteCommand));
             }
         }
     }
