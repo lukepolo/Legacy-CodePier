@@ -2,7 +2,7 @@
   var laroute = function() {
     var routes = {
       absolute: false,
-      rootUrl: "https://codepier.io",
+      rootUrl: "http://codepier.test",
       routes: [
         {
           host: null,
@@ -240,35 +240,42 @@
           action: "IlluminateBroadcastingBroadcastController@authenticate"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "/",
           name: null,
           action: "ServerCustomServerProvisioningController@provision"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
+          methods: ["GET", "HEAD"],
+          uri: "ip",
+          name: null,
+          action: "ServerCustomServerProvisioningController@getIp"
+        },
+        {
+          host: "provision.codepier.test",
           methods: ["POST"],
           uri: "start/{provisioning_key}",
           name: null,
           action: "ServerCustomServerProvisioningController@start"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "keys/{provisioning_key}/public",
           name: null,
           action: "ServerCustomServerProvisioningController@returnPublicKey"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "keys/{provisioning_key/private}",
           name: null,
           action: "ServerCustomServerProvisioningController@returnPrivateKey"
         },
         {
-          host: "provision.codepier.io",
+          host: "provision.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "end/{provisioning_key}",
           name: null,
@@ -1722,6 +1729,13 @@
         {
           host: null,
           methods: ["POST"],
+          uri: "api/my/site/{site}/wildcard",
+          name: null,
+          action: "SiteSiteController@updateWildcardDomain"
+        },
+        {
+          host: null,
+          methods: ["POST"],
           uri: "api/my/site/{site}/refresh-ssh-keys",
           name: null,
           action: "SiteSiteController@refreshPublicKey"
@@ -3102,28 +3116,28 @@
           action: "SubscriptionController@destroy"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/loads/{serverHashId}",
           name: null,
           action: "WebHookController@loadMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/memory/{serverHashId}",
           name: null,
           action: "WebHookController@memoryMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/diskusage/{serverHashId}",
           name: null,
           action: "WebHookController@diskUsageMonitor"
         },
         {
-          host: "stats.codepier.io",
+          host: "stats.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "webhook/{any}",
           name: null,
@@ -3151,14 +3165,14 @@
           action: "Controller@redirectToApp"
         },
         {
-          host: "lifeline.codepier.io",
+          host: "lifeline.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "{lifelineHashId}",
           name: null,
           action: "LifeLineController@update"
         },
         {
-          host: "lifeline.codepier.io",
+          host: "lifeline.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "{any}",
           name: null,

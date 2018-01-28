@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     selectCustom() {
-      this.currentServerProvider = null
+      this.currentServerProvider = null;
       this.$emit("update:is_custom", true);
       this.$emit("update:server_provider_id", null);
     },

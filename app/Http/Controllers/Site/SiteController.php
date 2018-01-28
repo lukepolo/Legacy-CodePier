@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\SiteWildcardRequest;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -368,5 +369,21 @@ class SiteController extends Controller
         );
 
         return response()->json('OK');
+    }
+
+    /**
+     * @param SiteWildcardRequest $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateWildcardDomain(SiteWildcardRequest $request, $siteId) {
+
+        $site = Site::findOrFail($siteId);
+
+        $site->update([
+            'wildcard_domain' => $request->get('wildcard_domain'),
+        ]);
+
+        return response()->json($site);
     }
 }

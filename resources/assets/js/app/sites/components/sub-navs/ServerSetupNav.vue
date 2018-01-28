@@ -79,7 +79,7 @@ export default {
       }
 
       return [];
-    },
+    }
   },
   watch: {
     $route: function() {

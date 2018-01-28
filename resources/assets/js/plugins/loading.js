@@ -24,7 +24,6 @@ export default function loadProgressBar(config) {
 
   const setupStopProgress = () => {
     const responseFunc = response => {
-
       if (--requestsCounter === 0) {
         turnOffSpinner();
         NProgress.done();
@@ -47,14 +46,14 @@ export default function loadProgressBar(config) {
     let spinnerElement = getSpinnerElement();
 
     if (!spinnerElement) {
-      let spinner = document.createElement('div');
-      spinner.id = 'app-spinner';
-      spinner.classList.add('sk-container');
+      let spinner = document.createElement("div");
+      spinner.id = "app-spinner";
+      spinner.classList.add("sk-container");
 
-      let cube = document.createElement('div');
-      cube.classList.add('sk-folding-cube');
-      for(let i = 1; i <= 4; i++) {
-        let cubePart = document.createElement('div')
+      let cube = document.createElement("div");
+      cube.classList.add("sk-folding-cube");
+      for (let i = 1; i <= 4; i++) {
+        let cubePart = document.createElement("div");
         cubePart.classList.add(`sk-cube`);
         cubePart.classList.add(`sk-cube${i}`);
         cube.appendChild(cubePart);
@@ -63,11 +62,11 @@ export default function loadProgressBar(config) {
 
       document.body.appendChild(spinner);
     }
-  }
+  };
 
   const getSpinnerElement = () => {
     return document.getElementById("app-spinner");
-  }
+  };
 
   const turnOffSpinner = () => {
     timeoutSet = false;
@@ -77,7 +76,7 @@ export default function loadProgressBar(config) {
     if (spinnerElement) {
       spinnerElement.remove();
     }
-  }
+  };
 
   NProgress.configure(config);
   setupStartProgress();
