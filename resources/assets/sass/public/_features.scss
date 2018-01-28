@@ -39,3 +39,11 @@
         }
     }
 }
+
+#features-slider {
+    margin-left: -120px;
+
+    .slider--item {
+        grid-template-columns: 2fr 1fr;
+    }
+}

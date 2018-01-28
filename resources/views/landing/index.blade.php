@@ -110,7 +110,7 @@
             <div class="slider" id="features-slider">
                 <div class="slider--item">
                     <div class="slider--img">
-                        <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                        <img src="{{ asset('assets/img/serverStats.png') }}">
                     </div>
                     <div class="slider--content">
                         <h5>Visibility</h5>
