@@ -120,11 +120,11 @@
   -webkit-transform: scale(1.1) rotateZ(90deg);
   transform: scale(1.1) rotateZ(90deg);
 }
-.sk-folding-cube .sk-cube3 {
+.sk-folding-cube .sk-cube4 {
   -webkit-transform: scale(1.1) rotateZ(180deg);
   transform: scale(1.1) rotateZ(180deg);
 }
-.sk-folding-cube .sk-cube4 {
+.sk-folding-cube .sk-cube3 {
   -webkit-transform: scale(1.1) rotateZ(270deg);
   transform: scale(1.1) rotateZ(270deg);
 }
@@ -132,11 +132,11 @@
   -webkit-animation-delay: 0.3s;
   animation-delay: 0.3s;
 }
-.sk-folding-cube .sk-cube3:before {
+.sk-folding-cube .sk-cube4:before {
   -webkit-animation-delay: 0.6s;
   animation-delay: 0.6s;
 }
-.sk-folding-cube .sk-cube4:before {
+.sk-folding-cube .sk-cube3:before {
   -webkit-animation-delay: 0.9s;
   animation-delay: 0.9s;
 }

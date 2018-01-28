@@ -97,8 +97,9 @@
                     </div>
                 </div>
                 <div class="video--controls">
-                    <div data-video="205611637" class="video--controls-item active">Provision</div>
-                    <div data-video="205614363" class="video--controls-item">Deploy</div>
+                    <div data-video="253128478" class="video--controls-item active">Build</div>
+                    <div data-video="253128360" class="video--controls-item">Provision</div>
+                    <div data-video="253128436" class="video--controls-item">Deploy</div>
                 </div>
             </div>
         </div>
