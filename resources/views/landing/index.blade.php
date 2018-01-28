@@ -124,27 +124,27 @@
     <section id="section--testimonials" class="section">
         <div class="section--content">
             <h2 class="text-center">Build, provision, deploy and manage your applications easily, all on your own servers.</h2>
-            <div class="testimonials">
-                <div class="slider" id="testimonials-slider">
-                    <div class="testimonials--item">
-                        <div class="testimonials--quote">
-                            <p>quote</p>
-                        </div>
-                        <div class="testimonials--author">
+            <div class="testimonials" style="grid-template-columns: 1fr; text-align: center;">
+                {{--<div class="slider" id="testimonials-slider">--}}
+                    {{--<div class="testimonials--item">--}}
+                        {{--<div class="testimonials--quote">--}}
+                            {{--<p>quote</p>--}}
+                        {{--</div>--}}
+                        {{--<div class="testimonials--author">--}}
                             {{--<div class="testimonials--img">--}}
                                 {{--<img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">--}}
                             {{--</div>--}}
-                            <div>
-                                <div class="testimonials--name">
-                                    Chris Johnson
-                                </div>
-                                <div class="testimonials--location">
-                                    Indianapolis, IN
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            {{--<div>--}}
+                                {{--<div class="testimonials--name">--}}
+                                    {{--Chris Johnson--}}
+                                {{--</div>--}}
+                                {{--<div class="testimonials--location">--}}
+                                    {{--Indianapolis, IN--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
