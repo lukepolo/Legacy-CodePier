@@ -22,10 +22,11 @@
 
                 <div class="providers--item-footer">
 
+
                     <div class="providers--item-footer-connect">
                         <h4>
                             <template v-if="isConnected(provider.id)">
-                                select
+                                <div class="providers--item-footer-connected"><h4><span class="icon-check_circle"></span> Select</h4></div>
                             </template>
                             <template v-else>
                                 <span v-if="provider.oauth">
@@ -47,7 +48,7 @@
 
         <label>
             <template v-if="is_custom">
-                <input type="hidden" name="custom" value="true">
+                <input type="radio" name="custom" value="true" checked>
             </template>
 
             <div class="providers--item" @click="selectCustom">
@@ -63,7 +64,7 @@
                 <div class="providers--item-footer">
                     <div class="providers--item-footer-connect">
                         <h4>
-                            select
+                            <div class="providers--item-footer-connected"><h4> Select</h4></div>
                         </h4>
                     </div>
                 </div>
@@ -98,6 +99,7 @@ export default {
   },
   methods: {
     selectCustom() {
+      this.currentServerProvider = null
       this.$emit("update:is_custom", true);
       this.$emit("update:server_provider_id", null);
     },
