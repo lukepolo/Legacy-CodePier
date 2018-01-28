@@ -22,8 +22,10 @@ class CheckRole
             if (! $user->hasRole($role)) {
                 return response()->json('Not Authorized.', 401);
             }
+
             return $next($request);
         }
+
         return response()->json('Not Authorized.', 401);
     }
 }
