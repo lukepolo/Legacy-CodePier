@@ -17,7 +17,10 @@ class CustomServerProvisioningController extends Controller
      */
     public function __construct(RemoteTaskService $remoteTaskService)
     {
-        $this->middleware('auth.provisioning-key')->except('provision');
+        $this->middleware('auth.provisioning-key')->except([
+            'getIp',
+            'provision',
+        ]);
 
         $this->remoteTaskService = $remoteTaskService;
     }
@@ -32,6 +35,15 @@ class CustomServerProvisioningController extends Controller
         } else {
             return response()->download('provision.dev.sh');
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return null|string
+     */
+    public function getIp(Request $request)
+    {
+        return $request->getClientIp();
     }
 
     /**

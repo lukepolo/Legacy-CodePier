@@ -1,7 +1,7 @@
 <template>
     <div v-if="site">
         <h3 class="flex--grow">
-            Framework Files
+            Site Files
         </h3>
         <framework-files v-if="site.framework"></framework-files>
         <custom-files></custom-files>
