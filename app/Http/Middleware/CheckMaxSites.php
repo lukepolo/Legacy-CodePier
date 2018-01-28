@@ -17,7 +17,7 @@ class CheckMaxSites
     {
         $user = $request->user();
 
-        if(!empty($user)) {
+        if (! empty($user)) {
             if ($user->role === 'admin') {
                 return $next($request);
             }
@@ -30,6 +30,5 @@ class CheckMaxSites
         }
 
         return $next($request);
-
     }
 }
