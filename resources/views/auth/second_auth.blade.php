@@ -36,7 +36,7 @@
 
                             <div class="flyform--footer">
                                 <div class="flyform--footer-btns">
-                                    <button class="btn" type="submit" form="cancelForm">Cancel</button>
+                                    <button class="btn" type="submit" form="cancelForm">Logout</button>
                                     <button class="btn btn-primary" type="submit">Login</button>
                                 </div>
                                 <div class="flyform--footer-links">
