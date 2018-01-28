@@ -15,6 +15,12 @@
         <!-- Styles -->
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
+        <!-- DNS Prefetch -->
+        <link rel="dns-prefetch" href="//client.crisp.im">
+        <link rel="dns-prefetch" href="//js.stripe.com">
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
