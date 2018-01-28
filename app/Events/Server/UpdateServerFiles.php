@@ -34,9 +34,8 @@ class UpdateServerFiles
 
         $hasMultipleServers = $site->servers->count() > 1 ? true : false;
 
-        $this->site->files->each(function (File $file) use($hasMultipleServers) {
-            if($hasMultipleServers && $file->custom === false && $file->framework_file === false) {
-
+        $this->site->files->each(function (File $file) use ($hasMultipleServers) {
+            if ($hasMultipleServers && $file->custom === false && $file->framework_file === false) {
             }
             if (! empty($file->content)) {
                 $this->updateFile($file);
