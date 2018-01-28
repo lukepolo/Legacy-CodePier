@@ -43,7 +43,7 @@
         &:focus,
         &:hover {
             color: $color-primary;
-
+            
             &:after {
                 content: '';
                 background-color: $color-primary;
@@ -52,6 +52,12 @@
                 right: 0;
                 bottom: -1px;
                 left: 0;
+            }
+
+            @include breakpoint(sm) {
+                &:after {
+                    display: none;
+                }
             }
         }
 
