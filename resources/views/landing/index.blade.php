@@ -32,6 +32,7 @@
         </div>
 
         <div class="section--img">
+            <img src="{{ asset('assets/img/deploy.gif')}}">
         </div>
     </section>
 
