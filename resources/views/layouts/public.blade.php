@@ -27,6 +27,8 @@
         <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//www.googletagmanager.com.com">
+
 
         @include('layouts.core.favicon')
 
@@ -43,6 +45,16 @@
             <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
             <script>
                 Raven.config('{{ config('sentry.js_dsn') }}').install()
+            </script>
+
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113151874-1"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'UA-113151874-1');
             </script>
         @endif
     </head>

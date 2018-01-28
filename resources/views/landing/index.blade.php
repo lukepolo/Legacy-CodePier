@@ -23,7 +23,7 @@
     <section id="section--intro" class="section">
         <div class="section--content">
             <h2>Your dock for DevOps</h2>
-            <p>Look, just because you can, it doesn't mean you have to spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
+            <p>Look, just because you can, it doesn't mean you have to spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have time to do what you do best: building apps.</p>
 
             <br><br>
 

@@ -16,10 +16,16 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        if (! $request->user()->hasRole($role)) {
-            return response()->json('Not Authorized.', 401);
+        $user = $request->user();
+
+        if (! empty($user)) {
+            if (! $user->hasRole($role)) {
+                return response()->json('Not Authorized.', 401);
+            }
+
+            return $next($request);
         }
 
-        return $next($request);
+        return response()->json('Not Authorized.', 401);
     }
 }
