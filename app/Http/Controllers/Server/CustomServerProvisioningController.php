@@ -41,7 +41,8 @@ class CustomServerProvisioningController extends Controller
      * @param Request $request
      * @return null|string
      */
-    public function getIp(Request $request) {
+    public function getIp(Request $request)
+    {
         return $request->getClientIp();
     }
 
