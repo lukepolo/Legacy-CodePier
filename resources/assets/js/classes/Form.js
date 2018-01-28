@@ -8,7 +8,7 @@ class Form extends Request {
     for (const field in this.originalData) {
       this[field] = this.originalData[field];
     }
-
+    this.setOriginalData();
     this.errors.clear();
   }
 

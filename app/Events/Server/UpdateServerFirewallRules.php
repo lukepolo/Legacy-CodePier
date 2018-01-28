@@ -41,44 +41,46 @@ class UpdateServerFirewallRules
             }
         });
 
-        if (
-            $this->serverType !== SystemService::LOAD_BALANCER
-        ) {
-            $servicesPorts = SystemService::SERVICES_PORTS;
+        if ($this->site->servers->count() > 1) {
+            if (
+                $this->serverType !== SystemService::LOAD_BALANCER && $this->serverType !== SystemService::FULL_STACK_SERVER
+            ) {
+                $servicesPorts = SystemService::SERVICES_PORTS;
 
-            /** @var SiteService $siteService */
-            $siteService = app(SiteServiceContract::class);
+                /** @var SiteService $siteService */
+                $siteService = app(SiteServiceContract::class);
 
-            if ($this->serverType !== SystemService::DATABASE_SERVER) {
-                if ($this->site->hasDatabaseServers() || $this->site->hasFullStackServers()) {
-                    foreach ($site->getDatabases() as $database) {
-                        if (isset($servicesPorts[$database])) {
-                            foreach ($servicesPorts[$database] as $port) {
-                                $siteService->createFirewallRule(
-                                    $this->site,
-                                    $port,
-                                    'tcp',
-                                    $port.' for '.$database,
-                                    $this->server->ip
-                                );
+                if ($this->serverType !== SystemService::DATABASE_SERVER) {
+                    if ($this->site->hasDatabaseServers() || $this->site->hasFullStackServers()) {
+                        foreach ($site->getDatabases() as $database) {
+                            if (isset($servicesPorts[$database])) {
+                                foreach ($servicesPorts[$database] as $port) {
+                                    $siteService->createFirewallRule(
+                                        $this->site,
+                                        $port,
+                                        'tcp',
+                                        $port.' for '.$database,
+                                        $this->server->ip
+                                    );
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            if ($this->serverType !== SystemService::WORKER_SERVER && $this->serverType !== SystemService::DATABASE_SERVER) {
-                if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
-                    foreach ($site->getWorkers() as $worker) {
-                        if (isset($servicesPorts[$worker])) {
-                            foreach ($servicesPorts[$worker] as $port) {
-                                $siteService->createFirewallRule(
-                                    $this->site,
-                                    $port,
-                                    'tcp',
-                                    $port.' for '.$worker,
-                                    $this->server->ip
-                                );
+                if ($this->serverType !== SystemService::WORKER_SERVER && $this->serverType !== SystemService::DATABASE_SERVER) {
+                    if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
+                        foreach ($site->getWorkers() as $worker) {
+                            if (isset($servicesPorts[$worker])) {
+                                foreach ($servicesPorts[$worker] as $port) {
+                                    $siteService->createFirewallRule(
+                                        $this->site,
+                                        $port,
+                                        'tcp',
+                                        $port.' for '.$worker,
+                                        $this->server->ip
+                                    );
+                                }
                             }
                         }
                     }
