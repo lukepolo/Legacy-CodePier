@@ -56,7 +56,7 @@ class UserObserver
         }
 
         if ($user->confirmed) {
-            Mail::to($user)->send(new Welcome($user));
+//            Mail::to($user)->send(new Welcome($user));
         } else {
             Mail::to($user)->send(new ConfirmWelcome($user));
         }

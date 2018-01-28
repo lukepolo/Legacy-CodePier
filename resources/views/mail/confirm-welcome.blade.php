@@ -8,6 +8,6 @@
     @endcomponent
 @endcomponent
 
-To get started you should check our "how to" guides <a href="#">here</a>.
+{{--To get started you should check our "how to" guides <a href="#">here</a>.--}}
 
 @endcomponent
