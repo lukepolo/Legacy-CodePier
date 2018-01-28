@@ -32,9 +32,13 @@ class UpdateServerFiles
         $this->command = $siteCommand;
         $this->serverType = $server->type;
 
-        $this->site->files->each(function (File $file) {
+        $hasMultipleServers = $site->servers->count() > 1 ? true : false;
+
+        $this->site->files->each(function (File $file) use ($hasMultipleServers) {
             if (! empty($file->content)) {
-                $this->updateFile($file);
+                if (! $hasMultipleServers || $file->custom === true || $file->framework_file === true) {
+                    $this->updateFile($file);
+                }
             }
         });
     }

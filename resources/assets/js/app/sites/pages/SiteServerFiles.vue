@@ -25,7 +25,15 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
+    siteServers: function(siteServers) {
+      if (siteServers.length > 1) {
+        this.$router.push({
+          name: "site_overview",
+          params: { site_id: this.site.id }
+        });
+      }
+    }
   },
   methods: {
     fetchData() {
@@ -55,6 +63,18 @@ export default {
     },
     siteFiles() {
       return this.$store.state.user_site_files.files;
+    },
+    siteServers() {
+      let siteServers = _.get(
+        this.$store.state.user_site_servers.servers,
+        this.$route.params.site_id
+      );
+
+      if (siteServers && siteServers.length) {
+        return siteServers;
+      }
+
+      return [];
     }
   }
 };

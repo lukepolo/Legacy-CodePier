@@ -39,3 +39,19 @@
         }
     }
 }
+
+#features-slider {
+    margin-left: -120px;
+
+    .slider--item {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    @include breakpoint(md) {
+        margin: 0px;
+
+        .slider--item {
+            grid-template-columns: 1fr;
+        }
+    }
+}

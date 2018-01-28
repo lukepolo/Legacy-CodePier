@@ -15,7 +15,7 @@
             <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="/login" class="btn btn-primary btn-large">Get Started Now!</a>
+                <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Get Started Now!</a>
             </div>
         </div>
     </section>
@@ -23,15 +23,16 @@
     <section id="section--intro" class="section">
         <div class="section--content">
             <h2>Your dock for DevOps</h2>
-            <p>Look, just because you can, don't spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
+            <p>Look, just because you can, it doesn't mean you have to spend unnecessary time configuring and worrying about your deployments and processes. CodePier helps you manage it all so you have to time to do what you do best: building apps.</p>
 
             <br><br>
 
-            <h2>A powerful event system help you monitor what's going on.</h2>
-            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar is a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
+            <h2>A powerful events system helps you monitor what's going on.</h2>
+            <p>Visibility is key. CodePier's innovative events system makes sure you always have real time monitoring of your processes. Our events bar provides a single location to track all of your deployments, updates, installs, workers, cron jobs and so much more. Get immediate feedback to manage and debug your app.</p>
         </div>
 
         <div class="section--img">
+            <img src="{{ asset('assets/img/deploy.gif')}}">
         </div>
     </section>
 
@@ -57,7 +58,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Advanced server configuration</h3>
-                        <p>Though CodePier configures your server based off of site requirements, sometimes you need a bit more control. Want to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
+                        <p>Although CodePier configures your server based on site requirements, sometimes you need a bit more control. So you'd like to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
                     </div>
                 </div>
                 <div class="features--item">
@@ -75,13 +76,13 @@
                     </div>
                     <div class="features--content">
                         <h3>Zero downtime deployments</h3>
-                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No Problem. Easily rollback to a working version.</p>
+                        <p>Deploy as often as you need and your users will never experience interruptions. Problem with your deployment? No worries! You can easily rollback to a working version.</p>
                     </div>
                 </div>
             </div>
 
             <div class="text-center">
-                <a href="" class="btn btn-primary">Start your free trial!</a>
+                <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary">Start your free trial!</a>
             </div>
         </div>
     </section>
@@ -109,12 +110,12 @@
             <div class="slider" id="features-slider">
                 <div class="slider--item">
                     <div class="slider--img">
-                        <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                        <img src="{{ asset('assets/img/serverStats.png') }}">
                     </div>
                     <div class="slider--content">
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
-                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. And don't worry, CodePier will notifiy you via email if you missed something.</p>
+                        <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. We've got your back! CodePier will even notify you via email if you've missed something.</p>
                     </div>
                 </div>
             </div>
@@ -123,31 +124,31 @@
     <section id="section--testimonials" class="section">
         <div class="section--content">
             <h2 class="text-center">Build, provision, deploy and manage your applications easily, all on your own servers.</h2>
-            <div class="testimonials">
-                <div class="slider" id="testimonials-slider">
-                    <div class="testimonials--item">
-                        <div class="testimonials--quote">
-                            <p>quote</p>
-                        </div>
-                        <div class="testimonials--author">
+            <div class="testimonials" style="grid-template-columns: 1fr; text-align: center;">
+                {{--<div class="slider" id="testimonials-slider">--}}
+                    {{--<div class="testimonials--item">--}}
+                        {{--<div class="testimonials--quote">--}}
+                            {{--<p>quote</p>--}}
+                        {{--</div>--}}
+                        {{--<div class="testimonials--author">--}}
                             {{--<div class="testimonials--img">--}}
                                 {{--<img src="https://secure.gravatar.com/avatar/6e339067135ec0efc021d8137acc2e3a?s=400&d=mm&r=g">--}}
                             {{--</div>--}}
-                            <div>
-                                <div class="testimonials--name">
-                                    Chris Johnson
-                                </div>
-                                <div class="testimonials--location">
-                                    Indianapolis, IN
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            {{--<div>--}}
+                                {{--<div class="testimonials--name">--}}
+                                    {{--Chris Johnson--}}
+                                {{--</div>--}}
+                                {{--<div class="testimonials--location">--}}
+                                    {{--Indianapolis, IN--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
-                    <button class="btn btn-primary">Sign Up Today</button>
+                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  >Sign Up Today</a>
                 </div>
             </div>
         </div>

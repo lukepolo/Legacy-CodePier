@@ -27,7 +27,10 @@
                                 </template>
                             </button>
 
-                            <button @click.prevent="deleteFile" v-if="deletable">Delete</button>
+                            &nbsp;<confirm v-if="deletable">
+                                Delete File
+                                <button slot="confirm-button" class="btn btn-danger" @click.prevent="deleteFile">Delete</button>
+                            </confirm>
                         </div>
 
                         <div class="flex flex--baseline" v-if="isReloading && siteId">

@@ -1,6 +1,9 @@
 .slider {
     min-width: 0px;
 
+    &--img {
+    }
+
     &--item {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
