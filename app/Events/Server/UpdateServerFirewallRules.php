@@ -41,7 +41,7 @@ class UpdateServerFirewallRules
             }
         });
 
-        if($this->site->servers->count() > 1) {
+        if ($this->site->servers->count() > 1) {
             if (
                 $this->serverType !== SystemService::LOAD_BALANCER && $this->serverType !== SystemService::FULL_STACK_SERVER
             ) {
