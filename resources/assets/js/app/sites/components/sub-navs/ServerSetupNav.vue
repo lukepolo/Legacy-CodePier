@@ -30,7 +30,7 @@
                 </a>
             </router-link>
 
-            <router-link :to="{ name : 'site_server_files', params : { site_id : siteId } }" tag="li">
+            <router-link :to="{ name : 'site_server_files', params : { site_id : siteId } }" tag="li" v-if="siteServers.length <= 1">
                 <a>
                     Server Files
                     <div class="small">Customize your server files to suit your app</div>
@@ -67,7 +67,19 @@ export default {
     },
     site() {
       return this.$store.state.user_sites.site;
-    }
+    },
+    siteServers() {
+      let siteServers = _.get(
+        this.$store.state.user_site_servers.servers,
+        this.$route.params.site_id
+      );
+
+      if (siteServers && siteServers.length) {
+        return siteServers;
+      }
+
+      return [];
+    },
   },
   watch: {
     $route: function() {
