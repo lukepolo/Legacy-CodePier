@@ -19,30 +19,32 @@ class CheckServerCreationLimit
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->role === 'admin') {
-            return $next($request);
-        }
-
-        if (! $user->confirmed) {
-            return response()->json('You need to confirm your email address before trying to create a server', 500);
-        }
-
-        if (! $user->subscribed()) {
-            if ($user->servers->count() >= 1) {
-                return $this->toManyServersResponse(1);
+        if(!empty($user)) {
+            if ($user->role === 'admin') {
+                return $next($request);
             }
 
-            return $next($request);
-        }
-
-        $stripePlan = $user->subscription()->active_plan;
-
-        if (str_contains($stripePlan, 'firstmate')) {
-            if ($user->servers->count() >= 30) {
-                return $this->toManyServersResponse(30);
+            if (!$user->confirmed) {
+                return response()->json('You need to confirm your email address before trying to create a server', 500);
             }
-        } elseif (! str_contains($stripePlan, 'captain')) {
-            return response()->json('We don\'t recognize your subscription, please contact support.', 500);
+
+            if (!$user->subscribed()) {
+                if ($user->servers->count() >= 1) {
+                    return $this->toManyServersResponse(1);
+                }
+
+                return $next($request);
+            }
+
+            $stripePlan = $user->subscription()->active_plan;
+
+            if (str_contains($stripePlan, 'firstmate')) {
+                if ($user->servers->count() >= 30) {
+                    return $this->toManyServersResponse(30);
+                }
+            } elseif (!str_contains($stripePlan, 'captain')) {
+                return response()->json('We don\'t recognize your subscription, please contact support.', 500);
+            }
         }
 
         return $next($request);

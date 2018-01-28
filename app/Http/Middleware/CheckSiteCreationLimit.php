@@ -17,13 +17,15 @@ class CheckSiteCreationLimit
     {
         $user = $request->user();
 
-        if ($user->role === 'admin') {
-            return $next($request);
-        }
+        if(!empty($user)) {
+            if ($user->role === 'admin') {
+                return $next($request);
+            }
 
-        if (! $user->subscribed()) {
-            if ($user->sites->count() >= 1) {
-                return response()->json('You cannot create another site, as free plans only allow 1 site.', 401);
+            if (!$user->subscribed()) {
+                if ($user->sites->count() >= 1) {
+                    return response()->json('You cannot create another site, as free plans only allow 1 site.', 401);
+                }
             }
         }
 

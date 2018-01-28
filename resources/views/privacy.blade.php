@@ -53,7 +53,7 @@
 
             <p>If users disable cookies in their browser:</p>
 
-            <p>If you turn cookies off, Some of the features that make your site experience more efficient may not function properly. Some of the features that make your site experience more efficient and may not function properly.</p>
+            <p>If you turn cookies off, Some of the features that make your site experience more efficient may not function properly.</p>
 
             <h2>Third-party disclosure</h2>
 
