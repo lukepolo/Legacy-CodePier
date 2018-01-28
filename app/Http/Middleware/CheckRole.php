@@ -18,8 +18,8 @@ class CheckRole
     {
         $user = $request->user();
 
-        if(!empty($user)) {
-            if (!$user->hasRole($role)) {
+        if (! empty($user)) {
+            if (! $user->hasRole($role)) {
                 return response()->json('Not Authorized.', 401);
             }
         }
