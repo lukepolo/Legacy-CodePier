@@ -40,6 +40,7 @@ class UpdateServerFiles
                     $this->updateFile($file);
                 }
             }
+
         });
     }
 
