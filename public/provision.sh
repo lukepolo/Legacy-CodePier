@@ -8,7 +8,7 @@ echo "Hey there! Welcome to the CodePier automated custom server provisioning to
 echo "We're in the process of getting things setup, so that we can begin the provisioning process of your new custom server."
 echo "This should only take a moment or two..."
 echo "--"
-ip=`wget -qO- http://ipecho.net/plain ; echo`
+ip=`wget -qO- https://provision.codepier.io/ip ; echo`
 echo "We have detected your external IP as: $ip. Sending it off so that we know how to reach your server..."
 curl -s --data "ip=$ip" https://provision.codepier.io/start/$1
 echo "--"
