@@ -15,6 +15,7 @@ class FixSiteServerConfigurations implements ShouldQueue
     use InteractsWithQueue, ModelCommandTrait, Queueable, SerializesModels;
 
     public $site;
+    public $tries = 1;
 
     /**
      * Create a new job instance.
