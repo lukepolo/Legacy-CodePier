@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         Artisan::call('config:clear');
         Artisan::call('cache:clear');
+        Artisan::call('get:plans');
 
         $this->call(CategoriesSeeder::class);
         $this->call(BuoySeeder::class);
