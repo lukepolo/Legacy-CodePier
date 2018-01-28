@@ -284,12 +284,18 @@ class Site extends Model
 
     public function getDatabases()
     {
-        return collect($this->server_features[SystemService::DATABASE])->keys();
+        if (isset($this->server_features[SystemService::DATABASE])) {
+            return collect($this->server_features[SystemService::DATABASE])->keys();
+        }
     }
 
     public function getWorkers()
     {
-        return collect($this->server_features[SystemService::WORKERS])->keys();
+        if (isset($this->server_features[SystemService::WORKERS])) {
+            return collect($this->server_features[SystemService::WORKERS])->keys();
+        }
+
+        return collect();
     }
 
     public function getSlackChannelName($area)
