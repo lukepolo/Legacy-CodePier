@@ -284,16 +284,17 @@ class Site extends Model
 
     public function getDatabases()
     {
-        if(isset($this->server_features[SystemService::DATABASE])) {
+        if (isset($this->server_features[SystemService::DATABASE])) {
             return collect($this->server_features[SystemService::DATABASE])->keys();
         }
     }
 
     public function getWorkers()
     {
-        if(isset($this->server_features[SystemService::WORKERS])) {
+        if (isset($this->server_features[SystemService::WORKERS])) {
             return collect($this->server_features[SystemService::WORKERS])->keys();
         }
+
         return collect();
     }
 
