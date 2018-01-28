@@ -41,7 +41,7 @@
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
 
-        @if(env('APP_ENV') == 'production')
+        @if(config('app.env') == 'production')
             <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
             <script>
                 Raven.config('{{ config('sentry.js_dsn') }}').install()
