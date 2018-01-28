@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\Site\SiteWildcardRequest;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -20,6 +19,7 @@ use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Jobs\Site\FixSiteServerConfigurations;
+use App\Http\Requests\Site\SiteWildcardRequest;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -376,8 +376,8 @@ class SiteController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateWildcardDomain(SiteWildcardRequest $request, $siteId) {
-
+    public function updateWildcardDomain(SiteWildcardRequest $request, $siteId)
+    {
         $site = Site::findOrFail($siteId);
 
         $site->update([
