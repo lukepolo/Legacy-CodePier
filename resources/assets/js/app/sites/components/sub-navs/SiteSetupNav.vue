@@ -16,9 +16,9 @@
                 </a>
             </router-link>
 
-            <router-link :to="{ name : 'site_files', params : { site_id : siteId } }" tag="li" v-if="site && site.framework">
+            <router-link :to="{ name : 'site_files', params : { site_id : siteId } }" tag="li">
                 <a>
-                    Framework Files
+                    Site Files
                     <div class="small">Your app has some default files that need to be configured</div>
                 </a>
             </router-link>
