@@ -73,7 +73,7 @@
 
         @stack('scripts')
 
-        @if(\Auth::check() && second_authed())
+        @if(\Auth::check())
 
             <script src="https://js.stripe.com/v3/"></script>
 

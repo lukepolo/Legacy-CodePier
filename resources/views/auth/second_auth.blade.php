@@ -48,9 +48,6 @@
                             {{ csrf_field() }}
                         </form>
                     </div>
-
-                    @include('auth.create')
-                    @include('auth.reset')
                 </div>
             </div>
         </section>
