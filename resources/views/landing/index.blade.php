@@ -15,7 +15,7 @@
             <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="/login" class="btn btn-primary btn-large">Get Started Now!</a>
+                <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Get Started Now!</a>
             </div>
         </div>
     </section>
@@ -82,7 +82,7 @@
             </div>
 
             <div class="text-center">
-                <a href="" class="btn btn-primary">Start your free trial!</a>
+                <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary">Start your free trial!</a>
             </div>
         </div>
     </section>
@@ -148,7 +148,7 @@
 
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
-                    <button class="btn btn-primary">Sign Up Today</button>
+                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  >Sign Up Today</a>
                 </div>
             </div>
         </div>
