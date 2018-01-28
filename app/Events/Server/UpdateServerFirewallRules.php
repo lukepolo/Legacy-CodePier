@@ -41,7 +41,6 @@ class UpdateServerFirewallRules
             }
         });
 
-        dump($this->serverType);
         if (
             $this->serverType === SystemService::WEB_SERVER ||
             $this->serverType === SystemService::WORKER_SERVER

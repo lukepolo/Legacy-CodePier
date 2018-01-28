@@ -82,13 +82,16 @@
                                     </div>
                                 </div>
 
+                                <span>
+                                    You can use any Google compliant Two-factor authentication (2FA) including <a target="_blank" href="https://authy.com/download/">Authy</a>
+                                </span>
                             </form>
                         </div>
 
 
                     </template>
                     <template v-else>
-                        <a @click="activateSecondAuth" class="text-success">Set Up Second Authentication</a>
+                        <a @click="activateSecondAuth" class="text-success">Set Up Two-factor Authentication (2FA)</a>
                     </template>
                 </template>
             </div>

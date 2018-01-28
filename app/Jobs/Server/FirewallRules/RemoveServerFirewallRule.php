@@ -52,6 +52,10 @@ class RemoveServerFirewallRule implements ShouldQueue
                 $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
 
                 switch ($this->server->type) {
+                    case SystemService::FULL_STACK_SERVER:
+                        $serverService->restartDatabase($this->server);
+                        $serverService->restartWorkers($this->server);
+                        break;
                     case SystemService::DATABASE_SERVER:
                         $serverService->restartDatabase($this->server);
                         break;
