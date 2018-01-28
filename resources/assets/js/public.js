@@ -7,7 +7,7 @@ function toggleForms() {
 }
 
 let url = new URL(window.location.href);
-if(url.searchParams.get('showRegisterForm')) {
+if (url.searchParams.get("showRegisterForm")) {
   toggleForms();
 }
 

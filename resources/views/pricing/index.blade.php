@@ -21,7 +21,7 @@
                         </ul>
                     </div>
                     <div class="pricing--footer">
-                        <a href="{{ route('login') }}" class="btn btn-primary btn-large">Select</a>
+                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  class="btn btn-primary btn-large">Get Started</a>
                     </div>
                 </div>
                 <div class="pricing--item selected">
@@ -40,7 +40,7 @@
                         </ul>
                     </div>
                     <div class="pricing--footer">
-                        <a class="btn btn-primary btn-large">Start Trial</a>
+                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Start Trial</a>
                     </div>
                 </div>
                 <div class="pricing--item">

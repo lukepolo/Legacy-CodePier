@@ -4,17 +4,29 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Open Graph Protocol Social Networks -->
         <meta property="og:title" content="CodePier">
         <meta property="og:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zero downtime deployments, plus, so much more.">
         <meta property="og:image" content="{{ asset('/assets/img/social_img.png') }}">
         <meta property="og:url" content="{{ url('/') }}/">
+        <meta property="og:site_name" content="CodePier">
+
+        <!-- Twitter -->
         <meta name="twitter:title" content="CodePier">
         <meta name="twitter:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zero downtime deployments, plus, so much more.">
         <meta name="twitter:image" content="{{ asset('/assets/img/social_img.png') }}">
         <meta name="twitter:card" content="summary_large_image">
-
-        <meta property="og:site_name" content="CodePier">
         <meta name="twitter:image:alt" content="CodePier | You Build It. We Deploy It.">
+
+        <!-- DNS Prefetch -->
+        <link rel="dns-prefetch" href="//vimeo.com">
+        <link rel="dns-prefetch" href="//code.jquery.co">
+        <link rel="dns-prefetch" href="//client.crisp.im">
+        <link rel="dns-prefetch" href="//player.viemo.com">
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
 
         @include('layouts.core.favicon')
 
@@ -97,26 +109,24 @@
         <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
         @stack('scripts')
 
-        @if(config('app.env') == 'production')
-            <script type="text/javascript">
-              $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-                  window.CRISP_READY_TRIGGER = function() {
-                    if (!$crisp.is("chat:opened") === true) {
-                      $crisp.push(["do", "chat:hide"])
-                    }
-                  };
-                @if(\Auth::check())
+        <script type="text/javascript">
+          $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+              window.CRISP_READY_TRIGGER = function() {
+                if (!$crisp.is("chat:opened") === true) {
+                  $crisp.push(["do", "chat:hide"])
+                }
+              };
+            @if(\Auth::check())
 
-                    $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
-                    $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
-                @endif
-              $(document).on("click", "#getHelp", function(e) {
-                e.preventDefault();
-                $crisp.push(["do", "chat:show"])
-                $crisp.push(["do", "chat:open"])
-              });
-            </script>
-        @endif
+                $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
+                $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
+            @endif
+          $(document).on("click", "#getHelp", function(e) {
+            e.preventDefault();
+            $crisp.push(["do", "chat:open"])
+            $crisp.push(["do", "chat:show"])
+          });
+        </script>
 </body>
 </html>
 

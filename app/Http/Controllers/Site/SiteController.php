@@ -19,6 +19,7 @@ use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Jobs\Site\FixSiteServerConfigurations;
+use App\Http\Requests\Site\SiteWildcardRequest;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -368,5 +369,21 @@ class SiteController extends Controller
         );
 
         return response()->json('OK');
+    }
+
+    /**
+     * @param SiteWildcardRequest $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateWildcardDomain(SiteWildcardRequest $request, $siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $site->update([
+            'wildcard_domain' => $request->get('wildcard_domain'),
+        ]);
+
+        return response()->json($site);
     }
 }

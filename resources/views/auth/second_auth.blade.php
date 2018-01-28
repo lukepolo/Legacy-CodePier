@@ -14,7 +14,7 @@
 
                     <div id="login_form">
                         <div class="flyform--heading">
-                            <h2>Second Authentication</h2>
+                            <h2>Two-factor A8526uthentication (2FA)</h2>
                         </div>
 
                         <form method="POST" action="{{ action('Auth\SecondAuthController@store') }}">
@@ -36,7 +36,7 @@
 
                             <div class="flyform--footer">
                                 <div class="flyform--footer-btns">
-                                    <button class="btn" type="submit" form="cancelForm">Cancel</button>
+                                    <button class="btn" type="submit" form="cancelForm">Logout</button>
                                     <button class="btn btn-primary" type="submit">Login</button>
                                 </div>
                                 <div class="flyform--footer-links">
