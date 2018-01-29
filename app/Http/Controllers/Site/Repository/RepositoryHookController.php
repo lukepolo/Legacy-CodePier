@@ -32,8 +32,8 @@ class RepositoryHookController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        if(!$site->isValidRepository()) {
-            return response()->json( 'Invalid', 400);
+        if (! $site->isValidRepository()) {
+            return response()->json('Invalid', 400);
         }
 
         try {
