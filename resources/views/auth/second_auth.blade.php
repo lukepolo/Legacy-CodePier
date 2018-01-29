@@ -14,7 +14,7 @@
 
                     <div id="login_form">
                         <div class="flyform--heading">
-                            <h2>Two-factor A8526uthentication (2FA)</h2>
+                            <h2>Two-factor Authentication (2FA)</h2>
                         </div>
 
                         <form method="POST" action="{{ action('Auth\SecondAuthController@store') }}">

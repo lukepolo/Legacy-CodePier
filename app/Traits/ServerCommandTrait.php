@@ -129,7 +129,7 @@ trait ServerCommandTrait
      */
     public function remoteResponse()
     {
-        if (count($this->remoteErrors)) {
+        if (!empty($this->remoteErrors) && is_array($this->remoteErrors) && count($this->remoteErrors)) {
             return response()->json([
                 'errors' => $this->remoteErrors,
             ]);
