@@ -33,7 +33,7 @@ class SiteDnsController extends Controller
                         return collect(dns_get_record($site->domain, DNS_A))->first(function ($record) use ($site) {
                             return $record['host'] == $site->domain;
                         });
-                    } catch(\ErrorException $e) {
+                    } catch (\ErrorException $e) {
                         return $e->getMessage();
                     }
                 })
