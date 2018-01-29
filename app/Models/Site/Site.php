@@ -308,7 +308,8 @@ class Site extends Model
         return $this->name;
     }
 
-    public function isValidRepository() {
+    public function isValidRepository()
+    {
         return str_contains($this->repository, '/');
     }
 }
