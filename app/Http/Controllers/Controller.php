@@ -32,7 +32,7 @@ class Controller extends BaseController
         }
 
         if ($request->has('ref')) {
-            return response()->view('landing')->withCookie(cookie('referrer', $request->input('ref')));
+            return response()->view('landing.index')->withCookie(cookie('referrer', $request->input('ref')));
         }
 
         return view('landing.index');
