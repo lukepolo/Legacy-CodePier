@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Blade;
 use Laravel\Horizon\Horizon;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
@@ -35,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::doubleEncode();
+
         Passport::tokensCan([
             'create-custom-server' => 'Allows creation of a custom server',
         ]);
