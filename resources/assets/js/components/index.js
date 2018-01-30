@@ -1,4 +1,3 @@
-Vue.component("Back", require("./Back.vue"));
 Vue.component("Modal", require("./Modal.vue"));
 Vue.component("Confirm", require("./Confirm.vue"));
 Vue.component("TimeAgo", require("./TimeAgo.vue"));
