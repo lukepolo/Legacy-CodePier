@@ -29,9 +29,13 @@ class SiteDnsController extends Controller
 
             return response()->json(
                 Cache::remember($key, 60 * 24, function () use ($site) {
-                    return collect(dns_get_record($site->domain, DNS_A))->first(function ($record) use ($site) {
-                        return $record['host'] == $site->domain;
-                    });
+                    try {
+                        return collect(dns_get_record($site->domain, DNS_A))->first(function ($record) use ($site) {
+                            return $record['host'] == $site->domain;
+                        });
+                    } catch (\ErrorException $e) {
+                        return $e->getMessage();
+                    }
                 })
             );
         }

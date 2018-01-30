@@ -26,12 +26,19 @@ class RepositoryHookController extends Controller
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
+     * @throws \App\Exceptions\SiteUserProviderNotConnected
      */
     public function store($siteId)
     {
+        $site = Site::findOrFail($siteId);
+
+        if (! $site->isValidRepository()) {
+            return response()->json('Invalid', 400);
+        }
+
         try {
             return response()->json(
-                $this->siteService->createDeployHook(Site::findOrFail($siteId))
+                $this->siteService->createDeployHook($site)
             );
         } catch (DeployHookFailed $e) {
             return response()->json($e->getMessage(), 400);
