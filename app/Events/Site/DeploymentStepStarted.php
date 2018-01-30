@@ -63,8 +63,6 @@ class DeploymentStepStarted implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
-        \Log::info('wtf');
-
         return [
             'site_deployment' => strip_relations($this->siteDeployment),
             'server_deployment' => strip_relations($this->serverDeployment),
