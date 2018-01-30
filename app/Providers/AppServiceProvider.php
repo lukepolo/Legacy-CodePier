@@ -14,6 +14,7 @@ use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\URL;
 use App\Observers\Site\SiteObserver;
+use Illuminate\Support\Facades\Blade;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::doubleEncode();
+
         Passport::tokensCan([
             'create-custom-server' => 'Allows creation of a custom server',
         ]);

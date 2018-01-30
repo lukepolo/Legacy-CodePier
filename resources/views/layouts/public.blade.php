@@ -90,8 +90,8 @@
                 <div class="footer--links">
                     <h4 class="footer--links-heading">Resources</h4>
                     <ul class="footer--links-list">
-                        <li><a href="#">Getting Started</a></li>
-                        <li><a href="#">FAQs</a></li>
+                        {{--<li><a href="#">Getting Started</a></li>--}}
+                        {{--<li><a href="#">FAQs</a></li>--}}
                         <li><a href="{{ action('PublicController@privacy') }}">Privacy Policy</a></li>
                         <li><a href="{{ action('PublicController@termsOfService') }}">Terms Of Service</a></li>
                     </ul>
