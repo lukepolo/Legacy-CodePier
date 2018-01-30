@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Site;
 
-use App\Providers\RepositoriesServiceProvider;
 use App\Rules\Repository;
 use Illuminate\Foundation\Http\FormRequest;
 
