@@ -71,14 +71,15 @@ class Server extends Model
         'database_password',
     ];
 
-    public function getServerFeaturesAttribute() {
+    public function getServerFeaturesAttribute()
+    {
         $serverFeatures = json_decode($this->attributes['server_features'], true);
 
-        $serverFeatures['NodeService'] = collect($serverFeatures['NodeService'])->sortBy(function($options, $feature) {
+        $serverFeatures['NodeService'] = collect($serverFeatures['NodeService'])->sortBy(function ($options, $feature) {
             return $feature === 'NodeJs' ? 0 : 1;
         })->all();
 
-        $serverFeatures['Languages\PHP\PHP'] = collect($serverFeatures['Languages\PHP\PHP'])->sortBy(function($options, $feature) {
+        $serverFeatures['Languages\PHP\PHP'] = collect($serverFeatures['Languages\PHP\PHP'])->sortBy(function ($options, $feature) {
             return $feature === 'PHP' ? 0 : 1;
         })->all();
 
