@@ -1,6 +1,5 @@
 <template>
     <h3 class="section-header primary" v-if="server">
-        <back></back>
         Server {{ server.name }} <small>({{ server.ip }})</small>
 
         <div class="section-header--btn-right">
