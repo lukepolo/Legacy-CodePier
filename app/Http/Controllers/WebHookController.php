@@ -26,14 +26,12 @@ class WebHookController extends Controller
             ->where('hash', $siteHashId)
             ->firstOrFail();
 
-
         /** @var User $user */
         $user = $site->user;
 
         $this->checkUsersMaxServers($user);
 
-        if($user->subscribed() || $user->sites->count() <= 1) {
-
+        if ($user->subscribed() || $user->sites->count() <= 1) {
             $branch = null;
 
             if (! empty($site->userRepositoryProvider)) {
@@ -161,6 +159,7 @@ class WebHookController extends Controller
             if ($user->servers->count() > 1) {
                 $this->subscriptionToLow('servers');
             }
+
             return true;
         }
 
@@ -175,7 +174,8 @@ class WebHookController extends Controller
         return true;
     }
 
-    private function subscriptionToLow($type) {
+    private function subscriptionToLow($type)
+    {
         return abort(401, 'Too many '.$type.', please upgrade');
     }
 
