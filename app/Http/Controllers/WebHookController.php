@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site\Site;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
@@ -25,28 +26,39 @@ class WebHookController extends Controller
             ->where('hash', $siteHashId)
             ->firstOrFail();
 
-        $branch = null;
 
-        if (! empty($site->userRepositoryProvider)) {
-            switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
-                case OauthController::GITHUB:
-                case OauthController::GITLAB:
-                    $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
-                    break;
-                case OauthController::BITBUCKET:
-                    $branch = $request->get('push')['changes'][0]['new']['name'];
-                    break;
+        /** @var User $user */
+        $user = $site->user;
+
+        $this->checkUsersMaxServers($user);
+
+        if($user->subscribed() || $user->sites->count() <= 1) {
+
+            $branch = null;
+
+            if (! empty($site->userRepositoryProvider)) {
+                switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
+                    case OauthController::GITHUB:
+                    case OauthController::GITLAB:
+                        $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
+                        break;
+                    case OauthController::BITBUCKET:
+                        $branch = $request->get('push')['changes'][0]['new']['name'];
+                        break;
+                }
             }
+
+            if (empty($branch) || $site->branch === $branch) {
+                dispatch(
+                    (new DeploySite($site, null))
+                        ->onQueue(config('queue.channels.site_deployments'))
+                );
+            }
+
+            return response()->json('OK');
         }
 
-        if (empty($branch) || $site->branch === $branch) {
-            dispatch(
-                (new DeploySite($site, null))
-                    ->onQueue(config('queue.channels.site_deployments'))
-            );
-        }
-
-        return response()->json('OK');
+        $this->subscriptionToLow('sites');
     }
 
     /**
@@ -57,6 +69,8 @@ class WebHookController extends Controller
     public function loadMonitor(Request $request, $serverHashId)
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+
+        $this->checkUsersMaxServers($server->user);
 
         $stats = $this->getStats($request->get('loads'));
 
@@ -83,6 +97,8 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
+        $this->checkUsersMaxServers($server->user);
+
         $memoryStats = $this->getStats($request->get('memory'));
 
         if (isset($memoryStats['name'])) {
@@ -107,6 +123,8 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
+        $this->checkUsersMaxServers($server->user);
+
         $diskStats = $this->getStats($request->get('disk_usage'));
 
         if (isset($diskStats['disk'])) {
@@ -130,9 +148,35 @@ class WebHookController extends Controller
         /** @var Server $server */
         $server = Server::with('sslCertificates')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
+        $this->checkUsersMaxServers($server->user);
+
         foreach ($server->sslCertificates as $sslCertificate) {
             dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
         }
+    }
+
+    private function checkUsersMaxServers(User $user)
+    {
+        if (! $user->subscribed()) {
+            if ($user->servers->count() > 1) {
+                $this->subscriptionToLow('servers');
+            }
+            return true;
+        }
+
+        $stripePlan = $user->subscription()->active_plan;
+
+        if (str_contains($stripePlan, 'firstmate')) {
+            if ($user->servers->count() > 30) {
+                $this->subscriptionToLow('servers');
+            }
+        }
+
+        return true;
+    }
+
+    private function subscriptionToLow($type) {
+        return abort(401, 'Too many '.$type.', please upgrade');
     }
 
     /**
