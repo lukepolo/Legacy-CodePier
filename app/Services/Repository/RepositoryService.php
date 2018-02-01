@@ -6,7 +6,7 @@ use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Jobs\Server\InstallPublicKey;
 use App\Exceptions\SshConnectionFailed;
-use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Models\User\UserRepositoryProvider;
 use App\Exceptions\SiteUserProviderNotConnected;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
@@ -22,70 +22,6 @@ class RepositoryService implements RepositoryServiceContract
     public function __construct(RemoteTaskService $remoteTaskService)
     {
         $this->remoteTaskService = $remoteTaskService;
-    }
-
-    /**
-     * Imports a ssh key into the specific provider.
-     *
-     * @param Site $site
-     * @return mixed
-     * @throws SiteUserProviderNotConnected
-     * @throws \Exception
-     */
-    public function importSshKey(Site $site)
-    {
-        if (! $site->userRepositoryProvider) {
-            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
-        }
-
-        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
-
-        if (empty($site->public_ssh_key) || empty($site->private_ssh_key)) {
-            $this->generateNewSshKeys($site);
-        }
-
-        // We only import to github if we haven't said its private
-        if (! $site->private && $this->isPrivate($site)) {
-            try {
-                $providerService->importSshKey($site);
-                $site->update([
-                    'ssh_key_imported' => true,
-                ]);
-            } catch (\Exception $e) {
-                if ($e instanceof DeployKeyAlreadyUsed) {
-                    $this->importSshKey($site);
-                } else {
-                    $site->update([
-                        'public_ssh_key' => null,
-                    ]);
-
-                    throw $e;
-                }
-            }
-        }
-    }
-
-    /**
-     * @param Site $site
-     * @return mixed
-     * @throws SiteUserProviderNotConnected
-     */
-    public function isPrivate(Site $site)
-    {
-        if (! $site->userRepositoryProvider) {
-            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
-        }
-
-        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
-        $private = $providerService->isPrivate($site);
-
-        if ($site->private != $private) {
-            $site->update([
-                'private' => $private,
-            ]);
-        }
-
-        return $private;
     }
 
     /**
@@ -126,13 +62,20 @@ class RepositoryService implements RepositoryServiceContract
     }
 
     /**
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @return mixed
+     */
+    public function getToken(UserRepositoryProvider $userRepositoryProvider) {
+        return $this->getProvider($userRepositoryProvider->repositoryProvider)->getToken($userRepositoryProvider);
+    }
+
+    /**
      * Generates keys based for the site.
      * @param Site $site
      */
     public function generateNewSshKeys(Site $site)
     {
         $sshKey = $this->remoteTaskService->createSshKey();
-        $site->private = false;
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();

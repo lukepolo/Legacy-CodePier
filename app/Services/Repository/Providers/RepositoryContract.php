@@ -8,13 +8,6 @@ use App\Models\User\UserRepositoryProvider;
 interface RepositoryContract
 {
     /**
-     * Imports a deploy key so we can clone the repositories.
-     * @param Site $site
-     * @return
-     */
-    public function importSshKey(Site $site);
-
-    /**
      * Sets the token so we can connect to the users account.
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @throws \Exception
@@ -50,9 +43,8 @@ interface RepositoryContract
     public function deleteDeployHook(Site $site);
 
     /**
-     * Checks if the repository is private.
-     * @param Site $site
-     * @return bool
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @return string
      */
-    public function isPrivate(Site $site);
+    public function getToken(UserRepositoryProvider $userRepositoryProvider);
 }

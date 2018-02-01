@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Traits\Encryptable;
 use App\Traits\ConnectedToUser;
 use App\Models\RepositoryProvider;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,5 +37,16 @@ class UserRepositoryProvider extends Model
     public function repositoryProvider()
     {
         return $this->belongsTo(RepositoryProvider::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function isExpired() {
+        /** @var Carbon $expiresAt */
+        $expiresAt = $this->expires_at;
+        return $expiresAt->lt(Carbon::now()->subMinute());
     }
 }
