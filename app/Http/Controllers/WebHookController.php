@@ -155,22 +155,23 @@ class WebHookController extends Controller
 
     private function checkUsersMaxServers(User $user)
     {
-        if (! $user->subscribed()) {
-            if ($user->servers->count() > 1) {
-                $this->subscriptionToLow('servers');
+        if($user->role !== 'admin') {
+            if (! $user->subscribed()) {
+                if ($user->servers->count() > 1) {
+                    $this->subscriptionToLow('servers');
+                }
+
+                return true;
             }
 
-            return true;
-        }
+            $stripePlan = $user->subscription()->active_plan;
 
-        $stripePlan = $user->subscription()->active_plan;
-
-        if (str_contains($stripePlan, 'firstmate')) {
-            if ($user->servers->count() > 30) {
-                $this->subscriptionToLow('servers');
+            if (str_contains($stripePlan, 'firstmate')) {
+                if ($user->servers->count() > 30) {
+                    $this->subscriptionToLow('servers');
+                }
             }
         }
-
         return true;
     }
 
