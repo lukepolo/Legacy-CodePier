@@ -108,11 +108,8 @@ trait DeployTrait
                         break;
                 }
             } else {
-                $repositoryUrl = parse_url($this->repository);
-                $host = $repositoryUrl['host'];
-                $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'], '/');
-                $this->remoteTaskService->run('ssh-keyscan -t rsa '.$host.' | tee -a ~/.ssh/known_hosts');
-                $loadSshKeyCommand = 'eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ;';
+                $url = $this->repository;
+                $loadSshKeyCommand = "env - BASH_ENV=/home/codepier/.bashrc /usr/bin/bash GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/".$this->site->id."_id_rsa'' ";
             }
 
             if ($this->zeroDowntimeDeployment) {
