@@ -33,7 +33,8 @@ class GitLab implements RepositoryContract
      * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed|string
      */
-    public function getToken(UserRepositoryProvider $userRepositoryProvider) {
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
+    {
         return $userRepositoryProvider->token;
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use Buzz\Message\Response;
 use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\Repositories\Hooks;
 use App\Models\User\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuth2Listener;
-use Carbon\Carbon;
 use League\OAuth2\Client\Token\AccessToken;
+use Bitbucket\API\Http\Listener\OAuth2Listener;
 
 class BitBucket implements RepositoryContract
 {
@@ -29,7 +29,7 @@ class BitBucket implements RepositoryContract
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         $this->oauthParams = [
-            'access_token'=> $this->getToken($userRepositoryProvider)
+            'access_token'=> $this->getToken($userRepositoryProvider),
         ];
     }
 
@@ -79,23 +79,24 @@ class BitBucket implements RepositoryContract
      * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed|string
      */
-    public function getToken(UserRepositoryProvider $userRepositoryProvider) {
-        if($userRepositoryProvider->isExpired()) {
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
+    {
+        if ($userRepositoryProvider->isExpired()) {
             $provider = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
                 'clientId'          => config('services.bitbucket.client_id'),
                 'clientSecret'      => config('services.bitbucket.client_secret'),
-                'redirectUri'       => config('services.bitbucket.redirect')
+                'redirectUri'       => config('services.bitbucket.redirect'),
             ]);
 
             /** @var AccessToken $token */
             $response = $provider->getAccessToken('refresh_token', [
-                'refresh_token' => $userRepositoryProvider->refresh_token
+                'refresh_token' => $userRepositoryProvider->refresh_token,
             ]);
 
             $userRepositoryProvider->fill([
                 'token' => $response->getToken(),
                 'refresh_token' => $response->getRefreshToken(),
-                'expires_at' => Carbon::createFromTimestampUTC($response->getExpires())
+                'expires_at' => Carbon::createFromTimestampUTC($response->getExpires()),
             ]);
 
             $userRepositoryProvider->save();
