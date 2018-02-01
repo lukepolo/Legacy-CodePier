@@ -13,7 +13,7 @@ class UserLoginProviderIdDefaultValue extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('user_login_provider_id')->default('none')->change();
         });
     }
