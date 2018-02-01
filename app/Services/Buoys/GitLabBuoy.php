@@ -39,7 +39,7 @@ class GitLabBuoy implements BuoyContract
 
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [
             'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':8080/ in order to access the web interface.',
-            'Helpful Hint: You can perform GitLab SSH operations via ' => $this->server->ip.":2222",
+            'Helpful Hint: You can perform GitLab SSH operations via ' => $this->server->ip.':2222',
         ]));
 
         $this->openPorts($this->server, $ports, 'GitLab');
