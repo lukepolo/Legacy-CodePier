@@ -65,7 +65,8 @@ class RepositoryService implements RepositoryServiceContract
      * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed
      */
-    public function getToken(UserRepositoryProvider $userRepositoryProvider) {
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
+    {
         return $this->getProvider($userRepositoryProvider->repositoryProvider)->getToken($userRepositoryProvider);
     }
 
