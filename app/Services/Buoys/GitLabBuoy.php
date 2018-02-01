@@ -30,7 +30,7 @@ class GitLabBuoy implements BuoyContract
         $this->remoteTaskService->run('docker run -d \
             --name gitlab \
             --hostname '.$this->server->ip.' \
-            --publish 8080:80 --publish 2222:22 \
+            --publish '.$ports[0].':80 --publish '.$ports[1].':22 \
             --restart always \
             -v /data/gitlab/config:/etc/gitlab \
             -v /data/gitlab/logs:/var/log/gitlab \
@@ -38,8 +38,8 @@ class GitLabBuoy implements BuoyContract
             gitlab/gitlab-ce:latest');
 
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [
-            'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':8080/ in order to access the web interface.',
-            'Helpful Hint: You can perform GitLab SSH operations via ' => $this->server->ip.':2222',
+            'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':'.$ports[0].'/ in order to access the web interface.',
+            'Helpful Hint: You can perform GitLab SSH operations via ' => $this->server->ip.':'.$ports[1],
         ]));
 
         $this->openPorts($this->server, $ports, 'GitLab');
