@@ -7,6 +7,7 @@ use App\Models\Site\Site;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
+use App\Services\Repository\RepositoryService;
 
 trait DeployTrait
 {
@@ -20,18 +21,31 @@ trait DeployTrait
     private $repository;
     private $rollback = false;
     private $remoteTaskService;
+    private $repositoryService;
     private $repositoryProvider;
     private $zeroDowntimeDeployment;
 
     /**
      * @param RemoteTaskService $remoteTaskService
+     * @param RepositoryService $repositoryService
      * @param Server $server
      * @param \App\Models\Site\Site $site
      * @param SiteDeployment $siteDeployment
+     *
+     * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
+     *
+     * @throws \Exception
      */
-    public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site, SiteDeployment $siteDeployment = null)
-    {
+    public function __construct(
+        RemoteTaskService $remoteTaskService,
+        RepositoryService $repositoryService,
+        Server $server,
+        Site $site,
+        SiteDeployment $siteDeployment = null
+    ) {
+        $this->repositoryService = $repositoryService;
+
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
 
@@ -77,28 +91,34 @@ trait DeployTrait
         if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
 
-            if ($this->repositoryProvider) {
-                $host = $this->repositoryProvider->url;
-                $url = 'https://'.$host.'/'.$this->repository;
+            $loadSshKeyCommand = '';
 
-                if ($this->site->private) {
-                    $url = $this->repositoryProvider->git_url.':'.$this->repository;
+            if ($this->repositoryProvider) {
+                $token = $this->repositoryService->getToken($this->site->userRepositoryProvider);
+
+                switch ($this->repositoryProvider->name) {
+                    case 'Bitbucket':
+                        $url = "https://x-token-auth:{{$token}}@bitbucket.org/{$this->repository}.git";
+                        break;
+                    case 'GitHub':
+                        $url = "https://{$token}@github.com/{$this->repository}.git";
+                        break;
+                    case 'GitLab':
+                        $url = "https://oauth2:{$token}@gitlab.com/{$this->repository}.git";
+                        break;
                 }
             } else {
-                $repositoryUrl = parse_url($this->repository);
-                $host = $repositoryUrl['host'];
-                $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'], '/');
+                $url = $this->repository;
+                $loadSshKeyCommand = "env - BASH_ENV=/home/codepier/.bashrc /usr/bin/bash GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/".$this->site->id."_id_rsa'' ";
             }
 
-            $this->remoteTaskService->run('ssh-keyscan -t rsa '.$host.' | tee -a ~/.ssh/known_hosts');
-
             if ($this->zeroDowntimeDeployment) {
-                $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
+                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
             } else {
                 if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
-                    $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; rm -rf * ;  git clone '.$url.' --branch='.$this->branch.' .');
+                    $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; rm -rf * ;  git clone '.$url.' --branch='.$this->branch.' .');
                 } else {
-                    $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git pull origin '.$this->branch);
+                    $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git pull origin '.$this->branch);
                 }
             }
 

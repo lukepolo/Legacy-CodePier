@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use Carbon\Carbon;
 use App\Traits\Encryptable;
 use App\Traits\ConnectedToUser;
 use App\Models\RepositoryProvider;
@@ -36,5 +37,18 @@ class UserRepositoryProvider extends Model
     public function repositoryProvider()
     {
         return $this->belongsTo(RepositoryProvider::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function isExpired()
+    {
+        /** @var Carbon $expiresAt */
+        $expiresAt = $this->expires_at;
+
+        return $expiresAt->lt(Carbon::now()->subMinute());
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User\User;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +52,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->where(function ($query) {
+                return $query->where('user_login_provider_id', 'none');
+            })],
             'password' => 'required|string|min:6|confirmed',
         ]);
     }

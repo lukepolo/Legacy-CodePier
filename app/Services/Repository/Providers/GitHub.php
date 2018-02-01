@@ -9,7 +9,6 @@ use Github\Api\CurrentUser;
 use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
-use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
 {
@@ -28,30 +27,6 @@ class GitHub implements RepositoryContract
     {
         /* @var Client $client */
         $this->client = new Client();
-    }
-
-    /**
-     * Imports a deploy key so we can clone the repositories.
-     * @param Site $site
-     * @return string|void
-     * @throws \Exception
-     */
-    public function importSshKey(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        try {
-            $this->meApi->keys()->create([
-                'title' => $this->sshKeyLabel($site),
-                'key'   => $site->public_ssh_key,
-            ]);
-        } catch (ValidationFailedException $e) {
-            if ($e->getMessage() == 'Validation Failed: key is already in use') {
-                $this->throwKeyAlreadyUsed();
-            }
-
-            throw $e;
-        }
     }
 
     /**
@@ -96,10 +71,7 @@ class GitHub implements RepositoryContract
             ]);
         } catch (RuntimeException $e) {
             if ($e->getMessage() == 'Not Found') {
-                if ($site->private) {
-                    throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
-                }
-                throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+                throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
             }
 
             throw new DeployHookFailed($e->getMessage());
@@ -112,32 +84,12 @@ class GitHub implements RepositoryContract
     }
 
     /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @return mixed|string
      */
-    public function isPrivate(Site $site)
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        $this->setToken($site->userRepositoryProvider);
-
-        try {
-            $repository = $this->repositoryApi->show(
-                $this->getRepositoryUser($site->repository),
-                $this->getRepositorySlug($site->repository)
-            );
-        } catch (RuntimeException $e) {
-            if ($e->getMessage() == 'Not Found') {
-                return true;
-            }
-        }
-
-        if (! empty($repository) && $repository['private']) {
-            return $repository['private'];
-        }
-
-        return false;
+        return $userRepositoryProvider->token;
     }
 
     /**

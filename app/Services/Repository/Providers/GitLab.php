@@ -17,32 +17,6 @@ class GitLab implements RepositoryContract
     private $gitlab_url = 'https://gitlab.com/api/v4';
 
     /**
-     * Imports a deploy key so we can clone the repositories.
-     *
-     * @param Site $site
-     * @throws \Exception
-     */
-    public function importSshKey(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        try {
-            $this->client->post($this->gitlab_url.'/projects/'.$this->getRepository($site)->id.'/deploy_keys', [
-                'form_params' => [
-                    'title' => $this->sshKeyLabel($site),
-                    'key' => $site->public_ssh_key,
-                ],
-            ]);
-        } catch (ClientException $e) {
-            // They have terrible error codes
-            if (str_contains($e->getMessage(), '400')) {
-                $this->throwKeyAlreadyUsed();
-            }
-            throw $e;
-        }
-    }
-
-    /**
      * @param UserRepositoryProvider $userRepositoryProvider
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
@@ -56,29 +30,12 @@ class GitLab implements RepositoryContract
     }
 
     /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @return mixed|string
      */
-    public function isPrivate(Site $site)
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        $this->setToken($site->userRepositoryProvider);
-
-        try {
-            $repository = $this->getRepository($site);
-
-            if (! empty($repository)) {
-                return $repository->visibility === 'private';
-            }
-        } catch (ClientException $e) {
-            if ($e->getCode() == 404) {
-                return true;
-            }
-        }
-
-        return false;
+        return $userRepositoryProvider->token;
     }
 
     /**
@@ -102,9 +59,6 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $owner = $this->getRepositoryUser($site->repository);
-        $slug = $this->getRepositorySlug($site->repository);
-
         try {
             $webhook = json_decode($this->client->post($this->gitlab_url.'/projects/'.$this->getRepository($site)->id.'/hooks', [
                 'form_params' => [
@@ -117,10 +71,7 @@ class GitLab implements RepositoryContract
             $site->save();
         } catch (ClientException $e) {
             if ($e->getCode()) {
-                if ($site->private) {
-                    throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
-                }
-                throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+                throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
             }
             throw new DeployHookFailed($e->getMessage());
         }
