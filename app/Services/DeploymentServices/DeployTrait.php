@@ -2,12 +2,12 @@
 
 namespace App\Services\DeploymentServices;
 
-use App\Services\Repository\RepositoryService;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
+use App\Services\Repository\RepositoryService;
 
 trait DeployTrait
 {
@@ -43,8 +43,7 @@ trait DeployTrait
         Server $server,
         Site $site,
         SiteDeployment $siteDeployment = null
-    )
-    {
+    ) {
         $this->repositoryService = $repositoryService;
 
         $this->remoteTaskService = $remoteTaskService;
@@ -92,20 +91,19 @@ trait DeployTrait
         if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
 
-            $loadSshKeyCommand = "";
-            
-            if ($this->repositoryProvider) {
+            $loadSshKeyCommand = '';
 
+            if ($this->repositoryProvider) {
                 $token = $this->repositoryService->getToken($this->site->userRepositoryProvider);
 
                 switch ($this->repositoryProvider->name) {
-                    case 'Bitbucket' :
+                    case 'Bitbucket':
                         $url = "https://x-token-auth:{{$token}}@bitbucket.org/{$this->repository}.git";
                         break;
-                    case 'GitHub' :
+                    case 'GitHub':
                         $url = "https://{$token}@github.com/{$this->repository}.git";
                         break;
-                    case 'GitLab' :
+                    case 'GitLab':
                         $url = "https://oauth2:{$token}@gitlab.com/{$this->repository}.git";
                         break;
                 }

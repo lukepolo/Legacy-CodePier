@@ -9,7 +9,6 @@ use Github\Api\CurrentUser;
 use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
-use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
 {
@@ -88,7 +87,8 @@ class GitHub implements RepositoryContract
      * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed|string
      */
-    public function getToken(UserRepositoryProvider $userRepositoryProvider) {
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
+    {
         return $userRepositoryProvider->token;
     }
 
