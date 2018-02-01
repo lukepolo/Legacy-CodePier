@@ -68,7 +68,6 @@ class BitBucket implements RepositoryContract
             throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
         }
 
-        ddd($response->getContent());
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
         $site->save();
 
