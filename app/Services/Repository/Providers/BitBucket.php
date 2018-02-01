@@ -2,75 +2,20 @@
 
 namespace App\Services\Repository\Providers;
 
-use Bitbucket\API\User;
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use Buzz\Message\Response;
-use Bitbucket\API\Users\SshKeys;
 use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\Repositories\Hooks;
-use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
+use League\OAuth2\Client\Token\AccessToken;
+use Bitbucket\API\Http\Listener\OAuth2Listener;
 
 class BitBucket implements RepositoryContract
 {
     use RepositoryTrait;
 
     private $oauthParams;
-
-    /**
-     * Imports a deploy key so we can clone the repositories.
-     * @param Site $site
-     */
-    public function importSshKey(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        $user = new User();
-
-        $user->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $sshKeys = new SshKeys();
-
-        $sshKeys->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $sshKeys->create(json_decode($user->get()->getContent())->user->username, $site->public_ssh_key, $this->sshKeyLabel($site));
-    }
-
-    /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
-     */
-    public function isPrivate(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        $user = new User();
-
-        $user->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $repositories = new Repository();
-
-        $repository = json_decode($repositories->get(
-            $this->getRepositoryUser($site->repository),
-            $this->getRepositorySlug($site->repository)
-        )->getContent());
-
-        if (empty($repository)) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Sets the token so we can connect to the users account.
@@ -84,11 +29,7 @@ class BitBucket implements RepositoryContract
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         $this->oauthParams = [
-            'oauth_token'           => $userRepositoryProvider->token,
-            'oauth_token_secret'    => $userRepositoryProvider->tokenSecret,
-            'oauth_consumer_key'    => config('services.bitbucket.client_id'),
-            'oauth_consumer_secret' => config('services.bitbucket.client_secret.client_id'),
-            'oauth_callback'        => config('services.bitbucket.redirect'),
+            'access_token'=> $this->getToken($userRepositoryProvider),
         ];
     }
 
@@ -96,6 +37,7 @@ class BitBucket implements RepositoryContract
      * @param Site $site
      * @return Site
      * @throws DeployHookFailed
+     * @throws \Exception
      */
     public function createDeployHook(Site $site)
     {
@@ -104,7 +46,7 @@ class BitBucket implements RepositoryContract
         $hook = new Hooks();
 
         $hook->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
+            new OAuth2Listener($this->oauthParams)
         );
 
         $owner = $this->getRepositoryUser($site->repository);
@@ -123,10 +65,7 @@ class BitBucket implements RepositoryContract
         ]);
 
         if ($response->getStatusCode() == 401) {
-            if ($site->private) {
-                throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
-            }
-            throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+            throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
         }
 
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
@@ -136,8 +75,39 @@ class BitBucket implements RepositoryContract
     }
 
     /**
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @return mixed|string
+     */
+    public function getToken(UserRepositoryProvider $userRepositoryProvider)
+    {
+        if ($userRepositoryProvider->isExpired()) {
+            $provider = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
+                'clientId'          => config('services.bitbucket.client_id'),
+                'clientSecret'      => config('services.bitbucket.client_secret'),
+                'redirectUri'       => config('services.bitbucket.redirect'),
+            ]);
+
+            /** @var AccessToken $token */
+            $response = $provider->getAccessToken('refresh_token', [
+                'refresh_token' => $userRepositoryProvider->refresh_token,
+            ]);
+
+            $userRepositoryProvider->fill([
+                'token' => $response->getToken(),
+                'refresh_token' => $response->getRefreshToken(),
+                'expires_at' => Carbon::createFromTimestampUTC($response->getExpires()),
+            ]);
+
+            $userRepositoryProvider->save();
+        }
+
+        return $userRepositoryProvider->token;
+    }
+
+    /**
      * @param Site $site
      * @return Site
+     * @throws \Exception
      */
     public function deleteDeployHook(Site $site)
     {
@@ -146,7 +116,7 @@ class BitBucket implements RepositoryContract
         $hook = new Hooks();
 
         $hook->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
+            new OAuth2Listener($this->oauthParams)
         );
 
         $hook->delete(

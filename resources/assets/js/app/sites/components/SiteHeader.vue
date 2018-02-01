@@ -1,8 +1,6 @@
 <template>
     <h3 class="section-header primary" v-if="site">
 
-        <back v-if="workFlowCompleted"></back>
-
         <a :href="'//'+site.domain" target="_blank">
             {{ site.name }}
         </a>

@@ -119,6 +119,15 @@ footer {
     .section-header {
       top: 0px;
       background-color: mix($color-background, $black, 90%);
+
+      .icon-web {
+        position: absolute;
+        right: 8px;
+        font-size: 1.2em;
+        color: $color-text-accent;
+        opacity: 1;
+        transition: all .3s ease;
+      }
     }
 
     .section-content {
@@ -129,15 +138,6 @@ footer {
     .site-container,
     .slack-invite {
       opacity: 0;
-      transition: all .3s ease;
-    }
-
-    .icon-web {
-      position: absolute;
-      right: 8px;
-      font-size: 1.2em;
-      color: $color-text-accent;
-      opacity: 1;
       transition: all .3s ease;
     }
 

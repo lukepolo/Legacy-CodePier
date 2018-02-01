@@ -73,16 +73,8 @@ Route::group([
 Route::group([
     'prefix' => 'webhook',
 ], function () {
-    Route::group([
-        'middleware' => 'checkMaxSites',
-    ], function () {
-        Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
-    });
-    Route::group([
-        'middleware' => 'checkMaxServers',
-    ], function () {
-        Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
-    });
+    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 

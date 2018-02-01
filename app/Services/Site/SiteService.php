@@ -140,10 +140,6 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        if (! $site->ssh_key_imported && $site->userRepositoryProvider) {
-            $this->repositoryService->importSshKey($site);
-        }
-
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
         foreach ($siteServerDeployment->events as $index => $event) {
@@ -195,7 +191,7 @@ class SiteService implements SiteServiceContract
      */
     private function getDeploymentService(Server $server, Site $site, SiteDeployment $siteDeployment = null)
     {
-        return new $this->deploymentServices[strtolower($site->type)]($this->remoteTaskService, $server, $site, $siteDeployment);
+        return new $this->deploymentServices[strtolower($site->type)]($this->remoteTaskService, $this->repositoryService, $server, $site, $siteDeployment);
     }
 
     /**
