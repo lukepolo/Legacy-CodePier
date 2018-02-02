@@ -20,8 +20,8 @@ class GitLabBuoy implements BuoyContract
      * @param array $ports
      * @param array $options
      *
-     * @buoy-ports GitLab Web:8080:80
      * @buoy-ports GitLab SSH:2222:22
+     * @buoy-ports GitLab Web:8008:80
      *
      * @return array Conatiner Ids
      */
@@ -30,16 +30,31 @@ class GitLabBuoy implements BuoyContract
         $this->remoteTaskService->run('docker run -d \
             --name gitlab \
             --hostname '.$this->server->ip.' \
-            --publish '.$ports[0].':80 --publish '.$ports[1].':22 \
+            --publish '.$ports[1].':80 --publish '.$ports[0].':22 \
             --restart always \
             -v /data/gitlab/config:/etc/gitlab \
             -v /data/gitlab/logs:/var/log/gitlab \
             -v /data/gitlab/data:/var/opt/gitlab \
             gitlab/gitlab-ce:latest');
 
+        $tries = 0;
+
+        while($tries < 50) {
+            if (! $this->remoteTaskService->isFileEmpty('/data/gitlab/config/gitlab.rb')) {
+                $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# external_url 'GENERATED_EXTERNAL_URL'", "external_url 'http://".$this->server->ip.':'.$ports[1]."'", true, '@');
+                $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# gitlab_rails\['gitlab_shell_ssh_port'] = 22", "gitlab_rails['gitlab_shell_ssh_port'] = ".$ports[0], true);
+                $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# gitlab_rails\['smtp_enable'] = true", "gitlab_rails['smtp_enable'] = true", true);
+                break;
+            }
+            
+            sleep(2);
+            $tries++;
+        }
+
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [
-            'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':'.$ports[0].'/ in order to access the web interface.',
-            'Helpful Hint: You can perform GitLab SSH operations via ' => $this->server->ip.':'.$ports[1],
+            'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':'.$ports[1].'/ in order to access the web interface.',
+            'You may perform GitLab SSH operations via' => $this->server->ip.':'.$ports[0],
+            'Please Note' => 'If you intend for this instance to be an internal tool, please be sure to disable open registration in the admin area.'
         ]));
 
         $this->openPorts($this->server, $ports, 'GitLab');
