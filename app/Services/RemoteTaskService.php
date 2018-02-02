@@ -236,7 +236,7 @@ echo \"Wrote\"", $read);
 
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
-        
+
         return $this->run("sed -i 's$delim.*$text.*$delim$replaceWithText$delim' $file");
     }
 

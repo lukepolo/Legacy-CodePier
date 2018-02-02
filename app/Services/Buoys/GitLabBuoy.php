@@ -39,14 +39,14 @@ class GitLabBuoy implements BuoyContract
 
         $tries = 0;
 
-        while($tries < 50) {
+        while ($tries < 50) {
             if (! $this->remoteTaskService->isFileEmpty('/data/gitlab/config/gitlab.rb')) {
                 $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# external_url 'GENERATED_EXTERNAL_URL'", "external_url 'http://".$this->server->ip.':'.$ports[1]."'", true, '@');
                 $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# gitlab_rails\['gitlab_shell_ssh_port'] = 22", "gitlab_rails['gitlab_shell_ssh_port'] = ".$ports[0], true);
                 $this->remoteTaskService->updateText('/data/gitlab/config/gitlab.rb', "# gitlab_rails\['smtp_enable'] = true", "gitlab_rails['smtp_enable'] = true", true);
                 break;
             }
-            
+
             sleep(2);
             $tries++;
         }
@@ -54,7 +54,7 @@ class GitLabBuoy implements BuoyContract
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [
             'Accessing Your Instance' => 'Your GitLab instance should be accessible shortly. Please navigate to: http://'.$this->server->ip.':'.$ports[1].'/ in order to access the web interface.',
             'You may perform GitLab SSH operations via' => $this->server->ip.':'.$ports[0],
-            'Please Note' => 'If you intend for this instance to be an internal tool, please be sure to disable open registration in the admin area.'
+            'Please Note' => 'If you intend for this instance to be an internal tool, please be sure to disable open registration in the admin area.',
         ]));
 
         $this->openPorts($this->server, $ports, 'GitLab');
