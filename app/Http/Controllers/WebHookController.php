@@ -210,14 +210,14 @@ class WebHookController extends Controller
         /** @var User $user */
         $user = $site->user;
 
-//        if ($user->subscribed()) {
-        dispatch(
-                (new BackupDatabases($site))
-                    ->onQueue(config('queue.channels.site_deployments'))
-            );
+        if ($user->subscribed()) {
+            dispatch(
+                    (new BackupDatabases($site))
+                        ->onQueue(config('queue.channels.site_deployments'))
+                );
 
-        return response()->json('OK');
-//        }
+            return response()->json('OK');
+        }
 
         return response()->json('You must be a subscriber to allow backups', 401);
     }

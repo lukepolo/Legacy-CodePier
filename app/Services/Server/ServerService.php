@@ -4,6 +4,7 @@ namespace App\Services\Server;
 
 use Carbon\Carbon;
 use App\Models\Bitt;
+use App\Models\Backup;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -565,22 +566,29 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     * @param array $databases
+     * @param string $title
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function backupDatabase(Server $server)
+    public function backupDatabases(Server $server, $databases = ['all'], $title = '')
     {
+        $title = !empty($title) ? $title.'_' : $title;
+
         $this->remoteTaskService->ssh($server);
 
         $s3 = \Storage::disk('do-spaces');
         $client = $s3->getDriver()->getAdapter()->getClient();
         $timestamp = Carbon::now()->getTimestamp();
-        $fileName = "{$server->name}_FULL-BACKUP_ALL_{$timestamp}.sql";
+
+        $databasesString = collect($databases)->implode('--');
+
+        $fileName = "{$title}{$server->name}_{$databasesString}_{$timestamp}.sql";
 
         $command = $client->getCommand('PutObject', [
             'Bucket' => config('filesystems.disks.do-spaces.bucket'),
-            'Key' => $fileName,
+            'Key' => 'backups/'.$fileName,
         ]);
 
         $request = $client->createPresignedRequest($command, '+20 minutes');
@@ -589,5 +597,13 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->run("mysqldump --user=root --password={$server->database_password} | gzip > $fileName");
         $this->remoteTaskService->run('curl "'.$presignedUrl.'" --upload '.$fileName);
+
+        $backup = Backup::create([
+            'name' => $fileName,
+            'type' => 'mysql',
+            'items' => $databases,
+        ]);
+
+        return $backup;
     }
 }
