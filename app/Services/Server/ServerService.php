@@ -6,6 +6,7 @@ use App\Models\Bitt;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
+use Carbon\Carbon;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
@@ -560,5 +561,33 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('echo \'codepier:'.$newSudoPassword.'\' | chpasswd');
+    }
+
+    /**
+     * @param Server $server
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function backupDatabase(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $s3 = \Storage::disk('do-spaces');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $timestamp = Carbon::now()->getTimestamp();
+        $fileName = "{$server->name}_FULL-BACKUP_ALL_{$timestamp}.sql";
+
+        $command = $client->getCommand('PutObject', [
+            'Bucket' => config('filesystems.disks.do-spaces.bucket'),
+            'Key' => $fileName
+        ]);
+
+        $request = $client->createPresignedRequest($command, '+20 minutes');
+
+        $presignedUrl = (string) $request->getUri();
+
+        $this->remoteTaskService->run("mysqldump --user=root --password={$server->database_password} | gzip > $fileName");
+        $this->remoteTaskService->run('curl "'.$presignedUrl.'" --upload '.$fileName);
     }
 }
