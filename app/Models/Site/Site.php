@@ -5,6 +5,7 @@ namespace App\Models\Site;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
+use App\Models\Backup;
 use App\Models\Daemon;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -189,6 +190,11 @@ class Site extends Model
     public function lifelines()
     {
         return $this->hasMany(Lifeline::class);
+    }
+
+    public function backups()
+    {
+        return $this->morphToMany(Backup::class, 'backupable');
     }
 
     /*

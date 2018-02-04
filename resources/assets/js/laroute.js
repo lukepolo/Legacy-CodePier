@@ -2275,6 +2275,41 @@
         {
           host: null,
           methods: ["GET", "HEAD"],
+          uri: "api/my/sites/{site}/schemaBackups",
+          name: "sites.schemaBackups.index",
+          action: "SiteSiteSchemaBackupsController@index"
+        },
+        {
+          host: null,
+          methods: ["POST"],
+          uri: "api/my/sites/{site}/schemaBackups",
+          name: "sites.schemaBackups.store",
+          action: "SiteSiteSchemaBackupsController@store"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
+          uri: "api/my/sites/{site}/schemaBackups/{schemaBackup}",
+          name: "sites.schemaBackups.show",
+          action: "SiteSiteSchemaBackupsController@show"
+        },
+        {
+          host: null,
+          methods: ["PUT", "PATCH"],
+          uri: "api/my/sites/{site}/schemaBackups/{schemaBackup}",
+          name: "sites.schemaBackups.update",
+          action: "SiteSiteSchemaBackupsController@update"
+        },
+        {
+          host: null,
+          methods: ["DELETE"],
+          uri: "api/my/sites/{site}/schemaBackups/{schemaBackup}",
+          name: "sites.schemaBackups.destroy",
+          action: "SiteSiteSchemaBackupsController@destroy"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
           uri: "api/my/sites/{site}/hooks",
           name: "sites.hooks.index",
           action: "SiteRepositoryRepositoryHookController@index"
@@ -3149,6 +3184,13 @@
           uri: "webhook/deploy/{siteHashId}",
           name: null,
           action: "WebHookController@deploy"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+          uri: "webhook/databaseBackups/{siteHashId}",
+          name: null,
+          action: "WebHookController@databaseBackups"
         },
         {
           host: null,

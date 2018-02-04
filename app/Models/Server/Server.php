@@ -5,6 +5,7 @@ namespace App\Models\Server;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
+use App\Models\Backup;
 use App\Models\Daemon;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -190,6 +191,11 @@ class Server extends Model
     public function languageSettings()
     {
         return $this->morphToMany(LanguageSetting::class, 'language_settingable');
+    }
+
+    public function backups()
+    {
+        return $this->morphToMany(Backup::class, 'backupable');
     }
 
     public function generateSudoPassword()

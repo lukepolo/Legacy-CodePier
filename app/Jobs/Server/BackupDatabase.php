@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server;
 
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -15,7 +16,10 @@ class BackupDatabase implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
+    private $title;
     private $server;
+    private $databases;
+    private $siteCommand;
 
     public $tries = 1;
     public $timeout = 300;
@@ -24,11 +28,21 @@ class BackupDatabase implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
+     * @param array $databases
+     * @param Command|null $siteCommand
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, $databases = [], Command $siteCommand = null)
     {
         $this->server = $server;
-//        $this->makeCommand($server, $server, null, 'Installing new server feature '.implode(' ', explode('_', snake_case($feature))).' on server');
+        $this->databases = $databases;
+        $this->siteCommand = $siteCommand;
+        $this->makeCommand($server, $server, $siteCommand, 'Backing up databases');
+
+        $this->title = '';
+
+        if(!empty($siteCommand)) {
+            $this->title = $siteCommand->site->name;
+        }
     }
 
     /**
@@ -39,6 +53,12 @@ class BackupDatabase implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $serverService->backupDatabase($this->server);
+        $this->runOnServer(function() use($serverService) {
+            $backup = $serverService->backupDatabases($this->server, empty($this->databases) ?: $this->databases, $this->title);
+            $this->server->backups()->save($backup);
+            if(!empty($this->siteCommand)) {
+                $this->siteCommand->site->backups()->save($backup);
+            }
+        });
     }
 }
