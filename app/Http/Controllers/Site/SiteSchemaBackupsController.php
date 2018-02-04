@@ -26,7 +26,8 @@ class SiteSchemaBackupsController extends Controller
      * @param $backupId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($siteId, $backupId) {
+    public function show($siteId, $backupId)
+    {
         $site = Site::findOrFail($siteId);
 
         $backup = $site->backups->where('id', $backupId)->first();

@@ -27,7 +27,6 @@ class CreateBackupsTable extends Migration
             $table->string('backupable_type');
             $table->index(['backup_id', 'backupable_id', 'backupable_type'], 'backupable_indexs');
         });
-
     }
 
     /**

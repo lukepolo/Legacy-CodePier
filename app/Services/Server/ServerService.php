@@ -577,7 +577,7 @@ class ServerService implements ServerServiceContract
      */
     public function backupDatabases(Server $server, $databases = ['all'], $title = '')
     {
-        $title = !empty($title) ? $title.'_' : $title;
+        $title = ! empty($title) ? $title.'_' : $title;
 
         $this->remoteTaskService->ssh($server);
 
