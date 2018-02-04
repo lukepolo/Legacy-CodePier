@@ -3,8 +3,8 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use App\Traits\ModelCommandTrait;
 use Illuminate\Bus\Queueable;
+use App\Traits\ModelCommandTrait;
 use App\Jobs\Server\BackupDatabase;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,7 +28,6 @@ class BackupDatabases implements ShouldQueue
     public function __construct(Site $site)
     {
         $this->site = $site;
-
     }
 
     /**
@@ -39,10 +38,9 @@ class BackupDatabases implements ShouldQueue
         $siteCommand = $this->makeCommand($this->site, $this->site, 'Backing Up Databases');
 
         foreach ($this->site->provisionedServers as $server) {
-
             $databases = [];
 
-            foreach($this->site->schemas as $schema) {
+            foreach ($this->site->schemas as $schema) {
                 $databases[] = $schema->name;
             }
 
