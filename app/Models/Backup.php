@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class Backup extends Model
@@ -11,7 +11,7 @@ class Backup extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'items' => 'array'
+        'items' => 'array',
     ];
 
     /*

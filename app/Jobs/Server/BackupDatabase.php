@@ -40,7 +40,7 @@ class BackupDatabase implements ShouldQueue
 
         $this->title = '';
 
-        if(!empty($siteCommand)) {
+        if (! empty($siteCommand)) {
             $this->title = $siteCommand->site->name;
         }
     }
@@ -53,10 +53,10 @@ class BackupDatabase implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function() use($serverService) {
+        $this->runOnServer(function () use ($serverService) {
             $backup = $serverService->backupDatabases($this->server, empty($this->databases) ?: $this->databases, $this->title);
             $this->server->backups()->save($backup);
-            if(!empty($this->siteCommand)) {
+            if (! empty($this->siteCommand)) {
                 $this->siteCommand->site->backups()->save($backup);
             }
         });
