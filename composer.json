@@ -23,6 +23,7 @@
         "laravel/passport": "4.0.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "lord/laroute": "^2.4.5",
         "mpociot/teamwork": "~5.0",
         "pda/pheanstalk": "^3.1",

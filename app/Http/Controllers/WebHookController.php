@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Site\BackupDatabases;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
@@ -198,5 +200,25 @@ class WebHookController extends Controller
         }
 
         return $stats;
+    }
+
+    public function databaseBackups($siteHashId)
+    {
+        $site = Site::with('userRepositoryProvider.repositoryProvider')
+            ->where('hash', $siteHashId)
+            ->firstOrFail();
+
+        /** @var User $user */
+        $user = $site->user;
+
+//        if ($user->subscribed()) {
+            dispatch(
+                (new BackupDatabases($site))
+                    ->onQueue(config('queue.channels.site_deployments'))
+            );
+            return response()->json('OK');
+//        }
+
+        return response()->json('You must be a subscriber to allow backups', 401);
     }
 }
