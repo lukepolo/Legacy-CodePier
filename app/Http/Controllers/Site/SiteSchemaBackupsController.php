@@ -36,7 +36,7 @@ class SiteSchemaBackupsController extends Controller
 
         $command = $client->getCommand('GetObject', [
             'Bucket' => config('filesystems.disks.do-spaces.bucket'),
-            'Key' => 'backups/'.$backup->name,
+            'Key' => $backup->name,
         ]);
 
         $request = $client->createPresignedRequest($command, '+20 minutes');
