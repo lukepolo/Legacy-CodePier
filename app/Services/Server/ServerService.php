@@ -568,6 +568,9 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param array $databases
      * @param string $title
+     *
+     * @return Backup
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
@@ -588,7 +591,7 @@ class ServerService implements ServerServiceContract
 
         $command = $client->getCommand('PutObject', [
             'Bucket' => config('filesystems.disks.do-spaces.bucket'),
-            'Key' => 'backups/'.$fileName,
+            'Key' => "backups/$fileName",
         ]);
 
         $request = $client->createPresignedRequest($command, '+20 minutes');
@@ -599,7 +602,7 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->run('curl "'.$presignedUrl.'" --upload '.$fileName);
 
         $backup = Backup::create([
-            'name' => $fileName,
+            'name' => "backups/$fileName",
             'type' => 'mysql',
             'items' => $databases,
         ]);
