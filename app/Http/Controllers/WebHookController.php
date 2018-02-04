@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Site\BackupDatabases;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
+use App\Jobs\Site\BackupDatabases;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
@@ -212,11 +211,12 @@ class WebHookController extends Controller
         $user = $site->user;
 
 //        if ($user->subscribed()) {
-            dispatch(
+        dispatch(
                 (new BackupDatabases($site))
                     ->onQueue(config('queue.channels.site_deployments'))
             );
-            return response()->json('OK');
+
+        return response()->json('OK');
 //        }
 
         return response()->json('You must be a subscriber to allow backups', 401);

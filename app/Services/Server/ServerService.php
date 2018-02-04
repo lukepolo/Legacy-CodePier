@@ -2,11 +2,11 @@
 
 namespace App\Services\Server;
 
+use Carbon\Carbon;
 use App\Models\Bitt;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
-use Carbon\Carbon;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
@@ -580,7 +580,7 @@ class ServerService implements ServerServiceContract
 
         $command = $client->getCommand('PutObject', [
             'Bucket' => config('filesystems.disks.do-spaces.bucket'),
-            'Key' => $fileName
+            'Key' => $fileName,
         ]);
 
         $request = $client->createPresignedRequest($command, '+20 minutes');
