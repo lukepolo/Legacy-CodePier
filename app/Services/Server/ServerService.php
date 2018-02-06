@@ -566,59 +566,55 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param array $databases
      * @param string $title
-     *
+     * @param string $type
+     * @param string $database
+
      * @return Backup
      *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function backupDatabases(Server $server, $title, $database, $type)
+    public function backupDatabases(Server $server, $title, $type, $database)
     {
         $title = ! empty($title) ? $title.'_' : $title;
 
         $this->remoteTaskService->ssh($server);
 
-        $s3 = \Storage::disk('do-spaces');
-        $client = $s3->getDriver()->getAdapter()->getClient();
-        $timestamp = Carbon::now()->getTimestamp();
-
-        $fileName = "{$title}{$server->name}_{$database}_{$timestamp}.sql";
-
-        $command = $client->getCommand('PutObject', [
-            'Bucket' => config('filesystems.disks.do-spaces.bucket'),
-            'Key' => "backups/$fileName",
-        ]);
-
-        $request = $client->createPresignedRequest($command, '+5 minutes');
-
-        $presignedUrl = (string) $request->getUri();
+        $fileName = "{$title}{$server->name}_{$database}_".Carbon::now()->getTimestamp().".";
 
         switch($type) {
             case 'MySQL' :
             case 'MariaDB':
+                $fileName .= 'sql';
+
                 if($database === 'all') {
                     $databasesString = '--all-databases';
                 } else {
                     $databasesString = "--databases $database";
                 }
-
                 $this->remoteTaskService->run("mysqldump --user=codepier --password={$server->database_password} --single-transaction {$databasesString} | gzip -c > $fileName");
             break;
             case 'PostgreSQL' :
-                $this->remoteTaskService->run("pg_dump --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432/$database | gzip -c > $fileName");
+                $fileName .= 'sqlc';
+                if($database === 'all') {
+                    $this->remoteTaskService->run("pg_dumpall --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432 | gzip -c > $fileName");
+                } else {
+                    $this->remoteTaskService->run("pg_dump --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432/$database | gzip -c > $fileName");
+                }
                 break;
             case 'MongoDB' :
-                $this->remoteTaskService->run("mongodump --archive=$fileName --gzip --db $database");
-                break;
-            default :
-                dd($type.' IS NOT DONE');
+                $fileName .= 'gz';
+                if($database === 'all') {
+                    $this->remoteTaskService->run("mongodump --archive=$fileName --gzip");
+                } else {
+                    $this->remoteTaskService->run("mongodump --archive=$fileName --gzip --db $database");
+                }
                 break;
         }
 
-        $this->remoteTaskService->run("curl '$presignedUrl' --upload-file $fileName");
+        $this->remoteTaskService->run("curl '".create_pre_signed_s3("backups/$fileName")."' --upload-file $fileName");
         $this->remoteTaskService->run("rm $fileName");
 
         $backup = Backup::create([
