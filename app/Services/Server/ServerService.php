@@ -596,10 +596,10 @@ class ServerService implements ServerServiceContract
 
         $presignedUrl = (string) $request->getUri();
 
-        switch($type) {
-            case 'MySQL' :
+        switch ($type) {
+            case 'MySQL':
             case 'MariaDB':
-                if($database === 'all') {
+                if ($database === 'all') {
                     $databasesString = '--all-databases';
                 } else {
                     $databasesString = "--databases $database";
@@ -607,13 +607,13 @@ class ServerService implements ServerServiceContract
 
                 $this->remoteTaskService->run("mysqldump --user=codepier --password={$server->database_password} --single-transaction {$databasesString} | gzip -c > $fileName");
             break;
-            case 'PostgreSQL' :
+            case 'PostgreSQL':
                 $this->remoteTaskService->run("pg_dump --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432/$database | gzip -c > $fileName");
                 break;
-            case 'MongoDB' :
+            case 'MongoDB':
                 $this->remoteTaskService->run("mongodump --archive=$fileName --gzip --db $database");
                 break;
-            default :
+            default:
                 dd($type.' IS NOT DONE');
                 break;
         }
