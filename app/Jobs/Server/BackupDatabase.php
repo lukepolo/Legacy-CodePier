@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Server;
 
-use App\Models\Command;
 use App\Models\Schema;
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -56,7 +56,7 @@ class BackupDatabase implements ShouldQueue
     {
         $this->runOnServer(function () use ($serverService) {
             /** @var Schema $database */
-            foreach($this->databases as $database) {
+            foreach ($this->databases as $database) {
                 $backup = $serverService->backupDatabases($this->server, $this->title, $database->database, $database->name);
                 $this->server->backups()->save($backup);
                 if (! empty($this->siteCommand)) {
