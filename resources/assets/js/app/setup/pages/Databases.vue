@@ -62,7 +62,8 @@ export default {
             if (
               database === "MariaDB" ||
               database === "PostgreSQL" ||
-              database === "MySQL"
+              database === "MySQL" ||
+              database === "MongoDB"
             ) {
               return options.enabled;
             }

@@ -18,6 +18,7 @@ class CreateBackupsTable extends Migration
             $table->string('name');
             $table->json('items');
             $table->string('type');
+            $table->bigInteger('size');
             $table->timestamps();
         });
 
