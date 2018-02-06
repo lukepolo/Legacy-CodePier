@@ -57,7 +57,7 @@ class BackupDatabase implements ShouldQueue
         $this->runOnServer(function () use ($serverService) {
             /** @var Schema $database */
             foreach($this->databases as $database) {
-                $backup = $serverService->backupDatabases($this->server, $this->title, $database->name, $database->database);
+                $backup = $serverService->backupDatabases($this->server, $this->title, $database->database, $database->name);
                 $this->server->backups()->save($backup);
                 if (! empty($this->siteCommand)) {
                     $this->siteCommand->site->backups()->save($backup);
