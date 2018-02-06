@@ -569,7 +569,7 @@ class ServerService implements ServerServiceContract
      * @param string $title
      * @param string $type
      * @param string $database
-
+     *
      * @return Backup
      *
      * @throws FailedCommand
@@ -582,31 +582,31 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->ssh($server);
 
-        $fileName = "{$title}{$server->name}_{$database}_".Carbon::now()->getTimestamp().".";
+        $fileName = "{$title}{$server->name}_{$database}_".Carbon::now()->getTimestamp().'.';
 
-        switch($type) {
-            case 'MySQL' :
+        switch ($type) {
+            case 'MySQL':
             case 'MariaDB':
                 $fileName .= 'sql';
 
-                if($database === 'all') {
+                if ($database === 'all') {
                     $databasesString = '--all-databases';
                 } else {
                     $databasesString = "--databases $database";
                 }
                 $this->remoteTaskService->run("mysqldump --user=codepier --password={$server->database_password} --single-transaction {$databasesString} | gzip -c > $fileName");
             break;
-            case 'PostgreSQL' :
+            case 'PostgreSQL':
                 $fileName .= 'sqlc';
-                if($database === 'all') {
+                if ($database === 'all') {
                     $this->remoteTaskService->run("pg_dumpall --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432 | gzip -c > $fileName");
                 } else {
                     $this->remoteTaskService->run("pg_dump --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432/$database | gzip -c > $fileName");
                 }
                 break;
-            case 'MongoDB' :
+            case 'MongoDB':
                 $fileName .= 'gz';
-                if($database === 'all') {
+                if ($database === 'all') {
                     $this->remoteTaskService->run("mongodump --archive=$fileName --gzip");
                 } else {
                     $this->remoteTaskService->run("mongodump --archive=$fileName --gzip --db $database");
