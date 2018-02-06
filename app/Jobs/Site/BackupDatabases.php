@@ -41,7 +41,7 @@ class BackupDatabases implements ShouldQueue
             $databases = [];
 
             foreach ($this->site->schemas as $schema) {
-                $databases[] = $schema->name;
+                $databases[] = $schema;
             }
 
             dispatch(
