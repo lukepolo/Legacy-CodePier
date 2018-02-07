@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="pricing--item selected">
-                    <div class="pricing--banner">Early Bird Speical!</div>
+                    <div class="pricing--banner">Early Bird Special!</div>
                     <div class="pricing--header">
                         <div class="pricing--header-name">First Mate</div>
                         <div class="pricing--header-price">$19<small>/ month</small></div>
