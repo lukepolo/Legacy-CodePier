@@ -14,7 +14,6 @@ use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\URL;
 use App\Observers\Site\SiteObserver;
-use Illuminate\Support\Facades\Blade;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
