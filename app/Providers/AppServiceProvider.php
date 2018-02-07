@@ -36,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::doubleEncode();
-
         Passport::tokensCan([
             'create-custom-server' => 'Allows creation of a custom server',
         ]);
