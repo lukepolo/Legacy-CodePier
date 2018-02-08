@@ -54,7 +54,6 @@ class Controller extends BaseController
         return response()->redirect('/login');
     }
 
-
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
