@@ -68,16 +68,7 @@
                     </div>
                 </confirm>
 
-                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"
-                        confirm_class="btn-link btn-link-danger"
-                        confirm_position="bottom"
-                        confirm_message="Delete Site"
-                        confirm_text="Delete Site"
-                >
-                    <tooltip message="Delete Site" placement="bottom">
-                        <span class="icon-trash"></span>
-                    </tooltip>
-                </confirm>
+                <!--<delete-site :site="site"></delete-site>-->
 
                 <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>
@@ -155,7 +146,7 @@
                 </template>
             </template>
 
-            <drop-down tag="span">
+            <drop-down tag="span" v-if="!site.user_repository_provider_id">
                 <div class="grid--item" slot="header">
                     <div class="providers--item">
                         <div class="providers--item-header">
@@ -175,7 +166,7 @@
                         <confirm-dropdown dispatch="user_site_ssh_keys/refreshPublicKey" :params="site.id">
                             Public SSH Key &nbsp;
                             <tooltip message="Refresh SSH Key">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
@@ -213,7 +204,7 @@
                         <confirm-dropdown dispatch="user_site_deployments/refreshDeployKey" :params="site.id">
                             Deploy Hook URL &nbsp;
                             <tooltip message="Refresh Deploy Key">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
@@ -230,6 +221,24 @@
 
                 </div>
             </drop-down>
+
+            <template>
+                <div class="grid--item">
+                    <div class="providers--item">
+                        <div class="providers--item-header">
+                            <div class="providers--item-icon">
+                                <span class="icon-database"></span>
+                            </div>
+                        </div>
+                        <div class="providers--item-footer">
+                            <div class="providers--item-footer-connect">
+                                <h4>Enable Database Backups</h4>
+                                <small>Coming Soon!</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
 
         <div class="grid-2 grid-gap-large">
@@ -278,6 +287,8 @@
 
 <script>
 import LifeLines from "./../components/Lifelines";
+import DeleteSite from './../components/DeleteSite';
+
 export default {
   data() {
     return {
@@ -295,7 +306,8 @@ export default {
     };
   },
   components: {
-    LifeLines
+    LifeLines,
+    DeleteSite,
   },
   created() {
     this.fetchData();

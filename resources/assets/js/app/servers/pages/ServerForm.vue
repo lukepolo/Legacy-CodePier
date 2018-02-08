@@ -97,10 +97,10 @@
                             <div class="flyform--footer">
                                 <div class="flyform--footer-links">
                                     <h3 v-if="$route.params.site_id">
-                                        <tooltip message="We have configured your server based on your application language and framework." size="large">
+                                        <tooltip message="We have configured your server based on your site language and framework." size="large">
                                             <span class="fa fa-info-circle"></span>
                                         </tooltip>
-                                        Your server has been customized for your application<br>
+                                        Your server has been customized for your site<br>
                                         <small>
                                             <a @click="customize_server = !customize_server">Customize Server Settings (Advanced Users)</a>
                                         </small>

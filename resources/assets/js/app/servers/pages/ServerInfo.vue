@@ -22,7 +22,7 @@
                         <confirm-dropdown dispatch="user_servers/refreshSudoPassword" :params="{ server : server.id }">
                             sudo Password
                             <tooltip message="Refresh Sudo Password">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>

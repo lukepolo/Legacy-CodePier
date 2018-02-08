@@ -1,7 +1,7 @@
 <template>
     <div v-if="site">
         <h3 class="section-header">
-            Servers
+            Attached Servers
 
             <div class="section-header--btn-right" v-if="siteServers && siteServers.length || availableServers.length">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
@@ -9,7 +9,7 @@
                     <template v-if="availableServers.length">
                         <li>
                             <a href="#" @click.prevent="connectServers = !connectServers">
-                                <span class="icon-server"></span> Attached Servers
+                                <span class="icon-server"></span> Attach a provisioned server
                             </a>
                         </li>
                     </template>
@@ -98,7 +98,7 @@
                    <div class="jcf-form-wrap">
                        <div class="jcf-input-group">
                            <h5 class="section-header--secondary">
-                               Please fill out your <br>site information before creating a server
+                               Please fill out your <br>app requirements before creating a server
                            </h5>
                        </div>
                    </div>
@@ -130,7 +130,10 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
+    siteServers : function() {
+      this.resetAttachedServers();
+    }
   },
   methods: {
     fetchData() {
@@ -174,6 +177,11 @@ export default {
     },
     attachServersText() {
       let serverCount = this.form.connected_servers.length;
+
+      if(this.siteServers && serverCount < this.siteServers.length) {
+        return 'Update Attached';
+      }
+
       return (
         "Attach " + _("server").pluralize(serverCount > 0 ? serverCount : 1)
       );

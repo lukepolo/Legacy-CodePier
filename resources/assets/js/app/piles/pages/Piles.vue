@@ -5,13 +5,42 @@
             <h3 class="section-header primary">My Piles</h3>
             <div class="section-content">
                 <div class="container">
-                    <template v-if="!hasSites">
-                        <h1>Welcome. Let's Get Started.</h1>
-                        <p class="info">
-                            Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.
-                            To get started create a site.
+
+                    <!--<template v-if="!hasSites">-->
+                    <modal>
+                        <h1>Welcome!</h1>
+
+                        <p>
+                            CodePier is designed to easily deploy sites based off its requirements. So we start off by
+                            creating a site, setup its necessary requirements , attach a server, and then we can deploy and scale easily.
                         </p>
-                    </template>
+
+                        <h3>Getting Started</h3>
+                        <div>
+                            Here are the basic steps to get you going :
+                            <ol>
+                                <li>Create your site in a pile</li>
+                                <li>Enter your repository details</li>
+                                <li>Follow the setup wizard to help you fill in your sites requirements</li>
+                                <li>Select the server type that suits your site</li>
+                                <li>Deploy your site</li>
+                            </ol>
+                        </div>
+
+                        <h3>Getting Help</h3>
+                        <p>
+                            Click on the "<i class="fa fa-gear"></i>" icon, and select "Get Help", this will prompt you with a CodePier support <strong>developer</strong>, that's right a developer.
+                        </p>
+
+                        Now get out there and start deploying!
+                    </modal>
+                    <!--</template>-->
+
+                    <p class="info">
+                        Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.
+                        To get started create a site.
+                    </p>
+
                     <div class="group">
                         <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" :key="pile.id" v-for="(pile, index) in piles"></pile>
                         <div class="group--item">

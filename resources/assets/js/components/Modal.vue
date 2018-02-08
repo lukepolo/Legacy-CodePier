@@ -1,5 +1,7 @@
 <template>
-  <portal to="right-panel">
-    <slot />
+  <portal to="modal">
+    <div class="modal">
+      <slot />
+    </div>
   </portal>
-</template>;
+</template>

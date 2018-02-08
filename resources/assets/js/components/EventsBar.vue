@@ -1,10 +1,10 @@
 <template>
     <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div id="drag" class="events--drag"></div>
-        <div class="header events--header">
+        <div id="drag" class="events--drag header events--header">
             <h4>
+                <i class="fa fa-bars"></i>
                 <a class="toggle" @click="showEvents = !showEvents">
-                    <span class="icon-warning"></span> Events
+                    <span class="icon-arrow-up"></span> Events
                 </a>
             </h4>
         </div>
