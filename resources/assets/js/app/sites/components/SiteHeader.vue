@@ -5,6 +5,8 @@
             {{ site.name }}
         </a>
 
+        <delete-site :site="site"></delete-site>
+
         <div class="section-header--btn-right">
 
             <drop-down tag="span" v-if="siteServers">
@@ -15,16 +17,16 @@
 
                 <ul slot="content" class="dropdown-menu nowrap dropdown-list">
                     <li>
-                        <confirm-dropdown dispatch="user_site_services/restartWebServices" :params="site.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_site_services/restartWebServices" :params="site.id"><a @click.prevent href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="user_site_services/restartServers" :params="site.id"><a href="#"><span class="icon-server"></span> Restart Servers</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_site_services/restartServers" :params="site.id"><a @click.prevent href="#"><span class="icon-server"></span> Restart Servers</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="user_site_services/restartDatabases" :params="site.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_site_services/restartDatabases" :params="site.id"><a @click.prevent href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="user_site_services/restartWorkers" :params="site.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_site_services/restartWorkers" :params="site.id"><a @click.prevent href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
                     </li>
                 </ul>
 
@@ -55,7 +57,12 @@
 </template>
 
 <script>
+import DeleteSite from './../components/DeleteSite';
+
 export default {
+  components :{
+    DeleteSite
+  },
   computed: {
     site() {
       return this.$store.state.user_sites.site;

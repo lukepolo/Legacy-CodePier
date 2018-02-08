@@ -2,6 +2,33 @@
 
     <section id="left" class="section-column" v-if="hasSites">
 
+
+
+        <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
+            <li>
+                <span class="dropdown-heading">Change Pile</span>
+            </li>
+            <template v-for="pile in piles">
+                <li>
+                    <a @click="changePile(pile.id)"
+                       :class="{ selected : (currentPile && currentPile.id === pile.id) }">
+                        <span class="icon-layers"></span>
+
+                        <template v-if="pile.name && pile.name.length > 18">
+                            <tooltip :message="pile.name" placement="bottom">
+                                <span  class="text-clip">{{ pile.name }}</span>
+                            </tooltip>
+                        </template>
+                        <template v-else>
+                            <span  class="text-clip">{{ pile.name }}</span>
+                        </template>
+
+                    </a>
+                </li>
+            </template>
+        </drop-down>
+
+
         <h3 class="section-header">
             <template v-if="currentPile.name && currentPile.name.length > 17">
                 <tooltip :message="currentPile.name" placement="bottom-right">
@@ -54,13 +81,22 @@ export default {
     Site,
     SiteForm
   },
-
+    methods : {
+      changePile(pile_id) {
+        this.$store.dispatch("user_piles/change", pile_id);
+      }
+    },
   computed: {
     userSshKeys() {
       return this.$store.state.user_ssh_keys.ssh_keys;
     },
+    piles() {
+      return this.$store.state.user_piles.piles;
+    },
     currentPile() {
-      return this.getPile(this.$store.state.user.user.current_pile_id);
+      if (this.user) {
+        return this.getPile(this.user.current_pile_id);
+      }
     },
     user() {
       return this.$store.state.user.user;
