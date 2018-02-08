@@ -287,7 +287,7 @@
 
 <script>
 import LifeLines from "./../components/Lifelines";
-import DeleteSite from './../components/DeleteSite';
+import DeleteSite from "./../components/DeleteSite";
 
 export default {
   data() {
@@ -307,7 +307,7 @@ export default {
   },
   components: {
     LifeLines,
-    DeleteSite,
+    DeleteSite
   },
   created() {
     this.fetchData();
