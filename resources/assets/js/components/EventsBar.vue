@@ -1,5 +1,5 @@
 <template>
-    <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+    <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div id="drag" class="events--drag header events--header">
             <h4>
                 <i class="fa fa-bars"></i>
@@ -8,7 +8,7 @@
                 </a>
             </h4>
         </div>
-        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
+        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
             <ul class="filter">
                 <li class="filter--label">
                     <span>Event Filters</span>
@@ -135,6 +135,7 @@ Vue.directive("watch-scroll", {
 });
 
 export default {
+  props : ['fullScreen'],
   components: {
     EventFilter,
     CommandEvent,
