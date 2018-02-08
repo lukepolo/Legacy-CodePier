@@ -38,6 +38,23 @@ class Controller extends BaseController
         return view('landing.index');
     }
 
+    public function appEventsBar(Request $request)
+    {
+        if (\Auth::check()) {
+            return (new VerifySecondAuth)->handle(
+                $request,
+                function () {
+                    return view('eventsBar', [
+                        'user' => \Auth::user(),
+                    ]);
+                }
+            );
+        }
+
+        return response()->redirect('/login');
+    }
+
+
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
