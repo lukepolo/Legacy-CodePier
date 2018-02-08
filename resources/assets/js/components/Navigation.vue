@@ -116,7 +116,7 @@ export default {
     },
     changeTeam(teamID) {
       this.$store.dispatch("changeTeams", teamID);
-    },
+    }
   }
 };
 </script>

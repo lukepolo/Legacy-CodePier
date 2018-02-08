@@ -131,7 +131,7 @@ export default {
   },
   watch: {
     $route: "fetchData",
-    siteServers : function() {
+    siteServers: function() {
       this.resetAttachedServers();
     }
   },
@@ -178,8 +178,8 @@ export default {
     attachServersText() {
       let serverCount = this.form.connected_servers.length;
 
-      if(this.siteServers && serverCount < this.siteServers.length) {
-        return 'Update Attached';
+      if (this.siteServers && serverCount < this.siteServers.length) {
+        return "Update Attached";
       }
 
       return (

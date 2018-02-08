@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import DeleteSite from './../components/DeleteSite';
+import DeleteSite from "./../components/DeleteSite";
 
 export default {
-  components :{
+  components: {
     DeleteSite
   },
   computed: {

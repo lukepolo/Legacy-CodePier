@@ -81,11 +81,11 @@ export default {
     Site,
     SiteForm
   },
-    methods : {
-      changePile(pile_id) {
-        this.$store.dispatch("user_piles/change", pile_id);
-      }
-    },
+  methods: {
+    changePile(pile_id) {
+      this.$store.dispatch("user_piles/change", pile_id);
+    }
+  },
   computed: {
     userSshKeys() {
       return this.$store.state.user_ssh_keys.ssh_keys;

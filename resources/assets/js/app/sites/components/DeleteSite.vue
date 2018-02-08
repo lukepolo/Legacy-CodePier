@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    export default {
-        props : ['site']
-    }
+export default {
+  props: ["site"]
+};
 </script>
