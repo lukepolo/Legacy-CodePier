@@ -104,6 +104,26 @@
         padding: $spacing;
         position: relative;
     }
+
+    .dropdown-toggle {
+        color: rgba($color-text-primary, .5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            color: $color-text-accent;
+        }
+
+        [class^="icon-"], [class*=" icon-"] {
+            margin-right: 5px;
+        }
+    }
+
+    .dropdown-menu {
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 // SECTION CONTENT

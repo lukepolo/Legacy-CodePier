@@ -4,7 +4,7 @@
 
 
 
-        <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
+        <drop-down tag="h3" :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="section-header">
             <li>
                 <span class="dropdown-heading">Change Pile</span>
             </li>
