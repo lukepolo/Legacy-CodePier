@@ -1,9 +1,10 @@
 <template>
     <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div id="drag" class="events--drag header events--header">
+        <div class="events--drag header events--header">
+            <div id="drag"></div>
             <h4>
-                <i class="fa fa-bars"></i>
                 <a class="toggle" @click="showEvents = !showEvents">
+                    <i id="dragIcon" class="fa fa-bars"></i>
                     <span class="icon-arrow-up"></span> Events
                 </a>
             </h4>
@@ -69,11 +70,17 @@ Vue.directive("resizeable", {
     const container = el;
     const bottom = document.getElementById("collapseEvents");
     const handle = document.getElementById("drag");
+    const dragIcon = document.getElementById("dragIcon");
 
     let isResizing = false;
     let lastOffset = null;
 
     handle.onmousedown = () => {
+      isResizing = true;
+      bottom.classList.add("dragging");
+    };
+
+    dragIcon.onmousedown = () => {
       isResizing = true;
       bottom.classList.add("dragging");
     };
