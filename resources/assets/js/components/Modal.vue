@@ -1,7 +1,9 @@
 <template>
   <portal to="modal">
     <div class="modal">
-      <slot />
+      <div class="modal--content">
+        <slot />
+      </div>
     </div>
   </portal>
 </template>
