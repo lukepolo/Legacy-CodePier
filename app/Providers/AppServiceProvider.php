@@ -39,10 +39,6 @@ class AppServiceProvider extends ServiceProvider
             'create-custom-server' => 'Allows creation of a custom server',
         ]);
 
-        if ($this->app->environment() != 'production') {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-        }
-
         User::observe(UserObserver::class);
         Site::observe(SiteObserver::class);
         Server::observe(ServerObserver::class);
