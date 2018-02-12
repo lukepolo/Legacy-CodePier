@@ -24,6 +24,7 @@
         "phpseclib/phpseclib": "^2.0",
         "pragmarx/google2fa": "^2.0",
         "predis/predis": "^1.1",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "pusher/pusher-php-server": "^3.0",
         "sentry/sentry-laravel": "^0.8.0",
         "socialiteproviders/digitalocean": "^3.0",
@@ -35,7 +36,6 @@
         "vinkla/hashids": "^4.0.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
@@ -61,6 +61,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "barryvdh/laravel-ide-helper"
             ]
         }
     },
