@@ -1,13 +1,20 @@
 <template>
     <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div class="events--drag header events--header">
-            <div id="drag"></div>
-            <h4>
-                <a class="toggle" @click="showEvents = !showEvents">
+            <div id="drag" @click="showEvents = !showEvents"></div>
+            <div class="toggle" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }">
+                <div class="toggle-left">
                     <i id="dragIcon" class="fa fa-bars"></i>
-                    <span class="icon-arrow-up"></span> Events
-                </a>
-            </h4>
+
+                    <a class="events--open">Open in Separate Window</a>
+                </div>
+
+                <div class="toggle-right" @click="showEvents = !showEvents">
+                    <h4>
+                        <span class="icon-arrow-up"></span> Events
+                    </h4>
+                </div>
+            </div>
         </div>
         <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
             <ul class="filter">
