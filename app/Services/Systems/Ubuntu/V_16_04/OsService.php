@@ -56,7 +56,6 @@ class OsService
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh');
 
         if (config('app.env') === 'local') {
-            dump('Root Password : '.$rootPassword);
             $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', env('DEV_SSH_KEY'));
         }
 
