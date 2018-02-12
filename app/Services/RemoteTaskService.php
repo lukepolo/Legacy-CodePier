@@ -217,21 +217,27 @@ echo \"Wrote\"", $read);
      * @param $file
      * @param $text
      * @param $replaceWithText
+     * @param $double
+     * @param $delim
      * @return string
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function updateText($file, $text, $replaceWithText)
+    public function updateText($file, $text, $replaceWithText, $double = false, $delim = '/')
     {
         if (! $this->doesFileHaveLine($file, $text)) {
             \Log::critical($file.' does not contain'.$text);
         }
 
+        if ($double == true) {
+            return $this->run('sed -i "s'.$delim.'.*'.$text.'.*'.$delim.$replaceWithText.$delim.'" '.$file);
+        }
+
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
 
-        return $this->run("sed -i 's/.*$text.*/$replaceWithText/' $file");
+        return $this->run("sed -i 's$delim.*$text.*$delim$replaceWithText$delim' $file");
     }
 
     /**
