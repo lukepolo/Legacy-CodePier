@@ -61,7 +61,6 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "barryvdh/laravel-ide-helper"
             ]
         }
     },
