@@ -159,9 +159,6 @@ export default {
       })
     };
   },
-  created() {
-    this.fetchData();
-  },
   mounted() {
     this.$nextTick(function() {
       window.addEventListener("resize", this.getWindowWidth);
@@ -179,10 +176,6 @@ export default {
     }
   },
   methods: {
-    fetchData() {
-      this.$store.dispatch("events/get");
-      this.$store.dispatch("user_servers/get");
-    },
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
     }
