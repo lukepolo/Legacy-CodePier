@@ -11,9 +11,6 @@
                         <template v-if="siteId">
                             <input type="hidden" name="site" :value="siteId">
                         </template>
-                        <template v-else>
-                            <input type="hidden" name="pile_id" :value="pile">
-                        </template>
 
                         <template v-if="$route.params.type">
                             <input type="hidden" name="type" :value="$route.params.type">
@@ -180,11 +177,9 @@ export default {
         .then(server => {
           if (server.id) {
             if (this.siteId) {
-              this.$store.dispatch("user_sites/show", this.siteId).then(() => {
-                app.$router.push({
-                  name: "site_overview",
-                  params: { site_id: this.siteId }
-                });
+              app.$router.push({
+                name: "site_overview",
+                params: { site_id: this.siteId }
               });
             } else {
               app.$router.push("/");
