@@ -172,6 +172,7 @@ export default {
       let siteId = this.$route.params.site_id;
       if (!this.site || this.site.id !== parseInt(siteId)) {
         this.$store.dispatch("user_sites/show", siteId);
+        this.$store.dispatch("user_site_servers/get", siteId);
       } else {
         this.checkRedirect();
       }

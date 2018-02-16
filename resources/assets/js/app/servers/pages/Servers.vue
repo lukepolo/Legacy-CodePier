@@ -117,8 +117,10 @@ export default {
       showArchive: false
     };
   },
-  created() {
-    this.$store.dispatch("user_servers/getTrashed");
+  watch: {
+    showArchive: function() {
+      this.$store.dispatch("user_servers/getTrashed");
+    }
   },
   computed: {
     servers() {

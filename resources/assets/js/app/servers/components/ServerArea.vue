@@ -54,6 +54,7 @@ export default {
     fetchData() {
       let serverId = this.$route.params.server_id;
       if (!this.server || this.server.id !== parseInt(serverId)) {
+        // TODO - we can remove after we put events out
         this.$store.dispatch("user_servers/show", serverId);
       }
     }
