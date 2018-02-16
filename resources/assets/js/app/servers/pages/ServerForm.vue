@@ -177,11 +177,9 @@ export default {
         .then(server => {
           if (server.id) {
             if (this.siteId) {
-              this.$store.dispatch("user_sites/show", this.siteId).then(() => {
-                app.$router.push({
-                  name: "site_overview",
-                  params: { site_id: this.siteId }
-                });
+              app.$router.push({
+                name: "site_overview",
+                params: { site_id: this.siteId }
               });
             } else {
               app.$router.push("/");
