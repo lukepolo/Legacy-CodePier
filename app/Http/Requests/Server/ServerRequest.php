@@ -31,7 +31,6 @@ class ServerRequest extends FormRequest
             'services' => 'required',
             'server_region' => 'required_without:custom|integer',
             'server_option' => 'required_without:custom|integer',
-            'pile_id' => 'required_without:site',
             'site' => 'integer',
             'type' => [new ServerType],
         ];

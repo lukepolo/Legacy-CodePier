@@ -11,9 +11,6 @@
                         <template v-if="siteId">
                             <input type="hidden" name="site" :value="siteId">
                         </template>
-                        <template v-else>
-                            <input type="hidden" name="pile_id" :value="pile">
-                        </template>
 
                         <template v-if="$route.params.type">
                             <input type="hidden" name="type" :value="$route.params.type">

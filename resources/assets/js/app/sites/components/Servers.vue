@@ -9,7 +9,7 @@
                     <template v-if="availableServers.length">
                         <li>
                             <a href="#" @click.prevent="connectServers = !connectServers">
-                                <span class="icon-server"></span> Attached Servers
+                                <span class="icon-server"></span> Attached Servers whaaa?
                             </a>
                         </li>
                     </template>
@@ -91,6 +91,13 @@
                    <template v-else>
                        <h3 class="section-header--secondary">Lets create your first Server</h3>
                        <server-create-list classes="btn"></server-create-list>
+                       <template v-if="availableServers.length">
+                           <li>
+                               <a href="#" @click.prevent="connectServers = !connectServers">
+                                   <span class="icon-server"></span> Attached Servers whaaa?
+                               </a>
+                           </li>
+                       </template>
                    </template>
                </template>
 
@@ -164,10 +171,7 @@ export default {
     },
     availableServers() {
       return _.filter(this.$store.state.user_servers.servers, server => {
-        if (
-          server.progress >= 100 &&
-          server.pile_id === this.user.current_pile_id
-        ) {
+        if (server.progress >= 100) {
           return true;
         }
       });
