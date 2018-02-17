@@ -13,13 +13,13 @@ trait DeployTrait
 {
     public $release;
     public $releaseTime;
+    public $rollback = false;
 
     private $site;
     private $branch;
     private $server;
     private $siteFolder;
     private $repository;
-    private $rollback = false;
     private $remoteTaskService;
     private $repositoryService;
     private $repositoryProvider;
@@ -77,6 +77,10 @@ trait DeployTrait
         }
     }
 
+    public function rollback() {
+        $this->setupFolders();
+    }
+
     /**
      * @description Updates the repository from the provider.
      *
@@ -88,46 +92,44 @@ trait DeployTrait
     {
         $output = [];
 
-        if (! $this->rollback) {
-            $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
+        $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
 
-            $loadSshKeyCommand = '';
+        $loadSshKeyCommand = '';
 
-            if ($this->repositoryProvider) {
-                $token = $this->repositoryService->getToken($this->site->userRepositoryProvider);
+        if ($this->repositoryProvider) {
+            $token = $this->repositoryService->getToken($this->site->userRepositoryProvider);
 
-                switch ($this->repositoryProvider->name) {
-                    case 'Bitbucket':
-                        $url = "https://x-token-auth:{{$token}}@bitbucket.org/{$this->repository}.git";
-                        break;
-                    case 'GitHub':
-                        $url = "https://{$token}@github.com/{$this->repository}.git";
-                        break;
-                    case 'GitLab':
-                        $url = "https://oauth2:{$token}@gitlab.com/{$this->repository}.git";
-                        break;
-                }
-            } else {
-                $url = $this->repository;
-                $loadSshKeyCommand = "env - BASH_ENV=/home/codepier/.bashrc /usr/bin/bash GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/".$this->site->id."_id_rsa'' ";
+            switch ($this->repositoryProvider->name) {
+                case 'Bitbucket':
+                    $url = "https://x-token-auth:{{$token}}@bitbucket.org/{$this->repository}.git";
+                    break;
+                case 'GitHub':
+                    $url = "https://{$token}@github.com/{$this->repository}.git";
+                    break;
+                case 'GitLab':
+                    $url = "https://oauth2:{$token}@gitlab.com/{$this->repository}.git";
+                    break;
             }
-
-            if ($this->zeroDowntimeDeployment) {
-                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
-            } else {
-                if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
-                    $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; rm -rf * ;  git clone '.$url.' --branch='.$this->branch.' .');
-                } else {
-                    $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git pull origin '.$this->branch);
-                }
-            }
-
-            if (! empty($this->sha)) {
-                $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $this->sha");
-            }
-
-            return $output;
+        } else {
+            $url = $this->repository;
+            $loadSshKeyCommand = "env - BASH_ENV=/home/codepier/.bashrc /usr/bin/bash GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/".$this->site->id."_id_rsa'' ";
         }
+
+        if ($this->zeroDowntimeDeployment) {
+            $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
+        } else {
+            if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
+                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; rm -rf * ;  git clone '.$url.' --branch='.$this->branch.' .');
+            } else {
+                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git pull origin '.$this->branch);
+            }
+        }
+
+        if (! empty($this->sha)) {
+            $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $this->sha");
+        }
+
+        return $output;
     }
 
     /**
