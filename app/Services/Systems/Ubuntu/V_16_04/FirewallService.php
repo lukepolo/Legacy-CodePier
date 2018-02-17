@@ -15,6 +15,8 @@ class FirewallService
     {
         $this->connectToServer();
 
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y ufw');
+
         $this->remoteTaskService->run('ufw default deny incoming');
         $this->remoteTaskService->run('ufw default allow outgoing');
         $this->remoteTaskService->run('ufw allow ssh');
