@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Models\Buoy;
+use App\Models\Daemon;
 use App\Models\File;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -35,11 +36,13 @@ class EventController extends Controller
             Bitt::class,
             Buoy::class,
             File::class,
+            Daemon::class,
             Worker::class,
             SshKey::class,
             Schema::class,
             Server::class,
             CronJob::class,
+            SchemaUser::class,
             SchemaUser::class,
             FirewallRule::class,
             SslCertificate::class,
