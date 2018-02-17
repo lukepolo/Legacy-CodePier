@@ -77,7 +77,8 @@ trait DeployTrait
         }
     }
 
-    public function rollback() {
+    public function rollback()
+    {
         $this->setupFolders();
     }
 
