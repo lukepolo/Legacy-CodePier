@@ -42,9 +42,6 @@ export default {
       const status = this.site.last_deployment_status;
       return status === "Running" || status === "Queued";
     }
-  },
-  created() {
-    this.$store.dispatch("user_site_servers/get", this.site.id);
   }
 };
 </script>
