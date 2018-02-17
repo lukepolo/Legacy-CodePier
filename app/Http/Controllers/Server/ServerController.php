@@ -115,7 +115,7 @@ class ServerController extends Controller
             );
         }
 
-        return response()->json($server->load(['serverProvider', 'pile']));
+        return response()->json($server->load(['serverProvider']));
     }
 
     /**
