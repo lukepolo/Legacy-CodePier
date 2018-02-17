@@ -54,9 +54,6 @@
                 </div>
             </div>
         </div>
->>
-        {{ activeEvents }}
-        <<
     </footer>
 </template>
 
