@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Server\ProvisioningKey;
 use App\Jobs\Server\UpdateSudoPassword;
 use App\Services\Systems\SystemService;
-use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
 use App\Services\Server\Providers\CustomProvider;
@@ -59,12 +58,7 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->has('trashed') ?
-                Server::onlyTrashed()->get() :
-                Server::when($request->has('pile_id'), function (Builder $query) use ($request) {
-                    return $query->where('pile_id', $request->get('pile_id'));
-                })
-                ->get()
+            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::get()
         );
     }
 
@@ -79,10 +73,6 @@ class ServerController extends Controller
 
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
-
-            $pileId = $site->pile_id;
-        } else {
-            $pileId = $request->get('pile_id');
         }
 
         $server = Server::create([
@@ -98,7 +88,6 @@ class ServerController extends Controller
             'port' =>  $request->get('port', 22),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
-            'pile_id' => $pileId,
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
             'type' => $request->user()->subscribed() ? $request->get('type', SystemService::FULL_STACK_SERVER) : SystemService::FULL_STACK_SERVER,
