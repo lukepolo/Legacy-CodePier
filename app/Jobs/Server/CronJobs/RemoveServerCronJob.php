@@ -50,7 +50,7 @@ class RemoveServerCronJob implements ShouldQueue
     {
         $sitesCount = $this->cronJob->sites->count();
 
-        if ($this->forceRemove || ! $this->daemon->installableOnServer($this->server) || ! $sitesCount) {
+        if ($this->forceRemove || ! $this->cronJob->installableOnServer($this->server) || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->removeCron($this->server, $this->cronJob);
             });
