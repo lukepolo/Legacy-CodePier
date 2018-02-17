@@ -87,8 +87,8 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb '.$installVersion.'-ldap');
 
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
+        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
         $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
     }
@@ -98,8 +98,6 @@ class PHP
      */
     public function installPhpFpm()
     {
-        // https://www.howtoforge.com/tutorial/apache-with-php-fpm-on-ubuntu-16-04/
-
         $this->connectToServer();
 
         $tempVersion = $version = $this->getPhpVersion();
