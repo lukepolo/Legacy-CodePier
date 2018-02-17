@@ -56,7 +56,7 @@ class SiteDeploymentFailed extends Notification
     {
         return (new MailMessage())
             ->markdown('mail.notifications.deployment-failed', [
-                'errorMessage' => str_replace("\n", '<br>', $this->errorMessage)
+                'errorMessage' => str_replace("\n", '<br>', $this->errorMessage),
             ])
             ->subject('('.$notifiable->pile->name.') '.$notifiable->domain.' Deployment Failed')
             ->line('Your site failed to deploy on '.$this->server->name.' ('.$this->server->ip.') '.' because : ')
