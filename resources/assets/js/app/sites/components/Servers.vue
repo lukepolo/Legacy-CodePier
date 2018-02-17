@@ -9,7 +9,7 @@
                     <template v-if="availableServers.length">
                         <li>
                             <a href="#" @click.prevent="connectServers = !connectServers">
-                                <span class="icon-server"></span> Attached Servers whaaa?
+                                <span class="icon-server"></span> Attached Servers
                             </a>
                         </li>
                     </template>
