@@ -54,7 +54,9 @@
                 </div>
             </div>
         </div>
-
+>>
+        {{ activeEvents }}
+        <<
     </footer>
 </template>
 
@@ -200,6 +202,16 @@ export default {
         },
         "desc"
       );
+    },
+    activeEvents() {
+      return this.$store.state.user_commands.running_commands
+      // (function() {
+      //   var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      //   link.type = 'image/x-icon';
+      //   link.rel = 'shortcut icon';
+      //   link.href = 'http://www.stackoverflow.com/favicon.ico';
+      //   document.getElementsByTagName('head')[0].appendChild(link);
+      // })();
     },
     events_pagination() {
       return this.$store.state.events.events_pagination;
