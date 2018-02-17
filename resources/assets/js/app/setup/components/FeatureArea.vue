@@ -45,7 +45,7 @@
                             </small>
                         </template>
                         <template v-else>
-                            <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
+                            <button class="btn btn-small btn-primary" :class="{ 'btn-disabled' :  server.progress < 100 }"  @click="installFeature(feature)">Install</button>
                         </template>
                     </div>
                 </template>
