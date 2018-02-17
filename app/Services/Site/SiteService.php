@@ -141,7 +141,7 @@ class SiteService implements SiteServiceContract
     {
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        if($deploymentService->rollback) {
+        if ($deploymentService->rollback) {
             $deploymentService->rollback();
         } else {
             foreach ($siteServerDeployment->events as $index => $event) {
