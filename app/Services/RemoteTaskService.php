@@ -361,13 +361,17 @@ echo \"Wrote\"", $read);
         return $this->output;
     }
 
+    public function clearOutput() {
+        return $this->output = '';
+    }
+
     /**
      * @param $response
      * @return string
      */
     private function cleanOutput($response)
     {
-        return trim(str_replace('codepier-done', '', $response));
+        return trim(preg_replace('/codepier-done|Wrote/', '', $response));
     }
 
     /**

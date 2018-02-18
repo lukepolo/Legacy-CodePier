@@ -42,11 +42,11 @@
                             ></command-event>
                         </template>
 
-                        <template v-else-if="event.provision_steps">
+                        <template v-else-if="event.event_type === 'server_provisioning'">
                             <server-provision-event
                                 :event="event"
-                                :key="'server_provisioning\\'+event.id">
-                            </server-provision-event>
+                                :key="event.event_type + '\\'  + event.id"
+                            ></server-provision-event>
                         </template>
 
                         <template v-else>
@@ -218,7 +218,7 @@ export default {
     events() {
       return _.orderBy(
         _.uniqBy(this.$store.state.events.events, event => {
-          if(event.provision_steps) {
+          if(!event.event_type && event.provision_steps) {
             event.event_type = 'server_provisioning';
           }
           return event.event_type + event.id;
