@@ -13,7 +13,7 @@ class AddLastLoggedInToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->timestamp('last_login_at')->nullable()->after('updated_at');
             $table->timestamp('last_read_announcement')->nullable()->after('updated_at');
         });
