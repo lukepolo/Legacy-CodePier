@@ -9,30 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class ServerProvisionStatusChanged implements ShouldBroadcastNow
+class ServerStartToProvision implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
     public $server;
-    public $serverCurrentProvisioningStep;
 
     /**
      * Create a new event instance.
      *
      * @param Server $server
-     * @param $status
-     * @param $progress
      */
-    public function __construct(Server $server, $status, $progress)
+    public function __construct(Server $server)
     {
-        $server->progress = $progress;
-        $server->status = $status;
-        $server->ip;
-
-        $server->save();
-
         $this->server = $server;
-        $this->serverCurrentProvisioningStep = $server->currentProvisioningStep();
     }
 
     /**
@@ -52,9 +42,10 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
+        $this->server->load('provisionSteps');
+
         return [
             'server' => $this->server,
-            'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep,
         ];
     }
 }

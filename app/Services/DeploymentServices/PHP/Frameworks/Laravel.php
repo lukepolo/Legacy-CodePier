@@ -65,7 +65,7 @@ trait Laravel
     /**
      * @description Runs the migrations
      *
-     * @order 230
+     * @order 320
      */
     public function laravelRunMigrations()
     {
@@ -85,7 +85,7 @@ trait Laravel
     /**
      * @description Caches Laravel Configs
      *
-     * @order 320
+     * @order 300
      */
     public function laravelCacheConfig()
     {
