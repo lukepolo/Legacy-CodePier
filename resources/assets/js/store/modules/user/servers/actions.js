@@ -143,6 +143,10 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
       .listen("Server\\ServerFeatureInstalled", data => {
         commit("user_servers/update", {response: data.server}, { root: true });
       })
+      .listen("Server\\ServerStartToProvision", data => {
+        commit("user_servers/update", {response : data.server}, { root: true });
+        commit("events/add", { response : data.server }, { root : true});
+      })
       .notification(notification => {
         switch (notification.type) {
           case "App\\Notifications\\Server\\ServerMemory":

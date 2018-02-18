@@ -2,6 +2,7 @@
 
 namespace App\Events\Server;
 
+use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -9,20 +10,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class ServerCommandUpdated implements ShouldBroadcastNow
+class ServerStartToProvision implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $serverCommand;
+    public $server;
 
     /**
      * Create a new event instance.
      *
-     * @param ServerCommand $serverCommand
+     * @param Server $server
      */
-    public function __construct(ServerCommand $serverCommand)
+    public function __construct(Server $server)
     {
-        $this->serverCommand = $serverCommand;
+        $this->server = $server;
     }
 
     /**
@@ -32,7 +33,7 @@ class ServerCommandUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.Server.'.$this->serverCommand->server->id);
+        return new PrivateChannel('App.Models.Server.Server.'.$this->server->id);
     }
 
     /**
@@ -42,12 +43,10 @@ class ServerCommandUpdated implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
-        $command = $this->serverCommand->command;
-
-        $command->load('serverCommands.server');
+        $this->server->load('provisionSteps');
 
         return [
-            'command' => $command,
+            'server' => $this->server,
         ];
     }
 }

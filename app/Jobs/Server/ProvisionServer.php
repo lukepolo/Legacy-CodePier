@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server;
 
+use App\Events\Server\ServerStartToProvision;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -43,7 +44,12 @@ class ProvisionServer implements ShouldQueue
     {
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
+
         }
+
+        broadcast(new ServerStartToProvision($this->server));
+
+        throw new \Error('test');
 
         $this->server->load('provisionSteps');
 
