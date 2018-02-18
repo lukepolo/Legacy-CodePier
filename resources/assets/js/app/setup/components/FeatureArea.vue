@@ -255,11 +255,14 @@ export default {
       return this.$store.state.server_frameworks.frameworks;
     },
     serverIsInstallingSomething() {
-      if(this.server) {
-        return this.isCommandRunning("App\\Models\\Server\\Server", this.server.id);
+      if (this.server) {
+        return this.isCommandRunning(
+          "App\\Models\\Server\\Server",
+          this.server.id
+        );
       }
       return false;
-    },
+    }
   }
 };
 </script>

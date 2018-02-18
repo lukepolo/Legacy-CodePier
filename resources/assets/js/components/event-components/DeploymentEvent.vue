@@ -96,20 +96,20 @@ export default {
       }
     }
   },
-  computed : {
+  computed: {
     totalAmountOfTime() {
       let totalTime = 0;
-      this.event.server_deployments.forEach((server_deployment) => {
-        server_deployment.events.forEach((deployment_event) => {
-            totalTime += parseFloat(deployment_event.runtime);
-        })
-      })
-      return this.formatSeconds(totalTime)
+      this.event.server_deployments.forEach(server_deployment => {
+        server_deployment.events.forEach(deployment_event => {
+          totalTime += parseFloat(deployment_event.runtime);
+        });
+      });
+      return this.formatSeconds(totalTime);
     },
     deploymentTitle() {
-      let title = 'Deployment'
-      if(this.event.status === 'Completed') {
-        title = `${title} (${this.totalAmountOfTime} seconds)`
+      let title = "Deployment";
+      if (this.event.status === "Completed") {
+        title = `${title} (${this.totalAmountOfTime} seconds)`;
       }
       return title;
     }
