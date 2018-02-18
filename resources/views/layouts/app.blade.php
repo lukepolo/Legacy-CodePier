@@ -75,6 +75,8 @@
                 <events-bar v-if="hasSites"></events-bar>
 
             </div>
+
+            <portal-target name="modal" slim></portal-target>
         </div>
 
         @stack('scripts')
@@ -88,14 +90,23 @@
             <script src="{{ mix('/js/vendor.js') }}"></script>
             <script src="{{ mix('/js/app.js') }}"></script>
 
-            @if(config('app.env') == 'production')
-                <script type="text/javascript">
-                    $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-                    $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
-                    $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
-                </script>
-            @endif
+            <script type="text/javascript">
+                $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+                window.CRISP_READY_TRIGGER = function() {
+                  console.info($crisp.get("chat:unread:count"))
+                    if (!$crisp.is("chat:opened") === true) {
+                        $crisp.push(["do", "chat:hide"])
+                    }
+                };
+                $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
+                $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
 
+                document.getElementById('getHelp').onclick = function(e) {
+                  e.preventDefault();
+                  $crisp.push(["do", "chat:open"])
+                  $crisp.push(["do", "chat:show"])
+                }
+            </script>
         @endif
 
         @if($errors->count())

@@ -20,25 +20,30 @@
 
                     <h3>
                         <confirm-dropdown dispatch="user_servers/refreshSudoPassword" :params="{ server : server.id }">
-                            sudo Password
+                            Sudo Password
                             <tooltip message="Refresh Sudo Password">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
 
-                    <button class="btn btn-primary" @click.stop="revealSudoPassword">Reveal</button>
+                    <div class="flex flex--center">
+                        <div class="flex--grow">
+                            <div class="flyform--group flyform--group-nomargin">
+                                <textarea rows="1" readonly>{{ sudoPassword }}</textarea>
+                            </div>
 
-                    <div class="flyform--group flyform--group-nomargin">
-                        <textarea rows="1" readonly>{{ sudoPassword }}</textarea>
+                            <div class="text-right">
+                                <tooltip message="Copy to Clipboard">
+                                    <clipboard :data="sudoPassword"></clipboard>
+                                </tooltip>
+                            </div>
+                        </div>
+
+                        <div class="flex--spacing">
+                            <button class="btn btn-primary btn-small" @click.stop="revealSudoPassword"><span class="icon-visibility"></span> Reveal</button>
+                        </div>
                     </div>
-
-                    <div class="text-right">
-                        <tooltip message="Copy to Clipboard">
-                            <clipboard :data="sudoPassword"></clipboard>
-                        </tooltip>
-                    </div>
-
                 </div>
             </drop-down>
 
@@ -63,16 +68,22 @@
                         Database Password
                     </h3>
 
-                    <button class="btn btn-primary" @click.stop="revealDatabasePassword">Reveal</button>
+                    <div class="flex flex--center">
+                        <div class="flex--grow">
+                            <div class="flyform--group flyform--group-nomargin">
+                                <textarea rows="1" readonly>{{ databasePassword }}</textarea>
+                            </div>
 
-                    <div class="flyform--group flyform--group-nomargin">
-                        <textarea rows="1" readonly>{{ databasePassword }}</textarea>
-                    </div>
+                            <div class="text-right">
+                                <tooltip message="Copy to Clipboard">
+                                    <clipboard :data="databasePassword"></clipboard>
+                                </tooltip>
+                            </div>
+                        </div>
 
-                    <div class="text-right">
-                        <tooltip message="Copy to Clipboard">
-                            <clipboard :data="databasePassword"></clipboard>
-                        </tooltip>
+                        <div class="flex--spacing">
+                            <button class="btn btn-primary" @click.stop="revealDatabasePassword"><span class="icon-visibility"></span> Reveal</button>
+                        </div>
                     </div>
 
                 </div>

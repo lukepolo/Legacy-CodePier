@@ -1,7 +1,7 @@
 <template>
     <div v-if="site">
         <p>
-            Here we can customize how we deploy your application. We give you sensible defaults.
+            Here we can customize how we deploy your site. We give you sensible defaults.
             By dragging steps from the inactive to the active we automatically suggest the order.
             Once in the active list you can change the order.
         </p>

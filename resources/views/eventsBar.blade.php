@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.eventsBar')
 
 @section('content')
     <router-view class="view"></router-view>
