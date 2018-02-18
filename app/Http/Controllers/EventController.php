@@ -7,7 +7,6 @@ use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Daemon;
 use App\Models\Schema;
-use App\Models\Server\ServerProvisionStep;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
@@ -55,8 +54,8 @@ class EventController extends Controller
             SiteDeployment::class,
         ],
         self::SERVER_PROVISIONING => [
-            Server::class
-        ]
+            Server::class,
+        ],
     ];
 
     const PER_PAGE = 20;
@@ -105,7 +104,7 @@ class EventController extends Controller
                     ->when($types->has('commands'), function (Builder $query) use ($types) {
                         return $query->whereIn('commands.commandable_type', $types->get('commands'));
                     }),
-            self::SERVER_PROVISIONING => Server::whereHas('provisionSteps')->select(['servers.id', 'servers.created_at', DB::raw('"'.self::SERVER_PROVISIONING.'" as type')])
+            self::SERVER_PROVISIONING => Server::whereHas('provisionSteps')->select(['servers.id', 'servers.created_at', DB::raw('"'.self::SERVER_PROVISIONING.'" as type')]),
         ])->only($types->keys()->toArray());
 
         /** @var Builder $combinedQuery */
