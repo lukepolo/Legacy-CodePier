@@ -4,8 +4,13 @@
   flex: 0 0 auto;
   display: flex;
   list-style: none;
-  margin: ($spacing/2) $spacing;
-  padding: 0px;
+  position: sticky;
+  top: 0px;
+  background-color: $black;
+  border-bottom: 1px solid $gray;
+  margin: 0px;
+  padding: ($spacing/2) $spacing;
+  z-index: 1;
 
   &--label > * {
     display: block;
