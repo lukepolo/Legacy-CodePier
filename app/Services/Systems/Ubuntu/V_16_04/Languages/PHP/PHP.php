@@ -87,10 +87,7 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb '.$installVersion.'-ldap');
 
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', ';date.timezone.', 'date.timezone = UTC');
-
-        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
+        $this->remoteTaskService->updateText("/etc/php/$version/cli/php.ini", 'date.timezone', 'date.timezone = UTC');
     }
 
     /**
@@ -108,10 +105,10 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$tempVersion.'-fpm');
 
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'post_max_size =', 'post_max_size = 250M');
-        $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', ';date.timezone', 'date.timezone = UTC');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'post_max_size =', 'post_max_size = 250M');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'date.timezone', 'date.timezone = UTC');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'user = www-data', 'user = codepier');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'group = www-data', 'group = codepier');
@@ -119,6 +116,9 @@ class PHP
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.owner', 'listen.owner = codepier');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.group', 'listen.group = codepier');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.mode', 'listen.mode = 0666');
+
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
     }
 
     /**
@@ -128,16 +128,18 @@ class PHP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y composer');
+        $this->remoteTaskService->run('curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php');
 
         $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        CronJob::create([
-            'job'       => $cronJob,
-            'user'      => 'root',
-        ]);
+        $this->server->cronJobs()->save(
+            CronJob::create([
+                'job'       => $cronJob,
+                'user'      => 'root',
+            ])
+        );
     }
 
     /**
