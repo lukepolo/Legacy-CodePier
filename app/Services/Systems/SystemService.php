@@ -134,16 +134,14 @@ class SystemService implements SystemServiceContract
     {
         $this->server = $server->load('provisionSteps');
 
-
         try {
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
-
                 $start = microtime(true);
 
                 $provisionStep->update([
-                    'started' => true
+                    'started' => true,
                 ]);
 
                 $this->updateProgress($provisionStep->step);
@@ -156,7 +154,7 @@ class SystemService implements SystemServiceContract
                     'failed' => false,
                     'completed' => true,
                     'log' => $systemService->getOutput(),
-                    'runtime' => microtime(true) - $start
+                    'runtime' => microtime(true) - $start,
                 ]);
 
                 $systemService->clearOutput();
