@@ -44,6 +44,7 @@ class User extends Authenticatable
         'second_auth_active',
         'second_auth_updated_at',
         'user_login_provider_id',
+        'last_read_announcement',
         'referrer',
     ];
 
@@ -61,6 +62,7 @@ class User extends Authenticatable
     protected $dates = [
         'updated_at',
         'created_at',
+        'last_login_at',
         'trial_ends_at',
     ];
 

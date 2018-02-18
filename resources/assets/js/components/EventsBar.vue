@@ -6,7 +6,7 @@
                 <div class="toggle-left">
                     <i id="dragIcon" class="fa fa-bars"></i>
 
-                    <a class="events--open">Open in Separate Window</a>
+                    <a href="/events-bar" target="_blank" class="events--open">Open in Separate Window</a>
                 </div>
 
                 <div class="toggle-right" @click="showEvents = !showEvents">

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Event;
 use Laravel\Horizon\Horizon;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
