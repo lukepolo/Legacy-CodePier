@@ -5,6 +5,18 @@
                 <h2 class="heading">Site Overview
                 </h2>
             </div>
+
+
+            <widget icon="icon-database"></widget>
+            <widget icon="icon-pencil">hello</widget>
+            <widget></widget>
+            <widget></widget>
+            <widget></widget>
+            <widget></widget>
+            <widget></widget>
+            <widget></widget>
+
+
             <div class="heading--btns">
                 <confirm
                         confirm_class="btn-link"
