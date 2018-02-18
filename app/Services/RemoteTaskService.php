@@ -361,7 +361,8 @@ echo \"Wrote\"", $read);
         return $this->output;
     }
 
-    public function clearOutput() {
+    public function clearOutput()
+    {
         return $this->output = '';
     }
 
