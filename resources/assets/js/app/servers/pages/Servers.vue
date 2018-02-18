@@ -100,12 +100,13 @@
                         <div class="flyform--footer-btns">
                             <confirm confirm_class="btn btn-primary">
                                 <div slot="form">
+                                    <p>By creating and customizing a site first CodePier will set up server defaults automatically.</p>
                                     <div class="alert alert-error">
-                                        You should only do this if you have advanced knowledge of servers.
+                                        You should only do this if you have advanced server knowledge.
                                     </div>
                                 </div>
-                                <router-link slot="confirm-button" :to="{ name : 'server_form' }">
-                                    <a class="btn btn-small btn-danger alert alert-error" :class="{ 'btn-disabled' : !serverCreateEnabled }">I UNDERSTAND</a>
+                                <router-link slot="confirm-button" :to="{ name : 'server_form' }" class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !serverCreateEnabled }">
+                                    I Understand
                                 </router-link>
                                 Create Server
                             </confirm>
