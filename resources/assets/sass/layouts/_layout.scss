@@ -120,11 +120,19 @@ footer {
       top: 0px;
       background-color: mix($color-background, $black, 90%);
 
+      .text-clip,
+      .icon-arrow-down {
+        opacity: 0;
+        transition: all .3s ease;
+      }
+
       .icon-web {
         position: absolute;
+        top: 50%;
         right: 8px;
         font-size: 1.2em;
         color: $color-text-accent;
+        transform: translateY(-50%);
         opacity: 1;
         transition: all .3s ease;
       }
@@ -151,6 +159,12 @@ footer {
 
       .site-container,
       .slack-invite {
+        opacity: 1;
+        transition: all .3s ease;
+      }
+
+      .text-clip,
+      .icon-arrow-down {
         opacity: 1;
         transition: all .3s ease;
       }
