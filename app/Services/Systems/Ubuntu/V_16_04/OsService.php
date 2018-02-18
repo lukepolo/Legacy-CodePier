@@ -3,6 +3,7 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 
 class OsService
 {
@@ -72,6 +73,11 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
 
         $this->remoteTaskService->makeDirectory('/opt/codepier');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, '');
     }
 
     /**

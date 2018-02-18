@@ -12,14 +12,12 @@
             <drop-down-event
                     title="Deployment"
                     :event="event"
-                    :type="event.event_type"
                     :prefix="event.id"
             >
                 <template v-for="server_deployment in event.server_deployments">
                     <drop-down-event
                             :title="getServer(server_deployment.server_id, 'name') + ' (' + getServer(server_deployment.server_id, 'ip') + ')' + ' - ' + server_deployment.status"
                             :event="server_deployment"
-                            :type="event.event_type"
                             :prefix="'server_deployment_'+server_deployment.id"
                     >
                         <ul>
@@ -28,7 +26,6 @@
                                     <drop-down-event
                                             :title="deployment_event.step.step + (deployment_event.completed ? ' took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
                                             :event="deployment_event"
-                                            :type="event.event_type"
                                             :prefix="'server_deployment_event_' + deployment_event.id"
                                             :dropdown="filterArray(deployment_event.log).length > 0"
                                     >
