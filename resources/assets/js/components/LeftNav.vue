@@ -4,7 +4,10 @@
 
 
 
-        <drop-down tag="h3" :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="section-header">
+        <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="section-header pile-dropdown">
+            <span slot="sub" class="icon-arrow-down"></span>
+            <span slot="sub" class="icon-web"></span>
+
             <li>
                 <span class="dropdown-heading">Change Pile</span>
             </li>
@@ -22,27 +25,10 @@
                         <template v-else>
                             <span  class="text-clip">{{ pile.name }}</span>
                         </template>
-
                     </a>
                 </li>
             </template>
         </drop-down>
-
-
-        <h3 class="section-header">
-            <template v-if="currentPile.name && currentPile.name.length > 17">
-                <tooltip :message="currentPile.name" placement="bottom-right">
-                    <span class="text-clip">{{ currentPile.name }}</span>
-                </tooltip>
-            </template>
-            <template v-else>
-                <span class="text-clip">{{ currentPile.name }}</span>
-            </template>
-
-            Sites
-
-            <span class="icon-web"></span>
-        </h3>
 
         <div class="section-content">
 
