@@ -48,7 +48,7 @@ class PHPSettings
     /**
      * @description OpCache Settings - Options should be in Megabytes (MB)
      */
-    public function OpCache($memoryConsumption = 128, $maxAcceleratedFiles = 7963, $internedStringsBuffer = 64)
+    public function OpCache($memoryConsumption = 512, $maxAcceleratedFiles = 7963, $internedStringsBuffer = 64)
     {
         $phpVersion = $this->server->getLanguages()['PHP']['version'];
 

@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class OsService
@@ -20,6 +21,8 @@ class OsService
 
         // https://community.rackspace.com/products/f/25/t/5110
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt autoremove -y');
     }
 
     public function setTimezoneToUTC()
@@ -72,6 +75,11 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
 
         $this->remoteTaskService->makeDirectory('/opt/codepier');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, '');
     }
 
     /**
