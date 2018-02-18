@@ -50,8 +50,15 @@
                             ></command-event>
                         </template>
 
+                        <template v-else-if="event.event_type === 'server_provisioning'">
+                            <server-provision-event
+                                :event="event"
+                                :key="event.event_type + '\\'  + event.id"
+                            ></server-provision-event>
+                        </template>
+
                         <template v-else>
-                            Invalid type {{ event.event_type }}
+                            Invalid type <pre>{{ event }}</pre>
                         </template>
 
                     </template>
@@ -70,6 +77,7 @@ import EventFilter from "./event-components/EventFilter.vue";
 import CommandEvent from "./event-components/CommandEvent.vue";
 import DeploymentEvent from "./event-components/DeploymentEvent.vue";
 import SystemEventFilter from "./event-components/SystemEventFilter.vue";
+import ServerProvisionEvent from "./event-components/ServerProvisionEvent.vue";
 
 Vue.directive("resizeable", {
   inserted: function(el, bindings) {
@@ -153,7 +161,8 @@ export default {
     EventFilter,
     CommandEvent,
     DeploymentEvent,
-    SystemEventFilter
+    SystemEventFilter,
+    ServerProvisionEvent
   },
   data() {
     return {
@@ -224,6 +233,9 @@ export default {
     events() {
       return _.orderBy(
         _.uniqBy(this.$store.state.events.events, event => {
+          if(!event.event_type && event.provision_steps) {
+            event.event_type = 'server_provisioning';
+          }
           return event.event_type + event.id;
         }),
         event => {

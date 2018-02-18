@@ -41,7 +41,7 @@ class DatabaseService
 
         $this->remoteTaskService->updateText('/etc/mysql/mariadb.conf.d/50-server.cnf', 'bind-address', 'bind-address            = 0.0.0.0');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service mysql restart');
     }
 
     /**
@@ -55,7 +55,7 @@ class DatabaseService
 
         $this->remoteTaskService->updateText('/etc/memcached.conf ', '-l 127.0.0.1', '#-l 127.0.0.1');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service memcached restart');
     }
 
     /**
@@ -80,7 +80,7 @@ class DatabaseService
 
         $this->remoteTaskService->updateText('/etc/mysql/mysql.conf.d/mysqld.cnf', 'bind-address', '#bind-address           = 127.0.0.1');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service mysql restart');
     }
 
     /**
@@ -106,7 +106,7 @@ class DatabaseService
         $this->connectToServer();
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
         $this->remoteTaskService->updateText('/etc/redis/redis.conf', 'bind 127.0.0.1', '#bind 127.0.0.1');
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service redis restart');
     }
 
     /**
@@ -141,7 +141,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service mongod restart');
     }
 
     /**
