@@ -21,6 +21,8 @@ class OsService
 
         // https://community.rackspace.com/products/f/25/t/5110
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt autoremove -y');
     }
 
     public function setTimezoneToUTC()

@@ -10,7 +10,7 @@
              }"></div>
         <div class="events--item-name">
             <drop-down-event
-                    title="Deployment"
+                    :title="deploymentTitle"
                     :event="event"
                     :prefix="event.id"
             >
@@ -24,7 +24,7 @@
                             <template v-for="deployment_event in server_deployment.events">
                                 <li :class="{'events--item-error' : deployment_event.failed }" v-if="deployment_event.step">
                                     <drop-down-event
-                                            :title="deployment_event.step.step + (deployment_event.completed ? ' took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
+                                            :title="deployment_event.step.step + (deployment_event.completed ? ' - took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
                                             :event="deployment_event"
                                             :prefix="'server_deployment_event_' + deployment_event.id"
                                             :dropdown="filterArray(deployment_event.log).length > 0"
@@ -94,6 +94,24 @@ export default {
       if (!isNaN(seconds)) {
         return seconds;
       }
+    }
+  },
+  computed : {
+    totalAmountOfTime() {
+      let totalTime = 0;
+      this.event.server_deployments.forEach((server_deployment) => {
+        server_deployment.events.forEach((deployment_event) => {
+            totalTime += parseFloat(deployment_event.runtime);
+        })
+      })
+      return this.formatSeconds(totalTime)
+    },
+    deploymentTitle() {
+      let title = 'Deployment'
+      if(this.event.status === 'Completed') {
+        title = `${title} (${this.totalAmountOfTime} seconds)`
+      }
+      return title;
     }
   }
 };

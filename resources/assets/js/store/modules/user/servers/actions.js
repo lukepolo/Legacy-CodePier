@@ -117,6 +117,12 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
             root: true
           }
         );
+
+        console.info(data.server.provision_steps.length)
+        if(data.server.provision_steps.length) {
+          commit("events/update", data.server, { root : true});
+        }
+
       })
       .listen("Server\\ServerSshConnectionFailed", data => {
         commit(

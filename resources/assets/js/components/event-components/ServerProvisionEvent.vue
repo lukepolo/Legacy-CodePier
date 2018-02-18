@@ -9,12 +9,12 @@
             >
                 <template v-for="provision_step in event.provision_steps">
                     <drop-down-event
-                        :title="provision_step.step"
+                        :title="provision_step.step + (provision_step.completed ? ' - took ' + formatSeconds(provision_step.runtime) + ' seconds' : '')"
                         :event="provision_step"
                         :prefix="'provision_step_'+provision_step.id"
                         :dropdown="getLog(provision_step.log) ? getLog(provision_step.log).length : false"
                     >
-                        <span v-html="getLog(provision_step.log)"></span>
+                        <pre>{{ provision_step.log }}</pre>
                     </drop-down-event>
                 </template>
             </drop-down-event>
@@ -42,11 +42,29 @@
 
         return log;
       },
+      formatSeconds(number) {
+        let seconds = parseFloat(number).toFixed(2);
+
+        if (!isNaN(seconds)) {
+          return seconds;
+        }
+      }
     },
     computed: {
       eventTitle() {
-        return `Provisioning ${this.event.name} (${this.event.ip})`;
-      }
+        let title = 'Provisioning';
+        if(this.event.progress >= 100) {
+            title = `${title} (${this.totalAmountOfTime} seconds)`
+        }
+        return title;
+      },
+        totalAmountOfTime() {
+          let totalTime = 0;
+          this.event.provision_steps.forEach((provisionStep) => {
+              totalTime += parseFloat(provisionStep.runtime);
+          })
+          return this.formatSeconds(totalTime)
+        },
     }
   };
 </script>

@@ -35,6 +35,11 @@ trait ServiceConstructorTrait
         return $this->remoteTaskService->getOutput();
     }
 
+    public function clearOutput()
+    {
+        return $this->remoteTaskService->clearOutput();
+    }
+
     public function addToServiceRestartGroup($group, $command)
     {
         $serviceGroupFile = '/opt/codepier/'.$group;

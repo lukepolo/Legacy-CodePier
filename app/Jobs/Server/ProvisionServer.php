@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Server;
 
-use App\Events\Server\ServerStartToProvision;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -12,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Events\Server\ServerStartToProvision;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -44,12 +44,8 @@ class ProvisionServer implements ShouldQueue
     {
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
-
+            broadcast(new ServerStartToProvision($this->server));
         }
-
-        broadcast(new ServerStartToProvision($this->server));
-
-        throw new \Error('test');
 
         $this->server->load('provisionSteps');
 
