@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?3xioep');
-  src:  url('fonts/icomoon.eot?3xioep#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?3xioep') format('truetype'),
-    url('fonts/icomoon.woff?3xioep') format('woff'),
-    url('fonts/icomoon.svg?3xioep#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?tft3vo');
+  src:  url('fonts/icomoon.eot?tft3vo#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?tft3vo') format('truetype'),
+    url('fonts/icomoon.woff?tft3vo') format('woff'),
+    url('fonts/icomoon.svg?tft3vo#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -87,6 +87,12 @@
 .icon-lifebuoy:before {
   content: "\e941";
 }
+.icon-chat:before {
+  content: "\e8af";
+}
+.icon-comment:before {
+  content: "\e253";
+}
 .icon-power:before {
   content: "\e8ac";
 }
@@ -125,6 +131,9 @@
 }
 .icon-webhooks:before {
   content: "\e907";
+}
+.icon-laravel:before {
+  content: "\e920";
 }
 .icon-slack:before {
   content: "\e916";
