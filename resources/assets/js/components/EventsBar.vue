@@ -1,14 +1,22 @@
 <template>
-    <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div id="drag" class="events--drag"></div>
-        <div class="header events--header">
-            <h4>
-                <a class="toggle" @click="showEvents = !showEvents">
-                    <span class="icon-warning"></span> Events
-                </a>
-            </h4>
+    <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+        <div class="events--drag header events--header">
+            <div id="drag" @click="showEvents = !showEvents"></div>
+            <div class="toggle" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }">
+                <div class="toggle-left">
+                    <i id="dragIcon" class="fa fa-bars"></i>
+
+                    <a class="events--open">Open in Separate Window</a>
+                </div>
+
+                <div class="toggle-right" @click="showEvents = !showEvents">
+                    <h4>
+                        <span class="icon-arrow-up"></span> Events
+                    </h4>
+                </div>
+            </div>
         </div>
-        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
+        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
             <ul class="filter">
                 <li class="filter--label">
                     <span>Event Filters</span>
@@ -68,11 +76,17 @@ Vue.directive("resizeable", {
     const container = el;
     const bottom = document.getElementById("collapseEvents");
     const handle = document.getElementById("drag");
+    const dragIcon = document.getElementById("dragIcon");
 
     let isResizing = false;
     let lastOffset = null;
 
     handle.onmousedown = () => {
+      isResizing = true;
+      bottom.classList.add("dragging");
+    };
+
+    dragIcon.onmousedown = () => {
       isResizing = true;
       bottom.classList.add("dragging");
     };
@@ -134,6 +148,7 @@ Vue.directive("watch-scroll", {
 });
 
 export default {
+  props : ['fullScreen'],
   components: {
     EventFilter,
     CommandEvent,

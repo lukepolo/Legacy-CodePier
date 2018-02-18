@@ -50,7 +50,7 @@
             <div class="panel panel-default" v-if="isOwnerOfTeam">
                 <div class="panel-heading clearfix">Invite to team</div>
                 <div class="panel-body">
-                    <form @submit.prevent="sendInvite()" class="form-horizontal" method="post" action="#">
+                    <form @submit.prevent="sendInvite()" class="form-horizontal" method="post">
                         <div class="form-group">
                             <label class="col-md-4 control-label">E-Mail Address</label>
 
