@@ -76,9 +76,9 @@
 import DeleteSite from "./../components/DeleteSite";
 
 export default {
-    components: {
-        DeleteSite
-    },
+  components: {
+    DeleteSite
+  },
   data() {
     return {
       workflows: [
