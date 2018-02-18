@@ -16,10 +16,9 @@ class AnnouncementsController extends Controller
         $user = \Auth::user();
 
         $user->update([
-            'last_read_announcement' => Carbon::now()
+            'last_read_announcement' => Carbon::now(),
         ]);
 
         return response()->json($user);
     }
-
 }

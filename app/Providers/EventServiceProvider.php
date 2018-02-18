@@ -21,8 +21,8 @@ class EventServiceProvider extends ServiceProvider
             DigitalOceanExtendSocialite::class.'@handle',
         ],
         \Illuminate\Auth\Events\Login::class => [
-            \App\Listeners\LoginSuccessful::class
-        ]
+            \App\Listeners\LoginSuccessful::class,
+        ],
     ];
 
     /**
