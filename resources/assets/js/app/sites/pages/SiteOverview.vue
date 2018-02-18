@@ -68,7 +68,7 @@
                     </div>
                 </confirm>
 
-                <!--<delete-site :site="site"></delete-site>-->
+                <delete-site :site="site"></delete-site>
 
                 <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>

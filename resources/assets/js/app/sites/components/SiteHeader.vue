@@ -5,8 +5,6 @@
             {{ site.name }}
         </a>
 
-        <delete-site :site="site"></delete-site>
-
         <div class="section-header--btn-right">
 
             <drop-down tag="span" v-if="siteServers">
@@ -57,12 +55,7 @@
 </template>
 
 <script>
-import DeleteSite from "./../components/DeleteSite";
-
 export default {
-  components: {
-    DeleteSite
-  },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
