@@ -13,25 +13,25 @@
                         </div>
                         <div class="modal--body">
                             <p>
-                                CodePier is designed to easily deploy sites based off its requirements. So we start off by
-                                creating a site, setup its necessary requirements , attach a server, and then we can deploy and scale easily.
+                                CodePier is designed to customize your sever based off of your application's requirements. Because of this we recommend creating your site first,
+                                set up it's necessary requirements, and finally create or attach a server.
                             </p>
 
                             <h3>Getting Started</h3>
                             <div>
-                                <p>Here are the basic steps to get you going :</p>
+                                <p>Here are the basic steps to get you going:</p>
                                 <ol>
-                                    <li>Create your site in a pile</li>
+                                    <li>Create a new site in a pile</li>
                                     <li>Enter your repository details</li>
-                                    <li>Follow the setup wizard to help you fill in your sites requirements</li>
-                                    <li>Select the server type that suits your site</li>
-                                    <li>Deploy your site</li>
+                                    <li>Follow the setup wizard to help you fill in your site's requirements</li>
+                                    <li>Select the server type that you require</li>
+                                    <li>Deploy!</li>
                                 </ol>
                             </div>
 
                             <h3>Getting Help</h3>
                             <p>
-                                Click on the "<i class="fa fa-gear"></i>" icon, and select "Get Help", this will prompt you with a CodePier support <strong>developer</strong>, that's right a developer.
+                                Click on the "<i class="fa fa-gear"></i>" icon, and select "Get Help", this will connect you with a CodePier support <strong>developer</strong>. That's right, a developer.
                             </p>
 
                             <p>Now get out there and start deploying!</p>
