@@ -1,8 +1,17 @@
 <template>
     <section>
-        <h2 class="heading">
-            Select the tasks needed to create your site.
-        </h2>
+        <div class="flex">
+            <div class="flex--grow">
+                <h2>Select the tasks needed to create your site.</h2>
+                <h4 class="secondary">&nbsp;</h4>
+            </div>
+
+            <div class="heading--btns">
+                <delete-site :site="site"></delete-site>
+            </div>
+        </div>
+
+        <hr>
 
         <form @submit.prevent="saveWorkflow">
             <div class="grid-2">
@@ -64,7 +73,12 @@
 </template>
 
 <script>
+import DeleteSite from "./../components/DeleteSite";
+
 export default {
+    components: {
+        DeleteSite
+    },
   data() {
     return {
       workflows: [
