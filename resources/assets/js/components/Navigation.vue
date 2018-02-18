@@ -56,17 +56,18 @@
                 <template v-if="isAdmin">
                     <li class="nav-label"><span>Admin</span></li>
                     <li>
-                        <a href="/horizon">Laravel Horizon</a>
+                        <a href="/horizon" target="_blank"><span class="icon-laravel"></span> Laravel Horizon</a>
                     </li>
                     <li>
                         <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                     </li>
                 </template>
 
+                <li class="nav-label"></li>
                 <li>
-                    <a @click.prevent href="/" id="getHelp"><span class="icon-lifebuoy"></span> Get Help</a>
+                    <a @click.prevent href="/" id="getHelp"><span class="icon-chat"></span> Get Help</a>
                 </li>
-
+                <li class="nav-label"></li>
                 <li>
                     <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
                 </li>
