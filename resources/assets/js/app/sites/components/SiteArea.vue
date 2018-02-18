@@ -32,6 +32,9 @@
                                             </div>
 
                                             <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
+                                                <div class="heading--btns">
+                                                    <delete-site :site="site"></delete-site>
+                                                </div>
                                                 <div class="flyform--footer-btns">
                                                     <button @click="revertWorkFlow" class="btn btn-small" :disabled="workflowStepsCompleted === 1" :class="{ disabled : workflowStepsCompleted === 1}"><span class="icon-arrow-left"></span> Previous Step</button>
                                                     <button @click="updateWorkFlow" class="btn btn-small btn-primary">Next Step <span class="icon-arrow-right"></span></button>
@@ -41,9 +44,7 @@
                                         <div class="alert-info" v-if="workflowMessage"><span class="alert-wrap" v-html="workflowMessage"></span></div>
                                         <hr>
                                     </template>
-                                    <router-view> /// </router-view>
-
-
+                                    <router-view> </router-view>
                                 </router-view>
                             </template>
                             <template v-else>
@@ -75,6 +76,7 @@ import SiteNav from "./SiteNav";
 import Servers from "./Servers";
 import SiteHeader from "./SiteHeader";
 import LeftNav from "../../../components/LeftNav";
+import DeleteSite from "./../components/DeleteSite";
 
 export default {
   data() {
@@ -86,7 +88,8 @@ export default {
     SiteNav,
     LeftNav,
     Servers,
-    SiteHeader
+    SiteHeader,
+    DeleteSite,
   },
   created() {
     this.fetchData();
