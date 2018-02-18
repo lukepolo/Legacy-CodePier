@@ -12,7 +12,7 @@ import PageNotFound from "../components/PageNotFound";
 
 export default [
   { path: "/", name: "dashboard", component: Piles },
-  { path: '/events-bar', name : "events-bar" },
+  { path: "/events-bar", name: "events-bar" },
   ...user,
   ...admin,
   ...bitts,

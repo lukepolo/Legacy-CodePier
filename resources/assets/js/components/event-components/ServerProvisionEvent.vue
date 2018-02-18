@@ -28,43 +28,43 @@
 </template>
 
 <script>
-  import DropDownEvent from "./DropDownEvent.vue";
-  export default {
-    components: {
-      DropDownEvent
-    },
-    props: ["event"],
-    methods: {
-      getLog(log) {
-        if (_.isArray(log)) {
-          return _.join(_.map(log, "message"), "<br>");
-        }
-
-        return log;
-      },
-      formatSeconds(number) {
-        let seconds = parseFloat(number).toFixed(2);
-
-        if (!isNaN(seconds)) {
-          return seconds;
-        }
+import DropDownEvent from "./DropDownEvent.vue";
+export default {
+  components: {
+    DropDownEvent
+  },
+  props: ["event"],
+  methods: {
+    getLog(log) {
+      if (_.isArray(log)) {
+        return _.join(_.map(log, "message"), "<br>");
       }
+
+      return log;
     },
-    computed: {
-      eventTitle() {
-        let title = 'Provisioning';
-        if(this.event.progress >= 100) {
-            title = `${title} (${this.totalAmountOfTime} seconds)`
-        }
-        return title;
-      },
-        totalAmountOfTime() {
-          let totalTime = 0;
-          this.event.provision_steps.forEach((provisionStep) => {
-              totalTime += parseFloat(provisionStep.runtime);
-          })
-          return this.formatSeconds(totalTime)
-        },
+    formatSeconds(number) {
+      let seconds = parseFloat(number).toFixed(2);
+
+      if (!isNaN(seconds)) {
+        return seconds;
+      }
     }
-  };
+  },
+  computed: {
+    eventTitle() {
+      let title = "Provisioning";
+      if (this.event.progress >= 100) {
+        title = `${title} (${this.totalAmountOfTime} seconds)`;
+      }
+      return title;
+    },
+    totalAmountOfTime() {
+      let totalTime = 0;
+      this.event.provision_steps.forEach(provisionStep => {
+        totalTime += parseFloat(provisionStep.runtime);
+      });
+      return this.formatSeconds(totalTime);
+    }
+  }
+};
 </script>

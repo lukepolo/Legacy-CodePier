@@ -156,7 +156,7 @@ Vue.directive("watch-scroll", {
 });
 
 export default {
-  props : ['fullScreen'],
+  props: ["fullScreen"],
   components: {
     EventFilter,
     CommandEvent,
@@ -197,21 +197,21 @@ export default {
         this.$store.dispatch("events/get", this.form);
       }
     },
-    hasActiveEvents : {
-      deep : true,
+    hasActiveEvents: {
+      deep: true,
       handler: function() {
-      //   let favicons = document.querySelectorAll('link[rel~="icon"]');
-      //   if(this.hasActiveEvents) {
-      //     favicons.forEach((favicon) => {
-      //       favicon.setAttribute('href', 'https://codepad.co/img/icn_logo.png');
-      //     })
-      //     return;
-      //   }
-      //
-      //   favicons.forEach((favicon) => {
-      //     let size = favicon.getAttribute('sizes');
-      //     favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
-      //   })
+        //   let favicons = document.querySelectorAll('link[rel~="icon"]');
+        //   if(this.hasActiveEvents) {
+        //     favicons.forEach((favicon) => {
+        //       favicon.setAttribute('href', 'https://codepad.co/img/icn_logo.png');
+        //     })
+        //     return;
+        //   }
+        //
+        //   favicons.forEach((favicon) => {
+        //     let size = favicon.getAttribute('sizes');
+        //     favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
+        //   })
       }
     }
   },
@@ -233,8 +233,8 @@ export default {
     events() {
       return _.orderBy(
         _.uniqBy(this.$store.state.events.events, event => {
-          if(!event.event_type && event.provision_steps) {
-            event.event_type = 'server_provisioning';
+          if (!event.event_type && event.provision_steps) {
+            event.event_type = "server_provisioning";
           }
           return event.event_type + event.id;
         }),
@@ -245,7 +245,7 @@ export default {
       );
     },
     hasActiveEvents() {
-      return this.$store.state.user_commands.running_commands
+      return this.$store.state.user_commands.running_commands;
     },
     events_pagination() {
       return this.$store.state.events.events_pagination;
