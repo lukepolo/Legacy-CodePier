@@ -71,7 +71,7 @@
 
                 <delete-site :site="site"></delete-site>
 
-                <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
+                <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Configure Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>
         </div>
 
@@ -138,7 +138,7 @@
                     </div>
                 </template>
             </widget>
-            <widget icon="icon-pencil" title="Enable Auto Deploy"></widget>
+            <widget icon="icon-cloud-auto-deploy" title="Enable Auto Deploy"></widget>
             <widget icon="icon-database" title="Enable Database Backups"></widget>
             <widget icon="icon-webhooks" title="Deploy Hook URL"></widget>
             <widget icon="icon-lifebuoy" title="Lifelines"></widget>
