@@ -1,7 +1,7 @@
 <template>
     <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div class="events--drag header events--header">
-            <div id="drag" @click="showEvents = !showEvents"></div>
+        <div class="events--drag header events--header" v-on="{ mousedown : recordHeight, mouseup : toggleEvents }">
+            <div id="drag"></div>
             <div class="toggle" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }">
                 <div class="toggle-left">
                     <i id="dragIcon" class="fa fa-bars"></i>
@@ -9,14 +9,14 @@
                     <a href="/events-bar" target="_blank" class="events--open">Open in Separate Window</a>
                 </div>
 
-                <div class="toggle-right" @click="showEvents = !showEvents">
+                <div class="toggle-right">
                     <h4>
                         <span class="icon-arrow-up"></span> Events
                     </h4>
                 </div>
             </div>
         </div>
-        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
+        <div ref="collapseEvents" class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
             <ul class="filter">
                 <li class="filter--label">
                     <span>Event Filters</span>
@@ -80,7 +80,7 @@ import SystemEventFilter from "./event-components/SystemEventFilter.vue";
 import ServerProvisionEvent from "./event-components/ServerProvisionEvent.vue";
 
 Vue.directive("resizeable", {
-  inserted: function(el, bindings) {
+  inserted: function(el) {
     const container = el;
     const bottom = document.getElementById("collapseEvents");
     const handle = document.getElementById("drag");
@@ -89,14 +89,20 @@ Vue.directive("resizeable", {
     let isResizing = false;
     let lastOffset = null;
 
+    let isResizingTimeout = null;
+    let setResizeTimeout = () => {
+      clearTimeout(isResizingTimeout);
+      isResizingTimeout = setTimeout(() => {
+        isResizing = true;
+        bottom.classList.add("dragging");
+      }, 100);
+    };
     handle.onmousedown = () => {
-      isResizing = true;
-      bottom.classList.add("dragging");
+      setResizeTimeout();
     };
 
     dragIcon.onmousedown = () => {
-      isResizing = true;
-      bottom.classList.add("dragging");
+      setResizeTimeout();
     };
 
     document.onmousemove = () => {
@@ -115,6 +121,7 @@ Vue.directive("resizeable", {
     };
 
     document.onmouseup = () => {
+      clearTimeout(isResizingTimeout);
       isResizing = false;
       bottom.classList.remove("dragging");
     };
@@ -168,6 +175,7 @@ export default {
     return {
       windowWidth: 0,
       showEvents: false,
+      currentHeight: null,
       form: this.createForm({
         page: 1,
         filters: {
@@ -218,6 +226,19 @@ export default {
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
+    },
+    recordHeight() {
+      if (this.showEvents) {
+        this.currentHeight = this.$refs.collapseEvents.offsetHeight;
+      }
+    },
+    toggleEvents() {
+      if (
+        !this.showEvents ||
+        this.currentHeight === this.$refs.collapseEvents.offsetHeight
+      ) {
+        this.showEvents = !this.showEvents;
+      }
     }
   },
   computed: {
