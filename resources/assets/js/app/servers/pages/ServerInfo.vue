@@ -21,7 +21,7 @@
                     <h3>
                         <confirm-dropdown dispatch="user_servers/refreshSudoPassword" :params="{ server : server.id }">
                             Sudo Password
-                            <tooltip message="Refresh Sudo Password">
+                            <tooltip message="Refresh Sudo Password" v-if="server.progress >= 100">
                                 <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
