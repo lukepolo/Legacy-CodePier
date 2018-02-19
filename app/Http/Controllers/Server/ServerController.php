@@ -329,8 +329,11 @@ class ServerController extends Controller
      */
     public function refreshSudoPassword($serverId)
     {
+        /** @var Server $server */
         $server = Server::findOrFail($serverId);
+
         $server->generateSudoPassword();
+
         dispatch(new UpdateSudoPassword($server, $server->sudo_password));
 
         return response()->json($server->sudo_password);
