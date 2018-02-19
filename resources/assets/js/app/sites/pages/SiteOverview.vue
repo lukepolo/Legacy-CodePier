@@ -6,17 +6,6 @@
                 </h2>
             </div>
 
-
-            <widget icon="icon-database"></widget>
-            <widget icon="icon-pencil">hello</widget>
-            <widget></widget>
-            <widget></widget>
-            <widget></widget>
-            <widget></widget>
-            <widget></widget>
-            <widget></widget>
-
-
             <div class="heading--btns">
                 <confirm
                         confirm_class="btn-link"
@@ -114,7 +103,50 @@
 
         <br><br>
 
-        <div class="providers grid-3">
+        <div class="dashboard">
+            <widget icon="icon-deploy" title="Recent Deployments">
+                <div v-if="!recentDeployments">
+                    <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
+                </div>
+                <template v-else>
+                    <div class="list">
+                        <template v-for="recentDeployment in recentDeployments">
+                            <div class="list--item list--item-icons">
+                                <div>
+                                    {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
+
+                                    <div>
+                                        <small>took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})</small>
+                                    </div>
+                                </div>
+
+                                <confirm dispatch="user_site_deployments/rollback" confirm_position="btns-only" confirm_class="btn-link" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
+                                    <tooltip message="Rollback">
+                                        <span class="icon-refresh2"></span>
+                                    </tooltip>
+                                </confirm>
+                            </div>
+
+
+                            <div class="flex deployment">
+                                <div class="flex--grow deployment--text">
+                                </div>
+                                <div class="deployment--btns">
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </widget>
+            <widget icon="icon-pencil" title="Enable Auto Deploy"></widget>
+            <widget icon="icon-database" title="Enable Database Backups"></widget>
+            <widget icon="icon-webhooks" title="Deploy Hook URL"></widget>
+            <widget icon="icon-lifebuoy" title="Lifelines"></widget>
+        </div>
+
+
+
+        <div class="providers grid-3 hide">
             <template v-if="site.user_repository_provider_id">
                 <template v-if="workFlowCompleted === true">
 
@@ -253,7 +285,7 @@
             </template>
         </div>
 
-        <div class="grid-2 grid-gap-large">
+        <div class="grid-2 grid-gap-large hide">
             <div class="grid--item">
                 <h3 class="text-center heading">Recent Deployments</h3>
 
