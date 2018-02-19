@@ -176,6 +176,10 @@
   left: 0;
   bottom: 0px;
   cursor: ns-resize;
+
+  &.collapsed {
+    cursor: pointer;
+  }
 }
 
 #collapseEvents {
