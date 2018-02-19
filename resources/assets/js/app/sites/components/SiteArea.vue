@@ -89,7 +89,7 @@ export default {
     LeftNav,
     Servers,
     SiteHeader,
-    DeleteSite,
+    DeleteSite
   },
   created() {
     this.fetchData();
