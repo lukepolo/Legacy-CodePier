@@ -34,9 +34,9 @@ class GetServerProviderOptions extends Command
     {
         \Auth::loginUsingId(1);
         $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
-//        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
-//
-//        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
-//        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
+        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
+
+        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
+        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
     }
 }
