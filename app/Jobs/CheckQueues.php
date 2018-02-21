@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use GuzzleHttp\Client as HttpClient;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-use GuzzleHttp\Client as HttpClient;
 class CheckQueues implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
