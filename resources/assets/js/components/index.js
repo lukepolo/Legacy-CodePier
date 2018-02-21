@@ -9,5 +9,7 @@ Vue.component("Clipboard", require("./Clipboard.vue"));
 Vue.component("EventsBar", require("./EventsBar.vue"));
 Vue.component("Navigation", require("./Navigation.vue"));
 Vue.component("SystemAlerts", require("./SystemAlerts.vue"));
+Vue.component("Announcements", require("./Announcements.vue"));
 Vue.component("ConfirmSidebar", require("./ConfirmSidebar.vue"));
 Vue.component("ConfirmDropdown", require("./ConfirmDropdown.vue"));
+Vue.component("ServerSelectionModal", require("./ServerSelectionModal.vue"));

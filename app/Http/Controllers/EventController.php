@@ -29,6 +29,7 @@ class EventController extends Controller
 {
     const COMMANDS = 'commands';
     const SITE_DEPLOYMENTS = 'site_deployments';
+    const SERVER_PROVISIONING = 'server_provisioning';
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
@@ -51,6 +52,9 @@ class EventController extends Controller
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,
+        ],
+        self::SERVER_PROVISIONING => [
+            Server::class,
         ],
     ];
 
@@ -100,6 +104,7 @@ class EventController extends Controller
                     ->when($types->has('commands'), function (Builder $query) use ($types) {
                         return $query->whereIn('commands.commandable_type', $types->get('commands'));
                     }),
+            self::SERVER_PROVISIONING => Server::whereHas('provisionSteps')->select(['servers.id', 'servers.created_at', DB::raw('"'.self::SERVER_PROVISIONING.'" as type')]),
         ])->only($types->keys()->toArray());
 
         /** @var Builder $combinedQuery */
@@ -121,19 +126,23 @@ class EventController extends Controller
                 $tempCombinedQuery,
                 collect([
                     self::SITE_DEPLOYMENTS => SiteDeployment::with([
-                        'serverDeployments.events.step' => function ($query) {
-                            $query->withTrashed();
-                        },
-                    ])
-                    ->whereIn('id', $topResults->filter(function ($event) {
-                        return $event->type == self::SITE_DEPLOYMENTS;
-                    })->keyBy('id')->keys()),
+                            'serverDeployments.events.step' => function ($query) {
+                                $query->withTrashed();
+                            },
+                        ])
+                        ->whereIn('id', $topResults->filter(function ($event) {
+                            return $event->type == self::SITE_DEPLOYMENTS;
+                        })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'serverCommands.server',
                         ])
                         ->whereIn(
                         'id', $topResults->filter(function ($event) {
                             return $event->type == self::COMMANDS;
+                        })->keyBy('id')->keys()),
+                    self::SERVER_PROVISIONING => Server::with(['provisionSteps'])
+                        ->whereIn('id', $topResults->filter(function ($event) {
+                            return $event->type == self::SERVER_PROVISIONING;
                         })->keyBy('id')->keys()),
                 ])->only($types->keys()->toArray())->map(function ($query) {
                     return $query->get();

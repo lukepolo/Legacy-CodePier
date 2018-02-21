@@ -132,6 +132,7 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 |
 */
 
+Route::get('/events-bar', 'Controller@appEventsBar');
 Route::get('/', 'Controller@app');
 
 Route::group([

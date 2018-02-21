@@ -5,7 +5,7 @@
         </div>
         <div class="btn--trigger-panel">
             <tooltip message="Servers to Run On"><span class="icon-server" @click="showModal()"></span></tooltip>
-            <modal v-if="showingModal">
+            <server-selection-modal v-if="showingModal">
                 <template v-if="site">
                     <h3 class="section-header">Select Servers</h3>
                     <div class="section-content section-content-padding">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </template>
-            </modal>
+            </server-selection-modal>
         </div>
     </div>
 </template>

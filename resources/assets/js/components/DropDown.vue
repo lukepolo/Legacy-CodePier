@@ -2,7 +2,7 @@
     <span :is="tag" class="dropdown" :class="{ open : open }" @click="show($event.target)">
 
         <slot name="header">
-            <a href="#" class="dropdown-toggle">
+            <a href="#" @click.prevent class="dropdown-toggle">
                 <span :class="icon"></span>
                 <span class="muted" v-if="muted">{{ muted }} :</span>
 
@@ -15,6 +15,7 @@
                     <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
                 </template>
             </a>
+            <slot name="sub"></slot>
         </slot>
 
         <slot name="content" @click.stop="done">

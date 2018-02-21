@@ -93,6 +93,12 @@
 .icon-clipboard:before {
     content: "\e908";
 }
+.icon-visibility:before {
+    content: "\e8f4";
+}
+.icon-visibility_off:before {
+    content: "\e8f5";
+}
 .icon-play:before {
     content: "\e901";
 }
@@ -119,6 +125,12 @@
 }
 .icon-lifebuoy:before {
     content: "\e941";
+}
+.icon-chat:before {
+    content: "\e8af";
+}
+.icon-comment:before {
+    content: "\e253";
 }
 .icon-power:before {
     content: "\e8ac";
@@ -158,6 +170,9 @@
 }
 .icon-webhooks:before {
     content: "\e907";
+}
+.icon-laravel:before {
+    content: "\e920";
 }
 .icon-slack:before {
     content: "\e916";

@@ -1,16 +1,15 @@
 // GROUP STYLES ============================================
 // =========================================================
 .group {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: $spacing;
 
     &--item {
-        flex: 0 1 320px;
         display: flex;
         flex-direction: column;
         @include card(1);
         border: 1px solid mix($black, $gray, 60%);
-        margin: $spacing;
 
         &-heading  {
             background-color: mix($white, $gray, 10%);
