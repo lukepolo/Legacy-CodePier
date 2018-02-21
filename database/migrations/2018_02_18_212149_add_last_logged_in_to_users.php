@@ -17,6 +17,12 @@ class AddLastLoggedInToUsers extends Migration
             $table->timestamp('last_login_at')->nullable()->after('updated_at');
             $table->timestamp('last_read_announcement')->nullable()->after('updated_at');
         });
+
+        \App\Models\User\User::where('last_login_at', null)->update([
+            'last_read_announcement' => \Carbon\Carbon::now()->subDays(5)
+        ]);
+
+
     }
 
     /**
