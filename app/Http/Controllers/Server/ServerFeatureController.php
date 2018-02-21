@@ -74,7 +74,7 @@ class ServerFeatureController extends Controller
             return response()->json($serverFeatures);
         }
 
-        return response()->json('It is currntly being installed', 409);
+        return response()->json('It is currently being installed', 409);
     }
 
     /**

@@ -117,6 +117,10 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
             root: true
           }
         );
+
+        if (data.server.provision_steps.length) {
+          commit("events/update", data.server, { root: true });
+        }
       })
       .listen("Server\\ServerSshConnectionFailed", data => {
         commit(
@@ -139,6 +143,23 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
       .listen("Server\\ServerCommandUpdated", data => {
         commit("user_commands/update", data.command, { root: true });
         commit("events/update", data.command, { root: true });
+      })
+      .listen("Server\\ServerFeatureInstalled", data => {
+        commit(
+          "user_servers/update",
+          { response: data.server },
+          { root: true }
+        );
+      })
+      .listen("Server\\ServerStartToProvision", data => {
+        commit(
+          "user_servers/update",
+          { response: data.server },
+          { root: true }
+        );
+        if (data.server.provision_steps.length) {
+          commit("events/add", { response: data.server }, { root: true });
+        }
       })
       .notification(notification => {
         switch (notification.type) {

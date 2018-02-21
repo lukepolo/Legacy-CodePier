@@ -138,6 +138,12 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
+                $start = microtime(true);
+
+                $provisionStep->update([
+                    'started' => true,
+                ]);
+
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service, $server);
@@ -148,7 +154,10 @@ class SystemService implements SystemServiceContract
                     'failed' => false,
                     'completed' => true,
                     'log' => $systemService->getOutput(),
+                    'runtime' => microtime(true) - $start,
                 ]);
+
+                $systemService->clearOutput();
             }
         } catch (FailedCommand $e) {
             $provisionStep->update([

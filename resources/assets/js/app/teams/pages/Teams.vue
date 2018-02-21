@@ -9,8 +9,7 @@
                 <div class="container">
                     <div class="panel-heading clearfix">
                         Teams
-                        <a class="pull-right btn btn-default btn-sm" href="#"
-                           @click.prevent="createTeamForm()" v-if="!creating_team">
+                        <a class="pull-right btn btn-default btn-sm" href="#" @click.prevent="createTeamForm()" v-if="!creating_team">
                             <i class="fa fa-plus"></i> Create team
                         </a>
                     </div>

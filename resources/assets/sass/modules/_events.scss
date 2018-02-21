@@ -8,7 +8,7 @@
   }
 
   &--header {
-
+    position: relative;
   }
 
   &--collapse {
@@ -29,6 +29,12 @@
     flex-grow: 1;
     flex-shrink: 1;
     border-top: 1px solid rgba($white, .1);
+  }
+
+  &--open {
+    color: $color-text-secondary;
+    font-size: .9em;
+    margin-left: 15px;
   }
 
 
@@ -166,16 +172,79 @@
 #drag {
   position: absolute;
   top: 0;
-  bottom: 0;
-  height: 10px;
-  width: 100%;
+  right: 0;
+  left: 0;
+  bottom: 0px;
   cursor: ns-resize;
+
+  &.collapsed {
+    cursor: pointer;
+  }
 }
 
 #collapseEvents {
   &.dragging {
     transition: all 0s;
   }
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  color: $white;
+  text-align: right;
+  padding: ($spacing/2) $spacing;
+  pointer-events: none;
+
+  &:hover {
+    background-color: rgba($gray, .2);
+  }
+
+  &:not(.collapsed) {
+    background-color: rgba($gray, .6);
+  }
+
+  &-left {
+    position: relative;
+    pointer-events: all;
+  }
+
+  &-right {
+    position: relative;
+    pointer-events: all;
+    cursor: pointer;
+
+    &:hover h4 {
+      color: $color-text-accent;
+    }
+
+    [class^="icon-"], [class*=" icon-"] {
+      transform: rotate(-180deg);
+      transition: all .5s ease;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    font-size: 1.2em;
+  }
+
+  &.collapsed {
+    .toggle-right {
+      [class^="icon-"], [class*=" icon-"] {
+        transform: rotate(0deg);
+        transition: all .5s ease;
+        top: 0px;
+      }
+    }
+  }
+}
+
+#dragIcon {
+  opacity: .5;
+  cursor: ns-resize;
 }
 
 
@@ -205,6 +274,64 @@
       &-site {
         flex: 1 1 15%;
       }
+    }
+  }
+}
+
+
+// FULL SCREEN STYLES --------------------------------------
+// ---------------------------------------------------------
+.events.full-screen {
+  flex: 1 1 auto;
+
+  .events--header {
+    #drag,
+    #dragIcon,
+    .events--open,
+    .icon-arrow-up {
+      display: none;
+    }
+  }
+
+  .events--collapse {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.events.full-screen {
+
+
+  .filter {
+    .filter--item {
+      position: relative;
+    }
+    .dropup {
+      bottom: auto;
+      left: auto !important;
+      right: 10px;
+
+      &:before {
+        border-top: none;
+        border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+        top: -11px;
+        bottom: auto;
+        left: auto;
+        right: 4px;
+      }
+
+      &:after {
+        border-top: none;
+        border-bottom: 10px solid #343536;
+        top: -10px;
+        left: auto;
+        right: 4px;
+      }
+    }
+
+    .icon-arrow-up:before {
+      content: '\F107';
     }
   }
 }
