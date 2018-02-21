@@ -132,7 +132,7 @@ class PHP
 
         $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
 
         $this->server->cronJobs()->save(
             CronJob::create([
