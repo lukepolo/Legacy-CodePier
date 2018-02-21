@@ -1,0 +1,38 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-gap: $spacing;
+    grid-auto-rows: 113px;
+    grid-auto-flow: dense;
+
+    .providers--item {
+        display: flex;
+        flex-direction: column;
+
+        &.grow {
+            grid-row: span 3;
+        }
+
+        &:hover {
+            transform: scale(1);
+
+            .providers--item-icon {
+                transform: scale(1.15);
+                transition: all .2s ease;
+            }
+        }
+
+
+
+        .providers--item-icon {
+            transform: scale(1);
+            transition: all .2s ease;
+        }
+    }
+
+    .providers--expand {
+        flex: 1 1 auto;
+        background-color: mix($color-background, $white, 95%);
+        border-top: 1px solid $color-divider;
+    }
+}

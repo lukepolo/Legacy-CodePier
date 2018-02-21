@@ -1,4 +1,5 @@
 Vue.component("Modal", require("./Modal.vue"));
+Vue.component("Widget", require("./Widget.vue"));
 Vue.component("Confirm", require("./Confirm.vue"));
 Vue.component("TimeAgo", require("./TimeAgo.vue"));
 Vue.component("Tooltip", require("./ToolTip.vue"));
