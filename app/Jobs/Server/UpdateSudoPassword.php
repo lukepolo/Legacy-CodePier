@@ -46,7 +46,7 @@ class UpdateSudoPassword implements ShouldQueue
         $this->runOnServer(function () use ($serverService) {
             $serverService->updateSudoPassword($this->server, $this->newSudoPassword);
 
-            if($this->wasSuccessful()) {
+            if ($this->wasSuccessful()) {
                 $this->server->sudo_password = $this->newSudoPassword;
                 $this->server->save();
             }
