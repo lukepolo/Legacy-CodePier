@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.3 on 2018-02-18 21:21:50.
+ * Generated for Laravel 5.6.4 on 2018-02-21 20:29:28.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2121,6 +2121,19 @@ namespace Illuminate\Support\Facades {
         public static function component($path, $alias = null)
         {
             \Illuminate\View\Compilers\BladeCompiler::component($path, $alias);
+        }
+        
+        /**
+         * Register an include alias directive.
+         *
+         * @param string $path
+         * @param string $alias
+         * @return void 
+         * @static 
+         */ 
+        public static function include($path, $alias = null)
+        {
+            \Illuminate\View\Compilers\BladeCompiler::include($path, $alias);
         }
         
         /**
@@ -7163,6 +7176,19 @@ namespace Illuminate\Support\Facades {
         public static function json($key = null, $default = null)
         {
             return \Illuminate\Http\Request::json($key, $default);
+        }
+        
+        /**
+         * Create a new request instance from the given Laravel request.
+         *
+         * @param \Illuminate\Http\Request $from
+         * @param \Illuminate\Http\Request|null $to
+         * @return static 
+         * @static 
+         */ 
+        public static function createFrom($from, $to = null)
+        {
+            return \Illuminate\Http\Request::createFrom($from, $to);
         }
         
         /**
