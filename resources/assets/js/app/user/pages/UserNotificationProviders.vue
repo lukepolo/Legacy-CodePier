@@ -103,6 +103,7 @@ export default {
     this.$store.dispatch("notification_settings/get");
     this.$store.dispatch("notification_providers/get");
     this.$store.dispatch("user_notification_settings/get");
+    this.$store.dispatch("user_notification_providers/get");
   }
 };
 </script>
