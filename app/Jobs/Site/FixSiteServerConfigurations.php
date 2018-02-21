@@ -8,11 +8,12 @@ use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Server\UpdateServerConfigurations;
 
 class FixSiteServerConfigurations implements ShouldQueue
 {
-    use InteractsWithQueue, ModelCommandTrait, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, ModelCommandTrait, Queueable, SerializesModels;
 
     public $site;
     public $tries = 1;

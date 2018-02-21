@@ -32,7 +32,7 @@ class OsService
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y ntpdate');
-        $this->remoteTaskService->run('ntpdate ntp.ubuntu.com');
+        $this->remoteTaskService->run('ntpdate -u ntp.ubuntu.com');
     }
 
     public function setLocaleToUTF8()

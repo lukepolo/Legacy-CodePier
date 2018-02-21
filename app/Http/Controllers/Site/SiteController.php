@@ -332,10 +332,17 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $oldDomain = $site->domain;
-        $isDomain = is_domain($request->get('domain'));
+        $newDomain = is_domain($request->get('domain')) ? $request->get('domain') : 'default';
+
+        foreach ($site->files->filter(function ($value) {
+            return $value->framework_file || $value->custom;
+        }) as $siteFile) {
+            $siteFile->file_path = str_replace($oldDomain, $newDomain, $siteFile->file_path);
+            $siteFile->save();
+        }
 
         $site->update([
-            'domain' => $isDomain ? $request->get('domain') : 'default',
+            'domain' => $newDomain,
             'name' => $request->get('domain'),
         ]);
 
