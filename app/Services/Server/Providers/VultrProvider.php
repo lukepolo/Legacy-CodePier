@@ -5,10 +5,9 @@ namespace App\Services\Server\Providers;
 use Vultr\VultrClient;
 use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
+use Vultr\Adapter\GuzzleHttpAdapter as Guzzle;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
-
-use Vultr\Adapter\GuzzleHttpAdapter as Guzzle;
 
 class VultrProvider implements ServerProviderContract
 {
@@ -73,7 +72,7 @@ class VultrProvider implements ServerProviderContract
 
             $regions[] = $tempRegion;
         }
-        
+
         return $regions;
     }
 
@@ -105,7 +104,7 @@ class VultrProvider implements ServerProviderContract
             'OSID' => 215, // Ubuntu 16.04 x64
             'hostname' => $server->name,
             'label' => $server->name,
-            'SSHKEYID' => $sshKeyId
+            'SSHKEYID' => $sshKeyId,
         ]);
 
         $server = $this->saveServer($server, $vultrServer);
@@ -138,7 +137,7 @@ class VultrProvider implements ServerProviderContract
     public function savePublicIP(Server $server)
     {
         $server->update([
-            'ip' => $this->getPublicIP($server)
+            'ip' => $this->getPublicIP($server),
         ]);
     }
 
