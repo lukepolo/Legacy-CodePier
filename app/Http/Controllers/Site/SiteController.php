@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteFileUpdated;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -10,6 +9,7 @@ use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Events\Site\SiteRenamed;
 use App\Models\Site\SiteDeployment;
+use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteRename;
 use App\Events\Site\SiteRestartServers;
@@ -335,7 +335,7 @@ class SiteController extends Controller
         $oldDomain = $site->domain;
         $newDomain = is_domain($request->get('domain')) ? $request->get('domain') : 'default';
 
-        foreach($site->files->where('framework_file', 1) as $siteFile) {
+        foreach ($site->files->where('framework_file', 1) as $siteFile) {
             $siteFile->file_path = str_replace($oldDomain, $newDomain, $siteFile->file_path);
             $siteFile->save();
             event(new SiteFileUpdated($site, $siteFile));
@@ -347,9 +347,6 @@ class SiteController extends Controller
         ]);
 
         event(new SiteRenamed($site, $site->domain, $oldDomain));
-
-
-
 
         return response()->json($site);
     }
