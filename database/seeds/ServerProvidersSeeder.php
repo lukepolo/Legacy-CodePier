@@ -41,6 +41,13 @@ class ServerProvidersSeeder extends Seeder
                 'oauth' => false,
                 'secret_token' => true,
             ],
+            \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR => [
+                'name'     => 'Vultr',
+                'features' => [],
+                'class' => \App\Services\Server\Providers\VultrProvider::class,
+                'oauth' => false,
+                'secret_token' => false,
+            ],
         ];
 
         foreach ($providers as $provider => $data) {
@@ -52,7 +59,7 @@ class ServerProvidersSeeder extends Seeder
                 'provider_name' => $provider,
                 'name'          => $data['name'],
                 'oauth'         => $data['oauth'],
-                'secret_token'        => $data['secret_token'],
+                'secret_token'  => $data['secret_token'],
             ]);
 
             $serverProvider->save();
