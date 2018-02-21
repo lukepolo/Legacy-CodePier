@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(GetServerProviderOptions::class)->daily();
         $schedule->command(GetServerProviderOptions::class)->daily();
+
     }
 
     /**
