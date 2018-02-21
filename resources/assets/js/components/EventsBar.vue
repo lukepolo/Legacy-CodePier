@@ -1,7 +1,7 @@
 <template>
     <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div class="events--drag header events--header" v-on="{ mousedown : recordHeight, mouseup : toggleEvents }">
-            <div id="drag"></div>
+            <div id="drag" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }"></div>
             <div class="toggle" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }">
                 <div class="toggle-left">
                     <i id="dragIcon" class="fa fa-bars"></i>
