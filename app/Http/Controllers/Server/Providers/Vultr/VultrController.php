@@ -42,7 +42,7 @@ class VultrController extends Controller
             'server_provider_id' => ServerProvider::where('provider_name', self::VULTR)->first()->id,
             'provider_id'        => $userId,
         ]);
-        
+
         $userServerProvider->fill([
             'user_id'       => $userId,
             'token'         => $request->get('token'),
