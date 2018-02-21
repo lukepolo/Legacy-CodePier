@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ChangeUserController extends Controller
@@ -18,9 +17,9 @@ class ChangeUserController extends Controller
     {
         $request->session()->push('is_acting', \Auth::user()->id);
         \Auth::loginUsingId($userId);
+
         return redirect()->back();
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -31,6 +30,7 @@ class ChangeUserController extends Controller
     public function destroy(Request $request)
     {
         \Auth::loginUsingId($request->session()->pull('is_acting'));
+
         return redirect()->back();
     }
 }

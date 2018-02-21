@@ -33,7 +33,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 |
 */
 Route::group([
-    'middleware' => 'role:admin'
+    'middleware' => 'role:admin',
 ], function () {
     Route::get('/change-user/{userId}', 'ChangeUserController@store');
 });
