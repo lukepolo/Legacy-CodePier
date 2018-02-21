@@ -313,5 +313,15 @@ Route::group(['middleware' => [
             Route::apiResource('regions', 'LinodeServerRegionsController');
             Route::apiResource('features', 'LinodeServerFeaturesController');
         });
+
+        Route::group([
+            'prefix' => \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR,
+            'namespace' => 'Server\Providers\Vultr',
+        ], function () {
+            Route::apiResource('provider', 'VultrController');
+            Route::apiResource('options', 'VultrServerOptionsController');
+            Route::apiResource('regions', 'VultrServerRegionsController');
+            Route::apiResource('features', 'VultrServerFeaturesController');
+        });
     });
 });

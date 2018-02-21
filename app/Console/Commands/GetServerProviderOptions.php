@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Server\Providers\Linode\LinodeController;
+use App\Http\Controllers\Server\Providers\Vultr\VultrController;
 
 class GetServerProviderOptions extends Command
 {
@@ -38,5 +39,8 @@ class GetServerProviderOptions extends Command
 
         $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
         $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
+
+        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', VultrController::VULTR)->firstOrFail());
+        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', VultrController::VULTR)->firstOrFail());
     }
 }
