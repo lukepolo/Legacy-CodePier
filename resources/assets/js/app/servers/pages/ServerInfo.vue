@@ -19,10 +19,10 @@
                 <div slot="content" class="dropdown-menu dropdown-content nowrap">
 
                     <h3>
-                        <confirm-dropdown dispatch="user_servers/refreshSudoPassword" :params="{ server : server.id }">
+                        <confirm-dropdown :params="{ server : server.id }">
                             Sudo Password
                             <tooltip message="Refresh Sudo Password" v-if="server.progress >= 100">
-                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent.stop="refreshSudoPassword" href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
@@ -106,6 +106,15 @@ export default {
     revealSudoPassword() {
       this.$store
         .dispatch("user_servers/getSudoPassword", {
+          server: this.server.id
+        })
+        .then(response => {
+          this.sudoPassword = response;
+        });
+    },
+    refreshSudoPassword() {
+      this.$store
+        .dispatch("user_servers/refreshSudoPassword", {
           server: this.server.id
         })
         .then(response => {
