@@ -28,6 +28,20 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
+| Super Admin Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::group([
+    'middleware' => 'role:admin'
+], function () {
+    Route::get('/change-user/{userId}', 'ChangeUserController@store');
+});
+
+Route::get('/admin/cancel', 'ChangeUserController@destroy');
+
+/*
+|--------------------------------------------------------------------------
 | OAuth Routes
 |--------------------------------------------------------------------------
 |
