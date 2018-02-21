@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteFileUpdated;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -335,7 +334,7 @@ class SiteController extends Controller
         $oldDomain = $site->domain;
         $newDomain = is_domain($request->get('domain')) ? $request->get('domain') : 'default';
 
-        foreach($site->files->filter(function($value) {
+        foreach ($site->files->filter(function ($value) {
             return $value->framework_file || $value->custom;
         }) as $siteFile) {
             $siteFile->file_path = str_replace($oldDomain, $newDomain, $siteFile->file_path);
