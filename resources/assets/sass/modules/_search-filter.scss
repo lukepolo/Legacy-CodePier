@@ -4,8 +4,6 @@
   flex: 0 0 auto;
   display: flex;
   list-style: none;
-  position: sticky;
-  top: 0px;
   background-color: $black;
   border-bottom: 1px solid $gray;
   margin: 0px;
@@ -168,8 +166,11 @@
     text-align: center;
   }
 
-  //
-  @include breakpoint(xl) {
+}
+
+// Change Dropups to Dropdowns at large screens
+@include breakpoint(xl) {
+  .filter {
     .filter--item {
       position: relative;
     }
@@ -201,3 +202,4 @@
     }
   }
 }
+
