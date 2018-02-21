@@ -208,20 +208,20 @@ export default {
     hasActiveEvents: {
       deep: true,
       handler: function() {
-          // let favicons = document.querySelectorAll('link[rel~="icon"]');
-          // console.info(this.hasActiveEvents.length)
-          // if(this.hasActiveEvents.length) {
-          //   console.info(this.hasActiveEvents)
-          //   favicons.forEach((favicon) => {
-          //     favicon.setAttribute('href', '/assets/img/favicon/favicon-working.png');
-          //   })
-          //   return;
-          // }
-          //
-          // favicons.forEach((favicon) => {
-          //   let size = favicon.getAttribute('sizes');
-          //   favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
-          // })
+        // let favicons = document.querySelectorAll('link[rel~="icon"]');
+        // console.info(this.hasActiveEvents.length)
+        // if(this.hasActiveEvents.length) {
+        //   console.info(this.hasActiveEvents)
+        //   favicons.forEach((favicon) => {
+        //     favicon.setAttribute('href', '/assets/img/favicon/favicon-working.png');
+        //   })
+        //   return;
+        // }
+        //
+        // favicons.forEach((favicon) => {
+        //   let size = favicon.getAttribute('sizes');
+        //   favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
+        // })
       }
     }
   },
