@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Site\SiteDeploymentFailed;
 use App\Notifications\Site\SiteDeploymentSuccessful;
@@ -16,7 +17,7 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class Deploy implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $site;
     public $server;

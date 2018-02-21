@@ -335,10 +335,11 @@ class SiteController extends Controller
         $oldDomain = $site->domain;
         $newDomain = is_domain($request->get('domain')) ? $request->get('domain') : 'default';
 
-        foreach($site->files->where('framework_file', 1) as $siteFile) {
+        foreach($site->files->filter(function($value) {
+            return $value->framework_file || $value->custom;
+        }) as $siteFile) {
             $siteFile->file_path = str_replace($oldDomain, $newDomain, $siteFile->file_path);
             $siteFile->save();
-            event(new SiteFileUpdated($site, $siteFile));
         }
 
         $site->update([
@@ -347,9 +348,6 @@ class SiteController extends Controller
         ]);
 
         event(new SiteRenamed($site, $site->domain, $oldDomain));
-
-
-
 
         return response()->json($site);
     }
