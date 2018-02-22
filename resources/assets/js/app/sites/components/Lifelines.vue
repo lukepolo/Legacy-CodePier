@@ -70,13 +70,13 @@ export default {
       })
     };
   },
-  watch : {
-        '$route' : function() {
-          this.fetchData()
-        }
+  watch: {
+    $route: function() {
+      this.fetchData();
+    }
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData() {
