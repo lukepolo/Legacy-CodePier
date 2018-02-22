@@ -17,7 +17,7 @@ class OsService
         $this->remoteTaskService->run('sleep 45; DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev software-properties-common apt-transport-https');
 
         // https://community.rackspace.com/products/f/25/t/5110
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');

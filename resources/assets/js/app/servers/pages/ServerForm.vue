@@ -30,7 +30,7 @@
                                 <div class="flyform--group" v-if="is_custom">
 
                                     <input type="number" name="port" required value="22" placeholder=" ">
-                                    <label for="port" class="flyform--group-iconlabel">Number of Releases to keep</label>
+                                    <label for="port" class="flyform--group-iconlabel">SSH Port</label>
 
                                     <tooltip message="We will use this port ssh connections" size="medium">
                                         <span class="fa fa-info-circle"></span>
