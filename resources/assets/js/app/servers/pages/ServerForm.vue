@@ -50,7 +50,7 @@
                                                 {{ option.memory | ram }} RAM
                                                 - {{ option.cpus }} vCPUs
                                                 - {{ option.space | diskSize }} Disk
-                                                {{ option.priceHourly != 0 ? ' - $' + option.priceHourly + ' / Hour - ' : ' - ' }}
+                                                {{ option.priceHourly !== 0 ? ' - $' + option.priceHourly + ' / Hour - ' : ' - ' }}
                                                 ${{ option.priceMonthly }} / Month
                                             </option>
                                         </select>
