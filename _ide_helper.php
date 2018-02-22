@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.4 on 2018-02-21 20:29:28.
+ * Generated for Laravel 5.6.5 on 2018-02-22 22:44:28.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -5551,6 +5551,18 @@ namespace Illuminate\Support\Facades {
         public static function setFallback($fallback)
         {
             \Illuminate\Translation\Translator::setFallback($fallback);
+        }
+        
+        /**
+         * Set the loaded translation groups.
+         *
+         * @param array $loaded
+         * @return void 
+         * @static 
+         */ 
+        public static function setLoaded($loaded)
+        {
+            \Illuminate\Translation\Translator::setLoaded($loaded);
         }
         
         /**
@@ -14532,6 +14544,21 @@ namespace  {
             public static function mergeWheres($wheres, $bindings)
             {    
                 \Illuminate\Database\Query\Builder::mergeWheres($wheres, $bindings);
+            }
+         
+            /**
+             * Prepare the value and operator for a where clause.
+             *
+             * @param string $value
+             * @param string $operator
+             * @param bool $useDefault
+             * @return array 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function prepareValueAndOperator($value, $operator, $useDefault = false)
+            {    
+                return \Illuminate\Database\Query\Builder::prepareValueAndOperator($value, $operator, $useDefault);
             }
          
             /**
