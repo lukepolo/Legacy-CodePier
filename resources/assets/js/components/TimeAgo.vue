@@ -9,12 +9,13 @@ export default {
   },
   mounted() {
     this.setCurrentTime();
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.update();
-    }, 60000);
+    }, 1000);
   },
   data() {
     return {
+      interval: null,
       currentTime: null
     };
   },
@@ -25,7 +26,7 @@ export default {
   },
   methods: {
     update() {
-      Vue.set(this.currentTime, this.currentTime.add(-1, "minute"));
+      Vue.set(this.currentTime, moment());
     },
     setCurrentTime() {
       let time = this.time;
@@ -36,6 +37,9 @@ export default {
 
       this.currentTime = time;
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   computed: {
     text() {
