@@ -37,10 +37,6 @@ class Pile extends Model
         static::addGlobalScope(new UserScope);
     }
 
-    public function servers()
-    {
-        return $this->hasMany(Server::class);
-    }
 
     public function sites()
     {
