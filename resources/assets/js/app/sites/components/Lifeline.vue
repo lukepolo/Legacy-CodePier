@@ -20,13 +20,12 @@
                     <div class="flex flex--baseline">
                         <div class="flex--grow flex--shrink">
                             <template v-if="lifeLine.last_seen">
-                                <div class="status status--success"></div>
+                                <div class="status" :class="{ 'status--success' : checkedIn, 'status--error' : !checkedIn }"></div>
                                 <time-ago :time="lifeLine.last_seen"></time-ago>
                             </template>
-
                             <template v-else>
                                 <div class="status status--neutral"></div>
-                                Never Seen
+                                never seen
                             </template>
                         </div>
 
@@ -42,6 +41,33 @@
 
 <script>
 export default {
-  props: ["lifeLine", "site"]
+  props: ["lifeLine", "site"],
+  data() {
+    return {
+      interval: null,
+      currentTime: moment()
+    };
+  },
+  mounted() {
+    this.interval = setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    updateCurrentTime() {
+      this.currentTime = moment();
+    }
+  },
+  computed: {
+    checkedIn() {
+      return this.currentTime
+        .clone()
+        .subtract(this.lifeLine.threshold, "minutes")
+        .isBefore(this.parseDate(this.lifeLine.last_seen));
+    }
+  }
 };
 </script>
