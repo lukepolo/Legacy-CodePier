@@ -66,6 +66,10 @@ h3 {
     font-weight: 700;
     font-size: 20px;
     line-height: 1em;
+
+    small {
+        color: rgba($color-text-primary, .5);
+    }
 }
 
 h5 {
@@ -126,5 +130,12 @@ h5 {
     ul,
     ol {
         font-size: 1.3em;
+
+        ul,
+        ol {
+            font-size: 1em;
+            list-style-type: disc;
+            margin-bottom: 30px;
+        }
     }
 }
