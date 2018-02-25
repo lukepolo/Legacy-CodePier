@@ -90,7 +90,13 @@ h5 {
     }
 }
 
+
 .btn-primary {
+    color: $white !important;
+}
+
+.btn-default {
+    background-color: $black;
     color: $white !important;
 }
 
