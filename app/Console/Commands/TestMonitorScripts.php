@@ -31,21 +31,27 @@ class TestMonitorScripts extends Command
     {
         $server = Server::findOrFail($this->argument('serverId'));
 
-        dump(trim(shell_exec(
+        dump(trim(
+            shell_exec(
             MonitoringService::LOAD_AVG_SCRIPT.'
-            echo "'.action('WebHookController@loadMonitor', $server->encode()).'?loads=$current_load&cpus=$cpus"')
+            echo "'.action('WebHookController@loadMonitor', $server->encode()).'?loads=$current_load&cpus=$cpus"'
+        )
         ));
 
-        dump(trim(shell_exec(
+        dump(trim(
+            shell_exec(
             MonitoringService::MEMORY_SCRIPT.' | while read -r current_memory;  do
                 echo "'.action('WebHookController@memoryMonitor', $server->encode()).'?memory=$current_memory"
-            done')
+            done'
+        )
         ));
 
-        dump(trim(shell_exec(
+        dump(trim(
+            shell_exec(
             MonitoringService::DISK_USAGE_SCRIPT.' | while read -r disk_usage;  do
                 echo "'.action('WebHookController@diskUsageMonitor', $server->encode()).'?disk_usage=$disk_usage"
-            done')
+            done'
+        )
         ));
     }
 }

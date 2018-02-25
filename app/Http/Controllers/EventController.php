@@ -137,9 +137,11 @@ class EventController extends Controller
                             'serverCommands.server',
                         ])
                         ->whereIn(
-                        'id', $topResults->filter(function ($event) {
-                            return $event->type == self::COMMANDS;
-                        })->keyBy('id')->keys()),
+                        'id',
+                            $topResults->filter(function ($event) {
+                                return $event->type == self::COMMANDS;
+                            })->keyBy('id')->keys()
+                        ),
                     self::SERVER_PROVISIONING => Server::with(['provisionSteps'])
                         ->whereIn('id', $topResults->filter(function ($event) {
                             return $event->type == self::SERVER_PROVISIONING;
@@ -150,7 +152,8 @@ class EventController extends Controller
                 ->flatten()
                 ->sortByDesc('created_at'),
             $request->get('page')
-        ));
+        )
+        );
     }
 
     /**

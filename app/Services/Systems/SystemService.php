@@ -194,7 +194,8 @@ class SystemService implements SystemServiceContract
      */
     private function updateProgress($step)
     {
-        broadcast(new ServerProvisionStatusChanged(
+        broadcast(
+            new ServerProvisionStatusChanged(
                 $this->server,
                 $step,
                 $this->server->provisioningProgress()

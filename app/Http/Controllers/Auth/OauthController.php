@@ -82,8 +82,10 @@ class OauthController extends Controller
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
-                    $newUserNotificationProvider = $this->saveNotificationProvider($provider,
-                        new TokenData($tokenData['access_token'], $tokenData['user_id']));
+                    $newUserNotificationProvider = $this->saveNotificationProvider(
+                        $provider,
+                        new TokenData($tokenData['access_token'], $tokenData['user_id'])
+                    );
                     break;
                 default:
 
@@ -186,8 +188,10 @@ class OauthController extends Controller
     public function getDisconnectService($providerType, int $serviceID)
     {
         if (UserRepositoryProvider::class == $providerType) {
-            if (! empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id',
-                $serviceID)->first())
+            if (! empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where(
+                'id',
+                $serviceID
+            )->first())
             ) {
                 $userRepositoryProvider->delete();
             }
@@ -200,8 +204,10 @@ class OauthController extends Controller
         }
 
         if (UserNotificationProvider::class == $providerType) {
-            if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
-                $serviceID)->first())
+            if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where(
+                'id',
+                $serviceID
+            )->first())
             ) {
                 $userNotificationProvider->delete();
             }
