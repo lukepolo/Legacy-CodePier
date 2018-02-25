@@ -79,6 +79,9 @@ class OsService
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, '');
         $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '');
         $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, '');
+
+        $this->addToServiceRestartGroup(SystemService::WORKER_PROGRAMS_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, '');
     }
 
     /**
