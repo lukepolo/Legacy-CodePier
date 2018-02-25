@@ -1,10 +1,9 @@
 // EVENT STYLES ============================================
 // =========================================================
 .events {
-  border-top: 2px solid rgba($white, .2);
+  border-top: 2px solid rgba($white, 0.2);
 
   &--drag {
-
   }
 
   &--header {
@@ -13,12 +12,12 @@
 
   &--collapse {
     overflow-y: scroll;
-    transition: height .5s;
+    transition: height 0.5s;
     height: 30vh;
 
     &-hidden {
       height: 0px !important;
-      transition: height .5s;
+      transition: height 0.5s;
       overflow: hidden;
     }
   }
@@ -28,28 +27,26 @@
     -webkit-overflow-scrolling: touch;
     flex-grow: 1;
     flex-shrink: 1;
-    border-top: 1px solid rgba($white, .1);
+    border-top: 1px solid rgba($white, 0.1);
   }
 
   &--open {
     color: $color-text-secondary;
-    font-size: .9em;
+    font-size: 0.9em;
     margin-left: 15px;
   }
-
 
   // EVENTS ITEM ---------------------------------------------
   // ---------------------------------------------------------
   &--item {
     display: flex;
     padding: ($spacing/2) $spacing;
-    border-bottom: 1px solid rgba($white, .1);
+    border-bottom: 1px solid rgba($white, 0.1);
 
     // EVENTS ITEM STATUS
     &-status {
       flex: 0 0 auto;
       margin-right: $spacing;
-
 
       &-neutral {
         @include status(null);
@@ -119,8 +116,6 @@
   }
 }
 
-
-
 // EVENTS ITEM DETAILS -------------------------------------
 // ---------------------------------------------------------
 .events--item-details {
@@ -128,7 +123,7 @@
 
   // can't do margin-top -- makes collapse jump
   &:before {
-    content: '';
+    content: "";
     display: block;
     height: $spacing/2;
   }
@@ -145,11 +140,11 @@
 
   pre {
     margin: 0px 0px $spacing ($spacing *2);
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
     overflow: auto;
     color: $yellow;
   }
@@ -164,8 +159,6 @@
     }
   }
 }
-
-
 
 // DRAGGING STYLES -----------------------------------------
 // ---------------------------------------------------------
@@ -198,11 +191,11 @@
   pointer-events: none;
 
   &:hover {
-    background-color: rgba($gray, .2);
+    background-color: rgba($gray, 0.2);
   }
 
   &:not(.collapsed) {
-    background-color: rgba($gray, .6);
+    background-color: rgba($gray, 0.6);
   }
 
   &-left {
@@ -219,23 +212,26 @@
       color: $color-text-accent;
     }
 
-    [class^="icon-"], [class*=" icon-"] {
+    [class^="icon-"],
+    [class*=" icon-"] {
       transform: rotate(-180deg);
-      transition: all .5s ease;
+      transition: all 0.5s ease;
       position: relative;
       top: 2px;
     }
   }
 
-  [class^="icon-"], [class*=" icon-"] {
+  [class^="icon-"],
+  [class*=" icon-"] {
     font-size: 1.2em;
   }
 
   &.collapsed {
     .toggle-right {
-      [class^="icon-"], [class*=" icon-"] {
+      [class^="icon-"],
+      [class*=" icon-"] {
         transform: rotate(0deg);
-        transition: all .5s ease;
+        transition: all 0.5s ease;
         top: 0px;
       }
     }
@@ -243,17 +239,14 @@
 }
 
 #dragIcon {
-  opacity: .5;
+  opacity: 0.5;
   cursor: ns-resize;
 }
-
-
 
 // XL SCREEN STYLES ----------------------------------------
 // ---------------------------------------------------------
 @include breakpoint(xl) {
   .events {
-
     &--collapse {
       height: 100%;
     }
@@ -278,7 +271,6 @@
   }
 }
 
-
 // FULL SCREEN STYLES --------------------------------------
 // ---------------------------------------------------------
 .events.full-screen {
@@ -301,8 +293,6 @@
 }
 
 .events.full-screen {
-
-
   .filter {
     .filter--item {
       position: relative;
@@ -331,7 +321,7 @@
     }
 
     .icon-arrow-up:before {
-      content: '\F107';
+      content: "\F107";
     }
   }
 }
