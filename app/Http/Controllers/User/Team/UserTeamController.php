@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\User\Team;
 
 use App\Http\Controllers\Controller;
+use Mpociot\Teamwork\Facades\Teamwork;
 use App\Http\Requests\User\UserTeamRequest;
 use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
-use Mpociot\Teamwork\Facades\Teamwork;
 
 class UserTeamController extends Controller
 {

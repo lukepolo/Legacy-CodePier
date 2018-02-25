@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use PragmaRX\Google2FA\Google2FA;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class SecondAuthController extends Controller
 {

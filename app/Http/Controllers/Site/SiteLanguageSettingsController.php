@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteLanguageSettingsServiceContract as SiteLanguageSettingsService;
-use App\Events\Site\SiteLanguageSettingUpdated;
+use App\Models\Site\Site;
+use App\Models\LanguageSetting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageSettingRequest;
-use App\Models\LanguageSetting;
-use App\Models\Site\Site;
+use App\Events\Site\SiteLanguageSettingUpdated;
+use App\Contracts\Site\SiteLanguageSettingsServiceContract as SiteLanguageSettingsService;
 
 class SiteLanguageSettingsController extends Controller
 {

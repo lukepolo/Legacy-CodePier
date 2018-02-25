@@ -2,12 +2,12 @@
 
 namespace App\Notifications\Channels;
 
-use App\Exceptions\SlackMessageMissingParams;
 use App\Models\SlackChannel;
 use GuzzleHttp\Client as HttpClient;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use App\Exceptions\SlackMessageMissingParams;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
 
 class SlackMessageChannel
 {

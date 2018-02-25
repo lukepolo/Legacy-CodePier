@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteDaemonCreated;
-use App\Events\Site\SiteDaemonDeleted;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\DaemonRequest;
-use App\Http\Requests\DaemonUpdatedRequest;
-use App\Jobs\Site\FixSiteServerConfigurations;
 use App\Models\Daemon;
 use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DaemonRequest;
+use App\Events\Site\SiteDaemonCreated;
+use App\Events\Site\SiteDaemonDeleted;
+use App\Http\Requests\DaemonUpdatedRequest;
+use App\Jobs\Site\FixSiteServerConfigurations;
 
 class SiteDaemonsController extends Controller
 {

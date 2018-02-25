@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User\User;
 use GuzzleHttp\Psr7\Response;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserUpdateRequest;
 
 class UserController extends Controller
 {

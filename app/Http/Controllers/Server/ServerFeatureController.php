@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFeatureRequest;
-use App\Jobs\Server\InstallServerFeature;
-use App\Models\Server\Server;
 use App\Traits\SystemFiles;
+use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
+use App\Jobs\Server\InstallServerFeature;
+use App\Http\Requests\Server\ServerFeatureRequest;
+use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
 
 class ServerFeatureController extends Controller
 {

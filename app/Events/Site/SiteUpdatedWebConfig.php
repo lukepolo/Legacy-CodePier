@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Site\UpdateWebConfig;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\UpdateWebConfig;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 
 class SiteUpdatedWebConfig
 {

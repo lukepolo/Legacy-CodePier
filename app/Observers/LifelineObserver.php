@@ -2,8 +2,8 @@
 
 namespace App\Observers\Site;
 
-use App\Events\Site\LifeLineUpdated;
 use App\Models\Site\Lifeline;
+use App\Events\Site\LifeLineUpdated;
 use App\Notifications\LifeLineCheckedIn;
 
 class LifelineObserver

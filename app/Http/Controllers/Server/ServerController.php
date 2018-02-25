@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerRequest;
-use App\Jobs\Server\CreateServer;
-use App\Jobs\Server\UpdateSudoPassword;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\ProvisioningKey;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Services\Server\Providers\CustomProvider;
-use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Jobs\Server\CreateServer;
+use App\Http\Controllers\Controller;
+use App\Models\Server\ProvisioningKey;
+use App\Jobs\Server\UpdateSudoPassword;
+use App\Services\Systems\SystemService;
+use App\Http\Requests\Server\ServerRequest;
+use App\Models\Server\Provider\ServerProvider;
+use App\Services\Server\Providers\CustomProvider;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
 {

@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Server;
 use App\Models\User\User;
+use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 
 class CustomProvider implements ServerProviderContract

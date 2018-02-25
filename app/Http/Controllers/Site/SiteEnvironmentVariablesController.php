@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteEnvironmentVariableCreated;
-use App\Events\Site\SiteEnvironmentVariableDeleted;
+use App\Models\Site\Site;
+use App\Models\EnvironmentVariable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EnvironmentVariableRequest;
-use App\Models\EnvironmentVariable;
-use App\Models\Site\Site;
+use App\Events\Site\SiteEnvironmentVariableCreated;
+use App\Events\Site\SiteEnvironmentVariableDeleted;
 
 class SiteEnvironmentVariablesController extends Controller
 {

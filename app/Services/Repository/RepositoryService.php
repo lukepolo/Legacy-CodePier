@@ -2,14 +2,14 @@
 
 namespace App\Services\Repository;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Repository\RepositoryServiceContract;
-use App\Exceptions\SiteUserProviderNotConnected;
-use App\Exceptions\SshConnectionFailed;
-use App\Jobs\Server\InstallPublicKey;
-use App\Models\RepositoryProvider;
 use App\Models\Site\Site;
+use App\Models\RepositoryProvider;
+use App\Jobs\Server\InstallPublicKey;
+use App\Exceptions\SshConnectionFailed;
 use App\Models\User\UserRepositoryProvider;
+use App\Exceptions\SiteUserProviderNotConnected;
+use App\Contracts\Repository\RepositoryServiceContract;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class RepositoryService implements RepositoryServiceContract
 {

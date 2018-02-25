@@ -2,14 +2,14 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Jobs\Server\Workers\RemoveServerWorker;
-use App\Models\Command;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
 use App\Models\Worker;
-use App\Services\Systems\SystemService;
+use App\Models\Command;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Jobs\Server\Workers\InstallServerWorker;
 
 class UpdateServerWorkers
 {

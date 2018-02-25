@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerLanguageSettingsServiceContract as ServerLanguageSettingsService;
+use App\Models\Server\Server;
+use App\Models\LanguageSetting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageSettingRequest;
 use App\Jobs\Server\UpdateServerLanguageSetting;
-use App\Models\LanguageSetting;
-use App\Models\Server\Server;
+use App\Contracts\Server\ServerLanguageSettingsServiceContract as ServerLanguageSettingsService;
 
 class ServerLanguageSettingsController extends Controller
 {

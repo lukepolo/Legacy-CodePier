@@ -2,11 +2,11 @@
 
 namespace App\Notifications\Site;
 
-use App\Models\Site\SiteDeployment;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\SlackMessage;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class SiteDeploymentSuccessful extends Notification
 {

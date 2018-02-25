@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth\Providers;
 
-use App\Http\Controllers\Controller;
 use App\Models\RepositoryProvider;
+use App\Http\Controllers\Controller;
 
 class RepositoryProvidersController extends Controller
 {

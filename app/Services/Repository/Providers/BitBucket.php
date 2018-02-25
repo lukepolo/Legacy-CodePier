@@ -2,14 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
-use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuth2Listener;
-use Bitbucket\API\Repositories\Hooks;
-use Buzz\Message\Response;
 use Carbon\Carbon;
+use App\Models\Site\Site;
+use Buzz\Message\Response;
+use App\Exceptions\DeployHookFailed;
+use Bitbucket\API\Repositories\Hooks;
+use App\Models\User\UserRepositoryProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use Bitbucket\API\Http\Listener\OAuth2Listener;
 
 class BitBucket implements RepositoryContract
 {

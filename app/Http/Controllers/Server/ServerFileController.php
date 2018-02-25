@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FileRequest;
-use App\Http\Requests\FindFileRequest;
-use App\Jobs\Server\UpdateServerFile;
 use App\Models\Server\Server;
+use App\Http\Requests\FileRequest;
+use App\Http\Controllers\Controller;
+use App\Jobs\Server\UpdateServerFile;
+use App\Http\Requests\FindFileRequest;
+use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
 class ServerFileController extends Controller
 {

@@ -4,26 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Models\Buoy;
+use App\Models\File;
+use App\Models\Daemon;
+use App\Models\Schema;
+use App\Models\SshKey;
+use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
-use App\Models\Daemon;
-use App\Models\EnvironmentVariable;
-use App\Models\File;
-use App\Models\FirewallRule;
-use App\Models\LanguageSetting;
-use App\Models\Schema;
-use App\Models\SchemaUser;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
-use App\Models\SshKey;
-use App\Models\SslCertificate;
-use App\Models\Worker;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\SchemaUser;
+use App\Models\FirewallRule;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Server\Server;
+use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\EnvironmentVariable;
+use App\Models\Site\SiteDeployment;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App\Services\DeploymentServices\PHP;
 
+use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\DeployTrait;
 use App\Services\DeploymentServices\PHP\Frameworks\CakePHP;
-use App\Services\DeploymentServices\PHP\Frameworks\CodeIgniter;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
 use App\Services\DeploymentServices\PHP\Frameworks\Symfony;
-use App\Services\Systems\SystemService;
+use App\Services\DeploymentServices\PHP\Frameworks\CodeIgniter;
 
 class PHP
 {

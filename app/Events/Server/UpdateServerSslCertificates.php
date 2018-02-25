@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 use App\Models\Command;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use App\Models\SslCertificate;
-use App\Services\Systems\SystemService;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 
 class UpdateServerSslCertificates
 {

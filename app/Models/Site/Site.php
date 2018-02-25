@@ -2,35 +2,35 @@
 
 namespace App\Models\Site;
 
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Buoy;
+use App\Models\File;
+use App\Models\Pile;
+use App\Models\Daemon;
+use App\Models\Schema;
+use App\Models\SshKey;
+use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
-use App\Models\Daemon;
-use App\Models\EnvironmentVariable;
-use App\Models\File;
-use App\Models\FirewallRule;
-use App\Models\LanguageSetting;
-use App\Models\Pile;
-use App\Models\Schema;
-use App\Models\SchemaUser;
-use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentStep;
-use App\Models\SlackChannel;
-use App\Models\SshKey;
-use App\Models\SslCertificate;
 use App\Models\User\User;
-use App\Models\User\UserRepositoryProvider;
-use App\Models\Worker;
+use App\Models\SchemaUser;
+use App\Traits\HasServers;
+use App\Traits\Encryptable;
+use App\Traits\UsedByTeams;
+use App\Models\FirewallRule;
+use App\Models\SlackChannel;
+use App\Models\Server\Server;
+use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
+use App\Traits\ConnectedToUser;
+use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
-use App\Traits\ConnectedToUser;
-use App\Traits\Encryptable;
-use App\Traits\HasServers;
-use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\User\UserRepositoryProvider;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Server\ProvisioningKey;
 use Closure;
+use App\Models\Server\ProvisioningKey;
 
 class VerifyProvisioningKey
 {

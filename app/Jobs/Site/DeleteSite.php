@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Exceptions\SshConnectionFailed;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use App\Exceptions\SshConnectionFailed;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeleteSite implements ShouldQueue
 {

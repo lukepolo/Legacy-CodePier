@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Site;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
-use App\Traits\ServerCommandTrait;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CreateSite implements ShouldQueue
 {

@@ -2,9 +2,9 @@
 
 namespace App\Services\Buoys;
 
-use App\Contracts\Buoys\BuoyContract;
-use App\Notifications\BuoyInstall;
 use App\Traits\Buoys\BuoyTrait;
+use App\Notifications\BuoyInstall;
+use App\Contracts\Buoys\BuoyContract;
 
 class SentryBuoy implements BuoyContract
 {

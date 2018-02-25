@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
+use App\Http\Requests\FileRequest;
 use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FileRequest;
 use App\Http\Requests\FindFileRequest;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
+use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
 class SiteFileController extends Controller
 {

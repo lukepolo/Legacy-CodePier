@@ -2,13 +2,13 @@
 
 namespace App\Observers;
 
-use App\Mail\ConfirmWelcome;
-use App\Mail\Welcome;
-use App\Models\NotificationSetting;
 use App\Models\Pile;
+use App\Mail\Welcome;
 use App\Models\User\User;
-use App\Models\User\UserNotificationSetting;
+use App\Mail\ConfirmWelcome;
+use App\Models\NotificationSetting;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User\UserNotificationSetting;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserObserver

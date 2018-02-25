@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Events\Site\SiteFirewallRuleDeleted;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FirewallRuleRequest;
-use App\Models\Site\Site;
+use App\Events\Site\SiteFirewallRuleDeleted;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class SiteFirewallRuleController extends Controller
 {

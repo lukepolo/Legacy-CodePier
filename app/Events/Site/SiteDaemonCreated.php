@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\Daemons\InstallServerDaemon;
 use App\Models\Daemon;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\Daemons\InstallServerDaemon;
 
 class SiteDaemonCreated
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\BuoyServiceContract as BuoyService;
-use App\Http\Requests\BuoyRequest;
 use App\Models\BuoyApp;
 use App\Models\Category;
+use App\Http\Requests\BuoyRequest;
+use App\Contracts\BuoyServiceContract as BuoyService;
 
 class BuoyAppController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\UpdateServerLanguageSetting;
-use App\Models\LanguageSetting;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
+use App\Models\LanguageSetting;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\UpdateServerLanguageSetting;
 
 class SiteLanguageSettingUpdated
 {

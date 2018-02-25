@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Events\Server\ServerProvisionStatusChanged;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\ProvisionServer;
-use App\Models\Server\Server;
+use App\Events\Server\ServerProvisionStatusChanged;
 
 class ServerProvisionStepsController extends Controller
 {

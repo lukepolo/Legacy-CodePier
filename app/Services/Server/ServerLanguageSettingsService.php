@@ -2,10 +2,10 @@
 
 namespace App\Services\Server;
 
-use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
-use App\Contracts\Server\ServerLanguageSettingsServiceContract;
-use App\Models\Server\Server;
 use App\Traits\SystemFiles;
+use App\Models\Server\Server;
+use App\Contracts\Server\ServerLanguageSettingsServiceContract;
+use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
 
 class ServerLanguageSettingsService implements ServerLanguageSettingsServiceContract
 {

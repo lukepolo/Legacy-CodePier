@@ -2,15 +2,15 @@
 
 namespace App\Events\Server;
 
-use App\Contracts\Site\SiteServiceContract;
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Models\Command;
+use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
-use App\Models\Site\Site;
 use App\Services\Site\SiteService;
-use App\Services\Systems\SystemService;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Contracts\Site\SiteServiceContract;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class UpdateServerFirewallRules
 {

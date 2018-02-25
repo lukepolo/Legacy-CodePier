@@ -2,10 +2,10 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\UpdateServerFile;
 use App\Models\File;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
 
 class SiteFileUpdated

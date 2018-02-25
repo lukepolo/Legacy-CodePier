@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\Command;
 use App\Models\CronJob;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class UpdateServerCronJobs
 {

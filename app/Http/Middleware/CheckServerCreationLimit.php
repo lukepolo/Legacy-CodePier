@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User\User;
 use Closure;
+use App\Models\User\User;
 
 class CheckServerCreationLimit
 {

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,21 +2,21 @@
 
 namespace App\Models\User;
 
-use App\Models\Pile;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
-use App\Models\SshKey;
-use App\Notifications\Channels\SlackMessageChannel;
-use App\Traits\Hashable;
-use App\Traits\HasServers;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;
+use App\Models\Pile;
+use App\Models\SshKey;
+use App\Traits\Hashable;
+use App\Models\Site\Site;
 use Laravel\Cashier\Card;
+use App\Traits\HasServers;
+use App\Models\Server\Server;
+use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Site\SiteDeployment;
+use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteSchemaCreated;
-use App\Events\Site\SiteSchemaDeleted;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SchemaRequest;
 use App\Models\Schema;
 use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SchemaRequest;
+use App\Events\Site\SiteSchemaCreated;
+use App\Events\Site\SiteSchemaDeleted;
 
 class SiteSchemaController extends Controller
 {

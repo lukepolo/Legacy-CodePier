@@ -2,9 +2,9 @@
 
 namespace App\Models\User;
 
-use App\Models\NotificationProvider;
-use App\Traits\ConnectedToUser;
 use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
+use App\Models\NotificationProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

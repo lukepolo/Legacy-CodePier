@@ -2,18 +2,18 @@
 
 namespace App\Jobs\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Events\Site\DeploymentStepFailed;
-use App\Events\Site\DeploymentStepStarted;
 use App\Models\Site\Site;
-use App\Models\Site\SiteServerDeployment;
-use App\Notifications\Site\SiteDeploymentFailed;
-use App\Notifications\Site\SiteDeploymentSuccessful;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\DeploymentStepFailed;
+use App\Models\Site\SiteServerDeployment;
+use App\Events\Site\DeploymentStepStarted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Notifications\Site\SiteDeploymentFailed;
+use App\Notifications\Site\SiteDeploymentSuccessful;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class Deploy implements ShouldQueue
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
-use App\Models\ServerCommand;
 use App\Models\Site\Site;
+use App\Models\ServerCommand;
 use App\Models\Site\SiteDeployment;
+use App\Http\Controllers\Controller;
 
 class SiteServerCommandsController extends Controller
 {

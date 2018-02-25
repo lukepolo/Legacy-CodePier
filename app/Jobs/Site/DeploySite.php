@@ -3,15 +3,15 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
-use App\Models\Site\SiteServerDeployment;
-use App\Notifications\Site\NewSiteDeployment;
-use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
+use App\Models\Site\SiteDeployment;
+use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Notifications\Site\NewSiteDeployment;
 
 class DeploySite implements ShouldQueue
 {

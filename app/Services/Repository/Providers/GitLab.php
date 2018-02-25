@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
-use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
 use GuzzleHttp\Client;
+use App\Models\Site\Site;
+use App\Exceptions\DeployHookFailed;
 use GuzzleHttp\Exception\ClientException;
+use App\Models\User\UserRepositoryProvider;
 
 class GitLab implements RepositoryContract
 {

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\SshKey;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SshKeyRequest;
-use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Jobs\Server\SshKeys\RemoveServerSshKey;
-use App\Models\SshKey;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
 class UserSshKeyController extends Controller
 {

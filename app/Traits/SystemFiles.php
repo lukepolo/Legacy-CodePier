@@ -2,10 +2,10 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
 use ReflectionClass;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 trait SystemFiles
 {

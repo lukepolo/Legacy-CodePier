@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Command;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Traits\ServerCommandTrait;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class InstallPublicKey implements ShouldQueue
 {
