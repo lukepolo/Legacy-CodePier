@@ -319,10 +319,6 @@ export default {
     }
   },
   methods: {
-    getUserNotificationProviders() {
-      alert('test')
-      this.$store.dispatch("user_notification_providers/get");
-    },
     createDeployHook() {
       return this.$store.dispatch(
         "user_site_deployments/createDeployHook",
