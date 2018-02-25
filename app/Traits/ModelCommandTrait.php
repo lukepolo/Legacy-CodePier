@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 trait ModelCommandTrait
 {
     /**
-     * @param Site $site
-     * @param Model $model
+     * @param Site   $site
+     * @param Model  $model
      * @param string $status Determines what command description to use
+     *
      * @return Command
      */
     private function makeCommand(Site $site, Model $model, $status)

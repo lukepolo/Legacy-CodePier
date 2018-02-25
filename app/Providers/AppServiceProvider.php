@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->environment() !== 'production') {
+        if ('production' !== $this->app->environment()) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
@@ -84,11 +84,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Horizon::auth(function ($request) {
             if ($request->user()) {
-                if (config('app.env') === 'local') {
+                if ('local' === config('app.env')) {
                     return true;
                 }
 
-                return strtolower($request->user()->role) === 'admin';
+                return 'admin' === strtolower($request->user()->role);
             }
         });
 

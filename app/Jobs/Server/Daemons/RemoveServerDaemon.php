@@ -27,10 +27,11 @@ class RemoveServerDaemon implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Daemon $daemon
+     *
+     * @param Server  $server
+     * @param Daemon  $daemon
      * @param Command $siteCommand
-     * @param bool $forceRemove
+     * @param bool    $forceRemove
      */
     public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null, $forceRemove = false)
     {
@@ -42,6 +43,7 @@ class RemoveServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -57,7 +59,7 @@ class RemoveServerDaemon implements ShouldQueue
                 $this->server->daemons()->detach($this->daemon->id);
 
                 $this->daemon->load('servers');
-                if ($this->daemon->servers->count() == 0) {
+                if (0 == $this->daemon->servers->count()) {
                     $this->daemon->delete();
                 }
             }

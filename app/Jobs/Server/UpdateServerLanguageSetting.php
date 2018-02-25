@@ -25,9 +25,10 @@ class UpdateServerLanguageSetting implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
+     *
+     * @param Server          $server
      * @param LanguageSetting $languageSetting
-     * @param Command $siteCommand
+     * @param Command         $siteCommand
      */
     public function __construct(Server $server, LanguageSetting $languageSetting, Command $siteCommand = null)
     {
@@ -38,7 +39,9 @@ class UpdateServerLanguageSetting implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

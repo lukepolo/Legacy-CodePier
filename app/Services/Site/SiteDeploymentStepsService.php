@@ -19,7 +19,9 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
     /**
      * Gets all deployment classes for their site.
+     *
      * @param $site
+     *
      * @return string
      */
     public function getDeploymentClass(Site $site)
@@ -29,7 +31,9 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
     /**
      * Gest the sites class.
+     *
      * @param Site $site
+     *
      * @return string
      */
     public function getSiteClass(Site $site)
@@ -39,7 +43,9 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
     /**
      * Gets the frameworks class.
+     *
      * @param Site $site
+     *
      * @return string
      */
     public function getFrameworkClass(Site $site)
@@ -49,6 +55,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
     /**
      * Saves the default steps suggested for their language and framework.
+     *
      * @param Site $site
      */
     public function saveDefaultSteps(Site $site)
@@ -56,7 +63,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
         return $this->saveNewSteps(
             $site,
             $this->buildDeploymentOptions($this->getDeploymentClass($site), $this->getFrameworkClass($site))->filter(function ($step) {
-                return $step['enabled'] == true;
+                return true == $step['enabled'];
             })
         );
     }
@@ -93,8 +100,10 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
     /**
      * Gets all the deployment options.
+     *
      * @param $class
      * @param null $frameworkClass
+     *
      * @return Collection
      */
     public function buildDeploymentOptions($class, $frameworkClass = null)
@@ -107,7 +116,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
             $traitMethods = collect();
 
             foreach ($reflection->getTraits() as $reflectionTraitClass) {
-                if ($reflectionTraitClass->name != $frameworkClass && $reflectionTraitClass->name != DeployTrait::class) {
+                if ($reflectionTraitClass->name != $frameworkClass && DeployTrait::class != $reflectionTraitClass->name) {
                     foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                         $traitMethods->push($method->name);
                     }
@@ -115,7 +124,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
             }
 
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                if ($method->name != '__construct' && ! $traitMethods->contains($method->name)) {
+                if ('__construct' != $method->name && ! $traitMethods->contains($method->name)) {
                     $order = $this->getFirstDocParam($method, 'order');
 
                     if (! empty($order)) {
@@ -123,11 +132,11 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
                         $deploymentSteps[] = [
                                'order' => (int) $order,
-                               'zero_downtime_deployment' => $this->getFirstDocParam($method, 'zero_downtime_deployment') === '' ? true : false,
+                               'zero_downtime_deployment' => '' === $this->getFirstDocParam($method, 'zero_downtime_deployment') ? true : false,
                                'description' => $description,
                                'internal_deployment_function' => $method->name,
                                'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                               'enabled' => $this->getFirstDocParam($method, 'not_default') === 'true' ? false : true,
+                               'enabled' => 'true' === $this->getFirstDocParam($method, 'not_default') ? false : true,
                            ];
                     }
                 }
@@ -146,6 +155,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      *
      * @param Site $site
      * @param $deploymentStep
+     *
      * @return null
      */
     public function getDeploymentStep(Site $site, $deploymentStep)

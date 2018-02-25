@@ -30,8 +30,9 @@ class Deploy implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param SiteServerDeployment $serverDeployment
-     * @param null $oldSiteDeployment
+     * @param null                 $oldSiteDeployment
      */
     public function __construct(Site $site, SiteServerDeployment $serverDeployment, $oldSiteDeployment = null)
     {
@@ -67,7 +68,7 @@ class Deploy implements ShouldQueue
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
-            if (get_class($e) == \Exception::class) {
+            if (\Exception::class == get_class($e)) {
                 app('sentry')->captureException($e);
                 $message = 'The error has been reported and we are looking into it.';
             }
@@ -75,7 +76,7 @@ class Deploy implements ShouldQueue
             $success = false;
 
             $event = $this->serverDeployment->events->first(function ($event) {
-                return $event->completed == false || $event->failed;
+                return false == $event->completed || $event->failed;
             });
 
             if (! $event) {

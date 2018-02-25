@@ -30,6 +30,7 @@ class ServerFirewallRuleController extends Controller
      *
      * @param FirewallRuleRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(FirewallRuleRequest $request, $serverId)

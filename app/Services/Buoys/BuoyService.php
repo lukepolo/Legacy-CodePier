@@ -21,7 +21,8 @@ class BuoyService implements BuoyServiceContract
 
     /**
      * BuoyService constructor.
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
+     * @param \App\Services\Server\ServerService | ServerService  $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
     public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService)
@@ -43,7 +44,7 @@ class BuoyService implements BuoyServiceContract
                 if ($buoyReflection->implementsInterface(BuoyContract::class)) {
                     $installMethod = $buoyReflection->getMethod('install');
 
-                    if ($this->getFirstDocParam($installMethod, 'buoy-enabled') == true) {
+                    if (true == $this->getFirstDocParam($installMethod, 'buoy-enabled')) {
                         $buoyClass = $buoyReflection->getName();
                         $buoys[$buoyClass] = [
                             'title' => $this->getFirstDocParam($installMethod, 'buoy-title'),
@@ -77,8 +78,9 @@ class BuoyService implements BuoyServiceContract
 
     /**
      * Installs a buoy on a server.
+     *
      * @param Server $server
-     * @param Buoy $buoy
+     * @param Buoy   $buoy
      */
     public function installBuoy(Server $server, Buoy $buoy)
     {
@@ -93,8 +95,10 @@ class BuoyService implements BuoyServiceContract
 
     /**
      * Removes a buoy from the server.
+     *
      * @param Server $server
-     * @param Buoy $buoy
+     * @param Buoy   $buoy
+     *
      * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception

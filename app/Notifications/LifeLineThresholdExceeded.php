@@ -20,7 +20,8 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -41,11 +42,11 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
      */
     public function toMail()
     {
-        $mailMessage = (new MailMessage)
+        $mailMessage = (new MailMessage())
             ->subject($this->lifeline->site->name.' lifeline failed to check-in')
             ->line('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has not checked in since '.$this->lifeline->last_seen.'.');
 
-        if ($this->lifeline->sent_notifications == 3) {
+        if (3 == $this->lifeline->sent_notifications) {
             $mailMessage->line('Last warning! You will receive a notification when a lifeline has been updated');
         }
 
@@ -61,7 +62,7 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
     {
         $message = 'Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has not checked in since '.$this->lifeline->last_seen.'.';
 
-        if ($this->lifeline->sent_notifications == 3) {
+        if (3 == $this->lifeline->sent_notifications) {
             $message .= ' Last warning! You will receive a notification when a lifeline has been updated';
         }
 

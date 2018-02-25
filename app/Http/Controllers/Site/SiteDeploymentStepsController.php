@@ -13,6 +13,7 @@ class SiteDeploymentStepsController extends Controller
 
     /**
      * SiteDeploymentStepsController constructor.
+     *
      * @param \App\Services\Site\SiteDeploymentStepsService |SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(SiteDeploymentStepsService $siteDeploymentStepsService)
@@ -22,7 +23,9 @@ class SiteDeploymentStepsController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return array
+     *
      * @internal param Request $request
      */
     public function index($siteId)
@@ -32,6 +35,7 @@ class SiteDeploymentStepsController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return array
      */
     public function getDeploymentSteps($siteId)
@@ -49,6 +53,7 @@ class SiteDeploymentStepsController extends Controller
     /**
      * @param SiteDeploymentStepsRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SiteDeploymentStepsRequest $request, $siteId)

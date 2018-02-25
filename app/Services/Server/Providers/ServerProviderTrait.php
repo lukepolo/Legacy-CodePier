@@ -13,6 +13,7 @@ trait ServerProviderTrait
 
     /**
      * ServerProviderTrait constructor.
+     *
      * @param $providerName
      */
     public function __construct($providerName)
@@ -25,6 +26,7 @@ trait ServerProviderTrait
      *
      * @param \App\Models\Server\Server $server
      * @param $serverId
+     *
      * @return \App\Models\Server\Server
      */
     public function saveServer(Server $server, $serverId)

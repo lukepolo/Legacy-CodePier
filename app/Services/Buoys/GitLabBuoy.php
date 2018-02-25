@@ -15,6 +15,7 @@ class GitLabBuoy implements BuoyContract
      * @buoy-enabled 1
      *
      * @description GitLab is a web-based Git repository manager.
+     *
      * @category Services
      *
      * @param array $ports

@@ -30,7 +30,7 @@ class PingLifeLines extends Command
      */
     public function handle()
     {
-        $httpClient = new HttpClient;
+        $httpClient = new HttpClient();
 
         $httpClient->get('https://lifeline.codepier.io/JOY32EwMR769mp5ynqXej6eAkxLjl4VZdvQGB1Wg');
 

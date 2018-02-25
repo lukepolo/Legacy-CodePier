@@ -22,6 +22,7 @@ class SiteDeploymentFailed extends Notification
      *
      * @param SiteServerDeployment $siteServerDeployment
      * @param $errorMessage
+     *
      * @internal param SiteDeployment $siteDeployment
      */
     public function __construct(SiteServerDeployment $siteServerDeployment, $errorMessage)

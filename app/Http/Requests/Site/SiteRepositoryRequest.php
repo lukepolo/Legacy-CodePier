@@ -28,7 +28,7 @@ class SiteRepositoryRequest extends FormRequest
             'type' => 'required|string',
             'branch' => 'required|string',
             'framework' => 'nullable|string',
-            'repository'=> [new Repository],
+            'repository'=> [new Repository()],
             'web_directory' => 'nullable|string',
             'user_repository_provider_id' => 'required_unless:custom_provider,true|nullable|integer',
         ];

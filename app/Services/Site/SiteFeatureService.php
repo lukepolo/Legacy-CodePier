@@ -19,8 +19,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * SiteFeatureService constructor.
+     *
      * @param \App\Services\Server\ServerFeatureService | ServerFeatureService $serverFeatureService
-     * @param \App\Repositories\FileRepository | FileRepository $fileRepository
+     * @param \App\Repositories\FileRepository | FileRepository                $fileRepository
      */
     public function __construct(ServerFeatureService $serverFeatureService, FileRepository $fileRepository)
     {
@@ -30,6 +31,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getEditableFiles(Site $site)
@@ -57,6 +59,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
+     *
      * @return \Illuminate\Support\Collection|static
      */
     public function getEditableFrameworkFiles(Site $site)
@@ -91,7 +94,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
+     *
      * @return array
+     *
      * @internal param $siteId
      */
     public function getSuggestedFeatures(Site $site)
@@ -143,7 +148,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * Saves the suggested defaults to their site.
+     *
      * @param Site $site
+     *
      * @return $site
      */
     public function saveSuggestedFeaturesDefaults(Site $site)
@@ -160,6 +167,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
+     *
      * @return \Illuminate\Support\Collection|static
      */
     public function getSuggestedCronJobs(Site $site)
@@ -223,7 +231,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             foreach ($site->files as $siteFile) {
                 if ($siteFile->file_path == $file) {
                     $site->files()->detach($siteFile);
-                    if ($siteFile->servers->count() === 0) {
+                    if (0 === $siteFile->servers->count()) {
                         $siteFile->delete();
                     }
                 }
@@ -234,7 +242,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             foreach ($site->files as $siteFile) {
                 if ($siteFile->file_path == $file) {
                     $site->files()->detach($siteFile);
-                    if ($siteFile->servers->count() === 0) {
+                    if (0 === $siteFile->servers->count()) {
                         $siteFile->delete();
                     }
                 }

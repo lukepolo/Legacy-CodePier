@@ -30,6 +30,7 @@ class SiteWorkerController extends Controller
      *
      * @param WorkerRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(WorkerRequest $request, $siteId)

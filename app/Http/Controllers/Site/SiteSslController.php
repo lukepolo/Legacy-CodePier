@@ -33,8 +33,10 @@ class SiteSslController extends Controller
      *
      * @param SslRequest $request
      * @param $siteId
-     * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(SslRequest $request, $siteId)
     {
@@ -93,6 +95,7 @@ class SiteSslController extends Controller
      * @param SslActivateRequest $request
      * @param $siteId
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(SslActivateRequest $request, $siteId, $id)

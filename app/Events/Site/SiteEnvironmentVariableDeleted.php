@@ -15,7 +15,7 @@ class SiteEnvironmentVariableDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site                $site
      * @param EnvironmentVariable $environmentVariable
      */
     public function __construct(Site $site, EnvironmentVariable $environmentVariable)

@@ -16,6 +16,7 @@ class ServerBuoyController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -26,8 +27,9 @@ class ServerBuoyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
@@ -84,7 +86,8 @@ class ServerBuoyController extends Controller
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -98,7 +101,8 @@ class ServerBuoyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)

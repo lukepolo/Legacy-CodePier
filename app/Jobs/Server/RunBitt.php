@@ -24,8 +24,9 @@ class RunBitt implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
+     *
      * @param Server $server
-     * @param bitt $bitt
+     * @param bitt   $bitt
      */
     public function __construct(Server $server, Bitt $bitt)
     {
@@ -38,6 +39,7 @@ class RunBitt implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

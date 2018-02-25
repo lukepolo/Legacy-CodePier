@@ -23,7 +23,8 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param int $id
+     * @param int               $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request, $id = null)
@@ -48,6 +49,7 @@ class UserController extends Controller
 
     /**
      * Gets the running commands.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRunningCommands()
@@ -59,6 +61,7 @@ class UserController extends Controller
 
     /**
      * Gets the running deployments.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRunningDeployments()

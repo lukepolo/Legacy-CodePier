@@ -11,6 +11,7 @@ class SiteServerCommandsController extends Controller
 {
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($siteId)

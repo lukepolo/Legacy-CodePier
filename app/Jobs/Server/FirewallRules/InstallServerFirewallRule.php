@@ -27,9 +27,9 @@ class InstallServerFirewallRule implements ShouldQueue
     /**
      * InstallServerFirewallRule constructor.
      *
-     * @param Server $server
+     * @param Server       $server
      * @param FirewallRule $firewallRule
-     * @param Command $siteCommand
+     * @param Command      $siteCommand
      */
     public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
@@ -42,6 +42,7 @@ class InstallServerFirewallRule implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

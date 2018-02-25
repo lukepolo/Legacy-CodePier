@@ -25,7 +25,7 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'domain' => ['required', new Domain],
+            'domain' => ['required', new Domain()],
             'pile_id' => 'required|integer',
             'wildcard_domain' => 'nullable|boolean',
         ];

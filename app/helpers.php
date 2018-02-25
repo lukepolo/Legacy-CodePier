@@ -3,9 +3,9 @@
 use App\Http\Controllers\Auth\SecondAuthController;
 
 if (! function_exists('current_version')) {
-
     /**
      * Gets the version of what is currently installed.
+     *
      * @return mixed
      */
     function current_version()
@@ -15,10 +15,11 @@ if (! function_exists('current_version')) {
 }
 
 if (! function_exists('strip_relations')) {
-
     /**
      * Strips the relations from a model.
+     *
      * @param \Illuminate\Database\Eloquent\Model $model
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     function strip_relations(\Illuminate\Database\Eloquent\Model $model)
@@ -42,7 +43,6 @@ if (! function_exists('create_system_service')) {
 }
 
 if (! function_exists('unique_hash')) {
-
     /**
      * Gets Makes a new hash based on redis.
      */
@@ -53,10 +53,11 @@ if (! function_exists('unique_hash')) {
 }
 
 if (! function_exists('is_domain')) {
-
     /**
      * Gets Makes a new hash based on redis.
+     *
      * @param string $domain
+     *
      * @return bool
      */
     function is_domain($domain)
@@ -66,9 +67,9 @@ if (! function_exists('is_domain')) {
 }
 
 if (! function_exists('second_authed')) {
-
     /**
      * Checks to see if the user has been second authed.
+     *
      * @return bool
      */
     function second_authed()

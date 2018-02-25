@@ -27,9 +27,10 @@ class RemoveServerSslCertificate implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
+     *
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
-     * @param Command $siteCommand
+     * @param Command        $siteCommand
      */
     public function __construct(Server $server, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
@@ -40,7 +41,8 @@ class RemoveServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService       $siteService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)
@@ -61,7 +63,7 @@ class RemoveServerSslCertificate implements ShouldQueue
 
                 $this->sslCertificate->load('servers');
 
-                if ($this->sslCertificate->servers->count() == 0) {
+                if (0 == $this->sslCertificate->servers->count()) {
                     $this->sslCertificate->delete();
                 }
             }

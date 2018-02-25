@@ -16,6 +16,7 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
 
     /**
      * SiteFeatureService constructor.
+     *
      * @param \App\Services\Server\ServerFeatureService |  ServerFeatureService $serverFeatureService
      */
     public function __construct(ServerFeatureService $serverFeatureService)
@@ -25,6 +26,7 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
 
     /**
      * @param Site $site
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getLanguageSettings(Site $site)

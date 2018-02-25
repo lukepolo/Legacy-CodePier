@@ -23,10 +23,11 @@ class DeploymentStepStarted implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     * @param Site $site
-     * @param Server $server
+     *
+     * @param Site            $site
+     * @param Server          $server
      * @param DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
+     * @param DeploymentStep  $deploymentStep
      */
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep)
     {

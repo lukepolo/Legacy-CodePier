@@ -24,10 +24,10 @@ class DeploymentStepFailed implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Site\Site $site
-     * @param Server $server
+     * @param \App\Models\Site\Site                       $site
+     * @param Server                                      $server
      * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
+     * @param DeploymentStep                              $deploymentStep
      * @param $log
      */
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)

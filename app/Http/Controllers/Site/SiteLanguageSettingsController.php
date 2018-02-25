@@ -15,6 +15,7 @@ class SiteLanguageSettingsController extends Controller
 
     /**
      * SiteFeatureController constructor.
+     *
      * @param \App\Services\Site\SiteLanguageSettingsService | SiteLanguageSettingsService $siteLanguageSettingsService
      */
     public function __construct(SiteLanguageSettingsService $siteLanguageSettingsService)
@@ -24,7 +25,9 @@ class SiteLanguageSettingsController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  int $siteId
+     *
+     * @param int $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -38,7 +41,8 @@ class SiteLanguageSettingsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param LanguageSettingRequest $request
-     * @param  int $siteId
+     * @param int                    $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(LanguageSettingRequest $request, $siteId)
@@ -73,6 +77,7 @@ class SiteLanguageSettingsController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getLanguageSettings($siteId)

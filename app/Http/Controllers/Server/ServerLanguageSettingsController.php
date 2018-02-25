@@ -15,6 +15,7 @@ class ServerLanguageSettingsController extends Controller
 
     /**
      * ServerFeatureController constructor.
+     *
      * @param \App\Services\Server\ServerLanguageSettingsService | ServerLanguageSettingsService $serverLanguageSettingsService
      */
     public function __construct(ServerLanguageSettingsService $serverLanguageSettingsService)
@@ -24,7 +25,9 @@ class ServerLanguageSettingsController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  int $serverId
+     *
+     * @param int $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -38,7 +41,8 @@ class ServerLanguageSettingsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param LanguageSettingRequest $request
-     * @param  int $serverId
+     * @param int                    $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(LanguageSettingRequest $request, $serverId)
@@ -76,6 +80,7 @@ class ServerLanguageSettingsController extends Controller
 
     /**
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getLanguageSettings($serverId)

@@ -25,7 +25,8 @@ class UpdateServerSslCertificate implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
+     *
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
      */
     public function __construct(Server $server, SslCertificate $sslCertificate)

@@ -14,6 +14,7 @@ class SiteDnsController extends Controller
      *
      * @param Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $siteId)

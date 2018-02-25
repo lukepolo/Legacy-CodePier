@@ -15,7 +15,7 @@ class SiteCronJobCreated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site    $site
      * @param CronJob $cronJob
      */
     public function __construct(Site $site, CronJob $cronJob)

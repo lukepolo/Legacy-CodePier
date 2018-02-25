@@ -13,7 +13,8 @@ class CustomServerProvisioningController extends Controller
 {
     /**
      * CustomServerProvisioningController constructor.
-     * @param  \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     *
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
     public function __construct(RemoteTaskService $remoteTaskService)
     {
@@ -30,7 +31,7 @@ class CustomServerProvisioningController extends Controller
      */
     public function provision()
     {
-        if (config('app.env') == 'production') {
+        if ('production' == config('app.env')) {
             return response()->download('provision.sh');
         } else {
             return response()->download('provision.dev.sh');
@@ -39,6 +40,7 @@ class CustomServerProvisioningController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return null|string
      */
     public function getIp(Request $request)
@@ -72,6 +74,7 @@ class CustomServerProvisioningController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function returnPublicKey(Request $request)
@@ -81,6 +84,7 @@ class CustomServerProvisioningController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function returnPrivateKey(Request $request)
@@ -90,6 +94,7 @@ class CustomServerProvisioningController extends Controller
 
     /**
      * Webhook called by provisioning shell script when finished.
+     *
      * @param Request $request
      */
     public function end(Request $request)

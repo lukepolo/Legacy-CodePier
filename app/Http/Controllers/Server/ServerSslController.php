@@ -30,8 +30,10 @@ class ServerSslController extends Controller
      *
      * @param SslRequest $request
      * @param $serverId
-     * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(SslRequest $request, $serverId)
     {

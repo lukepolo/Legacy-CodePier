@@ -25,9 +25,10 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
+     *
+     * @param Server              $server
      * @param EnvironmentVariable $environmentVariable
-     * @param Command $siteCommand
+     * @param Command             $siteCommand
      */
     public function __construct(Server $server, EnvironmentVariable $environmentVariable, Command $siteCommand = null)
     {
@@ -40,6 +41,7 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -55,7 +57,7 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
                 $this->server->environmentVariables()->detach($this->environmentVariable->id);
 
                 $this->environmentVariable->load('servers');
-                if ($this->environmentVariable->servers->count() == 0) {
+                if (0 == $this->environmentVariable->servers->count()) {
                     $this->environmentVariable->delete();
                 }
             }

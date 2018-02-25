@@ -26,9 +26,10 @@ class RemoveServerFirewallRule implements ShouldQueue
 
     /**
      * RemoveServerFirewallRule constructor.
-     * @param Server $server
+     *
+     * @param Server       $server
      * @param FirewallRule $firewallRule
-     * @param Command $siteCommand
+     * @param Command      $siteCommand
      */
     public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
@@ -41,6 +42,7 @@ class RemoveServerFirewallRule implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -69,7 +71,7 @@ class RemoveServerFirewallRule implements ShouldQueue
                 $this->server->firewallRules()->detach($this->firewallRule->id);
 
                 $this->firewallRule->load('servers');
-                if ($this->firewallRule->servers->count() == 0) {
+                if (0 == $this->firewallRule->servers->count()) {
                     $this->firewallRule->delete();
                 }
             }

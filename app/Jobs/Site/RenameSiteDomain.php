@@ -29,10 +29,11 @@ class RenameSiteDomain implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      * @param $newDomain
      * @param $oldDomain
      * @param Command $siteCommand
+     *
      * @internal param Site $site
      */
     public function __construct(Server $server, Site $site, $newDomain, $oldDomain, Command $siteCommand)
@@ -49,6 +50,7 @@ class RenameSiteDomain implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     *
      * @throws \Exception
      */
     public function handle(SiteService $siteService)

@@ -25,8 +25,9 @@ class UpdateServerFile implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
-     * @param File $file
+     *
+     * @param Server  $server
+     * @param File    $file
      * @param Command $siteCommand
      */
     public function __construct(Server $server, File $file, Command $siteCommand = null)
@@ -38,7 +39,9 @@ class UpdateServerFile implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

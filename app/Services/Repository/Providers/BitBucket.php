@@ -35,9 +35,11 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws DeployHookFailed
      * @throws \Exception
+     *
+     * @return Site
      */
     public function createDeployHook(Site $site)
     {
@@ -64,7 +66,7 @@ class BitBucket implements RepositoryContract
             ],
         ]);
 
-        if ($response->getStatusCode() == 401) {
+        if (401 == $response->getStatusCode()) {
             throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
         }
 
@@ -76,6 +78,7 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param UserRepositoryProvider $userRepositoryProvider
+     *
      * @return mixed|string
      */
     public function getToken(UserRepositoryProvider $userRepositoryProvider)
@@ -106,8 +109,10 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws \Exception
+     *
+     * @return Site
      */
     public function deleteDeployHook(Site $site)
     {

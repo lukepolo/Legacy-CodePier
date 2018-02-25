@@ -50,6 +50,7 @@ trait UsedByTeams
 
     /**
      * @param Builder $query
+     *
      * @return mixed
      */
     public function scopeAllTeams(Builder $query)

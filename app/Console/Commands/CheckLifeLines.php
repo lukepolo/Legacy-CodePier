@@ -45,7 +45,7 @@ class CheckLifeLines extends Command
                 ->chunk(1000, function ($lifelines) use ($lifelineModel) {
                     foreach ($lifelines as $lifeline) {
                         $lifelineModel->id = $lifeline->id;
-                        $lifelineModel->notify(new LifeLineThresholdExceeded);
+                        $lifelineModel->notify(new LifeLineThresholdExceeded());
                     }
                 });
     }

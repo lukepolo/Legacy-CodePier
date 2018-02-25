@@ -18,6 +18,7 @@ class WebHookController extends Controller
     /**
      * @param Request $request
      * @param $siteHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deploy(Request $request, $siteHashId)
@@ -62,6 +63,7 @@ class WebHookController extends Controller
     /**
      * @param Request $request
      * @param $serverHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function loadMonitor(Request $request, $serverHashId)
@@ -89,6 +91,7 @@ class WebHookController extends Controller
     /**
      * @param Request $request
      * @param $serverHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function memoryMonitor(Request $request, $serverHashId)
@@ -115,6 +118,7 @@ class WebHookController extends Controller
     /**
      * @param Request $request
      * @param $serverHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function diskUsageMonitor(Request $request, $serverHashId)
@@ -155,7 +159,7 @@ class WebHookController extends Controller
 
     private function checkUsersMaxServers(User $user)
     {
-        if ($user->role !== 'admin') {
+        if ('admin' !== $user->role) {
             if (! $user->subscribed()) {
                 if ($user->servers->count() > 1) {
                     $this->subscriptionToLow('servers');
@@ -183,6 +187,7 @@ class WebHookController extends Controller
 
     /**
      * @param $items
+     *
      * @return array
      */
     private function getStats($items)

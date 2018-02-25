@@ -22,8 +22,8 @@ class UpdateServerSslCertificates
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -35,12 +35,12 @@ class UpdateServerSslCertificates
 
         $this->site->sslCertificates->each(function (SslCertificate $sslCertificate) {
             if ($this->site->isLoadBalanced()) {
-                if (! $sslCertificate->hasServer($this->server) && $this->serverType == SystemService::LOAD_BALANCER) {
+                if (! $sslCertificate->hasServer($this->server) && SystemService::LOAD_BALANCER == $this->serverType) {
                     $this->installSslCertificate($sslCertificate);
                 }
             } elseif (! $sslCertificate->hasServer($this->server) && (
-                $this->serverType == SystemService::WEB_SERVER ||
-                $this->serverType == SystemService::FULL_STACK_SERVER
+                SystemService::WEB_SERVER == $this->serverType ||
+                SystemService::FULL_STACK_SERVER == $this->serverType
             )) {
                 $this->installSslCertificate($sslCertificate);
             }

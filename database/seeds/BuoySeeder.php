@@ -10,6 +10,7 @@ class BuoySeeder extends Seeder
 
     /**
      * BuoySeeder constructor.
+     *
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
      */
     public function __construct(BuoyService $buoyService)

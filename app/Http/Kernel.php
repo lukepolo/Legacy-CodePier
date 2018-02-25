@@ -78,6 +78,5 @@ class Kernel extends HttpKernel
         'checkSiteCreationLimit' =>  \App\Http\Middleware\CheckSiteCreationLimit::class,
 
         'auth.provisioning-key' => \App\Http\Middleware\VerifyProvisioningKey::class,
-
     ];
 }

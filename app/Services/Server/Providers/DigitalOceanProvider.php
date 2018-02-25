@@ -168,8 +168,9 @@ class DigitalOceanProvider implements ServerProviderContract
      *
      * @param \App\Models\Server\Server $server
      *
-     * @return mixed
      * @throws Exception
+     *
+     * @return mixed
      */
     public function getStatus(Server $server)
     {
@@ -182,6 +183,7 @@ class DigitalOceanProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     *
      * @throws Exception
      */
     public function savePublicIP(Server $server)
@@ -198,8 +200,9 @@ class DigitalOceanProvider implements ServerProviderContract
      *
      * @param \App\Models\Server\Server $server
      *
-     * @return mixed
      * @throws Exception
+     *
+     * @return mixed
      */
     public function getPublicIP(Server $server)
     {
@@ -208,7 +211,7 @@ class DigitalOceanProvider implements ServerProviderContract
         $droplet = $this->client->droplet()->getById($server->given_server_id);
 
         foreach ($droplet->networks as $network) {
-            if ($network->type == 'public') {
+            if ('public' == $network->type) {
                 return $network->ipAddress;
             }
         }
@@ -239,8 +242,10 @@ class DigitalOceanProvider implements ServerProviderContract
      * Refreshes the token.
      *
      * @param UserServerProvider $userServerProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {
@@ -252,7 +257,7 @@ class DigitalOceanProvider implements ServerProviderContract
             throw new Exception(json_decode($e->getResponse()->getBody(), true));
         }
 
-        if ($response->getStatusCode() == 200) {
+        if (200 == $response->getStatusCode()) {
             $tokenData = json_decode($response->getBody(), true);
 
             $userServerProvider->token = $tokenData['access_token'];

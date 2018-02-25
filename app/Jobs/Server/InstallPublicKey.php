@@ -26,8 +26,8 @@ class InstallPublicKey implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server       $server
+     * @param Site         $site
      * @param Command|null $command
      */
     public function __construct(Server $server, Site $site, Command $command = null)
@@ -40,7 +40,9 @@ class InstallPublicKey implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     *
      * @throws \Exception
      */
     public function handle(RemoteTaskService $remoteTaskService)

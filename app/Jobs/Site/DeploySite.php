@@ -28,7 +28,7 @@ class DeploySite implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Site $site
+     * @param Site           $site
      * @param SiteDeployment $oldSiteDeployment
      */
     public function __construct(Site $site, SiteDeployment $oldSiteDeployment = null)

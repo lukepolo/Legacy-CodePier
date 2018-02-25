@@ -13,7 +13,9 @@ class ServerSchemaUserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  int $serverId
+     *
+     * @param int $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -27,7 +29,8 @@ class ServerSchemaUserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SchemaUserRequest $request
-     * @param  int $serverId
+     * @param int               $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SchemaUserRequest $request, $serverId)
@@ -60,8 +63,9 @@ class ServerSchemaUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $serverId
-     * @param  int $id
+     * @param int $serverId
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)

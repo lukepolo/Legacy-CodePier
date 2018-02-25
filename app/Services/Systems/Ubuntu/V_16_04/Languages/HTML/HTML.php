@@ -11,7 +11,6 @@ class HTML
     use ServiceConstructorTrait;
 
     public static $files = [
-
     ];
 
     public $suggestedFeatures = [

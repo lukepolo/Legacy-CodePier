@@ -24,7 +24,7 @@ class RestartWorkers implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
-     * @param null $siteCommand
+     * @param null   $siteCommand
      */
     public function __construct(Server $server, $siteCommand = null)
     {
@@ -37,6 +37,7 @@ class RestartWorkers implements ShouldQueue
      * Execute the job.
      *
      * @param ServerService|\App\Services\Server\ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

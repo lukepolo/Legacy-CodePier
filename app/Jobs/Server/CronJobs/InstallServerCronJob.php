@@ -25,7 +25,8 @@ class InstallServerCronJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
+     *
+     * @param Server  $server
      * @param CronJob $cronJob
      * @param Command $siteCommand
      */
@@ -40,6 +41,7 @@ class InstallServerCronJob implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

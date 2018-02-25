@@ -24,8 +24,8 @@ class UpdateServerFirewallRules
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -42,8 +42,8 @@ class UpdateServerFirewallRules
         });
 
         if (
-            $this->serverType === SystemService::WEB_SERVER ||
-            $this->serverType === SystemService::WORKER_SERVER
+            SystemService::WEB_SERVER === $this->serverType ||
+            SystemService::WORKER_SERVER === $this->serverType
         ) {
             $servicesPorts = SystemService::SERVICES_PORTS;
 
@@ -66,7 +66,7 @@ class UpdateServerFirewallRules
                 }
             }
 
-            if ($this->serverType === SystemService::WEB_SERVER) {
+            if (SystemService::WEB_SERVER === $this->serverType) {
                 if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
                     foreach ($site->getWorkers() as $worker) {
                         if (isset($servicesPorts[$worker])) {

@@ -219,8 +219,10 @@ class LinodeProvider implements ServerProviderContract
      * Refreshes the token.
      *
      * @param UserServerProvider $userServerProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {

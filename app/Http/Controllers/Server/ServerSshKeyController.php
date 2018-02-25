@@ -30,6 +30,7 @@ class ServerSshKeyController extends Controller
      *
      * @param \App\Http\Requests\SshKeyRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SshKeyRequest $request, $serverId)

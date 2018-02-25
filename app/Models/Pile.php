@@ -33,7 +33,7 @@ class Pile extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new UserScope);
+        static::addGlobalScope(new UserScope());
     }
 
     public function sites()

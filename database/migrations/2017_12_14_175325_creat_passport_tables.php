@@ -21,6 +21,5 @@ class CreatPassportTables extends Migration
      */
     public function down()
     {
-        //
     }
 }

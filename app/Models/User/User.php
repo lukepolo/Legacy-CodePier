@@ -255,7 +255,7 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
-        if ($this->role === 'admin') {
+        if ('admin' === $this->role) {
             return true;
         }
 
@@ -287,7 +287,7 @@ class User extends Authenticatable
                 if (is_int($discount)) {
                     $price -= $discount;
                 } else {
-                    if ($discount === '.100') {
+                    if ('.100' === $discount) {
                         $discount = 1;
                     }
 
@@ -310,7 +310,7 @@ class User extends Authenticatable
                 if (is_int($discount)) {
                     return $subscriptionName.' - $'.$discount.'.00 off';
                 } else {
-                    if ($discount === '.100') {
+                    if ('.100' === $discount) {
                         $discount = 1;
                     }
 

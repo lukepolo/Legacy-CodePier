@@ -16,7 +16,7 @@ class SiteLanguageSettingUpdated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site            $site
      * @param LanguageSetting $languageSetting
      */
     public function __construct(Site $site, LanguageSetting $languageSetting)

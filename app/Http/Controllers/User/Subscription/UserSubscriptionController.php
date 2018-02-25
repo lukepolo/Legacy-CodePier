@@ -18,6 +18,7 @@ class UserSubscriptionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -74,6 +75,7 @@ class UserSubscriptionController extends Controller
 
     /**
      * @param UserSubscriptionUpdateRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserSubscriptionUpdateRequest $request)
@@ -143,6 +145,7 @@ class UserSubscriptionController extends Controller
      *
      * @param Request $request
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)

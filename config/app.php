@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -26,7 +25,7 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-    'teams' => env('APP_ENV') == 'local' ? true : false,
+    'teams' => 'local' == env('APP_ENV') ? true : false,
 
     'subscriptions' => env('APP_SUBSCRIPTIONS', false),
 
@@ -129,7 +128,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -181,7 +179,6 @@ return [
         App\Providers\ServerServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
         App\Providers\BuoyServiceProvider::class,
-
     ],
 
     /*
@@ -196,7 +193,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -231,5 +227,4 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
     ],
-
 ];

@@ -25,6 +25,5 @@ class UserLoginProviderIdDefaultValue extends Migration
      */
     public function down()
     {
-        //
     }
 }

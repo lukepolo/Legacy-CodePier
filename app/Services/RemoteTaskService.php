@@ -39,14 +39,14 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        if (config('app.env') === 'local') {
+        if ('local' === config('app.env')) {
             \Log::info('Running Command '.$command);
         }
 
         try {
             $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
         } catch (\ErrorException $e) {
-            if ($e->getMessage() == 'Unable to open channel') {
+            if ('Unable to open channel' == $e->getMessage()) {
                 \Log::warning('retrying to connect to');
                 $this->ssh($this->server, $this->user);
                 $this->run($command, $read);
@@ -63,7 +63,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = $this->cleanOutput($output);
 
-        if (config('app.env') === 'local') {
+        if ('local' === config('app.env')) {
             \Log::info($output);
         }
 
@@ -71,7 +71,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             $this->output .= $output."\n";
         }
 
-        if ($this->session->getExitStatus() != 0) {
+        if (0 != $this->session->getExitStatus()) {
             \Log::critical('Error while running Command '.$command);
             \Log::critical($output);
 
@@ -86,10 +86,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
     /**
      * @param $file
      * @param $string
-     * @return bool
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return bool
      */
     public function doesFileHaveLine($file, $string)
     {
@@ -99,10 +101,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
     /**
      * @param $file
      * @param $string
-     * @return bool
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return bool
      */
     public function getFileLine($file, $string)
     {
@@ -113,10 +117,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $file
      * @param $contents
      * @param bool $read
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function writeToFile($file, $contents, $read = false)
     {
@@ -133,10 +139,12 @@ echo \"Wrote\"", $read);
     /**
      * @param $file
      * @param $text
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function appendTextToFile($file, $text)
     {
@@ -147,10 +155,12 @@ echo \"Wrote\"", $read);
      * @param $file
      * @param $findText
      * @param $text
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function findTextAndAppend($file, $findText, $text)
     {
@@ -163,10 +173,12 @@ echo \"Wrote\"", $read);
     /**
      * @param $file
      * @param $text
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function removeLineByText($file, $text)
     {
@@ -177,10 +189,12 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $directory
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function makeDirectory($directory)
     {
@@ -191,10 +205,12 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $directory
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function removeDirectory($directory)
     {
@@ -203,10 +219,12 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $file
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function removeFile($file)
     {
@@ -219,10 +237,12 @@ echo \"Wrote\"", $read);
      * @param $replaceWithText
      * @param $double
      * @param $delim
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function updateText($file, $text, $replaceWithText, $double = false, $delim = '/')
     {
@@ -230,7 +250,7 @@ echo \"Wrote\"", $read);
             \Log::critical($file.' does not contain'.$text);
         }
 
-        if ($double == true) {
+        if (true == $double) {
             return $this->run('sed -i "s'.$delim.'.*'.$text.'.*'.$delim.$replaceWithText.$delim.'" '.$file);
         }
 
@@ -242,11 +262,14 @@ echo \"Wrote\"", $read);
 
     /**
      * Checks to see if the server has the file.
+     *
      * @param $file
-     * @return bool
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return bool
      */
     public function hasFile($file)
     {
@@ -255,15 +278,17 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $file
-     * @return bool
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return bool
      */
     public function isFileEmpty($file)
     {
         if ($this->hasFile($file)) {
-            return filter_var($this->run("cat $file | wc -c"), FILTER_VALIDATE_INT) == 0;
+            return 0 == filter_var($this->run("cat $file | wc -c"), FILTER_VALIDATE_INT);
         }
 
         return true;
@@ -271,10 +296,12 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $file
-     * @return string
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function getFileContents($file)
     {
@@ -283,11 +310,14 @@ echo \"Wrote\"", $read);
 
     /**
      * Checks to see if the server has the file.
+     *
      * @param $directory
-     * @return bool
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return bool
      */
     public function hasDirectory($directory)
     {
@@ -296,7 +326,7 @@ echo \"Wrote\"", $read);
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param string $user
+     * @param string                    $user
      *
      * @throws SshConnectionFailed
      *
@@ -368,6 +398,7 @@ echo \"Wrote\"", $read);
 
     /**
      * @param $response
+     *
      * @return string
      */
     private function cleanOutput($response)
@@ -379,6 +410,7 @@ echo \"Wrote\"", $read);
      * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
      *
      * @param $text
+     *
      * @return mixed
      */
     private function cleanText($text)
@@ -393,6 +425,7 @@ echo \"Wrote\"", $read);
      * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
      *
      * @param $text
+     *
      * @return mixed
      */
     private function cleanRegex($text)
@@ -406,6 +439,7 @@ echo \"Wrote\"", $read);
 
     /**
      * Creates a new ssh key.
+     *
      * @return array
      */
     public function createSshKey()
@@ -417,8 +451,9 @@ echo \"Wrote\"", $read);
     }
 
     /**
-     * @param Site $site
+     * @param Site   $site
      * @param Server $server
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception

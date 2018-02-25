@@ -12,7 +12,9 @@ class UserConfirmController extends Controller
 {
     /**
      * Store a newly created resource in storage.
+     *
      * @param $code
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($code)

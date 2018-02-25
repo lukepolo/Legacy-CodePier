@@ -146,6 +146,7 @@ class DatabaseService
 
     /**
      * @param Schema $schema
+     *
      * @throws UnknownDatabase
      */
     public function addSchema(Schema $schema)
@@ -173,6 +174,7 @@ class DatabaseService
 
     /**
      * @param Schema $schema
+     *
      * @throws UnknownDatabase
      */
     public function removeSchema(Schema $schema)
@@ -201,6 +203,7 @@ class DatabaseService
 
     /**
      * @param SchemaUser $schemaUser
+     *
      * @throws UnknownDatabase
      */
     public function addSchemaUser(SchemaUser $schemaUser)
@@ -229,6 +232,7 @@ class DatabaseService
 
     /**
      * @param SchemaUser $schemaUser
+     *
      * @throws UnknownDatabase
      */
     public function removeSchemaUser(SchemaUser $schemaUser)
@@ -257,6 +261,7 @@ class DatabaseService
 
     /**
      * @param $database
+     *
      * @return bool
      */
     private function hasDatabaseInstalled($database)

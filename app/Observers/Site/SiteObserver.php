@@ -30,9 +30,9 @@ class SiteObserver
     /**
      * SiteObserver constructor.
      *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
-     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService $siteFeatureService
+     * @param \App\Services\Site\SiteService | SiteService                               $siteService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService             $repositoryService
+     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService                 $siteFeatureService
      * @param \App\Services\Site\SiteDeploymentStepsService | SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(
@@ -103,6 +103,7 @@ class SiteObserver
 
     /**
      * @param Site $site
+     *
      * @throws \Exception
      */
     public function deleting(Site $site)

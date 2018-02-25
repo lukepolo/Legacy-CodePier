@@ -15,7 +15,7 @@ class SiteSchemaDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param Schema $schema
      */
     public function __construct(Site $site, Schema $schema)

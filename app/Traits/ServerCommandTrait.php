@@ -22,10 +22,11 @@ trait ServerCommandTrait
     /**
      * This must have a connected `server_id` attribute.
      *
-     * @param Server $server
-     * @param Model $model
+     * @param Server  $server
+     * @param Model   $model
      * @param Command $command
-     * @param null $status
+     * @param null    $status
+     *
      * @return ServerCommand
      */
     public function makeCommand(Server $server, Model $model, Command $command = null, $status = null)
@@ -59,9 +60,10 @@ trait ServerCommandTrait
     /**
      * Runs a command on a external server.
      *
-     * @param Closure $function
+     * @param Closure       $function
      * @param ServerCommand $serverCommand
-     * @param bool $debug
+     * @param bool          $debug
+     *
      * @throws \Exception
      */
     public function runOnServer(Closure $function, ServerCommand $serverCommand = null, $debug = true)
@@ -115,6 +117,7 @@ trait ServerCommandTrait
 
     /**
      * Checks to see if the command was successful.
+     *
      * @return bool
      */
     public function wasSuccessful()
@@ -150,6 +153,7 @@ trait ServerCommandTrait
 
     /**
      * Updates the server command.
+     *
      * @param $runtime
      * @param $log
      * @param $completed

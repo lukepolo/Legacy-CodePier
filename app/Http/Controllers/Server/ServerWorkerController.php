@@ -15,6 +15,7 @@ class ServerWorkerController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -30,6 +31,7 @@ class ServerWorkerController extends Controller
      *
      * @param WorkerRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(WorkerRequest $request, $serverId)

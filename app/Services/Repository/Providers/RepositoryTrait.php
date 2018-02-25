@@ -33,6 +33,7 @@ trait RepositoryTrait
 
     /**
      * @param Site $site
+     *
      * @return string
      */
     public function sshKeyLabel(Site $site)

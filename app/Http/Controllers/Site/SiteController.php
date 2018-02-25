@@ -33,7 +33,7 @@ class SiteController extends Controller
     /**
      * SiteController constructor.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Server\ServerService | ServerService             $serverService
      * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(ServerService $serverService, RepositoryService $repositoryService)
@@ -68,7 +68,9 @@ class SiteController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param SiteRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SiteRequest $request)
@@ -107,7 +109,8 @@ class SiteController extends Controller
      * Update the specified resource in storage.
      *
      * @param SiteRepositoryRequest $request
-     * @param int $id
+     * @param int                   $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(SiteRepositoryRequest $request, $id)
@@ -168,7 +171,9 @@ class SiteController extends Controller
 
     /**
      * Deploys a site.
+     *
      * @param DeploySiteRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deploy(DeploySiteRequest $request, $siteId)
@@ -177,7 +182,7 @@ class SiteController extends Controller
 
         if ($site->provisionedServers->count()) {
             $lastDeploymentStatus = $site->last_deployment_status;
-            if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
+            if (empty($lastDeploymentStatus) || SiteDeployment::FAILED === $lastDeploymentStatus || SiteDeployment::COMPLETED === $lastDeploymentStatus) {
                 dispatch(
                     (new DeploySite($site))->onQueue(config('queue.channels.site_deployments'))
                 );
@@ -189,6 +194,7 @@ class SiteController extends Controller
 
     /**
      * Rollbacks a site.
+     *
      * @param DeploySiteRequest $request
      */
     public function rollback(DeploySiteRequest $request, $siteId)
@@ -206,6 +212,7 @@ class SiteController extends Controller
     /**
      * @param SiteServerFeatureRequest $request
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateSiteServerFeatures(SiteServerFeatureRequest $request, $id)
@@ -277,6 +284,7 @@ class SiteController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function refreshPublicKey($siteId)
@@ -291,6 +299,7 @@ class SiteController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function refreshDeployKey($siteId)
@@ -325,6 +334,7 @@ class SiteController extends Controller
     /**
      * @param SiteRename $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function rename(SiteRename $request, $siteId)
@@ -353,6 +363,7 @@ class SiteController extends Controller
 
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function fixServerConfigurations($siteId)
@@ -370,6 +381,7 @@ class SiteController extends Controller
     /**
      * @param SiteWildcardRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateWildcardDomain(SiteWildcardRequest $request, $siteId)

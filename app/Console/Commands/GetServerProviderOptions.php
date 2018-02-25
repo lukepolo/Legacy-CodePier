@@ -29,6 +29,7 @@ class GetServerProviderOptions extends Command
      * Execute the console command.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @return mixed
      */
     public function handle(ServerService $serverService)

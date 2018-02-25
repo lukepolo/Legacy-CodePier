@@ -130,8 +130,10 @@ class SystemService implements SystemServiceContract
      * Provisions a server based on its operating system.
      *
      * @param \App\Models\Server\Server $server
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function provision(Server $server)
     {
@@ -139,7 +141,7 @@ class SystemService implements SystemServiceContract
 
         try {
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
-                return $provisionStep->completed == false;
+                return false == $provisionStep->completed;
             }) as $provisionStep) {
                 $start = microtime(true);
 

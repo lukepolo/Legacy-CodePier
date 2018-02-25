@@ -30,6 +30,7 @@ class ServerCronJobController extends Controller
      *
      * @param CronJobRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CronJobRequest $request, $serverId)

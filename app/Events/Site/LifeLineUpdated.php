@@ -17,6 +17,7 @@ class LifeLineUpdated implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     *
      * @param Lifeline $lifeline
      */
     public function __construct(Lifeline $lifeline)

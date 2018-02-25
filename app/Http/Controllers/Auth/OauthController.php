@@ -44,6 +44,7 @@ class OauthController extends Controller
      *
      * @param Request $request
      * @param $provider
+     *
      * @return mixed
      */
     public function newProvider(Request $request, $provider)
@@ -74,6 +75,7 @@ class OauthController extends Controller
      *
      * @param Request $request
      * @param $provider
+     *
      * @return mixed
      */
     public function getHandleProviderCallback(Request $request, $provider)
@@ -143,7 +145,7 @@ class OauthController extends Controller
                 $newUserNotificationProvider->delete();
             }
 
-            if (config('app.env') === 'local') {
+            if ('local' === config('app.env')) {
                 /* @var ClientException $e */
                 ddd($e->getMessage());
             }
@@ -162,8 +164,9 @@ class OauthController extends Controller
      * @param $user
      * @param UserLoginProvider $userLoginProvider
      *
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function createUser($user, UserLoginProvider $userLoginProvider)
     {

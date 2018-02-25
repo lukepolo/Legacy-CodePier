@@ -29,10 +29,11 @@ class ActivateServerSslCertificate implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Site $site
+     *
+     * @param Server         $server
+     * @param Site           $site
      * @param SslCertificate $sslCertificate
-     * @param Command $siteCommand
+     * @param Command        $siteCommand
      */
     public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
@@ -44,6 +45,7 @@ class ActivateServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)

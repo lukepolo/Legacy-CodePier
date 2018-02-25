@@ -25,9 +25,11 @@ class AddServerSchemaUser implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
+     *
+     * @param Server     $server
      * @param SchemaUser $schemaUser
-     * @param Command $siteCommand
+     * @param Command    $siteCommand
+     *
      * @internal param Schema $schema
      */
     public function __construct(Server $server, SchemaUser $schemaUser, Command $siteCommand = null)
@@ -41,6 +43,7 @@ class AddServerSchemaUser implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

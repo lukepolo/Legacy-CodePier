@@ -26,8 +26,9 @@ class InstallServerDaemon implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Daemon $daemon
+     *
+     * @param Server  $server
+     * @param Daemon  $daemon
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null)
@@ -39,6 +40,7 @@ class InstallServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

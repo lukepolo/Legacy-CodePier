@@ -102,6 +102,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
 
     /**
      * @param Server $server
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getEditableFiles(Server $server)

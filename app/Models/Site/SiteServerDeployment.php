@@ -40,7 +40,7 @@ class SiteServerDeployment extends Model
                 $skipStep = ! collect($deploymentStep->server_ids)->contains($this->server_id);
             }
 
-            if ($skipStep === false) {
+            if (false === $skipStep) {
                 DeploymentEvent::create([
                     'site_server_deployment_id' => $this->id,
                     'deployment_step_id' => $deploymentStep->id,

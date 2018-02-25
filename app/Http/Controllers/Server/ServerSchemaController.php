@@ -30,6 +30,7 @@ class ServerSchemaController extends Controller
      *
      * @param SchemaRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SchemaRequest $request, $serverId)

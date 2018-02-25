@@ -32,6 +32,7 @@ class SiteDaemonsController extends Controller
      *
      * @param DaemonRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(DaemonRequest $request, $siteId)
@@ -57,6 +58,7 @@ class SiteDaemonsController extends Controller
      * @param $request
      * @param $siteId
      * @param $cronJobId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(DaemonUpdatedRequest $request, $siteId, $cronJobId)

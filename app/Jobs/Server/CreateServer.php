@@ -28,7 +28,7 @@ class CreateServer implements ShouldQueue
      * Create a new job instance.
      *
      * @param ServerProvider $serverProvider
-     * @param Server $server
+     * @param Server         $server
      */
     public function __construct(ServerProvider $serverProvider, Server $server)
     {
@@ -57,7 +57,7 @@ class CreateServer implements ShouldQueue
                     ->onQueue(config('queue.channels.server_commands'))
             );
         } catch (\Exception $e) {
-            if (config('app.env') === 'local') {
+            if ('local' === config('app.env')) {
                 throw $e;
             }
             broadcast(

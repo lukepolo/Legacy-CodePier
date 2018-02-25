@@ -22,6 +22,7 @@ class UserNotificationSettingsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

@@ -16,6 +16,7 @@ class SiteServerController extends Controller
 
     /**
      * SiteServerController constructor.
+     *
      * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
@@ -42,6 +43,7 @@ class SiteServerController extends Controller
      *
      * @param SiteServerRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SiteServerRequest $request, $siteId)

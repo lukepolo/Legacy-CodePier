@@ -16,6 +16,7 @@ class SiteFileController extends Controller
 
     /**
      * ServerController constructor.
+     *
      * @param \App\Repositories\FileRepository | FileRepository $fileRepository
      */
     public function __construct(FileRepository $fileRepository)
@@ -27,6 +28,7 @@ class SiteFileController extends Controller
      * Display a listing of the resource.
      *
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -41,6 +43,7 @@ class SiteFileController extends Controller
      *
      * @param $siteId
      * @param string $fileId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($siteId, $fileId)
@@ -53,6 +56,7 @@ class SiteFileController extends Controller
     /**
      * @param FindFileRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function find(FindFileRequest $request, $siteId)
@@ -68,9 +72,11 @@ class SiteFileController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param FileRequest $request
      * @param $siteId
      * @param int $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(FileRequest $request, $siteId, $id)
@@ -91,7 +97,8 @@ class SiteFileController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)
@@ -109,6 +116,7 @@ class SiteFileController extends Controller
      * @param $siteId
      * @param $fileId
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function reloadFile($siteId, $fileId, $serverId)

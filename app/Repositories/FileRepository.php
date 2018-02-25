@@ -26,6 +26,7 @@ class FileRepository implements FileRepositoryContract
      * @param Site | Server $model
      * @param $filePath
      * @param $custom
+     *
      * @return File;
      */
     public function findOrCreateFile($model, $filePath, $custom = false, $framework = false)
@@ -49,6 +50,7 @@ class FileRepository implements FileRepositoryContract
     /**
      * @param $model
      * @param $fileId
+     *
      * @return mixed
      */
     public function findOnModelById($model, $fileId)
@@ -60,6 +62,7 @@ class FileRepository implements FileRepositoryContract
      * @param $filePath
      * @param bool $custom
      * @param bool $framework
+     *
      * @return mixed
      */
     private function create($filePath, $custom = false, $framework = false)
@@ -74,6 +77,7 @@ class FileRepository implements FileRepositoryContract
     /**
      * @param File $file
      * @param $content
+     *
      * @return File
      */
     public function update(File $file, $content)
@@ -87,6 +91,7 @@ class FileRepository implements FileRepositoryContract
 
     /**
      * @param File $file
+     *
      * @return bool
      */
     public function destroy(File $file)
@@ -97,6 +102,7 @@ class FileRepository implements FileRepositoryContract
     /**
      * @param File $file
      * @param $server
+     *
      * @return File
      */
     public function reload(File $file, $server)

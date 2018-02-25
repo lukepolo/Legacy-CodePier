@@ -30,6 +30,5 @@ class AddLastLoggedInToUsers extends Migration
      */
     public function down()
     {
-        //
     }
 }

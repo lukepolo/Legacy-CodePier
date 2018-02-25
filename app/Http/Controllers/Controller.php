@@ -16,12 +16,13 @@ class Controller extends BaseController
 
     /**
      * @param Request $request
+     *
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View|mixed
      */
     public function app(Request $request)
     {
         if (\Auth::check()) {
-            return (new VerifySecondAuth)->handle(
+            return (new VerifySecondAuth())->handle(
                 $request,
                 function () {
                     return view('codepier', [
@@ -41,7 +42,7 @@ class Controller extends BaseController
     public function appEventsBar(Request $request)
     {
         if (\Auth::check()) {
-            return (new VerifySecondAuth)->handle(
+            return (new VerifySecondAuth())->handle(
                 $request,
                 function () {
                     return view('eventsBar', [

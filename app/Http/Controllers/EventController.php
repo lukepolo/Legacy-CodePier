@@ -131,18 +131,18 @@ class EventController extends Controller
                             },
                         ])
                         ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SITE_DEPLOYMENTS;
+                            return self::SITE_DEPLOYMENTS == $event->type;
                         })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'serverCommands.server',
                         ])
                         ->whereIn(
                         'id', $topResults->filter(function ($event) {
-                            return $event->type == self::COMMANDS;
+                            return self::COMMANDS == $event->type;
                         })->keyBy('id')->keys()),
                     self::SERVER_PROVISIONING => Server::with(['provisionSteps'])
                         ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SERVER_PROVISIONING;
+                            return self::SERVER_PROVISIONING == $event->type;
                         })->keyBy('id')->keys()),
                 ])->only($types->keys()->toArray())->map(function ($query) {
                     return $query->get();
@@ -154,10 +154,11 @@ class EventController extends Controller
     }
 
     /**
-     * @param Builder $combinedQuery
+     * @param Builder    $combinedQuery
      * @param Collection $items
-     * @param int $currentPage
-     * @param int $perPage
+     * @param int        $currentPage
+     * @param int        $perPage
+     *
      * @return LengthAwarePaginator
      */
     private function getPaginatedObject(Builder $combinedQuery, Collection $items, $currentPage = 1, $perPage = self::PER_PAGE)

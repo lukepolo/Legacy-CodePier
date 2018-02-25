@@ -26,7 +26,7 @@ class CheckServerStatus implements ShouldQueue
      * Create a new job instance.
      *
      * @param \App\Models\Server\Server $server
-     * @param bool $provision
+     * @param bool                      $provision
      */
     public function __construct(Server $server, $provision = false)
     {
@@ -38,6 +38,7 @@ class CheckServerStatus implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerServiceContract $serverService)

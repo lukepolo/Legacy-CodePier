@@ -26,7 +26,7 @@ class SchemaRequest extends FormRequest
     {
         return [
             'name' => 'required:alpha',
-            'database' => ['required', new DatabaseName],
+            'database' => ['required', new DatabaseName()],
         ];
     }
 }

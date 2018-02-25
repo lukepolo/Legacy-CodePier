@@ -10,8 +10,10 @@ class SiteWorkflowController extends Controller
 {
     /**
      * Store a newly created resource in storage.
+     *
      * @param WorkflowRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(WorkflowRequest $request, $siteId)
@@ -27,7 +29,7 @@ class SiteWorkflowController extends Controller
                 return $completed;
             }
 
-            if ($workflow === 'message') {
+            if ('message' === $workflow) {
                 return $completed;
             }
 

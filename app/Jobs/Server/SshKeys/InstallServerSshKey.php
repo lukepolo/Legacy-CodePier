@@ -25,8 +25,9 @@ class InstallServerSshKey implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
-     * @param SshKey $sshKey
+     *
+     * @param Server  $server
+     * @param SshKey  $sshKey
      * @param Command $siteCommand
      */
     public function __construct(Server $server, SshKey $sshKey, Command $siteCommand = null)
@@ -40,6 +41,7 @@ class InstallServerSshKey implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

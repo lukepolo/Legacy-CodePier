@@ -75,11 +75,11 @@ class Server extends Model
         $serverFeatures = json_decode($this->attributes['server_features'], true);
 
         $serverFeatures['NodeService'] = collect($serverFeatures['NodeService'])->sortBy(function ($options, $feature) {
-            return $feature === 'NodeJs' ? 0 : 1;
+            return 'NodeJs' === $feature ? 0 : 1;
         })->all();
 
         $serverFeatures['Languages\PHP\PHP'] = collect($serverFeatures['Languages\PHP\PHP'])->sortBy(function ($options, $feature) {
-            return $feature === 'PHP' ? 0 : 1;
+            return 'PHP' === $feature ? 0 : 1;
         })->all();
 
         return $serverFeatures;
@@ -263,7 +263,7 @@ class Server extends Model
             return $provisionStep->completed;
         })->count();
 
-        if ($totalDone == 0) {
+        if (0 == $totalDone) {
             $totalDone = 1;
         }
 
@@ -278,7 +278,7 @@ class Server extends Model
     public function routeNotificationForSlack()
     {
         $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
-            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+            return OauthController::SLACK == $userNotificationProvider->notificationProvider->provider_name;
         });
 
         return $slackProvider ? $slackProvider->token : null;

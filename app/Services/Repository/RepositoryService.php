@@ -17,6 +17,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * RepositoryService constructor.
+     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
     public function __construct(RemoteTaskService $remoteTaskService)
@@ -26,6 +27,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param RepositoryProvider $repositoryProvider
+     *
      * @return mixed
      */
     private function getProvider(RepositoryProvider $repositoryProvider)
@@ -35,8 +37,10 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param Site $site
-     * @return Site $site
+     *
      * @throws SiteUserProviderNotConnected
+     *
+     * @return Site $site
      */
     public function createDeployHook(Site $site)
     {
@@ -49,8 +53,10 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param Site $site
-     * @return Site $site
+     *
      * @throws SiteUserProviderNotConnected
+     *
+     * @return Site $site
      */
     public function deleteDeployHook(Site $site)
     {
@@ -63,6 +69,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param UserRepositoryProvider $userRepositoryProvider
+     *
      * @return mixed
      */
     public function getToken(UserRepositoryProvider $userRepositoryProvider)
@@ -72,6 +79,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * Generates keys based for the site.
+     *
      * @param Site $site
      */
     public function generateNewSshKeys(Site $site)
@@ -86,6 +94,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * Saves the public keys to the server.
+     *
      * @param Site $site
      */
     public function saveKeysToServer(Site $site)

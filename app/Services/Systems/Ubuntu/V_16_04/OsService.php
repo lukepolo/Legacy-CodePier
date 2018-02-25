@@ -57,7 +57,7 @@ class OsService
         $this->remoteTaskService->run('mkdir /home/codepier/.ssh && cp -a ~/.ssh/authorized_keys /home/codepier/.ssh/authorized_keys');
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh');
 
-        if (config('app.env') === 'local') {
+        if ('local' === config('app.env')) {
             $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', env('DEV_SSH_KEY'));
         }
 

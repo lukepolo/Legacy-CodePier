@@ -18,9 +18,11 @@ trait BuoyTrait
 
     /**
      * BuoyTrait constructor.
-     * @param \App\Services\Server\ServerService |ServerService $serverService
+     *
+     * @param \App\Services\Server\ServerService |ServerService   $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param Server $server
+     * @param Server                                              $server
+     *
      * @throws \App\Exceptions\SshConnectionFailed
      */
     public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService, Server $server)
@@ -34,7 +36,7 @@ trait BuoyTrait
 
     /**
      * @param Server $server
-     * @param array $ports
+     * @param array  $ports
      * @param $container
      */
     public function openPorts(Server $server, $ports, $container)
@@ -54,10 +56,11 @@ trait BuoyTrait
     }
 
     /**
-     * @return string
      * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
+     *
+     * @return string
      */
     public function getContainerId()
     {

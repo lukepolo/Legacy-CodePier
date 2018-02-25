@@ -25,8 +25,9 @@ class RemoveServerSchema implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
-     * @param Schema $schema
+     *
+     * @param Server  $server
+     * @param Schema  $schema
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Schema $schema, Command $siteCommand = null)
@@ -40,6 +41,7 @@ class RemoveServerSchema implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -55,7 +57,7 @@ class RemoveServerSchema implements ShouldQueue
                 $this->server->schemas()->detach($this->schema->id);
 
                 $this->schema->load('servers');
-                if ($this->schema->servers->count() == 0) {
+                if (0 == $this->schema->servers->count()) {
                     $this->schema->delete();
                 }
             }

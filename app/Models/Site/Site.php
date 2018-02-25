@@ -237,7 +237,7 @@ class Site extends Model
     public function routeNotificationForSlack()
     {
         $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
-            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+            return OauthController::SLACK == $userNotificationProvider->notificationProvider->provider_name;
         });
 
         return $slackProvider ? $slackProvider->token : null;

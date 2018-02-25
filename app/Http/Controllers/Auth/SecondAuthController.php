@@ -15,6 +15,7 @@ class SecondAuthController extends Controller
 
     /**
      * SecondAuthController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
@@ -77,6 +78,7 @@ class SecondAuthController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)

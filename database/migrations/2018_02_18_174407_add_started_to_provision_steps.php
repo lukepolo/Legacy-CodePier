@@ -25,6 +25,5 @@ class AddStartedToProvisionSteps extends Migration
      */
     public function down()
     {
-        //
     }
 }

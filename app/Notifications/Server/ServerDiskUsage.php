@@ -103,6 +103,7 @@ class ServerDiskUsage extends Notification
      * Get the array representation of the notification.
      *
      * @param $notifiable
+     *
      * @return array
      */
     public function toBroadcast($notifiable)

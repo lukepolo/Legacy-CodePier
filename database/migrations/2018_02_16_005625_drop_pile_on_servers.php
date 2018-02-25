@@ -25,6 +25,5 @@ class DropPileOnServers extends Migration
      */
     public function down()
     {
-        //
     }
 }

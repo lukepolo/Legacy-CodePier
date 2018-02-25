@@ -25,8 +25,9 @@ class RemoveBuoy implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Buoy $buoy
+     *
+     * @param Server  $server
+     * @param Buoy    $buoy
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Buoy $buoy, Command $siteCommand = null)
@@ -38,6 +39,7 @@ class RemoveBuoy implements ShouldQueue
 
     /**
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
+     *
      * @throws \Exception
      */
     public function handle(BuoyService $buoyService)

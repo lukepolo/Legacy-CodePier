@@ -17,6 +17,7 @@ class ServerFeatureController extends Controller
 
     /**
      * ServerFeatureController constructor.
+     *
      * @param \App\Services\Server\ServerFeatureService | ServerFeatureService $serverFeatureService
      */
     public function __construct(ServerFeatureService $serverFeatureService)
@@ -28,6 +29,7 @@ class ServerFeatureController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -40,6 +42,7 @@ class ServerFeatureController extends Controller
     /**
      * @param ServerFeatureRequest $request
      * @param $serverId
+     *
      * @return mixed
      */
     public function store(ServerFeatureRequest $request, $serverId)

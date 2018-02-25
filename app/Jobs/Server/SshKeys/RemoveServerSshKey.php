@@ -25,8 +25,9 @@ class RemoveServerSshKey implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
-     * @param SshKey $sshKey
+     *
+     * @param Server  $server
+     * @param SshKey  $sshKey
      * @param Command $siteCommand
      */
     public function __construct(Server $server, SshKey $sshKey, Command $siteCommand = null)
@@ -40,6 +41,7 @@ class RemoveServerSshKey implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -55,7 +57,7 @@ class RemoveServerSshKey implements ShouldQueue
                 $this->server->sshKeys()->detach($this->sshKey->id);
 
                 $this->sshKey->load('servers');
-                if ($this->sshKey->servers->count() == 0) {
+                if (0 == $this->sshKey->servers->count()) {
                     $this->sshKey->delete();
                 }
             }

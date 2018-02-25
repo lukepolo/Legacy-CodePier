@@ -23,8 +23,8 @@ class UpdateServerWorkers
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -36,14 +36,14 @@ class UpdateServerWorkers
 
         $this->site->workers->each(function (Worker $worker) {
             if ($this->site->hasWorkerServers()) {
-                if ($this->serverType == SystemService::WORKER_SERVER) {
+                if (SystemService::WORKER_SERVER == $this->serverType) {
                     if (! $worker->hasServer($this->server)) {
                         $this->addServerWorker($worker);
                     }
                 } else {
                     $this->removeServerWorker($worker);
                 }
-            } elseif (! $worker->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+            } elseif (! $worker->hasServer($this->server) && SystemService::FULL_STACK_SERVER == $this->serverType) {
                 $this->addServerWorker($worker);
             }
         });

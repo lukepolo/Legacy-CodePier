@@ -27,15 +27,14 @@ trait DeployTrait
     private $zeroDowntimeDeployment;
 
     /**
-     * @param RemoteTaskService $remoteTaskService
-     * @param RepositoryService $repositoryService
-     * @param Server $server
+     * @param RemoteTaskService     $remoteTaskService
+     * @param RepositoryService     $repositoryService
+     * @param Server                $server
      * @param \App\Models\Site\Site $site
-     * @param SiteDeployment $siteDeployment
+     * @param SiteDeployment        $siteDeployment
      *
      * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
-     *
      * @throws \Exception
      */
     public function __construct(
@@ -199,7 +198,9 @@ trait DeployTrait
 
     /**
      * Runs a custom step on the server.
+     *
      * @param $script
+     *
      * @return string
      */
     public function customStep($script)

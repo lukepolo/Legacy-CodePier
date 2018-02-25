@@ -20,7 +20,8 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -39,7 +40,7 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
      */
     public function toMail()
     {
-        return  (new MailMessage)
+        return  (new MailMessage())
             ->subject($this->lifeline->site->name.' lifeline checked in')
             ->line('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
     }

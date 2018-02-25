@@ -11,6 +11,7 @@ class PileController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -20,7 +21,9 @@ class PileController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param PileRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(PileRequest $request)
@@ -35,8 +38,10 @@ class PileController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param PileRequest $request
-     * @param int $id
+     * @param int         $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(PileRequest $request, $id)
@@ -53,7 +58,9 @@ class PileController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,9 +70,12 @@ class PileController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -82,7 +92,9 @@ class PileController extends Controller
 
     /**
      * Changes the users pile.
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function changePile(Request $request)

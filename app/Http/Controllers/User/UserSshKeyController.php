@@ -24,6 +24,7 @@ class UserSshKeyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\SshKeyRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SshKeyRequest $request)

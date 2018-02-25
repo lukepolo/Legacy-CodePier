@@ -15,6 +15,7 @@ class SentryBuoy implements BuoyContract
      * @buoy-enabled 1
      *
      * @description Sentry’s real-time error tracking gives you insight into production deployments and information to reproduce and fix crashes.
+     *
      * @category Services
      *
      * @param array $ports

@@ -16,7 +16,7 @@ class SiteWorkerCreated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param Worker $worker
      */
     public function __construct(Site $site, Worker $worker)

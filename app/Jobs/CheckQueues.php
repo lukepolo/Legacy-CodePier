@@ -20,7 +20,7 @@ class CheckQueues implements ShouldQueue
      */
     public function handle()
     {
-        $httpClient = new HttpClient;
+        $httpClient = new HttpClient();
         $httpClient->get('https://lifeline.codepier.io/oZr20qP1O4xd67RYALVDAnNWaBk3ygb9mGKwEnJ5');
     }
 }

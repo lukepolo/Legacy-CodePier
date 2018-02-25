@@ -39,6 +39,7 @@ class UpdateSudoPassword implements ShouldQueue
      * Execute the job.
      *
      * @param ServerService|\App\Services\Server\ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

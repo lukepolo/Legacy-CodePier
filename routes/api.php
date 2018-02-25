@@ -78,7 +78,6 @@ Route::group(['middleware' => [
         'auth:api',
     ],
 ], function () {
-
     /*
     |--------------------------------------------------------------------------
     | Announcements Routes

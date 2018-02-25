@@ -15,11 +15,9 @@ class Symfony
     ];
 
     public $suggestedFeatures = [
-
     ];
 
     public static $cronJobs = [
-
     ];
 
     public function getNginxConfig(Site $site, $phpVersion)

@@ -27,9 +27,10 @@ class InstallServerSslCertificate implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
+     *
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
-     * @param Command $siteCommand
+     * @param Command        $siteCommand
      */
     public function __construct(Server $server, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
@@ -40,8 +41,10 @@ class InstallServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function handle(ServerService $serverService)
     {
@@ -80,7 +83,7 @@ class InstallServerSslCertificate implements ShouldQueue
     private function updateWebConfigs()
     {
         foreach ($this->sslCertificate->sites as $site) {
-            if ($this->sslCertificate->active === true) {
+            if (true === $this->sslCertificate->active) {
                 broadcast(new SiteSslCertificateUpdated($site, $this->sslCertificate));
             } else {
                 event(new SiteUpdatedWebConfig($site));

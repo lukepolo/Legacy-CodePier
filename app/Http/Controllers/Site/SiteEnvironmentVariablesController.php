@@ -15,6 +15,7 @@ class SiteEnvironmentVariablesController extends Controller
      * Display a listing of the resource.
      *
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -27,8 +28,9 @@ class SiteEnvironmentVariablesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  EnvironmentVariableRequest $request
+     * @param EnvironmentVariableRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(EnvironmentVariableRequest $request, $siteId)
@@ -59,8 +61,9 @@ class SiteEnvironmentVariablesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

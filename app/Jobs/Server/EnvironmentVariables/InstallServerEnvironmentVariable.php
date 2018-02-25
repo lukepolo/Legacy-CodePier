@@ -25,9 +25,10 @@ class InstallServerEnvironmentVariable implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
+     *
+     * @param Server              $server
      * @param EnvironmentVariable $environmentVariable
-     * @param Command $siteCommand
+     * @param Command             $siteCommand
      */
     public function __construct(Server $server, EnvironmentVariable $environmentVariable, Command $siteCommand = null)
     {
@@ -40,6 +41,7 @@ class InstallServerEnvironmentVariable implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

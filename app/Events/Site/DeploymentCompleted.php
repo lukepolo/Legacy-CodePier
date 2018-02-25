@@ -21,8 +21,9 @@ class DeploymentCompleted implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     * @param Site $site
-     * @param Server $server
+     *
+     * @param Site                 $site
+     * @param Server               $server
      * @param SiteServerDeployment $siteServerDeploymentDeployment
      */
     public function __construct(Site $site, Server $server, SiteServerDeployment $siteServerDeploymentDeployment)

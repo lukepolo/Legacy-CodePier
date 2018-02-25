@@ -9,6 +9,7 @@ class LifeLineController extends Controller
 {
     /**
      * @param $lifelineHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update($lifelineHashId)

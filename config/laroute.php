@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * The destination path for the javascript file.
      */
@@ -54,5 +53,4 @@ return [
     *
     */
     'prefix' => '',
-
 ];

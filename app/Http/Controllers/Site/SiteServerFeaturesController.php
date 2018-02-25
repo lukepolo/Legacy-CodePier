@@ -13,6 +13,7 @@ class SiteServerFeaturesController extends Controller
      * Display a listing of the resource.
      *
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -27,6 +28,7 @@ class SiteServerFeaturesController extends Controller
      *
      * @param $siteId
      * @param $serverType
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($siteId, $serverType)
@@ -53,6 +55,7 @@ class SiteServerFeaturesController extends Controller
      *
      * @param Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)

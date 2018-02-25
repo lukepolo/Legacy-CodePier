@@ -15,8 +15,9 @@ class SiteSshKeyCreated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param SshKey $sshKey
+     *
      * @internal param FirewallRule $firewallRule
      */
     public function __construct(Site $site, SshKey $sshKey)

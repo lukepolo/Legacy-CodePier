@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-02-22 22:44:29.
+    * Generated on 2018-02-25 20:03:16.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -56,6 +56,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -229,6 +230,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -402,6 +404,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -575,6 +578,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -748,6 +752,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -921,6 +926,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,
@@ -1094,6 +1100,7 @@ namespace PHPSTORM_META {
         'Laravel\Horizon\Contracts\WorkloadRepository' => \Laravel\Horizon\Repositories\RedisWorkloadRepository::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
         'sentry' => \Raven_Client::class,
         'Spatie\Newsletter\Newsletter' => \Spatie\Newsletter\Newsletter::class,

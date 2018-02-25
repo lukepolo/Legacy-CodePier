@@ -43,7 +43,7 @@ class FirewallRule extends Model
 
     public function commandDescription($status)
     {
-        if ($this->port === '*') {
+        if ('*' === $this->port) {
             $firewallDescription = ' all ports ('.$this->description.') to '.$this->from_ip;
         } else {
             $to = ' ';

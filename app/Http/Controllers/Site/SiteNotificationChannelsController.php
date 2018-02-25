@@ -11,6 +11,7 @@ class SiteNotificationChannelsController extends Controller
     /**
      * @param NotificationChannelsRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(NotificationChannelsRequest $request, $siteId)

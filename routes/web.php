@@ -3,7 +3,7 @@
 // Preview Emails
 use Illuminate\Mail\Markdown;
 
-if (config('app.env') === 'local') {
+if ('local' === config('app.env')) {
     Route::get('welcomeEmail', function () {
         $markdown = new Markdown(view(), config('mail.markdown'));
 

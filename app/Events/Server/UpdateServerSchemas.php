@@ -24,8 +24,8 @@ class UpdateServerSchemas
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -37,7 +37,7 @@ class UpdateServerSchemas
 
         $this->site->schemas->each(function (Schema $schema) {
             if ($this->site->hasDatabaseServers()) {
-                if ($this->serverType == SystemService::DATABASE_SERVER) {
+                if (SystemService::DATABASE_SERVER == $this->serverType) {
                     if (! $schema->hasServer($this->server)) {
                         $this->addSchema($schema);
                     }
@@ -45,7 +45,7 @@ class UpdateServerSchemas
                     // TODO - we should allow them to migrate from here , so should we remove it? Probably not
                     // $this->removeSchema($schema);
                 }
-            } elseif (! $schema->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+            } elseif (! $schema->hasServer($this->server) && SystemService::FULL_STACK_SERVER == $this->serverType) {
                 $this->addSchema($schema);
             }
         });

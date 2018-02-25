@@ -24,7 +24,7 @@ class RestartDatabases implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
+     * @param Server  $server
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Command $siteCommand)
@@ -38,6 +38,7 @@ class RestartDatabases implements ShouldQueue
      * Execute the job.
      *
      * @param ServerService|\App\Services\Server\ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

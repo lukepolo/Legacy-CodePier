@@ -15,7 +15,7 @@ class SiteSslCertificateDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site           $site
      * @param SslCertificate $sslCertificate
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)

@@ -13,7 +13,9 @@ class SiteSchemaController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  int $siteId
+     *
+     * @param int $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -27,7 +29,8 @@ class SiteSchemaController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SchemaRequest $request
-     * @param  int $siteId
+     * @param int           $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SchemaRequest $request, $siteId)
@@ -60,8 +63,9 @@ class SiteSchemaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $siteId
-     * @param  int $id
+     * @param int $siteId
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

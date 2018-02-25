@@ -98,7 +98,7 @@ class PHP
 
         $tempVersion = $version = $this->getPhpVersion();
 
-        if ($version == '7.0') {
+        if ('7.0' == $version) {
             $tempVersion = '';
         }
 

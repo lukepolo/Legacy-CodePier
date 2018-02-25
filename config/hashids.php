@@ -10,7 +10,6 @@
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Connection Name
@@ -36,7 +35,6 @@ return [
     */
 
     'connections' => [
-
         'main' => [
             'salt'     => env('APP_KEY'),
             'length'   => 40,
@@ -49,5 +47,4 @@ return [
             'alphabet' => 'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
     ],
-
 ];
