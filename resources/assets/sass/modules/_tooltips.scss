@@ -3,22 +3,23 @@
 @import "~hint.css/src/hint";
 
 [data-toggle="tooltip"],
-[class^="hint-"], [class*=" hint-"] {
+[class^="hint-"],
+[class*=" hint-"] {
   cursor: pointer;
   vertical-align: bottom;
   z-index: 100;
 }
 
-.#{$hintPrefix}none{
+.#{$hintPrefix}none {
   &:before,
   &:after {
     opacity: 0 !important;
   }
 }
 
-
 .heading--btns {
-  [class^="hint-"], [class*=" hint-"] {
+  [class^="hint-"],
+  [class*=" hint-"] {
     z-index: 150;
   }
 }
