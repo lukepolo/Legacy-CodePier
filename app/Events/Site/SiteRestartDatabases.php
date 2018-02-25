@@ -2,13 +2,13 @@
 
 namespace App\Events\Site;
 
-use App\Models\Site\Site;
-use App\Traits\ModelCommandTrait;
 use App\Jobs\Server\RestartDatabases;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Site\Site;
 use App\Services\Systems\SystemService;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\Traits\ModelCommandTrait;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class SiteRestartDatabases
 {

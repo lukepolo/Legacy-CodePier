@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Server\Providers\Linode;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server\Provider\ServerProvider;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class LinodeServerFeaturesController extends Controller
 {

@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server\EnvironmentVariables;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
-use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
 use App\Models\EnvironmentVariable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Server\Server;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallServerEnvironmentVariable implements ShouldQueue
 {
@@ -25,9 +25,10 @@ class InstallServerEnvironmentVariable implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
+     *
+     * @param Server              $server
      * @param EnvironmentVariable $environmentVariable
-     * @param Command $siteCommand
+     * @param Command             $siteCommand
      */
     public function __construct(Server $server, EnvironmentVariable $environmentVariable, Command $siteCommand = null)
     {
@@ -40,6 +41,7 @@ class InstallServerEnvironmentVariable implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

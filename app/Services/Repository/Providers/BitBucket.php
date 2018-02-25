@@ -2,14 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
-use Carbon\Carbon;
-use App\Models\Site\Site;
-use Buzz\Message\Response;
 use App\Exceptions\DeployHookFailed;
-use Bitbucket\API\Repositories\Hooks;
+use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use Bitbucket\API\Http\Listener\OAuth2Listener;
+use Bitbucket\API\Repositories\Hooks;
+use Buzz\Message\Response;
+use Carbon\Carbon;
+use League\OAuth2\Client\Token\AccessToken;
 
 class BitBucket implements RepositoryContract
 {
@@ -35,9 +35,11 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws DeployHookFailed
      * @throws \Exception
+     *
+     * @return Site
      */
     public function createDeployHook(Site $site)
     {
@@ -64,7 +66,7 @@ class BitBucket implements RepositoryContract
             ],
         ]);
 
-        if ($response->getStatusCode() == 401) {
+        if (401 == $response->getStatusCode()) {
             throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
         }
 
@@ -76,6 +78,7 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param UserRepositoryProvider $userRepositoryProvider
+     *
      * @return mixed|string
      */
     public function getToken(UserRepositoryProvider $userRepositoryProvider)
@@ -106,8 +109,10 @@ class BitBucket implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws \Exception
+     *
+     * @return Site
      */
     public function deleteDeployHook(Site $site)
     {

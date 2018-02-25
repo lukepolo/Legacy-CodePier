@@ -4,8 +4,8 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Site\Site;
 use App\Services\Server\ServerService;
-use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 
 /**
  * // TODO - need to separate Apache and NGINX configs.
@@ -136,6 +136,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     /**
      * @param Site $site
      * @param $serverType
+     *
      * @throws \Exception
      */
     public function updateWebServerConfig(Site $site, $serverType)
@@ -153,7 +154,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
             }
         }
 
-        if ($serverType === SystemService::LOAD_BALANCER) {
+        if (SystemService::LOAD_BALANCER === $serverType) {
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
             // TODO - for now we will do it by what servers are connected to that site
@@ -166,7 +167,7 @@ upstream '.$upstreamName.' {
 
                 return $server;
             })->filter(function ($server) {
-                return $server->type === SystemService::WEB_SERVER;
+                return SystemService::WEB_SERVER === $server->type;
             })->implode('ip', "\n").'
 }');
 
@@ -195,8 +196,8 @@ location / {
             
 gzip off; 
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
-listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
-listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
+listen 443 ssl http2 '.('default' == $site->domain ? 'default_server' : null).';
+listen [::]:443 ssl http2 '.('default' == $site->domain ? 'default_server' : null).';
 
 '.$location.'
 
@@ -228,8 +229,8 @@ add_header X-Content-Type-Options nosniff;
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf', '
 server {
-    listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
-    listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
+    listen 80 '.('default' == $site->domain ? 'default_server' : null).';
+    listen [::]:80 '.('default' == $site->domain ? 'default_server' : null).';
     
     server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
     return 301 https://$host$request_uri;
@@ -237,8 +238,8 @@ server {
 ');
         } else {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
-listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
-listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
+listen 80 '.('default' == $site->domain ? 'default_server' : null).';
+listen [::]:80 '.('default' == $site->domain ? 'default_server' : null).';
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 add_header Strict-Transport-Security max-age=0;
 
@@ -269,7 +270,7 @@ add_header Strict-Transport-Security max-age=0;
     add_header X-Content-Type-Options "nosniff";
 ';
 
-                if ($this->server->type !== SystemService::LOAD_BALANCER) {
+                if (SystemService::LOAD_BALANCER !== $this->server->type) {
                     if ($site->isLoadBalanced()) {
                         $headers = '';
                     }
@@ -318,7 +319,7 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
     }
 
     /**
-     * @param Site   $site
+     * @param Site $site
      *
      * @return bool
      */
@@ -349,7 +350,7 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
     {
         $webServiceFeatures = $this->server->server_features['WebService'];
 
-        if (isset($webServiceFeatures['Nginx']['enabled']) && isset($webServiceFeatures['Nginx']['enabled']) == 1) {
+        if (isset($webServiceFeatures['Nginx']['enabled']) && 1 == isset($webServiceFeatures['Nginx']['enabled'])) {
             return 'Nginx';
         }
 

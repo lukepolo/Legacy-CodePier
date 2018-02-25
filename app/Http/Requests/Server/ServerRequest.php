@@ -26,13 +26,13 @@ class ServerRequest extends FormRequest
     public function rules()
     {
         return [
-            'server_name' => ['required', new ServerName],
+            'server_name' => ['required', new ServerName()],
             'server_provider_id' => 'required_without:custom',
             'services' => 'required',
             'server_region' => 'required_without:custom|integer',
             'server_option' => 'required_without:custom|integer',
             'site' => 'integer',
-            'type' => [new ServerType],
+            'type' => [new ServerType()],
         ];
     }
 }

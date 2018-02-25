@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Models\SslCertificate;
 use App\Events\SslCertificate\SslCertificateUpdated;
+use App\Models\SslCertificate;
 
 class SslCertificateObserver
 {

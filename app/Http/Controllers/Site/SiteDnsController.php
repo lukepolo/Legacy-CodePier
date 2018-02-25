@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
 class SiteDnsController extends Controller
@@ -14,6 +14,7 @@ class SiteDnsController extends Controller
      *
      * @param Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $siteId)

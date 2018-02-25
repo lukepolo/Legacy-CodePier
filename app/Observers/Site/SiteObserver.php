@@ -2,19 +2,19 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Site\Site;
-use App\Models\FirewallRule;
-use App\Jobs\Site\DeleteSite;
-use App\Traits\ModelCommandTrait;
-use App\Events\Site\SiteSshKeyDeleted;
-use App\Events\Site\SiteWorkerDeleted;
-use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Site\SiteFirewallRuleDeleted;
-use App\Events\Site\SiteSslCertificateDeleted;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract as SiteDeploymentStepsService;
+use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Events\Site\SiteCronJobDeleted;
+use App\Events\Site\SiteFirewallRuleDeleted;
+use App\Events\Site\SiteSshKeyDeleted;
+use App\Events\Site\SiteSslCertificateDeleted;
+use App\Events\Site\SiteWorkerDeleted;
+use App\Jobs\Site\DeleteSite;
+use App\Models\FirewallRule;
+use App\Models\Site\Site;
+use App\Traits\ModelCommandTrait;
 
 class SiteObserver
 {
@@ -30,9 +30,9 @@ class SiteObserver
     /**
      * SiteObserver constructor.
      *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
-     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService $siteFeatureService
+     * @param \App\Services\Site\SiteService | SiteService                               $siteService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService             $repositoryService
+     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService                 $siteFeatureService
      * @param \App\Services\Site\SiteDeploymentStepsService | SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(
@@ -103,6 +103,7 @@ class SiteObserver
 
     /**
      * @param Site $site
+     *
      * @throws \Exception
      */
     public function deleting(Site $site)

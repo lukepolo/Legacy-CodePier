@@ -2,13 +2,13 @@
 
 namespace App\Services\Repository\Providers;
 
-use Github\Client;
-use Github\Api\Repo;
-use App\Models\Site\Site;
-use Github\Api\CurrentUser;
 use App\Exceptions\DeployHookFailed;
-use Github\Exception\RuntimeException;
+use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
+use Github\Api\CurrentUser;
+use Github\Api\Repo;
+use Github\Client;
+use Github\Exception\RuntimeException;
 
 class GitHub implements RepositoryContract
 {
@@ -47,8 +47,10 @@ class GitHub implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws DeployHookFailed
+     *
+     * @return Site
      */
     public function createDeployHook(Site $site)
     {
@@ -70,7 +72,7 @@ class GitHub implements RepositoryContract
                 ],
             ]);
         } catch (RuntimeException $e) {
-            if ($e->getMessage() == 'Not Found') {
+            if ('Not Found' == $e->getMessage()) {
                 throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
             }
 
@@ -85,6 +87,7 @@ class GitHub implements RepositoryContract
 
     /**
      * @param UserRepositoryProvider $userRepositoryProvider
+     *
      * @return mixed|string
      */
     public function getToken(UserRepositoryProvider $userRepositoryProvider)
@@ -94,6 +97,7 @@ class GitHub implements RepositoryContract
 
     /**
      * @param Site $site
+     *
      * @return Site
      */
     public function deleteDeployHook(Site $site)

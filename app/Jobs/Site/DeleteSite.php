@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Site;
 
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\SshConnectionFailed;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class DeleteSite implements ShouldQueue
 {
@@ -27,7 +27,7 @@ class DeleteSite implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      */
     public function __construct(Server $server, Site $site)
     {
@@ -39,6 +39,7 @@ class DeleteSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     *
      * @throws \App\Exceptions\FailedCommand
      * @throws \Exception
      */
@@ -47,9 +48,9 @@ class DeleteSite implements ShouldQueue
         $serverType = $this->server->type;
 
         if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
+            SystemService::WEB_SERVER === $serverType ||
+            SystemService::LOAD_BALANCER === $serverType ||
+            SystemService::FULL_STACK_SERVER === $serverType
         ) {
             try {
                 $siteService->deleteSite($this->server, $this->site);

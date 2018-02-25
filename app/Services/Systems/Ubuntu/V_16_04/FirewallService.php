@@ -41,7 +41,7 @@ class FirewallService
     {
         $this->connectToServer();
 
-        if ($firewallRule->port !== '*') {
+        if ('*' !== $firewallRule->port) {
             if (! empty($firewallRule->from_ip)) {
                 $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
             } else {
@@ -58,7 +58,7 @@ class FirewallService
     {
         $this->connectToServer();
 
-        if ($firewallRule->port !== '*') {
+        if ('*' !== $firewallRule->port) {
             if ($firewallRule->from_ip) {
                 return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port'");
             }

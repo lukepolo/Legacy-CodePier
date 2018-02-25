@@ -3,8 +3,8 @@
 namespace App\Models\Site\Deployment;
 
 use App\Models\Site\Site;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Site\SiteServerDeployment;
+use Illuminate\Database\Eloquent\Model;
 
 class DeploymentEvent extends Model
 {

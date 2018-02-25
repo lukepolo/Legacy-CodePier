@@ -11,15 +11,12 @@ class CodeIgniter
     use ServiceConstructorTrait;
 
     public static $files = [
-
     ];
 
     public $suggestedFeatures = [
-
     ];
 
     public static $cronJobs = [
-
     ];
 
     public function getNginxConfig(Site $site, $phpVersion)

@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\User\User;
-use App\Mail\ConfirmWelcome;
-use Vinkla\Hashids\Facades\Hashids;
 use App\Http\Controllers\Controller;
+use App\Mail\ConfirmWelcome;
+use App\Models\User\User;
 use Illuminate\Support\Facades\Mail;
+use Vinkla\Hashids\Facades\Hashids;
 
 class UserConfirmController extends Controller
 {
     /**
      * Store a newly created resource in storage.
+     *
      * @param $code
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update($code)

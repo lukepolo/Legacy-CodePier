@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Server;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerFeatureInstalled;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\Server\ServerFeatureInstalled;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallServerFeature implements ShouldQueue
 {
@@ -46,6 +46,7 @@ class InstallServerFeature implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

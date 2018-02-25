@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\Server;
-use App\Http\Requests\FileRequest;
-use App\Http\Controllers\Controller;
-use App\Jobs\Server\UpdateServerFile;
-use App\Http\Requests\FindFileRequest;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\FileRequest;
+use App\Http\Requests\FindFileRequest;
+use App\Jobs\Server\UpdateServerFile;
+use App\Models\Server\Server;
 
 class ServerFileController extends Controller
 {
@@ -15,6 +15,7 @@ class ServerFileController extends Controller
 
     /**
      * ServerController constructor.
+     *
      * @param \App\Repositories\FileRepository | FileRepository $fileRepository
      */
     public function __construct(FileRepository $fileRepository)
@@ -26,6 +27,7 @@ class ServerFileController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -40,6 +42,7 @@ class ServerFileController extends Controller
      *
      * @param $serverId
      * @param string $fileId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $fileId)
@@ -52,6 +55,7 @@ class ServerFileController extends Controller
     /**
      * @param FindFileRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function find(FindFileRequest $request, $serverId)
@@ -75,9 +79,11 @@ class ServerFileController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param FileRequest $request
      * @param $serverId
      * @param int $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(FileRequest $request, $serverId, $id)
@@ -100,7 +106,8 @@ class ServerFileController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
@@ -117,6 +124,7 @@ class ServerFileController extends Controller
      *
      * @param $serverId
      * @param $fileId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function reloadFile($serverId, $fileId)

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
-use Cache;
-use App\Models\User\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionCardUpdateRequest;
+use App\Models\User\User;
+use Cache;
 
 class UserSubscriptionCardController extends Controller
 {

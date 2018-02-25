@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Worker;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkerRequest;
-use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Jobs\Server\Workers\InstallServerWorker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Models\Server\Server;
+use App\Models\Worker;
 
 class ServerWorkerController extends Controller
 {
@@ -15,6 +15,7 @@ class ServerWorkerController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -30,6 +31,7 @@ class ServerWorkerController extends Controller
      *
      * @param WorkerRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(WorkerRequest $request, $serverId)

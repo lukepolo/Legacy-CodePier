@@ -4,10 +4,10 @@ namespace App\Events\Server;
 
 use App\Models\ServerCommand;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Queue\SerializesModels;
 
 class ServerCommandUpdated implements ShouldBroadcastNow
 {

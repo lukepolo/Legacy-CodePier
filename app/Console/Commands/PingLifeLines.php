@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Jobs\CheckQueues;
-use Illuminate\Console\Command;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Console\Command;
 
 class PingLifeLines extends Command
 {
@@ -30,7 +30,7 @@ class PingLifeLines extends Command
      */
     public function handle()
     {
-        $httpClient = new HttpClient;
+        $httpClient = new HttpClient();
 
         $httpClient->get('https://lifeline.codepier.io/JOY32EwMR769mp5ynqXej6eAkxLjl4VZdvQGB1Wg');
 

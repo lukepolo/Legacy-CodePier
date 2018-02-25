@@ -2,32 +2,32 @@
 
 namespace App\Models\Server;
 
-use App\Models\Buoy;
-use App\Models\File;
-use App\Models\Daemon;
-use App\Models\Schema;
-use App\Models\SshKey;
-use App\Models\Worker;
-use App\Models\CronJob;
-use App\Traits\Hashable;
-use App\Models\Site\Site;
-use App\Models\User\User;
-use App\Models\SchemaUser;
-use App\Traits\Encryptable;
-use App\Models\FirewallRule;
-use App\Models\SlackChannel;
-use App\Models\ServerCommand;
-use App\Models\SslCertificate;
-use App\Models\LanguageSetting;
-use App\Traits\ConnectedToUser;
-use App\Models\EnvironmentVariable;
-use App\Services\Systems\SystemService;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Auth\OauthController;
+use App\Models\Buoy;
+use App\Models\CronJob;
+use App\Models\Daemon;
+use App\Models\EnvironmentVariable;
+use App\Models\File;
+use App\Models\FirewallRule;
+use App\Models\LanguageSetting;
+use App\Models\Schema;
+use App\Models\SchemaUser;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderFeatures;
+use App\Models\ServerCommand;
+use App\Models\Site\Site;
+use App\Models\SlackChannel;
+use App\Models\SshKey;
+use App\Models\SslCertificate;
+use App\Models\User\User;
+use App\Models\Worker;
+use App\Services\Systems\SystemService;
+use App\Traits\ConnectedToUser;
+use App\Traits\Encryptable;
+use App\Traits\Hashable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Server extends Model
 {
@@ -75,11 +75,11 @@ class Server extends Model
         $serverFeatures = json_decode($this->attributes['server_features'], true);
 
         $serverFeatures['NodeService'] = collect($serverFeatures['NodeService'])->sortBy(function ($options, $feature) {
-            return $feature === 'NodeJs' ? 0 : 1;
+            return 'NodeJs' === $feature ? 0 : 1;
         })->all();
 
         $serverFeatures['Languages\PHP\PHP'] = collect($serverFeatures['Languages\PHP\PHP'])->sortBy(function ($options, $feature) {
-            return $feature === 'PHP' ? 0 : 1;
+            return 'PHP' === $feature ? 0 : 1;
         })->all();
 
         return $serverFeatures;
@@ -263,7 +263,7 @@ class Server extends Model
             return $provisionStep->completed;
         })->count();
 
-        if ($totalDone == 0) {
+        if (0 == $totalDone) {
             $totalDone = 1;
         }
 
@@ -278,7 +278,7 @@ class Server extends Model
     public function routeNotificationForSlack()
     {
         $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
-            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+            return OauthController::SLACK == $userNotificationProvider->notificationProvider->provider_name;
         });
 
         return $slackProvider ? $slackProvider->token : null;

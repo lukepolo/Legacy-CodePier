@@ -25,7 +25,7 @@ class EnvironmentVariableRequest extends FormRequest
     public function rules()
     {
         return [
-            'variable' => ['required', new EnvironmentVariable],
+            'variable' => ['required', new EnvironmentVariable()],
             'value' => 'required',
         ];
     }

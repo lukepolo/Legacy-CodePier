@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Models\Worker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Models\Site\Site;
+use App\Models\Worker;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\Workers\RemoveServerWorker;
 
 class SiteWorkerDeleted
 {
@@ -15,7 +15,7 @@ class SiteWorkerDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param Worker $worker
      */
     public function __construct(Site $site, Worker $worker)

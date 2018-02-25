@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\BuoyServiceContract as BuoyService;
+use App\Http\Requests\BuoyRequest;
 use App\Models\BuoyApp;
 use App\Models\Category;
-use App\Http\Requests\BuoyRequest;
-use App\Contracts\BuoyServiceContract as BuoyService;
 
 class BuoyAppController extends Controller
 {
@@ -16,6 +16,7 @@ class BuoyAppController extends Controller
 
     /**
      * BuoyAppController constructor.
+     *
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
      */
     public function __construct(BuoyService $buoyService)
@@ -43,7 +44,8 @@ class BuoyAppController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,8 +56,9 @@ class BuoyAppController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  BuoyRequest  $request
-     * @param  int  $id
+     * @param BuoyRequest $request
+     * @param int         $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(BuoyRequest $request, $id)
@@ -88,7 +91,8 @@ class BuoyAppController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

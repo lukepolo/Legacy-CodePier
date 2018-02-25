@@ -2,21 +2,21 @@
 
 namespace App\Models\User;
 
-use Carbon\Carbon;
 use App\Models\Pile;
-use App\Models\SshKey;
-use App\Traits\Hashable;
-use App\Models\Site\Site;
-use Laravel\Cashier\Card;
-use App\Traits\HasServers;
 use App\Models\Server\Server;
-use Laravel\Cashier\Billable;
-use Laravel\Passport\HasApiTokens;
+use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
-use Illuminate\Notifications\Notifiable;
-use Mpociot\Teamwork\Traits\UserHasTeams;
+use App\Models\SshKey;
 use App\Notifications\Channels\SlackMessageChannel;
+use App\Traits\Hashable;
+use App\Traits\HasServers;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
+use Laravel\Cashier\Card;
+use Laravel\Passport\HasApiTokens;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
@@ -255,7 +255,7 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
-        if ($this->role === 'admin') {
+        if ('admin' === $this->role) {
             return true;
         }
 
@@ -287,7 +287,7 @@ class User extends Authenticatable
                 if (is_int($discount)) {
                     $price -= $discount;
                 } else {
-                    if ($discount === '.100') {
+                    if ('.100' === $discount) {
                         $discount = 1;
                     }
 
@@ -310,7 +310,7 @@ class User extends Authenticatable
                 if (is_int($discount)) {
                     return $subscriptionName.' - $'.$discount.'.00 off';
                 } else {
-                    if ($discount === '.100') {
+                    if ('.100' === $discount) {
                         $discount = 1;
                     }
 

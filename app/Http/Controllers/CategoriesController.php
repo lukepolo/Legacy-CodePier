@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 
 class CategoriesController extends Controller
 {
@@ -20,7 +20,8 @@ class CategoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CategoryRequest  $request
+     * @param CategoryRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
@@ -35,7 +36,8 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -46,8 +48,9 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  CategoryRequest  $request
-     * @param  int  $id
+     * @param CategoryRequest $request
+     * @param int             $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CategoryRequest $request, $id)
@@ -64,7 +67,8 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

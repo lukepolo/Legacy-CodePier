@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\Buoys\BuoyService;
 use App\Contracts\BuoyServiceContract;
+use App\Services\Buoys\BuoyService;
 use Illuminate\Support\ServiceProvider;
 
 class BuoyServiceProvider extends ServiceProvider

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Site\Lifeline;
+use Carbon\Carbon;
 
 class LifeLineController extends Controller
 {
     /**
      * @param $lifelineHashId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update($lifelineHashId)

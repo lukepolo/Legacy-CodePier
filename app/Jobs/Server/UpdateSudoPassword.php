@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Server;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateSudoPassword implements ShouldQueue
 {
@@ -39,6 +39,7 @@ class UpdateSudoPassword implements ShouldQueue
      * Execute the job.
      *
      * @param ServerService|\App\Services\Server\ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

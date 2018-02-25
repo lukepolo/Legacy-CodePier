@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\GitLab\GitLabExtendSocialite;
-use SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite;
+use SocialiteProviders\GitLab\GitLabExtendSocialite;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class EventServiceProvider extends ServiceProvider
 {

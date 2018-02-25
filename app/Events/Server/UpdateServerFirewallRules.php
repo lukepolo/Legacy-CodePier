@@ -2,15 +2,15 @@
 
 namespace App\Events\Server;
 
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\FirewallRule;
-use App\Models\Server\Server;
-use App\Services\Site\SiteService;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Contracts\Site\SiteServiceContract;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Models\Command;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Services\Site\SiteService;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerFirewallRules
 {
@@ -24,8 +24,8 @@ class UpdateServerFirewallRules
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -42,8 +42,8 @@ class UpdateServerFirewallRules
         });
 
         if (
-            $this->serverType === SystemService::WEB_SERVER ||
-            $this->serverType === SystemService::WORKER_SERVER
+            SystemService::WEB_SERVER === $this->serverType ||
+            SystemService::WORKER_SERVER === $this->serverType
         ) {
             $servicesPorts = SystemService::SERVICES_PORTS;
 
@@ -66,7 +66,7 @@ class UpdateServerFirewallRules
                 }
             }
 
-            if ($this->serverType === SystemService::WEB_SERVER) {
+            if (SystemService::WEB_SERVER === $this->serverType) {
                 if ($this->site->hasWorkerServers() || $this->site->hasFullStackServers()) {
                     foreach ($site->getWorkers() as $worker) {
                         if (isset($servicesPorts[$worker])) {

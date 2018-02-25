@@ -3,9 +3,9 @@
 namespace App\Models\Site;
 
 use App\Models\Server\Server;
+use App\Models\Site\Deployment\DeploymentEvent;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Site\Deployment\DeploymentEvent;
 
 class SiteServerDeployment extends Model
 {
@@ -40,7 +40,7 @@ class SiteServerDeployment extends Model
                 $skipStep = ! collect($deploymentStep->server_ids)->contains($this->server_id);
             }
 
-            if ($skipStep === false) {
+            if (false === $skipStep) {
                 DeploymentEvent::create([
                     'site_server_deployment_id' => $this->id,
                     'deployment_step_id' => $deploymentStep->id,

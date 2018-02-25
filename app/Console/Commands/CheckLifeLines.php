@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use App\Models\Site\Lifeline;
+use App\Notifications\LifeLineThresholdExceeded;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use App\Notifications\LifeLineThresholdExceeded;
 
 class CheckLifeLines extends Command
 {
@@ -45,7 +45,7 @@ class CheckLifeLines extends Command
                 ->chunk(1000, function ($lifelines) use ($lifelineModel) {
                     foreach ($lifelines as $lifeline) {
                         $lifelineModel->id = $lifeline->id;
-                        $lifelineModel->notify(new LifeLineThresholdExceeded);
+                        $lifelineModel->notify(new LifeLineThresholdExceeded());
                     }
                 });
     }

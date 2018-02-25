@@ -15,6 +15,7 @@ class ConfirmWelcome extends Mailable
 
     /**
      * Welcome constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user)

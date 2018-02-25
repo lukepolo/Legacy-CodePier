@@ -2,14 +2,14 @@
 
 namespace App\Events\Server;
 
-use App\Models\Worker;
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
-use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Jobs\Server\Workers\InstallServerWorker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Models\Command;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\Worker;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerWorkers
 {
@@ -23,8 +23,8 @@ class UpdateServerWorkers
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -36,14 +36,14 @@ class UpdateServerWorkers
 
         $this->site->workers->each(function (Worker $worker) {
             if ($this->site->hasWorkerServers()) {
-                if ($this->serverType == SystemService::WORKER_SERVER) {
+                if (SystemService::WORKER_SERVER == $this->serverType) {
                     if (! $worker->hasServer($this->server)) {
                         $this->addServerWorker($worker);
                     }
                 } else {
                     $this->removeServerWorker($worker);
                 }
-            } elseif (! $worker->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+            } elseif (! $worker->hasServer($this->server) && SystemService::FULL_STACK_SERVER == $this->serverType) {
                 $this->addServerWorker($worker);
             }
         });

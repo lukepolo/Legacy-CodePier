@@ -28,7 +28,7 @@ class FirewallRuleRequest extends FormRequest
             'from_ip' => 'nullable|ip',
             'description' => 'required',
             'type' => 'required|string',
-            'port' => ['required', new FirewallPort],
+            'port' => ['required', new FirewallPort()],
         ];
     }
 }

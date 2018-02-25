@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use Illuminate\Http\Request;
 
 class CheckForMaintenanceMode
 {
@@ -19,7 +19,8 @@ class CheckForMaintenanceMode
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
      * @return void
      */
     public function __construct(Application $app)
@@ -30,11 +31,12 @@ class CheckForMaintenanceMode
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
@@ -49,6 +51,7 @@ class CheckForMaintenanceMode
 
     /**
      * @param Request $request
+     *
      * @return bool
      */
     private function isIpWhiteListed(Request $request)

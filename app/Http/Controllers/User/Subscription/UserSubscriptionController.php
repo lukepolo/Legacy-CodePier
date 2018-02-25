@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
-use Cache;
-use Carbon\Carbon;
-use App\Models\User\User;
-use Illuminate\Http\Request;
-use Stripe\Error\InvalidRequest;
-use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
 use App\Http\Requests\User\UserSubscriptionUpdateRequest;
+use App\Models\User\User;
+use Cache;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Laravel\Cashier\Subscription;
+use Stripe\Error\InvalidRequest;
 
 class UserSubscriptionController extends Controller
 {
@@ -18,6 +18,7 @@ class UserSubscriptionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -74,6 +75,7 @@ class UserSubscriptionController extends Controller
 
     /**
      * @param UserSubscriptionUpdateRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserSubscriptionUpdateRequest $request)
@@ -143,6 +145,7 @@ class UserSubscriptionController extends Controller
      *
      * @param Request $request
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)

@@ -2,26 +2,26 @@
 
 namespace App\Services\Site;
 
-use App\Models\Site\Site;
-use App\Models\FirewallRule;
-use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
-use App\Models\Site\SiteDeployment;
-use App\Exceptions\DeploymentFailed;
-use App\Services\Systems\SystemService;
-use App\Events\Site\DeploymentCompleted;
-use App\Events\Site\DeploymentStepFailed;
-use App\Models\Site\SiteServerDeployment;
-use App\Events\Site\DeploymentStepStarted;
-use App\Contracts\Site\SiteServiceContract;
-use App\Events\Site\DeploymentStepCompleted;
-use App\Events\Site\SiteFirewallRuleCreated;
-use App\Services\DeploymentServices\PHP\PHP;
-use App\Services\DeploymentServices\HTML\HTML;
-use App\Services\DeploymentServices\Ruby\Ruby;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Site\SiteServiceContract;
+use App\Events\Site\DeploymentCompleted;
+use App\Events\Site\DeploymentStepCompleted;
+use App\Events\Site\DeploymentStepFailed;
+use App\Events\Site\DeploymentStepStarted;
+use App\Events\Site\SiteFirewallRuleCreated;
+use App\Exceptions\DeploymentFailed;
+use App\Exceptions\FailedCommand;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteServerDeployment;
+use App\Services\DeploymentServices\HTML\HTML;
+use App\Services\DeploymentServices\PHP\PHP;
+use App\Services\DeploymentServices\Ruby\Ruby;
+use App\Services\Systems\SystemService;
 
 class SiteService implements SiteServiceContract
 {
@@ -38,8 +38,8 @@ class SiteService implements SiteServiceContract
     /**
      * SiteService constructor.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @param \App\Services\Server\ServerService | ServerService             $serverService
+     * @param \App\Services\RemoteTaskService | RemoteTaskService            $remoteTaskService
      * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(
@@ -54,7 +54,8 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param Site $site
+     * @param Site                      $site
+     *
      * @throws FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -77,7 +78,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param \App\Models\Site\Site $site
+     * @param \App\Models\Site\Site     $site
      */
     public function updateWebServerConfig(Server $server, Site $site)
     {
@@ -88,9 +89,10 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param Site $site
+     * @param Site                      $site
      * @param $newDomain
      * @param $oldDomain
+     *
      * @throws FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -114,7 +116,8 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @throws FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -130,9 +133,10 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param Site $site
-     * @param SiteServerDeployment $siteServerDeployment
-     * @param SiteDeployment $oldSiteDeployment
+     * @param Site                      $site
+     * @param SiteServerDeployment      $siteServerDeployment
+     * @param SiteDeployment            $oldSiteDeployment
+     *
      * @throws DeploymentFailed
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -164,7 +168,7 @@ class SiteService implements SiteServiceContract
                         $deploymentStepResult = $deploymentService->$internalFunction();
                     }
 
-                    if ($index === 0) {
+                    if (0 === $index) {
                         $releaseFolder = $deploymentService->releaseTime;
                         $siteServerDeployment->siteDeployment->update([
                             'folder_name' => $releaseFolder,
@@ -188,8 +192,9 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param \App\Models\Site\Site $site
-     * @param SiteDeployment $siteDeployment
+     * @param \App\Models\Site\Site     $site
+     * @param SiteDeployment            $siteDeployment
+     *
      * @return mixed
      */
     private function getDeploymentService(Server $server, Site $site, SiteDeployment $siteDeployment = null)
@@ -199,7 +204,8 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param \App\Models\Server\Server $server
-     * @param \App\Models\Site\Site $site
+     * @param \App\Models\Site\Site     $site
+     *
      * @throws FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -213,8 +219,10 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
-     * @return Site|\Illuminate\Http\JsonResponse
+     *
      * @throws \App\Exceptions\SiteUserProviderNotConnected
+     *
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function createDeployHook(Site $site)
     {
@@ -227,8 +235,10 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
-     * @return Site|\Illuminate\Http\JsonResponse
+     *
      * @throws \App\Exceptions\SiteUserProviderNotConnected
+     *
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function deleteDeployHook(Site $site)
     {
@@ -243,6 +253,7 @@ class SiteService implements SiteServiceContract
      * Gets the web server service.
      *
      * @param Server $server
+     *
      * @return mixed
      */
     private function getWebServerService(Server $server)
@@ -267,7 +278,7 @@ class SiteService implements SiteServiceContract
      */
     public function createFirewallRule(Site $site, $port, $type, $description, $fromIp = null)
     {
-        $type = $port === '*' ? 'both' : $type;
+        $type = '*' === $port ? 'both' : $type;
 
         if (! $site->firewallRules
             ->where('port', $port)

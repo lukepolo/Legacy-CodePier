@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server\SshKeys;
 
-use App\Models\SshKey;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
+use App\Models\SshKey;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RemoveServerSshKey implements ShouldQueue
 {
@@ -25,8 +25,9 @@ class RemoveServerSshKey implements ShouldQueue
 
     /**
      * InstallServerSshKey constructor.
-     * @param Server $server
-     * @param SshKey $sshKey
+     *
+     * @param Server  $server
+     * @param SshKey  $sshKey
      * @param Command $siteCommand
      */
     public function __construct(Server $server, SshKey $sshKey, Command $siteCommand = null)
@@ -40,6 +41,7 @@ class RemoveServerSshKey implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -55,7 +57,7 @@ class RemoveServerSshKey implements ShouldQueue
                 $this->server->sshKeys()->detach($this->sshKey->id);
 
                 $this->sshKey->load('servers');
-                if ($this->sshKey->servers->count() == 0) {
+                if (0 == $this->sshKey->servers->count()) {
                     $this->sshKey->delete();
                 }
             }

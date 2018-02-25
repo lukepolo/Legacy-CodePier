@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User\Team;
 
-use Mpociot\Teamwork\TeamInvite;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserTeamMemberInviteRequest;
 use Illuminate\Support\Facades\Mail;
 use Mpociot\Teamwork\Facades\Teamwork;
-use App\Http\Requests\User\UserTeamMemberInviteRequest;
+use Mpociot\Teamwork\TeamInvite;
 
 class UserTeamMemberController extends Controller
 {
@@ -56,6 +56,7 @@ class UserTeamMemberController extends Controller
 
     /**
      * @param UserTeamMemberInviteRequest $request
+     *
      * @return $this
      */
     public function invite(UserTeamMemberInviteRequest $request)

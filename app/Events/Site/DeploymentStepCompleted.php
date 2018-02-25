@@ -2,15 +2,15 @@
 
 namespace App\Events\Site;
 
-use App\Models\Site\Site;
 use App\Models\Server\Server;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Deployment\DeploymentEvent;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Site;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Queue\SerializesModels;
 
 class DeploymentStepCompleted implements ShouldBroadcastNow
 {
@@ -24,10 +24,10 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      *
-     * @param Site $site
-     * @param Server $server
+     * @param Site            $site
+     * @param Server          $server
      * @param DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
+     * @param DeploymentStep  $deploymentStep
      * @param $log
      * @param $runtime
      */

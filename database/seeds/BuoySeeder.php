@@ -1,8 +1,8 @@
 <?php
 
+use App\Contracts\BuoyServiceContract as BuoyService;
 use App\Models\BuoyApp;
 use Illuminate\Database\Seeder;
-use App\Contracts\BuoyServiceContract as BuoyService;
 
 class BuoySeeder extends Seeder
 {
@@ -10,6 +10,7 @@ class BuoySeeder extends Seeder
 
     /**
      * BuoySeeder constructor.
+     *
      * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
      */
     public function __construct(BuoyService $buoyService)

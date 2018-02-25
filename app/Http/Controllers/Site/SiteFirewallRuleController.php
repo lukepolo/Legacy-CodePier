@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FirewallRuleRequest;
-use App\Events\Site\SiteFirewallRuleDeleted;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
 
 class SiteFirewallRuleController extends Controller
 {
@@ -14,7 +14,8 @@ class SiteFirewallRuleController extends Controller
 
     /**
      * SiteFirewallRuleController constructor.
-     * @param  \App\Services\Site\SiteService | SiteService $siteService
+     *
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {
@@ -24,7 +25,8 @@ class SiteFirewallRuleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  int $siteId
+     * @param int $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -39,6 +41,7 @@ class SiteFirewallRuleController extends Controller
      *
      * @param FirewallRuleRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(FirewallRuleRequest $request, $siteId)
@@ -59,8 +62,9 @@ class SiteFirewallRuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $siteId
-     * @param  int $id
+     * @param int $siteId
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

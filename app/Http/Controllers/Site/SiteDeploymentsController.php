@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteDeploymentRequest;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 
 class SiteDeploymentsController extends Controller
 {
     /**
      * @param $siteId
+     *
      * @return array
      */
     public function index($siteId)
@@ -26,6 +27,7 @@ class SiteDeploymentsController extends Controller
     /**
      * @param $siteId
      * @param $siteDeploymentId
+     *
      * @return array
      */
     public function show($siteId, $siteDeploymentId)
@@ -44,6 +46,7 @@ class SiteDeploymentsController extends Controller
     /**
      * @param SiteDeploymentRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SiteDeploymentRequest $request, $siteId)

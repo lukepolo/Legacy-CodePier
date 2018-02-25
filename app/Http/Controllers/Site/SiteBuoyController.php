@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Site\SiteBuoyCreated;
+use App\Events\Site\SiteBuoyDeleted;
+use App\Http\Controllers\Controller;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
-use App\Events\Site\SiteBuoyCreated;
-use App\Events\Site\SiteBuoyDeleted;
-use App\Http\Controllers\Controller;
 
 class SiteBuoyController extends Controller
 {
@@ -16,6 +16,7 @@ class SiteBuoyController extends Controller
      * Display a listing of the resource.
      *
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -26,8 +27,9 @@ class SiteBuoyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -61,7 +63,8 @@ class SiteBuoyController extends Controller
      * Display the specified resource.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($siteId, $id)
@@ -75,7 +78,8 @@ class SiteBuoyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

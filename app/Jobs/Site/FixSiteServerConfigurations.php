@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Site;
 
+use App\Events\Server\UpdateServerConfigurations;
 use App\Models\Site\Site;
-use Illuminate\Bus\Queueable;
 use App\Traits\ModelCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\Server\UpdateServerConfigurations;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class FixSiteServerConfigurations implements ShouldQueue
 {

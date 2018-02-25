@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
+use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Invoice;
-use App\Http\Controllers\Controller;
 
 class UserSubscriptionInvoiceController extends Controller
 {
@@ -44,7 +44,8 @@ class UserSubscriptionInvoiceController extends Controller
      * Display the specified resource.
      *
      * @param Request $request
-     * @param int $id
+     * @param int     $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show(Request $request, $id)

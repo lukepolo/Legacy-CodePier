@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotificationChannelsRequest;
+use App\Models\Site\Site;
 
 class SiteNotificationChannelsController extends Controller
 {
     /**
      * @param NotificationChannelsRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(NotificationChannelsRequest $request, $siteId)

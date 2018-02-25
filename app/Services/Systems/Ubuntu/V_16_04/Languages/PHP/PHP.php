@@ -5,8 +5,8 @@ namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
-use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 use App\Services\Systems\Ubuntu\V_16_04\WebService;
 
 class PHP
@@ -98,7 +98,7 @@ class PHP
 
         $tempVersion = $version = $this->getPhpVersion();
 
-        if ($version == '7.0') {
+        if ('7.0' == $version) {
             $tempVersion = '';
         }
 

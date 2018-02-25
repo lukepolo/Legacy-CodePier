@@ -2,13 +2,13 @@
 
 namespace App\Observers;
 
-use App\Models\Pile;
-use App\Mail\Welcome;
-use App\Models\User\User;
 use App\Mail\ConfirmWelcome;
+use App\Mail\Welcome;
 use App\Models\NotificationSetting;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Pile;
+use App\Models\User\User;
 use App\Models\User\UserNotificationSetting;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserObserver
@@ -34,7 +34,7 @@ class UserObserver
                 'user_id' => $user->id,
             ]);
 
-            if ($index == 0) {
+            if (0 == $index) {
                 $user->update([
                     'current_pile_id' => $pile->id,
                 ]);
@@ -49,7 +49,7 @@ class UserObserver
             ]);
         }
 
-        if (config('app.env') === 'production') {
+        if ('production' === config('app.env')) {
             Newsletter::subscribeOrUpdate($user->email, [
                 'FNAME' => $user->name,
             ]);
@@ -67,7 +67,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if (config('app.env') === 'production' && $user->isDirty('email') && ! empty($user->getOriginal('email'))) {
+        if ('production' === config('app.env') && $user->isDirty('email') && ! empty($user->getOriginal('email'))) {
             Newsletter::updateEmailAddress($user->getOriginal('email'), $user->email);
         }
     }

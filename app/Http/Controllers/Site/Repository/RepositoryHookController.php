@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Models\Site\Site;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\DeployHookFailed;
 use App\Http\Controllers\Controller;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
 
 class RepositoryHookController extends Controller
 {
@@ -13,6 +13,7 @@ class RepositoryHookController extends Controller
 
     /**
      * RepositoryHookController constructor.
+     *
      * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
@@ -25,8 +26,9 @@ class RepositoryHookController extends Controller
      *
      * @param $siteId
      *
-     * @return \Illuminate\Http\Response
      * @throws \App\Exceptions\SiteUserProviderNotConnected
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store($siteId)
     {

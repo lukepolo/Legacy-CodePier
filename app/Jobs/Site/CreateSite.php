@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Site;
 
-use App\Models\Site\Site;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Site\Site;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CreateSite implements ShouldQueue
 {
@@ -28,7 +28,7 @@ class CreateSite implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      */
     public function __construct(Server $server, Site $site)
     {
@@ -39,8 +39,9 @@ class CreateSite implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService        $siteService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     *
      * @throws \App\Exceptions\FailedCommand
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
@@ -50,9 +51,9 @@ class CreateSite implements ShouldQueue
         $serverType = $this->server->type;
 
         if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
+            SystemService::WEB_SERVER === $serverType ||
+            SystemService::LOAD_BALANCER === $serverType ||
+            SystemService::FULL_STACK_SERVER === $serverType
         ) {
             $siteService->create($this->server, $this->site);
         }
@@ -63,9 +64,9 @@ class CreateSite implements ShouldQueue
         );
 
         if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::WORKER_SERVER ||
-            $serverType === SystemService::FULL_STACK_SERVER
+            SystemService::WEB_SERVER === $serverType ||
+            SystemService::WORKER_SERVER === $serverType ||
+            SystemService::FULL_STACK_SERVER === $serverType
         ) {
             $this->runOnServer(function () use ($remoteTaskService) {
                 $remoteTaskService->saveSshKeyToServer($this->site, $this->server);

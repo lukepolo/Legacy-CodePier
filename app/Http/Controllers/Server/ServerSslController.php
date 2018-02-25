@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SslRequest;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
+use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
-use App\Http\Requests\SslRequest;
-use App\Http\Controllers\Controller;
-use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 
 class ServerSslController extends Controller
 {
@@ -30,8 +30,10 @@ class ServerSslController extends Controller
      *
      * @param SslRequest $request
      * @param $serverId
-     * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(SslRequest $request, $serverId)
     {

@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server\Daemons;
 
-use App\Models\Daemon;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
+use App\Models\Daemon;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RemoveServerDaemon implements ShouldQueue
 {
@@ -27,10 +27,11 @@ class RemoveServerDaemon implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Daemon $daemon
+     *
+     * @param Server  $server
+     * @param Daemon  $daemon
      * @param Command $siteCommand
-     * @param bool $forceRemove
+     * @param bool    $forceRemove
      */
     public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null, $forceRemove = false)
     {
@@ -42,6 +43,7 @@ class RemoveServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -57,7 +59,7 @@ class RemoveServerDaemon implements ShouldQueue
                 $this->server->daemons()->detach($this->daemon->id);
 
                 $this->daemon->load('servers');
-                if ($this->daemon->servers->count() == 0) {
+                if (0 == $this->daemon->servers->count()) {
                     $this->daemon->delete();
                 }
             }

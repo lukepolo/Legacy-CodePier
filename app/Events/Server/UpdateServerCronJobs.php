@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\Command;
 use App\Models\CronJob;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class UpdateServerCronJobs
 {
@@ -22,8 +22,8 @@ class UpdateServerCronJobs
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)

@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server\Daemons;
 
-use App\Models\Daemon;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
+use App\Models\Daemon;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallServerDaemon implements ShouldQueue
 {
@@ -26,8 +26,9 @@ class InstallServerDaemon implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Daemon $daemon
+     *
+     * @param Server  $server
+     * @param Daemon  $daemon
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Daemon $daemon, Command $siteCommand = null)
@@ -39,6 +40,7 @@ class InstallServerDaemon implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

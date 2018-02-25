@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Models\SshKey;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 use App\Models\Site\Site;
+use App\Models\SshKey;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 
 class SiteSshKeyDeleted
 {
@@ -15,8 +15,9 @@ class SiteSshKeyDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param SshKey $sshKey
+     *
      * @internal param FirewallRule $firewallRule
      */
     public function __construct(Site $site, SshKey $sshKey)

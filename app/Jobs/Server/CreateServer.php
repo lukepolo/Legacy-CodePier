@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerFailedToCreate;
+use App\Events\Server\ServerProvisionStatusChanged;
+use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use App\Events\Server\ServerFailedToCreate;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Server\Provider\ServerProvider;
-use App\Events\Server\ServerProvisionStatusChanged;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CreateServer implements ShouldQueue
 {
@@ -28,7 +28,7 @@ class CreateServer implements ShouldQueue
      * Create a new job instance.
      *
      * @param ServerProvider $serverProvider
-     * @param Server $server
+     * @param Server         $server
      */
     public function __construct(ServerProvider $serverProvider, Server $server)
     {
@@ -57,7 +57,7 @@ class CreateServer implements ShouldQueue
                     ->onQueue(config('queue.channels.server_commands'))
             );
         } catch (\Exception $e) {
-            if (config('app.env') === 'local') {
+            if ('local' === config('app.env')) {
                 throw $e;
             }
             broadcast(

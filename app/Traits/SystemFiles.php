@@ -2,15 +2,16 @@
 
 namespace App\Traits;
 
-use ReflectionClass;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use ReflectionClass;
 
 trait SystemFiles
 {
     /**
      * @param $file
+     *
      * @return ReflectionClass
      */
     private function buildReflection($file)
@@ -34,7 +35,8 @@ trait SystemFiles
 
     /**
      * @param ReflectionClass $reflection
-     * @param null $path
+     * @param null            $path
+     *
      * @return array
      */
     private function buildFileArray(ReflectionClass $reflection, $path = null)
@@ -62,6 +64,7 @@ trait SystemFiles
     /**
      * @param $files
      * @param $serverFeature
+     *
      * @return Collection
      */
     private function checkIfNeedsVersion($files, $serverFeature)
@@ -81,6 +84,7 @@ trait SystemFiles
 
     /**
      * @param ReflectionClass $reflection
+     *
      * @return array
      */
     private function buildFeatureArray(ReflectionClass $reflection)
@@ -137,6 +141,7 @@ trait SystemFiles
      * @param $method
      * @param $param
      * @param null $default
+     *
      * @return null
      */
     public function getDocParam($method, $param, $default = null)
@@ -154,6 +159,7 @@ trait SystemFiles
      * @param $method
      * @param $param
      * @param null $default
+     *
      * @return null
      */
     public function getFirstDocParam($method, $param, $default = null)
@@ -185,6 +191,7 @@ trait SystemFiles
 
     /**
      * @param $system
+     *
      * @return mixed
      */
     private function getVersionsFromSystem($system)
@@ -194,6 +201,7 @@ trait SystemFiles
 
     /**
      * @param $version
+     *
      * @return mixed
      */
     private function getServicesFromVersion($version)
@@ -203,6 +211,7 @@ trait SystemFiles
 
     /**
      * @param $version
+     *
      * @return mixed
      */
     private function getLanguagesFromVersion($version)
@@ -214,6 +223,7 @@ trait SystemFiles
      * @param $system
      * @param $version
      * @param $language
+     *
      * @return mixed
      */
     private function getLanguageFile($system, $version, $language, $file)
@@ -223,6 +233,7 @@ trait SystemFiles
 
     /**
      * @param $language
+     *
      * @return mixed
      */
     private function getFrameworksFromLanguage($language)

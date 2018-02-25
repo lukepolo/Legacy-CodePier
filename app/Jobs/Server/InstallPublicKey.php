@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server;
 
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
+use App\Models\Site\Site;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallPublicKey implements ShouldQueue
 {
@@ -26,8 +26,8 @@ class InstallPublicKey implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server       $server
+     * @param Site         $site
      * @param Command|null $command
      */
     public function __construct(Server $server, Site $site, Command $command = null)
@@ -40,7 +40,9 @@ class InstallPublicKey implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     *
      * @throws \Exception
      */
     public function handle(RemoteTaskService $remoteTaskService)

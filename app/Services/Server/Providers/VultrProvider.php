@@ -2,12 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
-use Vultr\VultrClient;
+use App\Models\Server\Provider\ServerProviderOption;
+use App\Models\Server\Provider\ServerProviderRegion;
 use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 use Vultr\Adapter\GuzzleHttpAdapter as Guzzle;
-use App\Models\Server\Provider\ServerProviderOption;
-use App\Models\Server\Provider\ServerProviderRegion;
+use Vultr\VultrClient;
 
 class VultrProvider implements ServerProviderContract
 {
@@ -176,8 +176,10 @@ class VultrProvider implements ServerProviderContract
      * Refreshes the token.
      *
      * @param UserServerProvider $userServerProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function refreshToken(UserServerProvider $provider)
     {

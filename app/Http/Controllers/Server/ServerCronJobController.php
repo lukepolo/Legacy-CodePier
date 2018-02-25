@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\CronJob;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CronJobRequest;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
+use App\Models\CronJob;
+use App\Models\Server\Server;
 
 class ServerCronJobController extends Controller
 {
@@ -30,6 +30,7 @@ class ServerCronJobController extends Controller
      *
      * @param CronJobRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CronJobRequest $request, $serverId)

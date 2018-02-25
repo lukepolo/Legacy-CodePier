@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Models\Site\Site;
 use App\Jobs\Server\RestartServer;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\Models\Site\Site;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class SiteRestartServers
 {

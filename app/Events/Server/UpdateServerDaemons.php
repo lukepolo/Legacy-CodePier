@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Models\Daemon;
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\Daemons\RemoveServerDaemon;
 use App\Jobs\Server\Daemons\InstallServerDaemon;
+use App\Jobs\Server\Daemons\RemoveServerDaemon;
+use App\Models\Command;
+use App\Models\Daemon;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerDaemons
 {
@@ -22,8 +22,8 @@ class UpdateServerDaemons
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)

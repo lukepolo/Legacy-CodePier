@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
+use App\Jobs\Server\Daemons\InstallServerDaemon;
 use App\Models\Daemon;
 use App\Models\Site\Site;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
-use App\Jobs\Server\Daemons\InstallServerDaemon;
 
 class SiteDaemonCreated
 {
@@ -16,7 +16,7 @@ class SiteDaemonCreated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param Daemon $daemon
      */
     public function __construct(Site $site, Daemon $daemon)
@@ -31,8 +31,8 @@ class SiteDaemonCreated
             }
 
             if (
-                $serverType === SystemService::WORKER_SERVER ||
-                $serverType === SystemService::FULL_STACK_SERVER
+                SystemService::WORKER_SERVER === $serverType ||
+                SystemService::FULL_STACK_SERVER === $serverType
             ) {
                 return true;
             }

@@ -2,10 +2,10 @@
 
 namespace App\Services\Server;
 
-use App\Traits\SystemFiles;
-use App\Models\Server\Server;
-use Illuminate\Support\Facades\Cache;
 use App\Contracts\Server\ServerFeatureServiceContract;
+use App\Models\Server\Server;
+use App\Traits\SystemFiles;
+use Illuminate\Support\Facades\Cache;
 
 class ServerFeatureService implements ServerFeatureServiceContract
 {
@@ -102,6 +102,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
 
     /**
      * @param Server $server
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getEditableFiles(Server $server)

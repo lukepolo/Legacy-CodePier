@@ -3,8 +3,8 @@
 namespace App\Events\Server;
 
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Queue\SerializesModels;
 
 class UpdateServerConfigurations
@@ -13,8 +13,9 @@ class UpdateServerConfigurations
 
     /**
      * Create a new job instance.
-     * @param Server $server
-     * @param Site $site
+     *
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)

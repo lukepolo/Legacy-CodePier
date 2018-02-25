@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\Server;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\ProvisionServer;
-use App\Events\Server\ServerProvisionStatusChanged;
+use App\Models\Server\Server;
 
 class ServerProvisionStepsController extends Controller
 {
@@ -13,6 +13,7 @@ class ServerProvisionStepsController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -26,6 +27,7 @@ class ServerProvisionStepsController extends Controller
      * Starts the provisioning process again.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store($serverId)

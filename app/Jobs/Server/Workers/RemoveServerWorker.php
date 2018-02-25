@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server\Workers;
 
-use App\Models\Worker;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Worker;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RemoveServerWorker implements ShouldQueue
 {
@@ -27,10 +27,11 @@ class RemoveServerWorker implements ShouldQueue
 
     /**
      * InstallServerWorker constructor.
-     * @param Server $server
-     * @param Worker $worker
+     *
+     * @param Server  $server
+     * @param Worker  $worker
      * @param Command $siteCommand
-     * @param bool $forceRemove
+     * @param bool    $forceRemove
      */
     public function __construct(Server $server, Worker $worker, Command $siteCommand = null, $forceRemove = false)
     {
@@ -42,6 +43,7 @@ class RemoveServerWorker implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -57,7 +59,7 @@ class RemoveServerWorker implements ShouldQueue
                 $this->server->cronJobs()->detach($this->worker->id);
 
                 $this->worker->load('servers');
-                if ($this->worker->servers->count() == 0) {
+                if (0 == $this->worker->servers->count()) {
                     $this->worker->delete();
                 }
             }

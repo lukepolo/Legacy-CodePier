@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\FirewallRule;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FirewallRuleRequest;
-use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 
 class ServerFirewallRuleController extends Controller
 {
@@ -30,6 +30,7 @@ class ServerFirewallRuleController extends Controller
      *
      * @param FirewallRuleRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(FirewallRuleRequest $request, $serverId)

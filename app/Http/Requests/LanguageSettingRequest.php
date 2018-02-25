@@ -27,7 +27,7 @@ class LanguageSettingRequest extends FormRequest
         return [
             'params' => 'array|nullable',
             'setting' => 'required|string',
-            'language' => ['required', new LanguageType],
+            'language' => ['required', new LanguageType()],
         ];
     }
 }

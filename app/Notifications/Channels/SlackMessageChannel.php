@@ -2,12 +2,12 @@
 
 namespace App\Notifications\Channels;
 
+use App\Exceptions\SlackMessageMissingParams;
 use App\Models\SlackChannel;
 use GuzzleHttp\Client as HttpClient;
-use Illuminate\Notifications\Notification;
-use App\Exceptions\SlackMessageMissingParams;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class SlackMessageChannel
 {
@@ -31,10 +31,12 @@ class SlackMessageChannel
     /**
      * Send the given notification.
      *
-     * @param mixed $notifiable
+     * @param mixed                                  $notifiable
      * @param \Illuminate\Notifications\Notification $notification
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws SlackMessageMissingParams
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function send($notifiable, Notification $notification)
     {
@@ -61,9 +63,9 @@ class SlackMessageChannel
                     ],
                 ]);
 
-                if ($response->getStatusCode() == 200) {
+                if (200 == $response->getStatusCode()) {
                     $response = json_decode($response->getBody()->getContents());
-                    if ($response->ok || $response->error === 'name_taken') {
+                    if ($response->ok || 'name_taken' === $response->error) {
                         $slackChannel = SlackChannel::create([
                             'channel' => $slackChannel,
                             'created' => true,

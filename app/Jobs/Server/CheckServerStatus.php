@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Server;
 
-use Carbon\Carbon;
-use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Server\ServerServiceContract;
 use App\Events\Server\ServerSshConnectionFailed;
+use App\Models\Server\Server;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CheckServerStatus implements ShouldQueue
 {
@@ -26,7 +26,7 @@ class CheckServerStatus implements ShouldQueue
      * Create a new job instance.
      *
      * @param \App\Models\Server\Server $server
-     * @param bool $provision
+     * @param bool                      $provision
      */
     public function __construct(Server $server, $provision = false)
     {
@@ -38,6 +38,7 @@ class CheckServerStatus implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerServiceContract $serverService)

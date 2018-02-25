@@ -2,12 +2,12 @@
 
 namespace App\Events\Server;
 
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use App\Models\EnvironmentVariable;
-use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
+use App\Models\Command;
+use App\Models\EnvironmentVariable;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerEnvironmentVariables
 {
@@ -21,8 +21,8 @@ class UpdateServerEnvironmentVariables
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Daemon;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DaemonRequest;
 use App\Http\Requests\DaemonUpdatedRequest;
-use App\Jobs\Server\Daemons\RemoveServerDaemon;
 use App\Jobs\Server\Daemons\InstallServerDaemon;
+use App\Jobs\Server\Daemons\RemoveServerDaemon;
+use App\Models\Daemon;
+use App\Models\Server\Server;
 
 class ServerDaemonsController extends Controller
 {
@@ -31,6 +31,7 @@ class ServerDaemonsController extends Controller
      *
      * @param DaemonRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(DaemonRequest $request, $serverId)
@@ -57,6 +58,7 @@ class ServerDaemonsController extends Controller
      * @param $request
      * @param $serverId
      * @param $cronJobId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(DaemonUpdatedRequest $request, $serverId, $cronJobId)

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
-use App\Models\Site\Lifeline;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteLifeline;
+use App\Models\Site\Lifeline;
+use App\Models\Site\Site;
 
 class SiteLifelinesController extends Controller
 {
@@ -13,6 +13,7 @@ class SiteLifelinesController extends Controller
      * Display a listing of the resource.
      *
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -25,6 +26,7 @@ class SiteLifelinesController extends Controller
      *
      * @param SiteLifeline $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SiteLifeline $request, $siteId)
@@ -42,7 +44,8 @@ class SiteLifelinesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

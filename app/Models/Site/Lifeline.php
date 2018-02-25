@@ -2,8 +2,8 @@
 
 namespace App\Models\Site;
 
-use App\Traits\Hashable;
 use App\Models\SlackChannel;
+use App\Traits\Hashable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 

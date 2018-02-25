@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\CronJob;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CronJobRequest;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CronJobRequest;
 use App\Http\Requests\CronJobUpdatedRequest;
 use App\Jobs\Site\FixSiteServerConfigurations;
+use App\Models\CronJob;
+use App\Models\Site\Site;
 
 class SiteCronJobController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  int $siteId
+     *
+     * @param int $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -29,7 +31,8 @@ class SiteCronJobController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\CronJobRequest $request
-     * @param  int $siteId
+     * @param int                               $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CronJobRequest $request, $siteId)
@@ -65,6 +68,7 @@ class SiteCronJobController extends Controller
      * @param CronJobUpdatedRequest $request
      * @param $siteId
      * @param $cronJobId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(CronJobUpdatedRequest $request, $siteId, $cronJobId)
@@ -90,8 +94,9 @@ class SiteCronJobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $siteId
-     * @param  int $id
+     * @param int $siteId
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

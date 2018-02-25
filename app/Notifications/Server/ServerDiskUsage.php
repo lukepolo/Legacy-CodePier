@@ -3,11 +3,11 @@
 namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class ServerDiskUsage extends Notification
 {
@@ -103,6 +103,7 @@ class ServerDiskUsage extends Notification
      * Get the array representation of the notification.
      *
      * @param $notifiable
+     *
      * @return array
      */
     public function toBroadcast($notifiable)

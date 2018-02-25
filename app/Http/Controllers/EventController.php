@@ -4,26 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Models\Buoy;
-use App\Models\File;
-use App\Models\Daemon;
-use App\Models\Schema;
-use App\Models\SshKey;
-use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
-use App\Models\Site\Site;
-use App\Models\SchemaUser;
+use App\Models\Daemon;
+use App\Models\EnvironmentVariable;
+use App\Models\File;
 use App\Models\FirewallRule;
-use Illuminate\Http\Request;
-use App\Models\Server\Server;
-use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
+use App\Models\Schema;
+use App\Models\SchemaUser;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
+use App\Models\SshKey;
+use App\Models\SslCertificate;
+use App\Models\Worker;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\EnvironmentVariable;
-use App\Models\Site\SiteDeployment;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
 {
@@ -131,18 +131,18 @@ class EventController extends Controller
                             },
                         ])
                         ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SITE_DEPLOYMENTS;
+                            return self::SITE_DEPLOYMENTS == $event->type;
                         })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'serverCommands.server',
                         ])
                         ->whereIn(
                         'id', $topResults->filter(function ($event) {
-                            return $event->type == self::COMMANDS;
+                            return self::COMMANDS == $event->type;
                         })->keyBy('id')->keys()),
                     self::SERVER_PROVISIONING => Server::with(['provisionSteps'])
                         ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SERVER_PROVISIONING;
+                            return self::SERVER_PROVISIONING == $event->type;
                         })->keyBy('id')->keys()),
                 ])->only($types->keys()->toArray())->map(function ($query) {
                     return $query->get();
@@ -154,10 +154,11 @@ class EventController extends Controller
     }
 
     /**
-     * @param Builder $combinedQuery
+     * @param Builder    $combinedQuery
      * @param Collection $items
-     * @param int $currentPage
-     * @param int $perPage
+     * @param int        $currentPage
+     * @param int        $perPage
+     *
      * @return LengthAwarePaginator
      */
     private function getPaginatedObject(Builder $combinedQuery, Collection $items, $currentPage = 1, $perPage = self::PER_PAGE)

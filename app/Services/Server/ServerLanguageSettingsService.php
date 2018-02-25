@@ -2,10 +2,10 @@
 
 namespace App\Services\Server;
 
-use App\Traits\SystemFiles;
-use App\Models\Server\Server;
-use App\Contracts\Server\ServerLanguageSettingsServiceContract;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
+use App\Contracts\Server\ServerLanguageSettingsServiceContract;
+use App\Models\Server\Server;
+use App\Traits\SystemFiles;
 
 class ServerLanguageSettingsService implements ServerLanguageSettingsServiceContract
 {
@@ -15,6 +15,7 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
 
     /**
      * SiteFeatureService constructor.
+     *
      * @param \App\Services\Server\ServerFeatureService |  ServerFeatureService $serverFeatureService
      */
     public function __construct(ServerFeatureService $serverFeatureService)
@@ -24,6 +25,7 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
 
     /**
      * @param Server $server
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getLanguageSettings(Server $server)

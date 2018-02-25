@@ -2,8 +2,8 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Models\Site\Site;
 use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Models\Site\Site;
 
 trait RepositoryTrait
 {
@@ -33,6 +33,7 @@ trait RepositoryTrait
 
     /**
      * @param Site $site
+     *
      * @return string
      */
     public function sshKeyLabel(Site $site)

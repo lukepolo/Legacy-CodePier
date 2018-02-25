@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallServerFirewallRule implements ShouldQueue
 {
@@ -27,9 +27,9 @@ class InstallServerFirewallRule implements ShouldQueue
     /**
      * InstallServerFirewallRule constructor.
      *
-     * @param Server $server
+     * @param Server       $server
      * @param FirewallRule $firewallRule
-     * @param Command $siteCommand
+     * @param Command      $siteCommand
      */
     public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
@@ -42,6 +42,7 @@ class InstallServerFirewallRule implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

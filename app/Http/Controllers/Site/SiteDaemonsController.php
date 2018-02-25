@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Daemon;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\DaemonRequest;
 use App\Events\Site\SiteDaemonCreated;
 use App\Events\Site\SiteDaemonDeleted;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DaemonRequest;
 use App\Http\Requests\DaemonUpdatedRequest;
 use App\Jobs\Site\FixSiteServerConfigurations;
+use App\Models\Daemon;
+use App\Models\Site\Site;
 
 class SiteDaemonsController extends Controller
 {
@@ -32,6 +32,7 @@ class SiteDaemonsController extends Controller
      *
      * @param DaemonRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(DaemonRequest $request, $siteId)
@@ -57,6 +58,7 @@ class SiteDaemonsController extends Controller
      * @param $request
      * @param $siteId
      * @param $cronJobId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(DaemonUpdatedRequest $request, $siteId, $cronJobId)

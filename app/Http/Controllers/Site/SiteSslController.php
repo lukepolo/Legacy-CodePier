@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
-use App\Models\SslCertificate;
-use App\Http\Requests\SslRequest;
-use App\Http\Controllers\Controller;
-use App\Services\Server\ServerService;
-use App\Http\Requests\SslActivateRequest;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Events\Site\SiteSslCertificateUpdated;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SslActivateRequest;
+use App\Http\Requests\SslRequest;
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
+use App\Services\Server\ServerService;
 
 class SiteSslController extends Controller
 {
@@ -33,8 +33,10 @@ class SiteSslController extends Controller
      *
      * @param SslRequest $request
      * @param $siteId
-     * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(SslRequest $request, $siteId)
     {
@@ -93,6 +95,7 @@ class SiteSslController extends Controller
      * @param SslActivateRequest $request
      * @param $siteId
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(SslActivateRequest $request, $siteId, $id)

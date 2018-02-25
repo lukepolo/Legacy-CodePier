@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\SshKey;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SshKeyRequest;
-use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
+use App\Models\Server\Server;
+use App\Models\SshKey;
 
 class ServerSshKeyController extends Controller
 {
@@ -30,6 +30,7 @@ class ServerSshKeyController extends Controller
      *
      * @param \App\Http\Requests\SshKeyRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SshKeyRequest $request, $serverId)

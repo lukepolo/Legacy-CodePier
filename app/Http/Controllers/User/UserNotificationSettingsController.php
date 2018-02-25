@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User\UserNotificationSetting;
+use Illuminate\Http\Request;
 
 class UserNotificationSettingsController extends Controller
 {
@@ -22,6 +22,7 @@ class UserNotificationSettingsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

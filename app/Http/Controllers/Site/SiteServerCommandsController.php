@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
-use App\Models\ServerCommand;
-use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
+use App\Models\ServerCommand;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 
 class SiteServerCommandsController extends Controller
 {
     /**
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($siteId)

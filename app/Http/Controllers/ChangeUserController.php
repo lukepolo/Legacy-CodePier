@@ -11,6 +11,7 @@ class ChangeUserController extends Controller
      *
      * @param Request $request
      * @param $userId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $userId)
@@ -25,6 +26,7 @@ class ChangeUserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

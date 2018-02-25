@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server\Schemas;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\SchemaUser;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class AddServerSchemaUser implements ShouldQueue
 {
@@ -25,9 +25,11 @@ class AddServerSchemaUser implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
+     *
+     * @param Server     $server
      * @param SchemaUser $schemaUser
-     * @param Command $siteCommand
+     * @param Command    $siteCommand
+     *
      * @internal param Schema $schema
      */
     public function __construct(Server $server, SchemaUser $schemaUser, Command $siteCommand = null)
@@ -41,6 +43,7 @@ class AddServerSchemaUser implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)

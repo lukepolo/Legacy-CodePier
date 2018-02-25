@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server;
 
-use Carbon\Carbon;
+use App\Contracts\Server\ServerServiceContract;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerProvisionStatusChanged;
+use App\Events\Server\ServerSshConnectionFailed;
 use App\Models\Server\Server;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract;
-use App\Events\Server\ServerSshConnectionFailed;
-use App\Events\Server\ServerProvisionStatusChanged;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CheckSshConnection implements ShouldQueue
 {

@@ -2,19 +2,19 @@
 
 namespace App\Jobs\Server;
 
-use App\Jobs\Site\CreateSite;
-use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerProvisionStep;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Events\Server\ServerStartToProvision;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Events\Server\ServerProvisionStatusChanged;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Jobs\Site\CreateSite;
+use App\Models\Server\Server;
+use App\Models\Server\ServerProvisionStep;
+use App\Services\Systems\SystemService;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProvisionServer implements ShouldQueue
 {
@@ -64,10 +64,10 @@ class ProvisionServer implements ShouldQueue
             $serverType = $this->server->type;
 
             if (
-                $serverType === SystemService::WEB_SERVER ||
-                $serverType === SystemService::WORKER_SERVER ||
-                $serverType === SystemService::LOAD_BALANCER ||
-                $serverType === SystemService::FULL_STACK_SERVER
+                SystemService::WEB_SERVER === $serverType ||
+                SystemService::WORKER_SERVER === $serverType ||
+                SystemService::LOAD_BALANCER === $serverType ||
+                SystemService::FULL_STACK_SERVER === $serverType
             ) {
                 foreach ($this->server->sites as $site) {
                     dispatch(

@@ -2,13 +2,13 @@
 
 namespace App\Events\Site;
 
-use App\Models\Site\Site;
-use App\Models\SslCertificate;
-use App\Traits\ModelCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
 use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
+use App\Services\Systems\SystemService;
+use App\Traits\ModelCommandTrait;
+use Illuminate\Queue\SerializesModels;
 
 class SiteSslCertificateUpdated
 {
@@ -17,7 +17,7 @@ class SiteSslCertificateUpdated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site           $site
      * @param SslCertificate $sslCertificate
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)

@@ -2,11 +2,11 @@
 
 namespace App\Events\Server;
 
-use App\Models\File;
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
 use App\Jobs\Server\UpdateServerFile;
+use App\Models\Command;
+use App\Models\File;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Queue\SerializesModels;
 
 class UpdateServerFiles
@@ -21,8 +21,8 @@ class UpdateServerFiles
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -36,7 +36,7 @@ class UpdateServerFiles
 
         $this->site->files->each(function (File $file) use ($hasMultipleServers) {
             if (! empty($file->content)) {
-                if (! $hasMultipleServers || $file->custom === true || $file->framework_file === true) {
+                if (! $hasMultipleServers || true === $file->custom || true === $file->framework_file) {
                     $this->updateFile($file);
                 }
             }

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Site;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteServerRequest;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
 use App\Models\Server\Server;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteServerRequest;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
 
 class SiteServerController extends Controller
 {
@@ -16,6 +16,7 @@ class SiteServerController extends Controller
 
     /**
      * SiteServerController constructor.
+     *
      * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
@@ -42,6 +43,7 @@ class SiteServerController extends Controller
      *
      * @param SiteServerRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SiteServerRequest $request, $siteId)

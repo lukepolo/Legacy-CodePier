@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Models\Site\Site;
+use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Models\LanguageSetting;
+use App\Models\Site\Site;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
-use App\Jobs\Server\UpdateServerLanguageSetting;
 
 class SiteLanguageSettingUpdated
 {
@@ -16,7 +16,7 @@ class SiteLanguageSettingUpdated
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site            $site
      * @param LanguageSetting $languageSetting
      */
     public function __construct(Site $site, LanguageSetting $languageSetting)

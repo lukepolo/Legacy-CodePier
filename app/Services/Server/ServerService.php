@@ -2,27 +2,27 @@
 
 namespace App\Services\Server;
 
-use App\Models\Bitt;
-use App\Models\Schema;
-use App\Models\SshKey;
-use App\Models\CronJob;
-use phpseclib\Net\SFTP;
-use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
-use App\Models\SchemaUser;
-use App\Models\Server\Server;
-use App\Models\SslCertificate;
-use App\Models\LanguageSetting;
-use App\Exceptions\FailedCommand;
-use App\Models\EnvironmentVariable;
-use App\Exceptions\SshConnectionFailed;
-use App\Services\Systems\SystemService;
-use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ServerServiceContract;
-use App\Notifications\Server\ServerProvisioned;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerSshConnectionFailed;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Exceptions\FailedCommand;
+use App\Exceptions\SshConnectionFailed;
+use App\Models\Bitt;
+use App\Models\CronJob;
+use App\Models\EnvironmentVariable;
+use App\Models\LanguageSetting;
+use App\Models\Schema;
+use App\Models\SchemaUser;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Server;
+use App\Models\SshKey;
+use App\Models\SslCertificate;
+use App\Notifications\Server\ServerProvisioned;
+use App\Services\Systems\SystemService;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
 
 class ServerService implements ServerServiceContract
 {
@@ -39,7 +39,7 @@ class ServerService implements ServerServiceContract
      * SiteService constructor.
      *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param SystemService | SystemServiceContract $systemService
+     * @param SystemService | SystemServiceContract               $systemService
      */
     public function __construct(RemoteTaskService $remoteTaskService, SystemServiceContract $systemService)
     {
@@ -49,6 +49,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
+     *
      * @return mixed
      */
     public function getServerProviderUser(ServerProvider $serverProvider)
@@ -58,7 +59,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
-     * @param Server $server
+     * @param Server         $server
      *
      * @return mixed
      */
@@ -116,10 +117,11 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     * @param bool   $noDelete
      *
-     * @param bool $noDelete
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function getStatus(Server $server, $noDelete = false)
     {
@@ -132,7 +134,7 @@ class ServerService implements ServerServiceContract
 
             return $status;
         } catch (\Exception $e) {
-            if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
+            if (! $noDelete && 'The resource you were accessing could not be found.' == $e->getMessage()) {
                 $server->delete();
 
                 return 'Server Has Been Deleted';
@@ -309,8 +311,9 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server  $server
      * @param CronJob $cronJob
+     *
      * @return arrayx
      */
     public function installCron(Server $server, CronJob $cronJob)
@@ -320,7 +323,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server  $server
      * @param CronJob $cronJob
      */
     public function removeCron(Server $server, CronJob $cronJob)
@@ -332,7 +335,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
      */
     public function installSslCertificate(Server $server, SslCertificate $sslCertificate)
@@ -365,7 +368,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
      */
     public function activateSslCertificate(Server $server, SslCertificate $sslCertificate)
@@ -381,7 +384,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
      */
     public function removeSslCertificate(Server $server, SslCertificate $sslCertificate)
@@ -400,8 +403,9 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server         $server
      * @param SslCertificate $sslCertificate
+     *
      * @throws FailedCommand
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
@@ -454,6 +458,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param $service
      * @param Server $server
+     *
      * @return mixed
      */
     public function getService($service, Server $server)
@@ -463,7 +468,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param Bitt $bitt
+     * @param Bitt   $bitt
      */
     public function runBitt(Server $server, Bitt $bitt)
     {
@@ -500,7 +505,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server     $server
      * @param SchemaUser $schemaUser
      */
     public function addSchemaUser(Server $server, SchemaUser $schemaUser)
@@ -509,7 +514,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server     $server
      * @param SchemaUser $schemaUser
      */
     public function removeSchemaUser(Server $server, SchemaUser $schemaUser)
@@ -518,7 +523,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server              $server
      * @param EnvironmentVariable $environmentVariable
      */
     public function addEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
@@ -529,7 +534,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server              $server
      * @param EnvironmentVariable $environmentVariable
      */
     public function removeEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
@@ -539,7 +544,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server          $server
      * @param LanguageSetting $languageSetting
      */
     public function runLanguageSetting(Server $server, LanguageSetting $languageSetting)
@@ -552,6 +557,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $newSudoPassword
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception

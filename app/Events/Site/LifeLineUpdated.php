@@ -4,10 +4,10 @@ namespace App\Events\Site;
 
 use App\Models\Site\Lifeline;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Queue\SerializesModels;
 
 class LifeLineUpdated implements ShouldBroadcastNow
 {
@@ -17,6 +17,7 @@ class LifeLineUpdated implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     *
      * @param Lifeline $lifeline
      */
     public function __construct(Lifeline $lifeline)

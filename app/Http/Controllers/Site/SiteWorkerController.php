@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Worker;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\WorkerRequest;
 use App\Events\Site\SiteWorkerCreated;
 use App\Events\Site\SiteWorkerDeleted;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\WorkerRequest;
+use App\Models\Site\Site;
+use App\Models\Worker;
 
 class SiteWorkerController extends Controller
 {
@@ -30,6 +30,7 @@ class SiteWorkerController extends Controller
      *
      * @param WorkerRequest $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(WorkerRequest $request, $siteId)

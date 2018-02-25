@@ -15,7 +15,6 @@ class Ruby
     private $remoteTaskService;
 
     public static $files = [
-
     ];
 
     public $suggestedFeatures = [
@@ -59,6 +58,7 @@ class Ruby
      *
      * @options 2.3, 2.4
      * @multiple false
+     *
      * @param string $version
      */
     public function installRuby($version = '2.4')

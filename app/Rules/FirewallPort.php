@@ -9,13 +9,14 @@ class FirewallPort implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return $value == '*' || (
+        return '*' == $value || (
             is_numeric($value) &&
             ($value >= 0 && $value <= 65536)
         );

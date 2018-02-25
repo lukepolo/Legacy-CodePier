@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\Server;
-use App\Models\EnvironmentVariable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EnvironmentVariableRequest;
-use App\Jobs\Server\EnvironmentVariables\RemoveServerEnvironmentVariable;
 use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
+use App\Jobs\Server\EnvironmentVariables\RemoveServerEnvironmentVariable;
+use App\Models\EnvironmentVariable;
+use App\Models\Server\Server;
 
 class ServerEnvironmentVariablesController extends Controller
 {
@@ -15,6 +15,7 @@ class ServerEnvironmentVariablesController extends Controller
      * Display a listing of the resource.
      *
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($serverId)
@@ -29,6 +30,7 @@ class ServerEnvironmentVariablesController extends Controller
      *
      * @param EnvironmentVariableRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(EnvironmentVariableRequest $request, $serverId)
@@ -60,8 +62,9 @@ class ServerEnvironmentVariablesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)

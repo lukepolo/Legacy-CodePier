@@ -2,8 +2,8 @@
 
 namespace App\Observers\Server;
 
-use Carbon\Carbon;
 use App\Models\Server\Server;
+use Carbon\Carbon;
 
 class ServerObserver
 {

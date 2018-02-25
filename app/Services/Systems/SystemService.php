@@ -2,12 +2,12 @@
 
 namespace App\Services\Systems;
 
-use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
+use App\Exceptions\FailedCommand;
+use App\Models\Server\Server;
 use App\Services\Systems\Ubuntu\V_16_04\DatabaseService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class SystemService implements SystemServiceContract
 {
@@ -130,8 +130,10 @@ class SystemService implements SystemServiceContract
      * Provisions a server based on its operating system.
      *
      * @param \App\Models\Server\Server $server
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function provision(Server $server)
     {
@@ -139,7 +141,7 @@ class SystemService implements SystemServiceContract
 
         try {
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
-                return $provisionStep->completed == false;
+                return false == $provisionStep->completed;
             }) as $provisionStep) {
                 $start = microtime(true);
 

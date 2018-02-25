@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository\Providers;
 
-use GuzzleHttp\Client;
-use App\Models\Site\Site;
 use App\Exceptions\DeployHookFailed;
-use GuzzleHttp\Exception\ClientException;
+use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class GitLab implements RepositoryContract
 {
@@ -31,6 +31,7 @@ class GitLab implements RepositoryContract
 
     /**
      * @param UserRepositoryProvider $userRepositoryProvider
+     *
      * @return mixed|string
      */
     public function getToken(UserRepositoryProvider $userRepositoryProvider)
@@ -40,6 +41,7 @@ class GitLab implements RepositoryContract
 
     /**
      * @param Site $site
+     *
      * @return mixed
      */
     public function getRepository(Site $site)
@@ -52,8 +54,10 @@ class GitLab implements RepositoryContract
 
     /**
      * @param Site $site
-     * @return Site
+     *
      * @throws DeployHookFailed
+     *
+     * @return Site
      */
     public function createDeployHook(Site $site)
     {
@@ -81,6 +85,7 @@ class GitLab implements RepositoryContract
 
     /**
      * @param Site $site
+     *
      * @return Site
      */
     public function deleteDeployHook(Site $site)

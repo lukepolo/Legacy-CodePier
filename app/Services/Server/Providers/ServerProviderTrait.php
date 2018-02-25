@@ -2,10 +2,10 @@
 
 namespace App\Services\Server\Providers;
 
-use Carbon\Carbon;
-use App\Models\User\User;
-use App\Models\Server\Server;
 use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Server;
+use App\Models\User\User;
+use Carbon\Carbon;
 
 trait ServerProviderTrait
 {
@@ -13,6 +13,7 @@ trait ServerProviderTrait
 
     /**
      * ServerProviderTrait constructor.
+     *
      * @param $providerName
      */
     public function __construct($providerName)
@@ -25,6 +26,7 @@ trait ServerProviderTrait
      *
      * @param \App\Models\Server\Server $server
      * @param $serverId
+     *
      * @return \App\Models\Server\Server
      */
     public function saveServer(Server $server, $serverId)

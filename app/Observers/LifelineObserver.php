@@ -2,8 +2,8 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Site\Lifeline;
 use App\Events\Site\LifeLineUpdated;
+use App\Models\Site\Lifeline;
 use App\Notifications\LifeLineCheckedIn;
 
 class LifelineObserver
@@ -11,7 +11,7 @@ class LifelineObserver
     public function updating(Lifeline $lifeline)
     {
         if ($lifeline->isDirty('sent_notifications')) {
-            $lifeline->notify(new LifeLineCheckedIn);
+            $lifeline->notify(new LifeLineCheckedIn());
         }
     }
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Schema;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SchemaRequest;
 use App\Jobs\Server\Schemas\AddServerSchema;
 use App\Jobs\Server\Schemas\RemoveServerSchema;
+use App\Models\Schema;
+use App\Models\Server\Server;
 
 class ServerSchemaController extends Controller
 {
@@ -30,6 +30,7 @@ class ServerSchemaController extends Controller
      *
      * @param SchemaRequest $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SchemaRequest $request, $serverId)

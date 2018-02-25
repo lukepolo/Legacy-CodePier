@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use PragmaRX\Google2FA\Google2FA;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use PragmaRX\Google2FA\Google2FA;
 
 class SecondAuthController extends Controller
 {
@@ -15,6 +15,7 @@ class SecondAuthController extends Controller
 
     /**
      * SecondAuthController constructor.
+     *
      * @param Google2FA $google2FA
      */
     public function __construct(Google2FA $google2FA)
@@ -77,6 +78,7 @@ class SecondAuthController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)

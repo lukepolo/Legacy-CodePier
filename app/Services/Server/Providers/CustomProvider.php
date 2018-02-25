@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\User\User;
 use App\Models\Server\Server;
+use App\Models\User\User;
 use App\Models\User\UserServerProvider;
 
 class CustomProvider implements ServerProviderContract
@@ -105,8 +105,10 @@ class CustomProvider implements ServerProviderContract
      * Refreshes the token.
      *
      * @param UserServerProvider $userServerProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {

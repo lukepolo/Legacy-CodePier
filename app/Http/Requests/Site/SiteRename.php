@@ -25,7 +25,7 @@ class SiteRename extends FormRequest
     public function rules()
     {
         return [
-            'domain' => ['required', new Domain],
+            'domain' => ['required', new Domain()],
         ];
     }
 }

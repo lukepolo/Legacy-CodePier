@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Server\Providers\Vultr;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server\Provider\ServerProvider;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class VultrServerOptionsController extends Controller
 {

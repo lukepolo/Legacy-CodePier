@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use App\Models\LanguageSetting;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\UpdateServerLanguageSetting;
+use App\Models\Command;
+use App\Models\LanguageSetting;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerLanguageSettings
 {
@@ -22,8 +22,8 @@ class UpdateServerLanguageSettings
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)
@@ -35,9 +35,9 @@ class UpdateServerLanguageSettings
 
         $this->site->languageSettings->each(function (LanguageSetting $languageSettings) {
             if (! $languageSettings->hasServer($this->server) && (
-                $this->serverType == SystemService::WEB_SERVER ||
-                $this->serverType == SystemService::WORKER_SERVER ||
-                $this->serverType == SystemService::FULL_STACK_SERVER
+                SystemService::WEB_SERVER == $this->serverType ||
+                SystemService::WORKER_SERVER == $this->serverType ||
+                SystemService::FULL_STACK_SERVER == $this->serverType
             )) {
                 $this->updateServerLanguageSetting($languageSettings);
             }

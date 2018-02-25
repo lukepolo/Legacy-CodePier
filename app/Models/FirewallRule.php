@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Traits\HasServers;
-use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class FirewallRule extends Model
@@ -43,7 +43,7 @@ class FirewallRule extends Model
 
     public function commandDescription($status)
     {
-        if ($this->port === '*') {
+        if ('*' === $this->port) {
             $firewallDescription = ' all ports ('.$this->description.') to '.$this->from_ip;
         } else {
             $to = ' ';

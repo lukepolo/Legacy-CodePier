@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\ServerCommand;
-use Illuminate\Console\Command;
 use App\Models\Site\SiteServerDeployment;
+use Illuminate\Console\Command;
 
 class ClearFailedCommands extends Command
 {

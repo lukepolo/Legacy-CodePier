@@ -13,7 +13,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-
     ];
 
     /**
@@ -37,7 +36,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if ($this->shouldReport($exception) && config('app.env') == 'production') {
+        if ($this->shouldReport($exception) && 'production' == config('app.env')) {
             app('sentry')->captureException($exception);
         }
         parent::report($exception);

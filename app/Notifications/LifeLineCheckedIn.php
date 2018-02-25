@@ -3,12 +3,12 @@
 namespace App\Notifications;
 
 use App\Models\Site\Lifeline;
+use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class LifeLineCheckedIn extends Notification implements ShouldQueue
 {
@@ -20,7 +20,8 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -39,7 +40,7 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
      */
     public function toMail()
     {
-        return  (new MailMessage)
+        return  (new MailMessage())
             ->subject($this->lifeline->site->name.' lifeline checked in')
             ->line('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
     }

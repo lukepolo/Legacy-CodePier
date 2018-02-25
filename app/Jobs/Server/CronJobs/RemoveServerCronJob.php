@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server\CronJobs;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RemoveServerCronJob implements ShouldQueue
 {
@@ -26,10 +26,12 @@ class RemoveServerCronJob implements ShouldQueue
 
     /**
      * RemoveServerCronJob constructor.
-     * @param Server $server
+     *
+     * @param Server  $server
      * @param CronJob $cronJob
      * @param Command $siteCommand
-     * @param bool $forceRemove
+     * @param bool    $forceRemove
+     *
      * @internal param ServerCronJob $serverCronJob
      */
     public function __construct(Server $server, CronJob $cronJob, Command $siteCommand = null, $forceRemove = false)
@@ -44,6 +46,7 @@ class RemoveServerCronJob implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -59,7 +62,7 @@ class RemoveServerCronJob implements ShouldQueue
                 $this->server->cronJobs()->detach($this->cronJob->id);
 
                 $this->cronJob->load('servers');
-                if ($this->cronJob->servers->count() == 0) {
+                if (0 == $this->cronJob->servers->count()) {
                     $this->cronJob->delete();
                 }
             }

@@ -3,15 +3,15 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
-use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
-use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
+use App\Notifications\Site\NewSiteDeployment;
+use App\Services\Systems\SystemService;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Notifications\Site\NewSiteDeployment;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class DeploySite implements ShouldQueue
 {
@@ -28,7 +28,7 @@ class DeploySite implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Site $site
+     * @param Site           $site
      * @param SiteDeployment $oldSiteDeployment
      */
     public function __construct(Site $site, SiteDeployment $oldSiteDeployment = null)

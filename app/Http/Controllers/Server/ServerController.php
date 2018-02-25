@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Site\Site;
-use Illuminate\Http\Request;
-use App\Models\Server\Server;
-use App\Jobs\Server\CreateServer;
-use App\Http\Controllers\Controller;
-use App\Models\Server\ProvisioningKey;
-use App\Jobs\Server\UpdateSudoPassword;
-use App\Services\Systems\SystemService;
-use App\Http\Requests\Server\ServerRequest;
-use App\Models\Server\Provider\ServerProvider;
-use App\Services\Server\Providers\CustomProvider;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerRequest;
+use App\Jobs\Server\CreateServer;
+use App\Jobs\Server\UpdateSudoPassword;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\ProvisioningKey;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Services\Server\Providers\CustomProvider;
+use App\Services\Systems\SystemService;
+use Illuminate\Http\Request;
 
 class ServerController extends Controller
 {
@@ -26,9 +26,9 @@ class ServerController extends Controller
     /**
      * ServerController constructor.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Server\ServerService | ServerService  $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param \App\Services\Site\SiteService| SiteService $siteService
+     * @param \App\Services\Site\SiteService| SiteService         $siteService
      */
     public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService, SiteService $siteService)
     {
@@ -53,6 +53,7 @@ class ServerController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -64,7 +65,9 @@ class ServerController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
      * @param ServerRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(ServerRequest $request)
@@ -121,6 +124,7 @@ class ServerController extends Controller
     /**
      * @param Request $request
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -149,8 +153,9 @@ class ServerController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -159,7 +164,9 @@ class ServerController extends Controller
 
     /**
      * Restores a server.
+     *
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function restore($id)
@@ -187,8 +194,8 @@ class ServerController extends Controller
      * Saves a file to a server.
      *
      * @param Request $request
-     *
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getFile(Request $request, $serverId)
@@ -212,8 +219,9 @@ class ServerController extends Controller
      *
      * @param $serverId
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restartServer($serverId)
     {
@@ -231,8 +239,9 @@ class ServerController extends Controller
      *
      * @param $serverId
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restartWebServices($serverId)
     {
@@ -250,8 +259,9 @@ class ServerController extends Controller
      *
      * @param $serverId
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restartDatabases($serverId)
     {
@@ -269,8 +279,9 @@ class ServerController extends Controller
      *
      * @param $serverId
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restartWorkerServices($serverId)
     {
@@ -295,6 +306,7 @@ class ServerController extends Controller
 
     /**
      * @param ProvisioningKey $key
+     *
      * @return string
      */
     public function getCustomServerScriptUrl(ProvisioningKey $key)
@@ -304,6 +316,7 @@ class ServerController extends Controller
 
     /**
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getSudoPassword($serverId)
@@ -315,6 +328,7 @@ class ServerController extends Controller
 
     /**
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getDatabasePassword($serverId)
@@ -326,6 +340,7 @@ class ServerController extends Controller
 
     /**
      * @param $serverId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function refreshSudoPassword($serverId)

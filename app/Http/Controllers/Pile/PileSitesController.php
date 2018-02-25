@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Pile;
 
-use App\Models\Pile;
 use App\Http\Controllers\Controller;
+use App\Models\Pile;
 
 class PileSitesController extends Controller
 {

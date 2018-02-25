@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bitt;
-use App\Jobs\Server\RunBitt;
-use Illuminate\Http\Request;
-use App\Models\Server\Server;
 use App\Http\Requests\BittRequest;
+use App\Jobs\Server\RunBitt;
+use App\Models\Bitt;
+use App\Models\Server\Server;
+use Illuminate\Http\Request;
 
 class BittsController extends Controller
 {
@@ -24,6 +24,7 @@ class BittsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param BittRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(BittRequest $request)
@@ -47,7 +48,8 @@ class BittsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,7 +61,8 @@ class BittsController extends Controller
      * Update the specified resource in storage.
      *
      * @param BittRequest $request
-     * @param  int $id
+     * @param int         $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(BittRequest $request, $id)
@@ -84,7 +87,8 @@ class BittsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -95,6 +99,7 @@ class BittsController extends Controller
     /**
      * @param Request $request
      * @param $bitt
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function runOnServers(Request $request, $bitt)

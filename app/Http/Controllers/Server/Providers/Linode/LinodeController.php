@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server\Providers\Linode;
 
-use App\Http\Controllers\Controller;
-use App\Models\User\UserServerProvider;
-use App\Models\Server\Provider\ServerProvider;
-use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerProviderRequest;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\User\UserServerProvider;
 
 class LinodeController extends Controller
 {

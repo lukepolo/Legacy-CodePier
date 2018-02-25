@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use GuzzleHttp\Client as HttpClient;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CheckQueues implements ShouldQueue
 {
@@ -20,7 +20,7 @@ class CheckQueues implements ShouldQueue
      */
     public function handle()
     {
-        $httpClient = new HttpClient;
+        $httpClient = new HttpClient();
         $httpClient->get('https://lifeline.codepier.io/oZr20qP1O4xd67RYALVDAnNWaBk3ygb9mGKwEnJ5');
     }
 }

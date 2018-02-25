@@ -2,16 +2,16 @@
 
 namespace App\Jobs\Server\Schemas;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Command;
 use App\Models\SchemaUser;
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RemoveServerSchemaUser implements ShouldQueue
 {
@@ -25,9 +25,10 @@ class RemoveServerSchemaUser implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Server $server
+     *
+     * @param Server     $server
      * @param SchemaUser $schemaUser
-     * @param Command $siteCommand
+     * @param Command    $siteCommand
      */
     public function __construct(Server $server, SchemaUser $schemaUser, Command $siteCommand = null)
     {
@@ -40,6 +41,7 @@ class RemoveServerSchemaUser implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
@@ -55,7 +57,7 @@ class RemoveServerSchemaUser implements ShouldQueue
                 $this->server->schemaUsers()->detach($this->schemaUser->id);
 
                 $this->schemaUser->load('servers');
-                if ($this->schemaUser->servers->count() == 0) {
+                if (0 == $this->schemaUser->servers->count()) {
                     $this->schemaUser->delete();
                 }
             }

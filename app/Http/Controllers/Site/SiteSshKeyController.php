@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\SshKey;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SshKeyRequest;
 use App\Events\Site\SiteSshKeyCreated;
 use App\Events\Site\SiteSshKeyDeleted;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SshKeyRequest;
+use App\Models\Site\Site;
+use App\Models\SshKey;
 
 class SiteSshKeyController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  int $siteId
+     *
+     * @param int $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -27,7 +29,8 @@ class SiteSshKeyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SshKeyRequest $request
-     * @param  int $siteId
+     * @param int           $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SshKeyRequest $request, $siteId)
@@ -57,8 +60,9 @@ class SiteSshKeyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $siteId
-     * @param  int $id
+     * @param int $siteId
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

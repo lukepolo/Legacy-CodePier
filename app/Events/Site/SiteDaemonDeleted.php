@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
+use App\Jobs\Server\Daemons\RemoveServerDaemon;
 use App\Models\Daemon;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\Daemons\RemoveServerDaemon;
 
 class SiteDaemonDeleted
 {
@@ -15,7 +15,7 @@ class SiteDaemonDeleted
     /**
      * Create a new event instance.
      *
-     * @param Site $site
+     * @param Site   $site
      * @param Daemon $daemon
      */
     public function __construct(Site $site, Daemon $daemon)

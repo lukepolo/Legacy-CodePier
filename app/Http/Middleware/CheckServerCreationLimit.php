@@ -2,16 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\User\User;
+use Closure;
 
 class CheckServerCreationLimit
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,7 +21,7 @@ class CheckServerCreationLimit
         $user = $request->user();
 
         if (! empty($user)) {
-            if ($user->role === 'admin') {
+            if ('admin' === $user->role) {
                 return $next($request);
             }
 

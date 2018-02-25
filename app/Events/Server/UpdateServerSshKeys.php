@@ -2,12 +2,12 @@
 
 namespace App\Events\Server;
 
-use App\Models\SshKey;
-use App\Models\Command;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
+use App\Models\Command;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\SshKey;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateServerSshKeys
 {
@@ -21,8 +21,8 @@ class UpdateServerSshKeys
     /**
      * Create a new event instance.
      *
-     * @param Server $server
-     * @param Site $site
+     * @param Server  $server
+     * @param Site    $site
      * @param Command $siteCommand
      */
     public function __construct(Server $server, Site $site, Command $siteCommand)

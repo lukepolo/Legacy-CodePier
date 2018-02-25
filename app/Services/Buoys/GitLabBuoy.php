@@ -2,9 +2,9 @@
 
 namespace App\Services\Buoys;
 
-use App\Traits\Buoys\BuoyTrait;
-use App\Notifications\BuoyInstall;
 use App\Contracts\Buoys\BuoyContract;
+use App\Notifications\BuoyInstall;
+use App\Traits\Buoys\BuoyTrait;
 
 class GitLabBuoy implements BuoyContract
 {
@@ -15,6 +15,7 @@ class GitLabBuoy implements BuoyContract
      * @buoy-enabled 1
      *
      * @description GitLab is a web-based Git repository manager.
+     *
      * @category Services
      *
      * @param array $ports
@@ -48,7 +49,7 @@ class GitLabBuoy implements BuoyContract
             }
 
             sleep(2);
-            $tries++;
+            ++$tries;
         }
 
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [

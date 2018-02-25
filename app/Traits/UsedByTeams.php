@@ -9,9 +9,9 @@ namespace App\Traits;
  * @package Teamwork
  */
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class UsedByTeams.
@@ -50,6 +50,7 @@ trait UsedByTeams
 
     /**
      * @param Builder $query
+     *
      * @return mixed
      */
     public function scopeAllTeams(Builder $query)

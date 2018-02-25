@@ -2,11 +2,11 @@
 
 namespace App\Notifications\Site;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteServerDeployment;
-use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class SiteDeploymentFailed extends Notification
 {
@@ -22,6 +22,7 @@ class SiteDeploymentFailed extends Notification
      *
      * @param SiteServerDeployment $siteServerDeployment
      * @param $errorMessage
+     *
      * @internal param SiteDeployment $siteDeployment
      */
     public function __construct(SiteServerDeployment $siteServerDeployment, $errorMessage)

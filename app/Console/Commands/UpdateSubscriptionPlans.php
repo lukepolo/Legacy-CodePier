@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\SubscriptionPlan;
+use Illuminate\Console\Command;
 use Stripe\Plan;
 use Stripe\Stripe;
-use Illuminate\Console\Command;
-use App\Models\SubscriptionPlan;
 
 class UpdateSubscriptionPlans extends Command
 {
