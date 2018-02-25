@@ -2,9 +2,9 @@
 
 namespace App\Services\Buoys;
 
-use App\Contracts\Buoys\BuoyContract;
-use App\Notifications\BuoyInstall;
 use App\Traits\Buoys\BuoyTrait;
+use App\Notifications\BuoyInstall;
+use App\Contracts\Buoys\BuoyContract;
 
 class GitLabBuoy implements BuoyContract
 {
@@ -49,7 +49,7 @@ class GitLabBuoy implements BuoyContract
             }
 
             sleep(2);
-            ++$tries;
+            $tries++;
         }
 
         $this->server->notify(new BuoyInstall('GitLab Buoy Setup', [

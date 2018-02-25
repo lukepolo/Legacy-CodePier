@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server\Daemons;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Command;
 use App\Models\Daemon;
+use App\Models\Command;
 use App\Models\Server\Server;
-use App\Services\Systems\SystemService;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
+use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerDaemon implements ShouldQueue
 {

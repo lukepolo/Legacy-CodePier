@@ -4,8 +4,8 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Site\Site;
 use App\Services\Server\ServerService;
-use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
+use App\Services\Systems\ServiceConstructorTrait;
 
 /**
  * // TODO - need to separate Apache and NGINX configs.

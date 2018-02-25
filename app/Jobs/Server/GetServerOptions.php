@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\Provider\ServerProvider;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class GetServerOptions implements ShouldQueue
 {

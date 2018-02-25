@@ -2,12 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
+use GuzzleHttp\Client;
+use App\Models\Server\Server;
+use GuzzleHttp\Psr7\Response;
+use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
-use App\Models\Server\Server;
-use App\Models\User\UserServerProvider;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 
 class LinodeProvider implements ServerProviderContract
 {

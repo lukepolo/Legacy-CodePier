@@ -2,9 +2,9 @@
 
 namespace App\Services\DeploymentServices\Ruby;
 
+use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\DeployTrait;
 use App\Services\DeploymentServices\Ruby\Frameworks\RubyOnRails;
-use App\Services\Systems\SystemService;
 
 class Ruby
 {

@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Server\Server;
-use App\Services\Systems\Ubuntu\V_16_04\MonitoringService;
 use Illuminate\Console\Command;
+use App\Services\Systems\Ubuntu\V_16_04\MonitoringService;
 
 class TestMonitorScripts extends Command
 {

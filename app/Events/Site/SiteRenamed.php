@@ -2,13 +2,13 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\UpdateServerFile;
-use App\Jobs\Site\DeploySite;
-use App\Jobs\Site\RenameSiteDomain;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
+use App\Jobs\Site\DeploySite;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\RenameSiteDomain;
+use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 
 class SiteRenamed
 {

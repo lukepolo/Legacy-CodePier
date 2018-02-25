@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth\Providers\Services\HipChat;
 
+use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {

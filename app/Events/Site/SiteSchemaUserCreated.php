@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\Schemas\AddServerSchemaUser;
-use App\Models\SchemaUser;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
+use App\Models\SchemaUser;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\Schemas\AddServerSchemaUser;
 
 class SiteSchemaUserCreated
 {

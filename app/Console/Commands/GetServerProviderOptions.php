@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Auth\OauthController;
-use App\Http\Controllers\Server\Providers\Linode\LinodeController;
-use App\Http\Controllers\Server\Providers\Vultr\VultrController;
-use App\Models\Server\Provider\ServerProvider;
 use Illuminate\Console\Command;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Http\Controllers\Server\Providers\Vultr\VultrController;
+use App\Http\Controllers\Server\Providers\Linode\LinodeController;
 
 class GetServerProviderOptions extends Command
 {

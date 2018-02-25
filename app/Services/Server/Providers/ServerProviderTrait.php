@@ -2,10 +2,10 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Server;
-use App\Models\User\User;
 use Carbon\Carbon;
+use App\Models\User\User;
+use App\Models\Server\Server;
+use App\Models\Server\Provider\ServerProvider;
 
 trait ServerProviderTrait
 {

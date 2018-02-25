@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Mail\ConfirmWelcome;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmWelcome;
 use Vinkla\Hashids\Facades\Hashids;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class UserConfirmController extends Controller
 {

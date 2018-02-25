@@ -2,12 +2,12 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Models\Command;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
 use App\Models\SshKey;
+use App\Models\Command;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
 class UpdateServerSshKeys
 {

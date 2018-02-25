@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\WorkflowRequest;
-use App\Models\Site\Site;
 
 class SiteWorkflowController extends Controller
 {

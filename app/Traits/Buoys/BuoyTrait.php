@@ -2,11 +2,11 @@
 
 namespace App\Traits\Buoys;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 trait BuoyTrait
 {

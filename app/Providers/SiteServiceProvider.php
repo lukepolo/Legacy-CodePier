@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use App\Contracts\Site\SiteDeploymentStepsServiceContract;
-use App\Contracts\Site\SiteFeatureServiceContract;
-use App\Contracts\Site\SiteLanguageSettingsServiceContract;
-use App\Contracts\Site\SiteServiceContract;
-use App\Services\Site\SiteDeploymentStepsService;
-use App\Services\Site\SiteFeatureService;
-use App\Services\Site\SiteLanguageSettingsService;
 use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Site\SiteFeatureService;
+use App\Contracts\Site\SiteServiceContract;
+use App\Services\Site\SiteDeploymentStepsService;
+use App\Contracts\Site\SiteFeatureServiceContract;
+use App\Services\Site\SiteLanguageSettingsService;
+use App\Contracts\Site\SiteDeploymentStepsServiceContract;
+use App\Contracts\Site\SiteLanguageSettingsServiceContract;
 
 class SiteServiceProvider extends ServiceProvider
 {

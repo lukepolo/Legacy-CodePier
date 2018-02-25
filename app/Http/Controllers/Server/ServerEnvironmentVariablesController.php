@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Server\Server;
+use App\Models\EnvironmentVariable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EnvironmentVariableRequest;
-use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 use App\Jobs\Server\EnvironmentVariables\RemoveServerEnvironmentVariable;
-use App\Models\EnvironmentVariable;
-use App\Models\Server\Server;
+use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 
 class ServerEnvironmentVariablesController extends Controller
 {

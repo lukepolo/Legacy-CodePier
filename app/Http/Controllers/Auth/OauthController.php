@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Socialite;
+use App\Models\User\User;
+use Illuminate\Http\Request;
+use App\Models\RepositoryProvider;
+use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
-use App\Models\RepositoryProvider;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
 use App\Models\User\UserLoginProvider;
-use App\Models\User\UserNotificationProvider;
-use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserServerProvider;
-use App\SocialProviders\TokenData;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Socialite;
+use GuzzleHttp\Exception\ClientException;
+use App\Models\User\UserRepositoryProvider;
+use App\Models\User\UserNotificationProvider;
+use App\Models\Server\Provider\ServerProvider;
 
 class OauthController extends Controller
 {

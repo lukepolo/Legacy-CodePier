@@ -2,11 +2,11 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\UpdateServerFile;
-use App\Models\Command;
 use App\Models\File;
-use App\Models\Server\Server;
+use App\Models\Command;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
+use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
 
 class UpdateServerFiles

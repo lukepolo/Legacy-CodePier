@@ -3,8 +3,8 @@
 namespace App\Events\Server;
 
 use App\Models\Command;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
 
 class UpdateServerConfigurations

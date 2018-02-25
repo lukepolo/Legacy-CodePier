@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Jobs\CheckQueues;
+use Illuminate\Console\Command;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Console\Command;
 
 class PingLifeLines extends Command
 {

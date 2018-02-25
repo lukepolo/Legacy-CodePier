@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\SchemaUser;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SchemaUserRequest;
 use App\Jobs\Server\Schemas\AddServerSchemaUser;
 use App\Jobs\Server\Schemas\RemoveServerSchemaUser;
-use App\Models\SchemaUser;
-use App\Models\Server\Server;
 
 class ServerSchemaUserController extends Controller
 {

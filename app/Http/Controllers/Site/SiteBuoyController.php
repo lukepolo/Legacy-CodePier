@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteBuoyCreated;
-use App\Events\Site\SiteBuoyDeleted;
-use App\Http\Controllers\Controller;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Events\Site\SiteBuoyCreated;
+use App\Events\Site\SiteBuoyDeleted;
+use App\Http\Controllers\Controller;
 
 class SiteBuoyController extends Controller
 {

@@ -4,8 +4,8 @@ namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ServerProvisioned extends Notification
 {

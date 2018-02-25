@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Server\CreateServer;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use App\Services\RemoteTaskService;
-use App\Services\Site\SiteFeatureService;
+use App\Models\Server\Server;
 use Illuminate\Console\Command;
+use App\Jobs\Server\CreateServer;
+use App\Services\RemoteTaskService;
 use Symfony\Component\Process\Process;
+use App\Services\Site\SiteFeatureService;
+use App\Models\Server\Provider\ServerProvider;
 
 class ProvisionDevEnvironment extends Command
 {

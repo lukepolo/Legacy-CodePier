@@ -2,13 +2,13 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\RestartWebServices;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\RestartWebServices;
+use App\Services\Systems\SystemService;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteRestartWebServices
 {

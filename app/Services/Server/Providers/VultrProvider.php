@@ -2,12 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Provider\ServerProviderOption;
-use App\Models\Server\Provider\ServerProviderRegion;
+use Vultr\VultrClient;
 use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 use Vultr\Adapter\GuzzleHttpAdapter as Guzzle;
-use Vultr\VultrClient;
+use App\Models\Server\Provider\ServerProviderOption;
+use App\Models\Server\Provider\ServerProviderRegion;
 
 class VultrProvider implements ServerProviderContract
 {

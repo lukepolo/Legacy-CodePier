@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteServerRequest;
+use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
 use App\Models\Server\Server;
-use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteServerRequest;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class SiteServerController extends Controller
 {

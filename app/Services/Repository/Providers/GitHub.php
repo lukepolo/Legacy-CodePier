@@ -2,13 +2,13 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
-use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
-use Github\Api\CurrentUser;
-use Github\Api\Repo;
 use Github\Client;
+use Github\Api\Repo;
+use App\Models\Site\Site;
+use Github\Api\CurrentUser;
+use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
+use App\Models\User\UserRepositoryProvider;
 
 class GitHub implements RepositoryContract
 {

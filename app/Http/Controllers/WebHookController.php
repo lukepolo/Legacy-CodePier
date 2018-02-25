@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Auth\OauthController;
-use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
-use App\Jobs\Site\DeploySite;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use App\Notifications\Server\ServerDiskUsage;
+use Illuminate\Http\Request;
+use App\Jobs\Site\DeploySite;
+use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
-use Illuminate\Http\Request;
+use App\Notifications\Server\ServerDiskUsage;
+use App\Http\Controllers\Auth\OauthController;
+use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 
 class WebHookController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
+use App\Models\Site\Lifeline;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteLifeline;
-use App\Models\Site\Lifeline;
-use App\Models\Site\Site;
 
 class SiteLifelinesController extends Controller
 {

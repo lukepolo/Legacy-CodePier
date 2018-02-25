@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteDeploymentRequest;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteDeploymentRequest;
 
 class SiteDeploymentsController extends Controller
 {

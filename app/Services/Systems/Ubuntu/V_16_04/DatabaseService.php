@@ -2,11 +2,11 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Exceptions\UnknownDatabase;
 use App\Models\Schema;
 use App\Models\SchemaUser;
-use App\Services\Systems\ServiceConstructorTrait;
+use App\Exceptions\UnknownDatabase;
 use App\Services\Systems\SystemService;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class DatabaseService
 {

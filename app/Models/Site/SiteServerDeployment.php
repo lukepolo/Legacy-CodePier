@@ -3,9 +3,9 @@
 namespace App\Models\Site;
 
 use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentEvent;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Site\Deployment\DeploymentEvent;
 
 class SiteServerDeployment extends Model
 {

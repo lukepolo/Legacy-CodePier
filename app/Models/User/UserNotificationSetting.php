@@ -2,8 +2,8 @@
 
 namespace App\Models\User;
 
-use App\Models\NotificationSetting;
 use App\Traits\ConnectedToUser;
+use App\Models\NotificationSetting;
 use Illuminate\Database\Eloquent\Model;
 
 class UserNotificationSetting extends Model

@@ -2,8 +2,8 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
+use App\Exceptions\DeployKeyAlreadyUsed;
 
 trait RepositoryTrait
 {

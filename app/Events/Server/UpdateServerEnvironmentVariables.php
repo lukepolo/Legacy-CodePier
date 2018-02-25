@@ -2,12 +2,12 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 use App\Models\Command;
-use App\Models\EnvironmentVariable;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
+use App\Models\EnvironmentVariable;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 
 class UpdateServerEnvironmentVariables
 {

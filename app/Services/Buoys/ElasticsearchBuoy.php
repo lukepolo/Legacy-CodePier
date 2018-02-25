@@ -2,8 +2,8 @@
 
 namespace App\Services\Buoys;
 
-use App\Contracts\Buoys\BuoyContract;
 use App\Traits\Buoys\BuoyTrait;
+use App\Contracts\Buoys\BuoyContract;
 
 class ElasticsearchBuoy implements BuoyContract
 {

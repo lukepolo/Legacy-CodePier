@@ -2,15 +2,15 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\Schemas\AddServerSchema;
-use App\Jobs\Server\Schemas\AddServerSchemaUser;
-use App\Jobs\Server\Schemas\RemoveServerSchema;
-use App\Models\Command;
 use App\Models\Schema;
-use App\Models\Server\Server;
+use App\Models\Command;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Jobs\Server\Schemas\AddServerSchema;
+use App\Jobs\Server\Schemas\RemoveServerSchema;
+use App\Jobs\Server\Schemas\AddServerSchemaUser;
 
 class UpdateServerSchemas
 {

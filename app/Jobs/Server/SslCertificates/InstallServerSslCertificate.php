@@ -2,18 +2,18 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\Site\SiteSslCertificateUpdated;
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Command;
 use App\Models\Server\Server;
+use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
 use App\Traits\ServerCommandTrait;
-use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Events\Site\SiteSslCertificateUpdated;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerSslCertificate implements ShouldQueue
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\CheckServerStatus;
 use App\Models\Server\ProvisioningKey;
-use App\Models\Server\Server;
-use Illuminate\Http\Request;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CustomServerProvisioningController extends Controller
 {

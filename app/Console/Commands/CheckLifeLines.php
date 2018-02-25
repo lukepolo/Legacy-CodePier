@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Site\Lifeline;
-use App\Notifications\LifeLineThresholdExceeded;
 use Carbon\Carbon;
+use App\Models\Site\Lifeline;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\LifeLineThresholdExceeded;
 
 class CheckLifeLines extends Command
 {

@@ -2,19 +2,19 @@
 
 namespace App\Observers\Site;
 
-use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Site\SiteDeploymentStepsServiceContract as SiteDeploymentStepsService;
-use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
+use App\Models\FirewallRule;
+use App\Jobs\Site\DeleteSite;
+use App\Traits\ModelCommandTrait;
+use App\Events\Site\SiteSshKeyDeleted;
+use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobDeleted;
 use App\Events\Site\SiteFirewallRuleDeleted;
-use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
-use App\Events\Site\SiteWorkerDeleted;
-use App\Jobs\Site\DeleteSite;
-use App\Models\FirewallRule;
-use App\Models\Site\Site;
-use App\Traits\ModelCommandTrait;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Site\SiteDeploymentStepsServiceContract as SiteDeploymentStepsService;
 
 class SiteObserver
 {

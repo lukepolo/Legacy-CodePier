@@ -2,13 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Jobs\Server\Daemons\InstallServerDaemon;
-use App\Jobs\Server\Daemons\RemoveServerDaemon;
-use App\Models\Command;
 use App\Models\Daemon;
-use App\Models\Server\Server;
+use App\Models\Command;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\Daemons\RemoveServerDaemon;
+use App\Jobs\Server\Daemons\InstallServerDaemon;
 
 class UpdateServerDaemons
 {

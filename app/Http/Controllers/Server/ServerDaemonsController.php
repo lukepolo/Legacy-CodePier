@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Daemon;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DaemonRequest;
 use App\Http\Requests\DaemonUpdatedRequest;
-use App\Jobs\Server\Daemons\InstallServerDaemon;
 use App\Jobs\Server\Daemons\RemoveServerDaemon;
-use App\Models\Daemon;
-use App\Models\Server\Server;
+use App\Jobs\Server\Daemons\InstallServerDaemon;
 
 class ServerDaemonsController extends Controller
 {

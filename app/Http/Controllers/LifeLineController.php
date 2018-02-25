@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site\Lifeline;
 use Carbon\Carbon;
+use App\Models\Site\Lifeline;
 
 class LifeLineController extends Controller
 {

@@ -4,8 +4,8 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Daemon;
 use App\Models\Worker;
-use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class WorkerService
 {
