@@ -104,7 +104,6 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
         $this->remoteTaskService->run('supervisorctl start server-daemon-'.$daemon->id.':*');
 
         $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, "supervisorctl restart server-daemon-$daemon->id:*");
-
     }
 
     public function removeDaemon(Daemon $daemon, $user = 'root')
