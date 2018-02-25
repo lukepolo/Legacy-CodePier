@@ -58,7 +58,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Advanced server configuration</h3>
-                        <p>Although CodePier configures your server based on site requirements, sometimes you need a bit more control. So you'd like to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
+                        <p>Sometimes you need a bit more control. So you'd like to use MariaDB instead of MySQL? No problem. Customize all of your database, firewall, monitoring, node features and more.</p>
                     </div>
                 </div>
                 <div class="features--item">
