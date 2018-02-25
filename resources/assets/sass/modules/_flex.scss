@@ -1,33 +1,33 @@
 // FLEX STYLES =============================================
 // =========================================================
 .flex {
-    display: flex;
+  display: flex;
 
-    &--grow {
-        flex-grow: 1;
-    }
+  &--grow {
+    flex-grow: 1;
+  }
 
-    &--shrink {
-        flex-shrink: 1;
-    }
+  &--shrink {
+    flex-shrink: 1;
+  }
 
-    &--center {
-        align-items: center;
-    }
+  &--center {
+    align-items: center;
+  }
 
-    &--jcenter {
-        justify-content: center;
-    }
+  &--jcenter {
+    justify-content: center;
+  }
 
-    &--baseline {
-        align-items: baseline;
-    }
+  &--baseline {
+    align-items: baseline;
+  }
 
-    &--spacing {
-        margin-left: $spacing;
-    }
+  &--spacing {
+    margin-left: $spacing;
+  }
 
-    &--column {
-        flex-direction: column;
-    }
+  &--column {
+    flex-direction: column;
+  }
 }

@@ -33,7 +33,7 @@ mix
     "moment-timezone",
     "filesize-parser",
     "lodash-inflection",
-    "moment-precise-range-plugin"
+    "moment-precise-range-plugin",
   ])
   .autoload({
     vue: "Vue",
@@ -41,7 +41,7 @@ mix
     ace: "brace",
     "pusher-js": "Pusher",
     clipboard: "Clipboard",
-    jquery: ["$", "jQuery"]
+    jquery: ["$", "jQuery"],
   })
   .sourceMaps()
   .version();
@@ -54,7 +54,7 @@ if (!mix.inProduction()) {
     files: [
       "resources/views/**/*.php",
       "public/js/**/*.js",
-      "public/css/**/*.css"
-    ]
+      "public/css/**/*.css",
+    ],
   });
 }
