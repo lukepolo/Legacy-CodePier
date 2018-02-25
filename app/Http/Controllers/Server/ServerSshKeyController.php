@@ -70,8 +70,10 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerSshKey($server,
-                $server->sshKeys->keyBy('id')->get($id)))
+            (new RemoveServerSshKey(
+                $server,
+                $server->sshKeys->keyBy('id')->get($id)
+            ))
                 ->onQueue(config('queue.channels.server_commands'))
         );
 

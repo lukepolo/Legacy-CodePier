@@ -55,14 +55,16 @@ class BitBucket implements RepositoryContract
         /** @var Response $response */
         $response = $hook->create(
             $owner,
-            $slug, [
+            $slug,
+            [
             'description' => 'CodePier',
             'url'         => action('WebHookController@deploy', $site->hash),
             'active'      => true,
             'events'      => [
                 'repo:push',
             ],
-        ]);
+        ]
+        );
 
         if ($response->getStatusCode() == 401) {
             throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');

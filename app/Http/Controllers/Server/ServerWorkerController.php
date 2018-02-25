@@ -65,8 +65,10 @@ class ServerWorkerController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerWorker($server,
-                $server->workers->keyBy('id')->get($id)))
+            (new RemoveServerWorker(
+                $server,
+                $server->workers->keyBy('id')->get($id)
+            ))
                 ->onQueue(config('queue.channels.server_commands'))
         );
 

@@ -31,7 +31,8 @@ class SiteDeploymentsController extends Controller
     public function show($siteId, $siteDeploymentId)
     {
         return response()->json(
-            SiteDeployment::with([
+            SiteDeployment::with(
+                [
                     'serverDeployments.events.step' => function ($query) {
                         $query->withTrashed();
                     }, ]

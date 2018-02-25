@@ -73,7 +73,8 @@ class PileController extends Controller
 
         if ($pile->sites->count()) {
             return response()->json(
-                'Sorry you cannot delete piles that have sites connected to it', 400
+                'Sorry you cannot delete piles that have sites connected to it',
+                400
             );
         }
 
