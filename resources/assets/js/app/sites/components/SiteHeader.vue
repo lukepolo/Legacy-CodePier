@@ -24,7 +24,7 @@
                         <confirm-dropdown dispatch="user_site_services/restartDatabases" :params="site.id"><a @click.prevent href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="user_site_services/restartWorkers" :params="site.id"><a @click.prevent href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_site_services/restartWorkers" :params="site.id"><a @click.prevent href="#"><span class="icon-worker"></span> Restart Workers & Daemons</a></confirm-dropdown>
                     </li>
                 </ul>
 
