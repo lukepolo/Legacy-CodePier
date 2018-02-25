@@ -102,3 +102,29 @@ h5 {
     font-size: .8em;
     letter-spacing: 1.5px;
 }
+
+.faq {
+
+    &-container {
+        h2 {
+            margin-top: 60px;
+        }
+    }
+
+    &-list {
+        font-size: 1.5em;
+        font-weight: 400;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+
+}
+
+.section--content {
+    ul,
+    ol {
+        font-size: 1.3em;
+    }
+}
