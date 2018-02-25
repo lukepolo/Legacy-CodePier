@@ -111,7 +111,6 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("server_providers/get");
     this.$store.dispatch(
       "user_server_providers/get",
       this.$store.state.user.user.id
