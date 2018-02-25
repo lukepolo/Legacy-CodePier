@@ -2,7 +2,7 @@
 
 return PhpCsFixer\Config::create()
     ->setRules([
-     '@PSR2' => true,
+        '@PSR2' => true,
         // addtional rules
         'array_syntax' => ['syntax' => 'short'],
         'no_multiline_whitespace_before_semicolons' => true,
