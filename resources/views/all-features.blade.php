@@ -22,7 +22,7 @@
                     <small>(Supports Node / Javascript Deployments)</small>
                 </h3>
                 <ul>
-                    <li>SPA <small>(single page sites)</small></li>
+                    <li>SPA <small>(single page applications)</small></li>
                 </ul>
             </ul>
             <p>Planning to support other lanauges such as Ruby, Python, and GO</p>
