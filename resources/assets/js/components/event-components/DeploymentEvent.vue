@@ -45,7 +45,7 @@
         </div>
 
         <div class="events--item-commit">
-            <a target="_blank" :href="getRepositoryUrl(event)" v-if="event.git_commit"><span class="icon-github"></span> </a>
+            <a target="_blank" :href="repositoryUrl" v-if="event.git_commit"><span class="icon-github"></span> </a>
 
             <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } " v-if="event.status === 'Completed'">
                 Rollback
@@ -65,22 +65,6 @@ export default {
   },
   props: ["event"],
   methods: {
-    getRepositoryUrl(event) {
-      let site = this.getSite(event.site_id);
-      let repositoryProvider = this.getRepositoryProvider(
-        site.user_repository_provider_id
-      );
-      return (
-        "https://" +
-        repositoryProvider.url +
-        "/" +
-        site.repository +
-        "/" +
-        repositoryProvider.commit_url +
-        "/" +
-        event.git_commit
-      );
-    },
     filterArray(data) {
       if (!Array.isArray(data)) {
         data = [data];
@@ -97,6 +81,23 @@ export default {
     }
   },
   computed: {
+    repositoryUrl() {
+      let site = this.getSite(this.event.site_id);
+      let repositoryProvider = this.getRepositoryProvider(
+        site.user_repository_provider_id
+      );
+
+      return (
+        "https://" +
+        repositoryProvider.url +
+        "/" +
+        site.repository +
+        "/" +
+        repositoryProvider.commit_url +
+        "/" +
+        this.event.git_commit
+      );
+    },
     totalAmountOfTime() {
       let totalTime = 0;
       this.event.server_deployments.forEach(server_deployment => {

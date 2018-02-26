@@ -7,10 +7,10 @@
             </div>
             <div class="heading--btns">
                 <confirm
-                        confirm_class="btn-link"
-                        confirm_position="bottom"
-                        message="Slack Notifications"
-                        confirm_btn="btn-primary"
+                    confirm_class="btn-link"
+                    confirm_position="bottom"
+                    message="Slack Notifications"
+                    confirm_btn="btn-primary"
                 >
                     <tooltip message="Notifications" placement="bottom">
                         <span class="icon-notifications"></span>
@@ -337,6 +337,7 @@ export default {
     },
     fetchData() {
       this.getDns();
+      this.$store.dispatch("user_notification_providers/get");
       this.$store.dispatch(
         "user_site_deployments/get",
         this.$route.params.site_id

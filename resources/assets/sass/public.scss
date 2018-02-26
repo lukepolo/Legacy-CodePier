@@ -66,6 +66,10 @@ h3 {
     font-weight: 700;
     font-size: 20px;
     line-height: 1em;
+
+    small {
+        color: rgba($color-text-primary, .5);
+    }
 }
 
 h5 {
@@ -86,7 +90,13 @@ h5 {
     }
 }
 
+
 .btn-primary {
+    color: $white !important;
+}
+
+.btn-default {
+    background-color: $black;
     color: $white !important;
 }
 
@@ -101,4 +111,37 @@ h5 {
 .small-caps {
     font-size: .8em;
     letter-spacing: 1.5px;
+}
+
+.faq {
+
+    &-container {
+        h2 {
+            margin-top: 60px;
+        }
+    }
+
+    &-list {
+        font-size: 1.5em;
+        font-weight: 400;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+
+}
+
+.section--content {
+    ul,
+    ol {
+        font-size: 1.3em;
+
+        ul,
+        ol {
+            font-size: 1em;
+            list-style-type: disc;
+            margin-bottom: 30px;
+        }
+    }
 }

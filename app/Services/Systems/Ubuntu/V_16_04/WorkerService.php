@@ -67,6 +67,8 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
         $this->remoteTaskService->run('supervisorctl start server-worker-'.$worker->id.':*');
+
+        $this->addToServiceRestartGroup(SystemService::WORKER_PROGRAMS_GROUP, "supervisorctl restart server-worker-$worker->id:*");
     }
 
     public function removeWorker(Worker $worker, $user = 'root')
@@ -77,6 +79,8 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
+
+        $this->removeFromServiceRestartGroup(SystemService::WORKER_PROGRAMS_GROUP, "supervisorctl restart server-worker-$worker->id:*");
     }
 
     public function addDaemon(Daemon $daemon, $sshUser = 'root')
@@ -84,7 +88,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
         $this->connectToServer($sshUser);
 
         $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-daemon-'.$daemon->id.'.conf ', '
-[program:server-worker-'.$daemon->id.']
+[program:server-daemon-'.$daemon->id.']
 process_name=%(program_name)s_%(process_num)02d
 command='.$daemon->command.'
 autostart=true
@@ -98,6 +102,8 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
         $this->remoteTaskService->run('supervisorctl start server-daemon-'.$daemon->id.':*');
+
+        $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, "supervisorctl restart server-daemon-$daemon->id:*");
     }
 
     public function removeDaemon(Daemon $daemon, $user = 'root')
@@ -108,5 +114,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
+
+        $this->removeFromServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, "supervisorctl restart server-daemon-$daemon->id:*");
     }
 }
