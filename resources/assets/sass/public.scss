@@ -1,106 +1,147 @@
 // APP STYLING
-@import "site/variables";
-@import "base";
-@import "modules/buttons";
-@import "modules/icons";
-@import "modules/pricing";
+@import 'site/variables';
+@import 'base';
+@import 'modules/buttons';
+@import 'modules/icons';
+@import 'modules/pricing';
 //@import 'layouts/footer';
 //@import 'modules/forms';
 //@import 'modules/search-filter.scss';
 //@import 'modules/dropdowns.scss';
 
 // WEBSITE STYLING
-@import "public/layout";
-@import "public/nav";
-@import "public/footer";
-@import "public/hero";
-@import "public/features";
-@import "public/sections";
-@import "public/video";
-@import "public/slider";
-@import "public/testimonials";
-@import "public/maintenance";
+@import 'public/layout';
+@import 'public/nav';
+@import 'public/footer';
+@import 'public/hero';
+@import 'public/features';
+@import 'public/sections';
+@import 'public/video';
+@import 'public/slider';
+@import 'public/testimonials';
+@import 'public/maintenance';
 //@import 'public/tables';
 //@import 'public/tabs';
 
+
+
+
 // BASE STYLING
 body {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
-  &:active,
-  &:focus,
-  &:hover {
-    color: mix($color-primary, $color-text-primary, 80%);
-  }
+    &:active,
+    &:focus,
+    &:hover {
+        color: mix($color-primary, $color-text-primary, 80%);
+    }
 }
 
 p {
-  font-size: 1.3em;
+    font-size: 1.3em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 800;
-  font-family: $font-web-heading;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    font-family: $font-web-heading;
 }
 
 h1 {
-  color: $color-text-primary;
-  font-size: 34px;
+    color: $color-text-primary;
+    font-size: 34px;
 }
 
 h2 {
-  text-transform: none;
-  font-weight: 400;
-  font-size: 28px;
-  color: $color-text-primary;
+    text-transform: none;
+    font-weight: 400;
+    font-size: 28px;
+    color: $color-text-primary;
 }
 
 h3 {
-  text-transform: none;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1em;
+    text-transform: none;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1em;
+
+    small {
+        color: rgba($color-text-primary, .5);
+    }
 }
 
 h5 {
-  font-family: $font-heading;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin-bottom: $spacing*2;
+    font-family: $font-heading;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: $spacing*2;
 
-  &:after {
-    content: "";
-    display: block;
-    height: 4px;
-    width: 40px;
-    background-color: $color-primary;
-    border-radius: 4px;
-    margin-top: 6px;
-  }
+    &:after {
+        content: '';
+        display: block;
+        height: 4px;
+        width: 40px;
+        background-color: $color-primary;
+        border-radius: 4px;
+        margin-top: 6px;
+    }
 }
 
+
 .btn-primary {
-  color: $white !important;
+    color: $white !important;
+}
+
+.btn-default {
+    background-color: $black;
+    color: $white !important;
 }
 
 .error {
-  color: $red;
+    color: $red;
 }
 
 .subheading {
-  margin-bottom: $spacing*2;
+    margin-bottom: $spacing*2;
 }
 
 .small-caps {
-  font-size: 0.8em;
-  letter-spacing: 1.5px;
+    font-size: .8em;
+    letter-spacing: 1.5px;
+}
+
+.faq {
+
+    &-container {
+        h2 {
+            margin-top: 60px;
+        }
+    }
+
+    &-list {
+        font-size: 1.5em;
+        font-weight: 400;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+
+}
+
+.section--content {
+    ul,
+    ol {
+        font-size: 1.3em;
+
+        ul,
+        ol {
+            font-size: 1em;
+            list-style-type: disc;
+            margin-bottom: 30px;
+        }
+    }
 }

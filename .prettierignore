@@ -7,3 +7,4 @@ storage/
 test/
 vendor/
 resources/assets/js/laroute.js
+resources/assets/sass/base/_variables.scss

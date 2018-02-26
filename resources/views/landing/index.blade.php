@@ -82,6 +82,7 @@
             </div>
 
             <div class="text-center">
+                <a href="{{ action('PublicController@allFeatures') }}" class="btn btn-default">View All Features</a>
                 <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary">Start your free trial!</a>
             </div>
         </div>
@@ -148,6 +149,7 @@
 
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
+                    <a class="btn btn-default" href="{{ action('PublicController@faq') }}"  >View the FAQs</a>
                     <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  >Sign Up Today</a>
                 </div>
             </div>
