@@ -37,6 +37,10 @@
 
             </div>
 
+            <div class="text-center" v-if="!isConnected(provider.id) && provider.name === 'Digital Ocean'">
+                <a target="_blank" href="https://m.do.co/c/27ffab8712be">Get Free $10 for <strong>New Accounts</strong></a>
+            </div>
+
         </label>
 
     </div>
@@ -107,7 +111,6 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("server_providers/get");
     this.$store.dispatch(
       "user_server_providers/get",
       this.$store.state.user.user.id

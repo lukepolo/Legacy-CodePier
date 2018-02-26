@@ -1,30 +1,29 @@
 // Main Layout ========================
 // ====================================
 body {
-    display: grid !important;
-    grid-template-rows: min-content auto;
-
+  display: grid !important;
+  grid-template-rows: min-content auto;
 }
 header {
-    display: flex;
-    border-bottom: 1px solid $color-divider;
-    justify-content: space-between;
-    background-color: $white;
-    z-index: 99999;
+  display: flex;
+  border-bottom: 1px solid $color-divider;
+  justify-content: space-between;
+  background-color: $white;
+  z-index: 99999;
 
-    @include breakpoint(sm) {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+  @include breakpoint(sm) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 #content {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
 }
 
 #main {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }

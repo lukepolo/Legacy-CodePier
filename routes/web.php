@@ -135,7 +135,11 @@ Route::group([
 */
 
 Route::get('/pricing', 'PricingController@index');
+
+Route::get('/faq', 'PublicController@faq');
 Route::get('/privacy', 'PublicController@privacy');
+Route::get('/change-log', 'PublicController@changeLog');
+Route::get('/all-features', 'PublicController@allFeatures');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
 

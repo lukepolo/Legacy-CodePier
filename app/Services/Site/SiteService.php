@@ -325,6 +325,10 @@ class SiteService implements SiteServiceContract
             $site->update([
                 'workflow' => $workflow,
             ]);
+        } else {
+            $site->update([
+                'workflow' => [],
+            ]);
         }
     }
 }

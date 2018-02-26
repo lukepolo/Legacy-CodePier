@@ -7,6 +7,7 @@ use App\Models\Site\Site;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
+use App\Services\Systems\SystemService;
 use App\Services\Repository\RepositoryService;
 
 trait DeployTrait
@@ -131,6 +132,34 @@ trait DeployTrait
         }
 
         return $output;
+    }
+
+    /**
+     * @description Restarts Daemons
+     *
+     * @order 370
+     *
+     * @not_default true
+     */
+    public function restartDaemons()
+    {
+        $this->remoteTaskService->ssh($this->server, 'root');
+
+        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::DAEMON_PROGRAMS_GROUP);
+    }
+
+    /**
+     * @description Restarts Workers
+     *
+     * @order 375
+     *
+     * @not_default true
+     */
+    public function restartWorkers()
+    {
+        $this->remoteTaskService->ssh($this->server, 'root');
+
+        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WORKER_PROGRAMS_GROUP);
     }
 
     /**

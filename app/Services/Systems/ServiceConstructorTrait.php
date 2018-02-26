@@ -48,6 +48,14 @@ trait ServiceConstructorTrait
         $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
     }
 
+    public function removeFromServiceRestartGroup($group, $command)
+    {
+        $serviceGroupFile = '/opt/codepier/'.$group;
+        $this->remoteTaskService->removeLineByText($serviceGroupFile, $command);
+
+        $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
+    }
+
     public function restartWebServices()
     {
         $this->connectToServer();

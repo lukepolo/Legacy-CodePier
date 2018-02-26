@@ -19,7 +19,7 @@
                     <confirm-dropdown dispatch="user_server_services/restartServerDatabases" :params="server.id"><a href="#" @click.prevent ><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                 </li>
                 <li v-if="server.type === 'full_stack' || server.type === 'worker'">
-                    <confirm-dropdown dispatch="user_server_services/restartServerWorkers" :params="server.id"><a href="#" @click.prevent ><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
+                    <confirm-dropdown dispatch="user_server_services/restartServerWorkers" :params="server.id"><a href="#" @click.prevent ><span class="icon-worker"></span> Restart Workers & Daemons</a></confirm-dropdown>
                 </li>
 
             </drop-down>

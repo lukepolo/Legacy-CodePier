@@ -4,6 +4,21 @@ namespace App\Http\Controllers;
 
 class PublicController extends Controller
 {
+    public function allFeatures()
+    {
+        return view('all-features');
+    }
+
+    public function changeLog()
+    {
+        return view('change-log');
+    }
+
+    public function faq()
+    {
+        return view('faq');
+    }
+
     public function termsOfService()
     {
         return view('terms');
