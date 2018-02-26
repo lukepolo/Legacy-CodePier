@@ -12,7 +12,7 @@
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
-            <p class="subheading">Build, provision, deploy and manage your site easily, all on your own servers.</p>
+            <p class="subheading">Build, provision, deploy and manage your PHP sites easily, all on your own servers.</p>
 
             <div class="cover--btns">
                 <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Get Started Now!</a>
