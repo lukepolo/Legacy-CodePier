@@ -24,12 +24,8 @@
                 <ul>
                     <li>SPA <small>(single page applications)</small></li>
                 </ul>
-                <h3>Ruby - COMING SOON!</h3>
-                <br>
-                <h3>Python - COMING SOON!</h3>
-                <br>
-                <h3>GO - COMING SOON!</h3>
             </ul>
+            <p>Planning to support other lanauges such as Ruby, Python, and GO</p>
 
             <h2>Account Features</h2>
             <ul>

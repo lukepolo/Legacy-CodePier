@@ -54,18 +54,61 @@
                 <h2 id="languages">What languages do you support?</h2>
 
                 <p>
-                    We currently support PHP, HTML, Node, and Single Page Applications. We are working on getting more
-                    languages integrated such as Ruby, GO, and Python.
+                    We currently support PHP, HTML, Node, and Single Page Applications.
                 </p>
 
                 <h2 id="sitePriority">What is "site priority design"?</h2>
+
+                <p>
+                    Usually you create a server, then stick a site on it. Well with CodePier we reserve this , and
+                    let the application dictate how your servers are built.
+                </p>
+
                 <h2 id="teams">Do you support teams?</h2>
+                <p>
+                    Not yet! We are working really hard to get the rest of these cool features in before we
+                    tackle the teams. We hope to have this out in early Q2.
+                </p>
+
                 <h2 id="provisioning">What server types can we provision?</h2>
+                <p>Currently there are 5 different types :</p>
+                <ul>
+                    <li>Full Stack - Includes web / database / workers services in one server</li>
+                    <li>Web - Only web services are installed</li>
+                    <li>Database - Only database services are installed</li>
+                    <li>Worker - Only worker services are installed</li>
+                    <li>Load Balancer - Balances traffic between multiple web server</li>
+                </ul>
+
                 <h2 id="providers">What server providers do you support?</h2>
+                <p>
+                    We support Digtal Ocean, Linode, Vultr, and any custom Ubuntu 16.04 server on any provider, heck it can be
+                    in your basement!
+                </p>
+
                 <h2 id="different">How is this different than 'x' company?</h2>
+                <p>
+                    We provide a ton of features out of the box, that is all hosted on YOUR servers. We provide
+                    features that allow you to ship your application from A-Z with a ton of extra features to make
+                    sure your application is running smooth.
+                </p>
+
                 <h2 id="choose">Why should we choose you?</h2>
+                <p>
+                    Spend more than an hour each month on server infastucture , provisiong, deploying etc ? Just think, 1 hour of your time is worth way more than
+                    $19 a month! If you decide to cancel, they are your servers, everything is still up and working, you just lose a lot of the core
+                    features of CodePier.
+                </p>
+
                 <h2 id="theme">Do you have a light theme coming?</h2>
+                <p>
+                    Yes! Once we finish our core features that we think are needed to provide you with the best
+                    expereince, we will make it happen!
+                </p>
                 <h2 id="ssl">Why isn't my SSL certificate working?</h2>
+                <p>
+                    You need to make sure your A, AAAA records are pointing to the correct IP address. Just chat with us and we can help with that.
+                </p>
             </div>
 
             <br><br><br>
