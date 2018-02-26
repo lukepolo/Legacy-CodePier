@@ -12,7 +12,7 @@
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
-            <p class="subheading">Build, provision, deploy and manage your applications easily, all on your own servers.</p>
+            <p class="subheading">Build, provision, deploy and manage your site easily, all on your own servers.</p>
 
             <div class="cover--btns">
                 <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Get Started Now!</a>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Site priority design</h3>
-                        <p>Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup and boosting your productivity.
+                        <p>Server provisioning is customized based on your site's framework and requirements, alleviating you of time-consuming setup and boosting your productivity.
                         </p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="features--content">
                         <h3>Customize your deployment</h3>
-                        <p>CodePier initiates steps for your deployment, but allows for the flexibility you need. Reorder, remove, or add addional scripts to your deployment process to ensure the exact configuration you need for each application.</p>
+                        <p>CodePier initiates steps for your deployment, but allows for the flexibility you need. Reorder, remove, or add addional scripts to your deployment process to ensure the exact configuration you need for each site.</p>
                     </div>
                 </div>
                 <div class="features--item">
@@ -124,7 +124,7 @@
     </section>
     <section id="section--testimonials" class="section">
         <div class="section--content">
-            <h2 class="text-center">Build, provision, deploy and manage your applications easily, all on your own servers.</h2>
+            <h2 class="text-center">Build, provision, deploy and manage your site easily, all on your own servers.</h2>
             <div class="testimonials" style="grid-template-columns: 1fr; text-align: center;">
                 {{--<div class="slider" id="testimonials-slider">--}}
                     {{--<div class="testimonials--item">--}}

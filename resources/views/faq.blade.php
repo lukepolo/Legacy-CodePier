@@ -7,7 +7,7 @@
 
             <h1>FAQ<span class="small-caps">s</span></h1>
             <p>
-                CodePier is designed to customize your sever based off of your application's requirements. Because of
+                CodePier is designed to customize your sever based off of your site's requirements. Because of
                 this we recommend creating your site first,
                 set up it's necessary requirements, and finally create or attach a server.
             </p>
@@ -54,14 +54,14 @@
                 <h2 id="languages">What languages do you support?</h2>
 
                 <p>
-                    We currently support PHP, HTML, Node, and Single Page Applications.
+                    We currently support PHP, HTML, Node, and Single Page sites.
                 </p>
 
                 <h2 id="sitePriority">What is "site priority design"?</h2>
 
                 <p>
                     Usually you create a server, then stick a site on it. Well with CodePier we reserve this , and
-                    let the application dictate how your servers are built.
+                    let the site dictate how your servers are built.
                 </p>
 
                 <h2 id="teams">Do you support teams?</h2>
@@ -89,8 +89,8 @@
                 <h2 id="different">How is this different than 'x' company?</h2>
                 <p>
                     We provide a ton of features out of the box, that is all hosted on YOUR servers. We provide
-                    features that allow you to ship your application from A-Z with a ton of extra features to make
-                    sure your application is running smooth.
+                    features that allow you to ship your site from A-Z with a ton of extra features to make
+                    sure your site is running smooth.
                 </p>
 
                 <h2 id="choose">Why should we choose you?</h2>
