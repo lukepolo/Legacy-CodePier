@@ -315,7 +315,7 @@ Route::group(['middleware' => [
         });
 
         Route::group([
-            'prefix'    => \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR,
+            'prefix' => \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR,
             'namespace' => 'Server\Providers\Vultr',
         ], function () {
             Route::apiResource('provider', 'VultrController');
