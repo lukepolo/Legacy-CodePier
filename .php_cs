@@ -8,7 +8,8 @@ return PhpCsFixer\Config::create()
         'no_multiline_whitespace_before_semicolons' => true,
         'no_short_echo_tag' => true,
         'no_unused_imports' => true,
-        'not_operator_with_successor_space' => true
+        'not_operator_with_successor_space' => true,
+        'method_argument_space' => ['ensure_fully_multiline' => false]
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

@@ -56,6 +56,7 @@ class UserTeamMemberController extends Controller
 
     /**
      * @param UserTeamMemberInviteRequest $request
+     *
      * @return $this
      */
     public function invite(UserTeamMemberInviteRequest $request)

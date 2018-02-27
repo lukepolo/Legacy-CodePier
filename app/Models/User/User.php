@@ -228,8 +228,7 @@ class User extends Authenticatable
         $userNotification = $this->notificationSettings->keyBy('setting.event')->get($notificationClass);
 
         if (! empty($userNotification)) {
-            $services = array_replace(
-                $userNotification->services,
+            $services = array_replace($userNotification->services,
                 array_fill_keys(
                     array_keys($userNotification->services, 'slack'),
                     SlackMessageChannel::class
