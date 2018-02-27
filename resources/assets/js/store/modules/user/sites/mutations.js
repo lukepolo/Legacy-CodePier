@@ -14,7 +14,7 @@ export const update = (state, { response }) => {
   Vue.set(
     state.sites,
     parseInt(_.findKey(state.sites, { id: response.id })),
-    response
+    response,
   );
 };
 

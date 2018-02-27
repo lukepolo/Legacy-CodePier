@@ -28,19 +28,19 @@
 export default {
   props: {
     pile: {
-      default: null
+      default: null,
     },
     adding: {
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       form: this.createForm({
         domain: null,
         wildcard_domain: false,
-        pile_id: this.pile && this.pile.id
-      })
+        pile_id: this.pile && this.pile.id,
+      }),
     };
   },
   watch: {
@@ -50,7 +50,7 @@ export default {
           this.$refs.domain.focus();
         }
       });
-    }
+    },
   },
   methods: {
     saveSite() {
@@ -58,7 +58,7 @@ export default {
     },
     cancel() {
       this.$emit("update:adding", false);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -30,21 +30,21 @@
 export default {
   props: {
     tag: {
-      default: "li"
+      default: "li",
     },
     name: {
-      default: null
+      default: null,
     },
     muted: {
-      default: null
+      default: null,
     },
     icon: {
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      open: false
+      open: false,
     };
   },
   methods: {
@@ -63,7 +63,7 @@ export default {
 
       app.$emit("close-dropdowns");
       this.open = true;
-    }
+    },
   },
   created() {
     app.$on("close-dropdowns", () => {
@@ -72,6 +72,6 @@ export default {
   },
   slots() {
     return this.$slots;
-  }
+  },
 };
 </script>

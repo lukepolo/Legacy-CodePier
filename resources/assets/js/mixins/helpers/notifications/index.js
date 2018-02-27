@@ -7,7 +7,7 @@ export const showError = function(message, title, timeout) {
     title: !_.isEmpty(title) ? title : "Error!!",
     text: message,
     class: "error",
-    timeout: timeout
+    timeout: timeout,
   });
 };
 export const showSuccess = function(message, title, timeout) {
@@ -19,7 +19,7 @@ export const showSuccess = function(message, title, timeout) {
     title: !_.isEmpty(title) ? title : "Success!!",
     text: message,
     class: "success",
-    timeout: timeout
+    timeout: timeout,
   });
 };
 

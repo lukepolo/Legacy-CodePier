@@ -81,14 +81,14 @@ import Notifications from "./Notifications.vue";
 
 export default {
   components: {
-    Notifications
+    Notifications,
   },
   data() {
     return {
       form: this.createForm({
-        query: "Sorry, its coming soon!"
+        query: "Sorry, its coming soon!",
       }),
-      search: false
+      search: false,
     };
   },
   computed: {
@@ -105,7 +105,7 @@ export default {
     },
     teams() {
       return this.$store.state.user_teams.teams;
-    }
+    },
   },
   methods: {
     toggleSearch() {
@@ -117,7 +117,7 @@ export default {
     },
     changeTeam(teamID) {
       this.$store.dispatch("changeTeams", teamID);
-    }
-  }
+    },
+  },
 };
 </script>

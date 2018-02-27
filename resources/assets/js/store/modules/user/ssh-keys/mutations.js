@@ -11,7 +11,7 @@ export const remove = (state, { requestData }) => {
     state,
     "ssh_keys",
     _.reject(state.ssh_keys, {
-      id: requestData.value
-    })
+      id: requestData.value,
+    }),
   );
 };
