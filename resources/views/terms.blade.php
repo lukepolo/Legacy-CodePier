@@ -64,7 +64,7 @@
                 </li>
 
                 <li>
-                    Providing False Data on any Contract or Application: including fraudulent use of credit card numbers.
+                    Providing False Data on any Contract or Site: including fraudulent use of credit card numbers.
                 </li>
             </ol>
 
@@ -103,7 +103,7 @@
             <p>
                 CodePier, provides technical support to our subscribers via our <a target="_blank" href="https://support.codepier.io">support system</a>.
                 The following are our guidelines when providing support: CodePier provides support related to your CodePier created virtual server physically functioning.
-                CodePier does not offer technical support for application specific issues such as application configuration, programming, web or mail server configuration, or any other such issue.
+                CodePier does not offer technical support for site specific issues such as site configuration, programming, web or mail server configuration, or any other such issue.
                 CodePier does not provide technical support to your customers.
             </p>
 
@@ -126,7 +126,7 @@
             </p>
 
             <p>
-                You may cancel the service at any time by using the "Cancel Subscription" link located on the "My Account" sub-tab of the CodePier web application.
+                You may cancel the service at any time by using the "Cancel Subscription" link located on the "My Account" sub-tab of the CodePier web site.
                 Cancellation of service does not relieve Subscriber of responsibility for the payment of all accrued charges.
             </p>
 
