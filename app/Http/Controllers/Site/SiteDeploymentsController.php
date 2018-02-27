@@ -11,7 +11,6 @@ class SiteDeploymentsController extends Controller
 {
     /**
      * @param $siteId
-     *
      * @return array
      */
     public function index($siteId)
@@ -27,14 +26,12 @@ class SiteDeploymentsController extends Controller
     /**
      * @param $siteId
      * @param $siteDeploymentId
-     *
      * @return array
      */
     public function show($siteId, $siteDeploymentId)
     {
         return response()->json(
-            SiteDeployment::with(
-                [
+            SiteDeployment::with([
                     'serverDeployments.events.step' => function ($query) {
                         $query->withTrashed();
                     }, ]
@@ -47,7 +44,6 @@ class SiteDeploymentsController extends Controller
     /**
      * @param SiteDeploymentRequest $request
      * @param $siteId
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SiteDeploymentRequest $request, $siteId)
@@ -55,8 +51,8 @@ class SiteDeploymentsController extends Controller
         $site = Site::findOrFail($siteId);
 
         $site->update([
-            'keep_releases' => $request->get('keep_releases', 10),
-            'zero_downtime_deployment' => $request->get('zero_downtime_deployment', 0),
+            'keep_releases'               => $request->get('keep_releases', 10),
+            'zero_downtime_deployment'         => $request->get('zero_downtime_deployment', 0),
         ]);
 
         return response()->json($site);
