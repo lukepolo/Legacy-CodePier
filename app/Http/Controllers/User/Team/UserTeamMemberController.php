@@ -56,7 +56,6 @@ class UserTeamMemberController extends Controller
 
     /**
      * @param UserTeamMemberInviteRequest $request
-     *
      * @return $this
      */
     public function invite(UserTeamMemberInviteRequest $request)
@@ -66,13 +65,10 @@ class UserTeamMemberController extends Controller
 
         if (! Teamwork::hasPendingInvite($request->get('email'), $team)) {
             Teamwork::inviteToTeam($request->get('email'), $team, function ($invite) {
-                Mail::send(
-                    'emails.team_invite',
-                    ['team' => $invite->team, 'invite' => $invite],
+                Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
                     function ($m) use ($invite) {
                         $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
-                    }
-                );
+                    });
                 // Send email to user
             });
         } else {
@@ -95,13 +91,10 @@ class UserTeamMemberController extends Controller
     {
         $invite = TeamInvite::findOrFail($invite_id);
 
-        Mail::send(
-            'emails.team_invite',
-            ['team' => $invite->team, 'invite' => $invite],
+        Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
             function ($m) use ($invite) {
                 $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
-            }
-        );
+            });
 
         return response()->json();
     }
