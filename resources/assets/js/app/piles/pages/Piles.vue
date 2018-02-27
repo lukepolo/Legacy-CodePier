@@ -11,7 +11,7 @@
                     </div>
                     <div class="modal--body">
                         <p>
-                            CodePier is designed to customize your sever based off of your application's requirements. Because of this we recommend creating your site first,
+                            CodePier is designed to customize your sever based off of your site's requirements. Because of this we recommend creating your site first,
                             set up it's necessary requirements, and finally create or attach a server.
                         </p>
 
