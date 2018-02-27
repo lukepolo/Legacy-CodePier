@@ -25,7 +25,6 @@ mix
     "lodash",
     "hint.css",
     "nprogress",
-    "pusher-js",
     "clipboard",
     "vue-router",
     "vuedraggable",
@@ -39,7 +38,6 @@ mix
     vue: "Vue",
     lodash: "_",
     ace: "brace",
-    "pusher-js": "Pusher",
     clipboard: "Clipboard",
     jquery: ["$", "jQuery"],
   })

@@ -5,14 +5,14 @@ export const setAll = (state, { response }) => {
 export const update = (state, command) => {
   const commandKey = _.findKey(
     state.running_commands[command.commandable_type],
-    { id: parseInt(command.id) }
+    { id: parseInt(command.id) },
   );
 
   if (commandKey) {
     Vue.set(
       state.running_commands[command.commandable_type],
       parseInt(commandKey),
-      command
+      command,
     );
   } else {
     if (!state.running_commands[command.commandable_type]) {

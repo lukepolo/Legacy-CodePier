@@ -11,7 +11,7 @@ export const remove = (state, { requestData }) => {
     state,
     "environment_variables",
     _.reject(state.environment_variables, {
-      id: requestData.environment_variable
-    })
+      id: requestData.environment_variable,
+    }),
   );
 };
