@@ -6,7 +6,7 @@ export const setAll = (state, { response }) => {
   state.events_pagination = response;
 };
 
-export const clear = state => {
+export const clear = (state) => {
   state.events = [];
   state.events_pagination = null;
 };
@@ -14,7 +14,7 @@ export const clear = state => {
 export const update = (state, command) => {
   const commandKey = _.findKey(state.events, {
     id: command.id,
-    event_type: command.event_type
+    event_type: command.event_type,
   });
 
   if (!commandKey) {
@@ -31,7 +31,7 @@ export const add = (state, { response }) => {
 
 export const updateDeployment = (state, deployment) => {
   const siteDeployment = _.find(state.events, {
-    id: deployment.site_deployment.id
+    id: deployment.site_deployment.id,
   });
 
   if (siteDeployment) {
@@ -42,7 +42,7 @@ export const updateDeployment = (state, deployment) => {
     });
 
     const serverDeployment = _.find(siteDeployment.server_deployments, {
-      id: deployment.server_deployment.id
+      id: deployment.server_deployment.id,
     });
 
     if (serverDeployment) {
@@ -55,10 +55,10 @@ export const updateDeployment = (state, deployment) => {
           serverDeployment.events,
           parseInt(
             _.findKey(serverDeployment.events, {
-              id: deployment.deployment_event.id
-            })
+              id: deployment.deployment_event.id,
+            }),
           ),
-          deployment.deployment_event
+          deployment.deployment_event,
         );
       }
     }

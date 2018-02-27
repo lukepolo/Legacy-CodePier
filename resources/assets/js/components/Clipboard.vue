@@ -9,8 +9,8 @@ export default {
   props: ["data"],
   created() {
     new Clipboard(".clipboard", {
-      text: this.data
+      text: this.data,
     });
-  }
+  },
 };
 </script>

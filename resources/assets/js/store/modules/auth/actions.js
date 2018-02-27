@@ -12,6 +12,6 @@ export const getSecondAuthQr = () => {
 
 export const validateSecondAuth = (context, token) => {
   return Vue.request({
-    token: token
+    token: token,
   }).post(Vue.action("AuthSecondAuthController@store"), "user/set");
 };

@@ -31,7 +31,7 @@
 import DropDownEvent from "./DropDownEvent.vue";
 export default {
   components: {
-    DropDownEvent
+    DropDownEvent,
   },
   props: ["event"],
   methods: {
@@ -48,7 +48,7 @@ export default {
       if (!isNaN(seconds)) {
         return seconds;
       }
-    }
+    },
   },
   computed: {
     eventTitle() {
@@ -60,11 +60,11 @@ export default {
     },
     totalAmountOfTime() {
       let totalTime = 0;
-      this.event.provision_steps.forEach(provisionStep => {
+      this.event.provision_steps.forEach((provisionStep) => {
         totalTime += parseFloat(provisionStep.runtime);
       });
       return this.formatSeconds(totalTime);
-    }
-  }
+    },
+  },
 };
 </script>

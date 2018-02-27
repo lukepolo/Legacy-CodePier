@@ -1,6 +1,6 @@
 export const get = () => {
   return Vue.request().get(
     Vue.action("ServerServerFeatureController@getFeatures"),
-    "server_features/setAll"
+    "server_features/setAll",
   );
 };

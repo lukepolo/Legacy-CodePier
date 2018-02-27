@@ -15,10 +15,10 @@ export const update = (state, { response }) => {
     state.teams,
     parseInt(
       _.findKey(state.teams, {
-        id: response.id
-      })
+        id: response.id,
+      }),
     ),
-    response
+    response,
   );
 };
 
@@ -27,7 +27,7 @@ export const remove = (state, { requestData }) => {
     state,
     "teams",
     _.reject(state.teams, {
-      id: requestData.team
-    })
+      id: requestData.team,
+    }),
   );
 };
