@@ -18,8 +18,7 @@ Route::group(['middleware' => [
 ], function () {
     Route::apiResource(
         '2fa',
-        'Auth\SecondAuthController',
-        [
+        'Auth\SecondAuthController', [
             'parameters' => [
                 '2fa' => 'fa',
             ],
