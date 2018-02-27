@@ -24,6 +24,7 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Models\User\UserRepositoryProvider;
 
 class SiteController extends Controller
 {
@@ -114,13 +115,15 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
+        $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
+
         $site->fill([
             'type'                        => $request->get('type'),
             'branch'                      => $request->get('branch'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'user_repository_provider_id' => $request->get('user_repository_provider_id'),
+            'user_repository_provider_id' => $userRepositoryProvider->id,
         ]);
 
         if ($site->isDirty('web_directory')) {
