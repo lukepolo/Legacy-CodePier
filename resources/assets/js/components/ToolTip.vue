@@ -29,20 +29,20 @@ export default {
     noAnimate: Boolean,
     message: {
       type: String,
-      default: ""
+      default: "",
     },
     placement: {
       type: String,
-      default: "top"
+      default: "top",
     },
     delay: {
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
       show: false,
-      delayTimeout: null
+      delayTimeout: null,
     };
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
     clearDelay: function() {
       clearTimeout(this.delayTimeout);
       this.show = false;
-    }
+    },
   },
   computed: {
     placementComputed() {
@@ -63,7 +63,7 @@ export default {
       }
 
       return "none";
-    }
-  }
+    },
+  },
 };
 </script>

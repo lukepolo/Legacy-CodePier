@@ -14,6 +14,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "categories",
-    _.reject(state.categories, { id: requestData.value })
+    _.reject(state.categories, { id: requestData.value }),
   );
 };

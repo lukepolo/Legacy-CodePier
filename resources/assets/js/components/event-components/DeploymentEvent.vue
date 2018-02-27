@@ -61,7 +61,7 @@
 import DropDownEvent from "./DropDownEvent.vue";
 export default {
   components: {
-    DropDownEvent
+    DropDownEvent,
   },
   props: ["event"],
   methods: {
@@ -78,13 +78,13 @@ export default {
       if (!isNaN(seconds)) {
         return seconds;
       }
-    }
+    },
   },
   computed: {
     repositoryUrl() {
       let site = this.getSite(this.event.site_id);
       let repositoryProvider = this.getRepositoryProvider(
-        site.user_repository_provider_id
+        site.user_repository_provider_id,
       );
 
       return (
@@ -100,8 +100,8 @@ export default {
     },
     totalAmountOfTime() {
       let totalTime = 0;
-      this.event.server_deployments.forEach(server_deployment => {
-        server_deployment.events.forEach(deployment_event => {
+      this.event.server_deployments.forEach((server_deployment) => {
+        server_deployment.events.forEach((deployment_event) => {
           totalTime += parseFloat(deployment_event.runtime);
         });
       });
@@ -113,7 +113,7 @@ export default {
         title = `${title} (${this.totalAmountOfTime} seconds)`;
       }
       return title;
-    }
-  }
+    },
+  },
 };
 </script>

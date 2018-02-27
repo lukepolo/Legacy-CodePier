@@ -5,6 +5,6 @@ export const setVersion = ({ commit }, data) => {
 export const markAnnouncementRead = () => {
   return Vue.request().post(
     Vue.action("AnnouncementsController@store"),
-    "user/set"
+    "user/set",
   );
 };
