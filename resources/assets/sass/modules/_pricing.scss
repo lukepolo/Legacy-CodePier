@@ -1,13 +1,6 @@
 // Pricing Styles =====================
 // ====================================
 #section--pricingintro {
-  height: 350px;
-  background-color: mix($gray, $white, 90%);
-  background-image: url("/assets/img/cover/Kids_Jumping.png");
-  background-size: contain;
-  background-position: left bottom;
-  background-repeat: no-repeat;
-
   h1 {
     font-size: 2.7em;
     color: mix($color-primary, $white, 50%);
@@ -28,7 +21,18 @@
   }
 }
 
+#section--pricingouttro {
+  height: 380px;
+  margin-top: -280px;
+  background-image: url("/assets/img/cover/Kids_Jumping.png");
+  background-size: contain;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
 #section--pricing {
+  margin-top: 0px;
+
   @include breakpoint(md) {
     position: relative;
   }
