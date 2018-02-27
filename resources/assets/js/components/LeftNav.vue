@@ -65,12 +65,12 @@ import Site from "./left-nav-components/Site.vue";
 export default {
   components: {
     Site,
-    SiteForm
+    SiteForm,
   },
   methods: {
     changePile(pile_id) {
       this.$store.dispatch("user_piles/change", pile_id);
-    }
+    },
   },
   computed: {
     userSshKeys() {
@@ -88,13 +88,13 @@ export default {
       return this.$store.state.user.user;
     },
     sites() {
-      return _.filter(this.$store.state.user_sites.sites, site => {
+      return _.filter(this.$store.state.user_sites.sites, (site) => {
         return site.pile_id === this.current_pile_id;
       });
     },
     current_pile_id() {
       return this.$store.state.user.user.current_pile_id;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -38,7 +38,7 @@
 
 
             <h2>Piles
-                <small>(Organization of Sites)</small>
+                <small>(Groupings of Sites)</small>
             </h2>
             <ul>
 

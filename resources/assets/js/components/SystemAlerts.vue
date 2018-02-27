@@ -15,13 +15,13 @@
 export default {
   data() {
     return {
-      current_version: Laravel.version
+      current_version: Laravel.version,
     };
   },
   methods: {
     resendConfirmation() {
       this.$store.dispatch("user/resendConfirmation");
-    }
+    },
   },
   computed: {
     user() {
@@ -29,7 +29,7 @@ export default {
     },
     version() {
       return this.$store.state.system.version;
-    }
-  }
+    },
+  },
 };
 </script>

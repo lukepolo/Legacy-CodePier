@@ -10,6 +10,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "buoy_apps",
-    _.reject(state.buoy_app, { id: requestData.value })
+    _.reject(state.buoy_app, { id: requestData.value }),
   );
 };
