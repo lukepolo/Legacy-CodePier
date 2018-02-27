@@ -5,7 +5,7 @@
 <script>
 export default {
   props: {
-    time: {}
+    time: {},
   },
   mounted() {
     this.setCurrentTime();
@@ -16,13 +16,13 @@ export default {
   data() {
     return {
       interval: null,
-      currentTime: null
+      currentTime: null,
     };
   },
   watch: {
     time: function() {
       this.setCurrentTime();
-    }
+    },
   },
   methods: {
     update() {
@@ -36,7 +36,7 @@ export default {
       }
 
       this.currentTime = time;
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -49,7 +49,7 @@ export default {
           .replace("ute", "")
           .replace("ago", "");
       }
-    }
-  }
+    },
+  },
 };
 </script>

@@ -25,7 +25,7 @@ import {
   serverTypesEnabled,
   apiEnabled,
   siteCreateEnabled,
-  serverCreateEnabled
+  serverCreateEnabled,
 } from "./permissions";
 
 import { showError, showSuccess, handleApiError } from "./notifications";
@@ -53,7 +53,7 @@ Vue.mixin({
     isCommandRunning,
     serverHasFeature,
     getBytesFromString,
-    getRepositoryProvider
+    getRepositoryProvider,
   },
   computed: {
     local,
@@ -69,6 +69,6 @@ Vue.mixin({
     siteActionsEnabled,
     serverTypesEnabled,
     serverCreateEnabled,
-    serverActionsEnabled
-  }
+    serverActionsEnabled,
+  },
 });

@@ -62,7 +62,7 @@
 import DropDownEvent from "./DropDownEvent.vue";
 export default {
   components: {
-    DropDownEvent
+    DropDownEvent,
   },
   props: ["event"],
   methods: {
@@ -99,7 +99,7 @@ export default {
         return "icon-spinner";
       }
       return "events--item-status-neutral";
-    }
+    },
   },
   computed: {
     eventTitle() {
@@ -119,7 +119,7 @@ export default {
         }
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -33,12 +33,12 @@ export default {
     "dispatch",
     "cancel_text",
     "confirm_text",
-    "confirm_with_text"
+    "confirm_with_text",
   ],
   data() {
     return {
       confirm: false,
-      confirmedText: ""
+      confirmedText: "",
     };
   },
   watch: {
@@ -48,7 +48,7 @@ export default {
           this.$refs.confirm_input.focus();
         }
       });
-    }
+    },
   },
   computed: {
     cancelText() {
@@ -67,7 +67,7 @@ export default {
         }
       }
       return true;
-    }
+    },
   },
   methods: {
     open() {
@@ -86,12 +86,12 @@ export default {
         this.$store.dispatch(this.dispatch, this.params);
         this.close();
       }
-    }
+    },
   },
   created() {
     app.$on("close-confirms", () => {
       this.confirm = false;
     });
-  }
+  },
 };
 </script>

@@ -70,13 +70,13 @@
 export default {
   data() {
     return {
-      announcementDate: moment("2018-02-18")
+      announcementDate: moment("2018-02-18"),
     };
   },
   methods: {
     markAnnouncementRead() {
       this.$store.dispatch("system/markAnnouncementRead");
-    }
+    },
   },
   computed: {
     shouldShow() {
@@ -84,7 +84,7 @@ export default {
     },
     lastReadAnnouncement() {
       return moment(this.$store.state.user.user.last_read_announcement);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -8,7 +8,7 @@ export const remove = (state, { requestData }) => {
     Vue.set(
       state.servers,
       site,
-      _.reject(state.servers[site], { id: requestData.value })
+      _.reject(state.servers[site], { id: requestData.value }),
     );
   });
 };

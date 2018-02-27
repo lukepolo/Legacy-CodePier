@@ -125,7 +125,7 @@ Vue.directive("resizeable", {
       isResizing = false;
       bottom.classList.remove("dragging");
     };
-  }
+  },
 });
 
 Vue.directive("watch-scroll", {
@@ -159,7 +159,7 @@ Vue.directive("watch-scroll", {
         };
       }
     }
-  }
+  },
 });
 
 export default {
@@ -169,7 +169,7 @@ export default {
     CommandEvent,
     DeploymentEvent,
     SystemEventFilter,
-    ServerProvisionEvent
+    ServerProvisionEvent,
   },
   data() {
     return {
@@ -181,13 +181,13 @@ export default {
         filters: {
           events: {
             commands: [],
-            site_deployments: []
+            site_deployments: [],
           },
           piles: [],
           sites: [],
-          servers: []
-        }
-      })
+          servers: [],
+        },
+      }),
     };
   },
   mounted() {
@@ -203,7 +203,7 @@ export default {
         this.form.page = 1;
         this.$store.commit("events/clear");
         this.$store.dispatch("events/get", this.form);
-      }
+      },
     },
     hasActiveEvents: {
       deep: true,
@@ -222,8 +222,8 @@ export default {
         //   let size = favicon.getAttribute('sizes');
         //   favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
         // })
-      }
-    }
+      },
+    },
   },
   methods: {
     getWindowWidth() {
@@ -241,7 +241,7 @@ export default {
       ) {
         this.showEvents = !this.showEvents;
       }
-    }
+    },
   },
   computed: {
     piles() {
@@ -255,16 +255,16 @@ export default {
     },
     events() {
       return _.orderBy(
-        _.uniqBy(this.$store.state.events.events, event => {
+        _.uniqBy(this.$store.state.events.events, (event) => {
           if (!event.event_type && event.provision_steps) {
             event.event_type = "server_provisioning";
           }
           return event.event_type + event.id;
         }),
-        event => {
+        (event) => {
           return event.created_at;
         },
-        "desc"
+        "desc",
       );
     },
     hasActiveEvents() {
@@ -275,7 +275,7 @@ export default {
     },
     defaultNotificationTypes() {
       return window.Laravel.defaultNotificationTypes;
-    }
-  }
+    },
+  },
 };
 </script>

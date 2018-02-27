@@ -4,7 +4,7 @@ export const hasSites = function() {
 
 export const getSite = function(siteId, attribute) {
   const site = _.find(this.$store.state.user_sites.sites, {
-    id: parseInt(siteId)
+    id: parseInt(siteId),
   });
   if (site) {
     if (attribute) {
@@ -27,11 +27,11 @@ export const workFlowCompleted = function() {
           }
           return flow;
         }),
-        "order"
+        "order",
       ),
       function(workflow) {
         return _.isObject(workflow);
-      }
+      },
     );
 
     let currentWorkflow = _.find(workflows, function(flow) {

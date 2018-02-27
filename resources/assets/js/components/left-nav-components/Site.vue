@@ -25,7 +25,7 @@ import SiteDeploy from "./SiteDeploy.vue";
 export default {
   props: ["site"],
   components: {
-    SiteDeploy
+    SiteDeploy,
   },
   computed: {
     deploymentStatus() {
@@ -47,7 +47,7 @@ export default {
       }
 
       return status;
-    }
-  }
+    },
+  },
 };
 </script>

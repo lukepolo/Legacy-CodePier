@@ -8,5 +8,5 @@ export default {
   actions,
   getters,
   mutations,
-  namespaced: true
+  namespaced: true,
 };

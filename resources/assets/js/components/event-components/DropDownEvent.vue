@@ -35,7 +35,7 @@ export default {
       show: false,
       collapsing: false,
       height: null,
-      transitionSpeed: ".35"
+      transitionSpeed: ".35",
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
       el.style.overflow = null;
       el.style.position = null;
       el.style.transition = null;
-    }
+    },
   },
   computed: {
     statusClass: function() {
@@ -109,7 +109,7 @@ export default {
     },
     showDropDown() {
       return typeof this.dropdown !== "undefined" ? this.dropdown : true;
-    }
-  }
+    },
+  },
 };
 </script>

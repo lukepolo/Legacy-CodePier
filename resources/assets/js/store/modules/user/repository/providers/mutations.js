@@ -6,6 +6,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "providers",
-    _.reject(state.providers, { id: requestData.repository_provider })
+    _.reject(state.providers, { id: requestData.repository_provider }),
   );
 };
