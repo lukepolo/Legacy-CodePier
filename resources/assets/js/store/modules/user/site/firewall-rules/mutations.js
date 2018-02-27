@@ -10,6 +10,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "firewall_rules",
-    _.reject(state.firewall_rules, { id: requestData.firewall_rule })
+    _.reject(state.firewall_rules, { id: requestData.firewall_rule }),
   );
 };

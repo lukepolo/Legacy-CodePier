@@ -64,14 +64,14 @@
 export default {
   props: {
     title: {
-      required: true
+      required: true,
     },
     filters: {
-      required: true
+      required: true,
     },
     selectedFilters: {
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -79,11 +79,11 @@ export default {
         filters: {
           types: {
             commands: [],
-            site_deployments: []
-          }
-        }
+            site_deployments: [],
+          },
+        },
       }),
-      isShowing: false
+      isShowing: false,
     };
   },
   created() {
@@ -118,7 +118,7 @@ export default {
       Vue.set(
         this.form.filters.types,
         "site_deployments",
-        this.filters.site_deployments
+        this.filters.site_deployments,
       );
     },
     deselectAllFilters() {
@@ -138,7 +138,7 @@ export default {
           return type.toUpperCase();
         }) + "s"
       );
-    }
+    },
   },
   computed: {
     allFiltersSelected() {
@@ -156,11 +156,11 @@ export default {
 
       let types = this.form.filters.types;
 
-      let commands = _.map(types.commands, command => {
+      let commands = _.map(types.commands, (command) => {
         return this.renderType(command);
       });
 
-      let site_deployments = _.map(types.site_deployments, event => {
+      let site_deployments = _.map(types.site_deployments, (event) => {
         return this.renderType(event);
       });
 
@@ -169,7 +169,7 @@ export default {
       }
 
       return site_deployments.concat(commands).join(", ");
-    }
-  }
+    },
+  },
 };
 </script>

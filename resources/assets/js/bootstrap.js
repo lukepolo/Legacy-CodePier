@@ -43,7 +43,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios.defaults.headers.common["X-CSRF-TOKEN"] = window.Laravel.csrfToken;
 
 loadProgressBar({
-  easing: "ease"
+  easing: "ease",
 });
 
 /*
@@ -63,7 +63,7 @@ window.Echo = new Echo({
   host:
     Laravel.env === "local"
       ? `${window.location.hostname}:6001`
-      : "https://ws.codepier.io:6001"
+      : "https://ws.codepier.io:6001",
 });
 
 /*

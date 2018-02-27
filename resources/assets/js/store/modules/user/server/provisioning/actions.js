@@ -1,9 +1,9 @@
 export const getCurrentStep = (context, server) => {
   return Vue.request().get(
     Vue.action("ServerServerProvisionStepsController@index", {
-      server: server
+      server: server,
     }),
-    "user_server_provisioning/setCurrentStep"
+    "user_server_provisioning/setCurrentStep",
   );
 };
 
@@ -15,9 +15,9 @@ export const retry = (context, server) => {
   Vue.request()
     .post(
       Vue.action("ServerServerProvisionStepsController@store", {
-        server: server
+        server: server,
       }),
-      "user_server_provisioning/setCurrentStep"
+      "user_server_provisioning/setCurrentStep",
     )
     .then(() => {
       app.showSuccess("Retrying to provision the server");
