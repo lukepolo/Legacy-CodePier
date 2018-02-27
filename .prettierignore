@@ -7,4 +7,4 @@ storage/
 test/
 vendor/
 resources/assets/js/laroute.js
-.package.json
+package.json
