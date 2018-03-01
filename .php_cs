@@ -19,6 +19,7 @@ return PhpCsFixer\Config::create()
             ->in(__DIR__)
             ->name('*.php')
             ->notName('*.blade.php')
+            ->notName('composer.lock')
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
     );
