@@ -235,7 +235,7 @@ trait SystemFiles
      */
     private function getAvailableEditableFiles()
     {
-        return Cache::rememberForever('siteEditableFiles', function () {
+        return Cache::tags('app.services')->rememberForever('siteEditableFiles', function () {
             $files = [];
 
             foreach ($this->getSystemsFiles() as $system) {
