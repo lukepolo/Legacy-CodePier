@@ -15,7 +15,7 @@ class PHP
     use CakePHP, CodeIgniter, Laravel, Symfony;
 
     /**
-     * @description Install the vendors packages.
+     * @description Install the vendors packages
      *
      * @order 200
      */

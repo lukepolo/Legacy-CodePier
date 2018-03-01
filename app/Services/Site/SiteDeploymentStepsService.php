@@ -99,7 +99,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function buildDeploymentOptions($class, $frameworkClass = null)
     {
-        return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
+        return Cache::tags('app.services')->rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
             $deploymentSteps = [];
 
             $reflection = new ReflectionClass($class);
