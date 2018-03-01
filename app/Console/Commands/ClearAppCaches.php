@@ -2,12 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
-use App\Models\Site\Lifeline;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use App\Notifications\LifeLineThresholdExceeded;
 
 class ClearAppCaches extends Command
 {
