@@ -11,9 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Artisan::call('config:clear');
-        Artisan::call('cache:clear');
         Artisan::call('get:plans');
+        Artisan::call('clear:app-caches');
 
         $this->call(CategoriesSeeder::class);
         $this->call(BuoySeeder::class);

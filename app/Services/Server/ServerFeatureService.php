@@ -28,7 +28,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getBaseFeatures()
     {
-        return Cache::rememberForever('availableFeatures', function () {
+        return Cache::tags('app.services')->rememberForever('availableFeatures', function () {
             $availableFeatures = collect();
 
             foreach ($this->getSystemsFiles() as $system) {
@@ -52,7 +52,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getLanguages()
     {
-        return Cache::rememberForever('availableLanguages', function () {
+        return Cache::tags('app.services')->rememberForever('availableLanguages', function () {
             $availableLanguages = collect();
 
             foreach ($this->getSystemsFiles() as $system) {
@@ -77,7 +77,7 @@ class ServerFeatureService implements ServerFeatureServiceContract
      */
     public function getFrameworks()
     {
-        return Cache::rememberForever('availableFrameworks', function () {
+        return Cache::tags('app.services')->rememberForever('availableFrameworks', function () {
             $availableFrameworks = collect();
 
             foreach ($this->getSystemsFiles() as $system) {
