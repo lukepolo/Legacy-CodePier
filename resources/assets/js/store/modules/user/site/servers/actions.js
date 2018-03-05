@@ -1,7 +1,7 @@
 export const get = (context, site) => {
   return Vue.request(site).get(
     Vue.action("SiteSiteServerController@index", { site: site }),
-    "user_site_servers/setAll"
+    "user_site_servers/setAll",
   );
 };
 

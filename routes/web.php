@@ -28,6 +28,20 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
+| Super Admin Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::group([
+    'middleware' => 'role:admin',
+], function () {
+    Route::get('/change-user/{userId}', 'ChangeUserController@store');
+});
+
+Route::get('/admin/cancel', 'ChangeUserController@destroy');
+
+/*
+|--------------------------------------------------------------------------
 | OAuth Routes
 |--------------------------------------------------------------------------
 |
@@ -121,7 +135,11 @@ Route::group([
 */
 
 Route::get('/pricing', 'PricingController@index');
+
+Route::get('/faq', 'PublicController@faq');
 Route::get('/privacy', 'PublicController@privacy');
+Route::get('/change-log', 'PublicController@changeLog');
+Route::get('/all-features', 'PublicController@allFeatures');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
 
@@ -132,6 +150,7 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 |
 */
 
+Route::get('/events-bar', 'Controller@appEventsBar');
 Route::get('/', 'Controller@app');
 
 Route::group([

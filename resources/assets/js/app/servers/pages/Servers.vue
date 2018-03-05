@@ -90,17 +90,27 @@
                     </table>
 
                     <div class="flyform--footer">
+
                         <h3>
                             While we do offer the ability to create a server manually, we suggest creating a site first,<br>
                             and let the site dictate how your server is built.
                         </h3>
-
                         <br><br>
 
                         <div class="flyform--footer-btns">
-                            <router-link :to="{ name : 'server_form' }">
-                                <a class="btn btn-primary" :class="{ 'btn-disabled' : !serverCreateEnabled }">Create A Server</a>
-                            </router-link>
+                            <confirm confirm_class="btn btn-primary">
+                                <div slot="form">
+                                    <p>By creating and customizing a site first CodePier will set up server defaults automatically.</p>
+                                    <div class="alert alert-error">
+                                        You should only do this if you have advanced server knowledge.
+                                    </div>
+                                </div>
+                                <router-link slot="confirm-button" :to="{ name : 'server_form' }" class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !serverCreateEnabled }">
+                                    I Understand
+                                </router-link>
+                                Create Server
+                            </confirm>
+
                         </div>
                     </div>
 

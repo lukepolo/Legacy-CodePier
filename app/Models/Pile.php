@@ -8,7 +8,6 @@ use App\Models\User\User;
 use App\Scopes\UserScope;
 use App\Traits\HasServers;
 use App\Traits\UsedByTeams;
-use App\Models\Server\Server;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,11 +34,6 @@ class Pile extends Model
         parent::boot();
 
         static::addGlobalScope(new UserScope);
-    }
-
-    public function servers()
-    {
-        return $this->hasMany(Server::class);
     }
 
     public function sites()

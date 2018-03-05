@@ -30,7 +30,7 @@
                                 <div class="flyform--group" v-if="is_custom">
 
                                     <input type="number" name="port" required value="22" placeholder=" ">
-                                    <label for="port" class="flyform--group-iconlabel">Number of Releases to keep</label>
+                                    <label for="port" class="flyform--group-iconlabel">SSH Port</label>
 
                                     <tooltip message="We will use this port ssh connections" size="medium">
                                         <span class="fa fa-info-circle"></span>
@@ -50,8 +50,8 @@
                                                 {{ option.memory | ram }} RAM
                                                 - {{ option.cpus }} vCPUs
                                                 - {{ option.space | diskSize }} Disk
-                                                - ${{ option.priceHourly }} / Hour
-                                                - ${{ option.priceMonthly }} / Month
+                                                {{ option.priceHourly !== 0 ? ' - $' + option.priceHourly + ' / Hour - ' : ' - ' }}
+                                                ${{ option.priceMonthly }} / Month
                                             </option>
                                         </select>
                                     </div>
@@ -94,10 +94,10 @@
                             <div class="flyform--footer">
                                 <div class="flyform--footer-links">
                                     <h3 v-if="$route.params.site_id">
-                                        <tooltip message="We have configured your server based on your application language and framework." size="large">
+                                        <tooltip message="We have configured your server based on your site language and framework." size="large">
                                             <span class="fa fa-info-circle"></span>
                                         </tooltip>
-                                        Your server has been customized for your application<br>
+                                        Your server has been customized for your site<br>
                                         <small>
                                             <a @click="customize_server = !customize_server">Customize Server Settings (Advanced Users)</a>
                                         </small>

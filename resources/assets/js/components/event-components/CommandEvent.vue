@@ -5,14 +5,12 @@
             <drop-down-event
                 :title="eventTitle"
                 :event="event"
-                :type="event.commandable_type"
                 :prefix="event.id"
             >
                 <template v-if="shouldGroupServers">
                     <template v-for="(commands, serverId) in servers">
                         <drop-down-event
                             :title="getServer(serverId, 'name') + ' (' + getServer(serverId, 'ip') + ')'"
-                            :type="event.commandable_type"
                             :event="event"
                             :status="commandsStatus(commands)"
                             :prefix="'event_'+event.id+'_server_'+serverId"
@@ -22,7 +20,6 @@
                                 <drop-down-event
                                     :title="command.description"
                                     :event="command"
-                                    :type="event.commandable_type"
                                     :prefix="'command_'+command.id"
                                     :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                                 >
@@ -37,7 +34,6 @@
                         <drop-down-event
                             :title="getServer(command.server_id, 'name') + ' (' + getServer(command.server_id, 'ip') + ')'"
                             :event="command"
-                            :type="event.commandable_type"
                             :prefix="'command_'+command.id"
                             :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                         >
@@ -48,13 +44,13 @@
             </drop-down-event>
         </div>
         <template v-if="event.site_id">
-                <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
-                <div class="events--item-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
+            <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+            <div class="events--item-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
             <div class="events--item-commit"></div>
         </template>
         <template v-else>
-            <div class="events--item-site"><span class="icon-server"></span> {{ getServer(event.server_id, 'name') }}</div>
-            <div class="events--item-commit"></div>
+            <div class="events--item-pile"><span class="icon-server"></span> {{ getServer(event.server_id, 'name') }}</div>
+            <div class="events--item-site"></div>
         </template>
         <div class="events--item-time">
             <time-ago :time="event.created_at"></time-ago>
@@ -66,7 +62,7 @@
 import DropDownEvent from "./DropDownEvent.vue";
 export default {
   components: {
-    DropDownEvent
+    DropDownEvent,
   },
   props: ["event"],
   methods: {
@@ -103,7 +99,7 @@ export default {
         return "icon-spinner";
       }
       return "events--item-status-neutral";
-    }
+    },
   },
   computed: {
     eventTitle() {
@@ -123,7 +119,7 @@ export default {
         }
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

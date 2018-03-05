@@ -10,6 +10,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "workers",
-    _.reject(state.workers, { id: requestData.worker })
+    _.reject(state.workers, { id: requestData.worker }),
   );
 };

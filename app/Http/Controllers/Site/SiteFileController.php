@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\FileRequest;
 use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FindFileRequest;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
 class SiteFileController extends Controller
@@ -51,11 +51,11 @@ class SiteFileController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FindFileRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function find(Request $request, $siteId)
+    public function find(FindFileRequest $request, $siteId)
     {
         return response()->json(
             $this->fileRepository->findOrCreateFile(

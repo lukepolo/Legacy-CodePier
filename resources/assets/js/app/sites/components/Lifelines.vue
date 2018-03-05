@@ -70,13 +70,21 @@ export default {
       })
     };
   },
+  watch: {
+    $route: function() {
+      this.fetchData();
+    }
+  },
   created() {
-    this.$store.dispatch(
-      "user_site_life_lines/get",
-      this.$route.params.site_id
-    );
+    this.fetchData();
   },
   methods: {
+    fetchData() {
+      this.$store.dispatch(
+        "user_site_life_lines/get",
+        this.$route.params.site_id
+      );
+    },
     createLifeline() {
       this.$store.dispatch("user_site_life_lines/store", this.form).then(() => {
         this.form.reset();

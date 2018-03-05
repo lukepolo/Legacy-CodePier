@@ -2,7 +2,7 @@
     <span :is="tag" class="dropdown" :class="{ open : open }" @click="show($event.target)">
 
         <slot name="header">
-            <a href="#" class="dropdown-toggle">
+            <a href="#" @click.prevent class="dropdown-toggle">
                 <span :class="icon"></span>
                 <span class="muted" v-if="muted">{{ muted }} :</span>
 
@@ -15,6 +15,7 @@
                     <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
                 </template>
             </a>
+            <slot name="sub"></slot>
         </slot>
 
         <slot name="content" @click.stop="done">
@@ -29,21 +30,21 @@
 export default {
   props: {
     tag: {
-      default: "li"
+      default: "li",
     },
     name: {
-      default: null
+      default: null,
     },
     muted: {
-      default: null
+      default: null,
     },
     icon: {
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      open: false
+      open: false,
     };
   },
   methods: {
@@ -62,7 +63,7 @@ export default {
 
       app.$emit("close-dropdowns");
       this.open = true;
-    }
+    },
   },
   created() {
     app.$on("close-dropdowns", () => {
@@ -71,6 +72,6 @@ export default {
   },
   slots() {
     return this.$slots;
-  }
+  },
 };
 </script>

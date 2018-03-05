@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Events\Server\ServerStartToProvision;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -43,6 +44,7 @@ class ProvisionServer implements ShouldQueue
     {
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
+            broadcast(new ServerStartToProvision($this->server));
         }
 
         $this->server->load('provisionSteps');

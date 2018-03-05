@@ -557,6 +557,41 @@
         {
           host: null,
           methods: ["GET", "HEAD"],
+          uri: "api/announcements",
+          name: "announcements.index",
+          action: "AnnouncementsController@index"
+        },
+        {
+          host: null,
+          methods: ["POST"],
+          uri: "api/announcements",
+          name: "announcements.store",
+          action: "AnnouncementsController@store"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
+          uri: "api/announcements/{announcement}",
+          name: "announcements.show",
+          action: "AnnouncementsController@show"
+        },
+        {
+          host: null,
+          methods: ["PUT", "PATCH"],
+          uri: "api/announcements/{announcement}",
+          name: "announcements.update",
+          action: "AnnouncementsController@update"
+        },
+        {
+          host: null,
+          methods: ["DELETE"],
+          uri: "api/announcements/{announcement}",
+          name: "announcements.destroy",
+          action: "AnnouncementsController@destroy"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
           uri: "api/categories",
           name: "categories.index",
           action: "CategoriesController@index"
@@ -3219,6 +3254,13 @@
           uri: "terms-of-service",
           name: null,
           action: "PublicController@termsOfService"
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
+          uri: "events-bar",
+          name: null,
+          action: "Controller@appEventsBar"
         },
         {
           host: null,

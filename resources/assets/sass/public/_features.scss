@@ -1,57 +1,57 @@
 // Feature Styles =====================
 // ====================================
 #section--features {
-    background-color: $color-background-web;
-    margin-bottom: 0px;
+  background-color: $color-background-web;
+  margin-bottom: 0px;
 
-    h4 {
-        text-transform: none;
-        font-size: 18px;
-        font-weight: 500;
-        color: $color-text-primary;
-        margin-top: 10px;
-    }
+  h4 {
+    text-transform: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-text-primary;
+    margin-top: 10px;
+  }
 }
 
 .features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: $spacing*3;
-    margin: $spacing*3 0px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: $spacing*3;
+  margin: $spacing*3 0px;
 
-    @include breakpoint(md) {
-        grid-template-columns: 1fr;
+  @include breakpoint(md) {
+    grid-template-columns: 1fr;
+  }
+
+  &--item {
+    display: flex;
+  }
+
+  &--img {
+    flex: 0 0 auto;
+    font-size: 40px;
+    color: $color-text-accent;
+    margin-right: 15px;
+
+    > span {
+      position: relative;
+      top: -10px;
     }
-
-    &--item {
-        display: flex;
-    }
-
-    &--img {
-        flex: 0 0 auto;
-        font-size: 40px;
-        color: $color-text-accent;
-        margin-right: 15px;
-
-        > span {
-            position: relative;
-            top: -10px;
-        }
-    }
+  }
 }
 
 #features-slider {
-    margin-left: -120px;
+  margin-left: -120px;
+
+  .slider--item {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  @include breakpoint(md) {
+    margin: 0px;
 
     .slider--item {
-        grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr;
     }
-
-    @include breakpoint(md) {
-        margin: 0px;
-
-        .slider--item {
-            grid-template-columns: 1fr;
-        }
-    }
+  }
 }

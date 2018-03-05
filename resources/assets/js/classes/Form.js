@@ -40,7 +40,7 @@ class Form extends Request {
           ? result
           : result.concat(key);
       },
-      []
+      [],
     );
   }
 }
