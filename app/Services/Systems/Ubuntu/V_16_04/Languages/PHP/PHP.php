@@ -161,9 +161,20 @@ class PHP
 
     public function getNginxConfig(Site $site)
     {
-        $frameworkConfig = '';
+        $phpVersion = $this->server->getLanguages()['PHP']['version'];
+        $frameworkConfig = '
+    location ~ \.php$ {
+        fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php/php'.$phpVersion.'-fpm.sock;
+        include fastcgi_params;
+        
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        internal;
+    }
+';
         if (! empty($site->framework)) {
-            $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig($site, $this->server->getLanguages()['PHP']['version']);
+            $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig($site, $phpVersion);
         }
 
         return '
@@ -171,7 +182,6 @@ class PHP
     
     '.$frameworkConfig.'
 
-  
     location ~ \.php$ {
         return 404;
     }
