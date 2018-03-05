@@ -134,7 +134,6 @@ class SiteService implements SiteServiceContract
      * @param SiteServerDeployment $siteServerDeployment
      * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
-     * @throws \App\Exceptions\SiteUserProviderNotConnected
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
      */
@@ -142,41 +141,45 @@ class SiteService implements SiteServiceContract
     {
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        foreach ($siteServerDeployment->events as $index => $event) {
-            try {
-                if (empty($event->step)) {
-                    $event->delete();
-                    continue;
+        if ($deploymentService->rollback) {
+            $deploymentService->rollback();
+        } else {
+            foreach ($siteServerDeployment->events as $index => $event) {
+                try {
+                    if (empty($event->step)) {
+                        $event->delete();
+                        continue;
+                    }
+
+                    $start = microtime(true);
+
+                    broadcast(new DeploymentStepStarted($site, $server, $event, $event->step));
+
+                    if (! empty($event->step->script)) {
+                        $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
+
+                        $deploymentStepResult = $deploymentService->customStep($script);
+                    } else {
+                        $internalFunction = $event->step->internal_deployment_function;
+                        $deploymentStepResult = $deploymentService->$internalFunction();
+                    }
+
+                    if ($index === 0) {
+                        $releaseFolder = $deploymentService->releaseTime;
+                        $siteServerDeployment->siteDeployment->update([
+                            'folder_name' => $releaseFolder,
+                            'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
+                            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
+                        ]);
+                    }
+
+                    broadcast(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
+                } catch (FailedCommand $e) {
+                    $log = collect($e->getMessage())->filter()->implode("\n");
+
+                    broadcast(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
+                    throw new DeploymentFailed($e->getMessage());
                 }
-
-                $start = microtime(true);
-
-                broadcast(new DeploymentStepStarted($site, $server, $event, $event->step));
-
-                if (! empty($event->step->script)) {
-                    $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
-
-                    $deploymentStepResult = $deploymentService->customStep($script);
-                } else {
-                    $internalFunction = $event->step->internal_deployment_function;
-                    $deploymentStepResult = $deploymentService->$internalFunction();
-                }
-
-                if ($index === 0) {
-                    $releaseFolder = $deploymentService->releaseTime;
-                    $siteServerDeployment->siteDeployment->update([
-                        'folder_name' => $releaseFolder,
-                        'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
-                        'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
-                    ]);
-                }
-
-                broadcast(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
-            } catch (FailedCommand $e) {
-                $log = collect($e->getMessage())->filter()->implode("\n");
-
-                broadcast(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
-                throw new DeploymentFailed($e->getMessage());
             }
         }
 
@@ -321,6 +324,10 @@ class SiteService implements SiteServiceContract
 
             $site->update([
                 'workflow' => $workflow,
+            ]);
+        } else {
+            $site->update([
+                'workflow' => [],
             ]);
         }
     }

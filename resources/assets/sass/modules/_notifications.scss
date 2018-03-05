@@ -1,12 +1,12 @@
 // NOTIFICATION STYLES =====================================
 // =========================================================
-.fade-enter-active, 
+.fade-enter-active,
 .fade-leave-active {
-  transition: opacity .5s
+  transition: opacity 0.5s;
 }
-.fade-enter, 
+.fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 
 .notifications {
@@ -37,7 +37,7 @@
     font-size: 22px;
     line-height: 14px;
     float: right;
-    color: rgba($color-text-primary, .5);
+    color: rgba($color-text-primary, 0.5);
 
     &:hover {
       color: $color-text-primary;
@@ -47,5 +47,4 @@
       outline: none;
     }
   }
-
 }

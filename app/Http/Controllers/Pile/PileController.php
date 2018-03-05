@@ -65,20 +65,15 @@ class PileController extends Controller
      * Remove the specified resource from storage.
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        $pile = Pile::with(['sites', 'servers'])->findOrFail($id);
+        $pile = Pile::with(['sites'])->findOrFail($id);
 
         if ($pile->sites->count()) {
             return response()->json(
                 'Sorry you cannot delete piles that have sites connected to it', 400
-            );
-        }
-
-        if ($pile->servers->count()) {
-            return response()->json(
-                'Sorry you cannot delete piles that have servers connected to it', 400
             );
         }
 

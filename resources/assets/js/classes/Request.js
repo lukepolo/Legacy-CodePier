@@ -61,7 +61,7 @@ class Request {
     return this.submit(
       "get",
       this.dataQueryString() ? url + "?" + this.dataQueryString() : url,
-      mutations
+      mutations,
     );
   }
 
@@ -122,7 +122,7 @@ class Request {
       const data = this.formData ? this.formData : this.data();
 
       axios[requestType](url, data, config)
-        .then(response => {
+        .then((response) => {
           this.onSuccess();
 
           if (_.isString(mutations)) {
@@ -130,10 +130,10 @@ class Request {
           }
 
           if (mutations && mutations.length) {
-            _.each(mutations, mutation => {
+            _.each(mutations, (mutation) => {
               app.$store.commit(mutation, {
                 response: response.data,
-                requestData: this.data()
+                requestData: this.data(),
               });
             });
           }
@@ -144,7 +144,7 @@ class Request {
 
           resolve(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             app.handleApiError(error.response);
             this.onFail(error.response.data);
@@ -188,7 +188,7 @@ class Request {
     for (let datum in data)
       if (data.hasOwnProperty(datum)) {
         str.push(
-          encodeURIComponent(datum) + "=" + encodeURIComponent(data[datum])
+          encodeURIComponent(datum) + "=" + encodeURIComponent(data[datum]),
         );
       }
     return str.join("&");

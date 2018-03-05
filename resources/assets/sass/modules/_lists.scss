@@ -1,8 +1,6 @@
 // LIST ITEM STYLES ========================================
 // =========================================================
 
-
-
 // SITE LIST STYLES ----------------------------------------
 // ---------------------------------------------------------
 .site > a {
@@ -19,7 +17,7 @@
 
   &:not(.router-link-active):hover {
     color: mix($white, $blue, 50%);
-    background-color: rgba($white, .05);
+    background-color: rgba($white, 0.05);
     cursor: pointer;
   }
 }
@@ -34,7 +32,6 @@
     flex: 0 0 auto;
     width: 1em;
     margin-right: $spacing;
-
 
     &-neutral {
       @include status(null);
@@ -61,19 +58,18 @@
     float: right;
     text-align: right;
 
-    [class^="icon-"], [class*=" icon-"] {
+    [class^="icon-"],
+    [class*=" icon-"] {
       font-size: 1.5em;
-
     }
 
     .btn-disabled {
       background-color: transparent;
-
     }
 
     .deploy-status-text {
       display: block;
-      font-size: .7em;
+      font-size: 0.7em;
       color: $color-text-secondary;
       position: relative;
       left: 7px;
@@ -105,7 +101,7 @@
   padding: $spacing;
 
   &:hover {
-    background-color: rgba($white, .05);
+    background-color: rgba($white, 0.05);
   }
 }
 
@@ -114,7 +110,6 @@
   border-top: none;
   border-bottom: 1px solid $color-divider;
 }
-
 
 .status {
   flex: 0 0 auto;
@@ -137,16 +132,6 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
 .server {
@@ -159,7 +144,7 @@
   }
 
   .btn-container {
-    border-top: 1px solid rgba($color-divider, .4);
+    border-top: 1px solid rgba($color-divider, 0.4);
     margin: 0px;
     padding: $spacing/2 0px;
     display: flex;
@@ -172,7 +157,7 @@
 }
 
 .server-header {
-  background-color: rgba($black, .3);
+  background-color: rgba($black, 0.3);
   padding: ($spacing) ($spacing) ($spacing/2);
 
   .server-info.condensed .server-progress-container {
@@ -199,10 +184,11 @@
     }
   }
 
-  [class^="icon-"], [class*=" icon-"] {
+  [class^="icon-"],
+  [class*=" icon-"] {
     font-size: 2em;
     cursor: pointer;
-    transition: all .2s ease;
+    transition: all 0.2s ease;
 
     &:hover {
       color: $color-primary;
@@ -210,7 +196,7 @@
 
     &.closed {
       transform: rotate(-90deg);
-      transition: all .2s ease;
+      transition: all 0.2s ease;
     }
   }
 
@@ -222,7 +208,7 @@
 }
 
 .server-ip {
-    color: $color-text-primary;
+  color: $color-text-primary;
 }
 
 .server-connection {
@@ -259,7 +245,6 @@
   padding: 0px 20px;
 
   &.condensed {
-
     .server-progress-container {
       height: $spacing/4;
       margin-bottom: $spacing;
@@ -301,7 +286,7 @@
 .server-progress-number {
   position: absolute;
   right: 0px;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 600;
   line-height: $spacing;
   padding: 0px ($spacing/4);
@@ -329,7 +314,6 @@
   margin: 5px 0 10px;
 }
 
-
 // Serer Info When Collapsed
 .server-info-collapsed {
   .grid-3 {
@@ -343,29 +327,20 @@
       margin: 0px;
     }
   }
-  
+
   .server-label {
-    font-size: .8em;
+    font-size: 0.8em;
     color: $color-text-secondary;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-align: center;
-    background-color: rgba($black, .3);
+    background-color: rgba($black, 0.3);
     padding-top: 8px;
   }
 }
 
-
-
-
-
-
-
-
-
 // SERVER LIST
 .list {
-
   + .list {
     margin-top: $spacing;
   }
@@ -381,7 +356,7 @@
     }
 
     .icon-arrow-right {
-      transition: all .2s ease;
+      transition: all 0.2s ease;
     }
 
     &.selected {
@@ -390,7 +365,7 @@
       .icon-arrow-right {
         color: $color-text-accent;
         transform: rotate(90deg) scale(1.3);
-        transition: all .2s ease;
+        transition: all 0.2s ease;
       }
     }
 
@@ -410,7 +385,8 @@
       justify-content: space-between;
       align-items: center;
 
-      [class^="icon-"], [class*=" icon-"] {
+      [class^="icon-"],
+      [class*=" icon-"] {
         transform: scale(1.3);
         color: $color-text-secondary;
       }
@@ -422,7 +398,7 @@
 
     &-heading {
       border: 1px solid $color-divider;
-      background-color: rgba($color-divider, .5);
+      background-color: rgba($color-divider, 0.5);
       font-weight: 400;
       padding: $spacing/2 $spacing;
     }
@@ -433,10 +409,11 @@
 
     &-click {
       &:hover {
-        background-color: rgba($color-divider, .2);
+        background-color: rgba($color-divider, 0.2);
         cursor: pointer;
 
-        [class^="icon-"], [class*=" icon-"] {
+        [class^="icon-"],
+        [class*=" icon-"] {
           color: $color-primary;
         }
       }
@@ -446,10 +423,10 @@
       cursor: pointer;
 
       &:before {
-        content: '\f105';
-        font-family: 'icomoon';
+        content: "\f105";
+        font-family: "icomoon";
         font-size: 2em;
-        line-height: .7em;
+        line-height: 0.7em;
         display: inline-block;
         float: right;
       }
@@ -457,7 +434,8 @@
   }
 
   &--icon {
-    [class^="icon-"]:hover, [class*=" icon-"]:hover {
+    [class^="icon-"]:hover,
+    [class*=" icon-"]:hover {
       cursor: pointer;
       color: $color-primary;
     }
@@ -486,11 +464,8 @@
   .editor--actions {
     background-color: $gray;
     padding: 20px;
-
-
   }
 }
-
 
 // Forms Inside list items
 .list {
@@ -502,8 +477,6 @@
     margin-top: 10px;
   }
 }
-
-
 
 // CPU USAGE
 .cpu-load {
@@ -522,13 +495,9 @@
   text-align: center;
 }
 
-
-
-
 // LIFELINE STYLES -----------------------------------------
 // ---------------------------------------------------------
 .lifeline {
-
   label {
     top: -4px;
   }
@@ -548,7 +517,6 @@
   }
 }
 
-
 // SERVER TYPE LIST STYLES ---------------------------------
 // ---------------------------------------------------------
 .server-type-list {
@@ -565,9 +533,8 @@
     &:hover:after {
       display: none;
     }
-
   }
-  
+
   p {
     padding: 0px $spacing;
   }
@@ -591,10 +558,10 @@
     &:active,
     &:focus {
       color: $blue;
-      
+
       &:after {
-        content: '\f105';
-        font-family: 'icomoon';
+        content: "\f105";
+        font-family: "icomoon";
         position: absolute;
         right: 10px;
         top: 50%;
@@ -605,10 +572,9 @@
     }
 
     &.disabled {
-      opacity: .5;
+      opacity: 0.5;
       pointer-events: none;
     }
-
   }
 
   li:not(:last-child) {

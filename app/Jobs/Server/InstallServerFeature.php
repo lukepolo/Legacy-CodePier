@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Events\Server\ServerFeatureInstalled;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerFeature implements ShouldQueue
@@ -71,5 +72,7 @@ class InstallServerFeature implements ShouldQueue
         $this->server->update([
             'server_features' => $serverFeatures,
         ]);
+
+        broadcast(new ServerFeatureInstalled($this->server));
     }
 }

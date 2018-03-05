@@ -227,7 +227,7 @@
                     </confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart workers">
+                <tooltip message="Restart workers & daemons">
                     <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'worker' }">
                         <span class="icon-worker"></span>
                     </confirm-sidebar>

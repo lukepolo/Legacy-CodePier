@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
             GitLabExtendSocialite::class.'@handle',
             DigitalOceanExtendSocialite::class.'@handle',
         ],
+        \Illuminate\Auth\Events\Login::class => [
+            \App\Listeners\LoginSuccessful::class,
+        ],
     ];
 
     /**

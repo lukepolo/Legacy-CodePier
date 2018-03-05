@@ -32,8 +32,7 @@ Broadcast::channel('App.Models.Site.Lifeline.{lifeline}', function ($user, $life
 });
 
 Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($user, $sslCertificateId) {
-    $sslCertificate = \App\Models\SslCertificate::with(['sites', 'servers'])->findOrfail($sslCertificateId);
+    $sslCertificate = \App\Models\SslCertificate::with(['sites'])->findOrfail($sslCertificateId);
 
-    return $user->currentPile->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count() ||
-        $user->currentPile->servers->whereIn('id', $sslCertificate->servers->pluck('id'))->count();
+    return $user->currentPile->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count();
 });

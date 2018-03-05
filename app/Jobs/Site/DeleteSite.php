@@ -10,11 +10,12 @@ use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeleteSite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $server;
     private $site;

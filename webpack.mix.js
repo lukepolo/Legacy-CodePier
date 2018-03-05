@@ -25,7 +25,6 @@ mix
     "lodash",
     "hint.css",
     "nprogress",
-    "pusher-js",
     "clipboard",
     "vue-router",
     "vuedraggable",
@@ -33,17 +32,16 @@ mix
     "moment-timezone",
     "filesize-parser",
     "lodash-inflection",
-    "moment-precise-range-plugin"
+    "moment-precise-range-plugin",
   ])
   .autoload({
     vue: "Vue",
     lodash: "_",
     ace: "brace",
-    "pusher-js": "Pusher",
     clipboard: "Clipboard",
-    jquery: ["$", "jQuery"]
+    jquery: ["$", "jQuery"],
   })
-  .sourceMaps(true, 'eval-source-map')
+  .sourceMaps()
   .version();
 
 if (!mix.inProduction()) {
@@ -54,7 +52,7 @@ if (!mix.inProduction()) {
     files: [
       "resources/views/**/*.php",
       "public/js/**/*.js",
-      "public/css/**/*.css"
-    ]
+      "public/css/**/*.css",
+    ],
   });
 }

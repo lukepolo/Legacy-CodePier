@@ -7,7 +7,7 @@ export default function loadProgressBar(config) {
   let spinnerTimeout = null;
 
   const setupStartProgress = () => {
-    axios.interceptors.request.use(config => {
+    axios.interceptors.request.use((config) => {
       if (timeoutSet === false) {
         spinnerTimeout = setTimeout(() => {
           turnOnSpinner();
@@ -23,7 +23,7 @@ export default function loadProgressBar(config) {
   };
 
   const setupStopProgress = () => {
-    const responseFunc = response => {
+    const responseFunc = (response) => {
       if (--requestsCounter === 0) {
         turnOffSpinner();
         NProgress.done();
@@ -31,7 +31,7 @@ export default function loadProgressBar(config) {
       return response;
     };
 
-    const errorFunc = error => {
+    const errorFunc = (error) => {
       if (--requestsCounter === 0) {
         turnOffSpinner();
         NProgress.done();

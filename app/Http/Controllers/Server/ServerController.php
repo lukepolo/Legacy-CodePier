@@ -115,7 +115,7 @@ class ServerController extends Controller
             );
         }
 
-        return response()->json($server->load(['serverProvider', 'pile']));
+        return response()->json($server->load(['serverProvider']));
     }
 
     /**
@@ -150,6 +150,7 @@ class ServerController extends Controller
      * @param int $id
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -329,8 +330,11 @@ class ServerController extends Controller
      */
     public function refreshSudoPassword($serverId)
     {
+        /** @var Server $server */
         $server = Server::findOrFail($serverId);
+
         $server->generateSudoPassword();
+
         dispatch(new UpdateSudoPassword($server, $server->sudo_password));
 
         return response()->json($server->sudo_password);
