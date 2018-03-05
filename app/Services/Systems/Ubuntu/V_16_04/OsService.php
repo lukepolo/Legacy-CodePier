@@ -13,9 +13,8 @@ class OsService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
-        // Sleep no longer works , this is a hack , will monitor it for provision failures
-        $this->remoteTaskService->run('sudo rm /var/lib/dpkg/lock');
+        // https://github.com/docker/machine/issues/3358 - sleeping for 45 - 30 wasn't enough.........
+        $this->remoteTaskService->run('sleep 45; DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev software-properties-common apt-transport-https');
