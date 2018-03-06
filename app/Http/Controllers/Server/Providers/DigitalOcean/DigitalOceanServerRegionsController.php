@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 use App\Http\Controllers\Controller;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController;
 
 class DigitalOceanServerRegionsController extends Controller
 {
