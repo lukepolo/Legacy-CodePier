@@ -1,85 +1,71 @@
 <template>
+  <div class="grid-5">
     <div class="flyform--group">
-        <label>Run Every</label>
-        <div class="flyform--group-select">
-            <select name="cronjob-maker" v-model="form.everySelection">
-                <template v-for="(option, key) in stepOneOptions">
-                    <option :value="option">{{ key }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="showWeekDaysSelector">
-            on
-        </template>
-        <div class="flyform--group-select" v-if="showWeekDaysSelector">
-            <label>Weekday</label>
-            <select name="week-day-selector" v-model="form.weekDay">
-                <template v-for="(value, weekday) in weekDays">
-                    <option :value="value">{{ weekday }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="showDaysSelector">
-            on the
-        </template>
-
-        <div class="flyform--group-select" v-if="showDaysSelector">
-            <label>Day</label>
-            <select name="day-selector" v-model="form.day">
-                <template v-for="day in 31">
-                    <option :value="day">{{ getDayText(day) }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="showMonthsSelector">
-            of
-        </template>
-
-        <div class="flyform--group-select" v-if="showMonthsSelector">
-            <label>Month</label>
-            <select name="month-selector" v-model="form.month">
-                <template v-for="(value, month) in months">
-                    <option :value="value">{{ month }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="showHourSelector">
-            at :
-        </template>
-
-        <div class="flyform--group-select" v-if="showHourSelector">
-
-            <select name="hour-selector" v-model="form.hour">
-                <template v-for="hour in 24">
-                    <option :value="hour - 1">{{ hour - 1 }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="!showHourSelector && showMinuteSelector">
-            at
-        </template>
-        <template v-else-if="showHourSelector && showMinuteSelector">
-            :
-        </template>
-
-        <div class="flyform--group-select" v-if="showMinuteSelector">
-            <label>Minute</label>
-            <select name="minute-selector" v-model="form.minute">
-                <template v-for="minute in 60">
-                    <option :value="minute - 1">{{ minute - 1 }}</option>
-                </template>
-            </select>
-        </div>
-
-        <template v-if="!showHourSelector && showMinuteSelector">
-            minutes past the hour
-        </template>
+      <label>Run Every</label>
+      <div class="flyform--group-select">
+        <select name="cronjob-maker" v-model="form.everySelection">
+          <template v-for="(option, key) in stepOneOptions">
+            <option :value="option">{{ key }}</option>
+          </template>
+        </select>
+      </div>
     </div>
+
+    <div class="flyform--group" v-if="showWeekDaysSelector">
+      <label>on Day</label>
+      <div class="flyform--group-select">
+        <select name="week-day-selector" v-model="form.weekDay">
+          <template v-for="(value, weekday) in weekDays">
+            <option :value="value">{{ weekday }}</option>
+          </template>
+        </select>
+      </div>
+    </div>
+
+    <div class="flyform--group" v-if="showDaysSelector">
+      <label>on Date</label>
+      <div class="flyform--group-select" v-if="showDaysSelector">
+        <select name="day-selector" v-model="form.day">
+          <template v-for="day in 31">
+            <option :value="day">{{ getDayText(day) }}</option>
+          </template>
+        </select>
+      </div>
+    </div>
+
+    <div class="flyform--group" v-if="showMonthsSelector">
+      <label>of Month</label>
+      <div class="flyform--group-select" v-if="showMonthsSelector">
+        <select name="month-selector" v-model="form.month">
+          <template v-for="(value, month) in months">
+            <option :value="value">{{ month }}</option>
+          </template>
+        </select>
+      </div>
+    </div>
+
+    <div class="flyform--group" v-if="showHourSelector">
+      <label>at Hour</label>
+      <div class="flyform--group-select">
+        <select name="hour-selector" v-model="form.hour">
+          <template v-for="hour in 24">
+            <option :value="hour - 1">{{ hour - 1 }}</option>
+          </template>
+        </select>
+      </div>
+    </div>
+
+    <div class="flyform--group" v-if="showMinuteSelector">
+      <label><span v-if="!showHourSelector">at</span> <span v-if="showHourSelector">and</span> Minute</label>
+      <div class="flyform--group-select">
+        <select name="minute-selector" v-model="form.minute">
+          <template v-for="minute in 60">
+            <option :value="minute - 1">{{ minute - 1 }}</option>
+          </template>
+        </select>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
