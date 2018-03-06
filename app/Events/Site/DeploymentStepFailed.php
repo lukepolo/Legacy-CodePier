@@ -7,7 +7,6 @@ use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Deployment\DeploymentEvent;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -27,10 +26,9 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      * @param \App\Models\Site\Site $site
      * @param Server $server
      * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
      * @param $log
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
         $this->siteId = $site->id;
 
