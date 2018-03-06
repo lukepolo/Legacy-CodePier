@@ -39,15 +39,15 @@ class DigitalOceanController extends Controller
         $userId = \Auth::user()->id;
 
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', self::DIGITALOCEAN)->first()->id,
             'provider_id'        => $userId,
+            'server_provider_id' => ServerProvider::where('provider_name', self::DIGITALOCEAN)->first()->id,
         ]);
 
         $userServerProvider->fill([
             'user_id'      => $userId,
+            'account'      => $request->get('account'),
             'token'        => $request->get('token'),
             'token_secret' => $request->get('secret_token'),
-            'account'      => $request->get('account'),
         ]);
 
         $userServerProvider->save();
