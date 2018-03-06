@@ -63,7 +63,7 @@ class StepsAfterDeploy implements ShouldQueue
             }
         }
 
-        if($success) {
+        if ($success) {
             $this->site->notify(new SiteDeploymentSuccessful($this->siteDeployment));
         }
     }
