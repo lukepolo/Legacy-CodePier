@@ -27,11 +27,10 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      * @param Site $site
      * @param Server $server
      * @param DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
      * @param $log
      * @param $runtime
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
         $this->siteId = $site->id;
 

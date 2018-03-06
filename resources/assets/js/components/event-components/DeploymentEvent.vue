@@ -102,7 +102,10 @@ export default {
       let totalTime = 0;
       this.event.server_deployments.forEach((server_deployment) => {
         server_deployment.events.forEach((deployment_event) => {
-          totalTime += parseFloat(deployment_event.runtime);
+          let time = parseFloat(deployment_event.runtime);
+          if (time) {
+            totalTime += time;
+          }
         });
       });
       return this.formatSeconds(totalTime);

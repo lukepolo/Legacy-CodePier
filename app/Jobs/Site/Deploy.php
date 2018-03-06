@@ -2,16 +2,14 @@
 
 namespace App\Jobs\Site;
 
+use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\SiteServerDeployment;
-use App\Events\Site\DeploymentStepStarted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Notifications\Site\SiteDeploymentFailed;
 use App\Notifications\Site\SiteDeploymentSuccessful;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
@@ -30,23 +28,24 @@ class Deploy implements ShouldQueue
 
     /**
      * Create a new job instance.
+     * @param Site $site
+     * @param Server $server
      * @param SiteServerDeployment $serverDeployment
      * @param null $oldSiteDeployment
      */
-    public function __construct(Site $site, SiteServerDeployment $serverDeployment, $oldSiteDeployment = null)
+    public function __construct(Site $site, Server $server, SiteServerDeployment $serverDeployment, $oldSiteDeployment = null)
     {
         $this->site = $site;
         $this->serverDeployment = $serverDeployment;
 
         $this->serverDeployment->load([
             'events',
-            'server',
             'siteDeployment.serverDeployments',
         ]);
 
         $this->oldSiteDeployment = $oldSiteDeployment;
 
-        $this->server = $this->serverDeployment->server;
+        $this->server = $server;
         $this->siteDeployment = $this->serverDeployment->siteDeployment;
     }
 
@@ -58,11 +57,9 @@ class Deploy implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         $success = true;
+        $startTime = microtime(true);
 
         try {
-            $start = microtime(true);
-            $firstEvent = $this->serverDeployment->events->first();
-            broadcast(new DeploymentStepStarted($this->site, $this->server, $firstEvent, $firstEvent->step));
             $siteService->deploy($this->server, $this->site, $this->serverDeployment, $this->oldSiteDeployment);
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -71,28 +68,18 @@ class Deploy implements ShouldQueue
                 app('sentry')->captureException($e);
                 $message = 'The error has been reported and we are looking into it.';
             }
-
+            $siteService->deployFailed($this->site, $this->server, $this->serverDeployment, $message, $startTime);
             $success = false;
-
-            $event = $this->serverDeployment->events->first(function ($event) {
-                return $event->completed == false || $event->failed;
-            });
-
-            if (! $event) {
-                $event = $this->serverDeployment->events->last();
-            }
-
-            if (! $event->failed) {
-                broadcast(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message, microtime(true) - $start));
-            }
-
-            $this->site->notify(new SiteDeploymentFailed($this->serverDeployment, $message));
         }
 
         $totalServerDeployments = $this->siteDeployment->serverDeployments->count();
 
+        $this->siteDeployment->refresh();
+
         if ($success && $this->siteDeployment->serverDeployments->where('completed', 1)->count() == $totalServerDeployments) {
             $this->site->notify(new SiteDeploymentSuccessful($this->siteDeployment));
+        } elseif ($success && $this->siteDeployment->serverDeployments->where('pending_complete', 1)->count() == $totalServerDeployments) {
+            dispatch_now(new StepsAfterDeploy($this->site, $this->server, $this->siteDeployment));
         }
     }
 }
