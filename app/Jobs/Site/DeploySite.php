@@ -45,7 +45,6 @@ class DeploySite implements ShouldQueue
         ]);
 
         if (! empty($availableServers)) {
-
             $this->siteDeployment = SiteDeployment::create([
                 'site_id' => $site->id,
                 'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,

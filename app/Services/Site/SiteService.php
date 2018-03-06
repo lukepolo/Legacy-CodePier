@@ -2,7 +2,6 @@
 
 namespace App\Services\Site;
 
-
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
@@ -153,11 +152,10 @@ class SiteService implements SiteServiceContract
 
             foreach ($events as $index => $event) {
                 try {
-                    if (!empty($event->step)) {
-
+                    if (! empty($event->step)) {
                         $startTime = microtime(true);
 
-                        if(!$siteServerDeployment->pending_complete && $event->step->after_deploy) {
+                        if (! $siteServerDeployment->pending_complete && $event->step->after_deploy) {
                             $hasAfterDeploymentEvents = true;
                             continue;
                         }
@@ -178,7 +176,7 @@ class SiteService implements SiteServiceContract
             'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
         ]);
 
-        if(!$hasAfterDeploymentEvents) {
+        if (! $hasAfterDeploymentEvents) {
             broadcast(new DeploymentCompleted($site, $server, $siteServerDeployment));
         }
 
@@ -225,7 +223,7 @@ class SiteService implements SiteServiceContract
 
         foreach ($events as $index => $event) {
             try {
-                if (!empty($event->step)) {
+                if (! empty($event->step)) {
                     $startTime = microtime(true);
                     $this->stepStarted($site, $server, $event);
                     $deploymentStepLog = $this->runDeploymentStep($deploymentService, $event);
@@ -259,7 +257,8 @@ class SiteService implements SiteServiceContract
      * @param $server
      * @param $event
      */
-    private function stepStarted($site, $server, $event) {
+    private function stepStarted($site, $server, $event)
+    {
         broadcast(new DeploymentStepStarted($site, $server, $event));
     }
 
@@ -270,7 +269,8 @@ class SiteService implements SiteServiceContract
      * @param $startTime
      * @param $log
      */
-    private function stepCompleted(Site $site, Server $server, DeploymentEvent $event, $startTime, $log) {
+    private function stepCompleted(Site $site, Server $server, DeploymentEvent $event, $startTime, $log)
+    {
         broadcast(new DeploymentStepCompleted($site, $server, $event, collect($log)->filter()->implode("\n"), microtime(true) - $startTime));
     }
 

@@ -7,7 +7,6 @@ use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Deployment\DeploymentEvent;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
