@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Site;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
