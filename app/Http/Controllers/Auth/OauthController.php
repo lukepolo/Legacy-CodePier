@@ -10,12 +10,10 @@ use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
-use App\Models\User\UserServerProvider;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
-use App\Models\Server\Provider\ServerProvider;
 
 class OauthController extends Controller
 {
@@ -23,10 +21,6 @@ class OauthController extends Controller
     const GITHUB = 'github';
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
-
-    public static $serverProviders = [
-        //
-    ];
 
     public static $repositoryProviders = [
         self::GITHUB,
@@ -110,10 +104,6 @@ class OauthController extends Controller
                         $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $socialUser);
                     }
 
-                    if (in_array($provider, static::$serverProviders)) {
-                        $newUserServerProvider = $this->saveServerProvider($provider, $socialUser);
-                    }
-
                     break;
             }
 
@@ -189,12 +179,6 @@ class OauthController extends Controller
             }
         }
 
-        if (UserServerProvider::class == $providerType) {
-            if (! empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
-                $userServerProvider->delete();
-            }
-        }
-
         if (UserNotificationProvider::class == $providerType) {
             if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
                 $serviceID)->first())
@@ -261,43 +245,6 @@ class OauthController extends Controller
         $userRepositoryProvider->restore();
 
         return $userRepositoryProvider;
-    }
-
-    /**
-     * Saves the users server provider.
-     *
-     * @param $provider
-     * @param $socialUser
-     *
-     * @return mixed
-     */
-    private function saveServerProvider($provider, $socialUser)
-    {
-        $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'provider_id'        => $socialUser->getId(),
-        ]);
-
-        switch ($userServerProvider->serverProvider->provider_name) {
-            default:
-                // TODO - other server providers
-                ddd($socialUser);
-                break;
-        }
-
-        $userServerProvider->fill([
-            'token'         => $token,
-            'expires_at'    => $expiresIn,
-            'user_id'       => \Auth::user()->id,
-            'refresh_token' => $refreshToken,
-            'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
-        ]);
-
-        $userServerProvider->save();
-
-        $userServerProvider->restore();
-
-        return $userServerProvider;
     }
 
     /**
