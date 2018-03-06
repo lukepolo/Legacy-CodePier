@@ -21,6 +21,7 @@ class DeploySite implements ShouldQueue
     public $servers = [];
     public $siteDeployment;
     public $oldSiteDeployment;
+    public $siteDeployments = [];
 
     public $tries = 1;
     public $timeout = 60;
@@ -44,13 +45,14 @@ class DeploySite implements ShouldQueue
         ]);
 
         if (! empty($availableServers)) {
+
             $this->siteDeployment = SiteDeployment::create([
                 'site_id' => $site->id,
                 'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
             ]);
 
             foreach ($availableServers as $server) {
-                SiteServerDeployment::create([
+                $this->siteDeployments[] = SiteServerDeployment::create([
                     'server_id' => $server->id,
                     'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
                     'site_deployment_id' => $this->siteDeployment->id,
@@ -66,9 +68,9 @@ class DeploySite implements ShouldQueue
      */
     public function handle()
     {
-        foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
+        foreach ($this->siteDeployments as $siteServerDeployment) {
             dispatch(
-                (new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment))
+                (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
                     ->onQueue(config('queue.channels.site_deployments'))
             );
         }
