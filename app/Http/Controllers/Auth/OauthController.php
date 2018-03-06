@@ -23,10 +23,9 @@ class OauthController extends Controller
     const GITHUB = 'github';
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
-    const DIGITAL_OCEAN = 'digitalocean';
 
     public static $serverProviders = [
-        self::DIGITAL_OCEAN,
+        //
     ];
 
     public static $repositoryProviders = [
@@ -57,9 +56,6 @@ class OauthController extends Controller
         switch ($provider) {
             case self::GITHUB:
                 $providerDriver->scopes(['repo admin:repo_hook']);
-                break;
-            case self::DIGITAL_OCEAN:
-                $providerDriver->scopes(['read write']);
                 break;
             case self::SLACK:
                 $providerDriver->scopes(['chat:write:bot', 'channels:write']);
@@ -283,11 +279,6 @@ class OauthController extends Controller
         ]);
 
         switch ($userServerProvider->serverProvider->provider_name) {
-            case self::DIGITAL_OCEAN:
-                $token = $socialUser->accessTokenResponseBody['access_token'];
-                $refreshToken = $socialUser->accessTokenResponseBody['refresh_token'];
-                $expiresIn = $socialUser->accessTokenResponseBody['expires_in'];
-                break;
             default:
                 // TODO - other server providers
                 ddd($socialUser);

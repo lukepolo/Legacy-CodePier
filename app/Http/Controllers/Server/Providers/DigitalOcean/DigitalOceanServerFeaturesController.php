@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController;
 
 class DigitalOceanServerFeaturesController extends Controller
 {
@@ -29,7 +29,7 @@ class DigitalOceanServerFeaturesController extends Controller
     public function index()
     {
         return response()->json(
-            ServerProvider::with('serverFeatures')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures
+            ServerProvider::with('serverFeatures')->where('provider_name', DigitalOceanController::DIGITALOCEAN)->firstOrFail()->serverFeatures
         );
     }
 }
