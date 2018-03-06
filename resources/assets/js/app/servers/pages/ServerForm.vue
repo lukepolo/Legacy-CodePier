@@ -25,6 +25,17 @@
                                     <label for="server_name">Server Name</label>
                                 </div>
                             </div>
+                            
+                            <div class="flyform--group" v-if="userServerProviderAccounts.length > 1">
+                                <label>Account</label>
+                                <div class="flyform--group-select">
+                                    <select name="account" v-model="form.account">
+                                        <option v-for="account in userServerProviderAccounts" :value="account.id">
+                                            {{ account.account }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="grid-2">
                                 <div class="flyform--group" v-if="is_custom">
@@ -138,7 +149,8 @@ export default {
     return {
       form: {
         serverOptionId: null,
-        serverOptionRegion: null
+        serverOptionRegion: null,
+        account: null
       },
       is_custom: false,
       server_provider_id: null,
@@ -166,6 +178,7 @@ export default {
       let provider = _.find(this.server_providers, { id: server_provider_id })
         .provider_name;
       if (provider) {
+        this.$store.dispatch("user_server_providers/get", user.id);
         this.$store.dispatch("server_providers/getFeatures", provider);
         this.$store.dispatch("server_providers/getOptions", provider);
         this.$store.dispatch("server_providers/getRegions", provider);
@@ -215,6 +228,14 @@ export default {
     },
     server_provider_features() {
       return this.$store.state.server_providers.features;
+    },
+    userServerProviders() {
+        return this.$store.state.user_server_providers.providers;
+    },
+    userServerProviderAccounts() {
+        return _.filter(this.userServerProviders, (provider) => {
+            return provider.server_provider_id === this.server_provider_id;
+        });
     }
   }
 };
