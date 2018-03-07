@@ -168,9 +168,7 @@ class PHP
         fastcgi_pass unix:/var/run/php/php'.$phpVersion.'-fpm.sock;
         include fastcgi_params;
         
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
-        internal;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 ';
         if (! empty($site->framework)) {
