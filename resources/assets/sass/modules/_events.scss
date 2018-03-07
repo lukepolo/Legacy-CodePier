@@ -16,7 +16,7 @@
     height: 30vh;
 
     &-hidden {
-      height: 0px !important;
+      height: 0 !important;
       transition: height 0.5s;
       overflow: hidden;
     }
@@ -83,11 +83,11 @@
 
       // Rollback Text
       .confirm-container {
-        margin: 0px 0px 0px 10px;
+        margin: 0 0 0 10px;
       }
 
       .btn-small {
-        margin: -5px 0px;
+        margin: -5px 0;
         text-transform: none;
       }
     }
@@ -130,8 +130,8 @@
 
   ul {
     list-style: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 
     li {
       padding-bottom: $spacing/4;
@@ -139,12 +139,17 @@
   }
 
   pre {
-    margin: 0px 0px $spacing ($spacing *2);
-    white-space: pre-wrap; /* css-3 */
-    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-    white-space: -pre-wrap; /* Opera 4-6 */
-    white-space: -o-pre-wrap; /* Opera 7 */
-    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    margin: 0 0 $spacing ($spacing * 2);
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
     overflow: auto;
     color: $yellow;
   }
@@ -167,7 +172,7 @@
   top: 0;
   right: 0;
   left: 0;
-  bottom: 0px;
+  bottom: 0;
   cursor: ns-resize;
 
   &.collapsed {
@@ -232,7 +237,7 @@
       [class*=" icon-"] {
         transform: rotate(0deg);
         transition: all 0.5s ease;
-        top: 0px;
+        top: 0;
       }
     }
   }
@@ -245,27 +250,29 @@
 
 // XL SCREEN STYLES ----------------------------------------
 // ---------------------------------------------------------
-@include breakpoint(xl) {
-  .events {
-    &--collapse {
-      height: 100%;
-    }
-
-    &--item {
-      flex-wrap: wrap;
-
-      &-name {
-        flex: 1 1 90%;
-        margin-bottom: 5px;
+.events:not(.full-screen) {
+  @include breakpoint(xl) {
+    .events {
+      &--collapse {
+        height: 100%;
       }
 
-      &-pile {
-        flex: 1 1 15%;
-        margin-left: 55px;
-      }
+      &--item {
+        flex-wrap: wrap;
 
-      &-site {
-        flex: 1 1 15%;
+        &-name {
+          flex: 1 1 90%;
+          margin-bottom: 5px;
+        }
+
+        &-pile {
+          flex: 1 1 15%;
+          margin-left: 55px;
+        }
+
+        &-site {
+          flex: 1 1 15%;
+        }
       }
     }
   }
@@ -287,8 +294,14 @@
 
   .events--collapse {
     flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+
+    &:after {
+      content: "";
+      display: inline-block;
+      height: 40vh;
+    }
   }
 }
 
@@ -297,6 +310,7 @@
     .filter--item {
       position: relative;
     }
+
     .dropup {
       bottom: auto;
       left: auto !important;

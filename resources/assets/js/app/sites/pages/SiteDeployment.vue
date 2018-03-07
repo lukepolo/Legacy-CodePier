@@ -105,6 +105,35 @@
                 </div>
             </div>
 
+            <div>
+              <hr>
+              <h3>
+                  <tooltip
+                          message="ex: If you have two servers running deployments, these tasks will only be ran after both of those have been completed."
+                          class="long">
+                      <span class="fa fa-info-circle"></span>
+                  </tooltip>
+                  Tasks To Be Run After Successful Deployment
+              </h3>
+                <draggable :list="afterDeployment" class="dragArea" :options="{group:'tasks'}">
+                    <div
+                        class="drag-element"
+                        v-for="(deploymentStep, key) in afterDeployment"
+                        v-if="showStep(deploymentStep)"
+                    >
+                        <deployment-step-card
+                                :order="key + 1"
+                                :deployment-step="deploymentStep"
+                                :key="deploymentStep.id"
+                                :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                v-on:updateStep="updateStep('active')"
+                                v-on:deleteStep="deleteStep(key, 'active')"
+                                :after-deploy="true"
+                        ></deployment-step-card>
+                    </div>
+                </draggable>
+            </div>
+
         </form>
     </div>
 </template>
@@ -122,6 +151,7 @@ export default {
     return {
       active: [],
       inactive: [],
+      afterDeployment : [],
       form: this.createForm({
         keep_releases: 10,
         zero_downtime_deployment: true,
@@ -169,7 +199,7 @@ export default {
       this.saveSiteDeploymentConfig();
       this.$store.dispatch("user_site_deployments/updateSiteDeployment", {
         site: this.$route.params.site_id,
-        deployment_steps: this.active
+        deployment_steps: this.active.concat(this.afterDeployment)
       });
     },
     saveSiteDeploymentConfig() {
@@ -223,12 +253,17 @@ export default {
     clearChanges() {
       this.active = [];
       this.inactive = [];
+      this.afterDeployment = [];
 
       _.each(this.currentSiteDeploymentSteps, step => {
         if (step.script) {
           step.editing = false;
         }
-        this.active.push(step);
+        if(step.after_deploy) {
+          this.afterDeployment.push(step);
+        } else {
+          this.active.push(step);
+        }
       });
 
       _.each(this.deploymentSteps, step => {

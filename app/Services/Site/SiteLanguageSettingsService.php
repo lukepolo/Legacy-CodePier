@@ -29,7 +29,7 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
      */
     public function getLanguageSettings(Site $site)
     {
-        return Cache::rememberForever("languageSettings.{$site->type}", function () use ($site) {
+        return Cache::tags('app.services')->rememberForever("languageSettings.{$site->type}", function () use ($site) {
             $languageSettings = [];
 
             // TODO - so how should we handle things like this, i think i was just assuming before hand

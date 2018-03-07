@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Server\Providers\Vultr\VultrController;
 use App\Http\Controllers\Server\Providers\Linode\LinodeController;
+use App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController;
 
 class GetServerProviderOptions extends Command
 {
@@ -34,8 +34,8 @@ class GetServerProviderOptions extends Command
     public function handle(ServerService $serverService)
     {
         \Auth::loginUsingId(1);
-        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
-        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
+        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', DigitalOceanController::DIGITALOCEAN)->firstOrFail());
+        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', DigitalOceanController::DIGITALOCEAN)->firstOrFail());
 
         $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
         $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());

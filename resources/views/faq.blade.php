@@ -118,7 +118,7 @@
 
             <h2>Where can I get help?</h2>
             <p>
-                Click on the "<i class="fa fa-gear"></i>" icon, and select "Get Help", this will connect you with a
+                Click on the "<i class="icon-help"></i>" icon, and select "Get Help", this will connect you with a
                 CodePier support <strong>developer</strong>. That's right, a developer.
             </p>
             <br><br>

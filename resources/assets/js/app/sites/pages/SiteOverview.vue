@@ -51,16 +51,33 @@
 
                 <confirm
                     dispatch="user_sites/renameSite"
-                    :params="{ site : site.id, domain : renameForm.domain }"
+                    :params="{
+                        site : site.id,
+                        pile_id : site.pile_id,
+                        domain : renameForm.domain,
+                        wildcard_domain : renameForm.wildcard_domain,
+                    }"
                     confirm_class="btn-link"
                     confirm_position="bottom"
-                    message="Rename Site"
+                    message="Update Site Details"
                     confirm_btn="btn-primary"
                 >
-                    <tooltip message="Rename Site" placement="bottom">
+                    <tooltip message="Update Site Details" placement="bottom">
                         <span class="icon-pencil"></span>
                     </tooltip>
                     <div slot="form">
+
+                        <div class="flyform--group-checkbox">
+                            <label>
+                                <input v-model="renameForm.wildcard_domain" type="checkbox" name="wildcard_domain">
+                                <span class="icon"></span>
+                                Wildcard Domain
+                                <tooltip :message="'If your site requires wildcard for sub domains'" size="medium">
+                                    <span class="fa fa-info-circle"></span>
+                                </tooltip>
+                            </label>
+                        </div>
+
                         <div class="flyform--group">
                             <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
                             <label for="domain">Domain</label>
@@ -301,7 +318,8 @@ export default {
         lifelines: null
       }),
       renameForm: {
-        domain: null
+        domain: null,
+        wildcard_domain : null
       }
     };
   },
@@ -315,7 +333,8 @@ export default {
   watch: {
     $route: "fetchData",
     site: function(site) {
-      Vue.set(this.renameForm, "domain", site.domain);
+      Vue.set(this.renameForm, "domain", site.name);
+      Vue.set(this.renameForm, "wildcard_domain", site.wildcard_domain);
     }
   },
   methods: {
@@ -342,7 +361,8 @@ export default {
         "user_site_deployments/get",
         this.$route.params.site_id
       );
-      Vue.set(this.renameForm, "domain", this.site ? this.site.domain : null);
+      Vue.set(this.renameForm, "domain", this.site ? this.site.name : null);
+      Vue.set(this.renameForm, "wildcard_domain", this.site ? this.site.wildcard_domain : null);
     },
     getDns(refresh) {
       let data = {

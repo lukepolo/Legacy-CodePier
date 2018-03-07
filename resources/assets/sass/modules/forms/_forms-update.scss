@@ -11,7 +11,7 @@ $flyform-transition: all 0.5s;
 // ---------------------------------------------------------
 .flyform {
   background-color: $flyform-background;
-  margin: 0px auto $flyform-spacing*2;
+  margin: 0 auto $flyform-spacing * 2;
 
   &--heading {
     background-color: $color-primary;
@@ -26,37 +26,36 @@ $flyform-transition: all 0.5s;
     h5,
     h6 {
       color: $color-text-primary;
-      margin: 0px;
+      margin: 0;
     }
 
     p {
       font-size: 0.9em;
-      margin: $flyform-spacing/2 0px 0px;
-      padding: 0px;
+      margin: $flyform-spacing/2 0 0;
+      padding: 0;
       color: rgba($color-text-primary, 0.8);
     }
 
     &-sticky {
-      background-color: transparent;
-      margin-left: -$flyform-spacing*2;
-      margin-right: -$flyform-spacing*2;
+      background-color: mix($color-background, $white, 95%);
       position: sticky;
-      top: 0px;
+      top: -40px;
+      z-index: 110;
     }
   }
 
   &--content {
-    padding: 0px $flyform-spacing;
+    padding: 0 $flyform-spacing;
 
     + .flyform--footer {
-      margin-top: $spacing*2;
+      margin-top: $spacing * 2;
     }
   }
 
   &--footer {
     text-align: center;
     border-top: 1px solid $flyform-color-divider;
-    margin-top: $spacing *2;
+    margin-top: $spacing * 2;
     padding: $flyform-spacing;
 
     &-btns {
@@ -73,7 +72,7 @@ $flyform-transition: all 0.5s;
   // INPUT ICON STYLES ----------------------------------------
   &--input-icon-right {
     position: absolute;
-    top: $flyform-spacing*1.5;
+    top: $flyform-spacing * 1.5;
     right: 10px;
     font-size: 1.5em;
 
@@ -89,8 +88,8 @@ $flyform-transition: all 0.5s;
     font-size: 0.9em;
     color: rgba($color-text-primary, 0.7);
     letter-spacing: 0.4px;
-    margin: (-$flyform-spacing/4) 0px $flyform-spacing/2;
-    padding: 0px ($flyform-spacing/2 + 1px);
+    margin: (-$flyform-spacing/4) 0 $flyform-spacing/2;
+    padding: 0 ($flyform-spacing/2 + 1px);
   }
 
   // SINGLE-LINE FORM & BUTTON -------------------------------
@@ -116,12 +115,12 @@ $flyform-transition: all 0.5s;
 // FORM GROUP STRUCTURE -----------------------------------
 // --------------------------------------------------------
 .flyform--group {
-  margin: $flyform-spacing 0px;
-  padding: $flyform-spacing*1.2 0px 0px;
+  margin: $flyform-spacing 0;
+  padding: $flyform-spacing * 1.2 0 0;
   position: relative;
 
   + .flyform--footer {
-    margin-top: $spacing*2;
+    margin-top: $spacing * 2;
   }
 
   + [class^="grid-"],
@@ -131,10 +130,10 @@ $flyform-transition: all 0.5s;
 
   label {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     font-weight: 400;
     text-align: left;
     color: mix($blue, $white, 30%);
@@ -145,10 +144,10 @@ $flyform-transition: all 0.5s;
     &:after {
       content: "";
       position: absolute;
-      bottom: 0px;
-      left: 0px;
+      bottom: 0;
+      left: 0;
       height: 3px;
-      width: 0%;
+      width: 0;
       background-color: $color-primary;
       transition: $flyform-transition;
     }
@@ -180,24 +179,24 @@ $flyform-transition: all 0.5s;
     // placeholder required for float label to work
     &:placeholder-shown:not(:focus) + * {
       font-size: $flyform-font-size;
-      top: $flyform-spacing*1.5 - 1px;
+      top: $flyform-spacing * 1.5 - 1px;
       padding-left: $flyform-spacing/2;
       font-weight: 300;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       color: mix($white, $black, 60%);
       transition: $flyform-transition;
 
       // when there is an info icon before the input label
       .flyform--group-iconlabel {
-        padding-left: 0px;
+        padding-left: 0;
         transition: $flyform-transition;
       }
     }
   }
 
   &-nomargin {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   // PREFIXED INPUTS ----------------------------------------
@@ -230,9 +229,9 @@ $flyform-transition: all 0.5s;
 
       &:placeholder-shown:not(:focus) {
         + label + .flyform--group-prefix-label {
-          flex: 0 1 0px;
-          min-width: 0px;
-          padding: 0px;
+          flex: 0 1 0;
+          min-width: 0;
+          padding: 0;
           overflow: hidden;
           opacity: 0;
           transition: $flyform-transition;
@@ -251,15 +250,15 @@ $flyform-transition: all 0.5s;
 
     &-label,
     .flyform--group-prefix-label {
-      padding: 0px $spacing/2;
+      padding: 0 $spacing/2;
     }
   }
 
   // INPUT HELP STYLES ----------------------------------------
-  [class^="hint-"]:not(.flyform--btn-right):not(.tooltip-in-form),
-  [class*=" hint-"]:not(.flyform--btn-right):not(.tooltip-in-form) {
+  [class*=" hint-"]:not(.flyform--btn-right):not(.tooltip-in-form),
+  [class^="hint-"]:not(.flyform--btn-right):not(.tooltip-in-form) {
     position: absolute;
-    top: 0px;
+    top: 0;
 
     + input + label {
       padding-left: $flyform-spacing;
@@ -291,7 +290,7 @@ $flyform-transition: all 0.5s;
     appearance: none;
 
     border: 1px solid $flyform-color-divider;
-    border-radius: 0px;
+    border-radius: 0;
     font-size: $flyform-font-size;
     padding: ($flyform-spacing/4) 50px ($flyform-spacing/4) ($flyform-spacing/2);
     width: 100%;
@@ -307,11 +306,11 @@ $flyform-transition: all 0.5s;
 
     &[multiple="multiple"] {
       height: 125px;
-      padding: $spacing/2 0px;
+      padding: $spacing/2 0;
 
       optgroup {
         font-size: 14px;
-        padding: 0px $spacing/4;
+        padding: 0 $spacing/4;
       }
 
       option {
@@ -344,15 +343,15 @@ $flyform-transition: all 0.5s;
       font-family: "icomoon";
       display: inline-block;
       position: absolute;
-      top: 0px;
-      right: 0px;
-      bottom: 0px;
+      top: 0;
+      right: 0;
+      bottom: 0;
       border-left: 1px solid $flyform-color-divider;
       color: $color-primary;
       display: flex;
       align-items: center;
       font-size: 2em;
-      padding: 0px ($flyform-spacing/2);
+      padding: 0 ($flyform-spacing/2);
       pointer-events: none;
     }
   }
@@ -361,8 +360,8 @@ $flyform-transition: all 0.5s;
 // FOOTER STYLES FOR MAIN TABBED CONTAINER
 .tab-content {
   .flyform--footer {
-    margin-left: -$spacing*2;
-    margin-right: -$spacing*2;
+    margin-left: -$spacing * 2;
+    margin-right: -$spacing * 2;
   }
 }
 
@@ -391,12 +390,12 @@ $flyform-transition: all 0.5s;
   &-checkbox,
   &-radio {
     font-size: 16px;
-    margin: $flyform-spacing 0px;
+    margin: $flyform-spacing 0;
 
     label {
       position: relative;
       display: block;
-      padding-left: $flyform-spacing*1.5;
+      padding-left: $flyform-spacing * 1.5;
       cursor: pointer;
 
       &.disabled {
@@ -469,15 +468,16 @@ $flyform-transition: all 0.5s;
 // SUBFORM STYLES ==========================================
 // =========================================================
 .flyform--subform {
-  margin-left: $spacing*1.5;
+  margin-left: $spacing * 1.5;
 
   .flyform--group {
-    margin: 10px 0px;
+    margin: 10px 0;
   }
 
   label {
     font-size: 13px;
   }
+
   input {
     font-size: 13px;
   }
@@ -494,7 +494,7 @@ $flyform-transition: all 0.5s;
 [class^="grid-"],
 [class*=" grid-"] {
   + .flyform--group {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
