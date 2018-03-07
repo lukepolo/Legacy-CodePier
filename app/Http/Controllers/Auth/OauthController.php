@@ -10,12 +10,10 @@ use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
-use App\Models\User\UserServerProvider;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
-use App\Models\Server\Provider\ServerProvider;
 
 class OauthController extends Controller
 {
@@ -23,11 +21,6 @@ class OauthController extends Controller
     const GITHUB = 'github';
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
-    const DIGITAL_OCEAN = 'digitalocean';
-
-    public static $serverProviders = [
-        self::DIGITAL_OCEAN,
-    ];
 
     public static $repositoryProviders = [
         self::GITHUB,
@@ -57,9 +50,6 @@ class OauthController extends Controller
         switch ($provider) {
             case self::GITHUB:
                 $providerDriver->scopes(['repo admin:repo_hook']);
-                break;
-            case self::DIGITAL_OCEAN:
-                $providerDriver->scopes(['read write']);
                 break;
             case self::SLACK:
                 $providerDriver->scopes(['chat:write:bot', 'channels:write']);
@@ -112,10 +102,6 @@ class OauthController extends Controller
 
                     if (in_array($provider, static::$repositoryProviders)) {
                         $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $socialUser);
-                    }
-
-                    if (in_array($provider, static::$serverProviders)) {
-                        $newUserServerProvider = $this->saveServerProvider($provider, $socialUser);
                     }
 
                     break;
@@ -193,12 +179,6 @@ class OauthController extends Controller
             }
         }
 
-        if (UserServerProvider::class == $providerType) {
-            if (! empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
-                $userServerProvider->delete();
-            }
-        }
-
         if (UserNotificationProvider::class == $providerType) {
             if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
                 $serviceID)->first())
@@ -265,48 +245,6 @@ class OauthController extends Controller
         $userRepositoryProvider->restore();
 
         return $userRepositoryProvider;
-    }
-
-    /**
-     * Saves the users server provider.
-     *
-     * @param $provider
-     * @param $socialUser
-     *
-     * @return mixed
-     */
-    private function saveServerProvider($provider, $socialUser)
-    {
-        $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'provider_id'        => $socialUser->getId(),
-        ]);
-
-        switch ($userServerProvider->serverProvider->provider_name) {
-            case self::DIGITAL_OCEAN:
-                $token = $socialUser->accessTokenResponseBody['access_token'];
-                $refreshToken = $socialUser->accessTokenResponseBody['refresh_token'];
-                $expiresIn = $socialUser->accessTokenResponseBody['expires_in'];
-                break;
-            default:
-                // TODO - other server providers
-                ddd($socialUser);
-                break;
-        }
-
-        $userServerProvider->fill([
-            'token'         => $token,
-            'expires_at'    => $expiresIn,
-            'user_id'       => \Auth::user()->id,
-            'refresh_token' => $refreshToken,
-            'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
-        ]);
-
-        $userServerProvider->save();
-
-        $userServerProvider->restore();
-
-        return $userServerProvider;
     }
 
     /**

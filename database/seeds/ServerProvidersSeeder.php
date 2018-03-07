@@ -15,7 +15,7 @@ class ServerProvidersSeeder extends Seeder
     public function run()
     {
         $providers = [
-            \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN => [
+            \App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController::DIGITALOCEAN => [
                 'name'     => 'Digital Ocean',
                 'features' => [
                     ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
@@ -24,29 +24,25 @@ class ServerProvidersSeeder extends Seeder
                     ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
                 ],
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,
-                'oauth' => true,
-                'secret_token' => false,
+                'secret_token' => false
             ],
             \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE => [
                 'name'     => 'Linode',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\LinodeProvider::class,
-                'oauth' => false,
-                'secret_token' => false,
+                'secret_token' => false
             ],
             'custom' => [
                 'name'     => 'Custom Provider',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\CustomProvider::class,
-                'oauth' => false,
-                'secret_token' => true,
+                'secret_token' => true
             ],
             \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR => [
                 'name'     => 'Vultr',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\VultrProvider::class,
-                'oauth' => false,
-                'secret_token' => false,
+                'secret_token' => false
             ],
         ];
 
@@ -56,10 +52,9 @@ class ServerProvidersSeeder extends Seeder
             ]);
 
             $serverProvider->fill([
-                'provider_name' => $provider,
-                'name'          => $data['name'],
-                'oauth'         => $data['oauth'],
-                'secret_token'  => $data['secret_token'],
+                'provider_name'     => $provider,
+                'name'              => $data['name'],
+                'secret_token'      => $data['secret_token']
             ]);
 
             $serverProvider->save();
