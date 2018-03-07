@@ -93,7 +93,18 @@ trait ServerProviderTrait
      */
     private function getTokenFromServer(Server $server)
     {
-        if ($serverProvider = $server->user->userServerProviders->where(
+        if ($server->user->userServerProviders->where(
+            'server_provider_id',
+            $server->server_provider_id
+        )->count() > 1
+        ) {
+            $serverProvider = $server->user->userServerProviders->where(
+                'id',
+                $server->user_server_provider_id
+            )->first();
+        }
+        // This is to keep backwards compatibility
+        elseif ($serverProvider = $server->user->userServerProviders->where(
             'server_provider_id',
             $server->server_provider_id
         )->first()
@@ -101,9 +112,9 @@ trait ServerProviderTrait
             if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
                 return $this->refreshToken($serverProvider);
             }
-
-            return $serverProvider->token;
         }
+
+        return $serverProvider->token;
 
         throw new \Exception('No server provider found for this user');
     }
