@@ -15,7 +15,7 @@
             <h3>Language Specific</h3>
             <h4>PHP</h4>
             <ul>
-                <li>Moved "Generic PHP" to modern PHP , then added Legacy PHP option</li>
+                <li>Moved "Generic PHP" to modern PHP, then added Legacy PHP option</li>
             </ul>
 
             <h2>Changed</h2>
