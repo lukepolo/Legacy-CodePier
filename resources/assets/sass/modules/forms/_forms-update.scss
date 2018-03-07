@@ -5,13 +5,13 @@ $flyform-color: $color-text-primary;
 $flyform-font-size: 20px;
 $flyform-spacing: $spacing;
 $flyform-color-divider: $color-divider;
-$flyform-transition: all .5s;
+$flyform-transition: all 0.5s;
 
 // MAIN FORM STRUCTURE -------------------------------------
 // ---------------------------------------------------------
 .flyform {
   background-color: $flyform-background;
-  margin: 0 auto $flyform-spacing*2;
+  margin: 0 auto $flyform-spacing * 2;
 
   &--heading {
     background-color: $color-primary;
@@ -30,7 +30,7 @@ $flyform-transition: all .5s;
     }
 
     p {
-      font-size: .9em;
+      font-size: 0.9em;
       margin: $flyform-spacing/2 0 0;
       padding: 0;
       color: rgba($color-text-primary, 0.8);
@@ -39,7 +39,7 @@ $flyform-transition: all .5s;
     &-sticky {
       background-color: mix($color-background, $white, 95%);
       position: sticky;
-      top: 0;
+      top: -40px;
       z-index: 110;
     }
   }
@@ -48,14 +48,14 @@ $flyform-transition: all .5s;
     padding: 0 $flyform-spacing;
 
     + .flyform--footer {
-      margin-top: $spacing*2;
+      margin-top: $spacing * 2;
     }
   }
 
   &--footer {
     text-align: center;
     border-top: 1px solid $flyform-color-divider;
-    margin-top: $spacing *2;
+    margin-top: $spacing * 2;
     padding: $flyform-spacing;
 
     &-btns {
@@ -63,7 +63,7 @@ $flyform-transition: all .5s;
 
       + .flyform--footer-links {
         font-weight: 400;
-        letter-spacing: .5px;
+        letter-spacing: 0.5px;
         margin-top: $flyform-spacing;
       }
     }
@@ -72,7 +72,7 @@ $flyform-transition: all .5s;
   // INPUT ICON STYLES ----------------------------------------
   &--input-icon-right {
     position: absolute;
-    top: $flyform-spacing*1.5;
+    top: $flyform-spacing * 1.5;
     right: 10px;
     font-size: 1.5em;
 
@@ -85,9 +85,9 @@ $flyform-transition: all .5s;
 
   // INPUT TEXT STYLES ----------------------------------------
   &--input-text {
-    font-size: .9em;
+    font-size: 0.9em;
     color: rgba($color-text-primary, 0.7);
-    letter-spacing: .4px;
+    letter-spacing: 0.4px;
     margin: (-$flyform-spacing/4) 0 $flyform-spacing/2;
     padding: 0 ($flyform-spacing/2 + 1px);
   }
@@ -116,11 +116,11 @@ $flyform-transition: all .5s;
 // --------------------------------------------------------
 .flyform--group {
   margin: $flyform-spacing 0;
-  padding: $flyform-spacing*1.2 0 0;
+  padding: $flyform-spacing * 1.2 0 0;
   position: relative;
 
   + .flyform--footer {
-    margin-top: $spacing*2;
+    margin-top: $spacing * 2;
   }
 
   + [class^="grid-"],
@@ -137,12 +137,12 @@ $flyform-transition: all .5s;
     font-weight: 400;
     text-align: left;
     color: mix($blue, $white, 30%);
-    letter-spacing: .4px;
+    letter-spacing: 0.4px;
     pointer-events: none;
     transition: $flyform-transition;
 
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 0;
       left: 0;
@@ -179,7 +179,7 @@ $flyform-transition: all .5s;
     // placeholder required for float label to work
     &:placeholder-shown:not(:focus) + * {
       font-size: $flyform-font-size;
-      top: $flyform-spacing*1.5 - 1px;
+      top: $flyform-spacing * 1.5 - 1px;
       padding-left: $flyform-spacing/2;
       font-weight: 300;
       letter-spacing: 0;
@@ -210,7 +210,7 @@ $flyform-transition: all .5s;
       flex: 0 0 auto;
       color: rgba($color-text-primary, 0.6);
       font-weight: 400;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
       padding-right: $spacing/2;
     }
 
@@ -339,8 +339,8 @@ $flyform-transition: all .5s;
     position: relative;
 
     &:before {
-      content: '\f107';
-      font-family: 'icomoon';
+      content: "\f107";
+      font-family: "icomoon";
       display: inline-block;
       position: absolute;
       top: 0;
@@ -360,8 +360,8 @@ $flyform-transition: all .5s;
 // FOOTER STYLES FOR MAIN TABBED CONTAINER
 .tab-content {
   .flyform--footer {
-    margin-left: -$spacing*2;
-    margin-right: -$spacing*2;
+    margin-left: -$spacing * 2;
+    margin-right: -$spacing * 2;
   }
 }
 
@@ -395,15 +395,15 @@ $flyform-transition: all .5s;
     label {
       position: relative;
       display: block;
-      padding-left: $flyform-spacing*1.5;
+      padding-left: $flyform-spacing * 1.5;
       cursor: pointer;
 
       &.disabled {
-        opacity: .5;
+        opacity: 0.5;
         cursor: not-allowed;
 
         .icon:before {
-          content: '\e835';
+          content: "\e835";
         }
       }
     }
@@ -415,7 +415,7 @@ $flyform-transition: all .5s;
 
       &:checked {
         + .icon:before {
-          content: '';
+          content: "";
           color: $color-primary;
         }
       }
@@ -425,7 +425,7 @@ $flyform-transition: all .5s;
       display: inline;
 
       &:before {
-        content: '';
+        content: "";
         font-family: icomoon;
         position: absolute;
         left: 4px;
@@ -439,28 +439,28 @@ $flyform-transition: all .5s;
     [class*=" hint-"] {
       position: relative;
       top: -3px;
-      font-size: .83em;
+      font-size: 0.83em;
       margin-left: $spacing/4;
     }
   }
 
   &-checkbox {
     .icon:before {
-      content: '\e835';
+      content: "\e835";
     }
 
     input:checked + .icon:before {
-      content: '\e834';
+      content: "\e834";
     }
   }
 
   &-radio {
     .icon:before {
-      content: '\e836';
+      content: "\e836";
     }
 
     input:checked + .icon:before {
-      content: '\e837';
+      content: "\e837";
     }
   }
 }
@@ -468,7 +468,7 @@ $flyform-transition: all .5s;
 // SUBFORM STYLES ==========================================
 // =========================================================
 .flyform--subform {
-  margin-left: $spacing*1.5;
+  margin-left: $spacing * 1.5;
 
   .flyform--group {
     margin: 10px 0;

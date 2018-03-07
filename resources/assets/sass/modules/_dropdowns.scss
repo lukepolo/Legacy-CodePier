@@ -4,6 +4,7 @@
 
 .dropdown {
   list-style: none;
+
   a {
     color: $white;
   }
@@ -11,10 +12,10 @@
 
 .dropdown-menu {
   background-color: $black;
-  border-radius: 0px;
+  border-radius: 0;
   font-weight: normal;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   z-index: 160;
 
   &.dropup {
@@ -27,8 +28,8 @@
   }
 
   li {
-    a,
-    > span {
+    > span,
+    a {
       color: rgba($color-text-primary, 0.7);
       font-size: 14px;
       padding: ($spacing/2) ($spacing) !important;
@@ -48,10 +49,10 @@
       display: block;
     }
 
-    a:hover,
-    a:focus,
+    .selected,
     a:active,
-    .selected {
+    a:focus,
+    a:hover {
       background-color: $gray;
       color: $blue;
       cursor: pointer;
@@ -78,4 +79,10 @@
   .divider {
     background-color: $color-background;
   }
+}
+
+.dropdown.btn.open {
+  @include card(1);
+  transform: scale(1);
+  transition: all 0.1s;
 }

@@ -106,6 +106,15 @@
             </div>
 
             <div>
+              <hr>
+              <h3>
+                  <tooltip
+                          message="ex: If you have two servers running deployments, these tasks will only be ran after both of those have been completed."
+                          class="long">
+                      <span class="fa fa-info-circle"></span>
+                  </tooltip>
+                  Tasks To Be Run After Successful Deployment
+              </h3>
                 <draggable :list="afterDeployment" class="dragArea" :options="{group:'tasks'}">
                     <div
                         class="drag-element"

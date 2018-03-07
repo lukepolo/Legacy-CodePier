@@ -65,6 +65,17 @@
                             <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
                             <label for="domain">Domain</label>
                         </div>
+
+                        <div class="flyform--group-checkbox">
+                            <label>
+                                <input type="checkbox" name="wildcard_domain">
+                                <span class="icon"></span>
+                                Wildcard Domain
+                                <tooltip :message="'If your site requires wildcard for sub domains'" size="medium">
+                                    <span class="fa fa-info-circle"></span>
+                                </tooltip>
+                            </label>
+                        </div>
                     </div>
                 </confirm>
 
