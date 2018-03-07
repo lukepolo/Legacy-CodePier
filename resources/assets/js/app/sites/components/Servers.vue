@@ -7,11 +7,15 @@
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
-                        <li>
-                            <a href="#" @click.prevent="connectServers = !connectServers">
-                                <span class="icon-server"></span> Attach a provisioned server
-                            </a>
-                        </li>
+                      <div class="server-type-list">
+                        <ul>
+                          <li>
+                              <a href="#" @click.prevent="connectServers = !connectServers">
+                                  <span class="icon-server"></span> Attach a provisioned server
+                              </a>
+                          </li>
+                        </ul>
+                      </div>
                     </template>
                 </drop-down>
             </div>
