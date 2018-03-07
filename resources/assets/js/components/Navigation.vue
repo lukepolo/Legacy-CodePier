@@ -45,6 +45,9 @@
                 <li>
                     <a @click.prevent href="/" id="getHelp"><span class="icon-chat"></span> Get Help</a>
                 </li>
+                <li><a target="_blank" href="/faq">FAQs</a></li>
+                <li><a target="_blank" href="/all-features">All Features</a></li>
+                <li><a target="_blank" href="/change-log">Change Log</a></li>
             </drop-down>
 
             <drop-down icon="icon-settings">
