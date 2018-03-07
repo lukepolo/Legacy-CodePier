@@ -126,7 +126,7 @@ class SiteController extends Controller
             'user_repository_provider_id' => $userRepositoryProvider->id,
         ]);
 
-        if ($site->isDirty('web_directory')) {
+        if ($site->isDirty('web_directory') || $site->isDirty('type') || $site->isDirty('framework')) {
             event(new SiteUpdatedWebConfig($site));
         }
 

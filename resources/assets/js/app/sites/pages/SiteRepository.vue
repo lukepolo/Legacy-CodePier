@@ -68,7 +68,7 @@
                             <template v-for="(features, language) in availableLanguages">
                                 <optgroup :label="language">
                                     <option :value="language">
-                                        Generic {{ language | startCase }}
+                                        Modern {{ language | startCase }}
                                     </option>
                                     <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework | startCase }}</option>
                                 </optgroup>
