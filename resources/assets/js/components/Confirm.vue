@@ -1,5 +1,5 @@
 <template>
-    <span class="confirm-container" @click.stop.prevent @keyup.32.prevent @keyup.esc="close()">
+    <span class="confirm-container" @keyup.32.prevent @keyup.esc="close()">
         <button :class="confirm_class" @click="toggle()">
             <slot></slot>
         </button>

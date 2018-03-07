@@ -48,7 +48,7 @@
                 <tbody>
                     <tr v-for="provider in user_server_providers">
                         <td>{{ provider.account }}</td>
-                        <td>{{ provider.provider }}</td>
+                        <td>{{ getServerProvider(provider.server_provider_id) }}</td>
                         <td class="table--action">
                             <tooltip message="Delete">
                             <span class="table--action-delete">
@@ -98,6 +98,11 @@ export default {
       return _.find(this.user_server_providers, {
         server_provider_id: server_provider_id
       });
+    },
+    getServerProvider(server_provider_id) {
+      return _.find(this.server_providers, {
+        id: server_provider_id
+      }).name;
     },
     deleteProvider(provider) {
       this.$store.dispatch("user_server_providers/destroy", {
