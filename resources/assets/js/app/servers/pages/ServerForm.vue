@@ -25,7 +25,7 @@
                                     <label for="server_name">Server Name</label>
                                 </div>
                             </div>
-                            
+
                             <div class="flyform--group" v-if="userServerProviderAccounts.length > 1">
                                 <label>Account</label>
                                 <div class="flyform--group-select">
@@ -148,9 +148,9 @@ export default {
   data() {
     return {
       form: {
+        account: null,
         serverOptionId: null,
         serverOptionRegion: null,
-        account: null
       },
       is_custom: false,
       server_provider_id: null,
@@ -172,13 +172,14 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch("user_server_providers/get", user.id);
+  },
   methods: {
     getProviderData(server_provider_id) {
       this.is_custom = false;
-      let provider = _.find(this.server_providers, { id: server_provider_id })
-        .provider_name;
+      let provider = _.find(this.server_providers, { id: server_provider_id }).provider_name;
       if (provider) {
-        this.$store.dispatch("user_server_providers/get", user.id);
         this.$store.dispatch("server_providers/getFeatures", provider);
         this.$store.dispatch("server_providers/getOptions", provider);
         this.$store.dispatch("server_providers/getRegions", provider);

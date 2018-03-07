@@ -24,33 +24,25 @@ class ServerProvidersSeeder extends Seeder
                     ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
                 ],
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,
-                'oauth' => false,
-                'secret_token' => false,
-                'multiple_accounts' => true
+                'secret_token' => false
             ],
             \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE => [
                 'name'     => 'Linode',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\LinodeProvider::class,
-                'oauth' => false,
-                'secret_token' => false,
-                'multiple_accounts' => false
+                'secret_token' => false
             ],
             'custom' => [
                 'name'     => 'Custom Provider',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\CustomProvider::class,
-                'oauth' => false,
-                'secret_token' => true,
-                'multiple_accounts' => false
+                'secret_token' => true
             ],
             \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR => [
                 'name'     => 'Vultr',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\VultrProvider::class,
-                'oauth' => false,
-                'secret_token' => false,
-                'multiple_accounts' => false
+                'secret_token' => false
             ],
         ];
 
@@ -62,9 +54,7 @@ class ServerProvidersSeeder extends Seeder
             $serverProvider->fill([
                 'provider_name'     => $provider,
                 'name'              => $data['name'],
-                'oauth'             => $data['oauth'],
-                'secret_token'      => $data['secret_token'],
-                'multiple_accounts' => $data['multiple_accounts']
+                'secret_token'      => $data['secret_token']
             ]);
 
             $serverProvider->save();
