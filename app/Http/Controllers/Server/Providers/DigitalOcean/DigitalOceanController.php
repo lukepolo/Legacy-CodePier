@@ -36,18 +36,11 @@ class DigitalOceanController extends Controller
 
     public function store(ServerProviderRequest $request)
     {
-        $userId = \Auth::user()->id;
-
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'provider_id'        => $userId,
-            'server_provider_id' => ServerProvider::where('provider_name', self::DIGITALOCEAN)->first()->id,
-        ]);
-
-        $userServerProvider->fill([
-            'user_id'      => $userId,
-            'account'      => $request->get('account'),
+            'user_id'      => \Auth::user()->id,
+            'account' => $request->get('account'),
             'token'        => $request->get('token'),
-            'token_secret' => $request->get('secret_token'),
+            'server_provider_id' => ServerProvider::where('provider_name', self::DIGITALOCEAN)->first()->id,
         ]);
 
         $userServerProvider->save();

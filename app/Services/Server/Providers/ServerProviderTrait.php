@@ -102,7 +102,9 @@ trait ServerProviderTrait
                 'id',
                 $server->user_server_provider_id
             )->first();
-        } elseif ($serverProvider = $server->user->userServerProviders->where(
+        }
+        // This is to keep backwards compatibility
+        elseif ($serverProvider = $server->user->userServerProviders->where(
             'server_provider_id',
             $server->server_provider_id
         )->first()

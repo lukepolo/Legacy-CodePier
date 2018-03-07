@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMultipleAccountsToServerProviders extends Migration
+class MakeUserServerProviderIdNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMultipleAccountsToServerProviders extends Migration
      */
     public function up()
     {
-        Schema::table('server_providers', function (Blueprint $table) {
-            $table->boolean('multiple_accounts')->default(false)->after('oauth');
+        Schema::table('user_server_providers', function (Blueprint $table) {
+            $table->string('provider_id')->nullable()->change();
         });
     }
 
@@ -25,8 +25,6 @@ class AddMultipleAccountsToServerProviders extends Migration
      */
     public function down()
     {
-        Schema::table('server_providers', function (Blueprint $table) {
-            $table->dropColumn('multiple_accounts');
-        });
+        //
     }
 }

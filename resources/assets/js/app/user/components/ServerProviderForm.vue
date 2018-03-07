@@ -4,7 +4,7 @@
         <template v-if="adding">
 
             <form @submit.prevent="connectProvider">
-                <div class="flyform--group" v-if="provider.multiple_accounts">
+                <div class="flyform--group">
                     <input type="text" v-model="form.account" placeholder=" ">
                     <label>Account Name</label>
                 </div>
