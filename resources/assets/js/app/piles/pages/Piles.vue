@@ -29,7 +29,7 @@
 
                         <h3>Getting Help</h3>
                         <p>
-                            Click on the "<i class="fa fa-gear"></i>" icon, and select "Get Help", this will connect you with a CodePier support <strong>developer</strong>. That's right, a developer.
+                            Click on the "<i class="icon-help"></i>" icon, and select "Get Help", this will connect you with a CodePier support <strong>developer</strong>. That's right, a developer.
                         </p>
 
                         <p>Now get out there and start deploying!</p>
