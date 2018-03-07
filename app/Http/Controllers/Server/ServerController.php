@@ -79,7 +79,7 @@ class ServerController extends Controller
             'user_id' => \Auth::user()->id,
             'name' => $request->get('server_name'),
             'server_provider_id' => $request->get('server_provider_id', ServerProvider::where('provider_class', CustomProvider::class)->first()->id),
-            'user_server_provider_id' => $request->get('account', null),
+            'user_server_provider_id' => $request->get('user_server_provider_id', null),
             'status' => $request->has('custom') ? '' : 'Queued For Creation',
             'progress' => '0',
             'options' => $request->only([
