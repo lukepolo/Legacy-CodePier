@@ -52,12 +52,17 @@ export default {
     return {
       form: this.createForm({
         token: null,
+        account : null,
         secret_token: null
       })
     };
   },
   methods: {
     cancel() {
+      Vue.set(this.form, 'token', null);
+      Vue.set(this.form, 'account', null);
+      Vue.set(this.form, 'secret_token', null);
+
       this.$emit("update:adding", false);
     },
     connectProvider() {
@@ -70,6 +75,7 @@ export default {
             "user_server_providers/get",
             this.$store.state.user.user.id
           );
+          this.cancel();
         });
     }
   }
