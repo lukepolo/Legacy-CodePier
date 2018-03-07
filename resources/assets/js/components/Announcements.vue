@@ -27,6 +27,7 @@
 
             <h2>Fixed</h2>
             <ul>
+                <li>2nd Auth now has a longer window from 1 minute to 1.5 minutes</li>
                 <li>Long Server / Site names have been fixed</li>
                 <li>Cron Job Maker has been improved to have the look and feel of the rest of the site</li>
                 <li>Multiple sites of the same domain / name that would cause conflicts</li>
@@ -37,17 +38,6 @@
 
 
             As always we have some things that are in the backend that cannot be seen, but just know that we are working to incorporate bigger things very soon!
-
-            Sneak Peak :
-
-            <ul>
-                <li>Teams - 3-4 weeks</li>
-                <li>Bitts - 2 weeks</li>
-                <li>Buoy Marketplace Overhaul 2 weeks</li>
-                <li>Free Database Backups - 4-6 weeks</li>
-            </ul>
-
-            Those are the bigger things taht are coming down the line, of course we will have other features we will be working on!
 
         </div>
         <div class="modal--footer">
