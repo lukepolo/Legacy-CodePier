@@ -29,7 +29,8 @@ class ServerProviderRequest extends FormRequest
             'account' =>  [
                 'required',
                 Rule::unique('user_server_providers')->where(function ($query) {
-                    return $query->where('user_id', \Auth::user()->id);
+                    return $query->where('user_id', \Auth::user()->id)
+                        ->where('deleted_at', null);
                 })
             ],
         ];
