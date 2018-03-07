@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Site;
 
 use App\Rules\Domain;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SiteRename extends FormRequest
 {
