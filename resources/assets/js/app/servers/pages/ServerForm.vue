@@ -26,16 +26,22 @@
                                 </div>
                             </div>
 
-                            <div class="flyform--group" v-if="userServerProviderAccounts.length > 1">
-                                <label>Account</label>
-                                <div class="flyform--group-select">
-                                    <select name="account" v-model="form.account">
-                                        <option v-for="account in userServerProviderAccounts" :value="account.id">
-                                            {{ account.account }}
-                                        </option>
-                                    </select>
+
+                            <template v-if="userServerProviderAccounts.length > 1">
+                                <div class="flyform--group">
+                                    <label>Account</label>
+                                    <div class="flyform--group-select">
+                                        <select name="user_server_provider_id">
+                                            <option v-for="account in userServerProviderAccounts" :value="account.id">
+                                                {{ account.account }}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
+                            <template v-else>
+                                <input type="hidden" name="user_server_provider_id" :value="userServerProviderAccounts[0].id">
+                            </template>
 
                             <div class="grid-2">
                                 <div class="flyform--group" v-if="is_custom">
@@ -148,7 +154,6 @@ export default {
   data() {
     return {
       form: {
-        account: null,
         serverOptionId: null,
         serverOptionRegion: null,
       },
