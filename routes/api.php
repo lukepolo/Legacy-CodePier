@@ -296,9 +296,10 @@ Route::group(['middleware' => [
 
     Route::group(['prefix' => 'server/providers'], function () {
         Route::group([
-            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'prefix' => \App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController::DIGITALOCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
+            Route::apiResource('provider', 'DigitalOceanController');
             Route::apiResource('options', 'DigitalOceanServerOptionsController');
             Route::apiResource('regions', 'DigitalOceanServerRegionsController');
             Route::apiResource('features', 'DigitalOceanServerFeaturesController');
