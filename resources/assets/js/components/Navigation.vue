@@ -40,6 +40,16 @@
                     </li>
                 </template>
             </drop-down>
+
+            <drop-down icon="icon-help">
+                <li>
+                    <a @click.prevent href="/" id="getHelp"><span class="icon-chat"></span> Get Help</a>
+                </li>
+                <li><a target="_blank" href="/faq">FAQs</a></li>
+                <li><a target="_blank" href="/all-features">All Features</a></li>
+                <li><a target="_blank" href="/change-log">Change Log</a></li>
+            </drop-down>
+
             <drop-down icon="icon-settings">
                 <li>
                     <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
@@ -62,11 +72,6 @@
                         <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                     </li>
                 </template>
-
-                <li class="nav-label"></li>
-                <li>
-                    <a @click.prevent href="/" id="getHelp"><span class="icon-chat"></span> Get Help</a>
-                </li>
                 <li class="nav-label"></li>
                 <li>
                     <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>

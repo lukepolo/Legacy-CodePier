@@ -35,7 +35,7 @@ class BuoyService implements BuoyServiceContract
      */
     public function getBuoyClasses()
     {
-        return Cache::rememberForever('buoyClasses', function () {
+        return Cache::tags('app.services')->rememberForever('buoyClasses', function () {
             $buoys = [];
             foreach ($this->getBuoyFiles() as $buoyFile) {
                 $buoyReflection = $this->buildReflection($buoyFile);

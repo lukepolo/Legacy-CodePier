@@ -110,6 +110,7 @@
                     <ul class="footer--links-list">
                         <li><a id="getHelp">Get Help</a></li>
                         <li><a href="mailto:support@codepier.io">Contact Us</a></li>
+                        <li><a target="_blank" href="https://status.codepier.io">Status Page</a></li>
                     </ul>
                 </div>
                 <div class="footer--img">

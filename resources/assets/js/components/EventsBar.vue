@@ -208,20 +208,24 @@ export default {
     hasActiveEvents: {
       deep: true,
       handler: function() {
-        // let favicons = document.querySelectorAll('link[rel~="icon"]');
-        // console.info(this.hasActiveEvents.length)
-        // if(this.hasActiveEvents.length) {
-        //   console.info(this.hasActiveEvents)
-        //   favicons.forEach((favicon) => {
-        //     favicon.setAttribute('href', '/assets/img/favicon/favicon-working.png');
-        //   })
-        //   return;
-        // }
-        //
-        // favicons.forEach((favicon) => {
-        //   let size = favicon.getAttribute('sizes');
-        //   favicon.setAttribute('href', `/assets/img/favicon/favicon${ size ? `-${size}` : '' }.png`);
-        // })
+        let favicons = document.querySelectorAll('link[rel~="icon"]');
+        if (this.hasActiveEvents) {
+          favicons.forEach((favicon) => {
+            favicon.setAttribute(
+              "href",
+              "/assets/img/favicon/favicon-working.png",
+            );
+          });
+          return;
+        }
+
+        favicons.forEach((favicon) => {
+          let size = favicon.getAttribute("sizes");
+          favicon.setAttribute(
+            "href",
+            `/assets/img/favicon/favicon${size ? `-${size}` : ""}.png`,
+          );
+        });
       },
     },
   },
@@ -268,7 +272,16 @@ export default {
       );
     },
     hasActiveEvents() {
-      return this.$store.state.user_commands.running_commands;
+      let events = _.map(this.events, "status").filter((status) => {
+        return (
+          status !== "Failed" &&
+          status !== "Completed" &&
+          status !== "Provisioned"
+        );
+      });
+      return (
+        this.$store.state.user_commands.running_commands.length || events.length
+      );
     },
     events_pagination() {
       return this.$store.state.events.events_pagination;

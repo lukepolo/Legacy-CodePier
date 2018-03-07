@@ -62,7 +62,12 @@ export default {
   components: {
     ServerSelection
   },
-  props: ["deploymentStep", "order", "suggestedOrder"],
+  props: [
+    "deploymentStep",
+    "order",
+    "suggestedOrder",
+    "afterDeploy"
+  ],
   data() {
     return {
       step: this.deploymentStep.step,
@@ -74,6 +79,9 @@ export default {
         ? this.deploymentStep.server_types
         : []
     };
+  },
+  created() {
+    this.deploymentStep.after_deploy = this.afterDeploy ? true : false;
   },
   watch: {
     step: function() {

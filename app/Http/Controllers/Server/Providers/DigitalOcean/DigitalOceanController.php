@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Server\Providers\Linode;
+namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\UserServerProvider;
@@ -8,9 +8,9 @@ use App\Models\Server\Provider\ServerProvider;
 use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
-class LinodeController extends Controller
+class DigitalOceanController extends Controller
 {
-    const LINODE = 'linode';
+    const DIGITALOCEAN = 'digitalocean';
 
     private $serverService;
 
@@ -31,17 +31,16 @@ class LinodeController extends Controller
      */
     public function index()
     {
-        return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', self::LINODE)->firstOrFail());
+        return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', self::DIGITALOCEAN)->firstOrFail());
     }
 
     public function store(ServerProviderRequest $request)
     {
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'user_id'       => \Auth::user()->id,
+            'user_id'      => \Auth::user()->id,
             'account' => $request->get('account'),
-            'token'         => $request->get('token'),
-            'token_secret'   => $request->get('secret_token'),
-            'server_provider_id' => ServerProvider::where('provider_name', self::LINODE)->first()->id,
+            'token'        => $request->get('token'),
+            'server_provider_id' => ServerProvider::where('provider_name', self::DIGITALOCEAN)->first()->id,
         ]);
 
         $userServerProvider->save();

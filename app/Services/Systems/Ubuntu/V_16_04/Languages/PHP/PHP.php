@@ -163,9 +163,16 @@ class PHP
     {
         $phpVersion = $this->server->getLanguages()['PHP']['version'];
         $frameworkConfig = '
+        
+    location / {
+        include '.WebService::NGINX_SERVER_FILES.'/'.$site->domain.'/root-location/*;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
     location ~ \.php$ {
-        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php'.$phpVersion.'-fpm.sock;
+        fastcgi_index index.php;
         include fastcgi_params;
         
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
