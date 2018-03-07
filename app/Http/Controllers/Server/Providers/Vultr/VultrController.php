@@ -36,17 +36,11 @@ class VultrController extends Controller
 
     public function store(ServerProviderRequest $request)
     {
-        $userId = \Auth::user()->id;
-
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', self::VULTR)->first()->id,
-            'provider_id'        => $userId,
-        ]);
-
-        $userServerProvider->fill([
-            'user_id'       => $userId,
+            'user_id'       => \Auth::user()->id,
+            'account' => $request->get('account'),
             'token'         => $request->get('token'),
-            'token_secret'   => null,
+            'server_provider_id' => ServerProvider::where('provider_name', self::VULTR)->first()->id,
         ]);
 
         $userServerProvider->save();

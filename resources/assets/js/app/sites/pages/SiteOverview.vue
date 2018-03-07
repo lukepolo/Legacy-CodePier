@@ -51,7 +51,7 @@
 
                 <confirm
                     dispatch="user_sites/renameSite"
-                    :params="{ site : site.id, domain : renameForm.domain }"
+                    :params="{ site : site.id, domain : renameForm.domain, pile_id : site.pile_id }"
                     confirm_class="btn-link"
                     confirm_position="bottom"
                     message="Rename Site"

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Site;
 
 use App\Rules\Domain;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SiteRename extends FormRequest
 {
@@ -25,7 +26,15 @@ class SiteRename extends FormRequest
     public function rules()
     {
         return [
-            'domain' => ['required', new Domain],
+            'domain' => [
+                'required',
+                new Domain,
+                Rule::unique('sites', 'name')->where(function ($query) {
+                    return $query->where('user_id', \Auth::user()->id)
+                        ->where('pile_id', $this->pile_id);
+                }),
+            ],
+            'wildcard_domain' => 'nullable|boolean',
         ];
     }
 }
