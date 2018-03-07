@@ -30,7 +30,8 @@ class SiteRequest extends FormRequest
                 'required',
                 new Domain,
                 Rule::unique('sites', 'name')->where(function ($query) {
-                    return $query->where('user_id', \Auth::user()->id);
+                    return $query->where('user_id', \Auth::user()->id)
+                        ->where('pile_id', $this->get('pile_id'));
                 }),
             ],
             'pile_id' => 'required|integer',
