@@ -175,11 +175,18 @@ class UserSubscriptionController extends Controller
         );
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function invalidCouponResponse()
     {
         return response()->json('Invalid Coupon', 409);
     }
 
+    /**
+     * @param $coupon
+     * @return bool
+     */
     private function validateCoupon($coupon)
     {
         if (! empty($coupon)) {
