@@ -186,13 +186,13 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param $site
-     * @param $server
+     * @param Site $site
+     * @param Server $server
+     * @param SiteServerDeployment $serverDeployment
      * @param $message
-     * @param $serverDeployment
      * @param $startTime
      */
-    public function deployFailed($site, $server, $message, $serverDeployment, $startTime)
+    public function deployFailed(Site $site, Server $server, SiteServerDeployment $serverDeployment, $message, $startTime)
     {
         $event = $serverDeployment->events->first(function ($event) {
             return $event->completed == false || $event->failed;

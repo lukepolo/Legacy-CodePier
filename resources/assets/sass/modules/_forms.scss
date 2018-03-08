@@ -17,7 +17,7 @@
 #register_form,
 #forgot_form {
   background-color: mix($color-background, $white, 95%);
-  margin-bottom: $spacing*2;
+  margin-bottom: $spacing * 2;
 }
 
 .table--action {
@@ -74,7 +74,7 @@
 
   .input-checkbox,
   .input-radio {
-    margin-bottom: $spacing*2;
+    margin-bottom: $spacing * 2;
 
     label {
       margin-bottom: $spacing;
@@ -92,7 +92,7 @@
     }
   }
   h3 {
-    margin-bottom: $spacing*2;
+    margin-bottom: $spacing * 2;
   }
   .input-question {
     margin-bottom: $spacing;
@@ -166,7 +166,7 @@
   }
 
   .btn-footer {
-    margin: $spacing*2 0px 0px;
+    margin: $spacing * 2 0px 0px;
     padding: $spacing;
   }
 }

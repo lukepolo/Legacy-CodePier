@@ -53,34 +53,34 @@
     position: relative;
 
     &.arrow {
-      margin-right: $spacing*2;
+      margin-right: $spacing * 2;
 
       &:before {
         content: "";
         display: inline-block;
-        border: $spacing*1.6 solid rgba($grayLight, 0.3);
+        border: $spacing * 1.6 solid rgba($grayLight, 0.3);
         border-top-color: transparent;
         border-bottom-color: transparent;
         border-right: none;
         position: absolute;
         top: 1px;
-        right: -$spacing*4;
+        right: -$spacing * 4;
         bottom: 0px;
-        width: $spacing*4;
+        width: $spacing * 4;
       }
 
       &:after {
         content: "";
         display: inline-block;
-        border: $spacing*1.6 solid $black;
+        border: $spacing * 1.6 solid $black;
         border-top-color: transparent;
         border-bottom-color: transparent;
         border-right: none;
         position: absolute;
         top: 1px;
-        right: (-$spacing*4) + 2px;
+        right: (-$spacing * 4) + 2px;
         bottom: 0px;
-        width: $spacing*4;
+        width: $spacing * 4;
       }
     }
   }
