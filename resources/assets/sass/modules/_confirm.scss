@@ -75,7 +75,7 @@
     @for $i from 0 to 6 {
       > span:nth-child(#{$i}) {
         .confirm {
-          left: 0px - (60*($i - 1));
+          left: 0px - (60 * ($i - 1));
 
           &:after {
             left: (22px * $i) + (38px * ($i - 1));
