@@ -45,7 +45,7 @@ trait ServiceConstructorTrait
         $serviceGroupFile = '/opt/codepier/'.$group;
         $this->remoteTaskService->appendTextToFile($serviceGroupFile, $command);
 
-        $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
+        $this->remoteTaskService->run('chmod 775 ' . $serviceGroupFile);
     }
 
     public function removeFromServiceRestartGroup($group, $command)
@@ -53,27 +53,27 @@ trait ServiceConstructorTrait
         $serviceGroupFile = '/opt/codepier/'.$group;
         $this->remoteTaskService->removeLineByText($serviceGroupFile, $command);
 
-        $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
+        $this->remoteTaskService->run('chmod 775 ' . $serviceGroupFile);
     }
 
     public function restartWebServices()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
+        $this->remoteTaskService->run('/opt/codepier/./' . SystemService::WEB_SERVICE_GROUP);
     }
 
     public function restartDatabase()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
+        $this->remoteTaskService->run('/opt/codepier/./' . SystemService::WEB_SERVICE_GROUP);
     }
 
     public function restartWorkers()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WORKER_SERVICE_GROUP);
+        $this->remoteTaskService->run('/opt/codepier/./' . SystemService::WORKER_SERVICE_GROUP);
     }
 }

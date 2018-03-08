@@ -22,22 +22,17 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
     /**
      * @param $command
-     * @param bool $read
      * @param bool $expectedFailure
-     *
+     * @return string
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
-     *
-     * @return string
      */
-    public function run($command, $read = false, $expectedFailure = false)
+    public function run($command, $expectedFailure = false)
     {
         if (! $this->server) {
             throw new SshConnectionFailed('No server set');
         }
-
-        $output = null;
 
         if (config('app.env') === 'local') {
             \Log::info('Running Command '.$command);
@@ -49,7 +44,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect to');
                 $this->ssh($this->server, $this->user);
-                $this->run($command, $read);
+                $this->run($command, $expectedFailure);
             } else {
                 if ($expectedFailure) {
                     set_error_handler(function ($num, $str, $file, $line) {
@@ -112,13 +107,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
     /**
      * @param $file
      * @param $contents
-     * @param bool $read
      * @return string
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function writeToFile($file, $contents, $read = false)
+    public function writeToFile($file, $contents)
     {
         $this->makeDirectory(preg_replace('#\/[^/]*$#', '', $file));
 
@@ -127,7 +121,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return $this->run("cat > $file << 'EOF'
 $contents
 EOF
-echo \"Wrote\"", $read);
+echo \"Wrote\"");
     }
 
     /**
@@ -231,7 +225,7 @@ echo \"Wrote\"", $read);
         }
 
         if ($double == true) {
-            return $this->run('sed -i "s'.$delim.'.*'.$text.'.*'.$delim.$replaceWithText.$delim.'" '.$file);
+            return $this->run('sed -i "s' . $delim . '.*' . $text . '.*' . $delim . $replaceWithText . $delim . '" ' . $file);
         }
 
         $text = $this->cleanRegex($text);
@@ -431,7 +425,7 @@ echo \"Wrote\"", $read);
             $this->ssh($server, 'codepier');
 
             $this->writeToFile($sshFile, $site->private_ssh_key);
-            $this->writeToFile($sshFile.'.pub', $site->public_ssh_key);
+            $this->writeToFile($sshFile . '.pub', $site->public_ssh_key);
 
             $this->appendTextToFile('~/.ssh/config', "IdentityFile $sshFile");
 

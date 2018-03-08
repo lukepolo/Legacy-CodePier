@@ -37,7 +37,7 @@
 export default {
   props: ["bitt"],
   methods: {
-    install() {
+    runForm() {
       this.$store.commit('bitts/set', this.bitt)
     },
     deleteBitt() {

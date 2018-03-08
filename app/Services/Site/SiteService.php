@@ -107,7 +107,7 @@ class SiteService implements SiteServiceContract
 
         $site->domain = $newDomain;
 
-        $this->remoteTaskService->run('mv /home/codepier/'.$oldDomain.' /home/codepier/'.$site->domain);
+        $this->remoteTaskService->run('mv /home/codepier/' . $oldDomain . ' /home/codepier/' . $site->domain);
 
         $this->getWebServerService($server)->createWebServerConfig($site);
 

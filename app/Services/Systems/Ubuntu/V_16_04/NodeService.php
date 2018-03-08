@@ -54,15 +54,15 @@ yarn() {
 
 ');
 
-        $this->remoteTaskService->run('nvm install '.$version);
-        $this->remoteTaskService->run('nvm alias default '.$version);
+        $this->remoteTaskService->run('nvm install ' . $version);
+        $this->remoteTaskService->run('nvm alias default ' . $version);
 
         $this->connectToServer('codepier');
 
         $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash');
 
-        $this->remoteTaskService->run('nvm install '.$version);
-        $this->remoteTaskService->run('nvm alias default '.$version);
+        $this->remoteTaskService->run('nvm install ' . $version);
+        $this->remoteTaskService->run('nvm alias default ' . $version);
     }
 
     /**

@@ -13,7 +13,7 @@ class BittsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index()
     {
@@ -30,6 +30,7 @@ class BittsController extends Controller
     {
         $bitt = Bitt::create([
             'user_id' => \Auth::user()->id,
+            'user' => $request->get('user'),
             'title' => $request->get('title'),
             'script' => $request->get('script'),
             'private' => $request->get('private'),
@@ -67,6 +68,7 @@ class BittsController extends Controller
         $bitt = Bitt::findOrFail($id);
 
         $bitt->update([
+            'user' => $request->get('user'),
             'title' => $request->get('title'),
             'script' => $request->get('script'),
             'private' => $request->get('private'),
@@ -86,6 +88,7 @@ class BittsController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -97,7 +100,7 @@ class BittsController extends Controller
      * @param $bitt
      * @return \Illuminate\Http\JsonResponse
      */
-    public function runOnServers(Request $request, $bitt)
+    public function run(Request $request, $bitt)
     {
         $bitt = Bitt::findOrFail($bitt);
 

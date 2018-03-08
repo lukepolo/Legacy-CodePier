@@ -114,7 +114,7 @@ Route::group(['middleware' => [
     |
     */
     Route::apiResource('bitts', 'BittsController');
-    Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
+    Route::post('bitt/{bitt}/run', 'BittsController@run');
 
     /*
     |--------------------------------------------------------------------------

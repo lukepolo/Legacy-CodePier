@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     runBitt() {
-      // this.form.bitt_id = this.bitt.id;
-      // this.$store.dispatch("runBittOnServers", this.form);
+      this.form.bitt = this.bitt.id;
+      this.$store.dispatch("bitts/run", this.form);
     }
   },
   computed: {
