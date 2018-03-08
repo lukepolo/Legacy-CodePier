@@ -84,7 +84,7 @@ class PHP
                 break;
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb '.$installVersion.'-ldap');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php' . $installVersion . '-cli php' . $installVersion . '-dev php' . $installVersion . '-pgsql php' . $installVersion . '-sqlite3 php' . $installVersion . '-gd php' . $installVersion . '-curl php' . $installVersion . '-memcached php' . $installVersion . '-imap php' . $installVersion . '-mysql php' . $installVersion . '-mbstring php' . $installVersion . '-xml php' . $installVersion . '-zip php' . $installVersion . '-bcmath php' . $installVersion . '-soap php' . $installVersion . '-intl php' . $installVersion . '-readline php' . $installVersion . '-mongodb ' . $installVersion . '-ldap');
 
         $this->remoteTaskService->updateText("/etc/php/$version/cli/php.ini", 'date.timezone', 'date.timezone = UTC');
     }
@@ -102,7 +102,7 @@ class PHP
             $tempVersion = '';
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$tempVersion.'-fpm');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php' . $tempVersion . '-fpm');
 
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
@@ -131,7 +131,7 @@ class PHP
 
         $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
         $this->server->cronJobs()->save(
             CronJob::create([

@@ -39,7 +39,7 @@ class WebService
 letsencrypt renew | grep Congratulations &> /dev/null
 
 if [ $? == 0 ]; then
-    curl "'.config('app.url_stats').'/webhook/server/'.$this->server->encode().'/ssl/updated/"
+    curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode() . '/ssl/updated/"
 fi
 ');
 
@@ -143,8 +143,7 @@ server {
 
         $this->remoteTaskService->run('service nginx stop');
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem',
-            '-----BEGIN DH PARAMETERS-----
+        $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', '-----BEGIN DH PARAMETERS-----
 MIIBCAKCAQEA5M2MrvvA978Z4Zz6FBf/1CUZA3QcJyCUmeMwPVWBeTS9M3XJTYUY
 Hr7UXZQtzWF5o3GLC2SAMzVVHGaJQDnruxBT5HLsneFpSZz5ntCq4tLLIE32dyYd
 Vd/K+Mp1Cee3lw57iK/ZC/CfxoZ5qtWJ9/CRmfXwS8QMwmLl+pR8v5m0I4TqzgRM
@@ -183,16 +182,16 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
             // TODO - for now we will do it by what servers are connected to that site
             // realistically it would be awesome if we could hook up cloudflares free anycast to allow for global load balancing
-            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
-upstream '.$upstreamName.' {
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/before/load-balancer', '
+upstream ' . $upstreamName . ' {
     ip_hash;
-    '.$site->servers->map(function ($server) {
-                $server->ip = 'server '.$server->ip.';';
+    ' . $site->servers->map(function ($server) {
+                $server->ip = 'server ' . $server->ip . ';';
 
                 return $server;
             })->filter(function ($server) {
                 return $server->type === SystemService::WEB_SERVER;
-            })->implode('ip', "\n").'
+            })->implode('ip', "\n") . '
 }');
 
             $location = '
@@ -216,17 +215,17 @@ location / {
         $site->load('sslCertificates');
 
         if ($activeSsl) {
-            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/server/listen', '
             
 gzip off; 
-server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
-listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
-listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
+listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-'.$location.'
+' . $location . '
 
-ssl_certificate_key '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.key;
-ssl_certificate '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.crt;
+ssl_certificate_key ' . ServerService::SSL_FILES . '/' . $activeSsl->id . '/server.key;
+ssl_certificate ' . ServerService::SSL_FILES . '/' . $activeSsl->id . '/server.crt;
 
 ssl_session_timeout 1d;
 ssl_session_cache shared:SSL:50m;
@@ -251,23 +250,23 @@ add_header X-Content-Type-Options nosniff;
 
 ');
 
-            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf', '
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/before/ssl_redirect.conf', '
 server {
-    listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
-    listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
+    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
     
-    server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+    server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
     return 301 https://$host$request_uri;
 }
 ');
         } else {
-            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
-listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
-listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
-server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/server/listen', '
+listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 add_header Strict-Transport-Security max-age=0;
 
-'.$location.'
+' . $location . '
 
 ');
 
@@ -301,16 +300,16 @@ add_header Strict-Transport-Security max-age=0;
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
                 }
 
-                return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
+                return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
 # codepier CONFIG (DO NOT REMOVE!)
-include '.self::NGINX_SERVER_FILES.'/'.$domain.'/before/*;
+include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/before/*;
 
 server {
-    include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
+    include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/server/*;
 
     charset utf-8;
     
-    '.$headers.'
+    ' . $headers . '
         
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
@@ -321,7 +320,7 @@ server {
     
     sendfile off;
     
-    '.$config.'
+    ' . $config . '
     
     location ~ /\.ht {
         deny all;
@@ -332,11 +331,11 @@ server {
     }
     
     access_log off;
-    error_log  /var/log/nginx/'.$domain.'-error.log error;
+    error_log  /var/log/nginx/' . $domain . '-error.log error;
 }
 
 # codepier CONFIG (DO NOT REMOVE!)
-include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
+include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/after/*;
 ');
                 break;
         }

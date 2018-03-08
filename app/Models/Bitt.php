@@ -22,4 +22,15 @@ class Bitt extends Model
     {
         return $this->belongsToMany(System::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function commandDescription($status)
+    {
+        return $status.' bitt '.$this->title.' ran by '.$this->user;
+    }
 }

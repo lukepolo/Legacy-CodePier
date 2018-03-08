@@ -4,7 +4,7 @@ namespace App\Classes;
 
 class SuccessRemoteResponse
 {
-    public $log;
+    public $message;
 
     /**
      * FailedServerResponse constructor.
@@ -13,6 +13,6 @@ class SuccessRemoteResponse
      */
     public function __construct($log)
     {
-        $this->log = $log;
+        $this->message = $log;
     }
 }

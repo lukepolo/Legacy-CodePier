@@ -33,6 +33,16 @@
                 </div>
 
                 <div class="jcf-input-group">
+                    <div class="input-question">Systems</div>
+                    <div class="select-wrap">
+                        <select name="user" v-model="form.user">
+                            <option value="root">Root</option>
+                            <option value="codepier">CodePier</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="jcf-input-group">
                     <div class="input-question">Description</div>
                     <textarea name="description" v-model="form.description"></textarea>
                 </div>
@@ -108,6 +118,7 @@ export default {
       form: this.createForm({
         title: null,
         script: null,
+        user : 'root',
         systems: [],
         private: true,
         category: null,
@@ -123,7 +134,11 @@ export default {
         //   bitt: this.bittId
         // });
       } else {
-        this.$store.dispatch("bitts/store", this.form);
+        this.$store.dispatch("bitts/store", this.form).then((bitt) => {
+          console.info(bitt)
+          this.$store.commit("bitts/set", bitt)
+          this.$router.push({ name : 'bitts_market_place'})
+        });
       }
     }
   },

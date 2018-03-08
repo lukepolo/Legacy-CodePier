@@ -31,7 +31,8 @@ export const destroy = (context, data) => {
 };
 
 export const run = (context, data) => {
-  return Vue.request(data).delete(
-    Vue.action("BittsController@runOnServers", { bitt: data.bitt }),
+  console.info(data);
+  return Vue.request(data).post(
+    Vue.action("BittsController@run", { bitt: data.bitt }),
   );
 };
