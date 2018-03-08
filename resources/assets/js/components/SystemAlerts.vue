@@ -6,7 +6,7 @@
     <div v-if="!socketConnection" class="banner banner-danger">
         We are unable to connect you with CodePier's servers, you may not receive updates properly ....
     </div>
-    <div v-if="current_version !== version" class="banner banner-info">
+    <div v-if="current_version === version" class="banner banner-info">
         <div>
             Hello, we've got a new version of CodePier ready for you! Please <a href="" class="btn btn-small">refresh now</a>
         </div>
