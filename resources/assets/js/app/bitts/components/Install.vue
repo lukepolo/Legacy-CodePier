@@ -21,18 +21,16 @@
 
             <form @submit.prevent="runBitt">
 
-                <div class="jcf-input-group" v-if="!form.new_server">
-                    <div class="input-question">Select server to install on</div>
-                    <div>
-                        <select multiple name="server" v-model="form.servers">
-                            <option></option>
-                            <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
-                        </select>
-                    </div>
+                <div class="input-question">Select servers to install on</div>
+                <div>
+                    <select multiple name="server" v-model="form.servers">
+                        <option></option>
+                        <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
+                    </select>
                 </div>
 
                 <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Install Bitt</button>
+                    <button class="btn btn-primary" type="submit">Run Bitt</button>
                 </div>
 
             </form>
@@ -52,21 +50,16 @@ export default {
   },
   methods: {
     runBitt() {
-      this.form.bitt_id = this.bitt.id;
-      this.$store.dispatch("runBittOnServers", this.form);
+      // this.form.bitt_id = this.bitt.id;
+      // this.$store.dispatch("runBittOnServers", this.form);
     }
   },
   computed: {
     bitt() {
-      let bitt = this.$store.state.bittsStore.bitt;
-
-      if (bitt) {
-        this.form.bitt = bitt.id;
-        return bitt;
-      }
+      return this.$store.state.bitts.bitt;
     },
     servers() {
-      return this.$store.state.serversStore.provisioned_servers;
+      return this.$store.state.user_servers.servers;
     }
   }
 };
