@@ -16,9 +16,9 @@
                 <!--</div>-->
                 <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
                 <!--</li>-->
-                <!--<li>-->
-                <!--<router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>-->
-                <!--</li>-->
+                <li>
+                    <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
+                </li>
                 <li>
                     <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
                 </li>
