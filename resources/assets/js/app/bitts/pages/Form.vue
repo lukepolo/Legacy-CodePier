@@ -89,20 +89,19 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("getCategories").then(() => {
-      this.$store.dispatch("getSystems").then(() => {
-        if (this.bittId) {
-          this.$store.dispatch("getBitt", this.bittId).then(bitt => {
-            this.form.title = bitt.title;
-            this.form.script = bitt.script;
-            this.form.private = bitt.private;
-            this.form.description = bitt.description;
-            this.form.category = bitt.categories[0].id;
-            this.form.systems = _.map(bitt.systems, "id");
-          });
-        }
-      });
-    });
+    this.$store.dispatch("admin_categories/get");
+    this.$store.dispatch("server_systems/get");
+    //     if (this.bittId) {
+    //       this.$store.dispatch("getBitt", this.bittId).then(bitt => {
+    //         this.form.title = bitt.title;
+    //         this.form.script = bitt.script;
+    //         this.form.private = bitt.private;
+    //         this.form.description = bitt.description;
+    //         this.form.category = bitt.categories[0].id;
+    //         this.form.systems = _.map(bitt.systems, "id");
+    //       });
+    //     }
+    //   });
   },
   data() {
     return {
@@ -119,12 +118,12 @@ export default {
   methods: {
     saveUpdateBitt() {
       if (this.bittId) {
-        this.$store.dispatch("updateBitt", {
-          form: this.form,
-          bitt: this.bittId
-        });
+        // this.$store.dispatch("bitts/update", {
+        //   form: this.form,
+        //   bitt: this.bittId
+        // });
       } else {
-        this.$store.dispatch("createBitt", this.form);
+        this.$store.dispatch("bitts/store", this.form);
       }
     }
   },
@@ -133,10 +132,10 @@ export default {
       return this.$route.params.bitt_id;
     },
     systems() {
-      return this.$store.state.systemsStore.systems;
+      return this.$store.state.server_systems.systems;
     },
     categories() {
-      return this.$store.state.categoriesStore.categories;
+      return this.$store.state.admin_categories.categories;
     }
   }
 };

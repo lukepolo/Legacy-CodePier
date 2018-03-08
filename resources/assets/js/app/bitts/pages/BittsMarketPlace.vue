@@ -16,19 +16,19 @@ export default {
     Bitt
   },
   created() {
-    this.$store.dispatch("getCategories").then(() => {
-      this.$store.dispatch("getBitts");
-    });
+    // this.$store.dispatch("getCategories").then(() => {
+      this.$store.dispatch("bitts/get");
+    // });
   },
   computed: {
     bitts() {
-      return this.$store.state.bittsStore.bitts.data;
+      return this.$store.state.bitts.bitts.data;
     },
     pagination() {
-      return this.$store.state.bittsStore.bitts;
+      return this.$store.state.bitts.bitts;
     },
     categories() {
-      return this.$store.state.categoriesStore.categories;
+      // return this.$store.state.categoriesStore.categories;
     }
   }
 };

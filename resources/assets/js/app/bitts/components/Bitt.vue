@@ -26,8 +26,8 @@
         </div>
 
         <div class="btn-footer text-center">
-            <button class="btn btn-primary" @click.prevent="install">
-                Install
+            <button class="btn btn-primary" @click.prevent="runForm">
+                Run
             </button>
         </div>
     </div>
@@ -38,7 +38,7 @@ export default {
   props: ["bitt"],
   methods: {
     install() {
-      this.$store.dispatch("getBitt", this.bitt.id);
+      this.$store.commit('bitts/set', this.bitt)
     },
     deleteBitt() {
       this.$store.dispatch("deleteBitt", this.bitt.id);
