@@ -9,6 +9,10 @@
     background-color: $color-primary;
   }
 
+  &-danger {
+    background-color: $color-accent;
+  }
+
   .btn {
     margin-left: 15px;
   }
