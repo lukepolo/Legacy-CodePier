@@ -37,10 +37,10 @@ class GetServerProviderOptions extends Command
         $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', DigitalOceanController::DIGITALOCEAN)->firstOrFail());
         $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', DigitalOceanController::DIGITALOCEAN)->firstOrFail());
 
-        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
-        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
-
-        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', VultrController::VULTR)->firstOrFail());
-        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', VultrController::VULTR)->firstOrFail());
+//        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
+//        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', LinodeController::LINODE)->firstOrFail());
+//
+//        $serverService->getServerOptions(ServerProvider::with('serverOptions')->where('provider_name', VultrController::VULTR)->firstOrFail());
+//        $serverService->getServerRegions(ServerProvider::with('serverRegions')->where('provider_name', VultrController::VULTR)->firstOrFail());
     }
 }
