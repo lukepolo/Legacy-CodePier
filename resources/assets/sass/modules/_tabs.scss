@@ -30,7 +30,7 @@
 //  -----------------------------------------
 // ---------------------------------------------------------
 .nav-tabs {
-  margin-bottom: $spacing*2;
+  margin-bottom: $spacing * 2;
   display: flex;
 
   li {
@@ -59,7 +59,7 @@
     flex: 0 0 230px;
     flex-direction: column;
     border-right: 1px solid $black;
-    margin: 0px $spacing*2 0px 0px;
+    margin: 0px $spacing * 2 0px 0px;
 
     li {
       flex: 0 0 auto;
@@ -118,7 +118,7 @@
 }
 
 .tab-container:not(.in-workflow) .tab-left-small {
-  margin-left: -$spacing*2;
+  margin-left: -$spacing * 2;
 }
 
 // HORIZONTAL (wizard) TABS --------------------------------

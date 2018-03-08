@@ -17,7 +17,7 @@
     [class*=" icon-"] {
       font-size: 2.4em;
       cursor: pointer;
-      transition: all .2s ease;
+      transition: all 0.2s ease;
 
       &:hover {
         color: $color-primary;
@@ -25,7 +25,7 @@
 
       &.closed {
         transform: rotate(-90deg);
-        transition: all .2s ease;
+        transition: all 0.2s ease;
       }
     }
   }
@@ -129,7 +129,7 @@
 .server-progress-number {
   position: absolute;
   right: 0;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 600;
   line-height: $spacing;
   padding: 0 ($spacing/4);
@@ -172,7 +172,7 @@
   }
 
   .server-label {
-    font-size: .8em;
+    font-size: 0.8em;
     color: $color-text-secondary;
     text-transform: uppercase;
     letter-spacing: 1px;
