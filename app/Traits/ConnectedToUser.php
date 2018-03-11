@@ -17,6 +17,7 @@ trait ConnectedToUser
             if (auth()->check()) {
                 if (empty(auth()->user()->current_team_id)) {
                     if (! empty($userModels)) {
+                        // This means that model has a related table(s) that have the user id column on it
                         $builder->where(function ($builder) use ($userModels) {
                             foreach ((array) $userModels as $userModel) {
                                 $builder->orWhereHas($userModel, function (Builder $builder) {
@@ -28,6 +29,7 @@ trait ConnectedToUser
                         $builder->where('user_id', auth()->user()->id);
                     }
                 }
+                // TODO - teams logic here
             }
         });
     }
