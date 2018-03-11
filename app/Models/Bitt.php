@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Bitt extends Model
 {
@@ -12,6 +13,18 @@ class Bitt extends Model
         'systems',
         'categories',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('private', function (Builder $builder) {
+            $builder->where('private', '=', 0)
+                ->orWhere(function (Builder $builder) {
+                    $builder->where('user_id', \Auth::user()->id);
+                });
+        });
+    }
 
     public function categories()
     {
