@@ -71,7 +71,7 @@ export default {
         log = _.join(_.map(log, "message"), "<br>");
       }
 
-      return log.replace(/(?:\r\n|\r|\n)/g, "<br />");
+      return log ? log.replace(/(?:\r\n|\r|\n)/g, "<br />") : "";
     },
     filterArray(data) {
       if (Array.isArray(data.log)) {
