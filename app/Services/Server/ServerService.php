@@ -444,7 +444,7 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            '/opt/codepier/./certbot-auto certonly --staging --non-interactive --agree-tos --email ' . $server->user->email . ' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
+            '/opt/codepier/./certbot-auto certonly cle--non-interactive --agree-tos --email ' . $server->user->email . ' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
                 explode(',', $sslCertificate->domains))
         );
 
