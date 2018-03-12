@@ -33,15 +33,18 @@ class WebService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+        $this->remoteTaskService->run('wget https://dl.eff.org/certbot-auto -O /opt/codepier/certbot-auto');
+        $this->remoteTaskService->run('chmod a+x /opt/codepier/certbot-auto');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
-letsencrypt renew | grep Congratulations &> /dev/null
+/opt/codepier/./certbot-auto renew | grep Congratulations &> /dev/null
 
 if [ $? == 0 ]; then
     curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode() . '/ssl/updated/"
 fi
 ');
+
+
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
     }
