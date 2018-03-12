@@ -24,7 +24,6 @@
                 </li>
             </template>
 
-
             <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled">
                 <li>
                     <span class="dropdown-heading">Change Team</span>

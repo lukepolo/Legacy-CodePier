@@ -2,7 +2,14 @@ export const isAdmin = function() {
   return this.$store.state.user.user.role === "admin";
 };
 
-export const teamsEnabled = () => {
+export const teamsEnabled = function() {
+  if (this.isAdmin) {
+    return true;
+  }
+
+  if (this.isSubscribed) {
+    return this.$store.state.user.user.subscription_plan.includes("captain");
+  }
   return false;
 };
 

@@ -4,34 +4,28 @@
             <div class="pricing--header-name">{{ title }}</div>
         </div>
         <div class="pricing--features">
-            <template v-if="type !== 'captain'">
-                <div class="flyform--group-radio" v-for="plan in plans">
-                    <label>
-                        <input v-model="form.plan" type="radio" name="plan" :value="plan.plan_id">
-                        <span class="icon"></span>
-                        ${{ (plan.amount/ 100) }} / {{ plan.interval }}
-                        <strong v-if="plan.metadata.save">
-                            SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
-                        </strong>
-                        <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
-                            <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
-                            <small>
-                                <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
-                                    Valid Until
-                                </template>
-                                <template v-else>
-                                    Next billing date
-                                </template>
-                                : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
-                            </small>
-                        </template>
-                    </label>
-                </div>
-            </template>
-            <template v-else>
-                <div class="pricing--coming">COMING SOON!</div>
-            </template>
-
+            <div class="flyform--group-radio" v-for="plan in plans">
+                <label>
+                    <input v-model="form.plan" type="radio" name="plan" :value="plan.plan_id">
+                    <span class="icon"></span>
+                    ${{ (plan.amount/ 100) }} / {{ plan.interval }}
+                    <strong v-if="plan.metadata.save">
+                        SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
+                    </strong>
+                    <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
+                        <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
+                        <small>
+                            <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
+                                Valid Until
+                            </template>
+                            <template v-else>
+                                Next billing date
+                            </template>
+                            : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
+                        </small>
+                    </template>
+                </label>
+            </div>
 
             <template v-if="type === 'captain'">
                 <hr>
@@ -45,7 +39,6 @@
                     <li>Server Monitoring</li>
                     <li>Teams</li>
                     <li>API Access</li>
-
                 </ul>
             </template>
             <template v-else-if="type === 'firstmate'">
