@@ -443,10 +443,26 @@ class ServerService implements ServerServiceContract
         // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
+        if (str_contains($sslCertificate->domains, '*')) {
+            $command = "--manual-auth-hook /path/to/http/authenticator.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains";
+        } else {
+            $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
+        }
+
+//        --manual-auth-hook
+
         $this->remoteTaskService->run(
-            '/opt/codepier/./certbot-auto certonly cle--non-interactive --agree-tos --email ' . $server->user->email . ' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
-                explode(',', $sslCertificate->domains))
-        );
+            "/opt/codepier/./certbot-auto certonly 
+                --server https://acme-v02.api.letsencrypt.org/directory
+                --non-interactive
+                --agree-tos 
+                --expand 
+                --renew-by-default 
+                --manual-public-ip-logging-ok
+                --email {$server->user->email}
+                --rsa-key-size 4096
+                $command
+            ");
 
         $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
 
