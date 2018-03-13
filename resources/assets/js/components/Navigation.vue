@@ -98,7 +98,6 @@ export default {
   computed: {
     currentTeam() {
       const currentTeam = this.$store.state.user.user.current_team;
-
       if (currentTeam) {
         return currentTeam.name;
       }
@@ -120,7 +119,7 @@ export default {
       this.$store.dispatch("auth/logout");
     },
     changeTeam(teamID) {
-      this.$store.dispatch("changeTeams", teamID);
+      this.$store.dispatch("user_teams/changeTeams", teamID);
     },
   },
 };

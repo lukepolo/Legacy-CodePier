@@ -127,17 +127,17 @@ export default {
   },
   methods: {
     createTeam() {
-      this.$store.dispatch("createTeam", this.create_form).then(() => {
+      this.$store.dispatch("user_teams/store", this.create_form).then(() => {
         this.create_form.reset();
       });
     },
     updateTeam() {
-      this.$store.dispatch("updateTeam", this.edit_form).then(() => {
+      this.$store.dispatch("user_teams/update", this.edit_form).then(() => {
         this.edit_form.reset();
       });
     },
     deleteTeam: function(team_id) {
-      this.$store.dispatch("deleteTeam", team_id);
+      this.$store.dispatch("user_teams/destroy", team_id);
     },
     isOwnerOfTeam: function(team) {
       return team.owner_id === this.$store.state.user.user.id;

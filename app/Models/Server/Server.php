@@ -41,8 +41,7 @@ class Server extends Model
         'database_password',
     ];
 
-    // TODO - we will need to tie these to teams instead , don't need to make it more complicated
-//    public static $teamworkModel = 'site.teams';
+    public static $teamworkModel = 'site.teams';
 
     public $teamworkSync = false;
 

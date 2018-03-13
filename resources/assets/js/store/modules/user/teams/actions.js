@@ -33,7 +33,7 @@ export const destroy = (context, data) => {
   );
 };
 
-export const changeTeams = (context, team) => {
+export const changeTeams = ({ dispatch }, team) => {
   return Vue.request()
     .post(
       Vue.action("UserTeamUserTeamController@switchTeam", {
@@ -42,6 +42,6 @@ export const changeTeams = (context, team) => {
       "user_teams/setTeam",
     )
     .then(() => {
-      dispatch("user_piles/get");
+      dispatch("user_piles/get", null, { root: true });
     });
 };
