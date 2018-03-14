@@ -444,12 +444,24 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         if (str_contains($sslCertificate->domains, '*')) {
-            $command = "--manual-auth-hook /path/to/http/authenticator.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains";
+            $this->remoteTaskService->writeToFile('opt/codepier/cert-bot-scripts/', '
+    #!/bin/bash
+    # $CERTBOT_VALIDATION
+    # $CERTBOT_TOKEN
+    curl -X "POST" "'.config('app.url_dns').'/update" \
+        -H \'Content-Type: application/json; charset=utf-8\' \
+        -H \'X-Api-Key: szqACy4NrHEsEVORPcUxmXgFf5eLQ7pDxoYGpIwb\' \
+        -H \'X-Api-User: 7a4b74e4-8e1b-4617-97af-931516224a03\' \
+        -d $\'{
+            "txt": "\'"$CERTBOT_VALIDATION"\'",
+            "subdomain": "14227dc3-4a74-42e9-97a4-7ac50baf1123"
+        }
+    ');
+
+            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains";
         } else {
             $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
         }
-
-//        --manual-auth-hook
 
         $this->remoteTaskService->run(
             "/opt/codepier/./certbot-auto certonly 
