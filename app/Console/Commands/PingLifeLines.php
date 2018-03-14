@@ -42,6 +42,16 @@ class PingLifeLines extends Command
             }
         }
 
+
+        try {
+            $httpClient->get('http://dns.codepier.io');
+        } catch (RequestException $e) {
+            if ($e->getResponse()) {
+                $httpClient->get('https://lifeline.codepier.io/rvAdlMBaZqgpo46EbjYNxAe73XVPGJLK1xkRym5W');
+            }
+        }
+
+
         dispatch(new CheckQueues());
     }
 }
