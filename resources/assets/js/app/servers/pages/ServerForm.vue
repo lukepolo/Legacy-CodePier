@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <template v-else>
+                            <template v-else-if="userServerProviderAccounts.length">
                                 <input type="hidden" name="user_server_provider_id" :value="userServerProviderAccounts[0].id">
                             </template>
 
