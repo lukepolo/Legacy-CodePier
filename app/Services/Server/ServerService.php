@@ -443,38 +443,28 @@ class ServerService implements ServerServiceContract
         // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
-        if (str_contains($sslCertificate->domains, '*')) {
-            $this->remoteTaskService->writeToFile('opt/codepier/cert-bot-scripts/', '
+        if ($sslCertificate->wildcard) {
+            $tokenScriptFile = "/opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh";
+            $this->remoteTaskService->writeToFile($tokenScriptFile, '
     #!/bin/bash
     # $CERTBOT_VALIDATION
     # $CERTBOT_TOKEN
     curl -X "POST" "'.config('app.url_dns').'/update" \
         -H \'Content-Type: application/json; charset=utf-8\' \
-        -H \'X-Api-Key: szqACy4NrHEsEVORPcUxmXgFf5eLQ7pDxoYGpIwb\' \
-        -H \'X-Api-User: 7a4b74e4-8e1b-4617-97af-931516224a03\' \
+        -H \'X-Api-Key: '.$sslCertificate->acme_password.'\' \
+        -H \'X-Api-User: '.$sslCertificate->acme_username.'\' \
         -d $\'{
             "txt": "\'"$CERTBOT_VALIDATION"\'",
-            "subdomain": "14227dc3-4a74-42e9-97a4-7ac50baf1123"
-        }
+            "subdomain": "'.$sslCertificate->acme_subdomain.'"
+        }\'
     ');
-
-            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains";
+            $this->remoteTaskService->run("chmod 775 $tokenScriptFile");
+            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d *.$sslCertificate->domains";
         } else {
             $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
         }
 
-        $this->remoteTaskService->run(
-            "/opt/codepier/./certbot-auto certonly 
-                --server https://acme-v02.api.letsencrypt.org/directory
-                --non-interactive
-                --agree-tos 
-                --expand 
-                --renew-by-default 
-                --manual-public-ip-logging-ok
-                --email {$server->user->email}
-                --rsa-key-size 4096
-                $command
-            ");
+        $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory  --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
 
         $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
 

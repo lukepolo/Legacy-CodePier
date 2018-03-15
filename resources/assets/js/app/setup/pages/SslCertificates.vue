@@ -20,6 +20,7 @@
                     <th>Type</th>
                     <th>Cert Path</th>
                     <th>Key Path</th>
+                    <th>Acme Details</th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,6 +30,14 @@
                     <td>{{ sslCertificate.type }}</td>
                     <td class="break-word">{{ sslCertificate.cert_path }}</td>
                     <td class="break-word">{{ sslCertificate.key_path }}</td>
+                    <td>
+                        <textarea>
+                            {{ sslCertificate.acme_username }}
+                            {{ sslCertificate.unencrypted_acme_password }}
+                            {{ sslCertificate.acme_fulldomain }}
+                            {{ sslCertificate.acme_subdomain }}
+                        </textarea>
+                    </td>
                     <td class="table--action">
                         <template v-if="isRunningCommandFor(sslCertificate.id)">
                             {{ isRunningCommandFor(sslCertificate.id).status }}
@@ -41,11 +50,20 @@
                         </template>
                         <template v-else>
                             <template v-if="sslCertificate.failed">
-                                <tooltip message="Retry Install">
-                                    <span class="table--action-retry">
-                                        <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh2"></span></a>
-                                    </span>
-                                </tooltip>
+                                <template v-if="sslCertificate.wildcard">
+                                    <tooltip message="Try Installing Wildcard">
+                                        <span class="table--action-retry">
+                                            <a @click="tryWildcardInstall(sslCertificate.id)"><span class="icon-refresh2"></span></a>
+                                        </span>
+                                    </tooltip>
+                                </template>
+                                <template v-else>
+                                    <tooltip message="Retry Install">
+                                        <span class="table--action-retry">
+                                            <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh2"></span></a>
+                                        </span>
+                                    </tooltip>
+                                </template>
                             </template>
                             <template v-else>
                                 <tooltip message="Deactivate" v-if="sslCertificate.active">
@@ -94,6 +112,13 @@
             </div>
 
             <template v-if="form.type">
+                <div class="flyform--group-checkbox">
+                    <label>
+                        <input type="checkbox" name="wildcard" v-model="form.wildcard">
+                        <span class="icon"></span>
+                        Wildcard
+                    </label>
+                </div>
                 <div class="flyform--group">
                     <input type="text" v-model="form.domains" name="domains" placeholder=" ">
                     <label for="domains">Domain(s)</label>
@@ -132,6 +157,7 @@ export default {
       loaded: false,
       showForm: false,
       form: this.createForm({
+        wildcard : false,
         type: null,
         domains: null,
         private_key: null,
@@ -170,6 +196,7 @@ export default {
             site_id: this.siteId,
             type: this.form.type,
             domains: this.form.domains,
+            wildcard : this.form.wildcard,
             private_key: this.form.private_key,
             certificate: this.form.certificate
           })
@@ -231,6 +258,12 @@ export default {
     },
     isRunningCommandFor(id) {
       return this.isCommandRunning("App\\Models\\SslCertificate", id);
+    },
+    tryWildcardInstall(id) {
+      this.$store.dispatch("user_site_ssl_certificates/wildcardInstall", {
+        site : this.siteId,
+        ssl_certificate : id
+      });
     },
     retryInstall(domains) {
       if (this.siteId) {
