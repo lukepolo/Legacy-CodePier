@@ -260,6 +260,7 @@ Route::group(['middleware' => [
             Route::apiResource('sites.ssh-keys', 'SiteSshKeyController');
             Route::apiResource('sites.cron-jobs', 'SiteCronJobController');
             Route::apiResource('sites.ssl-certificate', 'SiteSslController');
+            Route::post('sites/{site}/ssl-certificate/{ssl_certificate}/wildcard', 'SiteWildcardSslController@store');
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.schema-users', 'SiteSchemaUserController');

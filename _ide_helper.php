@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.9 on 2018-03-08 22:25:41.
+ * Generated for Laravel 5.6.11 on 2018-03-14 22:46:43.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14864,6 +14864,20 @@ namespace  {
             }
          
             /**
+             * Add an "or where day" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereDay($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereDay($column, $operator, $value);
+            }
+         
+            /**
              * Add a "where month" statement to the query.
              *
              * @param string $column
@@ -14879,6 +14893,20 @@ namespace  {
             }
          
             /**
+             * Add an "or where month" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereMonth($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereMonth($column, $operator, $value);
+            }
+         
+            /**
              * Add a "where year" statement to the query.
              *
              * @param string $column
@@ -14891,6 +14919,20 @@ namespace  {
             public static function whereYear($column, $operator, $value = null, $boolean = 'and')
             {    
                 return \Illuminate\Database\Query\Builder::whereYear($column, $operator, $value, $boolean);
+            }
+         
+            /**
+             * Add an "or where year" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereYear($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereYear($column, $operator, $value);
             }
          
             /**
