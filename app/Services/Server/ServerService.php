@@ -459,7 +459,7 @@ class ServerService implements ServerServiceContract
         }\'
     ');
             $this->remoteTaskService->run("chmod 775 $tokenScriptFile");
-            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d *.$sslCertificate->domains";
+            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains,*.$sslCertificate->domains";
         } else {
             $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
         }
