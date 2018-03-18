@@ -1,98 +1,78 @@
 <template>
     <section>
-        Bitt Form
-        <div class="jcf-form-wrap">
+        <h4>Create Bitt</h4>
+        <form @submit.prevent="saveUpdateBitt">
+            <div class="flyform--group">
+                <input type="text" name="title" v-model="form.title">
+                <label for="title">Title</label>
+            </div>
 
-            <form @submit.prevent="saveUpdateBitt">
-
-                <div class="jcf-input-group">
-                    <input type="text" name="title" v-model="form.title">
-                    <label for="title">
-                        <span class="float-label">Title</span>
-                    </label>
+            <div class="flyform--group">
+                <label>Category</label>
+                <div class="flyform--group-select">
+                    <select name="category" v-model="form.category">
+                        <option></option>
+                        <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Category</div>
-                    <div class="select-wrap">
-                        <select name="category" v-model="form.category">
-                            <option></option>
-                            <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
-                        </select>
-                    </div>
+            <div class="flyform--group">
+                <textarea name="description" v-model="form.description"></textarea>
+                <label>Description</label>
+            </div>
+
+            <div class="flyform--group">
+                <textarea name="script" v-model="form.script" rows="8"></textarea>
+                <label>Script</label>
+            </div>
+
+            <div class="flyform--group">
+                <label>Select Systems</label>
+                <select multiple name="category" v-model="form.systems">
+                    <option></option>
+                    <option v-for="system in systems" :value="system.id">{{ system.name }}</option>
+                </select>
+            </div>
+
+            <div class="flyform--group">
+                <label>System User</label>
+                <div class="flyform--group-select">
+                    <select name="user" v-model="form.user">
+                        <option value="root">Root</option>
+                        <option value="codepier">CodePier</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Systems</div>
-                    <div class="select-wrap">
-                        <select multiple name="category" v-model="form.systems">
-                            <option></option>
-                            <option v-for="system in systems" :value="system.id">{{ system.name }}</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="flyform--group-checkbox">
+                <label>
+                    <input type="checkbox" name="active" v-model="form.private">
+                    <span class="icon"></span>
+                    <span class="icon-visibility_off"></span> Make Private
+                </label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Systems</div>
-                    <div class="select-wrap">
-                        <select name="user" v-model="form.user">
-                            <option value="root">Root</option>
-                            <option value="codepier">CodePier</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="flyform--group-checkbox">
+                <label>
+                    <input type="checkbox" name="active" v-model="form.active">
+                    <span class="icon"></span>
+                    <span class="icon-verified"></span> Verified
+                </label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Description</div>
-                    <textarea name="description" v-model="form.description"></textarea>
-                </div>
-
-                <div class="jcf-input-group">
-                    <div class="input-question">Script</div>
-                    <textarea name="script" v-model="form.script"></textarea>
-                </div>
-
-                <div class="jcf-input-group input-checkbox">
-                    <div class="input-question">Private Bitt</div>
-                    <label>
-                        <input type="checkbox" name="active" v-model="form.private">
-                        <span class="icon"></span>
-                        Private
-                    </label>
-                </div>
-
-                <div class="jcf-input-group input-checkbox">
-                    <div class="input-question">Active</div>
-                    <label>
-                        <input type="checkbox" name="active" v-model="form.active">
-                        <span class="icon"></span>
-                        Verified
-                    </label>
-                </div>
-
-                <!--<div class="jcf-input-group input-checkbox">-->
-                    <!--<div class="input-question">Active</div>-->
-                    <!--<label>-->
-                        <!--<input type="checkbox" name="active" v-model="form.active">-->
-                        <!--<span class="icon"></span>-->
-                        <!--Verified-->
-                    <!--</label>-->
-                <!--</div>-->
-
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">
-                        <template v-if="bittId">
-                            Update
-                        </template>
-                        <template v-else>
-                            Create
-                        </template>
-                        Bitt
-                    </button>
-                </div>
-
-            </form>
-        </div>
+            <div class="btn-footer">
+                <button class="btn btn-primary" type="submit">
+                    <template v-if="bittId">
+                        Update
+                    </template>
+                    <template v-else>
+                        Create
+                    </template>
+                    Bitt
+                </button>
+            </div>
+        </form>
     </section>
 </template>
 

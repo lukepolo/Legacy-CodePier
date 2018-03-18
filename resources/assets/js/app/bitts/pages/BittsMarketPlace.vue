@@ -1,8 +1,20 @@
 <template>
     <section>
-        <h3>Bitts</h3>
-        <router-link :to="{ name: 'bitt_create' }">Create Bitt</router-link>
-        <div class="group-container">
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                &nbsp;
+            </h3>
+            <tooltip message="Create Bitt">
+                <router-link :to="{ name: 'bitt_create' }">
+                    <div class="btn btn-small btn-primary">
+                        <span class="icon-plus"></span>
+                    </div>
+                </router-link>
+            </tooltip>
+        </div>
+        <br>
+
+        <div class="group">
             <bitt :bitt="bitt" v-for="bitt in bitts" :key="bitt.id"></bitt>
         </div>
     </section>

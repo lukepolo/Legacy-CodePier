@@ -32,10 +32,13 @@
                     <td class="break-word">{{ sslCertificate.key_path }}</td>
                     <td>
                         <textarea>
-                            {{ sslCertificate.acme_username }}
-                            {{ sslCertificate.unencrypted_acme_password }}
-                            {{ sslCertificate.acme_fulldomain }}
-                            {{ sslCertificate.acme_subdomain }}
+                            Username : {{ sslCertificate.acme_username }}
+
+                            Password : {{ sslCertificate.unencrypted_acme_password }}
+
+                            FULL DOMAIN : {{ sslCertificate.acme_fulldomain }}
+
+                            SUB DOMAIN : {{ sslCertificate.acme_subdomain }}
                         </textarea>
                     </td>
                     <td class="table--action">
@@ -144,7 +147,10 @@
                 </div>
             </div>
 
+
         </form>
+
+        Please create a `CNAME` for b267ccb8-ba68-4570-a91b-7f2ddf73778a.jfalotico.com to b267ccb8-ba68-4570-a91b-7f2ddf73778a.dns.codepier.io. This will allow you to renew your certificate through automation.
 
         <input type="hidden" v-if="site">
     </section>

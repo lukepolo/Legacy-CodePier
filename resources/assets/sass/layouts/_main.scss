@@ -106,7 +106,8 @@
   }
 
   &.pile-dropdown {
-    padding: 0px;
+    padding: 0;
+
     .dropdown-toggle {
       color: rgba($color-text-primary, 0.5);
       display: flex;
@@ -173,6 +174,11 @@
   .container {
     flex: 1 1 auto;
     padding: $spacing * 2;
+  }
+
+  .side-container {
+    flex: 1 1 auto;
+    padding: $spacing;
   }
 }
 
