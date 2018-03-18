@@ -1,41 +1,43 @@
 <template>
-    <section v-if="bitt">
+        <div class="section-content">
+            <div class="side-container">
+                <h3>{{ bitt.title }}</h3>
 
-        title
-        {{ bitt.title }}
-        <br>
-        description
-        {{ bitt.description }}
-        <br>
-        official
-        {{ bitt.official }}
-        <br>
-        Verified
-        {{ bitt.verified }}
-        <br>
-        <pre>
-            {{ bitt.script }}
-        </pre>
-        <br>
-        <div class="jcf-form-wrap">
+                <div class="flyform--group">
+                    {{ bitt.description }}
+                    <label for="description">Description</label>
+                </div>
 
-            <form @submit.prevent="runBitt">
+                <p class="text-badge text-success" v-if="bitt.official">
+                    <span class="icon-verified"></span> Official
+                </p>
+                <p class="text-badge text-success" v-if="bitt.verified">
+                    <span class="icon-verified"></span> Verified
+                </p>
 
-                <div class="input-question">Select servers to install on</div>
-                <div>
-                    <select multiple name="server" v-model="form.servers">
-                        <option></option>
-                        <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
-                    </select>
+                <div class="flyform--group">
+                    <div class="box">
+                        <pre>{{ bitt.script }}
+                        </pre>
+                    </div>
+                    <label>Script</label>
+                </div>
+
+                <div class="flyform--group">
+                    <form @submit.prevent="runBitt">
+                        <select multiple name="server" v-model="form.servers">
+                            <option></option>
+                            <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
+                        </select>
+                        <label>Select Servers to Install On</label>
+                    </form>
                 </div>
 
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Run Bitt</button>
                 </div>
-
-            </form>
+            </div>
         </div>
-    </section>
 </template>
 
 <script>

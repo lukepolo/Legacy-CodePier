@@ -14,9 +14,9 @@
   box-sizing: border-box;
 }
 
-html,
+#app-layout,
 body,
-#app-layout {
+html {
   height: 100%;
 }
 
@@ -70,7 +70,7 @@ small {
   font-weight: 400;
   color: $color-text-secondary;
   letter-spacing: 0.5px;
-  margin: $spacing 0px;
+  margin: $spacing 0;
 }
 
 p.info {
@@ -102,6 +102,13 @@ p.info {
 
   &-primary {
     color: $blue;
+  }
+
+  &-badge {
+    font-size: 1.2em;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
   }
 }
 
@@ -136,6 +143,15 @@ select option {
   color: $color-text-inverse;
 }
 
+.box {
+  border: 1px solid $color-divider;
+  padding: 14px;
+
+  pre {
+    margin: 0;
+  }
+}
+
 // HEADINGS ------------------------------------------------
 // ---------------------------------------------------------
 h1,
@@ -149,7 +165,7 @@ h6 {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: rgba($color-text-primary, 0.5);
-  margin: 0px;
+  margin: 0;
 
   &.primary {
     font-weight: 700;
@@ -161,7 +177,7 @@ h6 {
 
   small {
     text-transform: none;
-    letter-spacing: 0px;
+    letter-spacing: 0;
   }
 }
 
@@ -198,8 +214,8 @@ h6 {
       right: -40px;
       transform: none;
 
-      &:before,
-      &:after {
+      &:after,
+      &:before {
         left: auto;
         right: 40px;
         transform: none;
@@ -214,9 +230,9 @@ a {
   display: inline-flex;
   color: $color-primary;
 
-  &:hover,
+  &:active,
   &:focus,
-  &:active {
+  &:hover {
     color: mix($white, $blue, 50%);
     text-decoration: none;
     cursor: pointer;
@@ -226,9 +242,9 @@ a {
 .text-link {
   cursor: pointer;
 
-  &:hover,
+  &:active,
   &:focus,
-  &:active {
+  &:hover {
     color: mix($color-primary, $color-text-primary, 50%);
   }
 }
@@ -262,8 +278,8 @@ th {
   background-color: rgba($black, 0.5);
 }
 
-th,
-td {
+td,
+th {
   padding: 8px 10px;
 }
 

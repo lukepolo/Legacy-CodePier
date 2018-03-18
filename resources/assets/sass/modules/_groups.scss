@@ -72,6 +72,10 @@
       flex: 1 0 100px;
       position: relative;
       padding: $spacing;
+
+      .lineclamp {
+        @include lineclamp(6);
+      }
     }
 
     &-img {
@@ -94,7 +98,7 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       margin-top: $spacing;
-      padding: 0px $spacing;
+      padding: 0 $spacing;
 
       [class^="icon-"],
       [class*=" icon-"] {
@@ -186,6 +190,6 @@
 // ---------------------------------------------------------
 .group--item-content .list + form {
   .flyform--group:first-child() {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
