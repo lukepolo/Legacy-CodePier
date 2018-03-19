@@ -97,7 +97,7 @@
                 <label>Certificate Type</label>
             </div>
 
-            <div class="grid-2">
+            <div class="grid-3">
                 <div v-if="!serverId" class="flyform--group-radio">
                     <label>
                         <input name="type" type="radio" v-model="form.type" value="Let's Encrypt">
@@ -107,24 +107,32 @@
                 </div>
                 <div class="flyform--group-radio">
                     <label>
+                        <!-- TODO: update to Wildcard stuff -->
+                        <input name="type" type="radio">
+                        <span class="icon"></span>
+                        Existing CodePier Certificate
+                    </label>
+                </div>
+                <div class="flyform--group-radio">
+                    <label>
                         <input name="type" type="radio" v-model="form.type" value="existing">
                         <span class="icon"></span>
-                        Existing Certificate
+                        Other Existing Certificate
                     </label>
                 </div>
             </div>
 
             <template v-if="form.type">
+                <div class="flyform--group">
+                    <input type="text" v-model="form.domains" name="domains" placeholder=" ">
+                    <label for="domains">Domain(s)</label>
+                </div>
                 <div class="flyform--group-checkbox">
                     <label>
                         <input type="checkbox" name="wildcard" v-model="form.wildcard">
                         <span class="icon"></span>
                         Wildcard
                     </label>
-                </div>
-                <div class="flyform--group">
-                    <input type="text" v-model="form.domains" name="domains" placeholder=" ">
-                    <label for="domains">Domain(s)</label>
                 </div>
             </template>
 
