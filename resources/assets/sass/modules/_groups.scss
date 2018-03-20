@@ -1,192 +1,191 @@
 // GROUP STYLES ============================================
 // =========================================================
 .group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: $spacing;
+
+  &--item {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    @include card(1);
+    border: 1px solid mix($black, $gray, 60%);
 
-    &--item {
-        flex: 0 1 320px;
-        display: flex;
-        flex-direction: column;
-        @include card(1);
-        border: 1px solid mix($black, $gray, 60%);
-        margin: $spacing;
+    &-heading {
+      background-color: mix($white, $gray, 10%);
+      border-bottom: 1px solid mix($black, $gray, 10%);
+      padding: $spacing;
+      position: relative;
+      min-height: 61px;
 
-        &-heading  {
-            background-color: mix($white, $gray, 10%);
-            border-bottom: 1px solid mix($black, $gray, 10%);
-            padding: $spacing;
-            position: relative;
-            min-height: 61px;
+      &-name {
+        white-space: nowrap;
+        max-width: 192px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
+      }
 
-            &-name {
-                white-space: nowrap;
-                max-width: 192px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                vertical-align: bottom;
-            }
+      h4 {
+        text-transform: none;
+      }
 
-            h4 {
-                text-transform: none;
-            }
+      input {
+        display: block;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        background-color: transparent;
+        border: 1px solid $black;
+        width: calc(100% - 72px);
+        margin: -10px;
+        padding: 9px;
 
-            input {
-                display: block;
-                font-size: 14px;
-                font-weight: 400;
-                letter-spacing: .5px;
-                background-color: transparent;
-                border: 1px solid $black;
-                width: calc(100% - 72px);
-                margin: -10px;
-                padding: 9px;
-
-                &:focus {
-                    outline: 2px solid $color-primary;
-                }
-            }
-
-            .action-btn {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-            }
+        &:focus {
+          outline: 2px solid $color-primary;
         }
+      }
 
-        &-subheading {
-            display: flex;
-            padding: $spacing;
-            border-bottom: 1px solid $color-divider;
-
-            &-info {
-                flex: 1 1 auto;
-                font-weight: 400;
-
-                &:last-child {
-                    text-align: right;
-                }
-            }
-        }
-        
-        &-content {
-            flex: 1 0 100px;
-            position: relative;
-            padding: $spacing
-        }
-
-        &-img {
-            height: 50px;
-            width: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            position: relative;
-            margin: (-$spacing/2) $spacing/2 (-$spacing/2) (-$spacing/4);
-
-
-            img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translateY(-50%) translateX(-50%);
-            }
-        }
-
-        &-link {
-            font-weight: 600;
-            letter-spacing: .5px;
-            margin-top:  $spacing;
-            padding: 0px $spacing;
-
-            [class^="icon-"], [class*=" icon-"] {
-                color: $white;
-                position: relative;
-                background-color: $blue;
-                border-radius: 50%;
-                height: 25px;
-                width: 25px;
-                position: relative;
-                top: -6px;
-                text-align: center;
-                margin-right: 5px;
-
-                &:before {
-                    position: relative;
-                    top: 6px;
-                }
-            }
-
-            &:hover {
-                color: mix($blue, $white, 80%);
-                cursor: pointer;
-
-                [class^="icon-"], [class*=" icon-"] {
-                    background-color: mix($blue, $white, 80%);
-                }
-            }
-
-            &.disabled,
-            &.disabled:hover {
-                color: $color-text-secondary;
-                pointer-events: none;
-                cursor: not-allowed;
-                opacity: .3;
-
-                [class^="icon-"], [class*=" icon-"] {
-                    background-color: $color-text-secondary;
-                }
-            }
-        }
-
-        .add-pile {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-
-            .icon-layers {
-                display: block;
-                text-align: center;
-                font-size: 80px;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        .subscribe-pile {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            text-align: center;
-            padding: 50px 20px;
-
-            &:hover {
-                background-color: rgba($white, .05);
-            }
-
-            .small {
-                font-size: 14px;
-                margin-top: 5px;
-            }
-        }
-
-        // Responsive
-        @include breakpoint(md) {
-            flex-grow: 1;
-        }
+      .action-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
     }
+
+    &-subheading {
+      display: flex;
+      padding: $spacing;
+      border-bottom: 1px solid $color-divider;
+
+      &-info {
+        flex: 1 1 auto;
+        font-weight: 400;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+
+    &-content {
+      flex: 1 0 100px;
+      position: relative;
+      padding: $spacing;
+    }
+
+    &-img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      margin: (-$spacing/2) $spacing/2 (-$spacing/2) (-$spacing/4);
+
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+      }
+    }
+
+    &-link {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: $spacing;
+      padding: 0px $spacing;
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        color: $white;
+        position: relative;
+        background-color: $blue;
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+        position: relative;
+        top: -6px;
+        text-align: center;
+        margin-right: 5px;
+
+        &:before {
+          position: relative;
+          top: 6px;
+        }
+      }
+
+      &:hover {
+        color: mix($blue, $white, 80%);
+        cursor: pointer;
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+          background-color: mix($blue, $white, 80%);
+        }
+      }
+
+      &.disabled,
+      &.disabled:hover {
+        color: $color-text-secondary;
+        pointer-events: none;
+        cursor: not-allowed;
+        opacity: 0.3;
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+          background-color: $color-text-secondary;
+        }
+      }
+    }
+
+    .add-pile {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+
+      .icon-layers {
+        display: block;
+        text-align: center;
+        font-size: 80px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .subscribe-pile {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      text-align: center;
+      padding: 50px 20px;
+
+      &:hover {
+        background-color: rgba($white, 0.05);
+      }
+
+      .small {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    }
+
+    // Responsive
+    @include breakpoint(md) {
+      flex-grow: 1;
+    }
+  }
 }
-
-
 
 // PILE ADDITIONAL STYLES ----------------------------------
 // ---------------------------------------------------------
-.group--item-content .list + form  {
-    .flyform--group:first-child() {
-        margin-top: 0px;
-    }
+.group--item-content .list + form {
+  .flyform--group:first-child() {
+    margin-top: 0px;
+  }
 }

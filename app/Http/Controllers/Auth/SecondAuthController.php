@@ -45,7 +45,8 @@ class SecondAuthController extends Controller
         $valid = $this->google2FA->verifyKeyNewer(
             $request->user()->second_auth_secret,
             $request->get('token'),
-            $request->user()->second_auth_updated_at
+            $request->user()->second_auth_updated_at,
+            3
         );
 
         if ($valid) {

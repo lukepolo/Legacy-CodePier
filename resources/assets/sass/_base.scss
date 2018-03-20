@@ -1,12 +1,12 @@
 // BASE STYLES =============================================
 // =========================================================
-@import 'base/normalize';
-@import 'base/bootstrap';
-@import 'base/variables';
-@import 'base/mixins';
-@import 'base/transitions/slide';
+@import "base/normalize";
+@import "base/bootstrap";
+@import "base/variables";
+@import "base/mixins";
+@import "base/transitions/slide";
 
-@import './../../../node_modules/font-awesome/scss/font-awesome';
+@import "./../../../node_modules/font-awesome/scss/font-awesome";
 
 // BASICS --------------------------------------------------
 // ---------------------------------------------------------
@@ -14,7 +14,9 @@
   box-sizing: border-box;
 }
 
-html, body, #app-layout {
+html,
+body,
+#app-layout {
   height: 100%;
 }
 
@@ -29,7 +31,6 @@ img {
   max-width: 100%;
 }
 
-
 // TEXT ----------------------------------------------------
 // ---------------------------------------------------------
 span {
@@ -37,7 +38,6 @@ span {
 }
 
 p {
-
 }
 
 hr {
@@ -45,7 +45,7 @@ hr {
 }
 
 pre {
-  font-family: 'Cutive Mono', monospace;
+  font-family: "Cutive Mono", monospace;
 }
 
 small {
@@ -61,7 +61,7 @@ small {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  vertical-align: bottom
+  vertical-align: bottom;
 }
 
 .placeholder {
@@ -69,7 +69,7 @@ small {
   font-family: $font-heading;
   font-weight: 400;
   color: $color-text-secondary;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   margin: $spacing 0px;
 }
 
@@ -79,11 +79,11 @@ p.info {
 
 .small {
   font-size: 11px;
-  color: rgba($color-text-primary, .7);
+  color: rgba($color-text-primary, 0.7);
   padding-top: $spacing/4;
 }
 
-.text{
+.text {
   &-center {
     text-align: center;
   }
@@ -105,17 +105,16 @@ p.info {
   }
 }
 
-
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
 input {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 label {
   font-weight: 400;
   color: mix($blue, $white, 30%);
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
   display: block;
 }
 
@@ -137,16 +136,19 @@ select option {
   color: $color-text-inverse;
 }
 
-
-
 // HEADINGS ------------------------------------------------
 // ---------------------------------------------------------
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $font-heading;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: .5px;
-  color: rgba($color-text-primary, .5);
+  letter-spacing: 0.5px;
+  color: rgba($color-text-primary, 0.5);
   margin: 0px;
 
   &.primary {
@@ -164,14 +166,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .h--label {
-  color: rgba($white, .9);
+  color: rgba($white, 0.9);
   font-weight: 600;
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
   display: inline-block;
   padding: 5px 10px;
   border-bottom: 2px solid $color-text-secondary;
 }
-
 
 .heading {
   margin-bottom: $spacing;
@@ -187,7 +188,25 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.in-workflow {
+  .heading--btns {
+    align-items: flex-start;
+    margin-top: 5px;
 
+    .confirm-dialog {
+      left: auto;
+      right: -40px;
+      transform: none;
+
+      &:before,
+      &:after {
+        left: auto;
+        right: 40px;
+        transform: none;
+      }
+    }
+  }
+}
 
 // LINKS ---------------------------------------------------
 // ---------------------------------------------------------
@@ -214,15 +233,12 @@ a {
   }
 }
 
-
-
 // LISTS ---------------------------------------------------
 // ---------------------------------------------------------
 button {
   border: none;
   background-color: $color-text-inverse;
 }
-
 
 // TABLES --------------------------------------------------
 // ---------------------------------------------------------
@@ -234,16 +250,16 @@ table {
   background-color: $color-background;
 
   + table {
-    margin-top: $spacing*2;
+    margin-top: $spacing * 2;
   }
 }
 
 th {
   text-align: left;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   border-bottom: 1px solid $color-divider;
   color: mix($blue, $white, 30%);
-  background-color: rgba($black, .5);
+  background-color: rgba($black, 0.5);
 }
 
 th,
@@ -251,17 +267,15 @@ td {
   padding: 8px 10px;
 }
 
-
 tr {
   &:nth-child(even) {
-    background-color: rgba($black, .3);
+    background-color: rgba($black, 0.3);
   }
 
   &:hover {
-    background-color: rgba($white, .1);
+    background-color: rgba($white, 0.1);
     cursor: pointer;
   }
-
 }
 
 .table--light {
@@ -276,7 +290,7 @@ tr {
 
   tr {
     &:nth-child(even) {
-      background-color: rgba($grayLight, .1);
+      background-color: rgba($grayLight, 0.1);
     }
   }
 }

@@ -1,6 +1,6 @@
 export const getServer = function(serverId, attribute) {
   const server = _.find(this.$store.state.user_servers.servers, {
-    id: parseInt(serverId)
+    id: parseInt(serverId),
   });
   if (server) {
     if (attribute) {

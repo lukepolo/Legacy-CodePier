@@ -10,7 +10,7 @@ export const update = (state, { response }) => {
   Vue.set(
     state.cron_jobs,
     parseInt(_.findKey(state.cron_jobs, { id: response.id })),
-    response
+    response,
   );
 };
 
@@ -18,6 +18,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "cron_jobs",
-    _.reject(state.cron_jobs, { id: requestData.cron_job })
+    _.reject(state.cron_jobs, { id: requestData.cron_job }),
   );
 };

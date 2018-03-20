@@ -1,10 +1,6 @@
 <template>
     <div class="providers grid-6">
         <label v-for="repository_provider in repository_providers">
-            <template v-if="isConnected(repository_provider.id)">
-
-            </template>
-
             <div class="providers--item" @click="!isConnected(repository_provider.id) ? registerProvider(repository_provider.provider_name) : disconnectProvider(repository_provider.id)">
                 <div class="providers--item-header">
                     <div class="providers--item-icon"><span :class="'icon-' + repository_provider.name.toLowerCase()"></span></div>
@@ -26,7 +22,6 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("repository_providers/get");
     this.$store.dispatch(
       "user_repository_providers/get",
       this.$store.state.user.user.id

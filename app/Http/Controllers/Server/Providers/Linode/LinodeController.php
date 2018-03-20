@@ -36,17 +36,12 @@ class LinodeController extends Controller
 
     public function store(ServerProviderRequest $request)
     {
-        $userId = \Auth::user()->id;
-
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', self::LINODE)->first()->id,
-            'provider_id'        => $userId,
-        ]);
-
-        $userServerProvider->fill([
-            'user_id'       => $userId,
+            'user_id'       => \Auth::user()->id,
+            'account' => $request->get('account'),
             'token'         => $request->get('token'),
             'token_secret'   => $request->get('secret_token'),
+            'server_provider_id' => ServerProvider::where('provider_name', self::LINODE)->first()->id,
         ]);
 
         $userServerProvider->save();

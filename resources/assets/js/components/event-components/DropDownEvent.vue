@@ -20,7 +20,7 @@
 
             v-bind:css="false"
         >
-            <div class="events--item-details" :id="eventName" v-show="show">
+            <div class="events--item-details" v-show="show">
                 <slot></slot>
             </div>
         </transition>
@@ -29,13 +29,13 @@
 
 <script>
 export default {
-  props: ["title", "event", "type", "prefix", "status", "dropdown"],
+  props: ["title", "event", "prefix", "status", "dropdown"],
   data() {
     return {
       show: false,
       collapsing: false,
       height: null,
-      transitionSpeed: ".35"
+      transitionSpeed: ".35",
     };
   },
   methods: {
@@ -75,18 +75,9 @@ export default {
       el.style.overflow = null;
       el.style.position = null;
       el.style.transition = null;
-    }
+    },
   },
   computed: {
-    eventName: function() {
-      return (
-        (this.prefix ? this.prefix : "event") +
-        "_" +
-        this.event.id +
-        "_" +
-        this.type.replace(/\\/g, "_")
-      );
-    },
     statusClass: function() {
       if (typeof this.status === "undefined") {
         if (
@@ -118,7 +109,7 @@ export default {
     },
     showDropDown() {
       return typeof this.dropdown !== "undefined" ? this.dropdown : true;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -74,6 +74,15 @@ class CustomServerProvisioningController extends Controller
      * @param Request $request
      * @return mixed
      */
+    public function getServerOperatingSystem(Request $request)
+    {
+        return ucwords(ProvisioningKey::findOrFail($request->route('provisioning_key'))->server->system_class);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function returnPublicKey(Request $request)
     {
         return ProvisioningKey::findOrFail($request->route('provisioning_key'))->server->public_ssh_key;

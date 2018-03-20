@@ -2,7 +2,9 @@
 
 @section('content')
     <section id="section--pricingintro">
-            <h1>Choose a plan that's right for you.</h1>
+        <h1>Choose a plan that's right for you.</h1>
+        <h3 class="text-center">Each paid plan includes a 5 day free trial</h3>
+        <br>
     </section>
 
     <section id="section--pricing" class="section">
@@ -21,14 +23,17 @@
                         </ul>
                     </div>
                     <div class="pricing--footer">
-                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  class="btn btn-primary btn-large">Get Started</a>
+                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"
+                           class="btn btn-primary btn-large">Get Started</a>
                     </div>
                 </div>
                 <div class="pricing--item selected">
-                    <div class="pricing--banner">Early Bird Speical!</div>
+                    <div class="pricing--banner">Early Bird Special!</div>
                     <div class="pricing--header">
                         <div class="pricing--header-name">First Mate</div>
-                        <div class="pricing--header-price">$19<small>/ month</small></div>
+                        <div class="pricing--header-price">$19
+                            <small>/ month</small>
+                        </div>
                     </div>
                     <div class="pricing--features">
                         <ul>
@@ -40,13 +45,16 @@
                         </ul>
                     </div>
                     <div class="pricing--footer">
-                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="btn btn-primary btn-large">Start Trial</a>
+                        <a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"
+                           class="btn btn-primary btn-large">Start Trial</a>
                     </div>
                 </div>
                 <div class="pricing--item">
                     <div class="pricing--header">
                         <div class="pricing--header-name">Captain</div>
-                        <div class="pricing--header-price">$49<small>/ month</small></div>
+                        <div class="pricing--header-price">$49
+                            <small>/ month</small>
+                        </div>
                     </div>
                     <div class="pricing--features">
                         <ul>
@@ -66,8 +74,12 @@
                 </div>
             </div>
 
-            <h3 class="text-center">Each paid plan includes a 5 day free trial</h3>
+
         </div>
+    </section>
+
+
+    <section id="section--pricingouttro">
     </section>
 @endsection
 

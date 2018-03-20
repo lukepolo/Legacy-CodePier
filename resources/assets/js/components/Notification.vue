@@ -14,7 +14,7 @@ export default {
   props: ["notification"],
   data() {
     return {
-      timer: null
+      timer: null,
     };
   },
   created() {
@@ -26,7 +26,7 @@ export default {
         function() {
           this.close(this.notification);
         }.bind(this),
-        this.notification.timeout
+        this.notification.timeout,
       );
     }
   },
@@ -34,7 +34,7 @@ export default {
     close: function(notification) {
       clearTimeout(this.timer);
       this.$store.dispatch("notifications/remove", notification);
-    }
-  }
+    },
+  },
 };
 </script>

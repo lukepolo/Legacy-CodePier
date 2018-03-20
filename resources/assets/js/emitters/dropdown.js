@@ -1,4 +1,4 @@
-document.onclick = event => {
+document.onclick = (event) => {
   const target = event.target;
   if (
     !app.hasClass(target, [
@@ -7,7 +7,7 @@ document.onclick = event => {
       "icon-*",
       "providers-*",
       "dropdown-toggle",
-      "dropdown-content"
+      "dropdown-content",
     ]) &&
     !app.isTag(target, "textarea") &&
     !app.isTag(target, "input") &&

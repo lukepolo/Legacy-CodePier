@@ -54,7 +54,7 @@ class RemoveServerDaemon implements ShouldQueue
             });
 
             if ($this->wasSuccessful()) {
-                $this->server->cronJobs()->detach($this->daemon->id);
+                $this->server->daemons()->detach($this->daemon->id);
 
                 $this->daemon->load('servers');
                 if ($this->daemon->servers->count() == 0) {

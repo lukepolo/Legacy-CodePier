@@ -1,66 +1,66 @@
 .slider {
-    min-width: 0px;
+  min-width: 0px;
 
-    &--img {
+  &--img {
+  }
+
+  &--item {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: $spacing*3;
+
+    @include breakpoint(md) {
+      grid-template-columns: 1fr;
     }
 
-    &--item {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: $spacing*3;
-
-        @include breakpoint(md) {
-            grid-template-columns: 1fr;
-        }
-
-        &:focus {
-            outline: none;
-        }
+    &:focus {
+      outline: none;
     }
+  }
 }
 
 // Slick Customization
 .slick-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    margin: $spacing*3 0px 0px 0px;
-    padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: $spacing*3 0px 0px 0px;
+  padding: 0px;
 
-    li {
-        font-size: 0px;
-        color: transparent;
+  li {
+    font-size: 0px;
+    color: transparent;
 
-        button {
-            background-color: transparent;
-            padding: $spacing $spacing/2.5;
+    button {
+      background-color: transparent;
+      padding: $spacing $spacing/2.5;
 
-            &:after {
-                content: '';
-                display: block;
-                height: 6px;
-                width: 40px;
-                border-radius: 6px;
-                background-color: rgba($color-text-secondary, .2);
-            }
+      &:after {
+        content: "";
+        display: block;
+        height: 6px;
+        width: 40px;
+        border-radius: 6px;
+        background-color: rgba($color-text-secondary, 0.2);
+      }
 
-            &:hover,
-            &:active,
-            &:focus {
-                outline: none;
+      &:hover,
+      &:active,
+      &:focus {
+        outline: none;
 
-                &:after {
-                    background-color: rgba($color-text-secondary, .4);
-                    cursor: pointer;
-                }
-            }
+        &:after {
+          background-color: rgba($color-text-secondary, 0.4);
+          cursor: pointer;
         }
-
-        &.slick-active {
-            button:after {
-                background-color: rgba($color-text-secondary, .7);
-            }
-        }
+      }
     }
+
+    &.slick-active {
+      button:after {
+        background-color: rgba($color-text-secondary, 0.7);
+      }
+    }
+  }
 }

@@ -135,5 +135,5 @@ export default {
   user_server_firewall_rules,
   user_server_ssl_certificates,
   user_server_language_settings,
-  user_server_environment_variables
+  user_server_environment_variables,
 };

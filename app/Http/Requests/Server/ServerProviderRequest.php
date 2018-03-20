@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Server;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ServerProviderRequest extends FormRequest
@@ -25,6 +26,13 @@ class ServerProviderRequest extends FormRequest
     {
         return [
             'token' => 'required',
+            'account' =>  [
+                'required',
+                Rule::unique('user_server_providers')->where(function ($query) {
+                    return $query->where('user_id', \Auth::user()->id)
+                        ->where('deleted_at', null);
+                })
+            ],
         ];
     }
 }

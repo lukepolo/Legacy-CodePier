@@ -1,16 +1,18 @@
 <template>
     <div class="server">
-        <div class="server-header">
-            <div class="server-name">
-                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
-                <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
+        <div class="server--header">
+            <div>
+              <div class="server--name">
                 <router-link :to="{ name : 'server_info', params : { server_id : server.id } }">
                     {{ server.name }} <small>({{ serverType }})</small>
                 </router-link>
+              </div>
+              <div class="server--ip">
+                  {{ server.ip }} &nbsp;
+              </div>
             </div>
-            <div class="server-ip">
-                {{ server.ip }} &nbsp;
-            </div>
+
+            <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
         </div>
 
         <div class="server-info-collapsed" v-if="!showServerInfo">
@@ -58,7 +60,7 @@
         </div>
 
         <div class="server-info" v-if="showServerInfo">
-            <div class="server-status">
+            <div class="server--status">
                 <template v-if="server.progress < 100">
 
                     <h4>Status</h4>
@@ -69,18 +71,18 @@
                     </div>
 
                     <div v-if="currentProvisioningStep">
-                        <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
+                        <div class="server--status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
                         </div>
                         <div v-if="currentProvisioningStep.failed"class="server-btns">
                           <span @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</span>
                         </div>
 
-                        <div class="server-status-text" v-else>
+                        <div class="server--status-text" v-else>
                             {{ server.status }}
                         </div>
                     </div>
-                    <div class="server-status-text" v-else>
+                    <div class="server--status-text" v-else>
                         {{ server.status }}
                     </div>
 
@@ -227,7 +229,7 @@
                     </confirm-sidebar>
                 </tooltip>
 
-                <tooltip message="Restart workers">
+                <tooltip message="Restart workers & daemons">
                     <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id" :class="{ disabled : server.type !== 'full_stack' && server.type !== 'worker' }">
                         <span class="icon-worker"></span>
                     </confirm-sidebar>

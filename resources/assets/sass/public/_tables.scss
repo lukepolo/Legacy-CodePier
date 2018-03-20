@@ -1,71 +1,70 @@
 // Table Styles =======================
 // ====================================
 .table {
-    &--responsive {
-        display: flex;
-        width: 100%;
-        overflow-x: auto;
+  &--responsive {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
 
-        @include breakpoint(xs) {
-            box-shadow: 0 0 5px $color-divider;
-        }
-
-        table {
-            display: flex;
-        }
-
-        tbody {
-            display: flex;
-            flex-direction: column;
-        }
-
-        tr {
-            display: flex;
-            position: relative;
-        }
-
-        td,
-        th {
-            flex: 1 0 120px;
-        }
-
-        td:first-child,
-        th:first-child {
-            flex-basis: 200px;
-
-            @include breakpoint(xs) {
-                flex-basis: 120px;
-            }
-        }
+    @include breakpoint(xs) {
+      box-shadow: 0 0 5px $color-divider;
     }
 
-    &--comparison {
-        table-layout: fixed;
-
-        th {
-            border-bottom: 4px solid $blue;
-        }
-
-        td {
-            border-right: 1px solid $color-divider;
-            border-bottom: 1px solid $color-divider;
-            padding: $spacing/2;
-
-            &:first-child {
-                font-weight: 400;
-                border-left: 1px solid $color-divider;
-            }
-
-            &:not(:first-child) {
-                text-align: center;
-            }
-
-            img {
-                display: block;
-                margin: 0 auto;
-                max-width: 30px;
-            }
-        }
-
+    table {
+      display: flex;
     }
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+    }
+
+    tr {
+      display: flex;
+      position: relative;
+    }
+
+    td,
+    th {
+      flex: 1 0 120px;
+    }
+
+    td:first-child,
+    th:first-child {
+      flex-basis: 200px;
+
+      @include breakpoint(xs) {
+        flex-basis: 120px;
+      }
+    }
+  }
+
+  &--comparison {
+    table-layout: fixed;
+
+    th {
+      border-bottom: 4px solid $blue;
+    }
+
+    td {
+      border-right: 1px solid $color-divider;
+      border-bottom: 1px solid $color-divider;
+      padding: $spacing/2;
+
+      &:first-child {
+        font-weight: 400;
+        border-left: 1px solid $color-divider;
+      }
+
+      &:not(:first-child) {
+        text-align: center;
+      }
+
+      img {
+        display: block;
+        margin: 0 auto;
+        max-width: 30px;
+      }
+    }
+  }
 }

@@ -1,7 +1,7 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
     .get(Vue.action("ServerServerController@index"), "user_servers/setAll")
-    .then(servers => {
+    .then((servers) => {
       _.each(servers, function(server) {
         dispatch("listenTo", server);
       });
@@ -11,14 +11,14 @@ export const get = ({ dispatch }) => {
 export const show = (context, server) => {
   return Vue.request().get(
     Vue.action("ServerServerController@show", { server: server }),
-    "user_servers/set"
+    "user_servers/set",
   );
 };
 
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(Vue.action("ServerServerController@store"), "user_servers/add")
-    .then(server => {
+    .then((server) => {
       dispatch("listenTo", server);
       app.showSuccess("Your server is in queue to be provisioned");
       return server;
@@ -29,7 +29,7 @@ export const archive = (context, server) => {
   return Vue.request(server)
     .delete(Vue.action("ServerServerController@destroy", { server: server }), [
       "user_servers/remove",
-      "user_site_servers/remove"
+      "user_site_servers/remove",
     ])
     .then(() => {
       if (app.$router.currentRoute.params.server_id) {
@@ -42,25 +42,25 @@ export const archive = (context, server) => {
 export const getTrashed = () => {
   return Vue.request().get(
     Vue.action("ServerServerController@index", { trashed: true }),
-    "user_servers/setTrashed"
+    "user_servers/setTrashed",
   );
 };
 
 export const getSudoPassword = (context, { server }) => {
   return Vue.request().get(
-    Vue.action("ServerServerController@getSudoPassword", { server })
+    Vue.action("ServerServerController@getSudoPassword", { server }),
   );
 };
 
 export const refreshSudoPassword = (context, { server }) => {
   return Vue.request().post(
-    Vue.action("ServerServerController@refreshSudoPassword", { server })
+    Vue.action("ServerServerController@refreshSudoPassword", { server }),
   );
 };
 
 export const getDatabasePassword = (context, { server }) => {
   return Vue.request().get(
-    Vue.action("ServerServerController@getDatabasePassword", { server })
+    Vue.action("ServerServerController@getDatabasePassword", { server }),
   );
 };
 
@@ -68,9 +68,9 @@ export const restore = ({ dispatch }, server) => {
   return Vue.request(server)
     .post(Vue.action("ServerServerController@restore", { server: server }), [
       "user_servers/add",
-      "user_servers/removeFromTrash"
+      "user_servers/removeFromTrash",
     ])
-    .then(server => {
+    .then((server) => {
       dispatch("listenTo", server);
       return server;
     });
@@ -82,65 +82,86 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
 
     if (server.progress < 100) {
       dispatch("user_server_provisioning/getCurrentStep", server.id, {
-        root: true
+        root: true,
       });
     }
 
     Echo.private("App.Models.Server.Server." + server.id)
-      .listen("Server\\ServerProvisionStatusChanged", data => {
+      .listen("Server\\ServerProvisionStatusChanged", (data) => {
         commit(
           "user_servers/update",
           {
-            response: data.server
+            response: data.server,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
 
         commit(
           "user_site_servers/update",
           {
-            response: data.server
+            response: data.server,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
 
         commit(
           "user_server_provisioning/setCurrentStep",
           {
-            response: data.serverCurrentProvisioningStep
+            response: data.serverCurrentProvisioningStep,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
+
+        if (data.server.provision_steps.length) {
+          commit("events/update", data.server, { root: true });
+        }
       })
-      .listen("Server\\ServerSshConnectionFailed", data => {
+      .listen("Server\\ServerSshConnectionFailed", (data) => {
         commit(
           "user_servers/update",
           {
-            response: data.server
+            response: data.server,
           },
-          { root: true }
+          { root: true },
         );
       })
-      .listen("Server\\ServerFailedToCreate", data => {
+      .listen("Server\\ServerFailedToCreate", (data) => {
         commit(
           "user_servers/update",
           {
-            response: data.server
+            response: data.server,
           },
-          { root: true }
+          { root: true },
         );
       })
-      .listen("Server\\ServerCommandUpdated", data => {
+      .listen("Server\\ServerCommandUpdated", (data) => {
         commit("user_commands/update", data.command, { root: true });
         commit("events/update", data.command, { root: true });
       })
-      .notification(notification => {
+      .listen("Server\\ServerFeatureInstalled", (data) => {
+        commit(
+          "user_servers/update",
+          { response: data.server },
+          { root: true },
+        );
+      })
+      .listen("Server\\ServerStartToProvision", (data) => {
+        commit(
+          "user_servers/update",
+          { response: data.server },
+          { root: true },
+        );
+        if (data.server.provision_steps.length) {
+          commit("events/add", { response: data.server }, { root: true });
+        }
+      })
+      .notification((notification) => {
         switch (notification.type) {
           case "App\\Notifications\\Server\\ServerMemory":
           case "App\\Notifications\\Server\\ServerDiskUsage":
@@ -149,11 +170,11 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
               "user_servers/updateStats",
               {
                 server: server.id,
-                stats: notification.stats
+                stats: notification.stats,
               },
               {
-                root: true
-              }
+                root: true,
+              },
             );
             break;
         }

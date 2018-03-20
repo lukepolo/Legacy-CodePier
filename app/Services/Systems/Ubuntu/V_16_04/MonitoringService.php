@@ -31,7 +31,7 @@ done');
 
         $cronJob = '*/5 * * * * /opt/codepier/./diskusage_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }
@@ -54,7 +54,7 @@ done');
 
         $cronJob = '*/5 * * * * /opt/codepier/./load_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }
@@ -76,7 +76,7 @@ done');
 
         $cronJob = '*/5 * * * * /opt/codepier/./memory_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }

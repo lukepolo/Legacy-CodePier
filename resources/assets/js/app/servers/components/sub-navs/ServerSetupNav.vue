@@ -6,7 +6,7 @@
                 <router-link :to="{ name : 'server_environment_variables', params : { server_id : serverId } }" tag="li" exact>
                     <a>
                         Environment Variables
-                        <div class="small">Add environment variables for you applications</div>
+                        <div class="small">Add environment variables for your site</div>
                     </a>
                 </router-link>
 

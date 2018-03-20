@@ -1,8 +1,6 @@
 // LIST ITEM STYLES ========================================
 // =========================================================
 
-
-
 // SITE LIST STYLES ----------------------------------------
 // ---------------------------------------------------------
 .site > a {
@@ -19,7 +17,7 @@
 
   &:not(.router-link-active):hover {
     color: mix($white, $blue, 50%);
-    background-color: rgba($white, .05);
+    background-color: rgba($white, 0.05);
     cursor: pointer;
   }
 }
@@ -34,7 +32,6 @@
     flex: 0 0 auto;
     width: 1em;
     margin-right: $spacing;
-
 
     &-neutral {
       @include status(null);
@@ -61,19 +58,18 @@
     float: right;
     text-align: right;
 
-    [class^="icon-"], [class*=" icon-"] {
+    [class^="icon-"],
+    [class*=" icon-"] {
       font-size: 1.5em;
-
     }
 
     .btn-disabled {
       background-color: transparent;
-
     }
 
     .deploy-status-text {
       display: block;
-      font-size: .7em;
+      font-size: 0.7em;
       color: $color-text-secondary;
       position: relative;
       left: 7px;
@@ -92,6 +88,7 @@
     flex: 1 1 auto;
   }
 }
+
 .site-container {
   flex: 1 1 auto;
   display: flex;
@@ -105,7 +102,7 @@
   padding: $spacing;
 
   &:hover {
-    background-color: rgba($white, .05);
+    background-color: rgba($white, 0.05);
   }
 }
 
@@ -114,7 +111,6 @@
   border-top: none;
   border-bottom: 1px solid $color-divider;
 }
-
 
 .status {
   flex: 0 0 auto;
@@ -137,235 +133,8 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-// SERVER LIST STYLES --------------------------------------
-// ---------------------------------------------------------
-.server {
-  display: block;
-  border-bottom: 1px solid $color-divider;
-  position: relative;
-
-  &.router-link-active {
-    background-color: mix($gray, $black, 50%);
-  }
-
-  .btn-container {
-    border-top: 1px solid rgba($color-divider, .4);
-    margin: 0px;
-    padding: $spacing/2 0px;
-    display: flex;
-    justify-content: space-between;
-
-    .confirm-container {
-      margin: 0px;
-    }
-  }
-}
-
-.server-header {
-  background-color: rgba($black, .3);
-  padding: ($spacing) ($spacing) ($spacing/2);
-
-  .server-info.condensed .server-progress-container {
-    margin: 20px 0px 10px;
-  }
-}
-
-.server-name {
-  font-weight: 600;
-  font-size: 1.2em;
-  margin-bottom: $spacing/4;
-
-  a {
-    display: flex;
-    align-items: baseline;
-    color: $color-text-primary;
-
-    &:hover {
-      color: $color-primary;
-    }
-
-    small {
-      margin-left: 10px;
-    }
-  }
-
-  [class^="icon-"], [class*=" icon-"] {
-    font-size: 2em;
-    cursor: pointer;
-    transition: all .2s ease;
-
-    &:hover {
-      color: $color-primary;
-    }
-
-    &.closed {
-      transform: rotate(-90deg);
-      transition: all .2s ease;
-    }
-  }
-
-  .event-status {
-    float: left;
-    margin-right: $spacing;
-    margin-left: 0px;
-  }
-}
-
-.server-ip {
-    color: $color-text-primary;
-}
-
-.server-connection {
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  float: right;
-  border-radius: 50%;
-  position: relative;
-  top: 2px;
-  right: -1.4em;
-
-  &.server-success {
-    background-color: $green;
-  }
-
-  &.server-error {
-    background-color: $red;
-  }
-}
-
-.server-status {
-  h4 {
-    margin: 0px 0px $spacing/4;
-    padding-top: $spacing/2;
-
-    &:not(:first-child) {
-      border-top: 1px solid $color-divider;
-    }
-  }
-}
-
-.server-info {
-  padding: 0px 20px;
-
-  &.condensed {
-
-    .server-progress-container {
-      height: $spacing/4;
-      margin-bottom: $spacing;
-    }
-
-    .stats-label {
-      display: inline-block;
-      font-size: 10px;
-      background-color: mix($color-background, $white, 90%);
-      border: 1px solid $color-divider;
-      padding: 1px 5px;
-      position: absolute;
-
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .stats-used {
-      left: 5px;
-    }
-
-    .stats-available {
-      right: 5px;
-    }
-  }
-}
-
-.server-progress-container {
-  height: $spacing;
-  border: 1px solid $color-divider;
-  margin: ($spacing/2) 0;
-  position: relative;
-}
-
-.server-status-text {
-  padding-bottom: $spacing/2;
-}
-
-.server-progress-number {
-  position: absolute;
-  right: 0px;
-  font-size: .9em;
-  font-weight: 600;
-  line-height: $spacing;
-  padding: 0px ($spacing/4);
-  z-index: 10;
-}
-
-.server-progress {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: $color-primary;
-
-  &.warning {
-    background-color: $yellow;
-  }
-
-  &.danger {
-    background-color: $red;
-  }
-}
-
-.server-btns {
-  text-align: right;
-  margin: 5px 0 10px;
-}
-
-
-// Serer Info When Collapsed
-.server-info-collapsed {
-  .grid-3 {
-    grid-gap: 0px;
-  }
-
-  .server-info.condensed {
-    padding: 0px;
-
-    .server-progress-container {
-      margin: 0px;
-    }
-  }
-  
-  .server-label {
-    font-size: .8em;
-    color: $color-text-secondary;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-    background-color: rgba($black, .3);
-    padding-top: 8px;
-  }
-}
-
-
-
-
-
-
-
-
-
 // SERVER LIST
 .list {
-
   + .list {
     margin-top: $spacing;
   }
@@ -381,7 +150,7 @@
     }
 
     .icon-arrow-right {
-      transition: all .2s ease;
+      transition: all 0.2s ease;
     }
 
     &.selected {
@@ -390,7 +159,7 @@
       .icon-arrow-right {
         color: $color-text-accent;
         transform: rotate(90deg) scale(1.3);
-        transition: all .2s ease;
+        transition: all 0.2s ease;
       }
     }
 
@@ -410,46 +179,48 @@
       justify-content: space-between;
       align-items: center;
 
-      [class^="icon-"], [class*=" icon-"] {
+      [class^="icon-"],
+      [class*=" icon-"] {
         transform: scale(1.3);
         color: $color-text-secondary;
       }
 
       &-subgroup {
-        padding: $spacing/2 $spacing $spacing/2 $spacing*3;
+        padding: $spacing/2 $spacing $spacing/2 $spacing * 3;
       }
     }
 
     &-heading {
       border: 1px solid $color-divider;
-      background-color: rgba($color-divider, .5);
+      background-color: rgba($color-divider, 0.5);
       font-weight: 400;
       padding: $spacing/2 $spacing;
     }
 
     &-subgroup {
-      padding: $spacing/2 $spacing $spacing/2 $spacing*2;
+      padding: $spacing/2 $spacing $spacing/2 $spacing * 2;
     }
 
     &-click {
       &:hover {
-        background-color: rgba($color-divider, .2);
+        background-color: rgba($color-divider, 0.2);
         cursor: pointer;
 
-        [class^="icon-"], [class*=" icon-"] {
+        [class^="icon-"],
+        [class*=" icon-"] {
           color: $color-primary;
         }
       }
     }
 
-    @at-root a#{&}:hover {
+    @at-root a#{ &}:hover {
       cursor: pointer;
 
       &:before {
-        content: '\f105';
-        font-family: 'icomoon';
+        content: "\f105";
+        font-family: "icomoon";
         font-size: 2em;
-        line-height: .7em;
+        line-height: 0.7em;
         display: inline-block;
         float: right;
       }
@@ -457,7 +228,8 @@
   }
 
   &--icon {
-    [class^="icon-"]:hover, [class*=" icon-"]:hover {
+    [class^="icon-"]:hover,
+    [class*=" icon-"]:hover {
       cursor: pointer;
       color: $color-primary;
     }
@@ -486,24 +258,19 @@
   .editor--actions {
     background-color: $gray;
     padding: 20px;
-
-
   }
 }
-
 
 // Forms Inside list items
 .list {
   .flyform--submit {
-    padding: 0px 20px;
+    padding: 0 20px;
   }
 
   .flyform--group {
     margin-top: 10px;
   }
 }
-
-
 
 // CPU USAGE
 .cpu-load {
@@ -514,7 +281,7 @@
   flex: 1 1 1em;
 
   &:nth-child(2) {
-    margin: 0px 5px;
+    margin: 0 5px;
   }
 }
 
@@ -522,13 +289,9 @@
   text-align: center;
 }
 
-
-
-
 // LIFELINE STYLES -----------------------------------------
 // ---------------------------------------------------------
 .lifeline {
-
   label {
     top: -4px;
   }
@@ -544,15 +307,14 @@
   }
 
   .confirm-container {
-    margin: 0px;
+    margin: 0;
   }
 }
-
 
 // SERVER TYPE LIST STYLES ---------------------------------
 // ---------------------------------------------------------
 .server-type-list {
-  min-width: 230px;
+  min-width: 300px;
 
   .server-type-list-text {
     display: block;
@@ -565,16 +327,15 @@
     &:hover:after {
       display: none;
     }
-
   }
-  
+
   p {
-    padding: 0px $spacing;
+    padding: 0 $spacing;
   }
 
   ul {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     list-style: none;
   }
 
@@ -587,14 +348,14 @@
     padding: $spacing/1.5 $spacing;
     position: relative;
 
-    &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:hover {
       color: $blue;
-      
+
       &:after {
-        content: '\f105';
-        font-family: 'icomoon';
+        content: "\f105";
+        font-family: "icomoon";
         position: absolute;
         right: 10px;
         top: 50%;
@@ -605,10 +366,9 @@
     }
 
     &.disabled {
-      opacity: .5;
+      opacity: 0.5;
       pointer-events: none;
     }
-
   }
 
   li:not(:last-child) {

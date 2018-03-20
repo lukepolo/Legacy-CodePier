@@ -19,6 +19,8 @@ use App\Events\Site\SiteFirewallRuleCreated;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\DeploymentServices\HTML\HTML;
 use App\Services\DeploymentServices\Ruby\Ruby;
+use App\Models\Site\Deployment\DeploymentEvent;
+use App\Notifications\Site\SiteDeploymentFailed;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -134,7 +136,6 @@ class SiteService implements SiteServiceContract
      * @param SiteServerDeployment $siteServerDeployment
      * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
-     * @throws \App\Exceptions\SiteUserProviderNotConnected
      * @throws \App\Exceptions\SshConnectionFailed
      * @throws \Exception
      */
@@ -142,45 +143,153 @@ class SiteService implements SiteServiceContract
     {
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        foreach ($siteServerDeployment->events as $index => $event) {
+        $hasAfterDeploymentEvents = false;
+
+        if ($deploymentService->rollback) {
+            $deploymentService->rollback();
+        } else {
+            $events = $siteServerDeployment->events->where('completed', 0);
+
+            foreach ($events as $index => $event) {
+                try {
+                    if (! empty($event->step)) {
+                        $startTime = microtime(true);
+
+                        if (! $siteServerDeployment->pending_complete && $event->step->after_deploy) {
+                            $hasAfterDeploymentEvents = true;
+                            continue;
+                        }
+
+                        $this->stepStarted($site, $server, $event);
+                        $deploymentStepLog = $this->runDeploymentStep($deploymentService, $event);
+                        $this->stepCompleted($site, $server, $event, $startTime, $deploymentStepLog);
+                    }
+                } catch (FailedCommand $e) {
+                    $this->captureFailedStep($site, $server, $event, $startTime, $e->getMessage());
+                }
+            }
+        }
+
+        $siteServerDeployment->siteDeployment->update([
+            'folder_name' => $deploymentService->releaseTime,
+            'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
+            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
+        ]);
+
+        if (! $hasAfterDeploymentEvents) {
+            broadcast(new DeploymentCompleted($site, $server, $siteServerDeployment));
+        }
+
+        $siteServerDeployment->update([
+            'pending_complete' => true
+        ]);
+    }
+
+    /**
+     * @param Site $site
+     * @param Server $server
+     * @param SiteServerDeployment $serverDeployment
+     * @param $message
+     * @param $startTime
+     */
+    public function deployFailed(Site $site, Server $server, SiteServerDeployment $serverDeployment, $message, $startTime)
+    {
+        $event = $serverDeployment->events->first(function ($event) {
+            return $event->completed == false || $event->failed;
+        });
+
+        if (! $event) {
+            $event = $serverDeployment->events->last();
+        }
+
+        if (! $event->failed) {
+            broadcast(new DeploymentStepFailed($site, $server, $event, $message, microtime(true) - $startTime));
+        }
+
+        $site->notify(new SiteDeploymentFailed($serverDeployment, $message));
+    }
+
+    /**
+     * @param Server $server
+     * @param Site $site
+     * @param SiteServerDeployment $siteServerDeployment
+     * @param SiteDeployment $siteDeployment
+     * @throws DeploymentFailed
+     */
+    public function runStepsAfterDeploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $siteDeployment)
+    {
+        $deploymentService = $this->getDeploymentService($server, $site, $siteDeployment);
+        $events = $siteServerDeployment->events->where('completed', 0);
+
+        foreach ($events as $index => $event) {
             try {
-                if (empty($event->step)) {
-                    $event->delete();
-                    continue;
+                if (! empty($event->step)) {
+                    $startTime = microtime(true);
+                    $this->stepStarted($site, $server, $event);
+                    $deploymentStepLog = $this->runDeploymentStep($deploymentService, $event);
+                    $this->stepCompleted($site, $server, $event, $startTime, $deploymentStepLog);
                 }
-
-                $start = microtime(true);
-
-                broadcast(new DeploymentStepStarted($site, $server, $event, $event->step));
-
-                if (! empty($event->step->script)) {
-                    $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
-
-                    $deploymentStepResult = $deploymentService->customStep($script);
-                } else {
-                    $internalFunction = $event->step->internal_deployment_function;
-                    $deploymentStepResult = $deploymentService->$internalFunction();
-                }
-
-                if ($index === 0) {
-                    $releaseFolder = $deploymentService->releaseTime;
-                    $siteServerDeployment->siteDeployment->update([
-                        'folder_name' => $releaseFolder,
-                        'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
-                        'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
-                    ]);
-                }
-
-                broadcast(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
-                $log = collect($e->getMessage())->filter()->implode("\n");
-
-                broadcast(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
-                throw new DeploymentFailed($e->getMessage());
+                $this->captureFailedStep($site, $server, $event, $startTime, $e->getMessage());
             }
         }
 
         broadcast(new DeploymentCompleted($site, $server, $siteServerDeployment));
+    }
+
+    /**
+     * @param Site $site
+     * @param Server $server
+     * @param DeploymentEvent $event
+     * @param $startTime
+     * @param string $message
+     * @throws DeploymentFailed
+     */
+    private function captureFailedStep(Site $site, Server $server, DeploymentEvent $event, $startTime, string $message)
+    {
+        $log = collect($message)->filter()->implode("\n");
+        broadcast(new DeploymentStepFailed($site, $server, $event, $log, microtime(true) - $startTime));
+        throw new DeploymentFailed($message);
+    }
+
+    /**
+     * @param $site
+     * @param $server
+     * @param $event
+     */
+    private function stepStarted($site, $server, $event)
+    {
+        broadcast(new DeploymentStepStarted($site, $server, $event));
+    }
+
+    /**
+     * @param $site
+     * @param $server
+     * @param $event
+     * @param $startTime
+     * @param $log
+     */
+    private function stepCompleted(Site $site, Server $server, DeploymentEvent $event, $startTime, $log)
+    {
+        broadcast(new DeploymentStepCompleted($site, $server, $event, collect($log)->filter()->implode("\n"), microtime(true) - $startTime));
+    }
+
+    /**
+     * @param $deploymentService
+     * @param DeploymentEvent $event
+     * @return mixed
+     */
+    private function runDeploymentStep($deploymentService, DeploymentEvent $event)
+    {
+        if (! empty($event->step->script)) {
+            $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
+            $deploymentStepLog = $deploymentService->customStep($script);
+        } else {
+            $internalFunction = $event->step->internal_deployment_function;
+            $deploymentStepLog = $deploymentService->$internalFunction();
+        }
+
+        return $deploymentStepLog;
     }
 
     /**
@@ -321,6 +430,10 @@ class SiteService implements SiteServiceContract
 
             $site->update([
                 'workflow' => $workflow,
+            ]);
+        } else {
+            $site->update([
+                'workflow' => [],
             ]);
         }
     }
