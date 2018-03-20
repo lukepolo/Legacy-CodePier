@@ -45,8 +45,6 @@ if [ $? == 0 ]; then
 fi
 ');
 
-
-
         $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
     }
 
