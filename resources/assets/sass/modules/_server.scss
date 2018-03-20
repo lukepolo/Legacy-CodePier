@@ -1,0 +1,183 @@
+// SERVER LIST STYLES --------------------------------------
+// ---------------------------------------------------------
+.server {
+  display: block;
+  border-bottom: 1px solid $color-divider;
+  position: relative;
+
+  &--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba($black, 0.3);
+    padding: ($spacing/2) ($spacing);
+
+    // Expand Arrow
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 2.4em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: $color-primary;
+      }
+
+      &.closed {
+        transform: rotate(-90deg);
+        transition: all 0.2s ease;
+      }
+    }
+  }
+
+  &--name {
+    font-weight: 600;
+    font-size: 1.2em;
+    margin: 0 10px $spacing/4 0;
+
+    a {
+      display: inline;
+      color: $color-text-primary;
+      word-break: break-word;
+
+      &:hover {
+        color: $color-primary;
+      }
+
+      small {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  &--ip {
+    color: $color-text-primary;
+  }
+
+  // When the server is being built
+  &--status {
+    h4 {
+      margin: 0 0 $spacing/4;
+      padding-top: $spacing/2;
+
+      &:not(:first-child) {
+        border-top: 1px solid $color-divider;
+      }
+    }
+
+    &-text {
+      padding-bottom: $spacing/2;
+    }
+  }
+
+  // WHEN EXPANDED:::
+
+  // Server Btn Actions
+  .btn-container {
+    border-top: 1px solid rgba($color-divider, 0.4);
+    margin: 0;
+    padding: $spacing/2 0;
+    display: flex;
+    justify-content: space-between;
+
+    .confirm-container {
+      margin: 0;
+    }
+  }
+}
+
+// CLEAN UP
+// ---------------------------------------------------------
+.server-info {
+  padding: 0 20px;
+
+  &.condensed {
+    .server-progress-container {
+      height: $spacing/4;
+      margin-bottom: $spacing;
+    }
+
+    .stats-label {
+      display: inline-block;
+      font-size: 10px;
+      background-color: mix($color-background, $white, 90%);
+      border: 1px solid $color-divider;
+      padding: 1px 5px;
+      position: absolute;
+
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .stats-used {
+      left: 5px;
+    }
+
+    .stats-available {
+      right: 5px;
+    }
+  }
+}
+
+.server-progress-container {
+  height: $spacing;
+  border: 1px solid $color-divider;
+  margin: ($spacing/2) 0;
+  position: relative;
+}
+
+.server-progress-number {
+  position: absolute;
+  right: 0;
+  font-size: 0.9em;
+  font-weight: 600;
+  line-height: $spacing;
+  padding: 0 ($spacing/4);
+  z-index: 10;
+}
+
+.server-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $color-primary;
+
+  &.warning {
+    background-color: $yellow;
+  }
+
+  &.danger {
+    background-color: $red;
+  }
+}
+
+.server-btns {
+  text-align: right;
+  margin: 5px 0 10px;
+}
+
+// Serer Info When Collapsed
+.server-info-collapsed {
+  .grid-3 {
+    grid-gap: 0;
+  }
+
+  .server-info.condensed {
+    padding: 0;
+
+    .server-progress-container {
+      margin: 0;
+    }
+  }
+
+  .server-label {
+    font-size: 0.8em;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: rgba($black, 0.3);
+    padding-top: 8px;
+  }
+}

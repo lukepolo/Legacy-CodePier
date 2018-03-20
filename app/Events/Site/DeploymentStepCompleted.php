@@ -7,7 +7,6 @@ use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Deployment\DeploymentEvent;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -27,11 +26,10 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      * @param Site $site
      * @param Server $server
      * @param DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
      * @param $log
      * @param $runtime
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
         $this->siteId = $site->id;
 
@@ -64,10 +62,6 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     public function broadcastWith()
     {
         strip_relations($this->deploymentEvent)->load('step');
-
-        if (strlen($this->deploymentEvent->log) >= 6000) {
-            $this->deploymentEvent->log = substr($this->deploymentEvent->log, 0, 6000)."\n , please reload to see the rest of the log";
-        }
 
         return [
             'site_deployment' => strip_relations($this->siteDeployment),

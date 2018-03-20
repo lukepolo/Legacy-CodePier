@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class OsService
@@ -16,10 +17,12 @@ class OsService
         $this->remoteTaskService->run('sleep 45; DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev software-properties-common apt-transport-https');
 
         // https://community.rackspace.com/products/f/25/t/5110
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt autoremove -y');
     }
 
     public function setTimezoneToUTC()
@@ -28,8 +31,7 @@ class OsService
 
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y ntpdate');
-        $this->remoteTaskService->run('ntpdate ntp.ubuntu.com');
+        $this->remoteTaskService->run('timedatectl set-ntp on');
     }
 
     public function setLocaleToUTF8()
@@ -56,7 +58,6 @@ class OsService
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh');
 
         if (config('app.env') === 'local') {
-            dump('Root Password : '.$rootPassword);
             $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', env('DEV_SSH_KEY'));
         }
 
@@ -73,6 +74,14 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
 
         $this->remoteTaskService->makeDirectory('/opt/codepier');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, '');
+
+        $this->addToServiceRestartGroup(SystemService::WORKER_PROGRAMS_GROUP, '');
+        $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, '');
     }
 
     /**

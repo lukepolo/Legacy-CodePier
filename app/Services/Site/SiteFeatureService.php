@@ -96,7 +96,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
      */
     public function getSuggestedFeatures(Site $site)
     {
-        return Cache::rememberForever("suggestedFeatures.$site->type.$site->framework", function () use ($site) {
+        return Cache::tags('app.services')->rememberForever("suggestedFeatures.$site->type.$site->framework", function () use ($site) {
             $suggestedFeatures = [];
 
             foreach ($this->getSystemsFiles() as $system) {

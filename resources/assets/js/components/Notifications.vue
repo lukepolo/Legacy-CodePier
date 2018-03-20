@@ -13,17 +13,17 @@
 import Notification from "./Notification.vue";
 export default {
   components: {
-    Notification
+    Notification,
   },
   computed: {
     notifications() {
       return this.$store.state.notifications.notifications;
-    }
+    },
   },
   methods: {
     removeNotification: function(notification) {
       this.$store.dispatch("notifications/remove", notification);
-    }
-  }
+    },
+  },
 };
 </script>

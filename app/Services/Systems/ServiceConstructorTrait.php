@@ -35,10 +35,23 @@ trait ServiceConstructorTrait
         return $this->remoteTaskService->getOutput();
     }
 
+    public function clearOutput()
+    {
+        return $this->remoteTaskService->clearOutput();
+    }
+
     public function addToServiceRestartGroup($group, $command)
     {
         $serviceGroupFile = '/opt/codepier/'.$group;
         $this->remoteTaskService->appendTextToFile($serviceGroupFile, $command);
+
+        $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
+    }
+
+    public function removeFromServiceRestartGroup($group, $command)
+    {
+        $serviceGroupFile = '/opt/codepier/'.$group;
+        $this->remoteTaskService->removeLineByText($serviceGroupFile, $command);
 
         $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
     }

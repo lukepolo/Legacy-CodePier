@@ -55,9 +55,11 @@ class SiteDeploymentFailed extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
+            ->markdown('mail.notifications.deployment-failed', [
+                'errorMessage' => str_replace("\n", '<br>', $this->errorMessage),
+            ])
             ->subject('('.$notifiable->pile->name.') '.$notifiable->domain.' Deployment Failed')
             ->line('Your site failed to deploy on '.$this->server->name.' ('.$this->server->ip.') '.' because : ')
-            ->line($this->errorMessage)
             ->action('Go to your site', url('site/'.$notifiable->id))
             ->error();
     }

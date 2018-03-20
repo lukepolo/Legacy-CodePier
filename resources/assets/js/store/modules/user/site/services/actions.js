@@ -25,8 +25,8 @@ export const restartWorkers = (context, site) => {
   Vue.request()
     .post(
       Vue.action("SiteSiteController@restartWorkerServices", {
-        site: site
-      })
+        site: site,
+      }),
     )
     .then(() => {
       app.showSuccess("You have restarted your workers");

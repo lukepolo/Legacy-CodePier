@@ -11,10 +11,10 @@ export const update = (state, { response }) => {
     state.piles,
     parseInt(
       _.findKey(state.piles, {
-        id: response.id
-      })
+        id: response.id,
+      }),
     ),
-    response
+    response,
   );
 };
 
@@ -23,8 +23,8 @@ export const remove = (state, { requestData }) => {
     state,
     "piles",
     _.reject(state.piles, {
-      id: requestData.value
-    })
+      id: requestData.value,
+    }),
   );
 };
 

@@ -1,4 +1,4 @@
 export default {
   category: null,
-  categories: []
+  categories: [],
 };
