@@ -7,10 +7,13 @@
                         {{ bitt.title }}
                     </h4>
                 </div>
-                <div class="action-btn">
-                    <router-link :to="{ name: 'bitt_edit', params : { bitt_id : bitt.id} }" class="btn btn-small">
+                <div class="action-btn" v-if="bitt.user_id === user.id">
+                    <router-link :to="{ name: 'bitt_edit', params : { bitt_id : bitt.id } }" class="btn btn-small">
                         <span class="icon-pencil"></span>
                     </router-link>
+                    <confirm confirm_class="btn btn-small btn-danger" :confirm_action="deleteBitt">
+                        <span class="fa fa-close"></span>
+                    </confirm>
                 </div>
             </h4>
         </div>
@@ -46,7 +49,14 @@
         this.$store.commit('bitts/set', this.bitt)
       },
       deleteBitt () {
-        this.$store.dispatch('deleteBitt', this.bitt.id)
+        this.$store.dispatch('bitts/destroy', this.bitt.id).then(() => {
+          this.$emit('searchBitts', true)
+        })
+      }
+    },
+    computed : {
+      user() {
+        return this.$store.state.user.user;
       }
     }
   }

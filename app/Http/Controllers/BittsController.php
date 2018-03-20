@@ -33,14 +33,14 @@ class BittsController extends Controller
             'user' => $request->get('user'),
             'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'private' => $request->get('private'),
+            'private' => $request->get('private', true),
             'description' => $request->get('description'),
         ]);
 
-        $bitt->systems()->sync($request->get('systems'));
-        $bitt->categories()->sync((array) $request->get('category'));
+//        $bitt->systems()->sync($request->get('systems'));
+//        $bitt->categories()->sync((array) $request->get('category'));
 
-        $bitt->fresh(['systems', 'categories']);
+//        $bitt->fresh(['systems', 'categories']);
 
         return response()->json($bitt);
     }

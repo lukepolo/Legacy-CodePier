@@ -21,7 +21,3 @@ export const update = (state, { response }) => {
     response,
   );
 };
-
-export const remove = (state, { requestData }) => {
-  Vue.set(state, "bitts", _.reject(state.bitts, { id: requestData.bitt }));
-};
