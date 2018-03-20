@@ -154,6 +154,7 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      *
      * @return bool
+     * @throws \Exception
      */
     public function provision(Server $server)
     {
@@ -440,7 +441,6 @@ class ServerService implements ServerServiceContract
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
-        // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
         if ($sslCertificate->wildcard) {
@@ -464,7 +464,7 @@ class ServerService implements ServerServiceContract
             $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
         }
 
-        $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory  --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
+        $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
 
         $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
 
