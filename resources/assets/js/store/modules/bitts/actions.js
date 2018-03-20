@@ -23,15 +23,11 @@ export const update = (context, data) => {
   );
 };
 
-export const destroy = (context, data) => {
-  return Vue.request(data).delete(
-    Vue.action("BittsController@destroy", { bitt: data.bitt }),
-    "bitts/remove",
-  );
+export const destroy = (context, bitt) => {
+  return Vue.request().delete(Vue.action("BittsController@destroy", { bitt }));
 };
 
 export const run = (context, data) => {
-  console.info(data);
   return Vue.request(data).post(
     Vue.action("BittsController@run", { bitt: data.bitt }),
   );
