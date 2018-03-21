@@ -1,5 +1,5 @@
 export default {
-  bitts: [],
   bitt: null,
+  bitts: null,
   viewBitt: null,
 };

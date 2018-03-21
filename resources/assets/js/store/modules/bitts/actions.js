@@ -1,5 +1,8 @@
-export const get = () => {
-  return Vue.request().get(Vue.action("BittsController@index"), "bitts/setAll");
+export const get = (context, page) => {
+  return Vue.request().get(
+    Vue.action("BittsController@index", { page: page ? page.page : 1 }),
+    "bitts/setAll",
+  );
 };
 
 export const show = (context, bitt) => {
