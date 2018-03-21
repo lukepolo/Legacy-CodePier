@@ -96,7 +96,6 @@ class SiteSslController extends Controller
                 $sslCertificate = SslCertificate::create([
                     'domains' => $domains,
                     'type' => $request->get('type'),
-                    'active' => true,
                     'key' => $request->get('private_key'),
                     'cert' => $request->get('certificate'),
                 ]);
@@ -138,6 +137,7 @@ class SiteSslController extends Controller
         }
 
         $sslCertificate->update([
+            'failed' => false,
             'active' => $request->get('active'),
         ]);
 
