@@ -18,20 +18,22 @@
                 <div class="flyform--group">
                     <div class="box">
                       <div class="box--content">
-                        <pre>{{ bitt.script }}
-                        </pre>
+                        <pre>{{ bitt.script }}</pre>
                       </div>
                     </div>
                     <label>Script</label>
                 </div>
 
+                <!--<label>Select Servers to Install On</label>-->
                 <div class="flyform--group">
                     <form @submit.prevent="runBitt">
-                        <select multiple name="server" v-model="form.servers">
-                            <option></option>
-                            <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
-                        </select>
-                        <label>Select Servers to Install On</label>
+                        <div class="flyform--group-checkbox" v-for="server in servers">
+                            <label>
+                                <input type="checkbox" name="servers" :value="server.id" v-model="form.servers">
+                                <span class="icon"></span>
+                                {{ server.name }} ({{ server.ip }})
+                            </label>
+                        </div>
                     </form>
                 </div>
 

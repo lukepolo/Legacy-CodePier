@@ -7,15 +7,15 @@
                 <label for="title">Title</label>
             </div>
 
-            <div class="flyform--group">
-                <label>Category</label>
-                <div class="flyform--group-select">
-                    <select name="category" v-model="form.category">
-                        <option></option>
-                        <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
-                    </select>
-                </div>
-            </div>
+            <!--<div class="flyform&#45;&#45;group">-->
+                <!--<label>Category</label>-->
+                <!--<div class="flyform&#45;&#45;group-select">-->
+                    <!--<select name="category" v-model="form.category">-->
+                        <!--<option></option>-->
+                        <!--<option v-for="category in categories" :value="category.id">{{ category.name }}</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="flyform--group">
                 <textarea name="description" v-model="form.description"></textarea>
@@ -27,16 +27,16 @@
                 <label>Script</label>
             </div>
 
-            <div class="flyform--group">
-                <label>Select Systems</label>
-                <select multiple name="category" v-model="form.systems">
-                    <option></option>
-                    <option v-for="system in systems" :value="system.id">{{ system.name }}</option>
-                </select>
-            </div>
+            <!--<div class="flyform&#45;&#45;group">-->
+                <!--<label>Select Systems</label>-->
+                <!--<select multiple name="category" v-model="form.systems">-->
+                    <!--<option></option>-->
+                    <!--<option v-for="system in systems" :value="system.id">{{ system.name }}</option>-->
+                <!--</select>-->
+            <!--</div>-->
 
             <div class="flyform--group">
-                <label>System User</label>
+                <label>Run Script With</label>
                 <div class="flyform--group-select">
                     <select name="user" v-model="form.user">
                         <option value="root">Root</option>
@@ -45,21 +45,21 @@
                 </div>
             </div>
 
-            <div class="flyform--group-checkbox">
-                <label>
-                    <input type="checkbox" name="active" v-model="form.private">
-                    <span class="icon"></span>
-                    <span class="icon-visibility_off"></span> Make Private
-                </label>
-            </div>
+            <!--<div class="flyform&#45;&#45;group-checkbox">-->
+                <!--<label>-->
+                    <!--<input type="checkbox" name="active" v-model="form.private">-->
+                    <!--<span class="icon"></span>-->
+                    <!--<span class="icon-visibility_off"></span> Make Private-->
+                <!--</label>-->
+            <!--</div>-->
 
-            <div class="flyform--group-checkbox">
-                <label>
-                    <input type="checkbox" name="active" v-model="form.active">
-                    <span class="icon"></span>
-                    <span class="icon-verified"></span> Verified
-                </label>
-            </div>
+            <!--<div class="flyform&#45;&#45;group-checkbox">-->
+                <!--<label>-->
+                    <!--<input type="checkbox" name="active" v-model="form.active">-->
+                    <!--<span class="icon"></span>-->
+                    <!--<span class="icon-verified"></span> Verified-->
+                <!--</label>-->
+            <!--</div>-->
 
             <div class="btn-footer">
                 <button class="btn btn-primary" type="submit">
@@ -79,19 +79,20 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("admin_categories/get");
-    this.$store.dispatch("server_systems/get");
-    //     if (this.bittId) {
-    //       this.$store.dispatch("getBitt", this.bittId).then(bitt => {
-    //         this.form.title = bitt.title;
-    //         this.form.script = bitt.script;
-    //         this.form.private = bitt.private;
-    //         this.form.description = bitt.description;
-    //         this.form.category = bitt.categories[0].id;
-    //         this.form.systems = _.map(bitt.systems, "id");
-    //       });
-    //     }
-    //   });
+    // this.$store.dispatch("admin_categories/get");
+    // this.$store.dispatch("server_systems/get");
+        if (this.bittId) {
+            this.$store.dispatch("bitts/show", this.bittId).then((bitt) => {
+              console.info(bitt)
+              this.form.fill(bitt)
+                  // this.form.title = bitt.title;
+                  // this.form.script = bitt.script;
+                  // this.form.private = bitt.private;
+                  // this.form.description = bitt.description;
+                  // this.form.category = bitt.categories[0].id;
+                  // this.form.systems = _.map(bitt.systems, "id");
+            });
+        }
   },
   data() {
     return {
@@ -115,7 +116,6 @@ export default {
         // });
       } else {
         this.$store.dispatch("bitts/store", this.form).then((bitt) => {
-          console.info(bitt)
           this.$store.commit("bitts/set", bitt)
           this.$router.push({ name : 'bitts_market_place'})
         });

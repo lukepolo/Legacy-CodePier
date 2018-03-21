@@ -1,8 +1,8 @@
 <template>
     <div class="parent">
-        <section id="left" class="section-column">
-            <h3 class="section-header">Search</h3>
-        </section>
+        <!--<section id="left" class="section-column">-->
+            <!--<h3 class="section-header">Search</h3>-->
+        <!--</section>-->
         <section id="middle" class="section-column">
             <h3 class="section-header primary">
                Bitts
