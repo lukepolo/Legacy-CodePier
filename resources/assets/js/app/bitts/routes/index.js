@@ -1,6 +1,6 @@
 import { BittsForm, BittsMarketPlace } from "../pages";
 
-import { BittsArea, BittInstall } from "../components";
+import { BittsArea, RunBitt } from "../components";
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
         name: "bitts_market_place",
         components: {
           default: BittsMarketPlace,
-          right: BittInstall
+          right: RunBitt
         }
       },
       {

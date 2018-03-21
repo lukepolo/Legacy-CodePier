@@ -1,14 +1,20 @@
 <template>
     <div class="parent">
+        <!--<section id="left" class="section-column">-->
+            <!--<h3 class="section-header">Search</h3>-->
+        <!--</section>-->
         <section id="middle" class="section-column">
+            <h3 class="section-header primary">
+               Bitts
+            </h3>
             <div class="section-content">
                 <div class="container">
 
-                    <transition >
+                    <transition>
                         <router-view name="nav"></router-view>
                     </transition>
 
-                    <transition >
+                    <transition>
                         <router-view></router-view>
                     </transition>
 
@@ -17,6 +23,7 @@
         </section>
 
         <section id="right" class="section-column" v-if="bitt">
+            <h3 class="section-header">Run Bitt</h3>
             <router-view name="right"></router-view>
         </section>
 
@@ -25,23 +32,9 @@
 
 <script>
 export default {
-  components: {},
-  data() {
-    return {
-      transitionName: null
-    };
-  },
-  watch: {
-    $route(to, from) {
-      const toDepth = to.path.split("/").length;
-      const fromDepth = from.path.split("/").length;
-      //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-      this.transitionName = "bounce";
-    }
-  },
   computed: {
     bitt() {
-      return this.$store.state.bittsStore.bitt;
+      return this.$store.state.bitts.viewBitt;
     }
   }
 };

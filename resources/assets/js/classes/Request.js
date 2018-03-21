@@ -28,6 +28,13 @@ class Request {
     this.errors = new Errors();
   }
 
+  fill(data) {
+    for (const field in data) {
+      this[field] = data[field];
+    }
+    this.setOriginalData();
+  }
+
   /**
    * Fetch all relevant data for the form.
    */

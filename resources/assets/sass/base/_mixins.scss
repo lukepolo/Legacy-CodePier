@@ -81,3 +81,30 @@
     background-color: $grayLight;
   }
 }
+
+// LINE CLAMPING -------------------------------------------
+// ---------------------------------------------------------
+@mixin lineclamp($lines) {
+  $box-height: $lines + 0.5 + em;
+
+  overflow: hidden;
+
+  // Webkit Browsers
+  @supports (-webkit-appearance: none) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+  }
+
+  // Firefox
+  @supports (-moz-appearance: meterbar) {
+    max-height: $box-height;
+    position: relative;
+  }
+
+  // IE
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    max-height: $box-height;
+    position: relative;
+  }
+}

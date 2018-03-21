@@ -52,21 +52,21 @@ port = :9001
     {
         $this->connectToServer($sshUser);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf ', '
-[program:server-worker-'.$worker->id.']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $worker->id . '.conf ', '
+[program:server-worker-' . $worker->id . ']
 process_name=%(program_name)s_%(process_num)02d
-command='.$worker->command.'
-autostart='.($worker->auto_start ? 'true' : 'false').'
-autorestart='.($worker->auto_restart ? 'true' : 'false').'
-user='.$worker->user.'
-numprocs='.$worker->number_of_workers.'
+command=' . $worker->command . '
+autostart=' . ($worker->auto_start ? 'true' : 'false') . '
+autorestart=' . ($worker->auto_restart ? 'true' : 'false') . '
+user=' . $worker->user . '
+numprocs=' . $worker->number_of_workers . '
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
+stdout_logfile=/home/codepier/workers/server-worker-' . $worker->id . '.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start server-worker-'.$worker->id.':*');
+        $this->remoteTaskService->run('supervisorctl start server-worker-' . $worker->id . ':*');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_PROGRAMS_GROUP, "supervisorctl restart server-worker-$worker->id:*");
     }
@@ -75,7 +75,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
     {
         $this->connectToServer($user);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-' . $worker->id . '.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
@@ -87,21 +87,21 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
     {
         $this->connectToServer($sshUser);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-daemon-'.$daemon->id.'.conf ', '
-[program:server-daemon-'.$daemon->id.']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-daemon-' . $daemon->id . '.conf ', '
+[program:server-daemon-' . $daemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
-command='.$daemon->command.'
+command=' . $daemon->command . '
 autostart=true
 autorestart=true
-user='.$daemon->user.'
+user=' . $daemon->user . '
 numprocs=1
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
+stdout_logfile=/home/codepier/workers/server-worker-' . $daemon->id . '.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start server-daemon-'.$daemon->id.':*');
+        $this->remoteTaskService->run('supervisorctl start server-daemon-' . $daemon->id . ':*');
 
         $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, "supervisorctl restart server-daemon-$daemon->id:*");
     }
@@ -110,7 +110,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
     {
         $this->connectToServer($user);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-daemon-'.$daemon->id.'.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-daemon-' . $daemon->id . '.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');

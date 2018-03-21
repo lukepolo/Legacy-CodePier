@@ -40,7 +40,7 @@ class SiteSslCertificateUpdated
 
             foreach ($availableServers as $server) {
                 if ($sslCertificate->active) {
-                    if ($activeSsl->id != $sslCertificate->id) {
+                    if (! empty($activeSsl) && $activeSsl->id != $sslCertificate->id) {
                         $activeSsl->update([
                             'active' => false,
                         ]);
