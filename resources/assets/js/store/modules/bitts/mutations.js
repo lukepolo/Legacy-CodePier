@@ -1,9 +1,27 @@
-export const set = (state, { response, requestData }) => {};
+export const setAll = (state, { response }) => {
+  Vue.set(state, "bitts", response);
+};
 
-export const setAll = (state, { response, requestData }) => {};
+export const view = (state, bitt) => {
+  Vue.set(state, "viewBitt", bitt);
+};
 
-export const add = (state, { response, requestData }) => {};
+export const set = (state, bitt) => {
+  Vue.set(state, "bitt", bitt);
+};
 
-export const update = (state, { response, requestData }) => {};
+export const add = (state, { response }) => {
+  state.bitts.push(response);
+};
 
-export const remove = (state, { response, requestData }) => {};
+export const update = (state, { response }) => {
+  Vue.set(
+    state.bitts,
+    parseInt(
+      _.findKey(state.bitts, {
+        id: response.id,
+      }),
+    ),
+    response,
+  );
+};

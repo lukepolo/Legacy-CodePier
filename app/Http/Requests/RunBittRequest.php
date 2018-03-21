@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BittRequest extends FormRequest
+class RunBittRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class BittRequest extends FormRequest
     public function rules()
     {
         return [
-            'user' => 'required|string',
-            'title' => 'required|string',
-            'script' =>  'required|string',
-//            'systems' =>  'required|array',
-//            'category' => 'required|integer',
-//            'private' =>  'nullable|boolean',
-            'description' => 'required|string',
+            'global' => 'boolean',
+            'servers' => 'required_without:global'
         ];
     }
 }

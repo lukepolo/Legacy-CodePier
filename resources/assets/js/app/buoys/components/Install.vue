@@ -1,57 +1,47 @@
 <template>
-    <section v-if="buoyApp">
-        <template v-if="buoyApp && buoyApp.icon_url">
-            <img :src="buoyApp.icon_url" style="max-width:100px">
+  <div class="section-content" v-if="buoyApp">
+    <div class="side-container">
+      <template v-if="buoyApp && buoyApp.icon_url">
+        <img :src="buoyApp.icon_url" style="max-width:100px">
+      </template>
+
+      <h3>{{ buoyApp.title }}</h3>
+      <form @submit.prevent="installBuoy">
+        <template v-for="(port, port_description) in form.ports">
+          <div class="flyform--group">
+            <input type="text" name="ports[]" v-model="form.ports[port_description].local_port">
+            <label for="ports[]">
+                {{ port_description }} : Docker Port {{ port.docker_port }}
+            </label>
+          </div>
         </template>
-        {{ buoyApp.title }}
 
-        <div class="jcf-form-wrap">
+        <template v-for="(option, option_title) in form.options">
+          <div class="flyform--group">
+            <input type="text" name="optionValues[]" v-model="form.options[option_title].value">
+            <label for="optionValues[]">
+                {{ option_title }} : {{ option.description }}
+            </label>
+          </div>
+        </template>
 
-            <form @submit.prevent="installBuoy">
-
-                <h3>Ports</h3>
-
-                <template v-for="(port, port_description) in form.ports">
-
-                    <div class="jcf-input-group">
-                        <input type="text" name="ports[]" v-model="form.ports[port_description].local_port">
-                        <label for="ports[]">
-                            <span class="float-label">{{ port_description }} : Docker Port {{ port.docker_port }}</span>
-                        </label>
-                    </div>
-
-                </template>
-
-                <h3>Options </h3>
-
-                <template v-for="(option, option_title) in form.options">
-
-                    <div class="jcf-input-group">
-                        <input type="text" name="optionValues[]" v-model="form.options[option_title].value">
-                        <label for="optionValues[]">
-                            <span class="float-label">{{ option_title }} : {{ option.description }}</span>
-                        </label>
-                    </div>
-
-                </template>
-
-                <div class="jcf-input-group" v-if="!form.new_server">
-                    <div class="input-question">Select server to install on</div>
-                    <div>
-                        <select name="server" v-model="form.server">
-                            <option></option>
-                            <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Install Buoy</button>
-                </div>
-
-            </form>
+        <div class="flyform--group">
+          <label>Select Server to Install On</label>
+          <div class="flyform--group-select">
+            <select name="server" v-model="form.server">
+              <option></option>
+              <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
+            </select>
+          </div>
         </div>
-    </section>
+
+        <div class="btn-footer">
+            <button class="btn btn-primary" type="submit">Install Buoy</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>

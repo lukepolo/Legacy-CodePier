@@ -94,7 +94,7 @@ trait DeployTrait
     {
         $output = [];
 
-        $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
+        $this->remoteTaskService->run('mkdir -p ' . $this->siteFolder);
 
         $loadSshKeyCommand = '';
 
@@ -118,12 +118,12 @@ trait DeployTrait
         }
 
         if ($this->zeroDowntimeDeployment) {
-            $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
+            $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; git clone ' . $url . ' --branch=' . $this->branch . (empty($this->sha) ? ' --depth=1' : '') . ' ' . $this->release);
         } else {
             if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
-                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; rm -rf * ;  git clone '.$url.' --branch='.$this->branch.' .');
+                $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; rm -rf * ;  git clone ' . $url . ' --branch=' . $this->branch . ' .');
             } else {
-                $output[] = $this->remoteTaskService->run($loadSshKeyCommand.'cd '.$this->siteFolder.'; git pull origin '.$this->branch);
+                $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; git pull origin ' . $this->branch);
             }
         }
 
@@ -145,7 +145,7 @@ trait DeployTrait
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::DAEMON_PROGRAMS_GROUP);
+        return $this->remoteTaskService->run('/opt/codepier/./' . SystemService::DAEMON_PROGRAMS_GROUP);
     }
 
     /**
@@ -159,7 +159,7 @@ trait DeployTrait
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WORKER_PROGRAMS_GROUP);
+        return $this->remoteTaskService->run('/opt/codepier/./' . SystemService::WORKER_PROGRAMS_GROUP);
     }
 
     /**
@@ -175,9 +175,9 @@ trait DeployTrait
             $currentFolder = $this->siteFolder.'/current';
 
             // Remove the docked with codepier index
-            $this->remoteTaskService->run('ls -l '.$currentFolder.' | grep -v "\->" && rm -rf '.$currentFolder.' || echo true');
+            $this->remoteTaskService->run('ls -l ' . $currentFolder . ' | grep -v "\->" && rm -rf ' . $currentFolder . ' || echo true');
 
-            return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$currentFolder);
+            return $this->remoteTaskService->run('ln -sfn ' . $this->release . ' ' . $currentFolder);
         }
     }
 
@@ -193,7 +193,7 @@ trait DeployTrait
         if ($this->zeroDowntimeDeployment && $this->site->keep_releases > 0) {
             $this->remoteTaskService->ssh($this->server, 'root');
 
-            return $this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf');
+            return $this->remoteTaskService->run('cd ' . $this->siteFolder . '; find . -maxdepth 1 -name "2*" | sort -r | tail -n +' . ($this->site->keep_releases + 1) . ' | xargs rm -Rf');
         }
     }
 
@@ -206,6 +206,6 @@ trait DeployTrait
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
 
-        return $this->remoteTaskService->run('cd '.$this->release.' && '.$script);
+        return $this->remoteTaskService->run('cd ' . $this->release . ' && ' . $script);
     }
 }

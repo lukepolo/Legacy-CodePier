@@ -68,10 +68,10 @@ export default {
   methods: {
     getLog(log) {
       if (_.isArray(log)) {
-        return _.join(_.map(log, "message"), "<br>");
+        log = _.join(_.map(log, "message"), "<br>");
       }
 
-      return log;
+      return log ? log.replace(/(?:\r\n|\r|\n)/g, "<br />") : "";
     },
     filterArray(data) {
       if (Array.isArray(data.log)) {

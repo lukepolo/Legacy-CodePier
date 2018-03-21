@@ -50,7 +50,7 @@ class OsService
 
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
 
-        $this->remoteTaskService->run('echo \'codepier:'.$rootPassword.'\' | chpasswd');
+        $this->remoteTaskService->run('echo \'codepier:' . $rootPassword . '\' | chpasswd');
         $this->remoteTaskService->run('adduser codepier sudo');
         $this->remoteTaskService->run('usermod -a -G www-data codepier');
 
@@ -99,14 +99,14 @@ class OsService
             $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo')) * 2;
         }
 
-        $this->remoteTaskService->run('fallocate -l '.$size.'G /swapfile');
+        $this->remoteTaskService->run('fallocate -l ' . $size . 'G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
         $this->remoteTaskService->run('mkswap /swapfile');
         $this->remoteTaskService->run('swapon /swapfile');
         $this->remoteTaskService->run('cp /etc/fstab /etc/fstab.bak');
         $this->remoteTaskService->run('echo \'/swapfile none swap sw 0 0\' | tee -a /etc/fstab');
-        $this->remoteTaskService->run('echo "vm.swappiness='.$swappiness.'" >> /etc/sysctl.conf');
-        $this->remoteTaskService->run('echo "vm.vfs_cache_pressure='.$vfsCachePressure.'" >> /etc/sysctl.conf');
+        $this->remoteTaskService->run('echo "vm.swappiness=' . $swappiness . '" >> /etc/sysctl.conf');
+        $this->remoteTaskService->run('echo "vm.vfs_cache_pressure=' . $vfsCachePressure . '" >> /etc/sysctl.conf');
     }
 
     public function resetSudoPassword()

@@ -32,7 +32,7 @@ class ServerCommandUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.Server.'.$this->serverCommand->server->id);
+        return new PrivateChannel('App.Models.Server.Server.'.$this->serverCommand->server_id);
     }
 
     /**

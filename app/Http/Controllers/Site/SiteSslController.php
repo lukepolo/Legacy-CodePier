@@ -11,9 +11,21 @@ use App\Http\Requests\SslActivateRequest;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Events\Site\SiteSslCertificateUpdated;
+use App\Services\Site\AcmeDnsService;
 
 class SiteSslController extends Controller
 {
+    private $acmeDnsService;
+
+    /**
+     * SiteSslController constructor.
+     * @param AcmeDnsService $acmeDnsService
+     */
+    public function __construct(AcmeDnsService $acmeDnsService)
+    {
+        $this->acmeDnsService = $acmeDnsService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,13 +53,18 @@ class SiteSslController extends Controller
         $domains = $request->get('domains');
         $site = Site::with(['sslCertificates'])->findOrFail($siteId);
 
+        $wildcard = false;
         $dontReturn = false;
 
         switch ($type = $request->get('type')) {
             case ServerService::LETS_ENCRYPT:
 
+                $wildcard = $request->get('wildcard', false);
                 $folder = explode(',', $request->get('domains'))[0];
-                $sslCertificate = $site->letsEncryptSslCertificates()->where('domains', $domains)->first();
+                $sslCertificate = $site->letsEncryptSslCertificates()
+                    ->where('domains', $domains)
+                    ->where('wildcard', $wildcard)
+                    ->first();
 
                 if ($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
                     $dontReturn = true;
@@ -56,9 +73,22 @@ class SiteSslController extends Controller
                         'domains' => $domains,
                         'type' => $type,
                         'active' => true,
+                        'wildcard' => $wildcard,
                         'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
                         'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
                     ]);
+
+                    if ($wildcard) {
+                        $registrationDetails = $this->acmeDnsService->register();
+                        $sslCertificate->update([
+                            'active' => 0,
+                            'failed' => true,
+                            'acme_username' => $registrationDetails->username,
+                            'acme_password' => $registrationDetails->password,
+                            'acme_subdomain' => $registrationDetails->subdomain,
+                            'acme_fulldomain' => $registrationDetails->fulldomain,
+                        ]);
+                    }
                 }
 
                 break;
@@ -80,7 +110,9 @@ class SiteSslController extends Controller
             $site->sslCertificates()->attach($sslCertificate);
         }
 
-        event(new SiteSslCertificateCreated($site, $sslCertificate));
+        if ($wildcard === false) {
+            event(new SiteSslCertificateCreated($site, $sslCertificate));
+        }
 
         if (! $dontReturn) {
             return response()->json($sslCertificate);
