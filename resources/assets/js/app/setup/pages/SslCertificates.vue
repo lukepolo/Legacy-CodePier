@@ -5,7 +5,6 @@
             <h3 class="flex--grow">
                 SSL Certificates
             </h3>
-
             <tooltip message="Add SSL Certificate">
                 <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
                     <span class="icon-plus"></span>
@@ -107,14 +106,19 @@
                       <div class="flex flex--center">
                         <label>for host</label>
                         <div class="flex--grow flex--spacing">
-                          <input type="text" :value="'_acme-challenge.' + sslCertificate.domains">
+                            <tooltip message="Copy to Clipboard" placement="top">
+                                <clipboard :data="'_acme-challenge.' + sslCertificate.domains"></clipboard>
+                            </tooltip>
+                            <input readonly type="text" :value="'_acme-challenge.' + sslCertificate.domains">
                         </div>
                       </div>
                       <div class="flex flex--center">
                         <label>to destination</label>
                         <div class="flex--grow flex--spacing">
-
-                          <input type="text" :value="sslCertificate.acme_fulldomain">
+                            <tooltip message="Copy to Clipboard" placement="top">
+                                <clipboard :data="sslCertificate.acme_fulldomain"></clipboard>
+                            </tooltip>
+                            <input readonly type="text" :value="sslCertificate.acme_fulldomain">
                         </div>
                       </div>
                     </div>
@@ -217,6 +221,9 @@ export default {
   },
   methods: {
     fetchData() {
+
+      this.$store.dispatch('user_ssl_certificates/get')
+
       if (this.siteId) {
         this.$store
           .dispatch("user_site_ssl_certificates/get", this.siteId)
@@ -369,6 +376,9 @@ export default {
     },
     sslCertificates() {
       return this.$store.state.user_site_ssl_certificates.ssl_certificates;
+    },
+    availableSslCertificates() {
+      return this.$store.state.user_ssl_certificates.ssl_certificates;
     },
     shouldShowForm() {
       return (

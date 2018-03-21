@@ -19,6 +19,7 @@ import server_frameworks from "./server/frameworks";
 import user from "./user/user";
 import user_ssh_keys from "./user/ssh-keys";
 import user_subscription from "./user/subscription";
+import user_ssl_certificates from "./user/ssl-certificates";
 import user_notification_settings from "./user/notification/settings";
 import user_notification_providers from "./user/notification/providers";
 
@@ -89,6 +90,7 @@ export default {
   user,
   user_ssh_keys,
   user_subscription,
+  user_ssl_certificates,
   user_notification_settings,
   user_notification_providers,
 
