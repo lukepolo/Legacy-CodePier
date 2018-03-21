@@ -42,7 +42,6 @@ export default {
       return this.$store.state.bitts.bitts.data;
     },
     pagination() {
-      console.info(this.$store.state.bitts.bitts)
       return this.$store.state.bitts.bitts;
     },
     categories() {
