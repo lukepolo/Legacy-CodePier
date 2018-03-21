@@ -77,7 +77,7 @@
             <h2>Deployments</h2>
             <ul>
                 <li>Auto Deploy</li>
-                <li>1 Click Deployment</li>
+                <li>1 Click Deployments</li>
                 <li>Customizable Deployments</li>
                 <li>Customized Deployment Scripts</li>
                 <li>Rollbacks</li>
@@ -180,6 +180,11 @@
                 <li>Can open events as a new window.</li>
             </ul>
 
+            <h2>Bitts <small>(custom shell scripts)</small></h2>
+            <ul>
+                <li>Public Bitts <small>Coming Soon!</small></li>
+            </ul>
+
             <h2>Buoys <small>(1 Click Installs)</small></h2>
             <ul>
                 <li>Sentry</li>
@@ -189,7 +194,6 @@
 
             <h2>Misc. Features</h2>
             <ul>
-                <li>Bitts <small>(custom shell scripts)</small></li>
                 <li>Live Support with a Developer</li>
             </ul>
 
