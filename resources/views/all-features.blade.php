@@ -95,7 +95,7 @@
                 <li>Site SSH Keys</li>
                 <li>Firewall Rules</li>
                 <li>Free SSL Certificates</li>
-                <li>Free Wildcard Certificates <em>- COMING SOON!</em></li>
+                <li>Free Wildcard Certificates <em>- Works with ALL DNS providers!</em></li>
                 <li>Environment Variables</li>
                 <li>Cron Jobs</li>
                 <li>Daemons</li>
@@ -189,7 +189,7 @@
 
             <h2>Misc. Features</h2>
             <ul>
-                <li>Bitts <small>(custom shell scripts)</small> <em>- COMING SOON!</em></li>
+                <li>Bitts <small>(custom shell scripts)</small></li>
                 <li>Live Support with a Developer</li>
             </ul>
 
