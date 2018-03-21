@@ -23,7 +23,7 @@
             </div>
 
             <div class="flyform--group">
-                <textarea name="script" v-model="form.script" rows="8"></textarea>
+                <div ref="editor" v-file-editor class="editor"></div>
                 <label>Script</label>
             </div>
 
@@ -81,18 +81,14 @@ export default {
   created() {
     // this.$store.dispatch("admin_categories/get");
     // this.$store.dispatch("server_systems/get");
-        if (this.bittId) {
-            this.$store.dispatch("bitts/show", this.bittId).then((bitt) => {
-              console.info(bitt)
-              this.form.fill(bitt)
-                  // this.form.title = bitt.title;
-                  // this.form.script = bitt.script;
-                  // this.form.private = bitt.private;
-                  // this.form.description = bitt.description;
-                  // this.form.category = bitt.categories[0].id;
-                  // this.form.systems = _.map(bitt.systems, "id");
-            });
-        }
+    if (this.bittId) {
+        this.$store.dispatch("bitts/show", this.bittId).then((bitt) => {
+          this.form.fill(bitt);
+          this.renderContent();
+        });
+    } else {
+      this.renderContent();
+    }
   },
   data() {
     return {
@@ -108,12 +104,31 @@ export default {
     };
   },
   methods: {
+    renderContent() {
+      let editor = this.$refs.editor;
+      console.info(editor)
+      ace
+        .edit(editor)
+        .setValue(
+          this.form.script ? this.form.script : ""
+        );
+      ace.edit(editor).clearSelection(1);
+    },
+    getContent() {
+      return ace.edit(this.$refs.editor).getValue();
+    },
     saveUpdateBitt() {
+
+      this.form.script = this.getContent();
+
       if (this.bittId) {
-        // this.$store.dispatch("bitts/update", {
-        //   form: this.form,
-        //   bitt: this.bittId
-        // });
+        this.$store.dispatch("bitts/update", {
+          form: this.form.data(),
+          bitt: this.bittId
+        }).then((bitt) => {
+          this.$store.commit("bitts/set", bitt)
+          this.$router.push({ name : 'bitts_market_place'})
+        });
       } else {
         this.$store.dispatch("bitts/store", this.form).then((bitt) => {
           this.$store.commit("bitts/set", bitt)
