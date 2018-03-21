@@ -41,7 +41,7 @@
                             <li>30 Servers</li>
                             <li>Multiple Server Types</li>
                             <li>Server Monitoring</li>
-                            <li>15GB of Database Backups</li>
+                            <li>15GB of Database Backups <small>Coming Soon!</small></li>
                             <li>Bitts - Custom Scripts</li>
                             <li>Buoys - 1 Click Installs</li>
                             {{--<li>1 Month of Event Retention</li>--}}
