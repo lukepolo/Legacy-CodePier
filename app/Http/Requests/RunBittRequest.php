@@ -24,7 +24,8 @@ class RunBittRequest extends FormRequest
     public function rules()
     {
         return [
-            'servers' => 'required'
+            'global' => 'boolean',
+            'servers' => 'required_without:global'
         ];
     }
 }
