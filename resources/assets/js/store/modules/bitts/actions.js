@@ -16,11 +16,13 @@ export const store = (context, data) => {
   );
 };
 
-export const update = (context, data) => {
-  return Vue.request(data).patch(
-    Vue.action("BittsController@update", { bitt: data.bitt }),
-    "bitts/update",
-  );
+export const update = (context, { bitt, form }) => {
+  return Vue.request(form)
+    .patch(Vue.action("BittsController@update", { bitt }), "bitts/update")
+    .then((response) => {
+      app.showSuccess("You have updated your bitt");
+      return response;
+    });
 };
 
 export const destroy = (context, bitt) => {
