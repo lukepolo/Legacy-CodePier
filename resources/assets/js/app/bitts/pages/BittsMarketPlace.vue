@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section v-if="pagination">
         <div class="flex flex--center">
             <h3 class="flex--grow">
                 &nbsp;
@@ -14,9 +14,11 @@
         </div>
         <br>
 
+        <pagination :pagination="pagination" dispatch="bitts/get"></pagination>
         <div class="group">
             <bitt :bitt="bitt" v-on:searchBitts="search" v-for="bitt in bitts" :key="bitt.id"></bitt>
         </div>
+        <pagination :pagination="pagination" dispatch="bitts/get"></pagination>
     </section>
 </template>
 
@@ -40,6 +42,7 @@ export default {
       return this.$store.state.bitts.bitts.data;
     },
     pagination() {
+      console.info(this.$store.state.bitts.bitts)
       return this.$store.state.bitts.bitts;
     },
     categories() {
