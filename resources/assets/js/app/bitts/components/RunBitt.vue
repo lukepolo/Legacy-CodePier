@@ -17,8 +17,10 @@
 
                 <div class="flyform--group">
                     <div class="box">
+                      <div class="box--content">
                         <pre>{{ bitt.script }}
                         </pre>
+                      </div>
                     </div>
                     <label>Script</label>
                 </div>
