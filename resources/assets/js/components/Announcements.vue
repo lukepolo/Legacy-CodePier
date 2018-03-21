@@ -27,8 +27,9 @@
                 <li>Fixed edge case where we would use the wrong version of PHP for language setting updates</li>
             </ul>
 
-            While this release doesn't seem as big as the others, bitts and wildcard SSL certificates are amazing features! There is a lot going on in the backend that you
-            will never see!
+            <p class="text-center">
+                Let us know what you think on <a target="_blank" href="https://twitter.com/codepier">twitter</a>!
+            </p>
         </div>
         <div class="modal--footer">
             <span class="btn btn-primary" @click="markAnnouncementRead">OK Thanks!</span>
