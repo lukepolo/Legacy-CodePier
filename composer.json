@@ -34,7 +34,7 @@
     "spatie/laravel-newsletter": "^4.2",
     "stevenmaguire/oauth2-bitbucket": "^2.0",
     "toin0u/digitalocean-v2": "^2.2",
-    "vinkla/hashids": "^4.0.0"
+    "vinkla/hashids": "^5.0.0"
   },
   "require-dev": {
     "filp/whoops": "~2.0",
