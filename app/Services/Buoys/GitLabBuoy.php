@@ -29,8 +29,8 @@ class GitLabBuoy implements BuoyContract
     {
         $this->remoteTaskService->run('docker run -d \
             --name gitlab \
-            --hostname '.$this->server->ip.' \
-            --publish '.$ports[1].':'.$ports[1].' --publish '.$ports[0].':22 \
+            --hostname ' . $this->server->ip . ' \
+            --publish ' . $ports[1] . ':' . $ports[1] . ' --publish ' . $ports[0] . ':22 \
             --restart always \
             -v /data/gitlab/config:/etc/gitlab \
             -v /data/gitlab/logs:/var/log/gitlab \

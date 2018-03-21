@@ -20,12 +20,7 @@ class BuoyAppController extends Controller
      */
     public function __construct(BuoyService $buoyService)
     {
-        $this->middleware('role:admin', [
-            'only' => [
-                'update',
-                'destroy',
-            ],
-        ]);
+        $this->middleware('role:admin')->only(['update', 'destroy']);
 
         $this->buoyService = $buoyService;
     }

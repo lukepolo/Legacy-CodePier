@@ -1,0 +1,43 @@
+.box {
+  border: 1px solid $color-divider;
+
+  &--heading {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba($black, 0.5);
+    padding: 14px;
+
+    &-btns {
+      font-size: 16px;
+    }
+
+    .text-primary {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  &--content {
+    padding: 14px;
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  label {
+    display: inline-block;
+    padding-right: 10px;
+  }
+
+  pre {
+    margin: 0;
+  }
+}

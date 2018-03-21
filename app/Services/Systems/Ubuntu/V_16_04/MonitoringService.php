@@ -23,15 +23,15 @@ class MonitoringService
         $this->connectToServer();
 
         $this->remoteTaskService->writeToFile('/opt/codepier/diskusage_monitor', '
-'.self::DISK_USAGE_SCRIPT.' | while read -r disk_usage;  do
-    curl "'.config('app.url_stats').'/webhook/diskusage/'.$this->server->encode().'?disk_usage=$disk_usage"
+' . self::DISK_USAGE_SCRIPT . ' | while read -r disk_usage;  do
+    curl "' . config('app.url_stats') . '/webhook/diskusage/' . $this->server->encode() . '?disk_usage=$disk_usage"
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/diskusage_monitor');
 
         $cronJob = '*/5 * * * * /opt/codepier/./diskusage_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }
@@ -46,15 +46,15 @@ done');
 
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
-    '.self::LOAD_AVG_SCRIPT.'
-    curl "'.config('app.url_stats').'/webhook/loads/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
+    ' . self::LOAD_AVG_SCRIPT . '
+    curl "' . config('app.url_stats') . '/webhook/loads/' . $this->server->encode() . '?loads=$current_load&cpus=$cpus"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/load_monitor');
 
         $cronJob = '*/5 * * * * /opt/codepier/./load_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }
@@ -68,15 +68,15 @@ done');
         $this->connectToServer();
 
         $this->remoteTaskService->writeToFile('/opt/codepier/memory_monitor', '
-'.self::MEMORY_SCRIPT.' | while read -r current_memory; do
-    curl "'.config('app.url_stats').'/webhook/memory/'.$this->server->encode().'?memory=$current_memory"
+' . self::MEMORY_SCRIPT . ' | while read -r current_memory; do
+    curl "' . config('app.url_stats') . '/webhook/memory/' . $this->server->encode() . '?memory=$current_memory"
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/memory_monitor');
 
         $cronJob = '*/5 * * * * /opt/codepier/./memory_monitor';
 
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' > /dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server, $cronJob, 'root');
     }

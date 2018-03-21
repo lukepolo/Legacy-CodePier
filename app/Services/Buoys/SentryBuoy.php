@@ -103,7 +103,7 @@ class SentryBuoy implements BuoyContract
             --env GITHUB_API_SECRET=$GITHUB_API_SECRET \
             --name sentry-web-01 \
             -v /data/sentry:/var/lib/sentry/files \
-            -p '.$ports[0].':9000 \
+            -p ' . $ports[0] . ':9000 \
             sentry-onpremise \
             run web');
 
