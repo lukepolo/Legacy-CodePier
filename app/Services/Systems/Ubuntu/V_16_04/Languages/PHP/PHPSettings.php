@@ -17,15 +17,24 @@ class PHPSettings
 
         $this->connectToServer();
 
-        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'upload_max_filesize', 'upload_max_filesize='.$maxSize.'M');
-        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'post_max_size', 'post_max_size='.$postMaxSize.'M');
+        $phpFpmFile = "/etc/php/$phpVersion/fpm/php.ini";
+        $uploadMaxFileSize = 'upload_max_filesize='.$maxSize.'M';
+
+        $this->remoteTaskService->updateText($phpFpmFile, 'post_max_size', 'post_max_size='.$postMaxSize.'M');
+
+        if ($this->remoteTaskService->doesFileHaveLine($phpFpmFile, 'upload_max_filesize')) {
+            $this->remoteTaskService->updateText($phpFpmFile, 'upload_max_filesize', $uploadMaxFileSize);
+        } else {
+            $this->remoteTaskService->findTextAndAppend($phpFpmFile, 'post_max_size', $uploadMaxFileSize);
+        }
 
         $nginxConfig = '/etc/nginx/nginx.conf';
+        $clientMaxBodySize = 'client_max_body_size '.$maxSize.'m;';
 
         if ($this->remoteTaskService->doesFileHaveLine($nginxConfig, 'client_max_body_size')) {
-            $this->remoteTaskService->updateText($nginxConfig, 'client_max_body_size', 'client_max_body_size '.$maxSize.'m;');
+            $this->remoteTaskService->updateText($nginxConfig, 'client_max_body_size', $clientMaxBodySize);
         } else {
-            $this->remoteTaskService->findTextAndAppend($nginxConfig, 'http {', 'client_max_body_size '.$maxSize.'m;');
+            $this->remoteTaskService->findTextAndAppend($nginxConfig, 'http ', $clientMaxBodySize);
         }
 
         $this->restartWebServices();
