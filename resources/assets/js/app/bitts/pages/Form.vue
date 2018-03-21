@@ -109,7 +109,6 @@ export default {
   methods: {
     renderContent() {
       let editor = this.$refs.editor;
-      console.info(editor)
       ace
         .edit(editor)
         .setValue(

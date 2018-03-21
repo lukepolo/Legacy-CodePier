@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RunBittRequest;
 use App\Models\Bitt;
 use App\Jobs\Server\RunBitt;
-use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\BittRequest;
 
@@ -96,11 +96,11 @@ class BittsController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RunBittRequest $request
      * @param $bitt
      * @return \Illuminate\Http\JsonResponse
      */
-    public function run(Request $request, $bitt)
+    public function run(RunBittRequest $request, $bitt)
     {
         $bitt = Bitt::findOrFail($bitt);
 

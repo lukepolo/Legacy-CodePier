@@ -19,10 +19,12 @@ class Bitt extends Model
         parent::boot();
 
         static::addGlobalScope('private', function (Builder $builder) {
-            $builder->where('private', '=', 0)
-                ->orWhere(function (Builder $builder) {
-                    $builder->where('user_id', \Auth::user()->id);
-                });
+            if (\Auth::check()) {
+                $builder->where('private', '=', 0)
+                    ->orWhere(function (Builder $builder) {
+                        $builder->where('user_id', \Auth::user()->id);
+                    });
+            }
         });
     }
 
