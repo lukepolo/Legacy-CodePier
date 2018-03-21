@@ -136,6 +136,7 @@ Route::group(['middleware' => [
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
+            Route::get('ssl-certificates', 'UserSslCertificates@index');
             Route::apiResource('ssh-keys', 'UserSshKeyController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');

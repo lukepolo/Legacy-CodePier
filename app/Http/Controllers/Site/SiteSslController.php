@@ -131,7 +131,11 @@ class SiteSslController extends Controller
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        $sslCertificate = $site->sslCertificates->keyBy('id')->get($id);
+        $sslCertificate = $request->user()->availableSslCertificates()->get($id);
+
+        if (! $site->sslCertificates->where('id', $sslCertificate->id)->count()) {
+            $site->sslCertificates()->attach($sslCertificate);
+        }
 
         $sslCertificate->update([
             'active' => $request->get('active'),
