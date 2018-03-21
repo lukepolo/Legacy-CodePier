@@ -23,6 +23,21 @@ class SiteWildcardSslController extends Controller
 
         $sslCertificate = $site->sslCertificates->keyBy('id')->get($id);
 
+        $cnames = dns_get_record('_acme-challenge.'.$sslCertificate->domains, DNS_CNAME);
+
+        $valid = false;
+        if (! empty($cnames)) {
+            foreach ($cnames as $cname) {
+                if ($cname['target'] === $sslCertificate->acme_fulldomain) {
+                    $valid = true;
+                }
+            }
+        }
+
+        if ($valid) {
+            return response()->json('You have not setup your CNAME host _acme-challenge'.$sslCertificate->domains, 400);
+        }
+
         $sslCertificate->update([
             'active' => true,
         ]);
