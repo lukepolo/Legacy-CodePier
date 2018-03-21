@@ -160,6 +160,27 @@
 
         Please create a `CNAME` for b267ccb8-ba68-4570-a91b-7f2ddf73778a.jfalotico.com to b267ccb8-ba68-4570-a91b-7f2ddf73778a.dns.codepier.io. This will allow you to renew your certificate through automation.
 
+        <div class="box">
+          <div class="box--heading">
+            <div>
+              <div class="text-primary">hello</div>
+              <div class="muted">stuff</div>
+            </div>
+
+            <div class="box--heading-btns">
+              <span class="icon-trash"></span>
+            </div>
+          </div>
+          <div class="box--content">
+            <p>
+              <label>Cert Path</label>stuff
+            </p>
+            <p>
+              <label>Key Path</label>stuff
+            </p>
+          </div>
+        </div>
+
         <input type="hidden" v-if="site">
     </section>
 </template>
