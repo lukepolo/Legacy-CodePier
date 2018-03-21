@@ -13,13 +13,17 @@
             </tooltip>
         </div>
 
-
+        <br>
         <template v-if="sslCertificates.length" v-for="sslCertificate in sslCertificates">
             <div class="box">
                 <div class="box--heading">
                     <div>
-                        <div class="text-primary">{{ sslCertificate.type }} - {{ sslCertificate.domains }} --- wildcard >> {{ sslCertificate.wildcard }} <<</div>
-                        <div class="muted">stuff</div>
+                        <div class="text-primary">
+                          <tooltip message="Wildcard" v-if="sslCertificate.wildcard">
+                            <span class="btn--link btn--link-primary">*</span>
+                          </tooltip>
+                        {{ sslCertificate.domains }} </div>
+                        <div class="muted">{{ sslCertificate.type }}</div>
                     </div>
 
                     <div class="box--heading-btns">
@@ -27,24 +31,32 @@
                             {{ isRunningCommandFor(sslCertificate.id).status }}
 
                             <tooltip message="Delete">
-                                <span class="table--action-delete">
-                                    <a @click="deleteSslCertificate(sslCertificate.id)"><span class="icon-trash"></span></a>
-                                </span>
+                                <a @click="deleteSslCertificate(sslCertificate.id)">
+                                  <span class="btn--link btn--link-danger">
+                                    <span class="icon-trash"></span>
+                                  </span>
+                                </a>
                             </tooltip>
                         </template>
                         <template v-else>
                             <template v-if="sslCertificate.failed">
                                 <template v-if="sslCertificate.wildcard">
                                     <tooltip message="Try Installing Wildcard">
-                                        <span class="table--action-retry">
-                                            <a @click="tryWildcardInstall(sslCertificate.id)"><span class="icon-refresh2"></span></a>
-                                        </span>
+                                        <a @click="tryWildcardInstall(sslCertificate.id)">
+                                          <span class="btn--link btn--link-warning">
+                                            <span class="icon-refresh2"></span>
+                                          </span>
+                                        </a>
                                     </tooltip>
                                 </template>
                                 <template v-else>
                                     <tooltip message="Retry Install">
-                                        <span class="table--action-retry">
-                                            <a @click="retryInstall(sslCertificate.domains)"><span class="icon-refresh2"></span></a>
+                                        <span class="btn--link btn--link-warning">
+                                            <a @click="retryInstall(sslCertificate.domains)">
+                                              <span class="btn--link btn--link-warning">
+                                                <span class="icon-refresh2"></span>
+                                              </span>
+                                            </a>
                                         </span>
                                     </tooltip>
                                 </template>
@@ -70,16 +82,34 @@
                     </div>
                 </div>
                 <div class="box--content">
-                    <p>
-                        <label>Cert Path</label>{{ sslCertificate.cert_path }}
-                    </p>
-                    <p>
-                        <label>Key Path</label>{{ sslCertificate.key_path }}
-                    </p>
-                    <template v-if="sslCertificate.wildcard">
-                        Please make CNAME for host <pre>_acme-challenge.{{ sslCertificate.domains }}</pre> to destination <pre>{{ sslCertificate.acme_fulldomain }}</pre>
-                        <a target="_blank" href="https://support.google.com/a/answer/47283">How To</a>
-                    </template>
+                  <p>
+                      <label>Cert Path</label>{{ sslCertificate.cert_path }}
+                  </p>
+                  <p>
+                      <label>Key Path</label>{{ sslCertificate.key_path }}
+                  </p>
+                  <template v-if="sslCertificate.wildcard">
+                    <hr>
+                    <div class="wildcard--info">
+                      <tooltip message="Show Me How">
+                        <a target="_blank" href="https://support.google.com/a/answer/47283"><span class="icon-info"></span></a>
+                      </tooltip>
+                      To install, please make CNAME:
+
+                      <div class="flex">
+                        <label>for host</label>
+                        <div class="flex--grow flex--spacing">
+                          <pre>_acme-challenge.{{ sslCertificate.domains }}</pre>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <label>to destination</label>
+                        <div class="flex--grow flex--spacing">
+                          <pre>{{ sslCertificate.acme_fulldomain }}</pre>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
                 </div>
             </div>
         </template>
