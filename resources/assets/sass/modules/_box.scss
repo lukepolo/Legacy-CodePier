@@ -13,6 +13,14 @@
 
     &-btns {
       font-size: 16px;
+
+      [class^="hint-"],
+      [class*=" hint"] {
+        + [class^="hint-"],
+        [class*=" hint"] {
+          margin-left: 10px;
+        }
+      }
     }
 
     .text-primary {
@@ -45,6 +53,12 @@
   pre {
     margin: 0;
     white-space: pre-wrap;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid $color-divider;
+    padding: 3px 10px;
   }
 }
 

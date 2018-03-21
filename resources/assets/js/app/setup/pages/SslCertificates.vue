@@ -91,21 +91,30 @@
                   <template v-if="sslCertificate.wildcard">
                     <hr>
                     <div class="wildcard--info">
-                      <tooltip message="Show Me How">
-                        <a target="_blank" href="https://support.google.com/a/answer/47283"><span class="icon-info"></span></a>
-                      </tooltip>
-                      To install, please make CNAME:
-
                       <div class="flex">
-                        <label>for host</label>
-                        <div class="flex--grow flex--spacing">
-                          <pre>_acme-challenge.{{ sslCertificate.domains }}</pre>
+                        <div class="flex--grow">
+                          <tooltip message="Show Me How">
+                            <a target="_blank" href="https://support.google.com/a/answer/47283"><span class="icon-info"></span></a>
+                          </tooltip>
+                          To install, please make CNAME:
+                        </div>
+                        <div class="flex--spacing" style="margin-top: -5px;">
+                          <span class="btn btn-small btn-primary">Get Cert</span>
                         </div>
                       </div>
-                      <div class="flex">
+
+
+                      <div class="flex flex--center">
+                        <label>for host</label>
+                        <div class="flex--grow flex--spacing">
+                          <input type="text" :value="'_acme-challenge.' + sslCertificate.domains">
+                        </div>
+                      </div>
+                      <div class="flex flex--center">
                         <label>to destination</label>
                         <div class="flex--grow flex--spacing">
-                          <pre>{{ sslCertificate.acme_fulldomain }}</pre>
+
+                          <input type="text" :value="sslCertificate.acme_fulldomain">
                         </div>
                       </div>
                     </div>
