@@ -103,6 +103,9 @@ export default {
       })
     };
   },
+  mounted() {
+    this.$store.commit('bitts/view', null)
+  },
   methods: {
     renderContent() {
       let editor = this.$refs.editor;
@@ -126,12 +129,12 @@ export default {
           form: this.form.data(),
           bitt: this.bittId
         }).then((bitt) => {
-          this.$store.commit("bitts/set", bitt)
+          this.$store.commit("bitts/view", bitt)
           this.$router.push({ name : 'bitts_market_place'})
         });
       } else {
         this.$store.dispatch("bitts/store", this.form).then((bitt) => {
-          this.$store.commit("bitts/set", bitt)
+          this.$store.commit("bitts/view", bitt)
           this.$router.push({ name : 'bitts_market_place'})
         });
       }
