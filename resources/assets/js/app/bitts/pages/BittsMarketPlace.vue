@@ -15,7 +15,7 @@
         <br>
 
         <div class="group">
-            <bitt :bitt="bitt" v-for="bitt in bitts" :key="bitt.id"></bitt>
+            <bitt :bitt="bitt" v-on:searchBitts="search" v-for="bitt in bitts" :key="bitt.id"></bitt>
         </div>
     </section>
 </template>
@@ -28,9 +28,12 @@ export default {
     Bitt
   },
   created() {
-    // this.$store.dispatch("getCategories").then(() => {
+    this.search();
+  },
+  methods : {
+    search() {
       this.$store.dispatch("bitts/get");
-    // });
+    }
   },
   computed: {
     bitts() {

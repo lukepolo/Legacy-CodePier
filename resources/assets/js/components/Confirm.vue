@@ -37,6 +37,7 @@ export default {
   props: {
     params: {},
     dispatch: {},
+    confirm_action: null,
     cancel_text: {},
     confirm_text: {},
     confirm_with_text: {},
@@ -113,7 +114,12 @@ export default {
     confirmMethod() {
       if (this.textConfirmed) {
         this.confirmedText = "";
-        this.$store.dispatch(this.dispatch, this.params);
+
+        if (this.confirm_action !== undefined) {
+          this.confirm_action();
+        } else {
+          this.$store.dispatch(this.dispatch, this.params);
+        }
         this.close();
       }
     },
