@@ -46,7 +46,7 @@
     props: ['bitt'],
     methods: {
       runForm () {
-        this.$store.commit('bitts/set', this.bitt)
+        this.$store.commit('bitts/view', this.bitt)
       },
       deleteBitt () {
         this.$store.dispatch('bitts/destroy', this.bitt.id).then(() => {

@@ -10,10 +10,11 @@ export const show = (context, bitt) => {
 };
 
 export const store = (context, data) => {
-  return Vue.request(data).post(
-    Vue.action("BittsController@store"),
-    "bitts/add",
-  );
+  return Vue.request(data)
+    .post(Vue.action("BittsController@store"), "bitts/add")
+    .then((response) => {
+      return response;
+    });
 };
 
 export const update = (context, { bitt, form }) => {

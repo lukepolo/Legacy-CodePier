@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     bitt() {
-      return this.$store.state.bitts.bitt;
+      return this.$store.state.bitts.viewBitt;
     },
     servers() {
       return this.$store.state.user_servers.servers;

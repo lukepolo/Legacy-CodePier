@@ -2,6 +2,10 @@ export const setAll = (state, { response }) => {
   Vue.set(state, "bitts", response);
 };
 
+export const view = (state, bitt) => {
+  Vue.set(state, "viewBitt", bitt);
+};
+
 export const set = (state, bitt) => {
   Vue.set(state, "bitt", bitt);
 };
