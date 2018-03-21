@@ -24,7 +24,6 @@
             <h4>PHP</h4>
             <ul>
                 <li>Fixed NGINX config containing `internal` directive for apps that need the use of it</li>
-                <li>Fixed edge case where we would use the wrong version of PHP for language setting updates</li>
             </ul>
 
             <p class="text-center">
