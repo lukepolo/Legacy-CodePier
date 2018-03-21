@@ -18,12 +18,19 @@ class SslCertificate extends Model
         'acme_password'
     ];
 
+    protected $hidden = [
+        'key',
+        'cert',
+    ];
+
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['unencrypted_acme_password'];
+    protected $appends = [
+        'unencrypted_acme_password'
+    ];
 
     /**
      * Get the administrator flag for the user.

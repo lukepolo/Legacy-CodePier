@@ -242,7 +242,8 @@ class User extends Authenticatable
     public function availableSslCertificates()
     {
         $this->load(['servers.sslCertificates' => function ($query) {
-            $query->where('active', 1);
+            $query->where('active', 1)
+                ->orWhere('type', 'existing');
         }]);
 
         return $this->servers->map(function (Server $server) {
