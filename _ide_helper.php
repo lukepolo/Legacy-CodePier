@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.11 on 2018-03-14 22:46:43.
+ * Generated for Laravel 5.6.12 on 2018-03-21 21:46:33.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -8655,6 +8655,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Determine if the request contains a non-empty value for any of the given inputs.
+         *
+         * @param string|array $keys
+         * @return bool 
+         * @static 
+         */ 
+        public static function anyFilled($keys)
+        {
+            return \Illuminate\Http\Request::anyFilled($keys);
+        }
+        
+        /**
          * Get the keys for all of the input and files.
          *
          * @return array 
@@ -8846,6 +8858,16 @@ namespace Illuminate\Support\Facades {
         public static function validate($rules, $params = null)
         {
             return \Illuminate\Http\Request::validate($rules, $params);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasValidSignature()
+        {
+            return \Illuminate\Http\Request::hasValidSignature();
         }
          
     }
@@ -11329,6 +11351,46 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a signed route URL for a named route.
+         *
+         * @param string $name
+         * @param array $parameters
+         * @param \DateTimeInterface|int $expiration
+         * @return string 
+         * @static 
+         */ 
+        public static function signedRoute($name, $parameters = array(), $expiration = null)
+        {
+            return \Illuminate\Routing\UrlGenerator::signedRoute($name, $parameters, $expiration);
+        }
+        
+        /**
+         * Create a temporary signed route URL for a named route.
+         *
+         * @param string $name
+         * @param \DateTimeInterface|int $expiration
+         * @param array $parameters
+         * @return string 
+         * @static 
+         */ 
+        public static function temporarySignedRoute($name, $expiration, $parameters = array())
+        {
+            return \Illuminate\Routing\UrlGenerator::temporarySignedRoute($name, $expiration, $parameters);
+        }
+        
+        /**
+         * Determine if the given request has a valid signature.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasValidSignature($request)
+        {
+            return \Illuminate\Routing\UrlGenerator::hasValidSignature($request);
+        }
+        
+        /**
          * Get the URL to a named route.
          *
          * @param string $name
@@ -11535,6 +11597,18 @@ namespace Illuminate\Support\Facades {
         public static function setSessionResolver($sessionResolver)
         {
             return \Illuminate\Routing\UrlGenerator::setSessionResolver($sessionResolver);
+        }
+        
+        /**
+         * Set the encryption key resolver.
+         *
+         * @param callable $keyResolver
+         * @return $this 
+         * @static 
+         */ 
+        public static function setKeyResolver($keyResolver)
+        {
+            return \Illuminate\Routing\UrlGenerator::setKeyResolver($keyResolver);
         }
         
         /**
@@ -12810,7 +12884,7 @@ namespace Sentry\SentryLaravel {
          *
          * @param string $dsn Raven compatible DSN
          * @return array parsed DSN
-         * @doc http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
+         * @see http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
          * @static 
          */ 
         public static function parseDSN($dsn)
@@ -14376,6 +14450,20 @@ namespace  {
             }
          
             /**
+             * Add a subselect expression to the query.
+             *
+             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param string $as
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function selectSub($query, $as)
+            {    
+                return \Illuminate\Database\Query\Builder::selectSub($query, $as);
+            }
+         
+            /**
              * Add a new "raw" select expression to the query.
              *
              * @param string $expression
@@ -14389,7 +14477,7 @@ namespace  {
             }
          
             /**
-             * Add a subselect expression to the query.
+             * Makes "from" fetch from a subquery.
              *
              * @param \Closure|\Illuminate\Database\Query\Builder|string $query
              * @param string $as
@@ -14397,9 +14485,22 @@ namespace  {
              * @throws \InvalidArgumentException
              * @static 
              */ 
-            public static function selectSub($query, $as)
+            public static function fromSub($query, $as)
             {    
-                return \Illuminate\Database\Query\Builder::selectSub($query, $as);
+                return \Illuminate\Database\Query\Builder::fromSub($query, $as);
+            }
+         
+            /**
+             * Add a raw from clause to the query.
+             *
+             * @param string $expression
+             * @param mixed $bindings
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function fromRaw($expression, $bindings = array())
+            {    
+                return \Illuminate\Database\Query\Builder::fromRaw($expression, $bindings);
             }
          
             /**
