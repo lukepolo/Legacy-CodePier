@@ -13,35 +13,16 @@
             </tooltip>
         </div>
 
-        <table class="table" v-if="sslCertificates.length">
-            <thead>
-                <tr>
-                    <th>Domains</th>
-                    <th>Type</th>
-                    <th>Cert Path</th>
-                    <th>Key Path</th>
-                    <th>Acme Details</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="sslCertificate in sslCertificates" :key="sslCertificate.id">
-                    <td>{{ sslCertificate.domains }}</td>
-                    <td>{{ sslCertificate.type }}</td>
-                    <td class="break-word">{{ sslCertificate.cert_path }}</td>
-                    <td class="break-word">{{ sslCertificate.key_path }}</td>
-                    <td>
-                        <textarea>
-                            Username : {{ sslCertificate.acme_username }}
 
-                            Password : {{ sslCertificate.unencrypted_acme_password }}
+        <template v-if="sslCertificates.length" v-for="sslCertificate in sslCertificates">
+            <div class="box">
+                <div class="box--heading">
+                    <div>
+                        <div class="text-primary">{{ sslCertificate.type }} - {{ sslCertificate.domains }} --- wildcard >> {{ sslCertificate.wildcard }} <<</div>
+                        <div class="muted">stuff</div>
+                    </div>
 
-                            FULL DOMAIN : {{ sslCertificate.acme_fulldomain }}
-
-                            SUB DOMAIN : {{ sslCertificate.acme_subdomain }}
-                        </textarea>
-                    </td>
-                    <td class="table--action">
+                    <div class="box--heading-btns">
                         <template v-if="isRunningCommandFor(sslCertificate.id)">
                             {{ isRunningCommandFor(sslCertificate.id).status }}
 
@@ -86,10 +67,22 @@
                                 </span>
                             </tooltip>
                         </template>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+                <div class="box--content">
+                    <p>
+                        <label>Cert Path</label>{{ sslCertificate.cert_path }}
+                    </p>
+                    <p>
+                        <label>Key Path</label>{{ sslCertificate.key_path }}
+                    </p>
+                    <template v-if="sslCertificate.wildcard">
+                        Please make CNAME for host <pre>_acme-challenge.{{ sslCertificate.domains }}</pre> to destination <pre>{{ sslCertificate.acme_fulldomain }}</pre>
+                        <a target="_blank" href="https://support.google.com/a/answer/47283">How To</a>
+                    </template>
+                </div>
+            </div>
+        </template>
 
         <form @submit.prevent="installCertificate" v-if="shouldShowForm">
 
@@ -157,29 +150,6 @@
 
 
         </form>
-
-        Please create a `CNAME` for b267ccb8-ba68-4570-a91b-7f2ddf73778a.jfalotico.com to b267ccb8-ba68-4570-a91b-7f2ddf73778a.dns.codepier.io. This will allow you to renew your certificate through automation.
-
-        <div class="box">
-          <div class="box--heading">
-            <div>
-              <div class="text-primary">hello</div>
-              <div class="muted">stuff</div>
-            </div>
-
-            <div class="box--heading-btns">
-              <span class="icon-trash"></span>
-            </div>
-          </div>
-          <div class="box--content">
-            <p>
-              <label>Cert Path</label>stuff
-            </p>
-            <p>
-              <label>Key Path</label>stuff
-            </p>
-          </div>
-        </div>
 
         <input type="hidden" v-if="site">
     </section>
