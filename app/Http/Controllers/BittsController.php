@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RunBittRequest;
+use App\Jobs\GlobalBitt;
 use App\Models\Bitt;
 use App\Jobs\Server\RunBitt;
 use App\Models\Server\Server;
@@ -104,11 +105,18 @@ class BittsController extends Controller
     {
         $bitt = Bitt::findOrFail($bitt);
 
-        foreach ($request->get('servers') as $server) {
+        if ($request->user()->hasRole('admin') && $request->get('global')) {
             dispatch(
-                (new RunBitt(Server::findOrFail($server), $bitt))
+                (new GlobalBitt($bitt))
                     ->onQueue(config('queue.channels.server_commands'))
             );
+        } else {
+            foreach ($request->get('servers') as $server) {
+                dispatch(
+                    (new RunBitt(Server::findOrFail($server), $bitt))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
 
         return response()->json('OK');
