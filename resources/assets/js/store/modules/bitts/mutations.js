@@ -10,10 +10,6 @@ export const set = (state, bitt) => {
   Vue.set(state, "bitt", bitt);
 };
 
-export const add = (state, { response }) => {
-  state.bitts.push(response);
-};
-
 export const update = (state, { response }) => {
   Vue.set(
     state.bitts,
