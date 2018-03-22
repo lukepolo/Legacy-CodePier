@@ -62,6 +62,7 @@
             <!--</div>-->
 
             <div class="btn-footer">
+                <button class="btn" @click.prevent="cancel">Cancel</button>
                 <button class="btn btn-primary" type="submit">
                     <template v-if="bittId">
                         Update
@@ -107,6 +108,11 @@ export default {
     this.$store.commit('bitts/view', null)
   },
   methods: {
+    cancel() {
+      this.$router.push({
+        name : 'bitts_market_place'
+      })
+    },
     renderContent() {
       let editor = this.$refs.editor;
       ace
