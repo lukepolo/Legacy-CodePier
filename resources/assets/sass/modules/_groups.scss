@@ -50,6 +50,14 @@
         position: absolute;
         top: 15px;
         right: 15px;
+
+        a {
+          display: inline-block;
+        }
+
+        .confirm-container {
+          margin: 0;
+        }
       }
     }
 
