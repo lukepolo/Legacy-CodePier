@@ -63,7 +63,11 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->createWebServerConfig($site);
+        $webService = $this->getWebServerService($server);
+
+        if (! empty($webService)) {
+            $webService->createWebServerConfig($site);
+        }
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
@@ -202,6 +206,8 @@ class SiteService implements SiteServiceContract
             $event = $serverDeployment->events->last();
         }
 
+
+        dd($event);
         if (! $event->failed) {
             broadcast(new DeploymentStepFailed($site, $server, $event, $message, microtime(true) - $startTime));
         }
