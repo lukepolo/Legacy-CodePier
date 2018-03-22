@@ -12,7 +12,6 @@
                 </router-link>
             </tooltip>
         </div>
-        <br>
 
         <pagination :pagination="pagination" dispatch="bitts/get"></pagination>
         <div class="group">
