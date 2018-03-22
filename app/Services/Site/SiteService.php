@@ -63,7 +63,11 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->createWebServerConfig($site);
+        $webService = $this->getWebServerService($server);
+
+        if (! empty($webService)) {
+            $webService->createWebServerConfig($site);
+        }
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
