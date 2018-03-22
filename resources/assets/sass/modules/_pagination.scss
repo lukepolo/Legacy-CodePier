@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   margin: $spacing;
+  user-select: none;
 
   &--item {
     font-size: 16px;
@@ -11,7 +12,7 @@
     border-radius: 6px;
     padding: 8px 15px;
 
-    &:hover:not(.pagination--item-ellipsis):not(.active) {
+    &:hover:not(.pagination--item-ellipsis):not(.active):not(.disabled) {
       cursor: pointer;
       color: $blue;
       background-color: $black;
@@ -21,6 +22,10 @@
       color: $color-primary;
       border-bottom-color: $color-primary;
       border-radius: 0;
+    }
+
+    &.disabled:not(.active) {
+      color: $color-text-secondary;
     }
 
     &-arrow {
