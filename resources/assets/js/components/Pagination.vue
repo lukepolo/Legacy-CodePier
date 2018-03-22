@@ -1,31 +1,34 @@
 <template>
     <nav v-if="shouldShowPagination">
-        <ul class="pagination justify-content-center">
-            <li :class="{ disabled: pagination.current_page === 1 }">
-                <a :class="{ disabled: pagination.current_page === 1 }"
-                   @click="pageClicked( pagination.current_page - 1 )">
-                    <i class="left chevron icon">«</i>
-                </a>
-            </li>
-            <li v-if="hasFirst" class="page-item" :class="{ active: isActive(1) }">
-                <a class="page-link" @click="pageClicked(1)">1</a>
-            </li>
-            <li v-if="hasFirstEllipsis"><span class="pagination-ellipsis">&hellip;</span></li>
-            <li class="page-item" :class="{ active: isActive(page), disabled: page === '...' }" v-for="page in pages" :key="page">
-                <a class="page-link" @click="pageClicked(page)">{{ page }}</a>
-            </li>
-            <li v-if="hasLastEllipsis"><span class="pagination-ellipsis">&hellip;</span></li>
-            <li v-if="hasLast" class="page-item"
-                :class="{ active: isActive(pagination.last_page) }">
-                <a class="page-link" @click="pageClicked(pagination.last_page)">{{pagination.last_page}}</a>
-            </li>
-            <li>
-                <a :class="{ disabled: pagination.current_page === pagination.last_page }"
-                   @click="pageClicked( pagination.current_page + 1 )">
-                    <i class="right chevron icon">»</i>
-                </a>
-            </li>
-        </ul>
+        <div class="pagination">
+            <div class="pagination--item pagination--item-arrow" :class="{ disabled: pagination.current_page === 1 }" @click="pageClicked( pagination.current_page - 1 )">
+              <span class="icon-arrow-left"></span>
+            </div>
+
+            <div v-if="hasFirst" class="pagination--item" :class="{ active: isActive(1) }" @click="pageClicked(1)">
+                1
+            </div>
+
+            <div v-if="hasFirstEllipsis" class="pagination--item pagination--item-ellipsis">
+              ...
+            </div>
+
+            <div class="pagination--item" :class="{ active: isActive(page), disabled: page === '...' }" v-for="page in pages" :key="page" @click="pageClicked(page)">
+                {{ page }}
+            </div>
+
+            <div v-if="hasLastEllipsis" class="pagination--item pagination--item-ellipsis">
+              ...
+            </div>
+
+            <div v-if="hasLast" class="pagination--item" :class="{ active: isActive(pagination.last_page) }" @click="pageClicked(pagination.last_page)">
+              {{pagination.last_page}}
+            </div>
+
+            <div class="pagination--item pagination--item-arrow" :class="{ disabled: pagination.current_page === pagination.last_page }" @click="pageClicked( pagination.current_page + 1 )">
+              <span class="icon-arrow-right"></span>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -67,13 +70,13 @@ export default Vue.extend({
 
     hasFirstEllipsis() {
       return (
-        this.pagination.current_page >= 4 && this.pagination.last_page >= 10
+        this.pagination.current_page > 4 && this.pagination.last_page >= 10
       );
     },
 
     hasLastEllipsis() {
       return (
-        this.pagination.current_page <= this.pagination.last_page - 3 &&
+        this.pagination.current_page < this.pagination.last_page - 3 &&
         this.pagination.last_page >= 10
       );
     },
