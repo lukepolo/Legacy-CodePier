@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use Cache;
+use Stripe\Error\Card;
 use Stripe\Stripe;
 use Stripe\Coupon;
 use Carbon\Carbon;
@@ -65,7 +66,11 @@ class UserSubscriptionController extends Controller
             $subscription->withCoupon($request->get('coupon'));
         }
 
-        $subscription = $subscription->create($request->get('token'));
+        try {
+            $subscription = $subscription->create($request->get('token'));
+        } catch (Card $e) {
+            return response()->json($e->getMessage(), 400);
+        }
 
         $user->update([
             'trial_ends_at' => Carbon::now()->addDays(5),
