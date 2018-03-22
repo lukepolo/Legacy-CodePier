@@ -50,7 +50,9 @@ class SiteSslController extends Controller
      */
     public function store(SslRequest $request, $siteId)
     {
-        $domains = $request->get('domains');
+        $domains = $request->domains;
+        $domainString = implode(', ', $domains);
+
         $site = Site::with(['sslCertificates'])->findOrFail($siteId);
 
         $wildcard = false;
@@ -60,9 +62,9 @@ class SiteSslController extends Controller
             case ServerService::LETS_ENCRYPT:
 
                 $wildcard = $request->get('wildcard', false);
-                $folder = explode(',', $request->get('domains'))[0];
+                $folder = $domains[0];
                 $sslCertificate = $site->letsEncryptSslCertificates()
-                    ->where('domains', $domains)
+                    ->where('domains', $domainString)
                     ->where('wildcard', $wildcard)
                     ->first();
 
@@ -70,7 +72,7 @@ class SiteSslController extends Controller
                     $dontReturn = true;
                 } else {
                     $sslCertificate = SslCertificate::create([
-                        'domains' => $domains,
+                        'domains' => $domainString,
                         'type' => $type,
                         'active' => true,
                         'wildcard' => $wildcard,
@@ -94,7 +96,7 @@ class SiteSslController extends Controller
                 break;
             case 'existing':
                 $sslCertificate = SslCertificate::create([
-                    'domains' => $domains,
+                    'domains' => $domainString,
                     'type' => $request->get('type'),
                     'key' => $request->get('private_key'),
                     'cert' => $request->get('certificate'),
