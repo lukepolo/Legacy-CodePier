@@ -40,7 +40,7 @@ class FileRepository implements FileRepositoryContract
 
         if (empty($file)) {
             $file = $this->create($filePath, $custom, $framework);
-            $model->files()->save($file);
+            $model->files()->attach($file);
         }
 
         return $file;
