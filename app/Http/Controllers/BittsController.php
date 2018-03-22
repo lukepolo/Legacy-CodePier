@@ -114,7 +114,7 @@ class BittsController extends Controller
             foreach ($request->get('servers') as $server) {
                 dispatch(
                     (new RunBitt(Server::findOrFail($server), $bitt))
-                        ->onQueue(config('queue.channels.server_provisioning'))
+                        ->onQueue(config('queue.channels.bitts'))
                 );
             }
         }
