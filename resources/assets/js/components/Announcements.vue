@@ -7,16 +7,19 @@
             <h2>New</h2>
             <ul>
                 <li>Wildcard Certificates Available with automatic renewals for all DNS providers! Was no easy feat!</li>
-                <li>Bitts are now available which are little code snippets that you can use to run on your server. There are future improvments to this system incoming over the next several releases</li>
+                <li>Bitts are now available which are little code snippets that you can use to run on your server. There are future improvements to this system incoming over the next several releases</li>
             </ul>
 
             <h2>Changed</h2>
             <ul>
-                <li>SSL Certificates screen has been adjusted to a new UI workflow, these improvments will be coming to other areas of the app in the next several releases</li>
+                <li>Let's Encrypt Package is replaced by cert-bot, you will not need to do anything</li>
+                <li>SSL Certificates screen has been adjusted to a new UI workflow, these improvements will be coming to other areas of the app in the next several releases</li>
             </ul>
 
             <h2>Fixes</h2>
             <ul>
+                <li>When updating language settings, we now invoke to refresh all server files so we can make certain they are in sync with UI.</li>
+                <li>Switching between frameworks now replaces cronjobs and server files and framework files properly</li>
                 <li>Misc backend fixes to make these a bit smoother for the user.</li>
             </ul>
 
@@ -40,7 +43,7 @@
 export default {
   data() {
     return {
-      announcementDate: moment("2018-03-20"),
+      announcementDate: moment("2018-03-21"),
     };
   },
   methods: {
