@@ -116,18 +116,14 @@ class SiteController extends Controller
 
         $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
 
-        $site->update([
-            'framework' => $request->get('framework'),
+        $site->fill([
+            'type'                        => $request->get('type'),
+            'branch'                      => $request->get('branch'),
+            'framework'                   => $request->get('framework'),
+            'repository'                  => $request->get('repository'),
+            'web_directory'               => $request->get('web_directory'),
+            'user_repository_provider_id' => $userRepositoryProvider->id,
         ]);
-
-//        $site->fill([
-//            'type'                        => $request->get('type'),
-//            'branch'                      => $request->get('branch'),
-//            'framework'                   => $request->get('framework'),
-//            'repository'                  => $request->get('repository'),
-//            'web_directory'               => $request->get('web_directory'),
-//            'user_repository_provider_id' => $userRepositoryProvider->id,
-//        ]);
 
         if ($site->isDirty('web_directory') || $site->isDirty('type') || $site->isDirty('framework')) {
             event(new SiteUpdatedWebConfig($site));
