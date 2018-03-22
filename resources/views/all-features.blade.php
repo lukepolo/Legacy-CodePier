@@ -63,7 +63,7 @@
             <h2>Site Features</h2>
             <ul>
                 <li>Site Priority Design</li>
-                <li>Database Backups <em>- COMING SOON!</em></li>
+                <li>Database Backups <em>- in BETA!</em></li>
                 <li>Lifelines <small>- URL's to be triggered to see the health of services</small></li>
                 <li>Current DNS IP of a Record</li>
                 <li>Custom Site Notifications for Slack</li>

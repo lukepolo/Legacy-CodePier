@@ -6,6 +6,7 @@
         <div class="modal--body">
             <h2>New</h2>
             <ul>
+                <li>Backups for Mongo / Mysql / MariaDB / Postgres is now in beta!</li>
                 <li>Wildcard Certificates Available with automatic renewals for all DNS providers! Was no easy feat!</li>
                 <li>Bitts are now available which are little code snippets that you can use to run on your server. There are future improvements to this system incoming over the next several releases</li>
             </ul>
