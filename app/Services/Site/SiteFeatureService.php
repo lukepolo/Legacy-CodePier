@@ -146,16 +146,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
      * @param Site $site
      * @return $site
      */
-    public function saveSuggestedFeaturesDefaults(Site $site)
+    public function getSuggestedFeaturesDefaults(Site $site)
     {
-        $dispatcher = $site->getEventDispatcher();
-        $site->unsetEventDispatcher();
-        $site->update([
-            'server_features' => $this->getSuggestedFeatures($site),
-        ]);
-        $site->setEventDispatcher($dispatcher);
-
-        return $site;
+        return $this->getSuggestedFeatures($site);
     }
 
     /**

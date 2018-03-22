@@ -76,27 +76,25 @@ class SiteObserver
     public function updating(Site $site)
     {
         if ($site->isDirty('type') || $site->isDirty('framework')) {
-            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
+            $site->server_features = $this->siteFeatureService->getSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->detachSuggestedCronJobs($site);
             $this->siteFeatureService->detachSuggestedFiles($site);
             $this->siteFeatureService->detachSuggestedFiles($site, true);
-
-            $site->refresh();
-
-            $this->siteDeploymentStepsService->saveDefaultSteps($site);
-            $this->siteFeatureService->saveSuggestedCronJobs($site);
-            $this->siteFeatureService->saveSuggestedFiles($site);
-
             $site->deploymentSteps()->delete();
-        }
-
-        if (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
+        } elseif (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
             $this->siteFeatureService->detachSuggestedFiles($site);
         }
     }
 
     public function updated(Site $site)
     {
+        if ($site->isDirty('type') || $site->isDirty('framework')) {
+            $site->refresh();
+            $this->siteDeploymentStepsService->saveDefaultSteps($site);
+            $this->siteFeatureService->saveSuggestedCronJobs($site);
+            $this->siteFeatureService->saveSuggestedFiles($site);
+        }
+
         if (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
             $site->refresh();
             $this->siteFeatureService->saveSuggestedFiles($site);
