@@ -201,6 +201,10 @@ class WebHookController extends Controller
         return $stats;
     }
 
+    /**
+     * @param $serverHashId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function databaseBackups($serverHashId)
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);

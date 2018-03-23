@@ -53,6 +53,7 @@ class PHP
             'Composer',
         ],
         'MonitoringService' => [
+            'SchemaBackupScript',
             'DiskMonitoringScript',
             'LoadMonitoringScript',
             'ServerMemoryMonitoringScript',

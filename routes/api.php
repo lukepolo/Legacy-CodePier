@@ -198,8 +198,6 @@ Route::group(['middleware' => [
 
                 Route::get('{server}/sudo-password', 'ServerController@getSudoPassword');
                 Route::post('{server}/sudo-password/refresh', 'ServerController@refreshSudoPassword');
-
-                Route::post('{server}/database/backups/restore/{backup}', 'ServerController@restoreDatabaseBackup');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');
@@ -214,8 +212,10 @@ Route::group(['middleware' => [
             Route::apiResource('servers.ssl-certificate', 'ServerSslController');
             Route::apiResource('servers.schema-users', 'ServerSchemaUserController');
             Route::apiResource('servers.firewall-rules', 'ServerFirewallRuleController');
+            Route::apiResource('server.schemaBackups', 'ServerSchemaBackupsController');
             Route::apiResource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::apiResource('servers.language-settings', 'ServerLanguageSettingsController');
+            Route::apiResource('server.schemaBackups.restore', 'ServerRestoreSchemaBackupsController');
             Route::apiResource('servers.environment-variables', 'ServerEnvironmentVariablesController');
             Route::get('server/{server}/language-settings', 'ServerLanguageSettingsController@getLanguageSettings');
         });
@@ -267,7 +267,6 @@ Route::group(['middleware' => [
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
-            Route::apiResource('sites.schemaBackups', 'SiteSchemaBackupsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [
