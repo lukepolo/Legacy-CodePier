@@ -7,15 +7,13 @@
         </div>
 
         <div class="section-content">
-            <div class="container">
-                <ul class="wizard">
-                    <template v-for="server in backups.servers">
-                        <li class="wizard-item" v-bind:class="{ 'router-link-active': server.name }">
-                            <a @click="tab=server.name">{{ server.name }}</a>
-                        </li>
-                    </template>
-                </ul>
-            </div>
+            <ul class="wizard">
+                <template v-for="server in backups.servers">
+                    <li class="wizard-item" v-bind:class="{ 'router-link-active': server.name }">
+                        <a @click="tab=server.name">{{ server.name }}</a>
+                    </li>
+                </template>
+            </ul>
             <div v-for="server in backups.servers">
                 <div v-if="tab=server.name">
                     <div class="toggleSwitch">
