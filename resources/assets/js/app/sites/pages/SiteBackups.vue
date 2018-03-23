@@ -8,14 +8,14 @@
 
         <div class="section-content">
             <ul class="wizard">
-                <template v-for="server in backups.servers">
-                    <li class="wizard-item" v-bind:class="{ 'router-link-active': server.name }">
-                        <a @click="tab=server.name">{{ server.name }}</a>
+                <template v-for="(server, serverIndex) in backups.servers">
+                    <li class="wizard-item" v-bind:class="{ 'router-link-active': tab === serverIndex }">
+                        <a @click="tab=serverIndex">{{ server.name }}</a>
                     </li>
                 </template>
             </ul>
-            <div v-for="server in backups.servers">
-                <div v-if="tab=server.name">
+            <div v-for="(server, serverIndex) in backups.servers">
+                <div v-if="tab === serverIndex">
                     <div class="toggleSwitch">
                         Enable Backups &nbsp;
                         <div
@@ -26,25 +26,24 @@
                     </div>
                     <table class="table" v-if="server.backups.length">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Server</th>
-                            <th>Date</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Server</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-
-                        <tr v-for="backup in server.backups">
-                            <td>{{ backup.name }}</td>
-                            <td>{{ backup.type }}</td>
-                            <td>{{ backup.created_at }}</td>
-                            <td class="table--action">
-                                <!--<button class="btn btn-default btn-small">Restore</button>-->
-                                <button class="btn btn-default btn-small" @click="downloadBackup(server, backup)">Download</button>
-                            </td>
-                        </tr>
+                            <tr v-for="backup in server.backups">
+                                <td>{{ backup.name }}</td>
+                                <td>{{ backup.type }}</td>
+                                <td>{{ backup.created_at }}</td>
+                                <td class="table--action">
+                                    <!--<button class="btn btn-default btn-small">Restore</button>-->
+                                    <button class="btn btn-default btn-small" @click="downloadBackup(server, backup)">Download</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -57,7 +56,7 @@
     export default {
       data() {
         return {
-          tab : null
+          tab : 0
         }
       },
       watch: {
