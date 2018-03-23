@@ -55,21 +55,21 @@
 export default {
   props: {
     title: {
-      required: true
+      required: true,
     },
     filters: {
-      required: true
+      required: true,
     },
     selectedFilters: {
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
       form: this.createForm({
-        filters: this.selectedFilters
+        filters: this.selectedFilters,
       }),
-      isShowing: false
+      isShowing: false,
     };
   },
   created() {
@@ -109,7 +109,7 @@ export default {
       this.$emit("update:selectedFilters", _.map(this.form.filters, "id"));
       this.form.setOriginalData();
       this.close();
-    }
+    },
   },
   computed: {
     allFiltersSelected() {
@@ -120,7 +120,7 @@ export default {
         return "All";
       }
       return _.map(this.form.filters, "name").join(", ");
-    }
-  }
+    },
+  },
 };
 </script>

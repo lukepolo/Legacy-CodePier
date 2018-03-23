@@ -1,8 +1,7 @@
 // FORMS STYLES ============================================
 // =========================================================
 
-
-@import 'forms/forms-update';
+@import "forms/forms-update";
 
 //@import 'forms/forms_variables';
 //@import 'forms/check_radio';
@@ -11,9 +10,6 @@
 //@import 'forms/structure';
 //@import 'forms/validation';
 
-
-
-
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
 
@@ -21,11 +17,8 @@
 #register_form,
 #forgot_form {
   background-color: mix($color-background, $white, 95%);
-  margin-bottom: $spacing*2;
+  margin-bottom: $spacing * 2;
 }
-
-
-
 
 .table--action {
   text-align: right;
@@ -63,17 +56,13 @@
     }
   }
 
-  [class^="hint-"] + [class^="hint-"], [class*=" hint-"] + [class*=" hint-"] {
+  [class^="hint-"] + [class^="hint-"],
+  [class*=" hint-"] + [class*=" hint-"] {
     padding-left: 10px;
   }
 }
 
-
-
-
-
 .jcf-form-wrap {
-
   option {
     color: black;
   }
@@ -84,14 +73,14 @@
   }
 
   .input-checkbox,
-  .input-radio{
-    margin-bottom: $spacing*2;
+  .input-radio {
+    margin-bottom: $spacing * 2;
 
     label {
       margin-bottom: $spacing;
 
       &.disabled {
-        opacity: .3;
+        opacity: 0.3;
         cursor: not-allowed;
       }
 
@@ -103,7 +92,7 @@
     }
   }
   h3 {
-    margin-bottom: $spacing*2;
+    margin-bottom: $spacing * 2;
   }
   .input-question {
     margin-bottom: $spacing;
@@ -120,7 +109,8 @@
     pointer-events: none;
   }
 
-  [class^="hint-"], [class*=" hint-"] {
+  [class^="hint-"],
+  [class*=" hint-"] {
     position: absolute;
     left: -$spacing;
     cursor: pointer;
@@ -136,9 +126,7 @@
   }
 }
 
-
 [class*="hint--"] {
-
   z-index: 1000;
 
   &:after {
@@ -178,12 +166,10 @@
   }
 
   .btn-footer {
-    margin: $spacing*2 0px 0px;
+    margin: $spacing * 2 0px 0px;
     padding: $spacing;
   }
 }
-
-
 
 .jcf-form-wrap {
   box-shadow: none;
@@ -193,7 +179,8 @@
 .jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
 }
-.jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {
+.jcf-form-wrap .input-checkbox .icon:before,
+.jcf-form-wrap .input-radio .icon:before {
   top: -2px;
 }
 textarea {
@@ -209,7 +196,6 @@ textarea {
     outline: 3px solid $color-primary;
   }
 }
-
 
 .jcf-sub-form {
   border-left: 1px solid $color-divider;

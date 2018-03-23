@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use Cache;
+use Stripe\Stripe;
+use Stripe\Coupon;
 use Carbon\Carbon;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -44,6 +46,12 @@ class UserSubscriptionController extends Controller
             return response()->json('You already have a subscription. You need to update it instead of creating a new one.', 400);
         }
 
+        if ($request->has('coupon')) {
+            if (! $this->validateCoupon($request->get('coupon'))) {
+                return $this->invalidCouponResponse();
+            }
+        }
+
         $plan = $request->get('plan');
 
         Cache::forget($user->id.'.card');
@@ -80,6 +88,12 @@ class UserSubscriptionController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
+
+        if ($request->has('coupon')) {
+            if (! $this->validateCoupon($request->get('coupon'))) {
+                return $this->invalidCouponResponse();
+            }
+        }
 
         if (! $user->subscriptions->count()) {
             return response()->json('You do not have a subscription. You need to create one.', 400);
@@ -159,5 +173,31 @@ class UserSubscriptionController extends Controller
         return response()->json(
             $user->subscriptionInfo()
         );
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function invalidCouponResponse()
+    {
+        return response()->json('Invalid Coupon', 409);
+    }
+
+    /**
+     * @param $coupon
+     * @return bool
+     */
+    private function validateCoupon($coupon)
+    {
+        if (! empty($coupon)) {
+            Stripe::setApiKey(\Config::get('services.stripe.secret'));
+            try {
+                $coupon = Coupon::retrieve($coupon);
+                return $coupon->valid;
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+        return true;
     }
 }

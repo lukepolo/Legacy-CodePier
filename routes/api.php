@@ -81,6 +81,14 @@ Route::group(['middleware' => [
 
     /*
     |--------------------------------------------------------------------------
+    | Announcements Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::apiResource('announcements', 'AnnouncementsController');
+
+    /*
+    |--------------------------------------------------------------------------
     | Categories Routes
     |--------------------------------------------------------------------------
     |
@@ -228,7 +236,6 @@ Route::group(['middleware' => [
                 Route::post('{site}/rename', 'SiteController@rename');
                 Route::post('{site}/find-file', 'SiteFileController@find');
                 Route::post('{site}/workflow', 'SiteWorkflowController@store');
-                Route::post('{site}/wildcard', 'SiteController@updateWildcardDomain');
                 Route::post('{site}/refresh-ssh-keys', 'SiteController@refreshPublicKey');
                 Route::post('{site}/refresh-deploy-key', 'SiteController@refreshDeployKey');
                 Route::delete('{site}/clear-commands', 'SiteServerCommandsController@destroy');
@@ -291,9 +298,10 @@ Route::group(['middleware' => [
 
     Route::group(['prefix' => 'server/providers'], function () {
         Route::group([
-            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'prefix' => \App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController::DIGITALOCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
+            Route::apiResource('provider', 'DigitalOceanController');
             Route::apiResource('options', 'DigitalOceanServerOptionsController');
             Route::apiResource('regions', 'DigitalOceanServerRegionsController');
             Route::apiResource('features', 'DigitalOceanServerFeaturesController');
@@ -307,6 +315,16 @@ Route::group(['middleware' => [
             Route::apiResource('options', 'LinodeServerOptionsController');
             Route::apiResource('regions', 'LinodeServerRegionsController');
             Route::apiResource('features', 'LinodeServerFeaturesController');
+        });
+
+        Route::group([
+            'prefix' => \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR,
+            'namespace' => 'Server\Providers\Vultr',
+        ], function () {
+            Route::apiResource('provider', 'VultrController');
+            Route::apiResource('options', 'VultrServerOptionsController');
+            Route::apiResource('regions', 'VultrServerRegionsController');
+            Route::apiResource('features', 'VultrServerFeaturesController');
         });
     });
 });

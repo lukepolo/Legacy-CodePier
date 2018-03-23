@@ -45,7 +45,14 @@
                             </small>
                         </template>
                         <template v-else>
-                            <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
+                            <button class="btn btn-small btn-primary" :class="{ 'btn-disabled' :  server.progress < 100 || serverIsInstallingSomething }"  @click="installFeature(feature)">
+                                <template v-if="server.progress < 100 || serverIsInstallingSomething">
+                                    Please Wait
+                                </template>
+                                <template v-else>
+                                    Install
+                                </template>
+                            </button>
                         </template>
                     </div>
                 </template>
@@ -246,6 +253,15 @@ export default {
   computed: {
     availableServerFrameworks() {
       return this.$store.state.server_frameworks.frameworks;
+    },
+    serverIsInstallingSomething() {
+      if (this.server) {
+        return this.isCommandRunning(
+          "App\\Models\\Server\\Server",
+          this.server.id
+        );
+      }
+      return false;
     }
   }
 };

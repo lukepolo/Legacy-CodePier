@@ -14,13 +14,13 @@ export const update = (state, { response }) => {
   Vue.set(
     state.servers,
     parseInt(_.findKey(state.servers, { id: response.id })),
-    response
+    response,
   );
 };
 
 export const remove = (state, { requestData }) => {
   let server = _.find(state.servers, {
-    id: requestData.value
+    id: requestData.value,
   });
   server.deleted_at = moment();
   state.trashed.push(server);
@@ -29,8 +29,8 @@ export const remove = (state, { requestData }) => {
     state,
     "servers",
     _.reject(state.servers, {
-      id: requestData.value
-    })
+      id: requestData.value,
+    }),
   );
 };
 
@@ -43,8 +43,8 @@ export const removeFromTrash = (state, { requestData }) => {
     state,
     "trashed",
     _.reject(state.trashed, {
-      id: requestData.value
-    })
+      id: requestData.value,
+    }),
   );
 };
 export const listenTo = (state, server) => {

@@ -7,32 +7,6 @@
             </router-link>
         </div>
 
-        <ul class="nav nav-left nav-piles" v-if="hasSites">
-            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
-                <li>
-                    <span class="dropdown-heading">Change Pile</span>
-                </li>
-                <template v-for="pile in piles">
-                    <li>
-                        <a @click="changePile(pile.id)"
-                           :class="{ selected : (currentPile && currentPile.id === pile.id) }">
-                            <span class="icon-layers"></span>
-
-                            <template v-if="pile.name && pile.name.length > 18">
-                                <tooltip :message="pile.name" placement="bottom">
-                                    <span  class="text-clip">{{ pile.name }}</span>
-                                </tooltip>
-                            </template>
-                            <template v-else>
-                                <span  class="text-clip">{{ pile.name }}</span>
-                            </template>
-
-                        </a>
-                    </li>
-                </template>
-            </drop-down>
-        </ul>
-
         <ul class="nav navbar-right nav-right">
 
             <template v-if="isSubscribed">
@@ -56,16 +30,26 @@
                     <span class="dropdown-heading">Change Team</span>
                 </li>
                 <li>
-                    <a href="#" @click="changeTeam()"
+                    <a href="#" @click.prevent="changeTeam()"
                        :class="{selected : currentTeam === null}"><span class="icon-person"></span> Private</a>
                 </li>
                 <template v-for="team in teams">
                     <li>
-                        <a href="#" @click="changeTeam(team.id)"
+                        <a href="#" @click.prevent="changeTeam(team.id)"
                            :class="{selected : (currentTeam && currentTeam.id === team.id)}"><span class="icon-people"></span> {{ team.name }}</a>
                     </li>
                 </template>
             </drop-down>
+
+            <drop-down icon="icon-help">
+                <li>
+                    <a @click.prevent href="/" id="getHelp"><span class="icon-chat"></span> Get Help</a>
+                </li>
+                <li><a target="_blank" href="/faq">FAQs</a></li>
+                <li><a target="_blank" href="/all-features">All Features</a></li>
+                <li><a target="_blank" href="/change-log">Change Log</a></li>
+            </drop-down>
+
             <drop-down icon="icon-settings">
                 <li>
                     <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
@@ -82,12 +66,13 @@
                 <template v-if="isAdmin">
                     <li class="nav-label"><span>Admin</span></li>
                     <li>
-                        <a href="/horizon">Laravel Horizon</a>
+                        <a href="/horizon" target="_blank"><span class="icon-laravel"></span> Laravel Horizon</a>
                     </li>
                     <li>
                         <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                     </li>
                 </template>
+                <li class="nav-label"></li>
                 <li>
                     <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
                 </li>
@@ -101,25 +86,17 @@ import Notifications from "./Notifications.vue";
 
 export default {
   components: {
-    Notifications
+    Notifications,
   },
   data() {
     return {
       form: this.createForm({
-        query: "Sorry, its coming soon!"
+        query: "Sorry, its coming soon!",
       }),
-      search: false
+      search: false,
     };
   },
   computed: {
-    piles() {
-      return this.$store.state.user_piles.piles;
-    },
-    currentPile() {
-      if (this.user) {
-        return this.getPile(this.user.current_pile_id);
-      }
-    },
     currentTeam() {
       const currentTeam = this.$store.state.user.user.current_team;
 
@@ -133,7 +110,7 @@ export default {
     },
     teams() {
       return this.$store.state.user_teams.teams;
-    }
+    },
   },
   methods: {
     toggleSearch() {
@@ -146,9 +123,6 @@ export default {
     changeTeam(teamID) {
       this.$store.dispatch("changeTeams", teamID);
     },
-    changePile(pile_id) {
-      this.$store.dispatch("user_piles/change", pile_id);
-    }
-  }
+  },
 };
 </script>

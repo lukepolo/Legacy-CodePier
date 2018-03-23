@@ -20,7 +20,7 @@ export default {
     return {
       collapsing: false,
       height: null,
-      transitionSpeed: ".35"
+      transitionSpeed: ".35",
     };
   },
   methods: {
@@ -57,7 +57,7 @@ export default {
       el.style.overflow = null;
       el.style.position = null;
       el.style.transition = null;
-    }
-  }
+    },
+  },
 };
 </script>

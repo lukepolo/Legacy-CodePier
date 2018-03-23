@@ -5,7 +5,7 @@
 @endsection
 
 @push('scripts')
-<script>
-    var user = {!! $user !!};
-</script>
+    <script>
+      var user = {!! $user !!};
+    </script>
 @endpush

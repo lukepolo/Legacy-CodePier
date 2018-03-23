@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Site;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SiteWildcardRequest extends FormRequest
+class FindFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class SiteWildcardRequest extends FormRequest
     public function rules()
     {
         return [
-            'wildcard_domain' => 'required|boolean',
+            'file' => 'required',
         ];
     }
 }

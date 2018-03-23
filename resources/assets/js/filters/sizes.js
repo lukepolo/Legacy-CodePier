@@ -1,10 +1,10 @@
 import Vue from "vue";
 
-Vue.filter("ram", value => {
+Vue.filter("ram", (value) => {
   return value >= 1024 ? round(value / 1024, 2) + " GB" : value + " MB";
 });
 
-Vue.filter("diskSize", value => {
+Vue.filter("diskSize", (value) => {
   return value >= 1024 ? round(value / 1024, 2) + " TB" : value + " GB";
 });
 

@@ -1,7 +1,7 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
     .get(Vue.action("SiteSiteController@index"), "user_sites/setAll")
-    .then(sites => {
+    .then((sites) => {
       _.each(sites, function(site) {
         dispatch("listen", site);
       });
@@ -11,22 +11,22 @@ export const get = ({ dispatch }) => {
 export const show = (context, site) => {
   return Vue.request().get(
     Vue.action("SiteSiteController@show", { site: site }),
-    "user_sites/set"
+    "user_sites/set",
   );
 };
 
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(Vue.action("SiteSiteController@store"), "user_sites/add")
-    .then(site => {
+    .then((site) => {
       dispatch("user_piles/change", data.pile_id, {
-        root: true
+        root: true,
       }).then(() => {
         dispatch("listen", site);
         dispatch("user_piles/get", null, { root: true });
         app.$router.push({
           name: "site_overview",
-          params: { site_id: site.id }
+          params: { site_id: site.id },
         });
         return site;
       });
@@ -37,7 +37,7 @@ export const update = (context, data) => {
   return Vue.request(data)
     .patch(Vue.action("SiteSiteController@update", { site: data.site }), [
       "user_sites/set",
-      "user_sites/update"
+      "user_sites/update",
     ])
     .then(() => {
       app.showSuccess("You have updated the site");
@@ -47,7 +47,7 @@ export const update = (context, data) => {
 export const destroy = ({ dispatch }, site) => {
   return Vue.request(site)
     .delete(Vue.action("SiteSiteController@destroy", { site: site }), [
-      "user_sites/remove"
+      "user_sites/remove",
     ])
     .then(() => {
       dispatch("user_piles/get", null, { root: true });
@@ -60,59 +60,59 @@ export const listen = ({ commit, state, dispatch }, site) => {
   if (_.indexOf(state.listening_to, site.id) === -1) {
     commit("listenTo", site.id);
     Echo.private("App.Models.Site.Site." + site.id)
-      .listen("Site\\DeploymentStepStarted", data => {
+      .listen("Site\\DeploymentStepStarted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
           {
             site: data.site_deployment.site_id,
-            status: data.site_deployment.status
+            status: data.site_deployment.status,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
       })
-      .listen("Site\\DeploymentStepCompleted", data => {
+      .listen("Site\\DeploymentStepCompleted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
           {
             site: data.site_deployment.site_id,
-            status: data.site_deployment.status
+            status: data.site_deployment.status,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
       })
-      .listen("Site\\DeploymentStepFailed", data => {
+      .listen("Site\\DeploymentStepFailed", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
           {
             site: data.site_deployment.site_id,
-            status: data.site_deployment.status
+            status: data.site_deployment.status,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
       })
-      .listen("Site\\DeploymentCompleted", data => {
+      .listen("Site\\DeploymentCompleted", (data) => {
         commit("events/updateDeployment", data, { root: true });
         commit(
           "user_sites/updateLastDeploymentStatus",
           {
             site: data.site_deployment.site_id,
-            status: data.site_deployment.status
+            status: data.site_deployment.status,
           },
           {
-            root: true
-          }
+            root: true,
+          },
         );
       })
-      .notification(notification => {
+      .notification((notification) => {
         if (
           notification.type === "App\\Notifications\\Site\\NewSiteDeployment"
         ) {
@@ -120,11 +120,11 @@ export const listen = ({ commit, state, dispatch }, site) => {
             "user_site_deployments/getDeployment",
             {
               site: notification.siteDeployment.site_id,
-              deployment: notification.siteDeployment.id
+              deployment: notification.siteDeployment.id,
             },
             {
-              root: true
-            }
+              root: true,
+            },
           );
         }
       });
@@ -134,26 +134,32 @@ export const listen = ({ commit, state, dispatch }, site) => {
 export const updateWorkflow = (context, data) => {
   return Vue.request(data).post(
     Vue.action("SiteSiteWorkflowController@store", { site: data.site }),
-    ["user_sites/set", "user_sites/update"]
+    ["user_sites/set", "user_sites/update"],
   );
 };
 
 export const renameSite = (context, data) => {
-  Vue.request(data).post(
-    Vue.action("SiteSiteController@rename", { site: data.site }),
-    ["user_sites/set", "user_sites/update"]
-  );
+  Vue.request(data)
+    .post(Vue.action("SiteSiteController@rename", { site: data.site }), [
+      "user_sites/set",
+      "user_sites/update",
+    ])
+    .then(() => {
+      app.showSuccess(
+        "You have renamed your site, and has been queued to be redeployed",
+      );
+    });
 };
 
 export const updateNotificationChannels = ({}, data) => {
   return Vue.request(data)
     .post(
       Vue.action("SiteSiteNotificationChannelsController@store", {
-        site: data.site
+        site: data.site,
       }),
-      ["user_sites/set", "user_sites/update"]
+      ["user_sites/set", "user_sites/update"],
     )
-    .then(response => {
+    .then((response) => {
       app.showSuccess("You updated your sites slack notification channels.");
       return response;
     });
@@ -162,24 +168,10 @@ export const updateNotificationChannels = ({}, data) => {
 export const fixServerConfigurations = ({}, site) => {
   return Vue.request()
     .post(Vue.action("SiteSiteController@fixServerConfigurations", { site }))
-    .then(response => {
+    .then((response) => {
       app.showSuccess(
-        "Your server configurations will be fixed for this site."
+        "Your server configurations will be fixed for this site.",
       );
-      return response;
-    });
-};
-
-export const updateSiteWildcardDomain = ({}, data) => {
-  return Vue.request(data)
-    .post(
-      Vue.action("SiteSiteController@updateWildcardDomain", {
-        site: data.site
-      }),
-      ["user_sites/set", "user_sites/update"]
-    )
-    .then(response => {
-      app.showSuccess("Your site configurations will be fixed for this site.");
       return response;
     });
 };

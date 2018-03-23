@@ -32,6 +32,9 @@ class SystemService implements SystemServiceContract
     const DATABASE_SERVICE_GROUP = 'database_services';
     const DEPLOYMENT_SERVICE_GROUP = 'deployment_services';
 
+    const DAEMON_PROGRAMS_GROUP = 'daemon_programs';
+    const WORKER_PROGRAMS_GROUP = 'worker_programs';
+
     const LANGUAGES = [
         'PHP' => 'Languages\PHP\PHP',
         'Ruby' => 'Languages\Ruby\Ruby',
@@ -138,6 +141,12 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
+                $start = microtime(true);
+
+                $provisionStep->update([
+                    'started' => true,
+                ]);
+
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service, $server);
@@ -148,7 +157,10 @@ class SystemService implements SystemServiceContract
                     'failed' => false,
                     'completed' => true,
                     'log' => $systemService->getOutput(),
+                    'runtime' => microtime(true) - $start,
                 ]);
+
+                $systemService->clearOutput();
             }
         } catch (FailedCommand $e) {
             $provisionStep->update([

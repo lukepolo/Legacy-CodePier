@@ -84,6 +84,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
             $deploymentStepModel->fill([
                 'server_ids' => isset($deploymentStep['server_ids']) ? $deploymentStep['server_ids'] : [],
                 'server_types' => isset($deploymentStep['server_types']) ? $deploymentStep['server_types'] : [],
+                'after_deploy' =>  isset($deploymentStep['after_deploy']) && $deploymentStep['after_deploy'] ? true : false,
             ]);
 
             $deploymentStepModel->order = ++$order;
@@ -99,7 +100,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function buildDeploymentOptions($class, $frameworkClass = null)
     {
-        return Cache::rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
+        return Cache::tags('app.services')->rememberForever("deploymentOptions.$class.$frameworkClass", function () use ($class, $frameworkClass) {
             $deploymentSteps = [];
 
             $reflection = new ReflectionClass($class);

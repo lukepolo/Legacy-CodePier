@@ -1,5 +1,6 @@
 <template>
     <div class="server-type-list">
+
         <p>Select the type of server you need.</p>
 
         <ul>
@@ -56,6 +57,9 @@ export default {
       return this.$store.getters["user_site_servers/getServers"](
         this.$route.params.site_id
       );
+    },
+    servers() {
+      return this.$store.state.user_servers.servers;
     },
     hasLoadBalancer() {
       return (

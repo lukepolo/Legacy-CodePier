@@ -45,11 +45,23 @@ class PHPSettings
         $this->restartWebServices();
     }
 
-//    /**
-//     * @description Manually optimize OPCache
-//     */
-//    public function OpCache()
-//    {
-//        dump('opcache');
-//    }
+    /**
+     * @description OpCache Settings - Options should be in Megabytes (MB)
+     */
+    public function OpCache($memoryConsumption = 512, $maxAcceleratedFiles = 7963, $internedStringsBuffer = 64)
+    {
+        $phpVersion = $this->server->getLanguages()['PHP']['version'];
+
+        $this->connectToServer();
+
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.enable', 'opcache.enable=1');
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.memory_consumption', "opcache.memory_consumption=$memoryConsumption");
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.interned_strings_buffer', "opcache.interned_strings_buffer=$internedStringsBuffer");
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.max_accelerated_files', "opcache.max_accelerated_files=$maxAcceleratedFiles");
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.validate_timestamps', 'opcache.validate_timestamps=0');
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.save_comments', 'opcache.save_comments=1');
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'opcache.fast_shutdown', 'opcache.fast_shutdown=1');
+
+        $this->restartWebServices();
+    }
 }

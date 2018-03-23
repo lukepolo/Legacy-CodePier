@@ -1,15 +1,19 @@
 .banner {
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: .4px;
-    text-align: center;
-    padding: 15px 40px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  text-align: center;
+  padding: 15px 40px;
 
-    &-info {
-        background-color: $color-primary;
-    }
+  &-info {
+    background-color: $color-primary;
+  }
 
-    .btn {
-        margin-left: 15px;
-    }
+  &-danger {
+    background-color: $color-accent;
+  }
+
+  .btn {
+    margin-left: 15px;
+  }
 }

@@ -45,7 +45,7 @@ trait ServerProviderTrait
      */
     private function getServerProviderID()
     {
-        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function () {
+        return \Cache::tags('app.services')->rememberForever('server.provider.'.$this->providerName.'.id', function () {
             return ServerProvider::where('provider_name', $this->providerName)->firstOrFail()->id;
         });
     }
@@ -63,7 +63,7 @@ trait ServerProviderTrait
     {
         $providerName = $this->providerName;
 
-        $server_provider_id = \Cache::rememberForever($providerName.'Id', function () use ($providerName) {
+        $server_provider_id = \Cache::tags('app.services')->rememberForever($providerName.'Id', function () use ($providerName) {
             return ServerProvider::where('provider_name', $providerName)->first()->id;
         });
 
@@ -93,7 +93,18 @@ trait ServerProviderTrait
      */
     private function getTokenFromServer(Server $server)
     {
-        if ($serverProvider = $server->user->userServerProviders->where(
+        if ($server->user->userServerProviders->where(
+            'server_provider_id',
+            $server->server_provider_id
+        )->count() > 1
+        ) {
+            $serverProvider = $server->user->userServerProviders->where(
+                'id',
+                $server->user_server_provider_id
+            )->first();
+        }
+        // This is to keep backwards compatibility
+        elseif ($serverProvider = $server->user->userServerProviders->where(
             'server_provider_id',
             $server->server_provider_id
         )->first()
@@ -101,9 +112,9 @@ trait ServerProviderTrait
             if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
                 return $this->refreshToken($serverProvider);
             }
-
-            return $serverProvider->token;
         }
+
+        return $serverProvider->token;
 
         throw new \Exception('No server provider found for this user');
     }
