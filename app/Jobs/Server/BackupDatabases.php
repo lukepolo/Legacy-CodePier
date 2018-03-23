@@ -18,6 +18,9 @@ class BackupDatabases implements ShouldQueue
     public $server;
     public $backup;
 
+    public $tries = 1;
+    public $timeout = 90;
+
     /**
      * Create a new job instance.
      *
@@ -26,7 +29,6 @@ class BackupDatabases implements ShouldQueue
     public function __construct(Server $server)
     {
         $this->server = $server;
-
         $this->makeCommand($server, $server, null, 'Backup Databases');
     }
 
