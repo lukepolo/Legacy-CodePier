@@ -114,6 +114,10 @@ export default {
         }
       }
 
+      if (to.path.includes("backups")) {
+        slide = "slide-left";
+      }
+
       if (from.path.includes("overview")) {
         slide = "slide-left";
       }
@@ -250,7 +254,7 @@ export default {
       }
     },
     notOverview() {
-      return this.$route.name !== "site_overview";
+      return this.$route.name !== "site_overview" && this.$route.name !== "site_backups";
     },
     workFlowName() {
       return this.workFlowCompleted.replace("site_", "").replace("_", " ");

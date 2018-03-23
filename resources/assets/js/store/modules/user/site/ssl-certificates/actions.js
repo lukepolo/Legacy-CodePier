@@ -36,6 +36,15 @@ export const update = (context, data) => {
   );
 };
 
+export const wildcardInstall = (context, data) => {
+  return Vue.request().post(
+    Vue.action("SiteSiteWildcardSslController@store", {
+      site: data.site,
+      ssl_certificate: data.ssl_certificate,
+    }),
+  );
+};
+
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
     Vue.action("SiteSiteSslController@destroy", {

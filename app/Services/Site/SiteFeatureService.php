@@ -146,16 +146,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
      * @param Site $site
      * @return $site
      */
-    public function saveSuggestedFeaturesDefaults(Site $site)
+    public function getSuggestedFeaturesDefaults(Site $site)
     {
-        $dispatcher = $site->getEventDispatcher();
-        $site->unsetEventDispatcher();
-        $site->update([
-            'server_features' => $this->getSuggestedFeatures($site),
-        ]);
-        $site->setEventDispatcher($dispatcher);
-
-        return $site;
+        return $this->getSuggestedFeatures($site);
     }
 
     /**
@@ -184,18 +177,11 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
-     * @param Site $tempSite
      */
-    public function detachSuggestedCronJobs(Site $site, Site $tempSite)
+    public function detachSuggestedCronJobs(Site $site)
     {
-        if (! empty($tempSite->framework)) {
-            foreach ($this->getSuggestedCronJobs($tempSite) as $cronJob) {
-                foreach ($site->cronJobs as $siteCronJob) {
-                    if ($siteCronJob->job == $cronJob) {
-                        $site->cronJobs()->detach($siteCronJob);
-                    }
-                }
-            }
+        foreach ($site->cronJobs->where('framework_cronjob', 1) as $siteCronJob) {
+            $site->cronJobs()->detach($siteCronJob);
         }
     }
 
@@ -215,29 +201,14 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
-     * @param Site $tempSite
+     * @param bool $framework
      */
-    public function detachSuggestedFiles(Site $site, Site $tempSite)
+    public function detachSuggestedFiles(Site $site, $framework = false)
     {
-        foreach ($this->getEditableFiles($tempSite) as $file) {
-            foreach ($site->files as $siteFile) {
-                if ($siteFile->file_path == $file) {
-                    $site->files()->detach($siteFile);
-                    if ($siteFile->servers->count() === 0) {
-                        $siteFile->delete();
-                    }
-                }
-            }
-        }
-
-        foreach ($this->getEditableFrameworkFiles($tempSite) as $file) {
-            foreach ($site->files as $siteFile) {
-                if ($siteFile->file_path == $file) {
-                    $site->files()->detach($siteFile);
-                    if ($siteFile->servers->count() === 0) {
-                        $siteFile->delete();
-                    }
-                }
+        foreach ($site->files->where('custom', 0)->where('framework_file', $framework) as $file) {
+            $site->files()->detach($file);
+            if ($file->servers->count() === 0) {
+                $file->delete();
             }
         }
     }
@@ -251,6 +222,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             $cronJobModel = CronJob::create([
                 'job' => $cronJob,
                 'user' => 'codepier',
+                'framework_cronjob' => true,
             ]);
 
             $site->cronJobs()->save($cronJobModel);

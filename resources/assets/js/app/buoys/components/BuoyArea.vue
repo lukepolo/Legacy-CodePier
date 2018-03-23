@@ -14,7 +14,8 @@
         </section>
 
         <section id="right" class="section-column" v-if="buoy">
-            <router-view name="right"></router-view>
+          <h3 class="section-header">Install Buoy</h3>
+          <router-view name="right"></router-view>
         </section>
     </div>
 </template>

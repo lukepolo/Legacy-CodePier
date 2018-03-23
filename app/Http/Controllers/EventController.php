@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Backup;
 use App\Models\Bitt;
 use App\Models\Buoy;
 use App\Models\File;
@@ -37,6 +38,7 @@ class EventController extends Controller
             Bitt::class,
             Buoy::class,
             File::class,
+            Backup::class,
             Daemon::class,
             Worker::class,
             SshKey::class,

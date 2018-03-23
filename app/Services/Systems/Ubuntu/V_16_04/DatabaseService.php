@@ -93,7 +93,7 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
-        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
+        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \'' . $databasePassword . '\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
         $this->remoteTaskService->run('service postgresql restart');
     }
@@ -164,7 +164,8 @@ class DatabaseService
                 $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
                 break;
             case self::MONGODB:
-                // we don't need to create one , it will create itself based on the user permissions if needed
+                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.create('$database');\"");
+                // no break
             default:
                 throw new UnknownDatabase($schema->database);
                 break;
@@ -188,7 +189,7 @@ class DatabaseService
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE $database'");
                 break;
             case self::POSTGRESQL:
-                $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
+                $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb ' . $database);
                 break;
             case self::MONGODB:
                 $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.dropDatabase('$database');\"");
@@ -272,12 +273,12 @@ class DatabaseService
 
     private function addMySqlUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$schemaUser->password' WITH GRANT OPTION;\"");
+        $this->remoteTaskService->run('mysql --user=root --password=' . $this->server->database_password . " -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$schemaUser->password' WITH GRANT OPTION;\"");
     }
 
     private function removeMySqlUser(SchemaUser $schemaUser)
     {
-        $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"DROP USER IF EXISTS $schemaUser->name;\"");
+        $this->remoteTaskService->run('mysql --user=root --password=' . $this->server->database_password . " -e \"DROP USER IF EXISTS $schemaUser->name;\"");
     }
 
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
@@ -294,11 +295,11 @@ class DatabaseService
 
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : '$schemaUser->name', pwd : '$schemaUser->password', roles : [ { role : 'readWrite', db: '$schema->name' } ] });\"");
+        $this->remoteTaskService->run('mongo -u codepier -p ' . $this->server->database_password . " admin --eval \"db.createUser({ user : '$schemaUser->name', pwd : '$schemaUser->password', roles : [ { role : 'readWrite', db: '$schema->name' } ] });\"");
     }
 
     private function removeMongoDbUser(SchemaUser $schemaUser)
     {
-        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.removeUser($schemaUser->name);\"");
+        $this->remoteTaskService->run('mongo -u codepier -p ' . $this->server->database_password . " admin --eval \"db.removeUser($schemaUser->name);\"");
     }
 }

@@ -51,6 +51,7 @@ class DeactivateServerSslCertificate implements ShouldQueue
     {
         $this->runOnServer(function () use ($serverService, $siteService) {
             $siteService->updateWebServerConfig($this->server, $this->site);
+            $this->server->sslCertificates()->detach($this->sslCertificate);
         });
     }
 }

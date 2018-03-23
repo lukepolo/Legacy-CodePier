@@ -43,9 +43,8 @@
                                 <input type="hidden" name="user_server_provider_id" :value="userServerProviderAccounts[0].id">
                             </template>
 
-                            <div class="grid-2">
-                                <div class="flyform--group" v-if="is_custom">
-
+                            <div class="grid-2" v-if="is_custom">
+                                <div class="flyform--group">
                                     <input type="number" name="port" required value="22" placeholder=" ">
                                     <label for="port" class="flyform--group-iconlabel">SSH Port</label>
 

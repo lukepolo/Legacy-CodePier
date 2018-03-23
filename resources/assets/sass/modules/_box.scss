@@ -1,0 +1,70 @@
+.box {
+  border: 1px solid $color-divider;
+
+  + .box {
+    margin-top: $spacing;
+  }
+
+  &--heading {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba($black, 0.5);
+    padding: 14px;
+
+    &-btns {
+      font-size: 16px;
+
+      [class^="hint-"],
+      [class*=" hint"] {
+        + [class^="hint-"],
+        [class*=" hint"] {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .text-primary {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  &--content {
+    padding: 14px;
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  label {
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 10px;
+  }
+
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid $color-divider;
+    padding: 3px 10px;
+  }
+}
+
+// wildcard--info - probably want to move
+.wildcard--info {
+  .flex {
+    margin-top: 6px;
+  }
+}

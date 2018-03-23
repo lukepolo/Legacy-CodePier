@@ -306,7 +306,7 @@ $flyform-transition: all 0.5s;
 
     &[multiple="multiple"] {
       height: 125px;
-      padding: $spacing/2 0;
+      padding: 0;
 
       optgroup {
         font-size: 14px;
@@ -315,10 +315,8 @@ $flyform-transition: all 0.5s;
 
       option {
         font-weight: 300;
-        margin-left: (-$spacing/2);
-        margin-right: (-$spacing/2);
-        padding-left: $spacing/2;
-        padding-left: $spacing/2;
+        color: $color-text-primary;
+        padding: 5px 15px;
 
         &:checked {
           background-color: $red;

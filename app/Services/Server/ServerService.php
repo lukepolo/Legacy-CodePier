@@ -2,7 +2,10 @@
 
 namespace App\Services\Server;
 
+use Storage;
+use Carbon\Carbon;
 use App\Models\Bitt;
+use App\Models\Backup;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -154,6 +157,7 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      *
      * @return bool
+     * @throws \Exception
      */
     public function provision(Server $server)
     {
@@ -169,18 +173,19 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param string $user
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function restartServer(Server $server, $user = 'root')
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        $this->remoteTaskService->run('reboot now', false, true);
+        $this->remoteTaskService->run('reboot now', true);
     }
 
     /**
      * @param Server $server
-     *
-     * @return array
      */
     public function restartWebServices(Server $server)
     {
@@ -190,7 +195,6 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      *
-     * @return bool
      */
     public function restartDatabase(Server $server)
     {
@@ -200,7 +204,6 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      *
-     * @return bool
      */
     public function restartWorkers(Server $server)
     {
@@ -213,7 +216,10 @@ class ServerService implements ServerServiceContract
      * @param $content
      * @param string $user
      *
-     * @return bool
+     * @return void
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function saveFile(Server $server, $file, $content, $user = 'root')
     {
@@ -249,6 +255,9 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param $folder
      * @param string $user
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function createFolder(Server $server, $folder, $user = 'root')
     {
@@ -262,7 +271,10 @@ class ServerService implements ServerServiceContract
      * @param $folder
      * @param string $user
      *
-     * @return bool
+     * @return void
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function removeFolder(Server $server, $folder, $user = 'root')
     {
@@ -273,7 +285,10 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param $sshKey
+     * @param SshKey $sshKey
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function installSshKey(Server $server, SshKey $sshKey)
     {
@@ -284,7 +299,10 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param $sshKey
+     * @param SshKey $sshKey
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function removeSshKey(Server $server, SshKey $sshKey)
     {
@@ -297,6 +315,9 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      *
      * @return DiskSpace
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function checkDiskSpace(Server $server)
     {
@@ -311,17 +332,23 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param CronJob $cronJob
-     * @return arrayx
+     * @return void
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function installCron(Server $server, CronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob->job.') || ((crontab -l; echo "'.$cronJob->job.' > /dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob->job . ') || ((crontab -l; echo "' . $cronJob->job . ' > /dev/null 2>&1") | crontab)');
     }
 
     /**
      * @param Server $server
      * @param CronJob $cronJob
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function removeCron(Server $server, CronJob $cronJob)
     {
@@ -334,6 +361,9 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param SslCertificate $sslCertificate
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function installSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
@@ -367,6 +397,9 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param SslCertificate $sslCertificate
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function activateSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
@@ -383,6 +416,9 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param SslCertificate $sslCertificate
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function removeSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
@@ -403,18 +439,35 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param SslCertificate $sslCertificate
      * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
-        // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
-        );
+        if ($sslCertificate->wildcard) {
+            $tokenScriptFile = "/opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh";
+            $this->remoteTaskService->writeToFile($tokenScriptFile, '
+    #!/bin/bash
+    # $CERTBOT_VALIDATION
+    # $CERTBOT_TOKEN
+    curl -X "POST" "'.config('app.url_dns').'/update" \
+        -H \'Content-Type: application/json; charset=utf-8\' \
+        -H \'X-Api-Key: '.$sslCertificate->acme_password.'\' \
+        -H \'X-Api-User: '.$sslCertificate->acme_username.'\' \
+        -d $\'{
+            "txt": "\'"$CERTBOT_VALIDATION"\'",
+            "subdomain": "'.$sslCertificate->acme_subdomain.'"
+        }\'
+    ');
+            $this->remoteTaskService->run("chmod 775 $tokenScriptFile");
+            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains,*.$sslCertificate->domains";
+        } else {
+            $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
+        }
 
-        // TODO - this needs to happen differently since load balancers may control these values, so they need to trigger us
-        // to say its been changed or something?
+        $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
 
         $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
 
@@ -464,21 +517,32 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param Bitt $bitt
+     * @return string
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function runBitt(Server $server, Bitt $bitt)
     {
-        $bittFile = $bitt->id.'.sh';
+        $bitt->increment('uses');
+
+        $bittFile = 'bitt-'.$bitt->id.'.sh';
+
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->makeDirectory(self::BITT_FILES);
+        $this->remoteTaskService->writeToFile(self::BITT_FILES . "/$bittFile", $bitt->script);
+        $this->remoteTaskService->run("chmod 775 " . self::BITT_FILES . "/$bittFile");
 
         $this->remoteTaskService->ssh($server, $bitt->user);
 
-        $this->remoteTaskService->makeDirectory(self::BITT_FILES);
+        $log = $this->remoteTaskService->run(self::BITT_FILES . '/./' . $bittFile);
 
-        $this->remoteTaskService->writeToFile($bittFile, $bitt->script);
-        $this->remoteTaskService->run('chmod 775 '.self::BITT_FILES.'/'.$bittFile);
 
-        $this->remoteTaskService->run(self::BITT_FILES.'/./'.$bittFile);
+        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->removeFile(self::BITT_FILES . "/$bittFile");
 
-        $bitt->increment('installs');
+        return $log;
     }
 
     /**
@@ -520,6 +584,9 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param EnvironmentVariable $environmentVariable
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function addEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
     {
@@ -531,6 +598,9 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param EnvironmentVariable $environmentVariable
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function removeEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
     {
@@ -559,6 +629,106 @@ class ServerService implements ServerServiceContract
     public function updateSudoPassword(Server $server, $newSudoPassword)
     {
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('echo \'codepier:'.$newSudoPassword.'\' | chpasswd');
+        $this->remoteTaskService->run('echo \'codepier:' . $newSudoPassword . '\' | chpasswd');
+    }
+
+    /**
+     * @param Server $server
+     * @param string $type
+     *
+     * @return Backup
+     *
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function backupDatabases(Server $server, $type, $suffix = '')
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $fileName = "{$server->name}_{$type}_".Carbon::now()->getTimestamp()."{$suffix}.";
+        
+        switch ($type) {
+            case 'MySQL':
+            case 'MariaDB':
+                if (! $this->remoteTaskService->hasCommand('xtrabackup')) {
+                    $this->remoteTaskService->run('wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb -O percona-repo.deb');
+                    $this->remoteTaskService->run('dpkg -i percona-repo.deb');
+                    $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
+                    $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y percona-xtrabackup-24');
+                }
+
+                $fileName .= 'tar.gz';
+
+                $this->remoteTaskService->run("innobackupex --user=codepier --password={$server->database_password} --stream=tar /tmp | gzip - > $fileName");
+            break;
+            case 'PostgreSQL':
+                $fileName .= 'sqlc';
+                $this->remoteTaskService->run("pg_dumpall --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432 | gzip -c > $fileName");
+            break;
+            case 'MongoDB':
+                $fileName .= 'gz';
+                $this->remoteTaskService->run("mongodump --archive=$fileName --gzip");
+            break;
+        }
+
+        $this->remoteTaskService->run("curl '".create_pre_signed_s3("backups/$fileName")."' --upload-file $fileName");
+        $this->remoteTaskService->run("rm $fileName");
+
+        $backup = Backup::create([
+            'type' => $type,
+            'name' => "backups/$fileName",
+            'size' => \Storage::disk('do-spaces')->size("backups/$fileName"),
+        ]);
+
+        return $backup;
+    }
+
+    /**
+     * @param Server $server
+     * @param Backup $backup
+     *
+     * @return Backup
+     *
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function restoreDatabases(Server $server, Backup $backup)
+    {
+        $this->backupDatabases($server, $backup->type, "_before_restore");
+
+        $fileName = Carbon::now()->getTimestamp();
+        
+        $url = Storage::disk('do-spaces')->temporaryUrl($backup->name, now()->addMinutes(5));
+
+        $this->remoteTaskService->run("wget -O $fileName '$url'");
+
+        switch ($backup->type) {
+            case 'MySQL':
+            case 'MariaDB':
+                $this->remoteTaskService->run("mkdir /tmp/$fileName");
+                $this->remoteTaskService->run("tar -xzf $fileName -C /tmp/$fileName");
+                $this->remoteTaskService->run('service mysql stop');
+                $this->remoteTaskService->run('rm -rf /var/lib/mysql/*');
+                $this->remoteTaskService->run("innobackupex --copy-back /tmp/$fileName");
+                $this->remoteTaskService->run("rm -r /tmp/$fileName");
+                $this->remoteTaskService->run('chown -R mysql:mysql /var/lib/mysql');
+                $this->remoteTaskService->run('service mysql start');
+            break;
+            case 'PostgreSQL':
+                $this->remoteTaskService->run("zcat $fileName > /tmp/$fileName");
+                $this->remoteTaskService->run("psql -f /tmp/$fileName postgres");
+
+                $this->remoteTaskService->run("rm /tmp/$fileName");
+            break;
+            case 'MongoDB':
+                $this->remoteTaskService->run("mongorestore --gzip --archive=$fileName");
+            break;
+        }
+
+        $this->remoteTaskService->run("rm $fileName");
+
+        return $backup;
     }
 }

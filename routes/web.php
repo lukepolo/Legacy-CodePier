@@ -88,6 +88,7 @@ Route::group([
     'prefix' => 'webhook',
 ], function () {
     Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    Route::any('/schema-backups/{serverHashId}', 'WebHookController@databaseBackups');
     Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });

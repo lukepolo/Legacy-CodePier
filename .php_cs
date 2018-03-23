@@ -21,6 +21,7 @@ return PhpCsFixer\Config::create()
             ->notName('*.blade.php')
             ->notName('composer.lock')
             ->notName('_ide_helper.php')
+            ->notName('.phpstorm.meta.php')
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
     );

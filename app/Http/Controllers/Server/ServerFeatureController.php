@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Server;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallServerFeature;
 use App\Http\Requests\Server\ServerFeatureRequest;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
 
@@ -47,31 +46,12 @@ class ServerFeatureController extends Controller
         $feature = $request->get('feature');
         $service = $request->get('service');
 
+        /** @var Server $server */
         $server = Server::findOrFail($serverId);
-        $serverFeatures = $server->server_features;
 
-        if ((
-            ! isset($serverFeatures[$service][$feature]) ||
-            ! isset($serverFeatures[$service][$feature]['enabled']) ||
-            ! $serverFeatures[$service][$feature]['enabled']
-        ) && (
-            ! isset($serverFeatures[$service][$feature]['installing']) ||
-            ! $serverFeatures[$service][$feature]['installing']
-        )) {
-            $serverFeatures[$service][$feature] = [
-                'installing' => true,
-            ];
-
-            dispatch(
-                (new InstallServerFeature($server, $feature, $service, $request->get('parameters', [])))
-                    ->onQueue(config('queue.channels.server_features'))
-            );
-
-            $server->update([
-                'server_features' => $serverFeatures,
-            ]);
-
-            return response()->json($serverFeatures);
+        if ($this->serverFeatureService->installFeature($server, $service, $feature, $request->get('parameters', []))) {
+            $server = $server->fresh();
+            return response()->json($server->server_features);
         }
 
         return response()->json('It is currently being installed', 409);

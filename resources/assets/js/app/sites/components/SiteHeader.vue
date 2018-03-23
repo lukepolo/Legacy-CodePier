@@ -1,9 +1,11 @@
 <template>
     <h3 class="section-header primary" v-if="site">
 
-        <a :href="'//'+site.domain" target="_blank">
+        <router-link :to="{ name : 'site_overview', params : { site : site.id } }">
             {{ site.name }}
-        </a>
+        </router-link>
+
+        &nbsp; <a :href="'//'+site.domain" target="_blank"><i class="fa fa-external-link"></i></a>
 
         <div class="section-header--btn-right">
 

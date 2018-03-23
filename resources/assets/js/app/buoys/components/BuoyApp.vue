@@ -42,13 +42,13 @@
 
         </div>
 
-        <div class="btn-footer text-center" v-if="servers.length">
-            <button class="btn btn-primary" @click.prevent="install">
+        <div class="btn-footer text-center" >
+            <button class="btn btn-primary" @click.prevent="install" v-if="servers.length">
                 Install
             </button>
-        </div>
-        <div v-else>
-            Please create a server before attaching a buoy.
+            <div v-else>
+                Please create a server before attaching a buoy.
+            </div>
         </div>
     </div>
 </template>

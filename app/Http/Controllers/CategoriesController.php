@@ -8,6 +8,14 @@ use App\Http\Requests\CategoryRequest;
 class CategoriesController extends Controller
 {
     /**
+     * CategoriesController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:admin')->only(['store', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

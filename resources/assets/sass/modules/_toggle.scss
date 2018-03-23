@@ -1,0 +1,121 @@
+$color-hover-overlay: rgba($black, 0.3);
+
+.toggleSwitch {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+
+  &--text {
+    font-weight: 400;
+
+    &-left {
+      margin-right: 5px;
+    }
+
+    &-right {
+      margin-left: 5px;
+    }
+
+    &-btn {
+      padding: 5px 10px;
+      color: $color-text-secondary;
+      font-weight: 700;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-hover-overlay;
+      }
+    }
+  }
+
+  &--button {
+    &-switch {
+      outline: 0;
+      display: block;
+      width: 40px;
+      height: 22px;
+      border: 2px solid $color-text-secondary;
+      border-radius: 2em;
+      padding: 2px;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.4s ease;
+
+      &:after,
+      &:before {
+        position: relative;
+        display: block;
+        content: "";
+        width: 14px;
+        height: 100%;
+      }
+
+      &:after {
+        left: 0;
+        border-radius: 50%;
+        background-color: $color-text-secondary;
+        transition: all 0.2s ease;
+      }
+
+      &:before {
+        display: none;
+      }
+
+      &.right {
+        border-color: $color-primary;
+
+        &:after {
+          left: 100%;
+          transform: translateX(-100%);
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
+
+  // Toggle With Null State
+  &-null {
+    .toggle--button-switch {
+      width: 60px;
+
+      &:after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &.left {
+        &:after {
+          left: 0;
+          transform: translateX(0);
+        }
+      }
+
+      &.right {
+        border-color: $color-primary;
+
+        &:after {
+          left: 100%;
+          transform: translateX(-100%);
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    .toggle--text-btn {
+      cursor: default;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    .toggle--button-switch {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+  }
+}

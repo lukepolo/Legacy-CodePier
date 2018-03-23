@@ -14,8 +14,8 @@
   transition: all 0.1s;
   @include card(1);
 
-  &:hover,
-  &:focus {
+  &:focus,
+  &:hover {
     @include card(2);
     outline: none;
     transform: scale(1.02);
@@ -40,20 +40,20 @@
   }
 
   &-link {
-    padding: 0px;
+    padding: 0;
     background-color: transparent;
 
-    &:hover,
+    &:active,
     &:focus,
-    &:active {
+    &:hover {
       color: $color-primary;
       outline: none;
     }
 
     &.btn-link-danger {
-      &:hover,
+      &:active,
       &:focus,
-      &:active {
+      &:hover {
         color: $red;
         outline: none;
       }
@@ -119,7 +119,7 @@ button[disabled="disabled"] {
   text-align: center;
   border-top: 1px solid $jcf-color-divider;
   background-color: transparent;
-  margin: $spacing 0px 0px;
+  margin: $spacing 0 0;
   padding: $spacing;
 }
 
@@ -132,8 +132,8 @@ button[disabled="disabled"] {
 // TOOLTIPS AROUND BUTTON MARGIN ---------------------------
 // ---------------------------------------------------------
 .btn--tooltip {
-  + .btn--tooltip,
-  + .btn {
+  + .btn,
+  + .btn--tooltip {
     margin-left: 15px;
   }
 }
@@ -203,5 +203,86 @@ button[disabled="disabled"] {
 .drag-element {
   .btn--trigger-panel {
     display: inline-block;
+  }
+}
+
+// button Links
+@mixin button-link-color($text-color) {
+  color: $text-color;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: mix($text-color, $grayLight, 70%);
+    cursor: pointer;
+  }
+}
+
+@mixin button-link-hover($text-color) {
+  color: $color-text-secondary;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: $text-color;
+    cursor: pointer;
+  }
+}
+// Button Links
+.btn--link {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  @include button-link-color($color-text-secondary);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  // shows text color all the time
+  &-primary {
+    @include button-link-color($color-state-neutral);
+  }
+
+  &-success {
+    @include button-link-color($color-state-success);
+  }
+
+  &-warning {
+    @include button-link-color($color-state-warning);
+  }
+
+  &-danger {
+    @include button-link-color($color-state-danger);
+  }
+
+  // Only shows text color on hover
+  &-hover {
+    &.btn--link-primary {
+      @include button-link-hover($color-state-neutral);
+    }
+
+    &.btn--link-success {
+      @include button-link-hover($color-state-success);
+    }
+
+    &.btn--link-warning {
+      @include button-link-hover($color-state-warning);
+    }
+
+    &.btn--link-danger {
+      @include button-link-hover($color-state-danger);
+    }
   }
 }
