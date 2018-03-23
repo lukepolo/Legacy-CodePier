@@ -89,11 +89,11 @@ done');
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->writeToFile('/opt/codepier/schema_backup', 'curl "' . config('app.url') . '/webhook/schema-backups/' . $this->server->encode() . '"');
+        $this->remoteTaskService->writeToFile('/opt/codepier/schema_backup', 'sleep $((RANDOM % 250)) && curl "' . config('app.url') . '/webhook/schema-backups/' . $this->server->encode() . '"');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/schema_backup');
 
-        $cronJob = '*/5 * * * * /opt/codepier/./schema_backup';
+        $cronJob = '0 0 * * * /opt/codepier/./schema_backup';
 
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
