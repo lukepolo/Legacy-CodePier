@@ -4,12 +4,6 @@
             <h3 class="flex--grow">
                 Database Backups
             </h3>
-
-            <tooltip message="Add Firewall Rule">
-                <span class="btn btn-small btn-primary">
-                    <span class="icon-plus"></span>
-                </span>
-            </tooltip>
         </div>
 
         <div class="section-content">
