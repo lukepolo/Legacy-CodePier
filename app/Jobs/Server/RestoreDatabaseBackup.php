@@ -29,7 +29,6 @@ class RestoreDatabaseBackup implements ShouldQueue
     {
         $this->server = $server;
         $this->backup = $backup;
-
         $this->makeCommand($server, $backup, null, 'Restoring Backup');
     }
 
