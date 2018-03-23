@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8778b30bac501f7d31fdad31f91bbfa3",
+    "content-hash": "36089852a8ce031046abe0fcf9bb500b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1874,16 +1874,16 @@
         },
         {
             "name": "kriswallsmith/buzz",
-            "version": "v0.16.1",
+            "version": "v0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "4977b7d44dbef49cdc641f14be6512fdcfe32f12"
+                "reference": "bd3299b7b6be3eeeb7a2842e677685031b93aa26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/4977b7d44dbef49cdc641f14be6512fdcfe32f12",
-                "reference": "4977b7d44dbef49cdc641f14be6512fdcfe32f12",
+                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/bd3299b7b6be3eeeb7a2842e677685031b93aa26",
+                "reference": "bd3299b7b6be3eeeb7a2842e677685031b93aa26",
                 "shasum": ""
             },
             "require": {
@@ -1920,7 +1920,7 @@
                 "curl",
                 "http client"
             ],
-            "time": "2018-03-19T10:34:40+00:00"
+            "time": "2018-02-03T19:40:45+00:00"
         },
         {
             "name": "laravel/cashier",
