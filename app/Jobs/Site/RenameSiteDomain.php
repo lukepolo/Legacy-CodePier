@@ -10,11 +10,12 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class RenameSiteDomain implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $site;
     private $server;
@@ -41,7 +42,7 @@ class RenameSiteDomain implements ShouldQueue
         $this->oldDomain = $oldDomain;
         $this->newDomain = $newDomain;
 
-        $this->makeCommand($server, $site, $siteCommand);
+        $this->makeCommand($server, $site, $siteCommand, 'Updating Directories');
     }
 
     /**

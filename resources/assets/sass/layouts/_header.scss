@@ -1,26 +1,26 @@
 // HEADER STYLES ===========================================
 // =========================================================
 header {
-    background-color: $black;
-    display: flex;
+  background-color: $black;
+  display: flex;
 
-    .muted {
-        font-size: .8em;
-        text-transform: uppercase;
-        opacity: .5;
-        display: inline-block;
-        padding-right: 5px;
-    }
+  .muted {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    display: inline-block;
+    padding-right: 5px;
+  }
 }
 
 .logo-container {
-    flex: 0 0 220px;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
+  flex: 0 0 220px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 
-    a {
-        width: 100%;
-        display: inline-block;
-    }
+  a {
+    width: 100%;
+    display: inline-block;
+  }
 }

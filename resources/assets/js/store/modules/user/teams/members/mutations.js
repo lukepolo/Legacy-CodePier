@@ -11,7 +11,7 @@ export const remove = (state, { requestData }) => {
     state,
     "members",
     _.reject(state.members, {
-      id: requestData.member
-    })
+      id: requestData.member,
+    }),
   );
 };

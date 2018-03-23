@@ -4,7 +4,6 @@ namespace App\Models\Server;
 
 use App\Models\Buoy;
 use App\Models\File;
-use App\Models\Pile;
 use App\Models\Backup;
 use App\Models\Daemon;
 use App\Models\Schema;
@@ -16,7 +15,6 @@ use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\SchemaUser;
 use App\Traits\Encryptable;
-use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\ServerCommand;
@@ -34,7 +32,7 @@ use App\Models\Server\Provider\ServerProviderFeatures;
 
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams, Notifiable, Encryptable, ConnectedToUser, Hashable;
+    use SoftDeletes, Notifiable, Encryptable, ConnectedToUser, Hashable;
 
     protected $guarded = [
         'id',
@@ -44,7 +42,8 @@ class Server extends Model
         'database_password',
     ];
 
-    public static $teamworkModel = 'pile.teams';
+    // TODO - we will need to tie these to teams instead , don't need to make it more complicated
+//    public static $teamworkModel = 'site.teams';
 
     public $teamworkSync = false;
 
@@ -153,11 +152,6 @@ class Server extends Model
         return $this->hasMany(ServerProviderFeatures::class);
     }
 
-    public function pile()
-    {
-        return $this->belongsTo(Pile::class);
-    }
-
     public function provisionSteps()
     {
         return $this->hasMany(ServerProvisionStep::class);
@@ -259,19 +253,13 @@ class Server extends Model
     {
         $emails = collect($this->user->email);
 
-        $this->load('pile.teams.users');
-
-        foreach ($this->pile->teams as $team) {
-            $emails->merge($team->users->pluck('email'));
-        }
-
         return $emails->toArray();
     }
 
     public function currentProvisioningStep()
     {
         return $this->provisionSteps->first(function ($step) {
-            return ! $step->completed;
+            return ! $step->completed || $step->failed;
         });
     }
 

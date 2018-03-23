@@ -7,10 +7,10 @@
             </div>
             <div class="heading--btns">
                 <confirm
-                        confirm_class="btn-link"
-                        confirm_position="bottom"
-                        message="Slack Notifications"
-                        confirm_btn="btn-primary"
+                    confirm_class="btn-link"
+                    confirm_position="bottom"
+                    message="Slack Notifications"
+                    confirm_btn="btn-primary"
                 >
                     <tooltip message="Notifications" placement="bottom">
                         <span class="icon-notifications"></span>
@@ -51,16 +51,33 @@
 
                 <confirm
                     dispatch="user_sites/renameSite"
-                    :params="{ site : site.id, domain : renameForm.domain }"
+                    :params="{
+                        site : site.id,
+                        pile_id : site.pile_id,
+                        domain : renameForm.domain,
+                        wildcard_domain : renameForm.wildcard_domain,
+                    }"
                     confirm_class="btn-link"
                     confirm_position="bottom"
-                    message="Rename Site"
+                    message="Update Site Details"
                     confirm_btn="btn-primary"
                 >
-                    <tooltip message="Rename Site" placement="bottom">
+                    <tooltip message="Update Site Details" placement="bottom">
                         <span class="icon-pencil"></span>
                     </tooltip>
                     <div slot="form">
+
+                        <div class="flyform--group-checkbox">
+                            <label>
+                                <input v-model="renameForm.wildcard_domain" type="checkbox" name="wildcard_domain">
+                                <span class="icon"></span>
+                                Wildcard Domain
+                                <tooltip :message="'If your site requires wildcard for sub domains'" size="medium">
+                                    <span class="fa fa-info-circle"></span>
+                                </tooltip>
+                            </label>
+                        </div>
+
                         <div class="flyform--group">
                             <input v-model="renameForm.domain" type="text" name="domain" placeholder=" ">
                             <label for="domain">Domain</label>
@@ -68,16 +85,7 @@
                     </div>
                 </confirm>
 
-                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"
-                        confirm_class="btn-link btn-link-danger"
-                        confirm_position="bottom"
-                        confirm_message="Delete Site"
-                        confirm_text="Delete Site"
-                >
-                    <tooltip message="Delete Site" placement="bottom">
-                        <span class="icon-trash"></span>
-                    </tooltip>
-                </confirm>
+                <delete-site :site="site"></delete-site>
 
                 <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>
@@ -155,7 +163,7 @@
                 </template>
             </template>
 
-            <drop-down tag="span">
+            <drop-down tag="span" v-if="!site.user_repository_provider_id">
                 <div class="grid--item" slot="header">
                     <div class="providers--item">
                         <div class="providers--item-header">
@@ -175,7 +183,7 @@
                         <confirm-dropdown dispatch="user_site_ssh_keys/refreshPublicKey" :params="site.id">
                             Public SSH Key &nbsp;
                             <tooltip message="Refresh SSH Key">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
@@ -213,7 +221,7 @@
                         <confirm-dropdown dispatch="user_site_deployments/refreshDeployKey" :params="site.id">
                             Deploy Hook URL &nbsp;
                             <tooltip message="Refresh Deploy Key">
-                                <a href="#"><span class="fa fa-refresh"></span></a>
+                                <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>
                         </confirm-dropdown>
                     </h3>
@@ -230,6 +238,24 @@
 
                 </div>
             </drop-down>
+
+            <template>
+                <div class="grid--item">
+                    <div class="providers--item">
+                        <div class="providers--item-header">
+                            <div class="providers--item-icon">
+                                <span class="icon-database"></span>
+                            </div>
+                        </div>
+                        <div class="providers--item-footer">
+                            <div class="providers--item-footer-connect">
+                                <h4>Enable Database Backups</h4>
+                                <small>Coming Soon!</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
 
         <div class="grid-2 grid-gap-large">
@@ -272,21 +298,23 @@
 
             <life-lines></life-lines>
 
-        </div>
-
-        <div class="grid-2 grid-gap-large">
-            <div class="grid--item">
-                <h3 class="text-center heading">Backups</h3>
-                <p v-for="backup in backups">
-                    {{ backup.name }} - {{ backup.type }} <button class="btn btn-default" @click="downloadBackup(backup)">Download</button>
-                </p>
+            <div class="grid-2 grid-gap-large">
+                <div class="grid--item">
+                    <h3 class="text-center heading">Backups</h3>
+                    <p v-for="backup in backups">
+                        {{ backup.name }} - {{ backup.type }} <button class="btn btn-default" @click="downloadBackup(backup)">Download</button>
+                    </p>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
 import LifeLines from "./../components/Lifelines";
+import DeleteSite from "./../components/DeleteSite";
+
 export default {
   data() {
     return {
@@ -299,12 +327,14 @@ export default {
         lifelines: null
       }),
       renameForm: {
-        domain: null
+        domain: null,
+        wildcard_domain : null
       }
     };
   },
   components: {
-    LifeLines
+    LifeLines,
+    DeleteSite
   },
   created() {
     this.fetchData();
@@ -312,7 +342,8 @@ export default {
   watch: {
     $route: "fetchData",
     site: function(site) {
-      Vue.set(this.renameForm, "domain", site.domain);
+      Vue.set(this.renameForm, "domain", site.name);
+      Vue.set(this.renameForm, "wildcard_domain", site.wildcard_domain);
     }
   },
   methods: {
@@ -334,6 +365,7 @@ export default {
     },
     fetchData() {
       this.getDns();
+      this.$store.dispatch("user_notification_providers/get");
       this.$store.dispatch(
         "user_site_deployments/get",
         this.$route.params.site_id
@@ -342,8 +374,8 @@ export default {
         "user_site_schemaBackups/get",
         this.$route.params.site_id
       );
-
-      Vue.set(this.renameForm, "domain", this.site ? this.site.domain : null);
+      Vue.set(this.renameForm, "domain", this.site ? this.site.name : null);
+      Vue.set(this.renameForm, "wildcard_domain", this.site ? this.site.wildcard_domain : null);
     },
     getDns(refresh) {
       let data = {

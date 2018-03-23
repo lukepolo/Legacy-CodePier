@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server;
 
-use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\FileRequest;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\UpdateServerFile;
+use App\Http\Requests\FindFileRequest;
 use App\Contracts\Repositories\FileRepositoryContract as FileRepository;
 
 class ServerFileController extends Controller
@@ -50,11 +50,11 @@ class ServerFileController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FindFileRequest $request
      * @param $serverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function find(Request $request, $serverId)
+    public function find(FindFileRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
 

@@ -28,10 +28,10 @@ class ServerRequest extends FormRequest
         return [
             'server_name' => ['required', new ServerName],
             'server_provider_id' => 'required_without:custom',
+            'user_server_provider_id' => 'required_with:server_provider_id',
             'services' => 'required',
             'server_region' => 'required_without:custom|integer',
             'server_option' => 'required_without:custom|integer',
-            'pile_id' => 'required_without:site',
             'site' => 'integer',
             'type' => [new ServerType],
         ];

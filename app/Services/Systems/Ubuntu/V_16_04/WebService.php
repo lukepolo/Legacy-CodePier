@@ -92,24 +92,49 @@ server {
         $this->remoteTaskService->writeToFile('/opt/codepier/landing/index.html', '
 <!doctype html>
 <html lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            html {
-                background: url("https://cdn.codepier.io/assets/img/docked-with-codepier.png") no-repeat center center fixed;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
-            }
-        </style>
-    </head>
-    <body>
-    </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
+  <style>
+    body {
+      background-image: linear-gradient(to right top, #ffffff, #fff5fe, #ffeae8, #ffe7c6, #e5edb3);
+    }
+
+    .docked {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: url("https://cdn.codepier.io/assets/img/docked-with-codepier.png") no-repeat center center fixed;
+      background-size: cover;
+      background-position: left top;
+    }
+
+    h1 {
+      font-family: \'Open Sans\', \'Helvetica Neue\', \'Helvetica\', Arial, sans-serif;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3vw;
+      text-align: center;
+      color: #3C3F41;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="docked">
+    <h1>Docked With CodePier</h1>
+  </div>
+</body>
+
 </html>');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');

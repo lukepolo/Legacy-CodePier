@@ -39,9 +39,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        if (config('app.env') === 'local') {
-            \Log::info('Running Command '.$command);
-        }
+        \Log::info('Running Command '.$command);
 
         try {
             $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
@@ -63,9 +61,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = $this->cleanOutput($output);
 
-        if (config('app.env') === 'local') {
-            \Log::info($output);
-        }
+        \Log::info($output);
 
         if (! empty($output)) {
             $this->output .= $output."\n";
@@ -374,13 +370,18 @@ echo \"Wrote\"", $read);
         return $this->output;
     }
 
+    public function clearOutput()
+    {
+        return $this->output = '';
+    }
+
     /**
      * @param $response
      * @return string
      */
     private function cleanOutput($response)
     {
-        return trim(str_replace('codepier-done', '', $response));
+        return trim(preg_replace('/codepier-done|Wrote/', '', $response));
     }
 
     /**

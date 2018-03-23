@@ -1,24 +1,23 @@
 // EVENT STYLES ============================================
 // =========================================================
 .events {
-  border-top: 2px solid rgba($white, .2);
+  border-top: 2px solid rgba($white, 0.2);
 
   &--drag {
-
   }
 
   &--header {
-
+    position: relative;
   }
 
   &--collapse {
     overflow-y: scroll;
-    transition: height .5s;
+    transition: height 0.5s;
     height: 30vh;
 
     &-hidden {
-      height: 0px !important;
-      transition: height .5s;
+      height: 0 !important;
+      transition: height 0.5s;
       overflow: hidden;
     }
   }
@@ -28,22 +27,26 @@
     -webkit-overflow-scrolling: touch;
     flex-grow: 1;
     flex-shrink: 1;
-    border-top: 1px solid rgba($white, .1);
+    border-top: 1px solid rgba($white, 0.1);
   }
 
+  &--open {
+    color: $color-text-secondary;
+    font-size: 0.9em;
+    margin-left: 15px;
+  }
 
   // EVENTS ITEM ---------------------------------------------
   // ---------------------------------------------------------
   &--item {
     display: flex;
     padding: ($spacing/2) $spacing;
-    border-bottom: 1px solid rgba($white, .1);
+    border-bottom: 1px solid rgba($white, 0.1);
 
     // EVENTS ITEM STATUS
     &-status {
       flex: 0 0 auto;
       margin-right: $spacing;
-
 
       &-neutral {
         @include status(null);
@@ -80,11 +83,11 @@
 
       // Rollback Text
       .confirm-container {
-        margin: 0px 0px 0px 10px;
+        margin: 0 0 0 10px;
       }
 
       .btn-small {
-        margin: -5px 0px;
+        margin: -5px 0;
         text-transform: none;
       }
     }
@@ -113,8 +116,6 @@
   }
 }
 
-
-
 // EVENTS ITEM DETAILS -------------------------------------
 // ---------------------------------------------------------
 .events--item-details {
@@ -122,15 +123,15 @@
 
   // can't do margin-top -- makes collapse jump
   &:before {
-    content: '';
+    content: "";
     display: block;
     height: $spacing/2;
   }
 
   ul {
     list-style: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 
     li {
       padding-bottom: $spacing/4;
@@ -138,12 +139,17 @@
   }
 
   pre {
-    margin: 0px 0px $spacing ($spacing *2);
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    margin: 0 0 $spacing ($spacing * 2);
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
     overflow: auto;
     color: $yellow;
   }
@@ -159,17 +165,19 @@
   }
 }
 
-
-
 // DRAGGING STYLES -----------------------------------------
 // ---------------------------------------------------------
 #drag {
   position: absolute;
   top: 0;
+  right: 0;
+  left: 0;
   bottom: 0;
-  height: 10px;
-  width: 100%;
   cursor: ns-resize;
+
+  &.collapsed {
+    cursor: pointer;
+  }
 }
 
 #collapseEvents {
@@ -178,33 +186,156 @@
   }
 }
 
+.toggle {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  color: $white;
+  text-align: right;
+  padding: ($spacing/2) $spacing;
+  pointer-events: none;
 
+  &:hover {
+    background-color: rgba($gray, 0.2);
+  }
+
+  &:not(.collapsed) {
+    background-color: rgba($gray, 0.6);
+  }
+
+  &-left {
+    position: relative;
+    pointer-events: all;
+  }
+
+  &-right {
+    position: relative;
+    pointer-events: all;
+    cursor: pointer;
+
+    &:hover h4 {
+      color: $color-text-accent;
+    }
+
+    [class^="icon-"],
+    [class*=" icon-"] {
+      transform: rotate(-180deg);
+      transition: all 0.5s ease;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  [class^="icon-"],
+  [class*=" icon-"] {
+    font-size: 1.2em;
+  }
+
+  &.collapsed {
+    .toggle-right {
+      [class^="icon-"],
+      [class*=" icon-"] {
+        transform: rotate(0deg);
+        transition: all 0.5s ease;
+        top: 0;
+      }
+    }
+  }
+}
+
+#dragIcon {
+  opacity: 0.5;
+  cursor: ns-resize;
+}
 
 // XL SCREEN STYLES ----------------------------------------
 // ---------------------------------------------------------
-@include breakpoint(xl) {
-  .events {
+.events:not(.full-screen) {
+  @include breakpoint(xl) {
+    .events {
+      &--collapse {
+        height: 100%;
+      }
 
-    &--collapse {
-      height: 100%;
+      &--item {
+        flex-wrap: wrap;
+
+        &-name {
+          flex: 1 1 90%;
+          margin-bottom: 5px;
+        }
+
+        &-pile {
+          flex: 1 1 15%;
+          margin-left: 55px;
+        }
+
+        &-site {
+          flex: 1 1 15%;
+        }
+      }
+    }
+  }
+}
+
+// FULL SCREEN STYLES --------------------------------------
+// ---------------------------------------------------------
+.events.full-screen {
+  flex: 1 1 auto;
+
+  .events--header {
+    #drag,
+    #dragIcon,
+    .events--open,
+    .icon-arrow-up {
+      display: none;
+    }
+  }
+
+  .events--collapse {
+    flex: 1 1 auto;
+    // display: flex;
+    // flex-direction: column;
+
+    &:after {
+      content: "";
+      display: inline-block;
+      height: 40vh;
+    }
+  }
+}
+
+.events.full-screen {
+  .filter {
+    .filter--item {
+      position: relative;
     }
 
-    &--item {
-      flex-wrap: wrap;
+    .dropup {
+      bottom: auto;
+      left: auto !important;
+      right: 10px;
 
-      &-name {
-        flex: 1 1 90%;
-        margin-bottom: 5px;
+      &:before {
+        border-top: none;
+        border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+        top: -11px;
+        bottom: auto;
+        left: auto;
+        right: 4px;
       }
 
-      &-pile {
-        flex: 1 1 15%;
-        margin-left: 55px;
+      &:after {
+        border-top: none;
+        border-bottom: 10px solid #343536;
+        top: -10px;
+        left: auto;
+        right: 4px;
       }
+    }
 
-      &-site {
-        flex: 1 1 15%;
-      }
+    .icon-arrow-up:before {
+      content: "\F107";
     }
   }
 }

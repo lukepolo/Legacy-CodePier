@@ -2,10 +2,10 @@ export const get = ({ dispatch }, site) => {
   return Vue.request()
     .get(
       Vue.action("SiteSiteLifelinesController@index", { site: site }),
-      "user_site_life_lines/setAll"
+      "user_site_life_lines/setAll",
     )
-    .then(lifelines => {
-      _.each(lifelines, lifeline => {
+    .then((lifelines) => {
+      _.each(lifelines, (lifeline) => {
         dispatch("listen", lifeline.id);
       });
 
@@ -17,11 +17,11 @@ export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(
       Vue.action("SiteSiteLifelinesController@store", {
-        site: data.site
+        site: data.site,
       }),
-      "user_site_life_lines/add"
+      "user_site_life_lines/add",
     )
-    .then(lifeline => {
+    .then((lifeline) => {
       dispatch("listen", lifeline.id);
       return lifeline;
     });
@@ -31,19 +31,19 @@ export const destroy = (context, data) => {
   return Vue.request(data).delete(
     Vue.action("SiteSiteLifelinesController@destroy", {
       site: data.site,
-      life_line: data.life_line
+      life_line: data.life_line,
     }),
-    "user_site_life_lines/remove"
+    "user_site_life_lines/remove",
   );
 };
 
 export const listen = ({ commit }, lifeline) => {
   Echo.private("App.Models.Site.Lifeline." + lifeline).listen(
     "Site\\LifeLineUpdated",
-    data => {
+    (data) => {
       commit("update", {
-        response: data.lifeline
+        response: data.lifeline,
       });
-    }
+    },
   );
 };

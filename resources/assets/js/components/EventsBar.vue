@@ -1,14 +1,22 @@
 <template>
-    <footer ref="container" class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div id="drag" class="events--drag"></div>
-        <div class="header events--header">
-            <h4>
-                <a class="toggle" @click="showEvents = !showEvents">
-                    <span class="icon-warning"></span> Events
-                </a>
-            </h4>
+    <footer ref="container" class="events" :class="{ 'full-screen' : fullScreen }" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+        <div class="events--drag header events--header" v-on="{ mousedown : recordHeight, mouseup : toggleEvents }">
+            <div id="drag" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }"></div>
+            <div class="toggle" :class="{ 'collapsed' : !showEvents && windowWidth < 2100 && !fullScreen }">
+                <div class="toggle-left">
+                    <i id="dragIcon" class="fa fa-bars"></i>
+
+                    <a href="/events-bar" target="_blank" class="events--open">Open in Separate Window</a>
+                </div>
+
+                <div class="toggle-right">
+                    <h4>
+                        <span class="icon-arrow-up"></span> Events
+                    </h4>
+                </div>
+            </div>
         </div>
-        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
+        <div ref="collapseEvents" class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 && !fullScreen }" id="collapseEvents">
             <ul class="filter">
                 <li class="filter--label">
                     <span>Event Filters</span>
@@ -42,8 +50,15 @@
                             ></command-event>
                         </template>
 
+                        <template v-else-if="event.event_type === 'server_provisioning'">
+                            <server-provision-event
+                                :event="event"
+                                :key="event.event_type + '\\'  + event.id"
+                            ></server-provision-event>
+                        </template>
+
                         <template v-else>
-                            Invalid type {{ event.event_type }}
+                            Invalid type <pre>{{ event }}</pre>
                         </template>
 
                     </template>
@@ -54,7 +69,6 @@
                 </div>
             </div>
         </div>
-
     </footer>
 </template>
 
@@ -63,19 +77,32 @@ import EventFilter from "./event-components/EventFilter.vue";
 import CommandEvent from "./event-components/CommandEvent.vue";
 import DeploymentEvent from "./event-components/DeploymentEvent.vue";
 import SystemEventFilter from "./event-components/SystemEventFilter.vue";
+import ServerProvisionEvent from "./event-components/ServerProvisionEvent.vue";
 
 Vue.directive("resizeable", {
-  inserted: function(el, bindings) {
+  inserted: function(el) {
     const container = el;
     const bottom = document.getElementById("collapseEvents");
     const handle = document.getElementById("drag");
+    const dragIcon = document.getElementById("dragIcon");
 
     let isResizing = false;
     let lastOffset = null;
 
+    let isResizingTimeout = null;
+    let setResizeTimeout = () => {
+      clearTimeout(isResizingTimeout);
+      isResizingTimeout = setTimeout(() => {
+        isResizing = true;
+        bottom.classList.add("dragging");
+      }, 100);
+    };
     handle.onmousedown = () => {
-      isResizing = true;
-      bottom.classList.add("dragging");
+      setResizeTimeout();
+    };
+
+    dragIcon.onmousedown = () => {
+      setResizeTimeout();
     };
 
     document.onmousemove = () => {
@@ -94,10 +121,11 @@ Vue.directive("resizeable", {
     };
 
     document.onmouseup = () => {
+      clearTimeout(isResizingTimeout);
       isResizing = false;
       bottom.classList.remove("dragging");
     };
-  }
+  },
 });
 
 Vue.directive("watch-scroll", {
@@ -131,36 +159,36 @@ Vue.directive("watch-scroll", {
         };
       }
     }
-  }
+  },
 });
 
 export default {
+  props: ["fullScreen"],
   components: {
     EventFilter,
     CommandEvent,
     DeploymentEvent,
-    SystemEventFilter
+    SystemEventFilter,
+    ServerProvisionEvent,
   },
   data() {
     return {
       windowWidth: 0,
       showEvents: false,
+      currentHeight: null,
       form: this.createForm({
         page: 1,
         filters: {
           events: {
             commands: [],
-            site_deployments: []
+            site_deployments: [],
           },
           piles: [],
           sites: [],
-          servers: []
-        }
-      })
+          servers: [],
+        },
+      }),
     };
-  },
-  created() {
-    this.fetchData();
   },
   mounted() {
     this.$nextTick(function() {
@@ -175,17 +203,49 @@ export default {
         this.form.page = 1;
         this.$store.commit("events/clear");
         this.$store.dispatch("events/get", this.form);
-      }
-    }
+      },
+    },
+    hasActiveEvents: {
+      deep: true,
+      handler: function() {
+        let favicons = document.querySelectorAll('link[rel~="icon"]');
+        if (this.hasActiveEvents) {
+          favicons.forEach((favicon) => {
+            favicon.setAttribute(
+              "href",
+              "/assets/img/favicon/favicon-working.png",
+            );
+          });
+          return;
+        }
+
+        favicons.forEach((favicon) => {
+          let size = favicon.getAttribute("sizes");
+          favicon.setAttribute(
+            "href",
+            `/assets/img/favicon/favicon${size ? `-${size}` : ""}.png`,
+          );
+        });
+      },
+    },
   },
   methods: {
-    fetchData() {
-      this.$store.dispatch("events/get");
-      this.$store.dispatch("user_servers/get");
-    },
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
-    }
+    },
+    recordHeight() {
+      if (this.showEvents) {
+        this.currentHeight = this.$refs.collapseEvents.offsetHeight;
+      }
+    },
+    toggleEvents() {
+      if (
+        !this.showEvents ||
+        this.currentHeight === this.$refs.collapseEvents.offsetHeight
+      ) {
+        this.showEvents = !this.showEvents;
+      }
+    },
   },
   computed: {
     piles() {
@@ -199,13 +259,28 @@ export default {
     },
     events() {
       return _.orderBy(
-        _.uniqBy(this.$store.state.events.events, event => {
+        _.uniqBy(this.$store.state.events.events, (event) => {
+          if (!event.event_type && event.provision_steps) {
+            event.event_type = "server_provisioning";
+          }
           return event.event_type + event.id;
         }),
-        event => {
+        (event) => {
           return event.created_at;
         },
-        "desc"
+        "desc",
+      );
+    },
+    hasActiveEvents() {
+      let events = _.map(this.events, "status").filter((status) => {
+        return (
+          status !== "Failed" &&
+          status !== "Completed" &&
+          status !== "Provisioned"
+        );
+      });
+      return (
+        this.$store.state.user_commands.running_commands.length || events.length
       );
     },
     events_pagination() {
@@ -213,7 +288,7 @@ export default {
     },
     defaultNotificationTypes() {
       return window.Laravel.defaultNotificationTypes;
-    }
-  }
+    },
+  },
 };
 </script>

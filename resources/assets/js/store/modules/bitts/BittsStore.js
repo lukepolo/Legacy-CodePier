@@ -1,89 +1,89 @@
 export default {
   state: {
     bitts: [],
-    bitt: null
+    bitt: null,
   },
   actions: {
     getBitt: ({ commit }, bitt) => {
       return Vue.http
         .get(Vue.action("BittsController@show", { bitt: bitt }))
         .then(
-          response => {
+          (response) => {
             commit("SET_BITT", response.data);
             return response.data;
           },
-          errors => {
+          (errors) => {
             app.handleApiError(errors);
-          }
+          },
         );
     },
     getBitts: ({ commit }) => {
       Vue.http.get(Vue.action("BittsController@index")).then(
-        response => {
+        (response) => {
           commit("SET_BITTS", response.data);
         },
-        errors => {
+        (errors) => {
           app.handleApiError(errors);
-        }
+        },
       );
     },
     createBitt: ({ commit }, data) => {
       Vue.http.post(Vue.action("BittsController@store"), data).then(
-        response => {
+        (response) => {
           commit("ADD_BITT", response.data);
           app.$router.push({ name: "bitts_market_place" });
         },
-        errors => {
+        (errors) => {
           app.handleApiError(errors);
-        }
+        },
       );
     },
     updateBitt: ({ commit }, data) => {
       Vue.http
         .put(
           Vue.action("BittsController@update", { bitt: data.bitt }),
-          data.form
+          data.form,
         )
         .then(
-          response => {
+          (response) => {
             commit("UPDATE_BITT", response.data);
             app.$router.push({ name: "bitts_market_place" });
           },
-          errors => {
+          (errors) => {
             app.handleApiError(errors);
-          }
+          },
         );
     },
     deleteBitt: ({ commit }, bitt) => {
       Vue.http
         .delete(Vue.action("BittsController@destroy", { bitt: bitt }))
         .then(
-          response => {
+          (response) => {
             commit("REMOVE_BITT", bitt);
           },
-          errors => {
+          (errors) => {
             app.handleApiError(errors);
-          }
+          },
         );
     },
     runBittOnServers: ({ commit }, data) => {
       Vue.http
         .post(
           Vue.action("BittsController@runOnServers", {
-            bitt: data.bitt
+            bitt: data.bitt,
           }),
-          data
+          data,
         )
         .then(
-          response => {
+          (response) => {
             commit("SET_BITT", null);
             app.showSuccess("Your bitt has been queued");
           },
-          errors => {
+          (errors) => {
             app.handleApiError(errors);
-          }
+          },
         );
-    }
+    },
   },
   mutations: {
     SET_BITT: (state, bitt) => {
@@ -104,6 +104,6 @@ export default {
     },
     REMOVE_BITT: (state, bittId) => {
       Vue.set(state.bitts, "data", _.reject(state.bitts.data, { id: bittId }));
-    }
-  }
+    },
+  },
 };

@@ -12,7 +12,7 @@ export const update = (state, { response }) => {
   Vue.set(
     state.ssl_certificates,
     parseInt(_.findKey(state.ssl_certificates, { id: response.id })),
-    response
+    response,
   );
 };
 
@@ -20,6 +20,6 @@ export const remove = (state, { requestData }) => {
   Vue.set(
     state,
     "ssl_certificates",
-    _.reject(state.ssl_certificates, { id: requestData.ssl_certificate })
+    _.reject(state.ssl_certificates, { id: requestData.ssl_certificate }),
   );
 };

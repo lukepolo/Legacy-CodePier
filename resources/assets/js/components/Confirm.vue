@@ -1,5 +1,5 @@
 <template>
-    <span class="confirm-container" @click.stop.prevent @keyup.32.prevent @keyup.esc="close()">
+    <span class="confirm-container" @keyup.32.prevent @keyup.esc="close()">
         <button :class="confirm_class" @click="toggle()">
             <slot></slot>
         </button>
@@ -42,22 +42,22 @@ export default {
     confirm_with_text: {},
     message: "",
     confirm_class: {
-      default: "btn"
+      default: "btn",
     },
     confirm_position: {
-      default: "top"
+      default: "top",
     },
     confirm_message: {
-      default: "Are you sure?"
+      default: "Are you sure?",
     },
     confirm_btn: {
-      default: "btn-danger"
-    }
+      default: "btn-danger",
+    },
   },
   data() {
     return {
       confirm: false,
-      confirmedText: ""
+      confirmedText: "",
     };
   },
   watch: {
@@ -67,7 +67,7 @@ export default {
           this.$refs.confirm_input.focus();
         }
       });
-    }
+    },
   },
   computed: {
     cancelText() {
@@ -93,7 +93,7 @@ export default {
         classes = classes + " btn-disabled";
       }
       return classes;
-    }
+    },
   },
   methods: {
     toggle() {
@@ -116,12 +116,12 @@ export default {
         this.$store.dispatch(this.dispatch, this.params);
         this.close();
       }
-    }
+    },
   },
   created() {
     app.$on("close-confirms", () => {
       this.confirm = false;
     });
-  }
+  },
 };
 </script>

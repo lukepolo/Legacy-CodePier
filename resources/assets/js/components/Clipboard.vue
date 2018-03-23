@@ -1,7 +1,7 @@
 <template>
-    <a class="btn btn-small clipboard" :data-clipboard-text="data">
+    <span class="btn btn-small clipboard" :data-clipboard-text="data">
         <span class="icon-clipboard"></span>
-    </a>
+    </span>
 </template>
 
 <script>
@@ -9,8 +9,8 @@ export default {
   props: ["data"],
   created() {
     new Clipboard(".clipboard", {
-      text: this.data
+      text: this.data,
     });
-  }
+  },
 };
 </script>

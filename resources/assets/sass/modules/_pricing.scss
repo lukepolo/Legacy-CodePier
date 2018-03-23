@@ -1,198 +1,198 @@
 // Pricing Styles =====================
 // ====================================
 #section--pricingintro {
-    height: 350px;
-    background-color: mix($gray, $white, 90%);
-    background-image: url('/assets/img/cover/Kids_Jumping.png');
-    background-size: contain;
-    background-position: left bottom;
-    background-repeat: no-repeat;
+  h1 {
+    font-size: 2.7em;
+    color: mix($color-primary, $white, 50%);
+    text-align: center;
+    padding: $spacing 0px;
 
-    h1 {
-        font-size: 2.7em;
-        color: mix($color-primary, $white, 50%);
-        text-align: center;
-        padding: $spacing 0px;
-
-        @include breakpoint(md) {
-            font-size: 2em;
-        }
-
-        @include breakpoint(sm) {
-            padding: $spacing;
-        }
-
+    @include breakpoint(md) {
+      font-size: 2em;
     }
 
-    .pricing {
-        margin-top: -150px;
+    @include breakpoint(sm) {
+      padding: $spacing;
     }
+  }
+
+  .pricing {
+    margin-top: -150px;
+  }
+}
+
+#section--pricingouttro {
+  height: 380px;
+  margin-top: -280px;
+  background-image: url("/assets/img/cover/Kids_Jumping.png");
+  background-size: contain;
+  background-position: left bottom;
+  background-repeat: no-repeat;
 }
 
 #section--pricing {
-    @include breakpoint(md) {
-        position: relative;
-    }
+  margin-top: 0px;
+
+  @include breakpoint(md) {
+    position: relative;
+  }
 }
 
-
 .pricing {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  &--item {
+    flex: 0 0 300px;
+    border: 1px solid $color-divider;
+    background-color: $color-background;
+    border-radius: 3px;
     display: flex;
-    justify-content: center;
-    margin-bottom: 100px;
+    flex-direction: column;
 
+    &.selected {
+      margin: -20px -1px;
+      border: 3px solid $color-primary;
+      z-index: 1;
+
+      .pricing--header {
+        background-color: $color-primary;
+        color: $white;
+      }
+
+      small {
+        color: $color-text-inverse;
+      }
+    }
+  }
+
+  &--header {
+    text-align: center;
+    font-family: $font-heading;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    font-size: 2.5em;
+    border-bottom: 1px solid $color-divider;
+    background-color: rgba($grayLight, 0.2);
+
+    &-price {
+      font-size: 1.5em;
+      font-weight: 600;
+
+      small {
+        font-size: 0.4em;
+        font-weight: 700;
+        opacity: 0.6;
+        padding-left: 5px;
+      }
+    }
+  }
+
+  &--features {
+    flex: 1 0 auto;
+    font-size: 1.2em;
+    padding: 10px;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  &--footer {
+    border-top: 1px solid $color-divider;
+    text-align: center;
+    padding: 10px 20px;
+  }
+
+  &--banner {
+    font-family: $font-web-heading;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: $green;
+    color: $color-text-inverse;
+    padding: 10px;
+  }
+
+  &--coming {
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: $green;
+    margin: $spacing;
+  }
+
+  @include breakpoint(md) {
     &--item {
-        flex: 0 0 300px;
-        border: 1px solid $color-divider;
-        background-color: $color-background;
-        border-radius: 3px;
-        display: flex;
-        flex-direction: column;
-
-        &.selected {
-            margin: -20px -1px;
-            border: 3px solid $color-primary;
-            z-index: 1;
-
-            .pricing--header {
-                background-color: $color-primary;
-                color: $white;
-            }
-
-            small {
-                color: $color-text-inverse;
-            }
-        }
+      flex: 1 1 1em;
     }
 
     &--header {
-        text-align: center;
-        font-family: $font-heading;
-        text-transform: uppercase;
-        padding: 10px 20px;
-        font-size: 2.5em;
-        border-bottom: 1px solid $color-divider;
-        background-color: rgba($grayLight, .2);
+      font-size: 2em;
+    }
+  }
 
-        &-price {
-            font-size: 1.5em;
-            font-weight: 600;
+  @include breakpoint(md) {
+    flex-direction: column;
+    margin: -50px 0px 0px;
 
-            small {
-                font-size: .4em;
-                font-weight: 700;
-                opacity: .6;
-                padding-left: 5px;
-            }
-        }
+    &--item {
+      flex: 1 0 auto;
+      margin-bottom: $spacing * 2;
+
+      &:nth-child(2) {
+        margin: 0px 0px $spacing * 2;
+      }
+    }
+  }
+
+  &-inapp {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    .pricing--item {
+      margin-left: 10px;
+      margin-right: 10px;
+      flex-shrink: 1;
+
+      small {
+        display: block;
+        color: $color-text-secondary;
+        margin-top: 5px;
+      }
     }
 
-    &--features {
-        flex: 1 0 auto;
-        font-size: 1.2em;
-        padding: 10px;
-
-        li {
-            margin-bottom: 10px;
-        }
+    .pricing--header {
+      font-size: 1.5em;
     }
 
-    &--footer {
-        border-top: 1px solid $color-divider;
-        text-align: center;
-        padding: 10px 20px;
-    }
+    .pricing--features {
+      padding: 10px 20px;
 
-    &--banner {
-        font-family: $font-web-heading;
-        font-size: 20px;
-        text-transform: uppercase;
-        text-align: center;
-        background-color: $green;
-        color: $color-text-inverse;
-        padding: 10px;
-    }
+      li {
+        font-size: 15px;
 
-    &--coming {
-        text-align: center;
-        font-weight: 800;
-        letter-spacing: 1px;
-        color: $green;
-        margin: $spacing;
-    }
-
-    @include breakpoint(md) {
-        &--item {
-            flex: 1 1 1em;
+        strong {
+          font-weight: 600;
+          letter-spacing: 0.5px;
         }
-
-        &--header {
-            font-size: 2em;
-        }
+      }
     }
-
-    @include breakpoint(md) {
-        flex-direction: column;
-        margin: -50px 0px 0px;
-
-        &--item {
-            flex: 1 0 auto;
-            margin-bottom: $spacing*2;
-
-            &:nth-child(2) {
-                margin: 0px 0px $spacing*2;
-            }
-        }
-    }
-
-    &-inapp {
-        margin-top: 50px;
-        margin-bottom: 50px;
-
-        .pricing--item {
-            margin-left: 10px;
-            margin-right: 10px;
-            flex-shrink: 1;
-
-            small {
-                display: block;
-                color: $color-text-secondary;
-                margin-top: 5px;
-            }
-        }
-
-        .pricing--header {
-            font-size: 1.5em;
-        }
-
-        .pricing--features {
-            padding: 10px 20px;
-
-            li {
-                font-size: 15px;
-
-                strong {
-                    font-weight: 600;
-                    letter-spacing: .5px;
-                }
-            }
-        }
-
-
-    }
+  }
 }
 
 // SUBSCRIPTION FORM
 
 .StripeElement {
-    border: 1px solid $color-divider;
-    border-top: none;
-    padding: 7px 10px;
+  border: 1px solid $color-divider;
+  border-top: none;
+  padding: 7px 10px;
 }
 
 .stripeContainer {
-    .flyform--group {
-        margin-top: 0px;
-        padding-top: 0px;
-    }
+  .flyform--group {
+    margin-top: 0px;
+    padding-top: 0px;
+  }
 }

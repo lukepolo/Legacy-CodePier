@@ -11,9 +11,6 @@
                         <template v-if="siteId">
                             <input type="hidden" name="site" :value="siteId">
                         </template>
-                        <template v-else>
-                            <input type="hidden" name="pile_id" :value="pile">
-                        </template>
 
                         <template v-if="$route.params.type">
                             <input type="hidden" name="type" :value="$route.params.type">
@@ -29,11 +26,28 @@
                                 </div>
                             </div>
 
+
+                            <template v-if="userServerProviderAccounts.length > 1">
+                                <div class="flyform--group">
+                                    <label>Account</label>
+                                    <div class="flyform--group-select">
+                                        <select name="user_server_provider_id">
+                                            <option v-for="account in userServerProviderAccounts" :value="account.id">
+                                                {{ account.account }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else-if="userServerProviderAccounts.length">
+                                <input type="hidden" name="user_server_provider_id" :value="userServerProviderAccounts[0].id">
+                            </template>
+
                             <div class="grid-2">
                                 <div class="flyform--group" v-if="is_custom">
 
                                     <input type="number" name="port" required value="22" placeholder=" ">
-                                    <label for="port" class="flyform--group-iconlabel">Number of Releases to keep</label>
+                                    <label for="port" class="flyform--group-iconlabel">SSH Port</label>
 
                                     <tooltip message="We will use this port ssh connections" size="medium">
                                         <span class="fa fa-info-circle"></span>
@@ -53,8 +67,8 @@
                                                 {{ option.memory | ram }} RAM
                                                 - {{ option.cpus }} vCPUs
                                                 - {{ option.space | diskSize }} Disk
-                                                - ${{ option.priceHourly }} / Hour
-                                                - ${{ option.priceMonthly }} / Month
+                                                {{ option.priceHourly !== 0 ? ' - $' + option.priceHourly + ' / Hour - ' : ' - ' }}
+                                                ${{ option.priceMonthly }} / Month
                                             </option>
                                         </select>
                                     </div>
@@ -97,10 +111,10 @@
                             <div class="flyform--footer">
                                 <div class="flyform--footer-links">
                                     <h3 v-if="$route.params.site_id">
-                                        <tooltip message="We have configured your server based on your application language and framework." size="large">
+                                        <tooltip message="We have configured your server based on your site language and framework." size="large">
                                             <span class="fa fa-info-circle"></span>
                                         </tooltip>
-                                        Your server has been customized for your application<br>
+                                        Your server has been customized for your site<br>
                                         <small>
                                             <a @click="customize_server = !customize_server">Customize Server Settings (Advanced Users)</a>
                                         </small>
@@ -141,7 +155,7 @@ export default {
     return {
       form: {
         serverOptionId: null,
-        serverOptionRegion: null
+        serverOptionRegion: null,
       },
       is_custom: false,
       server_provider_id: null,
@@ -163,11 +177,13 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch("user_server_providers/get", user.id);
+  },
   methods: {
     getProviderData(server_provider_id) {
       this.is_custom = false;
-      let provider = _.find(this.server_providers, { id: server_provider_id })
-        .provider_name;
+      let provider = _.find(this.server_providers, { id: server_provider_id }).provider_name;
       if (provider) {
         this.$store.dispatch("server_providers/getFeatures", provider);
         this.$store.dispatch("server_providers/getOptions", provider);
@@ -180,11 +196,9 @@ export default {
         .then(server => {
           if (server.id) {
             if (this.siteId) {
-              this.$store.dispatch("user_sites/show", this.siteId).then(() => {
-                app.$router.push({
-                  name: "site_overview",
-                  params: { site_id: this.siteId }
-                });
+              app.$router.push({
+                name: "site_overview",
+                params: { site_id: this.siteId }
               });
             } else {
               app.$router.push("/");
@@ -220,6 +234,14 @@ export default {
     },
     server_provider_features() {
       return this.$store.state.server_providers.features;
+    },
+    userServerProviders() {
+        return this.$store.state.user_server_providers.providers;
+    },
+    userServerProviderAccounts() {
+        return _.filter(this.userServerProviders, (provider) => {
+            return provider.server_provider_id === this.server_provider_id;
+        });
     }
   }
 };
