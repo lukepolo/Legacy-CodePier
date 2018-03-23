@@ -114,7 +114,7 @@ Route::group(['middleware' => [
     |
     */
     Route::apiResource('bitts', 'BittsController');
-    Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
+    Route::post('bitt/{bitt}/run', 'BittsController@run');
 
     /*
     |--------------------------------------------------------------------------
@@ -136,6 +136,7 @@ Route::group(['middleware' => [
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
+            Route::get('ssl-certificates', 'UserSslCertificates@index');
             Route::apiResource('ssh-keys', 'UserSshKeyController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
@@ -211,8 +212,10 @@ Route::group(['middleware' => [
             Route::apiResource('servers.ssl-certificate', 'ServerSslController');
             Route::apiResource('servers.schema-users', 'ServerSchemaUserController');
             Route::apiResource('servers.firewall-rules', 'ServerFirewallRuleController');
+            Route::apiResource('server.schemaBackups', 'ServerSchemaBackupsController');
             Route::apiResource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::apiResource('servers.language-settings', 'ServerLanguageSettingsController');
+            Route::apiResource('server.schemaBackups.restore', 'ServerRestoreSchemaBackupsController');
             Route::apiResource('servers.environment-variables', 'ServerEnvironmentVariablesController');
             Route::get('server/{server}/language-settings', 'ServerLanguageSettingsController@getLanguageSettings');
         });
@@ -260,9 +263,11 @@ Route::group(['middleware' => [
             Route::apiResource('sites.ssh-keys', 'SiteSshKeyController');
             Route::apiResource('sites.cron-jobs', 'SiteCronJobController');
             Route::apiResource('sites.ssl-certificate', 'SiteSslController');
+            Route::post('sites/{site}/ssl-certificate/{ssl_certificate}/wildcard', 'SiteWildcardSslController@store');
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
+            Route::apiResource('sites.schemaBackups', 'SiteSchemaBackupsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [

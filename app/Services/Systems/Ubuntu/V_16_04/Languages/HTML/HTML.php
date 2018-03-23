@@ -34,6 +34,7 @@ class HTML
             'MySQL',
         ],
         'MonitoringService' => [
+            'SchemaBackupScript',
             'DiskMonitoringScript',
             'LoadMonitoringScript',
             'ServerMemoryMonitoringScript',

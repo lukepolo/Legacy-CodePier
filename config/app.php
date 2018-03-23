@@ -62,6 +62,7 @@ return [
     'url_stats' => env('APP_STATS_URL'),
     'url_provision' => env('APP_PROVISION_URL'),
     'url_lifelines' => env('APP_LIFELINE_URL'),
+    'url_dns' => env('APP_ACME_DNS'),
 
     /*
     |--------------------------------------------------------------------------

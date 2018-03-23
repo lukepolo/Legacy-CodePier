@@ -1,0 +1,38 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: $spacing;
+  user-select: none;
+
+  &--item {
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 3px solid transparent;
+    border-radius: 6px;
+    padding: 8px 15px;
+
+    &:hover:not(.pagination--item-ellipsis):not(.active):not(.disabled) {
+      cursor: pointer;
+      color: $blue;
+      background-color: $black;
+    }
+
+    &.active {
+      color: $color-primary;
+      border-bottom-color: $color-primary;
+      border-radius: 0;
+    }
+
+    &.disabled:not(.active) {
+      color: $color-text-secondary;
+    }
+
+    &-arrow {
+      [class^="icon-"],
+      [class*=" icon-"] {
+        transform: scale(1.4);
+      }
+    }
+  }
+}

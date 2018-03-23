@@ -6,6 +6,7 @@ use Cache;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionCardUpdateRequest;
+use Stripe\Error\Card;
 
 class UserSubscriptionCardController extends Controller
 {
@@ -19,7 +20,11 @@ class UserSubscriptionCardController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $user->updateCard($request->get('token'));
+        try {
+            $user->updateCard($request->get('token'));
+        } catch (Card $e) {
+            return response()->json($e->getMessage(), 400);
+        }
 
         Cache::forget($user->id.'.card');
 

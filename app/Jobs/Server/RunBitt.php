@@ -20,7 +20,7 @@ class RunBitt implements ShouldQueue
     private $server;
 
     public $tries = 1;
-    public $timeout = 180;
+    public $timeout = 300;
 
     /**
      * InstallServerSshKey constructor.
@@ -31,7 +31,7 @@ class RunBitt implements ShouldQueue
     {
         $this->bitt = $bitt;
         $this->server = $server;
-        $this->makeCommand($server, $bitt, 'Running');
+        $this->makeCommand($server, $bitt, null, 'Running');
     }
 
     /**
@@ -43,7 +43,7 @@ class RunBitt implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->runBitt($this->server, $this->bitt);
+            return $serverService->runBitt($this->server, $this->bitt);
         });
     }
 }

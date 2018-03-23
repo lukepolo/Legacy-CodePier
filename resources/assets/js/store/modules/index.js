@@ -11,6 +11,7 @@ import notification_settings from "./notification/settings";
 import notification_providers from "./notification/providers";
 
 import system from "./system";
+import server_systems from "./server/systems";
 import server_features from "./server/features";
 import server_languages from "./server/languages";
 import server_frameworks from "./server/frameworks";
@@ -18,6 +19,7 @@ import server_frameworks from "./server/frameworks";
 import user from "./user/user";
 import user_ssh_keys from "./user/ssh-keys";
 import user_subscription from "./user/subscription";
+import user_ssl_certificates from "./user/ssl-certificates";
 import user_notification_settings from "./user/notification/settings";
 import user_notification_providers from "./user/notification/providers";
 
@@ -39,6 +41,7 @@ import user_site_cron_jobs from "./user/site/cron-jobs";
 import user_site_life_lines from "./user/site/life-lines";
 import user_site_deployments from "./user/site/deployments";
 import user_site_schema_users from "./user/site/schema-users";
+import user_site_schema_backups from "./user/site/schema-backups";
 import user_site_firewall_rules from "./user/site/firewall-rules";
 import user_repository_providers from "./user/repository/providers";
 import user_site_server_commands from "./user/site/server-commands";
@@ -61,6 +64,7 @@ import user_server_providers from "./user/server/providers";
 import user_server_cron_jobs from "./user/server/cron-jobs";
 import user_server_provisioning from "./user/server/provisioning";
 import user_server_schema_users from "./user/server/schema-users";
+import user_server_schema_backups from "./user/server/schema-backups";
 import user_server_firewall_rules from "./user/server/firewall-rules";
 import user_server_ssl_certificates from "./user/server/ssl-certificates";
 import user_server_language_settings from "./user/server/language-settings";
@@ -80,6 +84,7 @@ export default {
   notification_providers,
 
   system,
+  server_systems,
   server_features,
   server_languages,
   server_frameworks,
@@ -87,6 +92,7 @@ export default {
   user,
   user_ssh_keys,
   user_subscription,
+  user_ssl_certificates,
   user_notification_settings,
   user_notification_providers,
 
@@ -108,6 +114,7 @@ export default {
   user_site_life_lines,
   user_site_deployments,
   user_site_schema_users,
+  user_site_schema_backups,
   user_site_firewall_rules,
   user_repository_providers,
   user_site_server_commands,
@@ -130,6 +137,7 @@ export default {
   user_server_cron_jobs,
   user_server_provisioning,
   user_server_schema_users,
+  user_server_schema_backups,
   user_server_firewall_rules,
   user_server_ssl_certificates,
   user_server_language_settings,

@@ -63,7 +63,7 @@
             <h2>Site Features</h2>
             <ul>
                 <li>Site Priority Design</li>
-                <li>Database Backups <em>- COMING SOON!</em></li>
+                <li>Database Backups <em>- in BETA!</em></li>
                 <li>Lifelines <small>- URL's to be triggered to see the health of services</small></li>
                 <li>Current DNS IP of a Record</li>
                 <li>Custom Site Notifications for Slack</li>
@@ -77,7 +77,7 @@
             <h2>Deployments</h2>
             <ul>
                 <li>Auto Deploy</li>
-                <li>1 Click Deployment</li>
+                <li>1 Click Deployments</li>
                 <li>Customizable Deployments</li>
                 <li>Customized Deployment Scripts</li>
                 <li>Rollbacks</li>
@@ -95,7 +95,7 @@
                 <li>Site SSH Keys</li>
                 <li>Firewall Rules</li>
                 <li>Free SSL Certificates</li>
-                <li>Free Wildcard Certificates <em>- COMING SOON!</em></li>
+                <li>Free Wildcard Certificates <em>- Works with ALL DNS providers!</em></li>
                 <li>Environment Variables</li>
                 <li>Cron Jobs</li>
                 <li>Daemons</li>
@@ -180,6 +180,11 @@
                 <li>Can open events as a new window.</li>
             </ul>
 
+            <h2>Bitts <small>(custom shell scripts)</small></h2>
+            <ul>
+                <li>Public Bitts <small>Coming Soon!</small></li>
+            </ul>
+
             <h2>Buoys <small>(1 Click Installs)</small></h2>
             <ul>
                 <li>Sentry</li>
@@ -189,7 +194,6 @@
 
             <h2>Misc. Features</h2>
             <ul>
-                <li>Bitts <small>(custom shell scripts)</small> <em>- COMING SOON!</em></li>
                 <li>Live Support with a Developer</li>
             </ul>
 

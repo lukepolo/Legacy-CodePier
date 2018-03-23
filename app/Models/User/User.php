@@ -239,6 +239,18 @@ class User extends Authenticatable
         return array_merge($services, $required);
     }
 
+    public function availableSslCertificates()
+    {
+        $this->load(['servers.sslCertificates' => function ($query) {
+            $query->where('active', 1)
+                ->orWhere('type', 'existing');
+        }]);
+
+        return $this->servers->map(function (Server $server) {
+            return $server->sslCertificates;
+        })->flatten()->unique('id')->keyBy('id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Subscription Helpers

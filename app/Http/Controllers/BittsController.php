@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RunBittRequest;
+use App\Jobs\GlobalBitt;
 use App\Models\Bitt;
 use App\Jobs\Server\RunBitt;
-use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\BittRequest;
 
@@ -13,7 +14,7 @@ class BittsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index()
     {
@@ -30,16 +31,17 @@ class BittsController extends Controller
     {
         $bitt = Bitt::create([
             'user_id' => \Auth::user()->id,
+            'user' => $request->get('user'),
             'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'private' => $request->get('private'),
+            'private' => $request->get('private', true),
             'description' => $request->get('description'),
         ]);
 
-        $bitt->systems()->sync($request->get('systems'));
-        $bitt->categories()->sync((array) $request->get('category'));
+//        $bitt->systems()->sync($request->get('systems'));
+//        $bitt->categories()->sync((array) $request->get('category'));
 
-        $bitt->fresh(['systems', 'categories']);
+//        $bitt->fresh(['systems', 'categories']);
 
         return response()->json($bitt);
     }
@@ -67,14 +69,15 @@ class BittsController extends Controller
         $bitt = Bitt::findOrFail($id);
 
         $bitt->update([
+            'user' => $request->get('user'),
             'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'private' => $request->get('private'),
+            'private' => $request->get('private', true),
             'description' => $request->get('description'),
         ]);
 
-        $bitt->systems()->sync($request->get('systems'));
-        $bitt->categories()->sync((array) $request->get('category'));
+//        $bitt->systems()->sync($request->get('systems'));
+//        $bitt->categories()->sync((array) $request->get('category'));
 
         $bitt->fresh(['systems', 'categories']);
 
@@ -86,6 +89,7 @@ class BittsController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -93,19 +97,26 @@ class BittsController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RunBittRequest $request
      * @param $bitt
      * @return \Illuminate\Http\JsonResponse
      */
-    public function runOnServers(Request $request, $bitt)
+    public function run(RunBittRequest $request, $bitt)
     {
         $bitt = Bitt::findOrFail($bitt);
 
-        foreach ($request->get('servers') as $server) {
+        if ($request->user()->hasRole('admin') && $request->get('global')) {
             dispatch(
-                (new RunBitt(Server::findOrFail($server), $bitt))
+                (new GlobalBitt($bitt))
                     ->onQueue(config('queue.channels.server_commands'))
             );
+        } else {
+            foreach ($request->get('servers') as $server) {
+                dispatch(
+                    (new RunBitt(Server::findOrFail($server), $bitt))
+                        ->onQueue(config('queue.channels.bitts'))
+                );
+            }
         }
 
         return response()->json('OK');

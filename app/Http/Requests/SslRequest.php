@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MultipleDomains;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SslRequest extends FormRequest
@@ -24,7 +25,7 @@ class SslRequest extends FormRequest
     public function rules()
     {
         return [
-            'domains' => 'required',
+            'domains' => ['required', new MultipleDomains($this)],
             'private_key' => 'required_if:type,existing',
             'certificate' => 'required_if:type,existing',
         ];

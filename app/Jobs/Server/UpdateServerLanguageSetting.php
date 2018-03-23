@@ -45,6 +45,7 @@ class UpdateServerLanguageSetting implements ShouldQueue
     {
         $this->runOnServer(function () use ($serverService) {
             $serverService->runLanguageSetting($this->server, $this->languageSetting);
+            dispatch(new RefreshServerFiles($this->server));
         });
     }
 }

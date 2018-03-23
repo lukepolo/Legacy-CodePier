@@ -75,28 +75,28 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        $tempSite = clone $site;
-
-        $tempSite->framework = $site->getOriginal('framework', $site->framework);
-        $tempSite->server_features = $site->getOriginal('server_features', $site->server_features);
-
-        if (! is_array($tempSite->server_features)) {
-            $tempSite->server_features = json_decode($tempSite->server_features);
-        }
-
         if ($site->isDirty('type') || $site->isDirty('framework')) {
-            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
-
-            $this->siteFeatureService->detachSuggestedCronJobs($site, $tempSite);
-            $this->siteFeatureService->detachSuggestedFiles($site, $tempSite);
-
-            // This because we may have detached things above, and it doesn't completely remove them from the object
-            $site = $site->fresh();
-
+            $site->server_features = $this->siteFeatureService->getSuggestedFeaturesDefaults($site);
+            $this->siteFeatureService->detachSuggestedCronJobs($site);
+            $this->siteFeatureService->detachSuggestedFiles($site);
+            $this->siteFeatureService->detachSuggestedFiles($site, true);
             $site->deploymentSteps()->delete();
+        } elseif (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
+            $this->siteFeatureService->detachSuggestedFiles($site);
+        }
+    }
 
+    public function updated(Site $site)
+    {
+        if ($site->isDirty('type') || $site->isDirty('framework')) {
+            $site->refresh();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
+            $this->siteFeatureService->saveSuggestedFiles($site);
+        }
+
+        if (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
+            $site->refresh();
             $this->siteFeatureService->saveSuggestedFiles($site);
         }
     }

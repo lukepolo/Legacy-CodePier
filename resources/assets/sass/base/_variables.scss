@@ -15,7 +15,7 @@ $green:                         #83B692                         !default;
 $yellow:                        #FEC07A                         !default;
 
 
-// COLOR DECLARATIONS 
+// COLOR DECLARATIONS
 $color-background:              $gray                           !default;
 $color-background-web:          #EFF1F3                         !default;
 $color-primary:                 $blue                           !default;
@@ -25,6 +25,13 @@ $color-text-secondary:          $grayLight                      !default;
 $color-text-inverse:            $black                          !default;
 $color-text-accent:             $blue                           !default;
 $color-divider:                 $black                          !default;
+
+
+$color-state-success:           $green;
+$color-state-neutral:           $blue;
+$color-state-warning:           $yellow;
+$color-state-danger:            $red;
+$color-state-null:              $gray;
 
 
 

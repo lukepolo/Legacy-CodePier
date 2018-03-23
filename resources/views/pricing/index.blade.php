@@ -17,9 +17,9 @@
                     </div>
                     <div class="pricing--features">
                         <ul>
+                            <li><strong>Unlimited</strong> Deployments</li>
                             <li>1 Site</li>
                             <li>1 Full Stack Server</li>
-                            <li><strong>Unlimited</strong> Deployments</li>
                         </ul>
                     </div>
                     <div class="pricing--footer">
@@ -28,7 +28,6 @@
                     </div>
                 </div>
                 <div class="pricing--item selected">
-                    <div class="pricing--banner">Early Bird Special!</div>
                     <div class="pricing--header">
                         <div class="pricing--header-name">First Mate</div>
                         <div class="pricing--header-price">$19
@@ -38,10 +37,14 @@
                     <div class="pricing--features">
                         <ul>
                             <li><strong>Unlimited</strong> Sites</li>
+                            <li>Everything in Riggers</li>
                             <li>30 Servers</li>
                             <li>Multiple Server Types</li>
-                            <li>Buoys</li>
                             <li>Server Monitoring</li>
+                            <li>15GB of Database Backups <small>In BETA!</small></li>
+                            <li>Bitts - Custom Scripts</li>
+                            <li>Buoys - 1 Click Installs</li>
+                            {{--<li>1 Month of Event Retention</li>--}}
                         </ul>
                     </div>
                     <div class="pricing--footer">
@@ -59,13 +62,12 @@
                     <div class="pricing--features">
                         <ul>
                             <li><strong>Priority Support</strong></li>
-                            <li><strong>Unlimited</strong> Sites</li>
                             <li><strong>Unlimited</strong> Servers</li>
-                            <li>Multiple Server Types</li>
-                            <li>Buoys</li>
-                            <li>Server Monitoring</li>
+                            <li>Everything in First Mate</li>
                             <li>Teams</li>
                             <li>API Access</li>
+                            <li>100GB of Database Backups</li>
+                            {{--<li>1 Year of Event Retention</li>--}}
                         </ul>
                     </div>
                     <div class="pricing--footer">
@@ -74,7 +76,9 @@
                 </div>
             </div>
 
-
+            <p class="text-center">
+                <a href="{{ action('PublicController@allFeatures') }}" class="btn btn-large btn-default">View All Features</a>
+            </p>
         </div>
     </section>
 

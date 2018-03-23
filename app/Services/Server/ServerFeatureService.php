@@ -5,11 +5,41 @@ namespace App\Services\Server;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use Illuminate\Support\Facades\Cache;
+use App\Jobs\Server\InstallServerFeature;
 use App\Contracts\Server\ServerFeatureServiceContract;
 
 class ServerFeatureService implements ServerFeatureServiceContract
 {
     use SystemFiles;
+
+    public function installFeature(Server $server, $service, $feature, $parameters = [])
+    {
+        $serverFeatures = $server->server_features;
+
+        if ((
+            ! isset($serverFeatures[$service][$feature]) ||
+            ! isset($serverFeatures[$service][$feature]['enabled']) ||
+            ! $serverFeatures[$service][$feature]['enabled']
+            ) && (
+                ! isset($serverFeatures[$service][$feature]['installing']) ||
+                ! $serverFeatures[$service][$feature]['installing']
+            )) {
+            $serverFeatures[$service][$feature] = [
+                'installing' => true,
+            ];
+
+            dispatch(
+                (new InstallServerFeature($server, $feature, $service, $parameters))
+                    ->onQueue(config('queue.channels.server_features'))
+            );
+
+            $server->update([
+                'server_features' => $serverFeatures,
+            ]);
+
+            return true;
+        }
+    }
 
     /**
      * @return \Illuminate\Support\Collection

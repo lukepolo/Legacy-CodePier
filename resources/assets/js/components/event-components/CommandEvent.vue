@@ -32,7 +32,7 @@
                 <template v-else>
                     <template v-for="command in event.server_commands">
                         <drop-down-event
-                            :title="getServer(command.server_id, 'name') + ' (' + getServer(command.server_id, 'ip') + ')'"
+                            :title="getServer(command.server_id, 'name') + ' (' + getServer(command.server_id, 'ip') + ')' + (command.completed ? ' - took ' + formatSeconds(command.runtime) + ' seconds' : '')"
                             :event="command"
                             :prefix="'command_'+command.id"
                             :dropdown="getLog(command.log) ? getLog(command.log).length : false"
@@ -68,10 +68,10 @@ export default {
   methods: {
     getLog(log) {
       if (_.isArray(log)) {
-        return _.join(_.map(log, "message"), "<br>");
+        log = _.join(_.map(log, "message"), "<br>");
       }
 
-      return log;
+      return log ? log.replace(/(?:\r\n|\r|\n)/g, "<br />") : "";
     },
     filterArray(data) {
       if (Array.isArray(data.log)) {
@@ -100,10 +100,21 @@ export default {
       }
       return "events--item-status-neutral";
     },
+    formatSeconds(number) {
+      let seconds = parseFloat(number).toFixed(2);
+
+      if (!isNaN(seconds)) {
+        return seconds;
+      }
+    },
   },
   computed: {
     eventTitle() {
-      return this.event.description;
+      let title = this.event.description;
+      if (this.event.status === "Completed" || this.event.status === "Failed") {
+        return `${title} (${this.totalAmountOfTime} seconds)`;
+      }
+      return title;
     },
     servers() {
       return _.groupBy(this.event.server_commands, "server_id");
@@ -119,6 +130,13 @@ export default {
         }
       }
       return false;
+    },
+    totalAmountOfTime() {
+      let totalTime = 0;
+      this.event.server_commands.forEach((command) => {
+        totalTime += parseFloat(command.runtime);
+      });
+      return this.formatSeconds(totalTime);
     },
   },
 };
