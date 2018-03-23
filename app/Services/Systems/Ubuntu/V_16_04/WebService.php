@@ -35,7 +35,7 @@ class WebService
 
         $this->remoteTaskService->run('wget https://dl.eff.org/certbot-auto -O /opt/codepier/certbot-auto');
         $this->remoteTaskService->run('chmod a+x /opt/codepier/certbot-auto');
-        $this->remoteTaskService->run('/opt/codepier/./certbot-auto --install-only');
+        $this->remoteTaskService->run('echo "y" | /opt/codepier/./certbot-auto --install-only');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
 /opt/codepier/./certbot-auto renew | grep Congratulations &> /dev/null
