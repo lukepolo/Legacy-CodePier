@@ -201,20 +201,19 @@ class WebHookController extends Controller
         return $stats;
     }
 
-    public function databaseBackups($siteHashId)
-    {
-        $site = Site::with('userRepositoryProvider.repositoryProvider')
-            ->where('hash', $siteHashId)
-            ->firstOrFail();
+    public function databaseBackups($serverHashId)
+    {   
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
         /** @var User $user */
-        $user = $site->user;
+        $user = $server->user;
 
         if ($user->subscribed()) {
-            dispatch(
-                    (new BackupDatabases($site))
-                        ->onQueue(config('queue.channels.site_deployments'))
-                );
+            dispatch((
+                new BackupDatabases($server)
+            )->onQueue(
+                config('queue.channels.server_commands')
+            ));
 
             return response()->json('OK');
         }

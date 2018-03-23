@@ -2,20 +2,21 @@
 
 namespace App\Jobs\Site;
 
-use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use App\Traits\ModelCommandTrait;
+use App\Traits\ServerCommandTrait;
 use App\Jobs\Server\BackupDatabase;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class BackupDatabases implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    public $site;
+    public $server;
 
     public $tries = 1;
     public $timeout = 60;
@@ -23,31 +24,36 @@ class BackupDatabases implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Site $site
+     * @param Server $server
      */
-    public function __construct(Site $site)
+    public function __construct(Server $server)
     {
-        $this->site = $site;
+        $this->server = $server;
     }
 
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(ServerService $serverService)
     {
-        $siteCommand = $this->makeCommand($this->site, $this->site, 'Backing Up Databases');
+        $backupable = [
+            'MySQL',
+            'MariaDB',
+            'PostgreSQL',
+            'MongoDB'
+        ];
 
-        foreach ($this->site->provisionedServers as $server) {
-            $databases = [];
+        $databases = collect($this->server->server_features['DatabaseService'])->filter(function ($databaseFeature) {
+            return $databaseFeature['enabled'];
+        })->keys()->filter(function ($databaseFeature) use ($backupable) {
+            return in_array($databaseFeature, $backupable);
+        });
 
-            foreach ($this->site->schemas as $schema) {
-                $databases[] = $schema;
+        $this->runOnServer(function () use ($serverService, $databases) {
+            foreach ($databases as $database) {
+                $backup = $serverService->backupDatabases($this->server, $database);
+                $this->server->backups()->save($backup);
             }
-
-            dispatch(
-                (new BackupDatabase($server, $databases, $siteCommand))
-                    ->onQueue(config('queue.channels.backups'))
-            );
-        }
+        });
     }
 }

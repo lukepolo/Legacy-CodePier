@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use Storage;
 use Carbon\Carbon;
 use App\Models\Bitt;
 use App\Models\Backup;
@@ -566,9 +567,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param string $title
      * @param string $type
-     * @param string $database
      *
      * @return Backup
      *
@@ -576,53 +575,92 @@ class ServerService implements ServerServiceContract
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function backupDatabases(Server $server, $title, $type, $database)
+    public function backupDatabases(Server $server, $type, $suffix = '')
     {
-        $title = ! empty($title) ? $title.'_' : $title;
-
         $this->remoteTaskService->ssh($server);
 
-        $fileName = "{$title}{$server->name}_{$database}_".Carbon::now()->getTimestamp().'.';
-
+        $fileName = "{$server->name}_{$type}_".Carbon::now()->getTimestamp()."{$suffix}.";
+        
         switch ($type) {
             case 'MySQL':
             case 'MariaDB':
-                $fileName .= 'sql';
-
-                if ($database === 'all') {
-                    $databasesString = '--all-databases';
-                } else {
-                    $databasesString = "--databases $database";
+                if (! $this->remoteTaskService->hasCommand('xtrabackup')) {
+                    $this->remoteTaskService->run('wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb -O percona-repo.deb');
+                    $this->remoteTaskService->run('dpkg -i percona-repo.deb');
+                    $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
+                    $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y percona-xtrabackup-24');
                 }
-                $this->remoteTaskService->run("mysqldump --user=codepier --password={$server->database_password} --single-transaction {$databasesString} | gzip -c > $fileName");
+
+                $fileName .= 'tar.gz';
+
+                $this->remoteTaskService->run("innobackupex --user=codepier --password={$server->database_password} --stream=tar /tmp | gzip - > $fileName");
             break;
             case 'PostgreSQL':
                 $fileName .= 'sqlc';
-                if ($database === 'all') {
-                    $this->remoteTaskService->run("pg_dumpall --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432 | gzip -c > $fileName");
-                } else {
-                    $this->remoteTaskService->run("pg_dump --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432/$database | gzip -c > $fileName");
-                }
-                break;
+                $this->remoteTaskService->run("pg_dumpall --dbname=postgresql://codepier:{$server->database_password}@127.0.0.1:5432 | gzip -c > $fileName");
+            break;
             case 'MongoDB':
                 $fileName .= 'gz';
-                if ($database === 'all') {
-                    $this->remoteTaskService->run("mongodump --archive=$fileName --gzip");
-                } else {
-                    $this->remoteTaskService->run("mongodump --archive=$fileName --gzip --db $database");
-                }
-                break;
+                $this->remoteTaskService->run("mongodump --archive=$fileName --gzip");
+            break;
         }
 
         $this->remoteTaskService->run("curl '".create_pre_signed_s3("backups/$fileName")."' --upload-file $fileName");
         $this->remoteTaskService->run("rm $fileName");
 
         $backup = Backup::create([
-            'type' => 'mysql',
-            'items' => [$database],
+            'type' => $type,
             'name' => "backups/$fileName",
             'size' => \Storage::disk('do-spaces')->size("backups/$fileName"),
         ]);
+
+        return $backup;
+    }
+
+    /**
+     * @param Server $server
+     * @param Backup $backup
+     *
+     * @return Backup
+     *
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function restoreDatabases(Server $server, Backup $backup)
+    {
+        $this->backupDatabases($server, $backup->type, "_before_restore");
+
+        $fileName = Carbon::now()->getTimestamp();
+        
+        $url = Storage::disk('do-spaces')->temporaryUrl($backup->name, now()->addMinutes(5));
+
+        $this->remoteTaskService->run("wget -O $fileName '$url'");
+
+        switch ($backup->type) {
+            case 'MySQL':
+            case 'MariaDB':
+                $this->remoteTaskService->run("mkdir /tmp/$fileName");
+                $this->remoteTaskService->run("tar -xzf $fileName -C /tmp/$fileName");
+                $this->remoteTaskService->run('service mysql stop');
+                $this->remoteTaskService->run('rm -rf /var/lib/mysql/*');
+                $this->remoteTaskService->run("innobackupex --copy-back /tmp/$fileName");
+                $this->remoteTaskService->run("rm -r /tmp/$fileName");
+                $this->remoteTaskService->run('chown -R mysql:mysql /var/lib/mysql');
+                $this->remoteTaskService->run('service mysql start');
+            break;
+            case 'PostgreSQL':
+                $this->remoteTaskService->run("zcat $fileName > /tmp/$fileName");
+                $this->remoteTaskService->run("psql -f /tmp/$fileName postgres");
+
+                $this->remoteTaskService->run("rm /tmp/$fileName");
+            break;
+            case 'MongoDB':
+                $this->remoteTaskService->run("mongorestore --gzip --archive=$fileName");
+            break;
+        }
+
+        $this->remoteTaskService->run("rm $fileName");
 
         return $backup;
     }

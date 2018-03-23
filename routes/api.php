@@ -189,6 +189,8 @@ Route::group(['middleware' => [
 
                 Route::get('{server}/sudo-password', 'ServerController@getSudoPassword');
                 Route::post('{server}/sudo-password/refresh', 'ServerController@refreshSudoPassword');
+
+                Route::post('{server}/database/backups/restore/{backup}', 'ServerController@restoreDatabaseBackup');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');
