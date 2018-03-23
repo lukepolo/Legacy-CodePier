@@ -17,7 +17,7 @@ class SiteSchemaBackupsController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            Site::findOrFail($siteId)->backups->where('type', 'mysql')
+            Site::findOrFail($siteId)->backups
         );
     }
 

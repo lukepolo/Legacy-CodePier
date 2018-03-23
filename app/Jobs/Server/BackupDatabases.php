@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs\Site;
+namespace App\Jobs\Server;
 
-use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use App\Models\Server\Server;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,9 +16,7 @@ class BackupDatabases implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     public $server;
-
-    public $tries = 1;
-    public $timeout = 60;
+    public $backup;
 
     /**
      * Create a new job instance.
@@ -28,10 +26,15 @@ class BackupDatabases implements ShouldQueue
     public function __construct(Server $server)
     {
         $this->server = $server;
+
+        $this->makeCommand($server, $server, null, 'Backup Databases');
     }
 
     /**
      * Execute the job.
+     *
+     * @param \App\Services\Server\ServerService|ServerService $serverService
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
