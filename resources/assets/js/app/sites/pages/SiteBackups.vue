@@ -8,7 +8,7 @@
 
         <div class="section-content">
             <ul class="wizard">
-                <template v-for="(server, serverIndex) in backups.servers">
+                <template v-for="(server, serverIndex) in siteServers">
                     <li class="wizard-item" v-bind:class="{ 'router-link-active': tab === serverIndex }">
                         <a @click="tab=serverIndex">{{ server.name }}</a>
                     </li>
@@ -92,7 +92,11 @@
           });
         },
         isBackupsEnabled(server) {
-          return _.find(this.siteServers, { id : server.id }).backups_enabled
+            let foundServer = _.find(this.siteServers, { id : server.id });
+            if(foundServer) {
+                return foundServer.backups_enabled
+            }
+          return false;
         }
       },
       computed : {
