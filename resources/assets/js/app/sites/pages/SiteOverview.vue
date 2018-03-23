@@ -295,6 +295,15 @@
 
             <life-lines></life-lines>
 
+            <div class="grid-2 grid-gap-large">
+                <div class="grid--item">
+                    <h3 class="text-center heading">Backups</h3>
+                    <p v-for="backup in backups">
+                        {{ backup.name }} - {{ backup.type }} <button class="btn btn-default" @click="downloadBackup(backup)">Download</button>
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
@@ -358,6 +367,10 @@ export default {
         "user_site_deployments/get",
         this.$route.params.site_id
       );
+      this.$store.dispatch(
+        "user_site_schemaBackups/get",
+        this.$route.params.site_id
+      );
       Vue.set(this.renameForm, "domain", this.site ? this.site.name : null);
       Vue.set(this.renameForm, "wildcard_domain", this.site ? this.site.wildcard_domain : null);
     },
@@ -385,6 +398,12 @@ export default {
     resetForm() {
       this.notificationChannelsForm.reset();
       this.showSlackForm = false;
+    },
+    downloadBackup(backup) {
+      this.$store.dispatch("user_site_schemaBackups/download", {
+        backup: backup.id,
+        site: this.$route.params.site_id
+      });
     }
   },
   computed: {
@@ -398,6 +417,9 @@ export default {
         );
       }
       return site;
+    },
+    backups() {
+      return this.$store.state.user_site_schemaBackups.backups;
     },
     siteServers() {
       let siteServers = _.get(
