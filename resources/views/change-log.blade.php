@@ -1,6 +1,37 @@
 @extends('layouts.public')
 
 @section('content')
+    <section class="section">
+        <div class="section--content">
+            <h1>March 22th, 2018</h1>
+            <hr>
+            <h2>New</h2>
+            <ul>
+                <li>Backups for Mongo / Mysql / MariaDB / Postgres is now in beta!</li>
+                <li>Wildcard Certificates Available with automatic renewals for all DNS providers! Was no easy feat!</li>
+                <li>Bitts are now available which are little code snippets that you can use to run on your server. There are future improvements to this system incoming over the next several releases</li>
+            </ul>
+
+            <h2>Changed</h2>
+            <ul>
+                <li>Let's Encrypt Package is replaced by cert-bot, you will not need to do anything</li>
+                <li>SSL Certificates screen has been adjusted to a new UI workflow, these improvements will be coming to other areas of the app in the next several releases</li>
+            </ul>
+
+            <h2>Fixes</h2>
+            <ul>
+                <li>When updating language settings, we now invoke to refresh all server files so we can make certain they are in sync with UI.</li>
+                <li>Switching between frameworks now replaces cronjobs and server files and framework files properly</li>
+                <li>Misc backend fixes to make these a bit smoother for the user.</li>
+            </ul>
+
+            <h3>Language Specific</h3>
+            <h4>PHP</h4>
+            <ul>
+                <li>Fixed NGINX config containing `internal` directive for apps that need the use of it</li>
+            </ul>
+        </div>
+    </section>
 
     <section class="section">
         <div class="section--content">
