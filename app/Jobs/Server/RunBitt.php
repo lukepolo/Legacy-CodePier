@@ -20,7 +20,7 @@ class RunBitt implements ShouldQueue
     private $server;
 
     public $tries = 1;
-    public $timeout = 900;
+    public $timeout = 300;
 
     /**
      * InstallServerSshKey constructor.
