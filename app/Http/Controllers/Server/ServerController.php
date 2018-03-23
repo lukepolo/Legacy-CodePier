@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Backup;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
+use App\Jobs\RestoreDatabaseBackup;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ProvisioningKey;
 use App\Jobs\Server\UpdateSudoPassword;
@@ -339,5 +341,28 @@ class ServerController extends Controller
         dispatch(new UpdateSudoPassword($server, $server->sudo_password));
 
         return response()->json($server->sudo_password);
+    }
+    
+    /**
+     * @param Server $server
+     * @param Backup $backup
+     *
+     * @return \Illuminate\Http\JsonResponse
+    */
+    public function restoreDatabaseBackup(Server $server, Backup $backup)
+    {
+        $user = $server->user;
+        
+        if ($user->subscribed()) {
+            dispatch((
+                new RestoreDatabaseBackup($server, $backup)
+            )->onQueue(
+                config('queue.channels.server_commands')
+            ));
+
+            return response()->json('OK');
+        }
+
+        return response()->json('You must be subscribed to use backups', 401);
     }
 }

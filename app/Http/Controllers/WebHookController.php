@@ -7,6 +7,7 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
+use App\Jobs\Site\BackupDatabases;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
@@ -198,5 +199,25 @@ class WebHookController extends Controller
         }
 
         return $stats;
+    }
+
+    public function databaseBackups($serverHashId)
+    {
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+
+        /** @var User $user */
+        $user = $server->user;
+
+        if ($user->subscribed()) {
+            dispatch((
+                new BackupDatabases($server)
+            )->onQueue(
+                config('queue.channels.server_commands')
+            ));
+
+            return response()->json('OK');
+        }
+
+        return response()->json('You must be a subscriber to allow backups', 401);
     }
 }
