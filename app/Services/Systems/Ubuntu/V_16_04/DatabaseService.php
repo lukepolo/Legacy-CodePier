@@ -164,7 +164,8 @@ class DatabaseService
                 $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
                 break;
             case self::MONGODB:
-                // we don't need to create one , it will create itself based on the user permissions if needed
+                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.create('$database');\"");
+                // no break
             default:
                 throw new UnknownDatabase($schema->database);
                 break;

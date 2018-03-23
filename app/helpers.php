@@ -109,3 +109,26 @@ if (! function_exists('ddd')) {
         call_user_func_array('dd', $args);
     }
 }
+
+if (! function_exists('create_pre_signed_s3')) {
+    /**
+     * Developer conveinence.
+     *
+     * @param $filePath
+     * @return mixed
+     */
+    function create_pre_signed_s3($filePath)
+    {
+        $s3 = \Storage::disk('do-spaces');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+
+        $command = $client->getCommand('PutObject', [
+            'Bucket' => config('filesystems.disks.do-spaces.bucket'),
+            'Key' => "$filePath",
+        ]);
+
+        $request = $client->createPresignedRequest($command, '+5 minutes');
+
+        return (string) $request->getUri();
+    }
+}

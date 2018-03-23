@@ -198,6 +198,8 @@ Route::group(['middleware' => [
 
                 Route::get('{server}/sudo-password', 'ServerController@getSudoPassword');
                 Route::post('{server}/sudo-password/refresh', 'ServerController@refreshSudoPassword');
+
+                Route::post('{server}/database/backups/restore/{backup}', 'ServerController@restoreDatabaseBackup');
             });
 
             Route::apiResource('servers.file', 'ServerFileController');
@@ -265,6 +267,7 @@ Route::group(['middleware' => [
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
+            Route::apiResource('sites.schemaBackups', 'SiteSchemaBackupsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [

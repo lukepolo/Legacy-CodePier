@@ -1,5 +1,6 @@
 import {
   SiteFiles,
+  SiteBackups,
   SiteOverview,
   SiteWorkflow,
   SiteRepository,
@@ -39,6 +40,13 @@ export default [
         components: {
           default: SiteOverview,
           subNav: SiteSetupNav
+        }
+      },
+      {
+        path: "backups",
+        name: "site_backups",
+        components: {
+          default: SiteBackups,
         }
       },
       {

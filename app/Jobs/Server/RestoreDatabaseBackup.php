@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Server;
 
-use App\Models\Bitt;
-use App\Models\Server\Server;
+use App\Models\Backup;
 use Illuminate\Bus\Queueable;
+use App\Models\Server\Server;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,38 +12,36 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
-class RunBitt implements ShouldQueue
+class RestoreDatabaseBackup implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $bitt;
-    private $server;
-
-    public $tries = 1;
-    public $timeout = 300;
+    public $server;
+    public $backup;
 
     /**
-     * InstallServerSshKey constructor.
+     * Create a new job instance.
+     *
      * @param Server $server
-     * @param bitt $bitt
+     * @param Backup $backup
      */
-    public function __construct(Server $server, Bitt $bitt)
+    public function __construct(Server $server, Backup $backup)
     {
-        $this->bitt = $bitt;
         $this->server = $server;
-        $this->makeCommand($server, $bitt, null, 'Running');
+        $this->backup = $backup;
+        $this->makeCommand($server, $backup, null, 'Restoring Backup');
     }
 
     /**
      * Execute the job.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Server\ServerService|ServerService $serverService
      * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            return $serverService->runBitt($this->server, $this->bitt);
+            $serverService->restoreDatabases($this->server, $this->backup);
         });
     }
 }

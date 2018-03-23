@@ -206,8 +206,6 @@ class SiteService implements SiteServiceContract
             $event = $serverDeployment->events->last();
         }
 
-
-        dd($event);
         if (! $event->failed) {
             broadcast(new DeploymentStepFailed($site, $server, $event, $message, microtime(true) - $startTime));
         }
