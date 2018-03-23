@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Services\Server\ServerFeatureService;
-use Illuminate\Http\Request;
 
 class ServerSchemaBackupsController extends Controller
 {
@@ -40,9 +40,8 @@ class ServerSchemaBackupsController extends Controller
 
         $this->serverFeatureService->installFeature($server, 'MonitoringService', 'SchemaBackupScript');
 
-
         $server->update([
-            'backups' => $request->get('enabled', false)
+            'backups_enabled' => $request->get('enabled', false)
         ]);
 
         return response()->json($server);
@@ -55,7 +54,7 @@ class ServerSchemaBackupsController extends Controller
      */
     public function show($serverId, $backupId)
     {
-        $server = Server::findOrFail($serverId);
+        $server = Server::with('backups')->findOrFail($serverId);
 
         $backup = $server->backups->where('id', $backupId)->first();
 

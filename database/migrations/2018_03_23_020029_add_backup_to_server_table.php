@@ -14,7 +14,7 @@ class AddBackupToServerTable extends Migration
     public function up()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->boolean('backups')->default(0)->after('ssh_connection');
+            $table->boolean('backups_enabled')->default(0)->after('ssh_connection');
         });
     }
 

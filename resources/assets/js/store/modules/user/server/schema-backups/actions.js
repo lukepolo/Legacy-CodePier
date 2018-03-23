@@ -39,11 +39,11 @@ export const restore = (context, { server, backup }) => {
     });
 };
 
-export const download = (context, { site, backup }) => {
+export const download = (context, { server, backup }) => {
   return Vue.request()
     .get(
-      Vue.action("SiteSiteSchemaBackupsController@show", {
-        site,
+      Vue.action("ServerServerSchemaBackupsController@show", {
+        server,
         schemaBackup: backup,
       }),
     )

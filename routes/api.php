@@ -267,6 +267,7 @@ Route::group(['middleware' => [
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
+            Route::apiResource('sites.schemaBackups', 'SiteSchemaBackupsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [

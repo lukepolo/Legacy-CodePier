@@ -179,7 +179,7 @@ class WebHookController extends Controller
 
     private function subscriptionToLow($type)
     {
-        return abort(401, 'Too many '.$type.', please upgrade');
+        return abort(402, 'Too many '.$type.', please upgrade');
     }
 
     /**
@@ -209,19 +209,23 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        /** @var User $user */
-        $user = $server->user;
+        if ($server->backups_enabled) {
+            /** @var User $user */
+            $user = $server->user;
 
-        if ($user->subscribed()) {
-            dispatch((
+            if ($user->subscribed()) {
+                dispatch((
                 new BackupDatabases($server)
-            )->onQueue(
-                config('queue.channels.server_commands')
-            ));
+                )->onQueue(
+                        config('queue.channels.server_commands')
+                    ));
 
-            return response()->json('OK');
+                return response()->json('OK');
+            }
+
+            return response()->json('You must be a subscriber to allow backups', 402);
         }
 
-        return response()->json('You must be a subscriber to allow backups', 401);
+        return response()->json('Backups Not Enabled on this server', 400);
     }
 }
