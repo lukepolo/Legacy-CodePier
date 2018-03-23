@@ -5,7 +5,6 @@
                 Database Backups
             </h3>
 
-            // TODO - need a toggle of some sort?
             <tooltip message="Add Firewall Rule">
                 <span class="btn btn-small btn-primary">
                     <span class="icon-plus"></span>
@@ -35,6 +34,17 @@
             </tr>
             </tbody>
         </table>
+
+        <div v-for="server in siteServers">
+
+            {{ server.name }} ({{ server.ip }})
+
+            <div class="toggleSwitch">
+                <div class="toggleSwitch--button toggleSwitch--button-switch" :class="{ right : server.backups }"
+                @click="toggleBackups(server)"></div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -48,22 +58,45 @@
       },
       methods : {
         fetchData() {
-          this.$store.dispatch(
-            "user_site_schemaBackups/get",
-            this.$route.params.site_id
-          );
+          // this.$store.dispatch(
+          //   "user_site_schemaBackups/get",
+          //   this.$route.params.site_id
+          // );
+        },
+        toggleBackups(server) {
+            if(server.backups) {
+              return this.disableBackups(server);
+            }
+            this.enableBackups(server)
+        },
+        enableBackups(server) {
+          this.$store.dispatch("user_server_schemaBackups/enable", server.id)
+        },
+        disableBackups(server) {
+          this.$store.dispatch("user_server_schemaBackups/disable", server.id)
         },
         downloadBackup(backup) {
           this.$store.dispatch("user_site_schemaBackups/download", {
             backup: backup.id,
             site: this.$route.params.site_id
           });
-        }
+        },
       },
       computed : {
         backups() {
-          return this.$store.state.user_site_schemaBackups.backups;
-        }
+          return [];
+          // return this.$store.state.user_site_schemaBackups.backups;
+        },
+        siteServers() {
+          return _.filter(
+            this.$store.getters["user_site_servers/getServers"](
+              this.$route.params.site_id
+            ),
+            server => {
+              return server.type === 'full_stack' || server.type === 'database'
+            }
+          );
+        },
       }
     }
 </script>

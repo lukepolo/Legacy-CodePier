@@ -45,6 +45,7 @@ class Ruby
             'Ruby',
         ],
         'MonitoringService' => [
+            'SchemaBackupScript',
             'DiskMonitoringScript',
             'LoadMonitoringScript',
             'ServerMemoryMonitoringScript',
