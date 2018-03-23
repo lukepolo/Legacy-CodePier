@@ -293,6 +293,19 @@ echo \"Wrote\"", $read);
     {
         return filter_var($this->run("[ -d $directory ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
     }
+    
+    /**
+     * Checks to see if the server can locate a command / executable.
+     * @param $command
+     * @return bool
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function hasCommand($command)
+    {
+        return filter_var($this->run("command -v $command > /dev/null 2>&1 && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
+    }
 
     /**
      * @param \App\Models\Server\Server $server

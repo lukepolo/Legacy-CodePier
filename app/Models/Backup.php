@@ -10,10 +10,6 @@ class Backup extends Model
 {
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'items' => 'array',
-    ];
-
     /*
     |--------------------------------------------------------------------------
     | Relations
