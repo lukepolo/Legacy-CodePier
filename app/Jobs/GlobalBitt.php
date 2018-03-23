@@ -49,7 +49,7 @@ class GlobalBitt implements ShouldQueue
 
                     dispatch(
                         (new RunBitt($serverModel, $this->bitt))
-                            ->onQueue(config('queue.channels.server_commands'))
+                            ->onQueue(config('queue.channels.bitts'))
                     );
                 }
             });

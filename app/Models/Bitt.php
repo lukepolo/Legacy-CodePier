@@ -46,6 +46,6 @@ class Bitt extends Model
 
     public function commandDescription($status)
     {
-        return $status.' bitt '.$this->title.' ran by '.$this->user;
+        return $status.' Bitt : '.$this->title;
     }
 }

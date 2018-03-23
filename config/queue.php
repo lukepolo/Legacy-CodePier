@@ -57,6 +57,13 @@ return [
             'region' => 'us-east-1',
         ],
 
+        'redis-bitts' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 300,
+        ],
+
         'redis-deploying' => [
             'driver' => 'redis',
             'connection' => 'default',
@@ -104,6 +111,7 @@ return [
     |
     */
     'channels' => [
+        'bitts' => 'bitts',
         'default'         => 'default',
         'server_features' => 'server_features',
         'server_commands' => 'server_commands',

@@ -115,13 +115,13 @@
             </template>
         </template>
         <template v-else>
-            <form @submit.prevent="installCertificate">
+
 
                 <div class="flyform--group">
                     <label>Certificate Type</label>
                 </div>
 
-                <div class="grid-3">
+                <div class="grid-2">
                     <div v-if="!serverId" class="flyform--group-radio">
                         <label>
                             <input name="type" type="radio" v-model="form.type" value="Let's Encrypt">
@@ -129,13 +129,13 @@
                             Let's Encrypt
                         </label>
                     </div>
-                    <div class="flyform--group-radio">
-                        <label>
-                            <input name="type" type="radio">
-                            <span class="icon"></span>
-                            Existing CodePier Certificate
-                        </label>
-                    </div>
+                    <!--<div v-if="!serverId" class="flyform&#45;&#45;group-radio">-->
+                        <!--<label>-->
+                            <!--<input name="type" type="radio" v-model="form.type" value="codepier_existing">-->
+                            <!--<span class="icon"></span>-->
+                            <!--Existing CodePier Certificate-->
+                        <!--</label>-->
+                    <!--</div>-->
                     <div class="flyform--group-radio">
                         <label>
                             <input name="type" type="radio" v-model="form.type" value="existing">
@@ -145,39 +145,70 @@
                     </div>
                 </div>
 
-                <template v-if="form.type">
-                    <div class="flyform--group">
-                        <input type="text" v-model="form.domains" name="domains" placeholder=" ">
-                        <label for="domains">Domain(s)</label>
-                    </div>
-                    <div class="flyform--group-checkbox">
-                        <label>
-                            <input type="checkbox" name="wildcard" v-model="form.wildcard">
-                            <span class="icon"></span>
-                            Wildcard
-                        </label>
-                    </div>
+                <template v-if="form.type !== 'codepier_existing'">
+                    <template v-if="form.type">
+
+                        <div class="flyform--group">
+                            <div class="flyform--group-prefix">
+                                <input type="text" v-model="form.domains" name="domains" placeholder=" ">
+                                <label for="domains">Domain<span v-if="!form.wildcard">(s)</span></label>
+                                <!--<template v-if="form.wildcard">-->
+                                    <!--<div class="flyform&#45;&#45;group-prefix-label">wildcard</div>-->
+                                <!--</template>-->
+                            </div>
+                        </div>
+
+                        <div class="flyform--group-checkbox">
+                            <label>
+                                <input type="checkbox" name="wildcard" v-model="form.wildcard">
+                                <span class="icon"></span>
+                                Wildcard
+                            </label>
+                        </div>
+                    </template>
+
+                    <template v-if="form.type === 'existing'">
+                        <div class="flyform--group">
+                            <label>Private Key</label>
+                            <textarea name="private_key" v-model="form.private_key" required></textarea>
+                        </div>
+
+                        <div class="flyform--group">
+                            <label>Certificate</label>
+                            <textarea name="certificate" v-model="form.certificate" required></textarea>
+                        </div>
+                    </template>
+
+                    <form @submit.prevent="installCertificate">
+                        <div class="flyform--footer">
+                            <div class="flyform--footer-btns">
+                                <span class="btn" v-if="sslCertificates.length" @click.prevent="resetForm">Cancel</span>
+                                <button class="btn btn-primary" type="submit">Add Certificate</button>
+                            </div>
+                        </div>
+                    </form>
                 </template>
+                <template v-else>
+                    <form @submit.prevent="activateSslCertificate(installExistingCertId)">
 
-                <template v-if="form.type === 'existing'">
-                    <div class="flyform--group">
-                        <label>Private Key</label>
-                        <textarea name="private_key" v-model="form.private_key" required></textarea>
-                    </div>
+                        <div class="flyform--group">
+                            <label>Select SSL Certificate</label>
+                            <div class="flyform--group-select">
+                                <select name="ssl_certificate_id" v-model="installExistingCertId">
+                                    <option></option>
+                                    <option v-for="sslCertificate in availableSslCertificates" :value="sslCertificate.id">{{ sslCertificate.wildcard ? '*.'  : '' }}{{ sslCertificate.domains }}</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="flyform--group">
-                        <label>Certificate</label>
-                        <textarea name="certificate" v-model="form.certificate" required></textarea>
-                    </div>
+                        <div class="flyform--footer">
+                            <div class="flyform--footer-btns">
+                                <span class="btn" v-if="sslCertificates.length" @click.prevent="resetForm">Cancel</span>
+                                <button class="btn btn-primary" :class="{ 'btn-disabled' : !installExistingCertId }" type="submit">Install Certificate</button>
+                            </div>
+                        </div>
+                    </form>
                 </template>
-
-                <div class="flyform--footer">
-                    <div class="flyform--footer-btns">
-                        <span class="btn" v-if="sslCertificates.length" @click.prevent="resetForm">Cancel</span>
-                        <button class="btn btn-primary" type="submit">Add Certificate</button>
-                    </div>
-                </div>
-            </form>
         </template>
 
         <input type="hidden" v-if="site">
@@ -196,7 +227,8 @@ export default {
         domains: null,
         private_key: null,
         certificate: null
-      })
+      }),
+      installExistingCertId : null,
     };
   },
   created() {
@@ -208,7 +240,7 @@ export default {
   methods: {
     fetchData() {
 
-      this.$store.dispatch('user_ssl_certificates/get')
+      // this.$store.dispatch('user_ssl_certificates/get')
 
       if (this.siteId) {
         this.$store
