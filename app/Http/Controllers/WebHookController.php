@@ -7,7 +7,7 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
-use App\Jobs\Site\BackupDatabases;
+use App\Jobs\Server\BackupDatabases;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;

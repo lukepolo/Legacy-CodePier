@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Server;
 
 use App\Models\Backup;
 use Illuminate\Bus\Queueable;
@@ -22,21 +22,27 @@ class RestoreDatabaseBackup implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Server $server
+     * @param Backup $backup
      */
     public function __construct(Server $server, Backup $backup)
     {
         $this->server = $server;
         $this->backup = $backup;
+
+        $this->makeCommand($server, $backup, null, 'Restoring Backup');
     }
 
     /**
      * Execute the job.
      *
-     * @return void
+     * @param \App\Services\Server\ServerService|ServerService $serverService
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
-        return $serverService->restoreDatabases($this->server, $this->backup);
+        $this->runOnServer(function () use ($serverService) {
+            $serverService->restoreDatabases($this->server, $this->backup);
+        });
     }
 }
