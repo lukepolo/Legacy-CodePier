@@ -4,6 +4,19 @@
             <div class="flex--grow">
                 <h2 class="heading">Site Overview
                 </h2>
+                <div class="toggleSwitch">
+                  <div class="toggleSwitch--text toggleSwitch--text-left">
+                      <a class="toggleSwitch--text-btn">left</a>
+                  </div>
+
+                  <div class="toggleSwitch--button toggleSwitch--button-switch right">
+                  </div>
+
+                    <div class="toggleSwitch--text toggleSwitch--text-right">
+                        <a class="toggleSwitch--text-btn">right</a>
+                    </div>
+                </div>
+
             </div>
             <div class="heading--btns">
                 <confirm
