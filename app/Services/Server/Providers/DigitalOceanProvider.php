@@ -2,6 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
+use Buzz\Browser;
+use Buzz\Client\Curl;
 use Exception;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -225,7 +227,10 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     public function setToken($token)
     {
-        $this->client = new DigitalOceanV2(new BuzzAdapter($token));
+        $client = new Curl();
+        $client->setTimeout(30);
+        $browser = new Browser($client);
+        $this->client = new DigitalOceanV2(new BuzzAdapter($token, $browser));
     }
 
     public function getUser(User $user)
