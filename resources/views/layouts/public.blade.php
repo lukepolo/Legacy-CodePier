@@ -29,7 +29,6 @@
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
         <link rel="dns-prefetch" href="//www.googletagmanager.com.com">
 
-
         @include('layouts.core.favicon')
 
         <!-- CSRF Token -->
