@@ -38,7 +38,7 @@ class EventController extends Controller
             Bitt::class,
             Buoy::class,
             File::class,
-            Backup::class,
+//            Backup::class, // TODO - this is a bit tricky cause it only adds after relation and not based on the site
             Daemon::class,
             Worker::class,
             SshKey::class,
