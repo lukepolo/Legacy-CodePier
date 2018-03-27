@@ -340,7 +340,9 @@ class ServerService implements ServerServiceContract
     public function installCron(Server $server, CronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep ' . str_replace('*', '\\*', $cronJob->job) . ') || ((crontab -l; echo "' . $cronJob->job . ' > /dev/null 2>&1") | crontab)');
+
+        $job = str_replace('*', '\\*', $cronJob->job);
+        $this->remoteTaskService->run('crontab -l | (grep \'' . $job . '\') || ((crontab -l; echo "' . $cronJob->job . ' > /dev/null 2>&1") | crontab)');
     }
 
     /**
