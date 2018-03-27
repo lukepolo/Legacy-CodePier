@@ -11,6 +11,8 @@ trait RubyOnRails
      */
     public function rubyOnRailsRunMigrations()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; rake db:migrate');
     }
 
@@ -21,6 +23,8 @@ trait RubyOnRails
      */
     public function rubyOnRailsRunPrecompile()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; rake assets:precompile');
     }
 }

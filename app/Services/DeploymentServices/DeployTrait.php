@@ -48,7 +48,6 @@ trait DeployTrait
         $this->repositoryService = $repositoryService;
 
         $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->site = $site;
         $this->server = $server;
@@ -92,6 +91,8 @@ trait DeployTrait
      */
     public function cloneRepository()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         $this->remoteTaskService->run('mkdir -p ' . $this->siteFolder);
@@ -171,6 +172,8 @@ trait DeployTrait
      */
     public function setupFolders()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         if ($this->zeroDowntimeDeployment) {
             $currentFolder = $this->siteFolder.'/current';
 
