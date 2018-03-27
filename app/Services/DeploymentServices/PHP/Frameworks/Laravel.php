@@ -13,6 +13,8 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.example')) {
@@ -41,6 +43,8 @@ trait Laravel
      */
     public function laravelCreateSymbolicStorageFolder()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         if ($this->zeroDowntimeDeployment) {
@@ -59,6 +63,8 @@ trait Laravel
      */
     public function laravelMapStorageFolderToPublic()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link');
     }
 
@@ -69,6 +75,8 @@ trait Laravel
      */
     public function laravelRunMigrations()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
     }
 
@@ -79,6 +87,8 @@ trait Laravel
      */
     public function laravelCacheRoutes()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache');
     }
 
@@ -89,6 +99,8 @@ trait Laravel
      */
     public function laravelCacheConfig()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
     }
 
@@ -101,6 +113,8 @@ trait Laravel
      */
     public function laravelTerminateRestartHorizon()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan horizon:terminate');
     }
 
@@ -113,6 +127,8 @@ trait Laravel
      */
     public function laravelRestartWorkers()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
     }
 }
