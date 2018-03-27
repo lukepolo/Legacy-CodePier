@@ -469,6 +469,9 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
 
+        $this->remoteTaskService->run('chgrp -R codepier /etc/letsencrypt');
+        $this->remoteTaskService->run('chmod -R g=rX /etc/letsencrypt');
+
         $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
 
         if (! $server->cronJobs

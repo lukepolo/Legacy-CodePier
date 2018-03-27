@@ -43,6 +43,9 @@ class WebService
 if [ $? == 0 ]; then
     curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode() . '/ssl/updated/"
 fi
+
+chgrp -R codepier /etc/letsencrypt
+chmod -R g=rX /etc/letsencrypt
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
