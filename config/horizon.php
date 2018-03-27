@@ -98,7 +98,7 @@ return [
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
                 'processes' => 30,
-                'tries' => 1,
+                'tries' => 3,
             ],
             'site_deployments' => [
                 'connection' => 'redis-deploying',
@@ -143,7 +143,7 @@ return [
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
                 'processes' => 3,
-                'tries' => 1,
+                'tries' => 3,
             ],
             'site_deployments' => [
                 'connection' => 'redis-deploying',

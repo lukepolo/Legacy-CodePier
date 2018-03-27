@@ -6,11 +6,6 @@ use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
 use App\Traits\ModelCommandTrait;
-use App\Events\Site\SiteSshKeyDeleted;
-use App\Events\Site\SiteWorkerDeleted;
-use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Site\SiteFirewallRuleDeleted;
-use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -107,26 +102,6 @@ class SiteObserver
      */
     public function deleting(Site $site)
     {
-        $site->workers()->each(function ($worker) use ($site) {
-            event(new SiteWorkerDeleted($site, $worker));
-        });
-
-        $site->cronJobs()->each(function ($cronJob) use ($site) {
-            event(new SiteCronJobDeleted($site, $cronJob));
-        });
-
-        $site->firewallRules()->each(function ($firewallRule) use ($site) {
-            event(new SiteFirewallRuleDeleted($site, $firewallRule));
-        });
-
-        $site->sshKeys()->each(function ($sshKey) use ($site) {
-            event(new SiteSshKeyDeleted($site, $sshKey));
-        });
-
-        $site->sslCertificates()->each(function ($sslCertificate) use ($site) {
-            event(new SiteSslCertificateDeleted($site, $sslCertificate));
-        });
-
         $site->buoys()->delete();
         $site->deployments()->delete();
         $site->deploymentSteps()->delete();
