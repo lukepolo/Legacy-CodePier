@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Models\User\UserServerProvider;
 use Storage;
 use Carbon\Carbon;
 use App\Models\Bitt;
@@ -51,12 +52,12 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerProvider $serverProvider
+     * @param UserServerProvider $userServerProvider
      * @return mixed
      */
-    public function getServerProviderUser(ServerProvider $serverProvider)
+    public function getServerProviderUser(UserServerProvider $userServerProvider)
     {
-        return $this->getProvider($serverProvider)->getUser(\Auth::user());
+        return $this->getProvider($userServerProvider->serverProvider)->getUser($userServerProvider);
     }
 
     /**

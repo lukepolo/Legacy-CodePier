@@ -32,7 +32,7 @@ interface ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return static
+     * @return Server $server
      */
     public function create(Server $server);
 
@@ -71,6 +71,13 @@ interface ServerProviderContract
      * @return mixed
      */
     public function setToken($token);
+
+    /**
+     * @param UserServerProvider $userServerProvider
+     *
+     * @return mixed
+     */
+    public function getUser(UserServerProvider $userServerProvider);
 
     /**
      * Refreshes the token.

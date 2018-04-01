@@ -7,6 +7,7 @@ use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProvider;
 use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use Vultr\Exception\ApiException;
 
 class VultrController extends Controller
 {
@@ -24,16 +25,6 @@ class VultrController extends Controller
         $this->serverService = $serverService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', self::VULTR)->firstOrFail());
-    }
-
     public function store(ServerProviderRequest $request)
     {
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
@@ -46,6 +37,16 @@ class VultrController extends Controller
         $userServerProvider->save();
 
         $userServerProvider->restore();
+
+        try {
+            $this->serverService->getServerProviderUser($userServerProvider);
+        } catch (ApiException $e) {
+            $userServerProvider->delete();
+            return response()->json('We were unable to verify your API credentials, please make sure the token you supplied is correct', 400);
+        } catch (\Exception $e) {
+            $userServerProvider->delete();
+            return response()->json('An unexpected error occurred, please try again', 400);
+        }
 
         return response()->json('OK');
     }
