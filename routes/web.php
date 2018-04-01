@@ -47,10 +47,7 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 // TODO - put into microservice
-Route::group([
-    'prefix' => 'webhook',
-    'domain' => config('app.url_stats'),
-], function () {
+Route::domain(config('app.url_stats'))->prefix('webhook')->group(function () {
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
@@ -58,9 +55,7 @@ Route::group([
 });
 
 // TODO - we need to prefix these - kinda hard now since we have things deployed
-Route::group([
-    'prefix' => 'webhook',
-], function () {
+Route::prefix('webhook')->group(function () {
     Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
     Route::any('/schema-backups/{serverHashId}', 'WebHookController@databaseBackups');
     Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
@@ -74,9 +69,7 @@ Route::group([
 |
 */
 
-Route::group([
-    'domain' => config('app.url_lifelines'),
-], function () {
+Route::domain(config('app.url_lifelines'))->group(function () {
     Route::get('{lifelineHashId}', 'LifeLineController@update');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
@@ -96,9 +89,7 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 |
 */
 
-Route::group([
-    'domain' => 'style-guide.codepier.dev',
-], function () {
+Route::domain('style-guide.codepier.dev')->group(function () {
     Route::get('/', 'PublicController@styleGuide');
 });
 
@@ -123,9 +114,7 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 |--------------------------------------------------------------------------
 |
 */
-Route::group([
-    'domain' => config('app.url'),
-], function () {
+Route::domain(config('app.url'))->group(function () {
 
     // Authentication / Register Routes...
     Route::post('login', 'Auth\LoginController@login');
@@ -144,19 +133,15 @@ Route::group([
     |--------------------------------------------------------------------------
     |
     */
-    Route::group([
-        'middleware' => 'role:admin',
-    ], function () {
+    Route::middleware('role:admin')->group(function () {
         Route::get('/change-user/{userId}', 'ChangeUserController@store');
     });
 
     Route::get('/admin/cancel', 'ChangeUserController@destroy');
 
-    Route::group([
-        'middleware' => [
-            'auth',
-        ],
-    ], function () {
+    Route::middleware([
+        'auth',
+    ])->group(function () {
         Route::get('second-auth', 'Auth\SecondAuthController@show');
         Route::post('second-auth', 'Auth\SecondAuthController@store');
 
@@ -164,12 +149,10 @@ Route::group([
         Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
     });
 
-    Route::group([
-        'middleware' => [
-            'auth',
-            'second_auth',
-        ],
-    ], function () {
+    Route::middleware([
+        'auth',
+        'second_auth',
+    ])->group(function () {
         Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
         Route::get('/{any}', 'Controller@app')->where('any', '.*');
     });
