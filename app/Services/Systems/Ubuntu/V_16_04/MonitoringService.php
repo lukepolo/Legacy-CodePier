@@ -89,7 +89,7 @@ done');
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->writeToFile('/opt/codepier/schema_backup', 'curl "' . config('app.url') . '/webhook/schema-backups/' . $this->server->encode() . '"');
+        $this->remoteTaskService->writeToFile('/opt/codepier/schema_backup', 'curl "' . config('app.public_url') . '/webhook/schema-backups/' . $this->server->encode() . '"');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/schema_backup');
 

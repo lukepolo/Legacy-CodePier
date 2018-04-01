@@ -92,6 +92,7 @@
                         {{--<li><a href="#">Getting Started</a></li>--}}
                         <li><a href="{{ action('PublicController@faq') }}">FAQs</a></li>
                         <li><a href="{{ action('PublicController@allFeatures') }}">All Features</a></li>
+                        <li><a href="{{ action('PublicController@roadmap') }}">RoadMap</a></li>
                         <li><a href="{{ action('PublicController@changeLog') }}">Change Log</a></li>
                     </ul>
                 </div>
