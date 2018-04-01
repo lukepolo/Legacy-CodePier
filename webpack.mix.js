@@ -1,4 +1,7 @@
 const mix = require("laravel-mix");
+let proxy = require("http-proxy-middleware");
+
+let appUrl = "codepier.test";
 
 /*
  |--------------------------------------------------------------------------
@@ -17,22 +20,25 @@ mix
   .sass("resources/assets/sass/app.scss", "public/css")
   .sass("resources/assets/sass/public.scss", "public/css")
   .extract([
-    "vue",
-    "vuex",
-    "brace",
     "axios",
-    "jquery",
-    "lodash",
-    "hint.css",
-    "nprogress",
+    "brace",
     "clipboard",
-    "vue-router",
-    "vuedraggable",
-    "laravel-echo",
-    "moment-timezone",
     "filesize-parser",
+    "font-awesome",
+    "hint.css",
+    "jquery",
+    "laravel-echo",
+    "lodash",
     "lodash-inflection",
     "moment-precise-range-plugin",
+    "moment-timezone",
+    "nprogress",
+    "portal-vue",
+    "raven-js",
+    "vue",
+    "vue-router",
+    "vuedraggable",
+    "vuex",
   ])
   .autoload({
     vue: "Vue",
@@ -46,13 +52,28 @@ mix
 
 if (!mix.inProduction()) {
   mix.browserSync({
+    host: appUrl,
+    proxy: appUrl,
     open: "external",
-    host: "codepier.test",
-    proxy: "codepier.test",
     files: [
-      "resources/views/**/*.php",
       "public/js/**/*.js",
       "public/css/**/*.css",
+      "resources/views/**/*.php",
+    ],
+    middleware: [
+      function(req, res, next) {
+        let target =
+          "http://" + req.headers.host.replace(`${appUrl}:3000`, appUrl);
+        if (target !== `http://${appUrl}`) {
+          proxy({
+            target,
+            changeOrigin: true,
+            logLevel: "silent",
+          })(req, res, next);
+        } else {
+          next();
+        }
+      },
     ],
   });
 }
