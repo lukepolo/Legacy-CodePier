@@ -406,28 +406,41 @@ class SiteService implements SiteServiceContract
     public function resetWorkflow(Site $site)
     {
         if ($site->servers->count() > 1) {
+            $site->load([
+                'daemons',
+                'cronJobs',
+            ]);
+
             $workflow = [
-                'site_cron_jobs' => [
-                    'step' => 'site_cron_jobs',
-                    'order' => 2,
-                    'completed' => false,
-                ],
-                'site_daemons' => [
-                    'step' => 'site_daemons',
-                    'order' => 3,
-                    'completed' => false,
-                ],
                 'message' => 'You have multiple servers and may have to update your settings. Use the server icon <span class="icon-server"></span> to specify which server you want items to run on.',
             ];
+
+            $order = 0;
 
             if ($site->filterServersByType([
                 SystemService::WEB_SERVER,
                 SystemService::WORKER_SERVER,
                 SystemService::FULL_STACK_SERVER,
-            ])) {
+            ])->count() > 0) {
                 $workflow['site_deployment'] = [
                     'step' => 'site_deployment',
-                    'order' => 1,
+                    'order' => ++$order,
+                    'completed' => false,
+                ];
+
+                if ($site->daemons->count()) {
+                    $workflow['site_daemons'] = [
+                        'step' => 'site_daemons',
+                        'order' => ++$order,
+                        'completed' => false,
+                    ];
+                }
+            }
+
+            if ($site->cronJobs->count()) {
+                $workflow['site_cron_jobs'] = [
+                    'step' => 'site_cron_jobs',
+                    'order' => ++$order,
                     'completed' => false,
                 ];
             }

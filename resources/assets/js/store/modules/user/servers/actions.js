@@ -15,11 +15,12 @@ export const show = (context, server) => {
   );
 };
 
-export const store = ({ dispatch }, data) => {
+export const store = ({ dispatch, commit }, data) => {
   return Vue.request(data)
     .post(Vue.action("ServerServerController@store"), "user_servers/add")
     .then((server) => {
       dispatch("listenTo", server);
+      commit("user_sites/set", { response: null }, { root: true });
       app.showSuccess("Your server is in queue to be provisioned");
       return server;
     });
