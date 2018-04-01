@@ -180,7 +180,9 @@
     <script>
         var player;
 
-        switchVideo($('.video--controls-item').first().data('video'))
+        $(document).ready(function(){
+          switchVideo($('.video--controls-item').first().data('video'))
+        });
 
         $(document).on('click', '.video--controls-item', function () {
             $('.video--controls-item').removeClass('active')
