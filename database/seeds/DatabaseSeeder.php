@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Artisan::call('get:plans');
         Artisan::call('clear:app-caches');
 
         $this->call(CategoriesSeeder::class);
@@ -22,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServerProvidersSeeder::class);
         $this->call(RepositoryProvidersSeeder::class);
         $this->call(NotificationProvidersSeeder::class);
+
+        Artisan::call('get:plans');
     }
 }
