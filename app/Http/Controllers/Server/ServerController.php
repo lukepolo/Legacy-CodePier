@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Exceptions\LinodeInvalidAccount;
 use App\Models\Site\Site;
+use App\Models\User\UserServerProvider;
+use DigitalOceanV2\Exception\HttpException;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
@@ -16,6 +19,7 @@ use App\Services\Server\Providers\CustomProvider;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use Vultr\Exception\ApiException;
 
 class ServerController extends Controller
 {
@@ -73,6 +77,16 @@ class ServerController extends Controller
 
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
+        }
+
+        if ($request->has('user_server_provider_id')) {
+            try {
+                $this->serverService->getServerProviderUser(UserServerProvider::findOrFail($request->get('user_server_provider_id')));
+            } catch (HttpException | LinodeInvalidAccount | ApiException $e) {
+                return response()->json('Your API credentials are invalid, please delete this provider and add a new one', 400);
+            } catch (\Exception $e) {
+                return response()->json('An unexpected error occurred, please try again', 400);
+            }
         }
 
         $server = Server::create([
