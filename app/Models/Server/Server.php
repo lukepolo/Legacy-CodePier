@@ -294,4 +294,19 @@ class Server extends Model
     {
         return $this->morphOne(SlackChannel::class, 'slackable');
     }
+
+    public function detachDeploymentSteps()
+    {
+        $this->load('sites.deploymentSteps');
+        /** @var Site $site */
+        foreach ($this->sites as $site) {
+            foreach ($site->deploymentSteps as $deploymentStep) {
+                $deploymentStep->update([
+                    'server_ids' => collect($deploymentStep->server_ids)->filter(function ($serverId) {
+                        return $serverId != $this->id;
+                    })
+                ]);
+            }
+        }
+    }
 }

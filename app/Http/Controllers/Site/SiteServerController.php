@@ -73,8 +73,13 @@ class SiteServerController extends Controller
         }
 
         foreach ($changes['detached'] as $detached) {
+
+            /** @var Server $server */
+            $server = Server::findOrFail($detached);
+            $server->detachDeploymentSteps();
+
             dispatch(
-                (new DeleteSite(Server::findOrFail($detached), $site))
+                (new DeleteSite($server, $site))
                     ->onQueue(config('queue.channels.server_commands'))
             );
         }
