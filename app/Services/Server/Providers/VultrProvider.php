@@ -193,18 +193,6 @@ class VultrProvider implements ServerProviderContract
     }
 
     /**
-     * Refreshes the token.
-     *
-     * @param UserServerProvider $userServerProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function refreshToken(UserServerProvider $provider)
-    {
-        // Provider's tokens don't require a refresh.
-    }
-
-    /**
      * Gets the status that means its ready for provisioning.
      *
      * @return mixed
