@@ -24,8 +24,6 @@ mix
     "brace",
     "clipboard",
     "filesize-parser",
-    "font-awesome",
-    "hint.css",
     "jquery",
     "laravel-echo",
     "lodash",
