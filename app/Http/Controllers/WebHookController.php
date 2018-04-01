@@ -229,6 +229,9 @@ class WebHookController extends Controller
         return true;
     }
 
+    /**
+     * @param $type
+     */
     private function subscriptionToLow($type)
     {
         return abort(402, 'Too many '.$type.', please upgrade');
