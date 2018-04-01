@@ -58,7 +58,7 @@
             </script>
         @endif
     </head>
-    <body>
+    <body class="moz">
         <header>
             <ul class="nav nav--left">
                 <li>
