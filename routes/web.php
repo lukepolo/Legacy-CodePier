@@ -182,5 +182,6 @@ Route::group([
 |
 */
 
+Route::redirect('login', action('Auth\LoginController@login'));
 Route::get('/events-bar', 'Controller@appEventsBar');
 Route::get('/', 'Controller@welcome');
