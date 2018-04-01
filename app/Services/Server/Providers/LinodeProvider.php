@@ -243,18 +243,6 @@ class LinodeProvider implements ServerProviderContract
     }
 
     /**
-     * Refreshes the token.
-     *
-     * @param UserServerProvider $userServerProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function refreshToken(UserServerProvider $userServerProvider)
-    {
-        // not needed for linode
-    }
-
-    /**
      * Gets the status that means its ready for provisioning.
      *
      * @return mixed

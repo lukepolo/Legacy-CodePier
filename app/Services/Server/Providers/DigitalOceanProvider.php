@@ -6,7 +6,6 @@ use Exception;
 use Buzz\Browser;
 use Carbon\Carbon;
 use Buzz\Client\Curl;
-use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\Server\Server;
 use DigitalOceanV2\DigitalOceanV2;
@@ -14,7 +13,6 @@ use DigitalOceanV2\Entity\Droplet;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
 use DigitalOceanV2\Adapter\BuzzAdapter;
-use GuzzleHttp\Exception\ClientException;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
 
@@ -242,38 +240,6 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->setToken($userServerProvider->token);
 
         return $this->client->account()->getUserInformation();
-    }
-
-    /**
-     * Refreshes the token.
-     *
-     * @param UserServerProvider $userServerProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function refreshToken(UserServerProvider $userServerProvider)
-    {
-        $client = new Client();
-
-        try {
-            $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token);
-        } catch (ClientException $e) {
-            throw new Exception(json_decode($e->getResponse()->getBody(), true));
-        }
-
-        if ($response->getStatusCode() == 200) {
-            $tokenData = json_decode($response->getBody(), true);
-
-            $userServerProvider->token = $tokenData['access_token'];
-            $userServerProvider->refresh_token = $tokenData['refresh_token'];
-            $userServerProvider->expires_at = $tokenData['expires_in'];
-
-            $userServerProvider->save();
-
-            return $userServerProvider->token;
-        }
-
-        throw new \Exception('Invalid refresh token');
     }
 
     public function readyForProvisioningStatus()
