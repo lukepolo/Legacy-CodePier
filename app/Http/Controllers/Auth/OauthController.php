@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use Illuminate\Support\Facades\Session;
-use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 
@@ -107,7 +106,7 @@ class OauthController extends Controller
                     break;
             }
 
-            return redirect()->intended('/');
+            return redirect()->intended(config('app.url'));
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();
@@ -130,8 +129,7 @@ class OauthController extends Controller
             }
 
             if (config('app.env') === 'local') {
-                /* @var ClientException $e */
-                ddd($e->getMessage());
+                throw $e;
             }
 
             if (\Auth::check()) {

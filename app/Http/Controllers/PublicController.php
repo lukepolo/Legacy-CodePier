@@ -29,6 +29,11 @@ class PublicController extends Controller
         return view('privacy');
     }
 
+    public function roadmap()
+    {
+        return view('roadmap');
+    }
+
     public function styleGuide()
     {
         return view('style-guide.index');
