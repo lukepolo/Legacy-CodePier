@@ -20,15 +20,25 @@
         <meta name="twitter:image:alt" content="CodePier | You Build It. We Deploy It.">
 
         <!-- DNS Prefetch -->
-        <link rel="dns-prefetch" href="//vimeo.com">
         <link rel="dns-prefetch" href="//code.jquery.co">
-        <link rel="dns-prefetch" href="//client.crisp.im">
-        <link rel="dns-prefetch" href="//player.viemo.com">
         <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+        <link rel="dns-prefetch" href="//client.crisp.im">
+        <link rel="dns-prefetch" href="//client.crisp.chat">
+        <link rel="dns-prefetch" href="//settings.crisp.chat">
+        <link rel="dns-prefetch" href="//client.relay.crisp.chat">
+
+        <link rel="dns-prefetch" href="//cdn.ravenjs.com">
+
+        <link rel="dns-prefetch" href="//vimeo.com">
+        <link rel="dns-prefetch" href="//player.viemo.com">
+
+        <link rel="dns-prefetch" href="//api.segment.io">
+        <link rel="dns-prefetch" href="//cdn.segment.com">
+        <link rel="dns-prefetch" href="//api.mixpanel.com">
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
-        <link rel="dns-prefetch" href="//www.googletagmanager.com.com">
-
+        <link rel="dns-prefetch" href="//www.google-analytics.com">
 
         @include('layouts.core.favicon')
 
@@ -47,14 +57,11 @@
                 Raven.config('{{ config('sentry.js_dsn') }}').install()
             </script>
 
-            <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113151874-1"></script>
             <script>
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              gtag('config', 'UA-113151874-1');
+                !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(n,o);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+                    analytics.load("ZbBrCqmCaOqAxAFVpG2RaGMJ1GHlk2Di");
+                    analytics.page();
+                }}();
             </script>
         @endif
     </head>
