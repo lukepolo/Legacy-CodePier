@@ -2,13 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
-use Buzz\Browser;
-use Buzz\Client\Curl;
 use Exception;
+use Buzz\Browser;
 use Carbon\Carbon;
+use Buzz\Client\Curl;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
-use App\Models\User\User;
 use App\Models\Server\Server;
 use DigitalOceanV2\DigitalOceanV2;
 use DigitalOceanV2\Entity\Droplet;
@@ -30,6 +29,13 @@ class DigitalOceanProvider implements ServerProviderContract
     private $client;
 
     use ServerProviderTrait;
+
+    public function testApiCredentials()
+    {
+        $this->setToken($this->getTokenFromUser(\Auth::user()));
+
+        return $this->client->account();
+    }
 
     /**
      * Gets the server options from the provider.
@@ -120,7 +126,7 @@ class DigitalOceanProvider implements ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return Server
+     * @return Server $server
      */
     public function create(Server $server)
     {
@@ -233,9 +239,14 @@ class DigitalOceanProvider implements ServerProviderContract
         $this->client = new DigitalOceanV2(new BuzzAdapter($token, $browser));
     }
 
-    public function getUser(User $user)
+    /**
+     * @param UserServerProvider $userServerProvider
+     * @return \DigitalOceanV2\Entity\Account
+     * @throws Exception
+     */
+    public function getUser(UserServerProvider $userServerProvider)
     {
-        $this->setToken($this->getTokenFromUser($user));
+        $this->setToken($userServerProvider->token);
 
         return $this->client->account()->getUserInformation();
     }

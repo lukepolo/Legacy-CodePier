@@ -13,6 +13,12 @@ class VultrProvider implements ServerProviderContract
 {
     use ServerProviderTrait;
 
+
+    /**
+     * @var VultrClient
+     */
+    private $client;
+
     /**
      * Gets the server options from the provider.
      *
@@ -83,7 +89,7 @@ class VultrProvider implements ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return static
+     * @return Server $server
      */
     public function create(Server $server)
     {
@@ -118,6 +124,7 @@ class VultrProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws \Exception
      */
     public function getStatus(Server $server)
     {
@@ -131,8 +138,8 @@ class VultrProvider implements ServerProviderContract
 
     /**
      * Gets the server IP.
-     *
      * @param \App\Models\Server\Server $server
+     * @throws \Exception
      */
     public function savePublicIP(Server $server)
     {
@@ -147,6 +154,7 @@ class VultrProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws \Exception
      */
     public function getPublicIP(Server $server)
     {
@@ -170,6 +178,18 @@ class VultrProvider implements ServerProviderContract
     public function setToken($token)
     {
         $this->client = new VultrClient(new Guzzle($token));
+    }
+
+    /**
+     * @param UserServerProvider $userServerProvider
+     * @return array|mixed
+     * @throws \Exception
+     */
+    public function getUser(UserServerProvider $userServerProvider)
+    {
+        $this->setToken($userServerProvider->token);
+
+        return $this->client->metaData()->getAccountInfo();
     }
 
     /**
