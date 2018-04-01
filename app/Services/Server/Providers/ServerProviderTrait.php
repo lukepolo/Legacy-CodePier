@@ -26,6 +26,7 @@ trait ServerProviderTrait
      * @param \App\Models\Server\Server $server
      * @param $serverId
      * @return \App\Models\Server\Server
+     * @throws \Exception
      */
     public function saveServer(Server $server, $serverId)
     {

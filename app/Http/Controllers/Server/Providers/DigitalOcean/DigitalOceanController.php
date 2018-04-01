@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\UserServerProvider;
+use DigitalOceanV2\Exception\HttpException;
 use App\Models\Server\Provider\ServerProvider;
 use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use DigitalOceanV2\Exception\HttpException;
 
 class DigitalOceanController extends Controller
 {

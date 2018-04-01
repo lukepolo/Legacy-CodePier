@@ -30,13 +30,6 @@ class DigitalOceanProvider implements ServerProviderContract
 
     use ServerProviderTrait;
 
-    public function testApiCredentials()
-    {
-        $this->setToken($this->getTokenFromUser(\Auth::user()));
-
-        return $this->client->account();
-    }
-
     /**
      * Gets the server options from the provider.
      *
