@@ -87,6 +87,12 @@ class OauthController extends Controller
                             ->first();
 
                         if (empty($userProvider)) {
+                            $alreadyRegistered = User::where('email', $socialUser->getEmail())->first();
+
+                            if (! empty($alreadyRegistered)) {
+                                return redirect('/login')->withErrors('You have already registered with this email.');
+                            }
+
                             $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
                             $newUserModel = $this->createUser($socialUser, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id, true);
@@ -133,7 +139,7 @@ class OauthController extends Controller
             }
 
             if (\Auth::check()) {
-                return redirect()->intended()->withErrors($e->getMessage());
+                return redirect()->back()->withErrors($e->getMessage());
             } else {
                 return redirect('/login')->withErrors($e->getMessage());
             }
