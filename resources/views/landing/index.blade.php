@@ -178,17 +178,15 @@
     </script>
 
     <script>
-        var player;
-
-        $(document).ready(function(){
-          switchVideo($('.video--controls-item').first().data('video'))
-        });
-
         $(document).on('click', '.video--controls-item', function () {
             $('.video--controls-item').removeClass('active')
             $(this).addClass('active')
             switchVideo($(this).data('video'))
         })
+
+        var player;
+
+        switchVideo($('.video--controls-item').first().data('video'))
 
         function switchVideo(video) {
             if(!player) {
