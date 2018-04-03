@@ -49,6 +49,10 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        return response()->json('OK');
+        if ($request->expectsJson()) {
+            return response()->json('OK');
+        }
+
+        return response()->redirectTo(config('app.public_url'));
     }
 }
