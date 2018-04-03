@@ -8,23 +8,23 @@
 
         <div class="section-content">
             <ul class="wizard">
-                <template v-for="(server, serverIndex) in backups.servers">
+                <template v-for="(server, serverIndex) in siteServers">
                     <li class="wizard-item" v-bind:class="{ 'router-link-active': tab === serverIndex }">
                         <a @click="tab=serverIndex">{{ server.name }}</a>
                     </li>
                 </template>
             </ul>
-            <div v-for="(server, serverIndex) in backups.servers">
+            <div v-for="(server, serverIndex) in siteServers">
                 <div v-if="tab === serverIndex">
                     <div class="toggleSwitch">
                         Enable Backups &nbsp;
                         <div
                             class="toggleSwitch--button toggleSwitch--button-switch"
-                            :class="{ right : isBackupsEnabled(server) }"
+                            :class="{ right : server.backups_enabled }"
                             @click="toggleBackups(server)"
                         ></div>
                     </div>
-                    <table class="table" v-if="server.backups.length">
+                    <table class="table" v-if="getBackups(server).length">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="backup in server.backups">
+                            <tr v-for="backup in getBackups(server)">
                                 <td>{{ backup.name }}</td>
                                 <td>{{ backup.type }}</td>
                                 <td>{{ backup.created_at }}</td>
@@ -73,8 +73,15 @@
             this.$route.params.site_id
           );
         },
+        getBackups(server) {
+            let foundServer = _.find(this.backups.servers, { id : server.id });
+            if(foundServer) {
+                return foundServer.backups
+            }
+            return []
+        },
         toggleBackups(server) {
-            if(this.isBackupsEnabled(server)) {
+            if(server.backups_enabled) {
               return this.disableBackups(server);
             }
             this.enableBackups(server)
@@ -91,9 +98,6 @@
             server: server.id
           });
         },
-        isBackupsEnabled(server) {
-          return _.find(this.siteServers, { id : server.id }).backups_enabled
-        }
       },
       computed : {
         backups() {
