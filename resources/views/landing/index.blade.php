@@ -117,7 +117,7 @@
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
                         <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. We've got your back! CodePier will even notify you via email if you've missed something.</p>
-                    </div>M
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,7 +150,7 @@
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
                     <a class="btn btn-default" href="{{ action('PublicController@faq') }}"  >View the FAQs</a>
-                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  >Sign Up Today</a>
+                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true">Sign Up Today</a>
                 </div>
             </div>
         </div>
