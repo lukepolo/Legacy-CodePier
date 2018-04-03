@@ -117,7 +117,7 @@
                         <h5>Visibility</h5>
                         <h2>Server monitoring available at a glance.</h2>
                         <p>Stay on top of your server health. CodePier monitors data usage, memory and CPU load. Easy visibility helps you mitigate a problem before it happens. We've got your back! CodePier will even notify you via email if you've missed something.</p>
-                    </div>
+                    </div>M
                 </div>
             </div>
         </div>
