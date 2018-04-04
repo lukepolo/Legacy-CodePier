@@ -102,7 +102,6 @@ Route::domain('style-guide.codepier.dev')->group(function () {
 
 Route::get('/faq', 'PublicController@faq');
 Route::get('/pricing', 'PricingController@index');
-Route::get('/roadmap', 'PublicController@roadmap');
 Route::get('/privacy', 'PublicController@privacy');
 Route::get('/change-log', 'PublicController@changeLog');
 Route::get('/all-features', 'PublicController@allFeatures');
@@ -153,7 +152,9 @@ Route::domain(config('app.url'))->group(function () {
         'auth',
         'second_auth',
     ])->group(function () {
+        Route::get('/roadmap', 'PublicController@roadmap');
         Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
+        Route::get('/events-bar', 'Controller@appEventsBar');
         Route::get('/{any}', 'Controller@app')->where('any', '.*');
     });
 });
@@ -166,5 +167,4 @@ Route::domain(config('app.url'))->group(function () {
 */
 
 Route::redirect('login', action('Auth\LoginController@login'));
-Route::get('/events-bar', 'Controller@appEventsBar');
 Route::get('/', 'Controller@welcome');
