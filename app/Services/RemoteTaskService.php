@@ -124,6 +124,18 @@ echo \"Wrote\"");
 
     /**
      * @param $file
+     * @return string
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function createFile($file)
+    {
+        return $this->run("touch $file");
+    }
+
+    /**
+     * @param $file
      * @param $text
      * @return string
      * @throws FailedCommand
@@ -216,7 +228,7 @@ echo \"Wrote\"");
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function updateText($file, $text, $replaceWithText, $double = false, $delim = '/')
+    public function updateText($file, $text, $replaceWithText, $double = true, $delim = '/')
     {
         if (! $this->doesFileHaveLine($file, $text)) {
             \Log::critical($file.' does not contain'.$text);
@@ -422,25 +434,36 @@ echo \"Wrote\"");
     }
 
     /**
-     * @param Site $site
-     * @param Server $server
+     * @param $title
+     * @param $public
+     * @param $private
+     * @param $server
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
      */
-    public function saveSshKeyToServer(Site $site, Server $server)
+    public function addSshKey($title, $public, $private, $server = null)
+    {
+        if (! $server) {
+            $server = $this->server;
+        }
+
+        $file = '/home/codepier/.ssh/'.$title.'_id_rsa';
+
+        $this->ssh($server, 'codepier');
+
+        $this->writeToFile($file . '.pub', $public);
+        $this->writeToFile($file, $private);
+
+        $this->appendTextToFile('~/.ssh/config', "IdentityFile $file");
+
+        $this->run('chmod 600 /home/codepier/.ssh/* -R');
+    }
+    
+    public function addSiteSshKey(Site $site, Server $server)
     {
         if (! empty($site->public_ssh_key)) {
-            $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
-
-            $this->ssh($server, 'codepier');
-
-            $this->writeToFile($sshFile, $site->private_ssh_key);
-            $this->writeToFile($sshFile . '.pub', $site->public_ssh_key);
-
-            $this->appendTextToFile('~/.ssh/config', "IdentityFile $sshFile");
-
-            $this->run('chmod 600 /home/codepier/.ssh/* -R');
+            $this->addSshKey($site->id, $site->public_ssh_key, $site->private_ssh_key, $server);
         }
     }
 }

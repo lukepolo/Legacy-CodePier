@@ -68,7 +68,7 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $this->runOnServer(function () use ($remoteTaskService) {
-                $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+                $remoteTaskService->addSiteSshKey($this->site, $this->server);
             });
         }
     }

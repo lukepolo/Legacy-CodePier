@@ -46,7 +46,7 @@ class InstallPublicKey implements ShouldQueue
     public function handle(RemoteTaskService $remoteTaskService)
     {
         $this->runOnServer(function () use ($remoteTaskService) {
-            $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+            $remoteTaskService->addSiteSshKey($this->site, $this->server);
         });
     }
 }
