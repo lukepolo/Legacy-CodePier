@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
 
@@ -9,7 +7,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "../..", "/CodePier"
 
-  config.vm.provision "file", source: "./id_rsa.pub", destination: "~/.ssh/me.pub"
-  config.vm.provision "shell", inline: "rm /root/.ssh/authorized_keys"
-  config.vm.provision "shell", inline: "cat /home/ubuntu/.ssh/me.pub >> /root/.ssh/authorized_keys"
+  config.vm.provision "file", source: "./id_rsa.pub", destination: "~/codepier.pub"
+
+  config.vm.provision "shell", inline: "mv /home/ubuntu/codepier.pub /root/.ssh/authorized_keys && chown root:root /root/.ssh/authorized_keys"
 end

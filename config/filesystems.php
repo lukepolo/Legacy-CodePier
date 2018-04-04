@@ -73,11 +73,6 @@ return [
             'endpoint' => 'https://nyc3.digitaloceanspaces.com',
         ],
 
-        'dev-env' => [
-            'driver' => 'local',
-            'root' => storage_path('dev-environment'),
-        ],
-
     ],
 
 ];

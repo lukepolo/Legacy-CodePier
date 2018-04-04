@@ -68,11 +68,13 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        $sshKey = $this->remoteTaskService->createSshKey();
-        $server->public_ssh_key = $sshKey['publickey'];
-        $server->private_ssh_key = $sshKey['privatekey'];
-        $server->save();
-
+        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
+            $sshKey = $this->remoteTaskService->createSshKey();
+            $server->public_ssh_key = $sshKey['publickey'];
+            $server->private_ssh_key = $sshKey['privatekey'];
+            $server->save();
+        }
+        
         return $this->getProvider($serverProvider)->create($server);
     }
 
