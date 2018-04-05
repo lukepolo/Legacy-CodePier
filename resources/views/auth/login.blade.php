@@ -11,42 +11,7 @@
                         </router-link>
                     </div>
 
-
-                    <div id="login_form">
-                        <div class="flyform--heading">
-                            <h2>Login</h2>
-                        </div>
-
-                        <form method="POST">
-
-                            @include('auth.errors')
-
-                            {{ csrf_field() }}
-
-                            <div class="flyform--content">
-                                <div class="flyform--group">
-                                    <input type="email" name="email" placeholder="&nbsp;" required tabindex="1">
-                                    <label for="email">Email</label>
-                                </div>
-
-                                <div class="flyform--group">
-                                    <input type="password" name="password" placeholder="&nbsp;" required tabindex="2">
-                                    <label for="password">Password</label>
-                                </div>
-                            </div>
-
-                            <div class="flyform--footer">
-                                <div class="flyform--footer-btns">
-                                    <span class="btn js-toggle-forms" tabindex="4">Create Account</span>
-                                    <button class="btn btn-primary" tabindex="3">Login</button>
-                                </div>
-                                <div class="flyform--footer-links">
-                                    <a class="js-toggle-forgot">Forgot password?</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
+                    @include('auth.forms.login')
                     @include('auth.forms.create')
                     @include('auth.forms.reset')
 
@@ -71,7 +36,57 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-    <script src="{{ mix('js/public.js') }}"></script>
+    <script>
+        function toggleForm() {
+          setHiddenInputs('[type="email"]');
+          setHiddenInputs('[name="password"]');
+          document.getElementById('login_form').classList.toggle('hide');
+          document.getElementById('register_form').classList.toggle('hide');
+        }
+
+        function setHiddenInputs(selector) {
+          let hiddenInputs = getInputs(selector, true);
+          let visibleInput = getInputs(selector)[0];
+          for(var i = 0; i < hiddenInputs.length; i++) {
+            var hiddenInput = hiddenInputs[i];
+            hiddenInput.value = visibleInput.value;
+          }
+        }
+
+        function getInputs(selector, hidden = false) {
+          let foundInputs = document.querySelectorAll(selector);
+          
+          var inputs = [];
+          for(var i = 0; i < foundInputs.length; i++) {
+            var input = foundInputs[i];
+            if(!hidden && input.offsetParent !== null || hidden && input.offsetParent === null) {
+              inputs.push(input);
+            }
+          }
+          return inputs;
+        }
+
+        let url = new URL(window.location.href);
+        if (url.searchParams.get("showRegisterForm")) {
+            toggleForm();
+        }
+
+        let toggleForms = document.getElementsByClassName('js-toggle-forms')
+        for(var i = 0; i < toggleForms.length; i++) {
+            var item = toggleForms[i];
+            item.onclick = function() {
+              toggleForm();
+            };
+        }
+
+        let forgotForms = document.getElementsByClassName("js-toggle-forgot")
+        for(var i = 0; i < forgotForms.length; i++) {
+          var item = forgotForms[i];
+          item.onclick = function() {
+            setHiddenInputs('[type="email"]');
+            document.getElementById('login_form').classList.toggle('hide');
+            document.getElementById('forgot_form').classList.toggle('hide');
+          };
+        }
+    </script>
 @endpush
