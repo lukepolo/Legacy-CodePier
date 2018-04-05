@@ -45,8 +45,8 @@
         }
 
         function setHiddenInputs(selector) {
-          let hiddenInputs = getInputs(selector, true);
-          let visibleInput = getInputs(selector)[0];
+          var hiddenInputs = getInputs(selector, true);
+          var visibleInput = getInputs(selector)[0];
           for(var i = 0; i < hiddenInputs.length; i++) {
             var hiddenInput = hiddenInputs[i];
             hiddenInput.value = visibleInput.value;
@@ -54,7 +54,7 @@
         }
 
         function getInputs(selector, hidden = false) {
-          let foundInputs = document.querySelectorAll(selector);
+          var foundInputs = document.querySelectorAll(selector);
           
           var inputs = [];
           for(var i = 0; i < foundInputs.length; i++) {
@@ -66,12 +66,12 @@
           return inputs;
         }
 
-        let url = new URL(window.location.href);
+        var url = new URL(window.location.href);
         if (url.searchParams.get("showRegisterForm")) {
             toggleForm();
         }
 
-        let toggleForms = document.getElementsByClassName('js-toggle-forms')
+        var toggleForms = document.getElementsByClassName('js-toggle-forms')
         for(var i = 0; i < toggleForms.length; i++) {
             var item = toggleForms[i];
             item.onclick = function() {
@@ -79,7 +79,7 @@
             };
         }
 
-        let forgotForms = document.getElementsByClassName("js-toggle-forgot")
+        var forgotForms = document.getElementsByClassName("js-toggle-forgot")
         for(var i = 0; i < forgotForms.length; i++) {
           var item = forgotForms[i];
           item.onclick = function() {
