@@ -62,10 +62,10 @@ return [
     'url' => env('APP_URL', 'http://codepier.test'),
     'public_url' =>env('PUBLIC_URL', 'http://app.codepier.test'),
 
-    'url_dns' => env('APP_ACME_DNS'),
-    'url_stats' => env('APP_STATS_URL'),
-    'url_provision' => env('APP_PROVISION_URL'),
-    'url_lifelines' => env('APP_LIFELINE_URL'),
+    'url_dns' => env('APP_ACME_DNS', 'http://dns.codepier.io'),
+    'url_stats' => env('APP_STATS_URL', 'http://stats.codepier.test'),
+    'url_provision' => env('APP_PROVISION_URL', 'http://provision.codepier.test'),
+    'url_lifelines' => env('APP_LIFELINE_URL', 'http://lifeline.codepier.test'),
 
     /*
     |--------------------------------------------------------------------------
