@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server\Providers\Vultr;
 
+use Vultr\Exception\ApiException;
 use App\Http\Controllers\Controller;
 use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProvider;
 use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use Vultr\Exception\ApiException;
 
 class VultrController extends Controller
 {
