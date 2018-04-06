@@ -2,7 +2,9 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Exceptions\LinodeInvalidAccount;
 use GuzzleHttp\Client;
+use App\Models\User\User;
 use App\Models\Server\Server;
 use GuzzleHttp\Psr7\Response;
 use App\Models\User\UserServerProvider;
@@ -91,7 +93,7 @@ class LinodeProvider implements ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return Server
+     * @return Server $server
      */
     public function create(Server $server)
     {
@@ -152,6 +154,7 @@ class LinodeProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws \Exception
      */
     public function getStatus(Server $server)
     {
@@ -169,6 +172,7 @@ class LinodeProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     * @throws \Exception
      */
     public function savePublicIP(Server $server)
     {
@@ -183,6 +187,7 @@ class LinodeProvider implements ServerProviderContract
      * @param \App\Models\Server\Server $server
      *
      * @return mixed
+     * @throws \Exception
      */
     public function getPublicIP(Server $server)
     {
@@ -210,21 +215,31 @@ class LinodeProvider implements ServerProviderContract
         $this->url = $this->url.'?api_key='.$token;
     }
 
+    /**
+     * @param $action
+     */
     public function setAction($action)
     {
         $this->url = $this->url.'&api_action='.$action;
     }
 
     /**
-     * Refreshes the token.
-     *
      * @param UserServerProvider $userServerProvider
      * @return mixed
-     * @throws \Exception
+     * @throws LinodeInvalidAccount
      */
-    public function refreshToken(UserServerProvider $userServerProvider)
+    public function getUser(UserServerProvider $userServerProvider)
     {
-        // not needed for linode
+        $this->setToken($userServerProvider->token);
+        $this->setAction('account.info');
+
+        $userAccount = $this->makeRequest('get');
+
+        if (! isset($userAccount->ACTIVE_SINCE)) {
+            throw new LinodeInvalidAccount('Invalid Account');
+        }
+
+        return $userAccount;
     }
 
     /**
@@ -237,6 +252,12 @@ class LinodeProvider implements ServerProviderContract
         return 1;
     }
 
+    /**
+     * @param $method
+     * @param null $data
+     * @return mixed
+     * @throws \Exception
+     */
     private function makeRequest($method, $data = null)
     {
         $client = new Client();

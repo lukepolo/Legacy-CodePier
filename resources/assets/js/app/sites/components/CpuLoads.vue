@@ -11,12 +11,12 @@
                             <div
                                 class="server-progress"
                                 :class="{
-                                    danger : getCpuLoad(load) >= 75,
-                                    warning :  getCpuLoad(load) < 75 && getCpuLoad(load) >= 50
+                                    danger : getCpuLoadPercentage(load) >= 75,
+                                    warning :  getCpuLoadPercentage(load) < 75 && getCpuLoadPercentage(load) >= 50
                                 }"
-                                :style="{ width : getCpuLoad(load) + '%' }">
+                                :style="{ width : getCpuLoadPercentage(load) + '%' }">
                             </div>
-                            <div class="stats-label stats-available">{{ load }}</div>
+                            <div class="stats-label stats-available">{{ getCpuLoad(load) }}%</div>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,10 @@ export default {
   },
   methods: {
     getCpuLoad(load) {
-      let loadPercent = load / this.stats.cpus * 100;
+      return ((load / this.stats.cpus) * 100).toFixed(2);
+    },
+    getCpuLoadPercentage(load) {
+      let loadPercent = this.getCpuLoad(load);
       return loadPercent > 100 ? 100 : loadPercent;
     },
     getTime(ago) {

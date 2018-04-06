@@ -32,7 +32,7 @@ interface ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return static
+     * @return Server $server
      */
     public function create(Server $server);
 
@@ -73,13 +73,11 @@ interface ServerProviderContract
     public function setToken($token);
 
     /**
-     * Refreshes the token.
-     *
      * @param UserServerProvider $userServerProvider
+     *
      * @return mixed
-     * @throws \Exception
      */
-    public function refreshToken(UserServerProvider $userServerProvider);
+    public function getUser(UserServerProvider $userServerProvider);
 
     /**
      * Gets the status that means its ready for provisioning.

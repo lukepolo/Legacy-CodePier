@@ -76,6 +76,8 @@ class SiteObserver
             $this->siteFeatureService->detachSuggestedFiles($site);
             $this->siteFeatureService->detachSuggestedFiles($site, true);
             $site->deploymentSteps()->delete();
+        } elseif ($site->isDirty('zero_downtime_deployment')) {
+            $this->siteFeatureService->detachSuggestedCronJobs($site);
         } elseif (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {
             $this->siteFeatureService->detachSuggestedFiles($site);
         }
@@ -88,6 +90,8 @@ class SiteObserver
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
             $this->siteFeatureService->saveSuggestedFiles($site);
+        } elseif ($site->isDirty('zero_downtime_deployment')) {
+            $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
 
         if (json_encode($site->server_features) !== json_encode(json_decode($site->getOriginal('server_features'), true))) {

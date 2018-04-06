@@ -123,9 +123,9 @@ class User extends Authenticatable
         return $this->hasMany(UserServerProvider::class);
     }
 
-    public function userLoginProviders()
+    public function userLoginProvider()
     {
-        return $this->hasMany(UserLoginProvider::class);
+        return $this->belongsTo(UserLoginProvider::class);
     }
 
     public function userRepositoryProviders()

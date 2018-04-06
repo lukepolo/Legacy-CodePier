@@ -21,6 +21,8 @@ class PHP
      */
     public function installPhpDependencies()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd ' . $this->release . '; composer install --no-dev --no-progress --no-interaction --optimize-autoloader');
     }
 
@@ -33,6 +35,8 @@ class PHP
      */
     public function installNodeDependencies()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         $nvm = '';
@@ -56,6 +60,8 @@ class PHP
      */
     public function installNodeDependenciesWithYarn()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         $nvm = '';

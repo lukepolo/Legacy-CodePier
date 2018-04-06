@@ -2,7 +2,6 @@
 
 namespace App\Services\Server\Providers;
 
-use Carbon\Carbon;
 use App\Models\User\User;
 use App\Models\Server\Server;
 use App\Models\Server\Provider\ServerProvider;
@@ -26,6 +25,7 @@ trait ServerProviderTrait
      * @param \App\Models\Server\Server $server
      * @param $serverId
      * @return \App\Models\Server\Server
+     * @throws \Exception
      */
     public function saveServer(Server $server, $serverId)
     {
@@ -67,15 +67,9 @@ trait ServerProviderTrait
             return ServerProvider::where('provider_name', $providerName)->first()->id;
         });
 
-        if ($serverProvider = $user->userServerProviders->where(
-            'server_provider_id',
-            $server_provider_id
-        )->first()
-        ) {
-            if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
-                return $this->refreshToken($serverProvider);
-            }
+        $serverProvider = $user->userServerProviders->where('server_provider_id', $server_provider_id)->first();
 
+        if (! empty($serverProvider)) {
             return $serverProvider->token;
         }
 
@@ -93,28 +87,15 @@ trait ServerProviderTrait
      */
     private function getTokenFromServer(Server $server)
     {
-        if ($server->user->userServerProviders->where(
-            'server_provider_id',
-            $server->server_provider_id
-        )->count() > 1
-        ) {
-            $serverProvider = $server->user->userServerProviders->where(
-                'id',
-                $server->user_server_provider_id
-            )->first();
-        }
-        // This is to keep backwards compatibility
-        elseif ($serverProvider = $server->user->userServerProviders->where(
-            'server_provider_id',
-            $server->server_provider_id
-        )->first()
-        ) {
-            if (! empty($serverProvider->expires_at) && Carbon::now()->gte($serverProvider->expires_at)) {
-                return $this->refreshToken($serverProvider);
-            }
-        }
+        $serverProvider = $server
+            ->user
+            ->userServerProviders
+            ->where('id', $server->user_server_provider_id)
+            ->first();
 
-        return $serverProvider->token;
+        if (! empty($serverProvider)) {
+            return $serverProvider->token;
+        }
 
         throw new \Exception('No server provider found for this user');
     }

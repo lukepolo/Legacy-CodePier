@@ -13,6 +13,8 @@ trait CodeIgniter
      */
     public function codeIgniterCreateSymbolicFolders()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         if ($this->zeroDowntimeDeployment) {

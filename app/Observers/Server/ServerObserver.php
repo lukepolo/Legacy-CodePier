@@ -28,4 +28,9 @@ class ServerObserver
             $server->stats = $stats;
         }
     }
+
+    public function deleting(Server $server)
+    {
+        $server->detachDeploymentSteps();
+    }
 }

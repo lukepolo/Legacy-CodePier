@@ -56,7 +56,6 @@ class ProvisionDevEnvironment extends Command
         $site = Site::firstOrCreate([
             'user_id'             => $userId,
             'domain'              => 'default',
-            'pile_id'             => 1,
             'name'                => 'default',
         ]);
 
@@ -78,7 +77,6 @@ class ProvisionDevEnvironment extends Command
             'server_provider_id' => 2,
             'port' =>  22,
             'server_features' => $siteFeatureService->getSuggestedFeatures($site),
-            'pile_id' => 1,
             'system_class' => 'ubuntu 16.04',
             'ip' => '192.168.10.10',
         ]);

@@ -69,22 +69,25 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        $this->checkUsersMaxServers($server->user);
+        if ($this->checkServerIp($server, $request)) {
+            $this->checkUsersMaxServers($server->user);
 
-        $stats = $this->getStats($request->get('loads'));
+            $stats = $this->getStats($request->get('loads'));
 
-        if (! empty($stats)) {
-            $server->update([
-                'stats->cpus' => $request->get('cpus'),
-                'stats->loads' => $stats,
-            ]);
+            if (! empty($stats)) {
+                $server->update([
+                    'stats->cpus' => $request->get('cpus'),
+                    'stats->loads' => $stats,
+                ]);
 
-            $server->notify(new ServerLoad($server));
+                $server->notify(new ServerLoad($server));
 
-            return response()->json('OK');
+                return response()->json('OK');
+            }
+
+            return response()->json('Malformed Data sent', 400);
         }
-
-        return response()->json('Malformed Data sent', 400);
+        return $this->returnInvalidServerIp();
     }
 
     /**
@@ -96,21 +99,24 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        $this->checkUsersMaxServers($server->user);
+        if ($this->checkServerIp($server, $request)) {
+            $this->checkUsersMaxServers($server->user);
 
-        $memoryStats = $this->getStats($request->get('memory'));
+            $memoryStats = $this->getStats($request->get('memory'));
 
-        if (isset($memoryStats['name'])) {
-            $server->update([
-                'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
-            ]);
+            if (isset($memoryStats['name'])) {
+                $server->update([
+                    'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
+                ]);
 
-            $server->notify(new ServerMemory($server));
+                $server->notify(new ServerMemory($server));
 
-            return response()->json('OK');
+                return response()->json('OK');
+            }
+
+            return response()->json('Malformed Data sent', 400);
         }
-
-        return response()->json('Malformed Data sent', 400);
+        return $this->returnInvalidServerIp();
     }
 
     /**
@@ -122,38 +128,84 @@ class WebHookController extends Controller
     {
         $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        $this->checkUsersMaxServers($server->user);
+        if ($this->checkServerIp($server, $request)) {
+            $this->checkUsersMaxServers($server->user);
 
-        $diskStats = $this->getStats($request->get('disk_usage'));
+            $diskStats = $this->getStats($request->get('disk_usage'));
 
-        if (isset($diskStats['disk'])) {
-            $server->update([
-                'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
-            ]);
+            if (isset($diskStats['disk'])) {
+                $server->update([
+                    'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
+                ]);
 
-            $server->notify(new ServerDiskUsage($server));
+                $server->notify(new ServerDiskUsage($server));
 
-            return response()->json('OK');
+                return response()->json('OK');
+            }
+
+            return response()->json('Malformed Data sent', 400);
         }
-
-        return response()->json('Malformed Data sent', 400);
+        return $this->returnInvalidServerIp();
     }
 
     /**
+     * @param Request $request
      * @param $serverHashId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function serverSslCertificateUpdated($serverHashId)
+    public function serverSslCertificateUpdated(Request $request, $serverHashId)
     {
         /** @var Server $server */
         $server = Server::with('sslCertificates')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        $this->checkUsersMaxServers($server->user);
+        if ($this->checkServerIp($server, $request)) {
+            $this->checkUsersMaxServers($server->user);
 
-        foreach ($server->sslCertificates as $sslCertificate) {
-            dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
+            foreach ($server->sslCertificates as $sslCertificate) {
+                dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
+            }
         }
+
+        return $this->returnInvalidServerIp();
     }
 
+    /**
+     * @param Request $request
+     * @param $serverHashId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function databaseBackups(Request $request, $serverHashId)
+    {
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+
+        if ($this->checkServerIp($server, $request)) {
+            if ($server->backups_enabled) {
+                /** @var User $user */
+                $user = $server->user;
+
+                if ($user->subscribed()) {
+                    dispatch((
+                    new BackupDatabases($server)
+                    )->onQueue(
+                            config('queue.channels.server_commands')
+                        ));
+
+                    return response()->json('OK');
+                }
+
+                return response()->json('You must be a subscriber to allow backups', 402);
+            }
+
+            return response()->json('Backups Not Enabled on this server', 400);
+        }
+
+        return $this->returnInvalidServerIp();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
     private function checkUsersMaxServers(User $user)
     {
         if ($user->role !== 'admin') {
@@ -177,6 +229,9 @@ class WebHookController extends Controller
         return true;
     }
 
+    /**
+     * @param $type
+     */
     private function subscriptionToLow($type)
     {
         return abort(402, 'Too many '.$type.', please upgrade');
@@ -202,30 +257,20 @@ class WebHookController extends Controller
     }
 
     /**
-     * @param $serverHashId
-     * @return \Illuminate\Http\JsonResponse
+     * @param Server $server
+     * @param Request $request
+     * @return bool
      */
-    public function databaseBackups($serverHashId)
+    private function checkServerIp(Server $server, Request $request)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
-
-        if ($server->backups_enabled) {
-            /** @var User $user */
-            $user = $server->user;
-
-            if ($user->subscribed()) {
-                dispatch((
-                new BackupDatabases($server)
-                )->onQueue(
-                        config('queue.channels.server_commands')
-                    ));
-
-                return response()->json('OK');
-            }
-
-            return response()->json('You must be a subscriber to allow backups', 402);
+        if ($server->ip === $request->ip() || $request->ip() === "127.0.0.1") {
+            return true;
         }
+        return false;
+    }
 
-        return response()->json('Backups Not Enabled on this server', 400);
+    private function returnInvalidServerIp()
+    {
+        return response()->json('This server IP doesn\'t match whats on record', 400);
     }
 }

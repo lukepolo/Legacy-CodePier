@@ -13,6 +13,8 @@ trait CakePHP
      */
     public function cakePHPCreatePluginSymlinks()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php bin/cake plugin assets symlink');
     }
 
@@ -23,6 +25,8 @@ trait CakePHP
      */
     public function cakePHPRunMigrations()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php bin/cake migrations migrate');

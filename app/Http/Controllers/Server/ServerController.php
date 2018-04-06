@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
+use Vultr\Exception\ApiException;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ProvisioningKey;
 use App\Jobs\Server\UpdateSudoPassword;
 use App\Services\Systems\SystemService;
+use App\Models\User\UserServerProvider;
+use App\Exceptions\LinodeInvalidAccount;
+use DigitalOceanV2\Exception\HttpException;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
 use App\Services\Server\Providers\CustomProvider;
@@ -73,6 +77,16 @@ class ServerController extends Controller
 
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
+        }
+
+        if ($request->has('user_server_provider_id')) {
+            try {
+                $this->serverService->getServerProviderUser(UserServerProvider::findOrFail($request->get('user_server_provider_id')));
+            } catch (HttpException | LinodeInvalidAccount | ApiException $e) {
+                return response()->json('Your API credentials are invalid, please delete this provider and add a new one', 400);
+            } catch (\Exception $e) {
+                return response()->json('An unexpected error occurred, please try again', 400);
+            }
         }
 
         $server = Server::create([

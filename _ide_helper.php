@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.12 on 2018-03-23 03:44:49.
+ * Generated for Laravel 5.6.15 on 2018-04-03 21:54:48.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1742,6 +1742,21 @@ namespace Illuminate\Support\Facades {
         public static function logout()
         {
             \Illuminate\Auth\SessionGuard::logout();
+        }
+        
+        /**
+         * Invalid other sessions for the current user.
+         * 
+         * The application must be using the AuthenticateSession middleware.
+         *
+         * @param string $password
+         * @param string $attribute
+         * @return $this 
+         * @static 
+         */ 
+        public static function logoutOtherDevices($password, $attribute = 'password')
+        {
+            return \Illuminate\Auth\SessionGuard::logoutOtherDevices($password, $attribute);
         }
         
         /**
@@ -16531,7 +16546,7 @@ if (! function_exists('env')) {
                 return;
         }
 
-        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
+        if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
             return substr($value, 1, -1);
         }
 
@@ -16623,11 +16638,16 @@ if (! function_exists('optional')) {
      * Provide access to optional objects.
      *
      * @param  mixed  $value
+     * @param  callable|null  $callback
      * @return mixed
      */
-    function optional($value = null)
+    function optional($value = null, callable $callback = null)
     {
-        return new Optional($value);
+        if (is_null($callback)) {
+            return new Optional($value);
+        } elseif (! is_null($value)) {
+            return $callback($value);
+        }
     }
 }
 
