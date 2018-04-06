@@ -42,7 +42,11 @@ class UserSubscriptionController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
+        $plan = $request->get('plan');
 
+        if ($plan === 'cancel') {
+            return response()->json('Please select a plan', 400);
+        }
         if ($user->subscriptions->count()) {
             return response()->json('You already have a subscription. You need to update it instead of creating a new one.', 400);
         }
@@ -52,8 +56,6 @@ class UserSubscriptionController extends Controller
                 return $this->invalidCouponResponse();
             }
         }
-
-        $plan = $request->get('plan');
 
         Cache::forget($user->id.'.card');
         Cache::forget($user->id.'.subscription');

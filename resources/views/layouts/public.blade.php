@@ -51,7 +51,6 @@
 
         <!-- Styles -->
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
 
         @if(config('app.env') == 'production')
             @include('layouts.core.marketing.sentry')
@@ -64,11 +63,9 @@
             <ul class="nav nav--left">
                 <li>
                     <div class="nav--logo">
-                        {{--@if(url('/') != url()->current())--}}
-                            <a href="{{ url('/') }}" style="width:100%">
-                                <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
-                            </a>
-                        {{--@endif--}}
+                        <a href="{{ url('/') }}" style="width:100%">
+                            <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                        </a>
                     </div>
                 </li>
             </ul>
@@ -77,8 +74,12 @@
                 <li><a href="{{ action('PricingController@index') }}" class="nav--link">Pricing</a></li>
                 {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
                 {{--<li><a href="#" class="nav--link">FAQs</a></li>--}}
+                @auth
+                    <li><a href="{{ action('Controller@app', ['/']) }}" class="nav--link nav--link-block">Dashboard</a></li>
+                @else
                 <li><a href="{{ action('Auth\LoginController@login') }}" class="nav--link nav--link-highlight">Login</a></li>
                 <li><a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="nav--link nav--link-block">Sign Up</a></li>
+                @endauth
             </ul>
         </header>
 
@@ -122,8 +123,6 @@
         </div>
 
         <!-- Scripts -->
-        <script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
         @stack('scripts')
 
         @include('layouts.core.support.crisp')

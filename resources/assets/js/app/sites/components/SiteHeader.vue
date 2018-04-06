@@ -5,7 +5,9 @@
             {{ site.name }}
         </router-link>
 
-        &nbsp; <a :href="'//'+site.domain" target="_blank"><i class="fa fa-external-link"></i></a>
+        <template v-if="site.domain !== 'default'">
+            &nbsp; <a :href="'//'+site.domain" target="_blank"><i class="fa fa-external-link"></i></a>
+        </template>
 
         <div class="section-header--btn-right">
 
