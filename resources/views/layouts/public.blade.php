@@ -74,8 +74,12 @@
                 <li><a href="{{ action('PricingController@index') }}" class="nav--link">Pricing</a></li>
                 {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
                 {{--<li><a href="#" class="nav--link">FAQs</a></li>--}}
+                @auth
+                    <li><a href="{{ action('Controller@app', ['/']) }}" class="nav--link nav--link-block">Dashboard</a></li>
+                @else
                 <li><a href="{{ action('Auth\LoginController@login') }}" class="nav--link nav--link-highlight">Login</a></li>
                 <li><a href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true" class="nav--link nav--link-block">Sign Up</a></li>
+                @endauth
             </ul>
         </header>
 
