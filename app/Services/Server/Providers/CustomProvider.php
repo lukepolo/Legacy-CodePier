@@ -41,10 +41,11 @@ class CustomProvider implements ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return static
+     * @return Server $server
      */
     public function create(Server $server)
     {
+        return $server;
     }
 
     /**
@@ -94,24 +95,21 @@ class CustomProvider implements ServerProviderContract
      */
     public function setToken($token)
     {
-    }
-
-    public function getUser(User $user)
-    {
-        return $user;
+        return [];
     }
 
     /**
-     * Refreshes the token.
-     *
      * @param UserServerProvider $userServerProvider
-     * @return mixed
-     * @throws \Exception
+     * @return User|mixed
      */
-    public function refreshToken(UserServerProvider $userServerProvider)
+    public function getUser(UserServerProvider $userServerProvider)
     {
+        return [];
     }
 
+    /**
+     * @return mixed|string
+     */
     public function readyForProvisioningStatus()
     {
         return 'active';

@@ -16,7 +16,8 @@ class ServerLoad extends Notification
     public $server;
     public $slackChannel;
 
-    private $load = false;
+    private $cpus;
+    private $highLoad = false;
 
     /**
      * Create a new notification instance.
@@ -26,11 +27,10 @@ class ServerLoad extends Notification
     public function __construct(Server $server)
     {
         $this->server = $server;
+        $this->cpus = $server->stats['cpus'];
 
-        $cpus = $server->stats['cpus'];
-
-        if (($server->stats['loads'][1] / $cpus) > .95) {
-            $this->load = true;
+        if (($server->stats['loads'][1] / $this->cpus) > .95) {
+            $this->highLoad = true;
         }
 
         $this->slackChannel = $server->name;
@@ -47,32 +47,31 @@ class ServerLoad extends Notification
      */
     public function via()
     {
-        return $this->load ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param Server $server
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($server)
     {
-        $server = $notifiable;
-        $load = $this->load;
-
         $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
 
-        if ($load) {
+        if ($this->highLoad) {
             $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
 
             foreach ($this->server->stats['loads'] as $mins => $load) {
+                $load = round(($load / $this->cpus) * 100, 2);
+
                 $mailMessage
                     ->line($load.'% '.$mins.' minutes ago');
             }
 
-            $mailMessage->line('Across '.$this->server->stats['cpus'].' CPUs');
+            $mailMessage->line('Across '.$this->cpus.' CPUs');
 
             return $mailMessage;
         }
@@ -81,26 +80,24 @@ class ServerLoad extends Notification
     /**
      * Get the Slack representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param Server $server
      *
      * @return SlackMessage
      */
-    public function toSlack($notifiable)
+    public function toSlack($server)
     {
-        $server = $notifiable;
-        $load = $this->load;
-
         $fields = [];
         foreach ($server->stats['loads'] as $mins => $load) {
+            $load = round(($load / $this->cpus) * 100, 2);
             $fields[$mins.' minutes ago'] = $load.'%';
         }
 
-        if ($load) {
+        if ($this->highLoad) {
             return (new SlackMessage())
                 ->error()
                 ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
                 ->attachment(function ($attachment) use ($server, $fields) {
-                    $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUs')->fields($fields);
+                    $attachment->title('CPU Allocation across '.$this->cpus.' CPUs')->fields($fields);
                 });
         }
     }
@@ -108,14 +105,14 @@ class ServerLoad extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param $notifiable
+     * @param Server $server
      * @return array
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast($server)
     {
         return [
-            'server'=> $notifiable->id,
-            'stats' => $notifiable->stats,
+            'server'=> $server->id,
+            'stats' => $server->stats,
         ];
     }
 }

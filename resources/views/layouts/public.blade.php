@@ -38,6 +38,8 @@
         <link rel="dns-prefetch" href="//api.mixpanel.com">
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+        <link rel="dns-prefetch" href="//www.googletagmanager.com.com">
         <link rel="dns-prefetch" href="//www.google-analytics.com">
 
         @include('layouts.core.favicon')
@@ -49,20 +51,11 @@
 
         <!-- Styles -->
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
 
         @if(config('app.env') == 'production')
-            <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
-            <script>
-                Raven.config('{{ config('sentry.js_dsn') }}').install()
-            </script>
-
-            <script>
-                !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(n,o);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
-                    analytics.load("ZbBrCqmCaOqAxAFVpG2RaGMJ1GHlk2Di");
-                    analytics.page();
-                }}();
-            </script>
+            @include('layouts.core.marketing.sentry')
+            @include('layouts.core.marketing.analytics')
+            @include('layouts.core.marketing.facebook')
         @endif
     </head>
     <body>
@@ -70,11 +63,9 @@
             <ul class="nav nav--left">
                 <li>
                     <div class="nav--logo">
-                        {{--@if(url('/') != url()->current())--}}
-                            <a href="{{ url('/') }}" style="width:100%">
-                                <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
-                            </a>
-                        {{--@endif--}}
+                        <a href="{{ url('/') }}" style="width:100%">
+                            <img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">
+                        </a>
                     </div>
                 </li>
             </ul>
@@ -100,6 +91,7 @@
                         {{--<li><a href="#">Getting Started</a></li>--}}
                         <li><a href="{{ action('PublicController@faq') }}">FAQs</a></li>
                         <li><a href="{{ action('PublicController@allFeatures') }}">All Features</a></li>
+                        <li><a href="{{ action('PublicController@roadmap') }}">RoadMap</a></li>
                         <li><a href="{{ action('PublicController@changeLog') }}">Change Log</a></li>
                     </ul>
                 </div>
@@ -127,27 +119,9 @@
         </div>
 
         <!-- Scripts -->
-        <script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
         @stack('scripts')
 
-        <script type="text/javascript">
-          $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-              window.CRISP_READY_TRIGGER = function() {
-                if (!$crisp.is("chat:opened") === true) {
-                  $crisp.push(["do", "chat:hide"])
-                }
-              };
-            @if(\Auth::check())
-                $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
-                $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
-            @endif
-          $(document).on("click", "#getHelp", function(e) {
-            e.preventDefault();
-            $crisp.push(["do", "chat:open"])
-            $crisp.push(["do", "chat:show"])
-          });
-        </script>
+        @include('layouts.core.support.crisp')
 </body>
 </html>
 

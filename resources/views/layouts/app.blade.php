@@ -21,19 +21,8 @@
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link rel="dns-prefetch" href="//fonts.googleapis.com">
 
-        <!-- Scripts -->
-        <script>
-            window.Laravel = <?php echo json_encode([
-                'env' => config('app.env'),
-                'csrfToken' => csrf_token(),
-                'teams' => config('app.teams'),
-                'version' => app()->make('gitCommit'),
-                'stripeKey' => config('services.stripe.key'),
-                'echoServerKey' => config('broadcasting.connections.pusher.key'),
-                'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
-                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-            ]); ?>
-        </script>
+        @include('layouts.core.support.env')
+
     </head>
     <body>
         <div id="app-layout">
@@ -59,41 +48,17 @@
         @stack('scripts')
 
         @if(\Auth::check())
-
-            <script src="https://js.stripe.com/v3/"></script>
-
             <!-- Scripts -->
+            @include('layouts.core.support.stripe')
+
             <script src="{{ mix('/js/manifest.js') }}"></script>
             <script src="{{ mix('/js/vendor.js') }}"></script>
             <script src="{{ mix('/js/app.js') }}"></script>
 
-            <script type="text/javascript">
-                $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-                window.CRISP_READY_TRIGGER = function() {
-                    if (!$crisp.is("chat:opened") === true) {
-                        $crisp.push(["do", "chat:hide"])
-                    }
-                };
-                $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
-                $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
-
-                document.getElementById('getHelp').onclick = function(e) {
-                  e.preventDefault();
-                  $crisp.push(["do", "chat:open"])
-                  $crisp.push(["do", "chat:show"])
-                }
-            </script>
+            @include('layouts.core.support.crisp')
         @endif
 
-        @if($errors->count())
-            <script>
-                app.showError('{{ $errors->first() }}')
-            </script>
-        @endif
-        @if (session('success'))
-            <script>
-                app.showSuccess('{{ session('success') }}')
-            </script>
-        @endif
+        @include('layouts.core.errors')
+
     </body>
 </html>

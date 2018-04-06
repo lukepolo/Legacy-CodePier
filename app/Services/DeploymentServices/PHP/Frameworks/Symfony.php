@@ -14,6 +14,8 @@ trait Symfony
      */
     public function symfonyCreateSymbolicEnv()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.dist')) {
@@ -36,6 +38,8 @@ trait Symfony
      */
     public function symfonyCreateSymbolicFolders()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         $output = [];
 
         if ($this->zeroDowntimeDeployment) {
@@ -60,6 +64,8 @@ trait Symfony
      */
     public function symfonyDumpAsseticAssets()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console assetic:dump --no-debug');
     }
 
@@ -70,6 +76,8 @@ trait Symfony
      */
     public function symfonyClearCache()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:clear --no-debug --no-warmup');
     }
 
@@ -80,6 +88,8 @@ trait Symfony
      */
     public function symfonyWarmupCache()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console cache:warmup');
     }
 
@@ -90,6 +100,8 @@ trait Symfony
      */
     public function symfonyRunMigrations()
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return $this->remoteTaskService->run('cd '.$this->release.'; php bin/console doctrine:migrations:migrate --allow-no-migration');
     }
 }

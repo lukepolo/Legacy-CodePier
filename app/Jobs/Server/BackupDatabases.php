@@ -47,17 +47,23 @@ class BackupDatabases implements ShouldQueue
             'MongoDB'
         ];
 
-        $databases = collect($this->server->server_features['DatabaseService'])->filter(function ($databaseFeature) {
-            return $databaseFeature['enabled'];
-        })->keys()->filter(function ($databaseFeature) use ($backupable) {
-            return in_array($databaseFeature, $backupable);
-        });
+        if (isset($this->server->server_features['DatabaseService'])) {
+            $databases = collect($this->server->server_features['DatabaseService'])->filter(function ($databaseFeature) {
+                return $databaseFeature['enabled'];
+            })->keys()->filter(function ($databaseFeature) use ($backupable) {
+                return in_array($databaseFeature, $backupable);
+            });
 
-        $this->runOnServer(function () use ($serverService, $databases) {
-            foreach ($databases as $database) {
-                $backup = $serverService->backupDatabases($this->server, $database);
-                $this->server->backups()->save($backup);
-            }
-        });
+            return $this->runOnServer(function () use ($serverService, $databases) {
+                foreach ($databases as $database) {
+                    $backup = $serverService->backupDatabases($this->server, $database);
+                    $this->server->backups()->save($backup);
+                }
+            });
+        } else {
+            $this->updateServerCommand(0, [
+                ['Your server does not have any databases installed']
+            ], false);
+        }
     }
 }

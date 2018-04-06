@@ -6,9 +6,6 @@
             <img src="{{ asset('/assets//img/Boat_Dock.svg') }}">
         </div>
         <div class="cover--content">
-            {{--<div class="cover--logo">--}}
-                {{--<img src="{{ asset('assets/img/CP_Logo_TX-onWhite.svg') }}">--}}
-            {{--</div>--}}
             <h3>You build it,</h3>
             <h1>We Deploy It.</h1>
 
@@ -150,7 +147,7 @@
                 <div class="callout">
                     <p>See how other developers are using CodePier today. Get started with a 5-day free trial when you sign up.</p>
                     <a class="btn btn-default" href="{{ action('PublicController@faq') }}"  >View the FAQs</a>
-                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true"  >Sign Up Today</a>
+                    <a class="btn btn-primary" href="{{ action('Auth\LoginController@login') }}?showRegisterForm=true">Sign Up Today</a>
                 </div>
             </div>
         </div>
@@ -160,50 +157,44 @@
 @push('scripts')
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#features-slider').slick({
-                arrows: false,
-                //dots: true,
-                autoplay: true,
-                autoplaySpeed: 8000,
-            });
-
-            $('#testimonials-slider').slick({
-                arrows: false,
-                dots: true,
-                autoplay: true,
-                autoplaySpeed: 8000,
-            });
-        });
-    </script>
-
-    <script>
         var player;
+        var videoItems = document.getElementsByClassName('video--controls-item');
 
-        switchVideo($('.video--controls-item').first().data('video'))
-
-        $(document).on('click', '.video--controls-item', function () {
-            $('.video--controls-item').removeClass('active')
-            $(this).addClass('active')
-            switchVideo($(this).data('video'))
-        })
+        switchVideo(document.getElementsByClassName('video--controls-item')[0].dataset.video);
 
         function switchVideo(video) {
-            if(!player) {
-                player = new Vimeo.Player('deploy_app_url', { id : video })
-                player.on('ended', function() {
-                    var nextVideo = $('.video--controls-item.active').next()
-                    if(nextVideo) {
-                        $('.video--controls-item').removeClass('active')
-                        nextVideo.addClass('active')
-                        switchVideo(nextVideo.data('video'))
-                    }
-                });
-            } else {
-                player.loadVideo(video).then(function() {
-                    player.play()
-                })
-            }
+
+          var videoElement = document.querySelector('[data-video="' + video + '"]');
+          removeActiveVideo();
+          videoElement.classList.add('active');
+
+          if(!player) {
+            player = new Vimeo.Player('deploy_app_url', { id : video });
+            player.on('ended', function() {
+              var nextVideo = videoElement.nextElementSibling;
+              if(nextVideo) {
+                switchVideo(nextVideo.dataset.video);
+              }
+            });
+          } else {
+            player.loadVideo(video).then(function() {
+              player.play();
+            })
+          }
+        }
+
+        function removeActiveVideo() {
+          for(var i = 0; i < videoItems.length; i++) {
+            var item = videoItems[i];
+            item.classList.remove('active');
+          }
+        }
+
+        for(var i = 0; i < videoItems.length; i++) {
+          var item = videoItems[i];
+          item.onclick = function() {
+            switchVideo(this.dataset.video);
+          }
         }
     </script>
 @endpush

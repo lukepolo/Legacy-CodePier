@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Server\ServerFeatureInstalled;
+use App\Contracts\Server\ServerFeatureServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerFeature implements ShouldQueue
@@ -39,7 +40,9 @@ class InstallServerFeature implements ShouldQueue
         $this->service = $service;
         $this->parameters = $parameters;
 
-        $this->makeCommand($server, $server, null, 'Installing new server feature '.implode(' ', explode('_', snake_case($feature))).' on server');
+        $serverFeatureService = app(ServerFeatureServiceContract::class);
+
+        $this->makeCommand($server, $server, null, 'Installing '.$serverFeatureService->getBaseFeatures()->get($service)->get($feature)->get('name').' on server');
     }
 
     /**

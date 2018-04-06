@@ -61,7 +61,7 @@ class SecondAuthController extends Controller
                 return response()->json($request->user());
             }
 
-            return redirect('/');
+            return redirect(config('app.url'));
         }
 
         if ($request->expectsJson()) {

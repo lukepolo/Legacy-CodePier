@@ -13,33 +13,6 @@ if (config('app.env') === 'local') {
     });
 }
 
-// Authentication Routes...
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
-// Registration Routes...
-Route::post('register', 'Auth\RegisterController@register');
-
-// Password Reset Routes...
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-
-/*
-|--------------------------------------------------------------------------
-| Super Admin Routes
-|--------------------------------------------------------------------------
-|
-*/
-Route::group([
-    'middleware' => 'role:admin',
-], function () {
-    Route::get('/change-user/{userId}', 'ChangeUserController@store');
-});
-
-Route::get('/admin/cancel', 'ChangeUserController@destroy');
-
 /*
 |--------------------------------------------------------------------------
 | OAuth Routes
@@ -74,19 +47,15 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 // TODO - put into microservice
-Route::group([
-    'prefix' => 'webhook',
-    'domain' => config('app.url_stats'),
-], function () {
+Route::domain(config('app.url_stats'))->prefix('webhook')->group(function () {
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
-Route::group([
-    'prefix' => 'webhook',
-], function () {
+// TODO - we need to prefix these - kinda hard now since we have things deployed
+Route::prefix('webhook')->group(function () {
     Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
     Route::any('/schema-backups/{serverHashId}', 'WebHookController@databaseBackups');
     Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
@@ -100,9 +69,7 @@ Route::group([
 |
 */
 
-Route::group([
-    'domain' => config('app.url_lifelines'),
-], function () {
+Route::domain(config('app.url_lifelines'))->group(function () {
     Route::get('{lifelineHashId}', 'LifeLineController@update');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
@@ -122,9 +89,7 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 |
 */
 
-Route::group([
-    'domain' => 'style-guide.codepier.dev',
-], function () {
+Route::domain('style-guide.codepier.dev')->group(function () {
     Route::get('/', 'PublicController@styleGuide');
 });
 
@@ -135,13 +100,11 @@ Route::group([
 |
 */
 
-Route::get('/pricing', 'PricingController@index');
-
 Route::get('/faq', 'PublicController@faq');
+Route::get('/pricing', 'PricingController@index');
 Route::get('/privacy', 'PublicController@privacy');
 Route::get('/change-log', 'PublicController@changeLog');
 Route::get('/all-features', 'PublicController@allFeatures');
-Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
 
 /*
@@ -150,28 +113,58 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 |--------------------------------------------------------------------------
 |
 */
+Route::domain(config('app.url'))->group(function () {
 
-Route::get('/events-bar', 'Controller@appEventsBar');
-Route::get('/', 'Controller@app');
+    // Authentication / Register Routes...
+    Route::post('login', 'Auth\LoginController@login');
+    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 
-Route::group([
-    'middleware' => [
+    // Password Reset Routes...
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Super Admin Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/change-user/{userId}', 'ChangeUserController@store');
+    });
+
+    Route::get('/admin/cancel', 'ChangeUserController@destroy');
+
+    Route::middleware([
         'auth',
-    ],
-], function () {
-    Route::get('second-auth', 'Auth\SecondAuthController@show');
-    Route::post('second-auth', 'Auth\SecondAuthController@store');
+    ])->group(function () {
+        Route::get('second-auth', 'Auth\SecondAuthController@show');
+        Route::post('second-auth', 'Auth\SecondAuthController@store');
 
-    Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
-    Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
-});
+        Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
+        Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
+    });
 
-Route::group([
-    'middleware' => [
+    Route::middleware([
         'auth',
         'second_auth',
-    ],
-], function () {
-    Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
-    Route::get('/{any}', 'Controller@app')->where('any', '.*');
+    ])->group(function () {
+        Route::get('/roadmap', 'PublicController@roadmap');
+        Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
+        Route::get('/events-bar', 'Controller@appEventsBar');
+        Route::get('/{any}', 'Controller@app')->where('any', '.*');
+    });
 });
+
+/*
+|--------------------------------------------------------------------------
+| App Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::redirect('login', action('Auth\LoginController@login'));
+Route::get('/', 'Controller@welcome');

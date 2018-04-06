@@ -85,13 +85,4 @@ class AmazonWebServicesProvider implements ServerProviderContract
     public function setToken($token)
     {
     }
-
-    /**
-     * Refreshes the token.
-     *
-     * @return mixed
-     */
-    public function refreshToken()
-    {
-    }
 }

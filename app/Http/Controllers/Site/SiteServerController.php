@@ -48,6 +48,21 @@ class SiteServerController extends Controller
     {
         $site = Site::where('id', $siteId)->firstorFail();
 
+        if ($site->domain === 'default') {
+            foreach ($request->get('connected_servers', []) as $serverId) {
+                $server = Server::with(['sites' => function ($query) use ($site) {
+                    return $query->where('site_id', '!=', $site->id);
+                }])->findOrFail($serverId);
+                $defaultSite = $server->sites->first(function ($site) {
+                    return $site->domain === 'default';
+                });
+
+                if (! empty($defaultSite)) {
+                    return response()->json('You cannot attach another domainless site to this server', 400);
+                }
+            }
+        }
+
         $changes = $site->servers()->sync($request->get('connected_servers', []));
 
         foreach ($changes['attached'] as $attached) {
@@ -58,8 +73,13 @@ class SiteServerController extends Controller
         }
 
         foreach ($changes['detached'] as $detached) {
+
+            /** @var Server $server */
+            $server = Server::findOrFail($detached);
+            $server->detachDeploymentSteps();
+
             dispatch(
-                (new DeleteSite(Server::findOrFail($detached), $site))
+                (new DeleteSite($server, $site))
                     ->onQueue(config('queue.channels.server_commands'))
             );
         }
