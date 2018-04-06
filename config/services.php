@@ -47,12 +47,6 @@ return [
         'redirect'      => env('OAUTH_BITBUCKET_CALLBACK'),
     ],
 
-    'digitalocean' => [
-        'client_id'     => env('OAUTH_DIGITALOCEAN_CLIENT_ID'),
-        'client_secret' => env('OAUTH_DIGITALOCEAN_SECRET_ID'),
-        'redirect'      => env('OAUTH_DIGITALOCEAN_CALLBACK'),
-    ],
-
     'slack' => [
         'domain'        => env('SLACK_DOMAIN'),
         'client_id'     => env('SLACK_KEY'),
