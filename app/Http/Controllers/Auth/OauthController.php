@@ -112,6 +112,8 @@ class OauthController extends Controller
                     break;
             }
 
+            \Auth::logoutOtherDevices(\Auth::user()->password);
+
             return redirect()->intended(config('app.url'));
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
