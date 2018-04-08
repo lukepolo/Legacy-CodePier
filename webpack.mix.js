@@ -1,5 +1,7 @@
 const mix = require("laravel-mix");
 let proxy = require("http-proxy-middleware");
+let CopyWebpackPlugin = require("copy-webpack-plugin");
+let ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 let appUrl = "codepier.test";
 
@@ -15,6 +17,7 @@ let appUrl = "codepier.test";
  */
 
 mix
+  // .copy('resources/assets/img', 'public/assets/img')
   .js("resources/assets/js/app.js", "public/js")
   .sass("resources/assets/sass/app.scss", "public/css")
   .sass("resources/assets/sass/public.scss", "public/css")
@@ -45,7 +48,37 @@ mix
     jquery: ["$", "jQuery"],
   })
   .sourceMaps()
-  .version();
+  .version()
+  .webpackConfig({
+    plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: "resources/assets/img",
+          to: "assets/img",
+        },
+      ]),
+      new ImageminPlugin({
+        disable: mix.inProduction(),
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        optipng: {
+          optimizationLevel: 7,
+        },
+        gifsicle: {
+          optimizationLevel: 3,
+        },
+        jpegtran: {
+          progressive: true,
+        },
+        svgo: {
+          optimizationLevel: 9,
+        },
+        pngquant: {
+          speed: 1,
+          quality: "95-100",
+        },
+      }),
+    ],
+  });
 
 if (!mix.inProduction()) {
   mix.browserSync({
