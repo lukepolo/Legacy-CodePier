@@ -16,9 +16,8 @@ let appUrl = "codepier.test";
  |
  */
 
-// TODO - maybe we should use gulp for this?
 let plugins = [];
-if (!mix.inProduction()) {
+if (process.env.NODE_ENV === "images") {
   plugins = [
     new CopyWebpackPlugin([
       {
