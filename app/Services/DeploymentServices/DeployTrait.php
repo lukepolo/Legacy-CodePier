@@ -58,6 +58,7 @@ trait DeployTrait
         $this->releaseTime = Carbon::now()->format('YmdHis');
 
         if (! empty($siteDeployment)) {
+            $this->remoteTaskService->ssh($server);
             if ($this->remoteTaskService->hasDirectory($this->siteFolder.'/'.$siteDeployment->folder_name)) {
                 $this->rollback = true;
                 $this->releaseTime = $siteDeployment->folder_name;
