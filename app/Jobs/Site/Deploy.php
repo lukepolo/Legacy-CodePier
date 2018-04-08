@@ -68,7 +68,6 @@ class Deploy implements ShouldQueue
                 $message = 'The error has been reported and we are looking into it.';
             }
 
-            dump($message);
             $siteService->deployFailed($this->site, $this->server, $this->serverDeployment, $message, $startTime);
             $success = false;
         }
