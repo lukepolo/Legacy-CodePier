@@ -16,6 +16,36 @@ let appUrl = "codepier.test";
  |
  */
 
+// TODO - maybe we should use gulp for this?
+let plugins = [];
+if (!mix.inProduction()) {
+  plugins = [
+    new CopyWebpackPlugin([
+      {
+        from: "resources/assets/img",
+        to: "assets/img",
+      },
+    ]),
+    new ImageminPlugin({
+      cacheFolder: "./storage/framework/cache",
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      optipng: {
+        optimizationLevel: 7,
+      },
+      gifsicle: {
+        optimizationLevel: 3,
+      },
+      jpegtran: {
+        progressive: true,
+      },
+      pngquant: {
+        speed: 1,
+        quality: "95-100",
+      },
+    }),
+  ];
+}
+
 mix
   .js("resources/assets/js/app.js", "public/js")
   .sass("resources/assets/sass/app.scss", "public/css")
@@ -49,34 +79,7 @@ mix
   .sourceMaps()
   .version()
   .webpackConfig({
-    plugins: [
-      new CopyWebpackPlugin([
-        {
-          from: "resources/assets/img",
-          to: "assets/img",
-        },
-      ]),
-      new ImageminPlugin({
-        disable: mix.inProduction(),
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        optipng: {
-          optimizationLevel: 7,
-        },
-        gifsicle: {
-          optimizationLevel: 3,
-        },
-        jpegtran: {
-          progressive: true,
-        },
-        svgo: {
-          optimizationLevel: 9,
-        },
-        pngquant: {
-          speed: 1,
-          quality: "95-100",
-        },
-      }),
-    ],
+    plugins,
   });
 
 if (!mix.inProduction()) {
