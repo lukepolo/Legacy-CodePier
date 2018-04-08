@@ -17,7 +17,6 @@ let appUrl = "codepier.test";
  */
 
 mix
-  // .copy('resources/assets/img', 'public/assets/img')
   .js("resources/assets/js/app.js", "public/js")
   .sass("resources/assets/sass/app.scss", "public/css")
   .sass("resources/assets/sass/public.scss", "public/css")
