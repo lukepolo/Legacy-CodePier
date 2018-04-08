@@ -1,5 +1,7 @@
 const mix = require("laravel-mix");
 let proxy = require("http-proxy-middleware");
+let CopyWebpackPlugin = require("copy-webpack-plugin");
+let ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 let appUrl = "codepier.test";
 
@@ -45,7 +47,37 @@ mix
     jquery: ["$", "jQuery"],
   })
   .sourceMaps()
-  .version();
+  .version()
+  .webpackConfig({
+    plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: "resources/assets/img",
+          to: "assets/img",
+        },
+      ]),
+      new ImageminPlugin({
+        disable: mix.inProduction(),
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        optipng: {
+          optimizationLevel: 7,
+        },
+        gifsicle: {
+          optimizationLevel: 3,
+        },
+        jpegtran: {
+          progressive: true,
+        },
+        svgo: {
+          optimizationLevel: 9,
+        },
+        pngquant: {
+          speed: 1,
+          quality: "95-100",
+        },
+      }),
+    ],
+  });
 
 if (!mix.inProduction()) {
   mix.browserSync({
