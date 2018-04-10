@@ -449,6 +449,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
+        $certName = $sslCertificate->id.'-cert';
         if ($sslCertificate->wildcard) {
             $tokenScriptFile = "/opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh";
             $this->remoteTaskService->writeToFile($tokenScriptFile, '
@@ -465,9 +466,9 @@ class ServerService implements ServerServiceContract
         }\'
     ');
             $this->remoteTaskService->run("chmod 775 $tokenScriptFile");
-            $command = "--manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains,*.$sslCertificate->domains";
+            $command = "--cert-name $certName --manual-auth-hook /opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh --manual --preferred-challenges dns-01 -d $sslCertificate->domains,*.$sslCertificate->domains";
         } else {
-            $command = '--webroot -w /home/codepier/ -d ' . implode(' -d', explode(',', $sslCertificate->domains));
+            $command = "--cert-name $certName --webroot -w /home/codepier/ -d " . implode(' -d', explode(',', $sslCertificate->domains));
         }
 
         $this->remoteTaskService->run("/opt/codepier/./certbot-auto certonly --server https://acme-v02.api.letsencrypt.org/directory --non-interactive --agree-tos --expand --renew-by-default --manual-public-ip-logging-ok --email {$server->user->email} --rsa-key-size 4096 $command");
@@ -494,6 +495,11 @@ class ServerService implements ServerServiceContract
                 throw $e;
             }
         }
+
+        $sslCertificate->update([
+            'key_path' => "/etc/letsencrypt/live/$certName/privkey.pem",
+            'cert_path' => "/etc/letsencrypt/live/$certName/fullchain.pem",
+        ]);
 
         $sslCertificate->key = $this->getFile($server, $sslCertificate->key_path);
         $sslCertificate->cert = $this->getFile($server, $sslCertificate->cert_path);
