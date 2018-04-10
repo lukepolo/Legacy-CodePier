@@ -5,7 +5,10 @@ import {
   SiteWorkflow,
   SiteRepository,
   SiteDeployment,
-  SiteServerFiles
+  SiteServerFiles,
+  CreateSite,
+  CreateServers,
+  DeploySite,
 } from "../pages";
 
 import {
@@ -30,6 +33,18 @@ import {
 } from "../../setup/pages";
 
 export default [
+  {
+      path : '/site/create',
+      component : CreateSite,
+  },
+  {
+      path : '/site/:site_id/create-servers',
+      component : CreateServers,
+  },
+  {
+    path : '/site/:site_id/deploy',
+    component : DeploySite,
+  },
   {
     path: "/site/:site_id",
     component: SiteArea,

@@ -4,6 +4,8 @@
         <section id="middle" class="section-column">
             <h3 class="section-header primary">My Piles</h3>
             <div class="section-content">
+              // GET STARTED STUFF HERE
+              
                 <div class="container">
                 <modal v-if="showWelcomeModal">
                     <div class="modal--header">
