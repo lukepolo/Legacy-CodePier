@@ -76,8 +76,6 @@ class SiteSslController extends Controller
                         'type' => $type,
                         'active' => true,
                         'wildcard' => $wildcard,
-                        'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
-                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
                     ]);
 
                     if ($wildcard) {
@@ -134,7 +132,9 @@ class SiteSslController extends Controller
 
         $sslCertificate = $request->user()->availableSslCertificates()->get($id);
 
-        if (! $site->sslCertificates->where('id', $sslCertificate->id)->count()) {
+        if (empty($sslCertificate)) {
+            $sslCertificate = $site->sslCertificates->where('id', $id)->first();
+        } elseif (! $site->sslCertificates->where('id', $sslCertificate->id)->count()) {
             $site->sslCertificates()->attach($sslCertificate);
         }
 
