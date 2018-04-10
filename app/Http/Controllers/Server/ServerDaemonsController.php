@@ -85,9 +85,14 @@ class ServerDaemonsController extends Controller
     public function destroy($serverId, $id)
     {
         $server = Server::with('daemons')->findOrFail($serverId);
+        $daemon = $server->daemons->keyBy('id')->get($id);
+
+        if (empty($daemon)) {
+            return response()->json('We could not find that daemon for this server.', 400);
+        }
 
         dispatch(
-            (new RemoveServerDaemon($server, $server->daemons->keyBy('id')->get($id)))
+            (new RemoveServerDaemon($server, $daemon))
                 ->onQueue(config('queue.channels.server_commands'))
         );
 
