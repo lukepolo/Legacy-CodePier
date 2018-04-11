@@ -3,6 +3,7 @@
 namespace App\Services\Repository\Providers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use App\Models\Site\Site;
 use Buzz\Message\Response;
 use App\Exceptions\DeployHookFailed;
@@ -52,23 +53,40 @@ class BitBucket implements RepositoryContract
         $owner = $this->getRepositoryUser($site->repository);
         $slug = $this->getRepositorySlug($site->repository);
 
-        /** @var Response $response */
-        $response = $hook->create(
-            $owner,
-            $slug, [
-            'description' => 'CodePier',
-            'url'         => action('WebHookController@deploy', $site->hash),
-            'active'      => true,
-            'events'      => [
-                'repo:push',
+        $client = new Client();
+        $response = $client->post("https://api.bitbucket.org/2.0/repositories/$owner/$slug/hooks", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization '=> 'Bearer '.$this->getToken($site->userRepositoryProvider),
             ],
+            'json' => [
+                'description' => 'CodePier',
+                'url'         => config('app.env') === 'local' ? 'https://codepier.io/webhook/blah' : action('WebHookController@deploy', $site->hash),
+                'active'      => true,
+                'events'      => [
+                    'repo:push',
+                ]
+            ]
         ]);
+
+//        /** @var Response $response */
+//        $response = $hook->create(
+//            $owner,
+//            $slug, [
+//            'description' => 'CodePier',
+//            'url'         => action('WebHookController@deploy', $site->hash),
+//            'active'      => true,
+//            'events'      => [
+//                'repo:push',
+//            ],
+//        ]);
 
         if ($response->getStatusCode() == 401) {
             throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
         }
 
-        $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
+
+        $site->automatic_deployment_id = json_decode($response->getBody()->getContents())->uuid;
         $site->save();
 
         return $site;
