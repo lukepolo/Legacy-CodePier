@@ -3,12 +3,12 @@
 namespace App\Services\Repository\Providers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use App\Models\Site\Site;
 use Buzz\Message\Response;
 use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\Repositories\Hooks;
 use App\Models\User\UserRepositoryProvider;
-use GuzzleHttp\Client;
 use League\OAuth2\Client\Token\AccessToken;
 use Bitbucket\API\Http\Listener\OAuth2Listener;
 
