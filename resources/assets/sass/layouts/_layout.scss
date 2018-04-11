@@ -113,7 +113,7 @@ footer {
 
     .section-header {
       top: 0px;
-      background-color: mix($color-background, $black, 90%);
+      background-color: mix($color-background, $gray-dark, 90%);
 
       .text-clip,
       .icon-arrow-down {
@@ -191,7 +191,11 @@ footer {
 
     .section-header {
       top: 0px;
-      background-color: mix(mix($color-background, $white, 90%), $black, 90%);
+      background-color: mix(
+        mix($color-background, $white, 90%),
+        $gray-dark,
+        90%
+      );
     }
 
     .section-content {

@@ -21,7 +21,7 @@
 
   &--item {
     //video container
-    border: 5px solid $black;
+    border: 5px solid $gray-dark;
 
     &-embed {
       // styles for responsive embed
@@ -58,7 +58,7 @@
       color: $color-text-inverse;
       padding: $spacing 25px;
       position: relative;
-      border-top: 9px solid $black;
+      border-top: 9px solid $gray-dark;
 
       @include breakpoint(sm) {
         flex-basis: 100px;

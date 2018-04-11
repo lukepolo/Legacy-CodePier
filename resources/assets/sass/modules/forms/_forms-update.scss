@@ -183,7 +183,7 @@ $flyform-transition: all 0.5s;
       padding-left: $flyform-spacing/2;
       font-weight: 300;
       letter-spacing: 0;
-      color: mix($white, $black, 60%);
+      color: mix($white, $gray-dark, 60%);
       transition: $flyform-transition;
 
       // when there is an info icon before the input label

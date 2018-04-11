@@ -36,12 +36,12 @@
     }
 
     .large {
-      color: rgba($grayLight, 0.6);
+      color: rgba($gray-light, 0.6);
       font-size: 40px;
       font-weight: 800;
       font-family: $font-web-heading;
       letter-spacing: 8px;
-      text-shadow: -3px 3px 3px rgba($black, 0.8);
+      text-shadow: -3px 3px 3px rgba($gray-dark, 0.8);
       margin-top: 30px;
     }
   }
@@ -72,7 +72,7 @@
 
   .logo {
     text-align: center;
-    border-top: 1px solid rgba($grayLight, 0.3);
+    border-top: 1px solid rgba($gray-light, 0.3);
     margin: 30px -20px 0px;
     padding: 30px 0px 30px;
 

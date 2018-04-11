@@ -12,7 +12,7 @@
 
   &.router-link-active {
     color: $color-text-accent;
-    background-color: mix($gray, $black, 50%);
+    background-color: mix($gray, $gray-dark, 50%);
   }
 
   &:not(.router-link-active):hover {
@@ -154,7 +154,7 @@
     }
 
     &.selected {
-      background-color: mix($gray, $black, 50%);
+      background-color: mix($gray, $gray-dark, 50%);
 
       .icon-arrow-right {
         color: $color-text-accent;
@@ -252,7 +252,7 @@
 // Site Files
 .editor {
   &:not(.ace_editor) {
-    border: 4px solid mix($gray, $black, 50%);
+    border: 4px solid mix($gray, $gray-dark, 50%);
   }
 
   .editor--actions {

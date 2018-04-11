@@ -4,28 +4,47 @@
 
 // COLOR VARIABLES -----------------------------------------
 // ---------------------------------------------------------
-$white:                         #FFFFFF                         !default;
-$black:                         #2B2B2B                         !default;
-$gray:                          #3C3F41                         !default;
-$grayLight:                     #B6B6B6                         !default;
-
 $blue:                          #48ACF0                         !default;
 $red:                           #F4645F                         !default;
 $green:                         #83B692                         !default;
 $yellow:                        #FEC07A                         !default;
 
+$white:                         #FFFFFF                         !default;
+$black:                         #000000                         !default;
+$gray-dark:                     #2B2B2B                         !default;
+$gray:                          #3C3F41                         !default;
+$gray-light:                    #B6B6B6                         !default;
+
 
 // COLOR DECLARATIONS
 $color-background:              $gray                           !default;
-$color-background-web:          #EFF1F3                         !default;
-$color-primary:                 $blue                           !default;
-$color-accent:                  $red                            !default;
-$color-text-primary:            $white                          !default;
-$color-text-secondary:          $grayLight                      !default;
-$color-text-inverse:            $black                          !default;
-$color-text-accent:             $blue                           !default;
-$color-divider:                 $black                          !default;
+$color-background-contrast:     $gray-dark                      !default;
+$color-background-web:          #EFF1F3                         !default;  // change to inverse
 
+$color-primary:                 $blue                           !default; // remove
+$color-accent:                  $red                            !default; // remove
+$color-text-primary:            $white                          !default; // remove
+$color-text-secondary:          $gray-light                     !default; // remove
+$color-text-inverse:            $gray-dark                      !default; // remove
+$color-text-accent:             $blue                           !default; // remove
+$color-divider:                 $gray-dark                      !default; // remove
+
+$color-text-primary:            $white;
+$color-text-secondary:          $gray-light; // not sure about this color
+$color-text-inverse-primary:    $gray-dark;
+$color-text-inverse-secondary:  $gray; // not sure about this color
+$color-text-accent:             $red;
+$color-text-link:               $blue;
+
+// Dividers
+// $color-divider:                 mix($gray-medium, $white, 20%);
+// $color-divider-inverse:         rgba($white, .1);
+//
+// $color-hover-overlay:           rgba($gray, .3);
+// $color-hover-overlay-inverse:   rgba($gray-dark, .3);
+// $color-hover-link:              mix($gray-dark, $color-text-link, 30%);
+// $color-hover-link-inverse:      mix($white, $color-text-link, 40%);
+// $color-hover-list:              mix($color-text-link, $white, 5%);
 
 $color-state-success:           $green;
 $color-state-neutral:           $blue;
@@ -45,6 +64,7 @@ $color-state-null:              $gray;
 $font-body:                     'Roboto', sans-serif            !default;
 $font-heading:                  'Open Sans', serif              !default;
 $font-web-heading:              'Montserrat', serif             !default;
+$font-icon:                     'icomoon'                       !default;
 $font-size:                     15px                            !default;
 $font-weight:                   300                             !default;
 

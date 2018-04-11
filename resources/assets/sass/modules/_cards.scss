@@ -50,7 +50,7 @@
   position: relative;
 
   &.selected {
-    background-color: mix($gray, $black, 50%);
+    background-color: mix($gray, $gray-dark, 50%);
   }
 }
 

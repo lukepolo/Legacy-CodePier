@@ -78,7 +78,7 @@
   } @else if $status == warning {
     background-color: $yellow;
   } @else {
-    background-color: $grayLight;
+    background-color: $gray-light;
   }
 }
 

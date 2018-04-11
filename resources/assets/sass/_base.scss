@@ -266,7 +266,7 @@ th {
   letter-spacing: 0.5px;
   border-bottom: 1px solid $color-divider;
   color: mix($blue, $white, 30%);
-  background-color: rgba($black, 0.5);
+  background-color: rgba($gray-dark, 0.5);
 }
 
 td,
@@ -276,7 +276,7 @@ th {
 
 tr {
   &:nth-child(even) {
-    background-color: rgba($black, 0.3);
+    background-color: rgba($gray-dark, 0.3);
   }
 
   &:hover {
@@ -297,7 +297,7 @@ tr {
 
   tr {
     &:nth-child(even) {
-      background-color: rgba($grayLight, 0.1);
+      background-color: rgba($gray-light, 0.1);
     }
   }
 }

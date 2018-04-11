@@ -15,7 +15,7 @@
     &:hover:not(.pagination--item-ellipsis):not(.active):not(.disabled) {
       cursor: pointer;
       color: $blue;
-      background-color: $black;
+      background-color: $gray-dark;
     }
 
     &.active {
