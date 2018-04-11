@@ -107,13 +107,19 @@ class SiteService implements SiteServiceContract
 
         $site->domain = $oldDomain;
 
-        $this->getWebServerService($server)->removeWebServerConfig($site);
+        $webService = $this->getWebServerService($server);
+        if (! empty($webService)) {
+            $webService->removeWebServerConfig($site);
+        }
+
 
         $site->domain = $newDomain;
 
         $this->remoteTaskService->run('mv /home/codepier/' . $oldDomain . ' /home/codepier/' . $site->domain);
 
-        $this->getWebServerService($server)->createWebServerConfig($site);
+        if (! empty($webService)) {
+            $webService->createWebServerConfig($site);
+        }
 
         $this->serverService->restartWebServices($server);
     }
