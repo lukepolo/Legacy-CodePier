@@ -4,6 +4,7 @@ namespace App\Jobs\Server;
 
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
+use App\Services\RemoteTaskService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
@@ -39,9 +40,20 @@ class ProvisionServer implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param RemoteTaskService $remoteTaskService
+     * @throws \Exception
      */
-    public function handle(ServerService $serverService)
+    public function handle(ServerService $serverService, RemoteTaskService $remoteTaskService)
     {
+        if ($remoteTaskService->checkIfServiceIsRunning($this->server, 'cloud-init')) {
+            dispatch(
+                (new self($this->server))
+                    ->delay(10)
+                    ->onQueue(config('queue.channels.server_provisioning'))
+            );
+            return;
+        }
+
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
             broadcast(new ServerStartToProvision($this->server));
