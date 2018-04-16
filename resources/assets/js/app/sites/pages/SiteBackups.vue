@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Size</th>
                                 <th>Type</th>
                                 <th>Server</th>
                                 <th>Date</th>
@@ -40,6 +41,7 @@
                         <tbody>
                             <tr v-for="backup in getBackups(server)">
                                 <td>{{ backup.name }}</td>
+                                <td>{{ backup.size }}</td>
                                 <td>{{ backup.type }}</td>
                                 <td>{{ backup.created_at }}</td>
                                 <td class="table--action">
