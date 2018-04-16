@@ -443,4 +443,18 @@ echo \"Wrote\"");
             $this->run('chmod 600 /home/codepier/.ssh/* -R');
         }
     }
+
+    /**
+     * @param Server $server
+     * @param $service
+     * @return bool
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     */
+    public function checkIfServiceIsRunning(Server $server, $service)
+    {
+        $this->ssh($server);
+
+        return filter_var($this->run("ps aux | grep $service | grep -v grep | wc -l"), FILTER_VALIDATE_INT) > 0;
+    }
 }

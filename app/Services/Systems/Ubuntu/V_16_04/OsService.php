@@ -13,7 +13,6 @@ class OsService
     {
         $this->connectToServer();
 
-        // https://github.com/docker/machine/issues/3358 - sleeping for 45 - 30 wasn't enough.........
         $this->remoteTaskService->run('sleep 45; DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 

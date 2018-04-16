@@ -86,7 +86,17 @@
                                         To install, please create a CNAME :
                                     </div>
                                     <div class="flex--spacing" style="margin-top: -5px;">
-                                        <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : isRunningCommandFor(sslCertificate.id) }" @click="tryWildcardInstall(sslCertificate.id)">Get Cert</span>
+                                        <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : !siteServers || siteServers.length === 0 || isRunningCommandFor(sslCertificate.id) }" @click="tryWildcardInstall(sslCertificate.id)">
+                                            <template v-if="isRunningCommandFor(sslCertificate.id)">
+                                                Getting Cert
+                                            </template>
+                                            <template v-else-if="!siteServers || siteServers.length === 0">
+                                                Connect a server first
+                                            </template>
+                                            <template v-else>
+                                                Get Cert
+                                            </template>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="flex flex--center">
@@ -158,7 +168,7 @@
                             </div>
                         </div>
 
-                        <div class="flyform--group-checkbox">
+                        <div class="flyform--group-checkbox" v-if="!serverId">
                             <label>
                                 <input type="checkbox" name="wildcard" v-model="form.wildcard">
                                 <span class="icon"></span>
@@ -391,6 +401,11 @@ export default {
         this.form.type = "existing";
       }
       return serverId;
+    },
+    siteServers() {
+      return this.$store.getters["user_site_servers/getServers"](
+        this.$route.params.site_id
+      );
     },
     sslCertificates() {
       return this.$store.state.user_site_ssl_certificates.ssl_certificates;

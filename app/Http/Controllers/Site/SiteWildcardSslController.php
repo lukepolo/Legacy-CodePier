@@ -36,7 +36,7 @@ class SiteWildcardSslController extends Controller
         }
 
         if (! $valid) {
-            return response()->json('You have not setup your CNAME host _acme-challenge'.$sslCertificate->domains, 400);
+            return response()->json('You have not setup your CNAME host _acme-challenge.'.$sslCertificate->domains, 400);
         }
 
         $sslCertificate->update([
