@@ -4,7 +4,11 @@
     <section id="middle" class="section-column">
         <h3 class="section-header primary">My Piles</h3>
         <div class="section-content">
-
+            <div class="container">
+                <div class="progress--item-number">
+                    1
+                </div>
+            </div>
 
 
 

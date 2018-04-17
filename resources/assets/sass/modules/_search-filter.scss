@@ -12,7 +12,7 @@
 
   &--label > * {
     display: block;
-    color: $color-primary;
+    color: $color-text-link;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-right: $spacing;
@@ -48,7 +48,7 @@
         line-height: 26px;
 
         &:before {
-          color: $color-primary;
+          color: $color-text-link;
         }
       }
     }

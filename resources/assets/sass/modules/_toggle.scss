@@ -64,12 +64,12 @@ $color-hover-overlay: rgba($gray-dark, 0.3);
       }
 
       &.right {
-        border-color: $color-primary;
+        border-color: $color-text-link;
 
         &:after {
           left: 100%;
           transform: translateX(-100%);
-          background-color: $color-primary;
+          background-color: $color-text-link;
         }
       }
     }
@@ -93,12 +93,12 @@ $color-hover-overlay: rgba($gray-dark, 0.3);
       }
 
       &.right {
-        border-color: $color-primary;
+        border-color: $color-text-link;
 
         &:after {
           left: 100%;
           transform: translateX(-100%);
-          background-color: $color-primary;
+          background-color: $color-text-link;
         }
       }
     }

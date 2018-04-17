@@ -64,8 +64,8 @@
       }
 
       &:hover {
-        border-top-color: $color-accent;
-        color: mix($color-primary, $white, 50%);
+        border-top-color: $color-text-accent;
+        color: mix($color-text-link, $white, 50%);
       }
     }
   }

@@ -20,7 +20,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        color: $color-primary;
+        color: $color-text-link;
       }
 
       &.closed {
@@ -41,7 +41,7 @@
       word-break: break-word;
 
       &:hover {
-        color: $color-primary;
+        color: $color-text-link;
       }
 
       small {
@@ -141,7 +141,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: $color-primary;
+  background-color: $color-text-link;
 
   &.warning {
     background-color: $yellow;

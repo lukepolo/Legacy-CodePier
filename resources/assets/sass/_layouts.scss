@@ -6,11 +6,11 @@
 // COLORS --------------------------------------------------
 // ---------------------------------------------------------
 .primary {
-  color: $color-primary;
+  color: $color-text-link;
 }
 
 .accent {
-  color: $color-accent;
+  color: $color-text-accent;
 }
 
 .text-success {
@@ -58,7 +58,7 @@ a:hover {
 }
 
 .label-primary {
-  background-color: $color-primary;
+  background-color: $color-text-link;
   color: $color-text-primary !important;
 }
 

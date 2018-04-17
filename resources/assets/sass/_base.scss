@@ -135,12 +135,12 @@ textarea {
   resize: none;
 
   &:focus {
-    outline: 3px solid $color-primary;
+    outline: 3px solid $color-text-link;
   }
 }
 
 select option {
-  color: $color-text-inverse;
+  color: $color-text-inverse-primary;
 }
 
 // HEADINGS ------------------------------------------------
@@ -219,7 +219,7 @@ h6 {
 // ---------------------------------------------------------
 a {
   display: inline-flex;
-  color: $color-primary;
+  color: $color-text-link;
 
   &:active,
   &:focus,
@@ -236,7 +236,7 @@ a {
   &:active,
   &:focus,
   &:hover {
-    color: mix($color-primary, $color-text-primary, 50%);
+    color: mix($color-text-link, $color-text-primary, 50%);
   }
 }
 
@@ -244,7 +244,7 @@ a {
 // ---------------------------------------------------------
 button {
   border: none;
-  background-color: $color-text-inverse;
+  background-color: $color-text-inverse-primary;
 }
 
 // TABLES --------------------------------------------------
@@ -290,7 +290,7 @@ tr {
   background-color: $white;
 
   th {
-    color: $color-primary;
+    color: $color-text-link;
     background-color: $white;
     text-align: center;
   }

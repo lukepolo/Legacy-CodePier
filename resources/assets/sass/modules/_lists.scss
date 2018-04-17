@@ -208,7 +208,7 @@
 
         [class^="icon-"],
         [class*=" icon-"] {
-          color: $color-primary;
+          color: $color-text-link;
         }
       }
     }
@@ -231,7 +231,7 @@
     [class^="icon-"]:hover,
     [class*=" icon-"]:hover {
       cursor: pointer;
-      color: $color-primary;
+      color: $color-text-link;
     }
 
     .icon-trash:hover {

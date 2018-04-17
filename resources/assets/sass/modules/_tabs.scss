@@ -45,7 +45,7 @@
 
     &.active {
       a {
-        border-bottom-color: $color-primary;
+        border-bottom-color: $color-text-link;
       }
     }
   }
@@ -76,7 +76,7 @@
 
       &.router-link-active {
         a {
-          color: $color-primary;
+          color: $color-text-link;
 
           &:after {
             content: "";
@@ -147,7 +147,7 @@
   &.router-link-active > a {
     color: $color-text-primary;
     font-weight: 400;
-    border-color: $color-accent;
+    border-color: $color-text-accent;
   }
 }
 

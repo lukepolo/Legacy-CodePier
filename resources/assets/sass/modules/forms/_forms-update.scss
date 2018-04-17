@@ -14,7 +14,7 @@ $flyform-transition: all 0.5s;
   margin: 0 auto $flyform-spacing * 2;
 
   &--heading {
-    background-color: $color-primary;
+    background-color: $color-text-link;
     color: $color-text-primary;
     border-bottom: 1px solid $flyform-color-divider;
     padding: $flyform-spacing;
@@ -148,7 +148,7 @@ $flyform-transition: all 0.5s;
       left: 0;
       height: 3px;
       width: 0;
-      background-color: $color-primary;
+      background-color: $color-text-link;
       transition: $flyform-transition;
     }
   }
@@ -167,7 +167,7 @@ $flyform-transition: all 0.5s;
       outline: none;
 
       + label {
-        color: $color-primary;
+        color: $color-text-link;
 
         &:after {
           width: 100%;
@@ -345,7 +345,7 @@ $flyform-transition: all 0.5s;
       right: 0;
       bottom: 0;
       border-left: 1px solid $flyform-color-divider;
-      color: $color-primary;
+      color: $color-text-link;
       display: flex;
       align-items: center;
       font-size: 2em;
@@ -378,7 +378,7 @@ $flyform-transition: all 0.5s;
   }
 
   .confirm--btns > .btn:not(.btn-success):not(.btn-danger) {
-    background-color: $color-text-inverse;
+    background-color: $color-text-inverse-primary;
   }
 }
 
@@ -414,7 +414,7 @@ $flyform-transition: all 0.5s;
       &:checked {
         + .icon:before {
           content: "";
-          color: $color-primary;
+          color: $color-text-link;
         }
       }
     }
