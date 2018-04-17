@@ -11,7 +11,7 @@
   position: relative;
 
   &.router-link-active {
-    color: $color-text-accent;
+    color: $color-text-link;
     background-color: mix($gray, $gray-dark, 50%);
   }
 
