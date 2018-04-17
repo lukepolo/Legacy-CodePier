@@ -64,7 +64,7 @@
       }
 
       &:hover {
-        border-top-color: $color-text-accent;
+        border-top-color: $color-text-link;
         color: mix($color-text-link, $white, 50%);
       }
     }

@@ -116,10 +116,10 @@
       padding: $spacing;
 
       &:hover {
-        color: $color-text-accent;
+        color: $color-text-link;
 
         + .icon-arrow-down {
-          color: $color-text-accent;
+          color: $color-text-link;
         }
       }
 

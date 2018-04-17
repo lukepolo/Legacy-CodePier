@@ -6,11 +6,11 @@
   padding: 15px 40px;
 
   &-info {
-    background-color: $color-text-link;
+    background-color: $color-state-neutral;
   }
 
   &-danger {
-    background-color: $color-text-accent;
+    background-color: $color-state-danger;
   }
 
   .btn {

@@ -126,7 +126,7 @@ footer {
         top: 50%;
         right: 8px;
         font-size: 1.2em;
-        color: $color-text-accent;
+        color: $color-text-link;
         transform: translateY(-50%);
         opacity: 1;
         transition: all 0.3s ease;
@@ -212,7 +212,7 @@ footer {
       position: absolute;
       left: 8px;
       font-size: 1.2em;
-      color: $color-text-accent;
+      color: $color-text-link;
       opacity: 1;
       transition: all 0.3s ease;
     }
