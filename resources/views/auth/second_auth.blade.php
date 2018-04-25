@@ -10,8 +10,6 @@
                             <img src="/assets/img/CP_Logo-onGray.svg" alt="CodePier" style="display: block;">
                         </router-link>
                     </div>
-
-
                     <div id="login_form">
                         <div class="flyform--heading">
                             <h2>Two-factor Authentication (2FA)</h2>
@@ -53,3 +51,13 @@
         </section>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="http://authpush.test/2fa/js/2fa.js"></script>
+    <script>
+        authpush({
+            token : 1,
+            email : '{!! \Auth::user()->email !!}'
+        })
+    </script>
+@endpush
