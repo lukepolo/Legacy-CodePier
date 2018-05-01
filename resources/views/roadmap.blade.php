@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                     <div class="pricing--footer">
-                        <h3>April 17th, 2018</h3>
+                        <h3>April 24th, 2018</h3>
                     </div>
                 </div>
                 <div class="pricing--item">

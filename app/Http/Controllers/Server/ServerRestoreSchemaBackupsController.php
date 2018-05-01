@@ -15,13 +15,15 @@ class ServerRestoreSchemaBackupsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Server $server, Backup $backup)
+    public function store($serverId, $backupId)
     {
+        $server = Server::with('backups')->findOrFail($serverId);
+
         $user = $server->user;
 
         if ($user->subscribed()) {
             dispatch((
-            new RestoreDatabaseBackup($server, $backup)
+                new RestoreDatabaseBackup($server, $server->backups->find($backupId))
             )->onQueue(
                     config('queue.channels.server_commands')
                 ));

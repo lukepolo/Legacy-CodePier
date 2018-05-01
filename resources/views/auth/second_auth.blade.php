@@ -10,8 +10,6 @@
                             <img src="/assets/img/CP_Logo-onGray.svg" alt="CodePier" style="display: block;">
                         </router-link>
                     </div>
-
-
                     <div id="login_form">
                         <div class="flyform--heading">
                             <h2>Two-factor Authentication (2FA)</h2>
