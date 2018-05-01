@@ -51,6 +51,7 @@ Route::domain(config('app.url_stats'))->prefix('webhook')->group(function () {
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
+    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
@@ -58,7 +59,6 @@ Route::domain(config('app.url_stats'))->prefix('webhook')->group(function () {
 Route::prefix('webhook')->group(function () {
     Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
     Route::any('/schema-backups/{serverHashId}', 'WebHookController@databaseBackups');
-    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
