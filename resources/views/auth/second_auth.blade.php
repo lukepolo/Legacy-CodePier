@@ -51,13 +51,3 @@
         </section>
     </section>
 @endsection
-
-@push('scripts')
-    <script src="http://authpush.test/2fa/js/2fa.js"></script>
-    <script>
-        authpush({
-            token : 1,
-            email : '{!! \Auth::user()->email !!}'
-        })
-    </script>
-@endpush

@@ -59,8 +59,8 @@ return [
     */
 
 
-    'url' => env('APP_URL', 'http://codepier.test'),
-    'public_url' =>env('APP_PUBLIC_URL', 'http://app.codepier.test'),
+    'url' => env('APP_URL', 'http://app.codepier.test'),
+    'public_url' =>env('APP_PUBLIC_URL', 'http://codepier.test'),
 
     'url_dns' => env('APP_ACME_DNS', 'http://dns.codepier.io'),
     'url_stats' => env('APP_STATS_URL', 'http://stats.codepier.test'),
