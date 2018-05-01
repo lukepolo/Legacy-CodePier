@@ -23,7 +23,7 @@
                                     :prefix="'command_'+command.id"
                                     :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                                 >
-                                    <span v-html="getLog(command.log)"></span>
+                                    <pre>{{ getLog(command.log) }}</pre>
                                 </drop-down-event>
                             </template>
                         </drop-down-event>
@@ -37,7 +37,7 @@
                             :prefix="'command_'+command.id"
                             :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                         >
-                            <span v-html="getLog(command.log)"></span>
+                            <pre>{{ getLog(command.log) }}</pre>
                         </drop-down-event>
                     </template>
                 </template>
@@ -68,10 +68,10 @@ export default {
   methods: {
     getLog(log) {
       if (_.isArray(log)) {
-        log = _.join(_.map(log, "message"), "<br>");
+        log = _.join(_.map(log, "message"), "\n");
       }
 
-      return log ? log.replace(/(?:\r\n|\r|\n)/g, "<br />") : "";
+      return log ? log.replace(/(?:\r\n|\r|\n)/g, "\n") : "";
     },
     filterArray(data) {
       if (Array.isArray(data.log)) {
