@@ -164,6 +164,7 @@ class WebHookController extends Controller
             foreach ($server->sslCertificates as $sslCertificate) {
                 dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
             }
+            return response()->json('OK');
         }
 
         return $this->returnInvalidServerIp();
