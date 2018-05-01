@@ -38,16 +38,15 @@ class WebService
         $this->remoteTaskService->run('echo "y" | /opt/codepier/./certbot-auto --install-only');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
-/opt/codepier/./certbot-auto renew | grep Congratulations &> /dev/null
-
-if [ $? == 0 ]; then
-    curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode() . '/ssl/updated/"
-fi
+/opt/codepier/./certbot-auto renew --post-hook /opt/codepier/ssl-renew-hook.sh 
 
 chgrp -R codepier /etc/letsencrypt
 chmod -R g=rX /etc/letsencrypt
 ');
-
+        $this->remoteTaskService->writeToFile('/opt/codepier/ssl-renew-hook.sh', '
+curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode() . '/ssl/updated/"
+');
+        $this->remoteTaskService->run('chmod 775 /opt/codepier/ssl-renew-hook.sh');
         $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
     }
 
