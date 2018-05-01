@@ -4,6 +4,9 @@
             <h3 class="flex--grow">
                 Database Backups
             </h3>
+            <div class="pull-right">
+                <button @click="backupNow()">Backup Now</button>
+            </div>
         </div>
 
         <div class="section-content">
@@ -28,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Size</th>
                                 <th>Type</th>
                                 <th>Server</th>
                                 <th>Date</th>
@@ -37,10 +41,11 @@
                         <tbody>
                             <tr v-for="backup in getBackups(server)">
                                 <td>{{ backup.name }}</td>
+                                <td>{{ backup.size }}</td>
                                 <td>{{ backup.type }}</td>
                                 <td>{{ backup.created_at }}</td>
                                 <td class="table--action">
-                                    <!--<button class="btn btn-default btn-small">Restore</button>-->
+                                    <button class="btn btn-default btn-small" @click="restoreBackup(server, backup)">Restore</button>
                                     <button class="btn btn-default btn-small" @click="downloadBackup(server, backup)">Download</button>
                                 </td>
                             </tr>
@@ -73,6 +78,11 @@
             this.$route.params.site_id
           );
         },
+        backupNow() {
+          this.$store.dispatch('user_site_schema_backups/backupNow', this.$route.params.site_id).then(() => {
+            this.showSuccess('You have started database backups for this site.')
+          })
+        },
         getBackups(server) {
             let foundServer = _.find(this.backups.servers, { id : server.id });
             if(foundServer) {
@@ -91,6 +101,12 @@
         },
         disableBackups(server) {
           this.$store.dispatch("user_server_schema_backups/disable", server.id)
+        },
+        restoreBackup(server, backup) {
+          this.$store.dispatch("user_server_schema_backups/restore", {
+            backup: backup.id,
+            server: server.id
+          });
         },
         downloadBackup(server, backup) {
           this.$store.dispatch("user_server_schema_backups/download", {

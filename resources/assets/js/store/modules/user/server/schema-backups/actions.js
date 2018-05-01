@@ -28,10 +28,10 @@ export const disable = (context, server) => {
 
 export const restore = (context, { server, backup }) => {
   return Vue.request()
-    .get(
+    .post(
       Vue.action("ServerServerRestoreSchemaBackupsController@store", {
         server,
-        backup,
+        schemaBackup: backup,
       }),
     )
     .then(() => {

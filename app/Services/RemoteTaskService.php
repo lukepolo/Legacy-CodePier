@@ -36,13 +36,13 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        \Log::info('Running Command '.$command);
+        \Log::info('Running Command '.$command, ['server' => $this->server->id]);
 
         try {
             $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
-                \Log::warning('retrying to connect to');
+                \Log::warning('retrying to connect', ['server' => $this->server->id]);
                 $this->ssh($this->server, $this->user);
                 $this->run($command, $expectedFailure);
             } else {
@@ -58,15 +58,15 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = $this->cleanOutput($output);
 
-        \Log::info($output);
+        \Log::info($output, ['server' => $this->server->id]);
 
         if (! empty($output)) {
             $this->output .= $output."\n";
         }
 
         if ($this->session->getExitStatus() != 0) {
-            \Log::critical('Error while running Command '.$command);
-            \Log::critical($output);
+            \Log::critical('Error while running Command '.$command, ['server' => $this->server->id]);
+            \Log::critical($output, ['server' => $this->server->id]);
 
             $this->errors[] = $output;
 
