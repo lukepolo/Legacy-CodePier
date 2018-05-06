@@ -38,7 +38,7 @@ class WebService
         $this->remoteTaskService->run('echo "y" | /opt/codepier/./certbot-auto --install-only');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
-/opt/codepier/./certbot-auto renew --post-hook /opt/codepier/ssl-renew-hook.sh 
+/opt/codepier/./certbot-auto renew --deploy-hook /opt/codepier/ssl-renew-hook.sh 
 
 chgrp -R codepier /etc/letsencrypt
 chmod -R g=rX /etc/letsencrypt

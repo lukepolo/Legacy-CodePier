@@ -5,7 +5,6 @@ namespace App\Services\Repository\Providers;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
-use Buzz\Message\Response;
 use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\Repositories\Hooks;
 use App\Models\User\UserRepositoryProvider;
