@@ -265,12 +265,8 @@
             </p>
 
             <p>
-                You can update certain information by accessing your profile via “Settings.” You can also unsubscribe
-                from certain emails by clicking the “unsubscribe” link they contain. You can opt out from certain
+                You can unsubscribe from certain emails by clicking the “unsubscribe” link they contain. You can opt out from certain
                 cookie-related processing by following the instructions above in “Other Information.”
-
-                TODO -- link to the form
-
             </p>
 
             <p>
@@ -290,12 +286,11 @@
             </ul>
 
             <p>
-                // TODO - page needed
-                If you would like to submit a data access request, you can do so from the “Settings” page of the
+                If you would like to submit a data access request, you can do so from the “My Account” page of the
                 Services, where there is a button to download your data. We will then start the process and provide you
                 a link to access the personal data that CodePier has on you within 30 days. How do I correct, update,
                 amend, or delete the personal data you have about me? In addition to the functionality available through
-                the “Settings” of the Services, in which you can correct, update, amend, or delete certain personal
+                the “My Account” of the Services, in which you can correct, update, amend, or delete certain personal
                 data, you can also request other modifications from us directly. Please write us at support@codepier.io
                 with the words “Personal Data Request” in the subject or body of your message, along with an explanation
                 of what data subject right you are seeking to exercise. For your protection, we may take steps to verify
@@ -306,11 +301,10 @@
             </p>
 
             <p>
-                // TODO - link needed
                 CodePier offers you the ability to restrict the processing of your data for specific uses, which you can
-                find in the “Settings” page of the services. Individuals in the European Economic Area have the right to
+                find in the “My Account” page of the services. Individuals in the European Economic Area have the right to
                 opt out of all of our processing of their personal data for direct marketing purposes. To exercise this
-                right, please see the “Settings” page for your Account. You may also click the “unsubscribe” link in any
+                right, please see the “My Account” page for your Account. You may also click the “unsubscribe” link in any
                 of our marketing emails.
             </p>
 

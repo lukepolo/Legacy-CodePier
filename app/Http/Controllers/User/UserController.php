@@ -67,4 +67,9 @@ class UserController extends Controller
             \Auth::user()->getRunningDeployments()
         );
     }
+
+    public function requestData()
+    {
+        return response()->json('OK');
+    }
 }
