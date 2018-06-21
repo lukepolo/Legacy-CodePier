@@ -39,5 +39,6 @@ class CreateSchemaUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('schema_users');
+        Schema::dropIfExists('schema_userables');
     }
 }
