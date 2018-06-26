@@ -1,15 +1,19 @@
 // Main Layout ========================
 // ====================================
+
 body {
   display: grid !important;
   grid-template-rows: min-content auto;
 }
+
 header {
   display: flex;
   border-bottom: 1px solid $color-divider;
   justify-content: space-between;
   background-color: $white;
   z-index: 99999;
+  position: sticky;
+  top: 0;
 
   @include breakpoint(sm) {
     flex-wrap: wrap;
@@ -18,7 +22,6 @@ header {
 }
 
 #content {
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
