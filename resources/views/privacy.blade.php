@@ -279,25 +279,25 @@
                 ability to continue processing data in lawful ways.
             </p>
 
-            <ul>
-                <li>
-                    How can I access the personal data you have about me?
-                </li>
-            </ul>
+            <h1>
+                How can I access the personal data you have about me?
+            </h1>
 
             <p>
                 If you would like to submit a data access request, you can do so from the “My Account” page of the
                 Services, where there is a button to download your data. We will then start the process and provide you
-                a link to access the personal data that CodePier has on you within 30 days. How do I correct, update,
-                amend, or delete the personal data you have about me? In addition to the functionality available through
-                the “My Account” of the Services, in which you can correct, update, amend, or delete certain personal
-                data, you can also request other modifications from us directly. Please write us at support@codepier.io
-                with the words “Personal Data Request” in the subject or body of your message, along with an explanation
-                of what data subject right you are seeking to exercise. For your protection, we may take steps to verify
-                identity before responding to your request. How do I object or restrict the manner in which CodePier
-                processes my personal data? You have a right to ask us to stop using or limit our use of your personal
-                data in certain circumstances—for example, if we have no lawful basis to keep using your data, or if you
-                think your personal data is inaccurate.
+                a link to access the personal data that CodePier has on you within 30 days.
+            </p>
+
+            <p>
+                In addition to the functionality available through the “My Account” of the Services, in which you can
+                correct, update, amend, or delete certain personal data, you can also request other modifications from
+                us directly. Please write us at support@codepier.io with the words “Personal Data Request” in the
+                subject or body of your message, along with an explanation of what data subject right you are seeking to
+                exercise. For your protection, we may take steps to verify identity before responding to your request.
+                How do I object or restrict the manner in which CodePier processes my personal data? You have a right to
+                ask us to stop using or limit our use of your personal data in certain circumstances—for example, if we
+                have no lawful basis to keep using your data, or if you think your personal data is inaccurate.
             </p>
 
             <p>
