@@ -27,7 +27,7 @@
 
                             <div class="flyform--content">
                                 <div class="flyform--group">
-                                    <input type="password" name="token" placeholder="&nbsp;" required tabindex="1">
+                                    <input type="text" name="token" placeholder="&nbsp;" required tabindex="1">
                                     <label for="token">Token</label>
                                 </div>
                             </div>
