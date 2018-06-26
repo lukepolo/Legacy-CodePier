@@ -9,7 +9,7 @@ class HTML
     use DeployTrait;
 
     /**
-     * @description Install the node vendors packages.
+     * @description Install the node vendors packages using npm ci.
      *
      * @order 300
      *
@@ -26,7 +26,7 @@ class HTML
             $nvm = "nvm install $version && nvm use &&";
         }
 
-        $output[] = $this->remoteTaskService->run("cd $this->release; $nvm npm install --no-progress;");
+        $output[] = $this->remoteTaskService->run("cd $this->release; $nvm npm ci;");
 
         return $output;
     }
