@@ -29,7 +29,8 @@
     transition: all 0.1s;
   }
 
-  + .btn {
+  + .btn,
+  + .btn--link {
     margin-left: 15px;
   }
 
@@ -248,6 +249,11 @@ button[disabled="disabled"] {
   &:focus {
     outline: none;
     text-decoration: none;
+  }
+
+  + .btn,
+  + .btn--link {
+    margin-left: 15px;
   }
 
   // shows text color all the time
