@@ -44,6 +44,7 @@ class SiteDaemonsController extends Controller
             'command' => $request->get('command'),
             'server_ids' => $request->get('server_ids', []),
             'server_types' => $request->get('server_types', []),
+            'working_directory' => $request->get('working_directory'),
         ]);
 
         $site->daemons()->save($daemon);

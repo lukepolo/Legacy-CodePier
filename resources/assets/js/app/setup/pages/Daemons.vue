@@ -33,6 +33,11 @@
             </div>
 
             <div class="flyform--group">
+                <input type="text" name="working_directory" v-model="form.working_directory" placeholder=" ">
+                <label for="working_directory">Working Directory</label>
+            </div>
+
+            <div class="flyform--group">
                 <label>Select User</label>
                 <div class="flyform--group-select">
                     <select name="user" v-model="form.user">
@@ -78,7 +83,8 @@ export default {
         user: null,
         command: null,
         server_ids: [],
-        server_types: []
+        server_types: [],
+        working_directory : null,
       })
     };
   },
@@ -133,7 +139,7 @@ export default {
     resetForm() {
       this.form.reset();
       if (this.site) {
-        this.form.command = this.site.path;
+        this.form.command = this.site.path + (this.site.zero_downtime_deployment ? "/current/" : "/");
       }
       this.showForm = false;
     }

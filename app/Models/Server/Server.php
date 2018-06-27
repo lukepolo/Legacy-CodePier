@@ -192,6 +192,12 @@ class Server extends Model
         return $this->morphToMany(Backup::class, 'backupable');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
     public function generateSudoPassword()
     {
         $this->sudo_password = str_random(32);
@@ -202,11 +208,6 @@ class Server extends Model
         $this->database_password = str_random(32);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Helpers
-    |--------------------------------------------------------------------------
-    */
 
     public function hasServerProviderFeature($feature)
     {
