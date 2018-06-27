@@ -13,6 +13,9 @@ if (config('app.env') === 'local') {
     });
 }
 
+Route::get('test', function () {
+    dispatch_now(new \App\Jobs\UserDataBundle(\Auth::user()));
+});
 /*
 |--------------------------------------------------------------------------
 | OAuth Routes

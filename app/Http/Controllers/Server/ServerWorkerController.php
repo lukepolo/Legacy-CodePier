@@ -42,6 +42,7 @@ class ServerWorkerController extends Controller
             'auto_start' => $request->get('auto_start', false),
             'auto_restart' => $request->get('auto_restart', false),
             'number_of_workers' => $request->get('number_of_workers'),
+            'working_directory' => $request->get('working_directory'),
         ]);
 
         dispatch(
