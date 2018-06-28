@@ -49,13 +49,12 @@ class UserObserver
             ]);
         }
 
-        if (config('app.env') === 'production') {
-            Newsletter::subscribeOrUpdate($user->email, [
-                'FNAME' => $user->name,
-            ]);
-        }
+        Newsletter::subscribeOrUpdate($user->email, [
+            'FNAME' => $user->name,
+        ]);
 
         if ($user->confirmed) {
+            // TODO - once we put up some videos and stuff we can work on this
 //            Mail::to($user)->send(new Welcome($user));
         } else {
             Mail::to($user)->send(new ConfirmWelcome($user));

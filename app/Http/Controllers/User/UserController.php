@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User\User;
-use GuzzleHttp\Psr7\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdateMarketing;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\UserUpdateDataProcessing;
+use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserController extends Controller
 {
@@ -33,13 +35,68 @@ class UserController extends Controller
         $user->fill([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'workflow' => $request->get('workflow'),
-            'second_auth_active' => $request->get('second_auth_active'),
+            'workflow' => $request->get('workflow', $user->workflow),
+            'second_auth_active' => $request->get('second_auth_active', $user->second_auth_active),
         ]);
 
         if ($request->has('password')) {
             $user->password = \Hash::make($request->get('password'));
         }
+
+        $user->save();
+
+        return response()->json($user->fresh());
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function requestData()
+    {
+        return response()->json('OK');
+    }
+
+    /**
+     * @param UserUpdateMarketing $request
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateMarketing(UserUpdateMarketing $request, $id = null)
+    {
+        $user = empty($id) ? $request->user() : User::findOrFail($id);
+
+        $user->fill([
+            'marketing' => $request->get('marketing'),
+        ]);
+
+        $user->save();
+
+
+        if ($user->marketing) {
+            Newsletter::subscribeOrUpdate($user->email, [
+                'FNAME' => $user->name,
+            ]);
+        }
+
+        if (! $user->marketing) {
+            Newsletter::unsubscribe($user->email);
+        }
+
+        return response()->json($user->fresh());
+    }
+
+    /**
+     * @param UserUpdateDataProcessing $request
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateDataProcessing(UserUpdateDataProcessing $request, $id = null)
+    {
+        $user = empty($id) ? $request->user() : User::findOrFail($id);
+
+        $user->fill([
+            'processing' => $request->get('processing'),
+        ]);
 
         $user->save();
 
@@ -68,8 +125,13 @@ class UserController extends Controller
         );
     }
 
-    public function requestData()
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy()
     {
+        \Auth::user()->delete();
         return response()->json('OK');
     }
 }

@@ -35,8 +35,6 @@
                         <p>Now get out there and start deploying!</p>
                     </div>
 
-
-
                     <div class="modal--footer">
                         <span class="btn btn-primary" @click="markAnnouncementRead">Get Started!</span>
                     </div>
