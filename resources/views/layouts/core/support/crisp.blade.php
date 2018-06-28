@@ -6,7 +6,7 @@
       $crisp.push(["do", "chat:hide"])
     }
   };
-  @if(\Auth::check())
+  @if(\Auth::check() && \Auth::user()->processing)
       $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
       $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
   @endif

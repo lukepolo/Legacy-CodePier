@@ -46,6 +46,8 @@ class User extends Authenticatable
         'user_login_provider_id',
         'last_read_announcement',
         'referrer',
+        'processing',
+        'marketing'
     ];
 
     /**
