@@ -6,15 +6,17 @@ use App\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Welcome extends Mailable
+class PrivacyUpdateEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $user;
 
     /**
-     * Welcome constructor.
+     * Create a new message instance.
+     *
      * @param User $user
      */
     public function __construct(User $user)
@@ -29,7 +31,9 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to CodePier!')->from('hello@codepier.io', 'CodePier')
-            ->markdown('mail.welcome');
+        return $this->subject('We\'re updating our Privacy Policy')
+            ->markdown('mail.privacy-update', [
+            'user' => $this->user
+        ]);
     }
 }
