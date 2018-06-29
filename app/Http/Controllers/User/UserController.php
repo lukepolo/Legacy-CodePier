@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Jobs\UserDataBundle;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateMarketing;
@@ -53,6 +54,7 @@ class UserController extends Controller
      */
     public function requestData()
     {
+        dispatch(new UserDataBundle(\Auth::user()));
         return response()->json('OK');
     }
 
