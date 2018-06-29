@@ -33,7 +33,7 @@ class SecondAuthController extends Controller
         return response()->json([
             'secret' => $user->second_auth_secret,
             'image' => $this->google2FA->getQRCodeInline(
-                urlencode(url()),
+                urlencode('codepier.io'),
                 $user->email,
                 $user->second_auth_secret
             ),
