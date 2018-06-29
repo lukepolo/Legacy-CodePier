@@ -13,7 +13,6 @@ if (config('app.env') === 'local') {
     });
 }
 
-Route::get('test', 'User\UserController@requestData');
 /*
 |--------------------------------------------------------------------------
 | OAuth Routes
