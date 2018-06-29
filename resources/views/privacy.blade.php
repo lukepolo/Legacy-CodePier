@@ -3,13 +3,14 @@
 @section('content')
     <section class="section">
         <div class="section--content">
-            <h1>CodePier PRIVACY POLICY</h1>
-            <ul>
-                <li>Last modified: MAY 11, 2018.</li>
-                <li>Effective: MAY 25, 2018.</li>
-            </ul>
+            <h1>
+                CodePier PRIVACY POLICY
+            </h1>
+            <p style="margin-top:-8px;">
+                Last modified: {{ \Carbon\Carbon::createFromTimestamp(filemtime(resource_path('views/privacy.blade.php')))->format('F dS, Y')  }}
+            </p>
 
-            <h1>WELCOME TO CodePier!</h1>
+            <h2>WELCOME TO CodePier!</h2>
             <p>
                 CodePier provides a automation service for deploying applications via the CodePier website (the “Site”)
                 and related Internet services (collectively, the “Service(s)”). The Service is operated by CodePier LLC.
@@ -19,7 +20,7 @@
                 collected through the Services.
             </p>
 
-            <h1>INFORMATION WE COLLECT</h1>
+            <h2>INFORMATION WE COLLECT</h2>
             <p>
                 When you interact with us through the Services, we may collect information from you, as further
                 described below:
@@ -32,7 +33,7 @@
                 repository information.
             </p>
 
-            <h1>OTHER INFORMATION:</h1>
+            <h2>OTHER INFORMATION:</h2>
 
             <ul>
                 <li>
@@ -92,7 +93,7 @@
             </p>
 
 
-            <h1>WHERE INFORMATION IS PROCESSED</h1>
+            <h2>WHERE INFORMATION IS PROCESSED</h2>
             <p>
                 The Company is based in the United States. No matter where you are located, you consent to the
                 processing and transferring of your information in and to the U.S. and other countries. The laws of the
@@ -100,7 +101,7 @@
                 the laws of the country where you live.
             </p>
 
-            <h1>OUR USE OF YOUR INFORMATION</h1>
+            <h2>OUR USE OF YOUR INFORMATION</h2>
             <p>
                 We use the information you provide in a manner that is consistent with this Privacy Policy. If you
                 provide information for a certain reason, we may use the information in connection with the reason for
@@ -117,7 +118,7 @@
                 your name deleted from our mailing lists, please contact us as indicated below.
             </p>
 
-            <h1>OUR LEGAL BASES FOR HANDLING OF YOUR PERSONAL DATA</h1>
+            <h2>OUR LEGAL BASES FOR HANDLING OF YOUR PERSONAL DATA</h2>
             <p>
                 The laws in some jurisdictions require companies to tell you about the legal ground they rely on to use
                 or disclose your personal data. To the extent those laws apply, our legal grounds are as follows:
@@ -165,7 +166,7 @@
                 </li>
             </ul>
 
-            <h1>OUR DISCLOSURE OF YOUR INFORMATION</h1>
+            <h2>OUR DISCLOSURE OF YOUR INFORMATION</h2>
 
             <p>
                 The Company is not in the business of selling your information. We consider this information to be a
@@ -207,7 +208,7 @@
             </ul>
 
 
-            <h1>UNSOLICITED INFORMATION</h1>
+            <h2>UNSOLICITED INFORMATION</h2>
 
             <ul>
                 <li>
@@ -218,7 +219,7 @@
                 </li>
             </ul>
 
-            <h1>CHILDREN</h1>
+            <h2>CHILDREN</h2>
 
             <p>
                 Our Services are for users age 18 and over and we do not knowingly collect personal information from
@@ -230,7 +231,7 @@
                 processing and will take reasonable measures to promptly remove applicable information from our records.
             </p>
 
-            <h1>LINKS TO OTHER WEB SITES</h1>
+            <h2>LINKS TO OTHER WEB SITES</h2>
 
             <p>
                 This Privacy Policy applies only to the Services. The Services may contain links to other web sites not
@@ -240,14 +241,14 @@
                 privacy policies.
             </p>
 
-            <h1>DATA RETENTION</h1>
+            <h2>DATA RETENTION</h2>
             <p>
                 We generally retain personal data for so long as it may be relevant to the purposes identified herein.
                 To dispose of personal data, we may anonymize it, delete it or take other appropriate steps. Data may
                 persist in copies made for backup and business continuity purposes for additional time.
             </p>
 
-            <h1>SECURITY</h1>
+            <h2>SECURITY</h2>
 
             <p>
                 We take reasonable steps to protect the information provided via the Services from loss, misuse, and
@@ -257,7 +258,7 @@
                 keep this in mind when disclosing any information via the Internet.
             </p>
 
-            <h1>YOUR DATA RIGHTS AND CHOICES</h1>
+            <h2>YOUR DATA RIGHTS AND CHOICES</h2>
 
             <p>
                 We believe that users should be treated equally no matter where they are, and so we are making the
@@ -279,9 +280,9 @@
                 ability to continue processing data in lawful ways.
             </p>
 
-            <h1>
+            <h2>
                 How can I access the personal data you have about me?
-            </h1>
+            </h2>
 
             <p>
                 If you would like to submit a data access request, you can do so from the “My Account” page of the
@@ -315,7 +316,7 @@
                 concern.
             </p>
 
-            <h1>CHANGES TO THIS PRIVACY POLICY</h1>
+            <h2>CHANGES TO THIS PRIVACY POLICY</h2>
 
             <p>
                 We reserve the right to update or modify this Privacy Policy at any time and from time to time without
@@ -325,7 +326,7 @@
                 such revised Privacy Policy.
             </p>
 
-            <h1>CONTACTING US</h1>
+            <h2>CONTACTING US</h2>
             <p>
                 Please also feel free to contact us if you have any questions about this Privacy Policy or the
                 information practices of the Services. You may contact us as follows: support@codepier.io.
