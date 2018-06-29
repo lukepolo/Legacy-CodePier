@@ -420,9 +420,4 @@ class User extends Authenticatable
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
-
-    public function delete()
-    {
-        return parent::delete();
-    }
 }
