@@ -33,7 +33,7 @@ export const updateDataProcessing = (context, data) => {
 };
 
 export const requestData = (context, data) => {
-  return Vue.request(data).patch(
+  return Vue.request(data).get(
     Vue.action("UserUserController@requestData", { user: data.user }),
   );
 };

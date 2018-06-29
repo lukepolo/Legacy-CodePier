@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Mail\UserBundleEmail;
-use Illuminate\Support\Facades\Mail;
 use ZipArchive;
 use League\Csv\Writer;
 use App\Models\Schema;
 use App\Models\User\User;
 use Illuminate\Bus\Queueable;
+use App\Mail\UserBundleEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -89,6 +89,12 @@ class UserDataBundle implements ShouldQueue
         File::deleteDirectory($this->directory);
         Mail::to($this->user->email)
             ->send(new UserBundleEmail($bundlePath));
+
+        File::delete($bundlePath);
+
+        $this->user->update([
+            'last_bundle_download' => null
+        ]);
     }
 
     /*
