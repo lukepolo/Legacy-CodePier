@@ -1,6 +1,7 @@
 import {
   UserInfo,
   UserSshKeys,
+  UserPrivacy,
   UserSubscription,
   UserServerProviders,
   UserRepositoryProviders,
@@ -61,7 +62,15 @@ export default [
           default: UserNotificationProviders,
           nav: UserNav
         }
-      }
+      },
+      {
+          path: "privacy",
+          name: "user_privacy",
+          components: {
+              default: UserPrivacy,
+              nav: UserNav
+          }
+      },
     ]
   }
 ];

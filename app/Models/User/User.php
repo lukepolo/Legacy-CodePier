@@ -46,6 +46,9 @@ class User extends Authenticatable
         'user_login_provider_id',
         'last_read_announcement',
         'referrer',
+        'processing',
+        'marketing',
+        'last_bundle_download',
     ];
 
     /**
@@ -64,6 +67,7 @@ class User extends Authenticatable
         'created_at',
         'last_login_at',
         'trial_ends_at',
+        'last_bundle_download',
     ];
 
     protected $appends = [

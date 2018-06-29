@@ -73,6 +73,10 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.force_https')) {
             URL::forceScheme('https');
         }
+
+        if (\Auth::check() && ! \Auth::user()->processing) {
+            config('sentry.user_context', false);
+        }
     }
 
     /**

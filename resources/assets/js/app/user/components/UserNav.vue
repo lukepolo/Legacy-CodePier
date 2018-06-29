@@ -42,5 +42,12 @@
             </a>
         </router-link>
 
+        <router-link tag="li" class="wizard-item" :to="{ name : 'user_privacy' }">
+            <a>
+                Privacy Settings
+                <div class="small">Manage how handle your data</div>
+            </a>
+        </router-link>
+
     </ul>
 </template>

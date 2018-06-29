@@ -38,11 +38,6 @@ class SchemaUser extends Model
         return $this->morphedByMany(Server::class, 'schema_userable');
     }
 
-    public function schema()
-    {
-        return $this->belongsTo(Schema::class);
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Helpers

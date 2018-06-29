@@ -5,7 +5,6 @@ namespace App\Services\Systems\Ubuntu\V_16_04\Languages\Ruby;
 use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\ServiceConstructorTrait;
-use App\Services\Systems\Ubuntu\V_16_04\WebService;
 
 class Ruby
 {

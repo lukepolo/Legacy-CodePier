@@ -42,6 +42,7 @@ class SiteWorkerController extends Controller
             'user' => $request->get('user'),
             'command' => $request->get('command'),
             'number_of_workers' => $request->get('number_of_workers'),
+            'working_directory' => $request->get('working_directory'),
         ]);
 
         $site->workers()->save($worker);
