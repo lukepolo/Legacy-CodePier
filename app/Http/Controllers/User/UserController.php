@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateMarketing;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\UserUpdateDataProcessing;
+use Carbon\Carbon;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserController extends Controller
@@ -54,6 +55,15 @@ class UserController extends Controller
      */
     public function requestData()
     {
+        $user = \Auth::user();
+        if ($user->last_bundle_download && $user->last_bundle_download->addDays(2) >= Carbon::now()) {
+            return response()->json('Your data is still processing, please wait till its been sent to you.', 500);
+        }
+
+        $user->update([
+            'last_bundle_download' => Carbon::now()
+        ]);
+
         dispatch(new UserDataBundle(\Auth::user()));
         return response()->json('OK');
     }

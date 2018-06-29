@@ -14,8 +14,9 @@ class AddPrivacyColumnsToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('processing')->default(true)->after('updated_at');
-            $table->boolean('marketing')->default(true)->after('updated_at');
+            $table->boolean('processing')->default(true)->before('updated_at');
+            $table->boolean('marketing')->default(true)->before('updated_at');
+            $table->dateTime('last_bundle_download')->nullable()->before('updated_at');
         });
     }
 
@@ -29,6 +30,7 @@ class AddPrivacyColumnsToUser extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('processing');
             $table->dropColumn('marketing');
+            $table->dropColumn('last_bundle_download');
         });
     }
 }
