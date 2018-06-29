@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Jobs\UserDataBundle;
+use Carbon\Carbon;
 use App\Models\User\User;
+use App\Jobs\UserDataBundle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateMarketing;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\UserUpdateDataProcessing;
-use Carbon\Carbon;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserController extends Controller
