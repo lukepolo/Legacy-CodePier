@@ -57,6 +57,11 @@
             </div>
 
             <div class="flyform--group">
+                <input type="text" name="working_directory" v-model="form.working_directory" placeholder=" ">
+                <label for="working_directory">Working Directory</label>
+            </div>
+
+            <div class="flyform--group">
                 <input type="integer" name="number_of_workers" v-model="form.number_of_workers" placeholder=" ">
                 <label for="number_of_workers">Number of Workers</label>
             </div>
@@ -115,7 +120,8 @@ export default {
         command: null,
         auto_start: true,
         auto_restart: true,
-        number_of_workers: 1
+        number_of_workers: 1,
+        working_directory: null,
       })
     };
   },
@@ -185,7 +191,7 @@ export default {
     resetForm() {
       this.form.reset();
       if (this.site) {
-        this.form.command = this.site.path;
+        this.form.command = this.site.path + (this.site.zero_downtime_deployment ? "/current/" : "/");
       }
       this.showForm = false;
     }

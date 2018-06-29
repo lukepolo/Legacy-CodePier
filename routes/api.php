@@ -39,6 +39,10 @@ Route::group(['middleware' => [
         'except' => 'index',
     ]);
 
+    Route::get('user/{user}/request-data', 'User\UserController@requestData');
+    Route::patch('user/{user}/update-marketing', 'User\UserController@updateMarketing');
+    Route::patch('user/{user}/update-processing', 'User\UserController@updateDataProcessing');
+
     /*
     |--------------------------------------------------------------------------
     | User Routes

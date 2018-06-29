@@ -17,3 +17,29 @@ export const resendConfirmation = () => {
       return response;
     });
 };
+
+export const updateMarketing = (context, data) => {
+  return Vue.request(data).patch(
+    Vue.action("UserUserController@updateMarketing", { user: data.user }),
+    "user/set",
+  );
+};
+
+export const updateDataProcessing = (context, data) => {
+  return Vue.request(data).patch(
+    Vue.action("UserUserController@updateDataProcessing", { user: data.user }),
+    "user/set",
+  );
+};
+
+export const requestData = (context, data) => {
+  return Vue.request(data).get(
+    Vue.action("UserUserController@requestData", { user: data.user }),
+  );
+};
+
+export const deleteAccount = (context, data) => {
+  return Vue.request(data).delete(
+    Vue.action("UserUserController@destroy", { user: data.user }),
+  );
+};

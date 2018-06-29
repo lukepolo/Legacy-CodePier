@@ -3,155 +3,333 @@
 @section('content')
     <section class="section">
         <div class="section--content">
-            <h1>Privacy Policy</h1>
-
-            <p>This privacy policy has been compiled to better serve those who are concerned with how their 'Personally Identifiable Information' (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.</p>
-
-            <hr>
-
-            <h2>What personal information do we collect from the people that visit our blog, website or app?</h2>
-
-            <p>When ordering or registering on our site, as appropriate, you may be asked to enter your name, email address or other details to help you with your experience.</p>
-
-            <h2>When do we collect information?</h2>
-
-            <p>We collect information from you when you Open a Support Ticket or enter information on our site.</p>
-
-
-            <h2>How do we use your information?</h2>
-
-            <p>We may use the information we collect from you when you register, make a purchase, sign up for our newsletter, respond to a survey or marketing communication, surf the website, or use certain other site features in the following ways:</p>
-
+            <h1>CodePier PRIVACY POLICY</h1>
             <ul>
-                <li>To allow us to better service you in responding to your customer service requests.</li>
-                <li>To send periodic emails regarding your order or other products and services.</li>
-                <li>To follow up with them after correspondence (live chat, email or phone inquiries)</li>
+                <li>Last modified: MAY 11, 2018.</li>
+                <li>Effective: MAY 25, 2018.</li>
             </ul>
 
-            <h2>How do we protect your information?</h2>
+            <h1>WELCOME TO CodePier!</h1>
+            <p>
+                CodePier provides a automation service for deploying applications via the CodePier website (the “Site”)
+                and related Internet services (collectively, the “Service(s)”). The Service is operated by CodePier LLC.
+                (the “Company”, “we” or “us”) for users of the Service (“you”). This Privacy Policy sets forth our
+                policy with respect to information that is collected from visitors to the Site and users of the App
+                and/or the Services. Under applicable law, CodePier LLC. is the “data controller” of personal data
+                collected through the Services.
+            </p>
+
+            <h1>INFORMATION WE COLLECT</h1>
+            <p>
+                When you interact with us through the Services, we may collect information from you, as further
+                described below:
+            </p>
+
+            <p>
+                Information You Provide: We collect information from you when you voluntarily provide such information,
+                such as when you register for access to the Services or use certain Services. Information we collect may
+                include but not be limited to name, email address, and any server information, site information,
+                repository information.
+            </p>
+
+            <h1>OTHER INFORMATION:</h1>
 
             <ul>
-                <li>We do not use vulnerability scanning and/or scanning to PCI standards.</li>
-                <li>We only provide articles and information. We never ask for credit card numbers.</li>
-                <li>We do not use Malware Scanning.</li>
-                <li>Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. In addition, all sensitive/credit information you supply is encrypted via Secure Socket Layer (SSL) technology.</li>
-                <li>We implement a variety of security measures when a user places an order enters, submits, or accesses their information to maintain the safety of your personal information.</li>
-                <li>All transactions are processed through a gateway provider and are not stored or processed on our servers.</li>
+                <li>
+                    <strong>Data We Collect Automatically:</strong> When you interact with us through the Services, we
+                    receive and store certain information such as an IP address, and your activities within the
+                    Services. We may store such information or such information may be included in databases owned and
+                    maintained by affiliates, agents or service providers. The Services may use such information and
+                    pool it with other information to track, for example, the total number of visitors to our Site, the
+                    number of servers provisioned, as well as the sites which refer visitors to CodePier.
+                </li>
+                <li>
+                    <strong>Aggregated Information:</strong> In an ongoing effort to better understand and serve the
+                    users of the
+                    Services, we may conduct research on our customer demographics, interests and behavior based on the
+                    information collected. This research may be compiled and analyzed on an aggregate basis, and we may
+                    share this aggregate data with our affiliates (such as Google Analytics), agents and business
+                    partners. We may also disclose aggregated user statistics in order to describe our services to
+                    current and prospective business partners, and to other third parties for other lawful purposes.
+                </li>
+                <li>
+                    <strong>Info through other Services:</strong> You may give us permission to collect your information
+                    in other services. For example, you may connect a server provider or repository provider such as
+                    DigitalOcean or GitHub to your CodePier account. When you do this, it allows us to obtain
+                    information from those accounts (for example, your name and email).
+                </li>
+                <li>
+                    Cookies: We employ cookies and similar technologies to keep track of your local computer’s settings
+                    such as which account you have logged into and notification settings. Cookies are pieces of data
+                    that sites and services can set on your browser or device that can be read on future visits. We may
+                    expand our use of cookies to save additional data as new features are added to the Service. In
+                    addition, we use technologies such as web beacons and single-pixel gifs to record log data such as
+                    open rates for emails sent by the system.
+                </li>
+                <li>
+                    We may use third party web site analytic tools such as Google Analytics on our website that employ
+                    cookies to collect certain information concerning your use of our Services. However, you can disable
+                    cookies by changing your browser settings. Further information about the procedure to follow in
+                    order to disable cookies can be found on your Internet browser provider's website via your help
+                    screen.
+                </li>
+                <li>
+                    <strong>Advertisements:</strong> You may see our Service advertised in other applications or
+                    websites. After clicking
+                    on one of these advertisements and installing our Service, you will become a user of the Service.
+                    Advertising platforms, which include Google, Twitter and Facebook, may collect information for
+                    optimizing advertising campaigns outside of the Service.
+                </li>
             </ul>
 
-            <h2>Do we use 'cookies'?</h2>
+            <p>
+                If you do not wish to receive personalized advertising that is delivered by third parties outside of the
+                CodePier Service, you may be able to exercise that choice through opt-out programs that are administered
+                by third parties, including the Network Advertising Initiative (NAI), the Digital Advertising Alliance
+                (DAA).Our Services currently do not respond to “Do Not Track” (DNT) signals and operate as described in
+                this Privacy Policy whether or not a DNT signal is received, as there is no consistent industry standard
+                for compliance.
+            </p>
 
-            <p>Yes. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser (if you allow) that enables the site's or service provider's systems to recognize your browser and capture and remember certain information. For instance, we use cookies to help us remember and process the items in your shopping cart. They are also used to help us understand your preferences based on previous or current site activity, which enables us to provide you with improved services. We also use cookies to help us compile aggregate data about site traffic and site interaction so that we can offer better site experiences and tools in the future.</p>
 
-            <p>We use cookies to:</p>
+            <h1>WHERE INFORMATION IS PROCESSED</h1>
+            <p>
+                The Company is based in the United States. No matter where you are located, you consent to the
+                processing and transferring of your information in and to the U.S. and other countries. The laws of the
+                U.S. and other countries governing data collection and use may not be as comprehensive or protective as
+                the laws of the country where you live.
+            </p>
+
+            <h1>OUR USE OF YOUR INFORMATION</h1>
+            <p>
+                We use the information you provide in a manner that is consistent with this Privacy Policy. If you
+                provide information for a certain reason, we may use the information in connection with the reason for
+                which it was provided. For instance, if you contact us by email, we will use the information you provide
+                to answer your question or resolve your problem. Also, if you provide information in order to obtain
+                access to the Services, we will use your information to provide you with access to such services and to
+                monitor your use of such services. The Company and its subsidiaries and affiliates (the “Related
+                Companies”) may also use your information collected through the Services to help us improve the content
+                and functionality of the Services, to better understand our users and to improve the Services. The
+                Company and its affiliates may use this information to contact you in the future to tell you about
+                services we believe will be of interest to you. If we do so, each marketing communication we send you
+                will contain instructions permitting you to "opt-out" of receiving future marketing communications. In
+                addition, if at any time you wish not to receive any future marketing communications or you wish to have
+                your name deleted from our mailing lists, please contact us as indicated below.
+            </p>
+
+            <h1>OUR LEGAL BASES FOR HANDLING OF YOUR PERSONAL DATA</h1>
+            <p>
+                The laws in some jurisdictions require companies to tell you about the legal ground they rely on to use
+                or disclose your personal data. To the extent those laws apply, our legal grounds are as follows:
+            </p>
             <ul>
-                <li>Help remember and process the items in the shopping cart.</li>
-                <li>Compile aggregate data about site traffic and site interactions in order to offer better site experiences and tools in the future. We may also use trusted third-party services that track this information on our behalf.</li>
+                <li>
+                    To honor our contractual commitments to you: Much of our processing of personal data is to meet our
+                    contractual obligations to our users, or to take steps at users’ request in anticipation of entering
+                    into a contract with them. For example, we handle personal data on this basis to create your account
+                    and provide our Services.
+                </li>
+                <li>
+                    Legitimate interests: In many cases, we handle personal data on the ground that it furthers our
+                    legitimate interests in ways that are not overridden by the interests or fundamental rights and
+                    freedoms of the affected individuals: This includes:
+                    <ul>
+                        <li>
+                            Providing a safe and enjoyable user experience;
+                        </li>
+                        <li>
+                            Customer service;
+                        </li>
+                        <li>
+                            Marketing, e.g. sending emails or other communications to let you know about new features;
+                        </li>
+                        <li>
+                            Protecting our users, personnel, and property;
+                        </li>
+                        <li>
+                            Analyzing and improving our business, e.g. collecting information about how you use our
+                            Services to optimize the design and placement of certain features;
+                        </li>
+                        <li>
+                            Managing legal issues.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Legal compliance: We need to use and disclose personal data in certain ways to comply with our legal
+                    obligations.
+                </li>
+                <li>
+                    Consent: Where required by law, and in some other cases, we handle personal data on the basis of
+                    your implied or express consent.
+                </li>
             </ul>
 
-            <p>You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browser is a little different, look at your browser's Help Menu to learn the correct way to modify your cookies.</p>
+            <h1>OUR DISCLOSURE OF YOUR INFORMATION</h1>
 
-            <p>If users disable cookies in their browser:</p>
-
-            <p>If you turn cookies off, Some of the features that make your site experience more efficient may not function properly.</p>
-
-            <h2>Third-party disclosure</h2>
-
-            <p>We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information.
-
-            <h2>Third-party links</h2>
-
-            <p>Occasionally, at our discretion, we may include or offer third-party products or services on our website. These third-party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these linked sites. Nonetheless, we seek to protect the integrity of our site and welcome any feedback about these sites.</p>
-
-            <h2>Google</h2>
-
-            <p>Google's advertising requirements can be summed up by Google's Advertising Principles. They are put in place to provide a positive experience for users. https://support.google.com/adwordspolicy/answer/1316548?hl=en</p>
-
-            <p>We have not enabled Google AdSense on our site but we may do so in the future.</p>
-
-            <h2>California Online Privacy Protection Act</h2>
-
-            <p>CalOPPA is the first state law in the nation to require commercial websites and online services to post a privacy policy. The law's reach stretches well beyond California to require any person or company in the United States (and conceivably the world) that operates websites collecting Personally Identifiable Information from California consumers to post a conspicuous privacy policy on its website stating exactly the information being collected and those individuals or companies with whom it is being shared. - See more at: http://consumercal.org/california-online-privacy-protection-act-caloppa/#sthash.0FdRbT51.dpuf</p>
-
-            <p>According to CalOPPA, we agree to the following:</p>
-            <ul>
-                <li>Users can visit our site anonymously.</li>
-                <li>Once this privacy policy is created, we will add a link to it on our home page or as a minimum, on the first significant page after entering our website.</li>
-                <li>Our Privacy Policy link includes the word 'Privacy' and can easily be found on the page specified above.</li>
-            </ul>
-
-            <p>You will be notified of any Privacy Policy changes:</p>
-
-            <ul>
-                <li>On our Privacy Policy Page</li>
-            </ul>
-
-            <p>Can change your personal information:</p>
-
-            <ul>
-                <li>By logging in to your account</li>
-            </ul>
-
-            <h2>How does our site handle Do Not Track signals?</h2>
-            <p>We honor Do Not Track signals and Do Not Track, plant cookies, or use advertising when a Do Not Track (DNT) browser mechanism is in place.</p>
-
-            <h2>Does our site allow third-party behavioral tracking?</h2>
-            <p>It's also important to note that we allow third-party behavioral tracking</p>
-
-            <h2>COPPA (Children Online Privacy Protection Act)</h2>
-
-            <p>When it comes to the collection of personal information from children under the age of 13 years old, the Children's Online Privacy Protection Act (COPPA) puts parents in control. The Federal Trade Commission, United States' consumer protection agency, enforces the COPPA Rule, which spells out what operators of websites and online services must do to protect children's privacy and safety online.</p>
-
-            <p>We do not specifically market to children under the age of 13 years old.</p>
-
-            <h2>Fair Information Practices</h2>
-
-            <p>The Fair Information Practices Principles form the backbone of privacy law in the United States and the concepts they include have played a significant role in the development of data protection laws around the globe. Understanding the Fair Information Practice Principles and how they should be implemented is critical to comply with the various privacy laws that protect personal information.</p>
-
-            <p>In order to be in line with Fair Information Practices we will take the following responsive action, should a data breach occur:</p>
-
-            <p>We will notify you via email</p>
+            <p>
+                The Company is not in the business of selling your information. We consider this information to be a
+                vital part of our relationship with you. There are, however, certain circumstances in which we may share
+                your information with certain third parties, as set forth below: - Business Transfers: As we develop our
+                business, we might sell or buy businesses or assets. In the event of a corporate sale, merger,
+                reorganization, bankruptcy, dissolution or similar event, your information may be part of the
+                transferred assets.
+            </p>
 
             <ul>
-                <li>Within 1 business day</li>
+                <li>
+                    Consent: We may transfer your information with your consent.
+                </li>
+                <li>
+                    Related Companies: We may also share your information with our Related Companies for purposes
+                    consistent with this Privacy Policy.
+                </li>
+                <li>
+                    Developers: Developers using our API will have access to their users’ information, including server
+                    information, site details, and files saved through the service. Developers must use such information
+                    only to provide the API functionality within their applications and/or services.
+                </li>
+                <li>
+                    Agents, Consultants and Related Third Parties: Like many businesses, we sometimes hire other
+                    companies or individuals to perform certain business-related functions. Examples of such functions
+                    include mailing information, maintaining databases and processing payments.
+                </li>
+                <li>
+                    Legal Requirements: We may disclose your information if required to do so by law or in the good
+                    faith belief that such action is necessary to (i) comply with a legal obligation, (ii) protect and
+                    defend the rights or property of the Company or Related Companies, (iii) protect the personal safety
+                    of users of the Services or the public, or (iv) protect against legal liability.
+                </li>
+                <li>
+                    Aggregated or Non-identifiable Data: We may also share aggregated or non-personally identifiable
+                    information with our partners or others for business purposes.
+                </li>
             </ul>
 
-            <p>We also agree to the Individual Redress Principle which requires that individuals have the right to legally pursue enforceable rights against data collectors and processors who fail to adhere to the law. This principle requires not only that individuals have enforceable rights against data users, but also that individuals have recourse to courts or government agencies to investigate and/or prosecute non-compliance by data processors.</p>
 
-            <h2>CAN SPAM Act</h2>
+            <h1>UNSOLICITED INFORMATION</h1>
 
-            <p>The CAN-SPAM Act is a law that sets the rules for commercial email, establishes requirements for commercial messages, gives recipients the right to have emails stopped from being sent to them, and spells out tough penalties for violations.</p>
-
-            <p>We collect your email address in order to:</p>
             <ul>
-                <li>Send information, respond to inquiries, and/or other requests or questions</li>
-                <li>Market to our mailing list or continue to send emails to our clients after the original transaction has occurred.</li>
+                <li>
+                    You may provide us with ideas for new products or modifications to existing products, and other
+                    unsolicited submissions (collectively, “Unsolicited Information”). All Unsolicited Information shall
+                    be deemed to be non-confidential and we shall be free to reproduce, use, disclose, and distribute
+                    such Unsolicited Information to others without limitation or attribution.
+                </li>
             </ul>
 
-            <p>To be in accordance with CANSPAM, we agree to the following:</p>
+            <h1>CHILDREN</h1>
 
-            <ul>
-                <li>Not use false or misleading subjects or email addresses.</li>
-                <li>Identify the message as an advertisement in some reasonable way.</li>
-                <li>Include the physical address of our business or site headquarters.</li>
-                <li>Monitor third-party email marketing services for compliance, if one is used.</li>
-                <li>Honor opt-out/unsubscribe requests quickly.</li>
-                <li>Allow users to unsubscribe by using the link at the bottom of each email.</li>
-            </ul>
+            <p>
+                Our Services are for users age 18 and over and we do not knowingly collect personal information from
+                children under the age of 18. If you are a parent or guardian of a child under the age of 18 and believe
+                he or she has disclosed personal information to us please contact us at support@codepier.io. For
+                residents of the EEA, where processing of personal information is based on consent, CodePier will not
+                knowingly engage in that processing for users under the age of consent established by applicable data
+                protection law. If we learn that we are engaged in that processing with such users, we will halt such
+                processing and will take reasonable measures to promptly remove applicable information from our records.
+            </p>
 
-            <p>If at any time you would like to unsubscribe from receiving future emails, you can email us at</p>
+            <h1>LINKS TO OTHER WEB SITES</h1>
 
-            <ul>
-                <li>Follow the instructions at the bottom of each email, and we will promptly remove you from ALL correspondence.</li>
-            </ul>
+            <p>
+                This Privacy Policy applies only to the Services. The Services may contain links to other web sites not
+                operated or controlled by us (the “Third Party Sites”). The policies and procedures we described here do
+                not apply to the Third Party Sites. The links from the Services do not imply that we endorse or have
+                reviewed the Third Party Sites. We suggest contacting those sites directly for information on their
+                privacy policies.
+            </p>
 
-            <h2>Contacting Us</h2>
+            <h1>DATA RETENTION</h1>
+            <p>
+                We generally retain personal data for so long as it may be relevant to the purposes identified herein.
+                To dispose of personal data, we may anonymize it, delete it or take other appropriate steps. Data may
+                persist in copies made for backup and business continuity purposes for additional time.
+            </p>
 
-            <p>If there are any questions regarding this privacy policy, you may contact us using the information below.</p>
+            <h1>SECURITY</h1>
 
-            <p><a href="mailto:support@codepier.io">support@codepier.io</a> </p>
+            <p>
+                We take reasonable steps to protect the information provided via the Services from loss, misuse, and
+                unauthorized access, disclosure, alteration, or destruction. However, no Internet or email transmission
+                is ever fully secure or error free. In particular, email sent to or from the Services may not be secure.
+                Therefore, you should take special care in deciding what information you send to us via email. Please
+                keep this in mind when disclosing any information via the Internet.
+            </p>
 
-            <p>Last Edited on 2017-02-26</p>
+            <h1>YOUR DATA RIGHTS AND CHOICES</h1>
+
+            <p>
+                We believe that users should be treated equally no matter where they are, and so we are making the
+                following options to control your data available to all users, regardless of their location.
+            </p>
+
+            <p>
+                You can unsubscribe from certain emails by clicking the “unsubscribe” link they contain. You can opt out from certain
+                cookie-related processing by following the instructions above in “Other Information.”
+            </p>
+
+            <p>
+                Individuals in the European Economic Area, Canada, Costa Rica and some other jurisdictions outside the
+                United States have certain legal rights to obtain confirmation of whether we hold personal data about
+                them, to access personal data we hold about them (including, in some cases, in portable form), and to
+                obtain its correction, update, amendment or deletion in appropriate circumstances. They may also object
+                to our uses or disclosures of personal data, to request a restriction on its processing, or withdraw any
+                consent, though such actions typically will not have retroactive effect. They also will not affect our
+                ability to continue processing data in lawful ways.
+            </p>
+
+            <h1>
+                How can I access the personal data you have about me?
+            </h1>
+
+            <p>
+                If you would like to submit a data access request, you can do so from the “My Account” page of the
+                Services, where there is a button to download your data. We will then start the process and provide you
+                a link to access the personal data that CodePier has on you within 30 days.
+            </p>
+
+            <p>
+                In addition to the functionality available through the “My Account” of the Services, in which you can
+                correct, update, amend, or delete certain personal data, you can also request other modifications from
+                us directly. Please write us at support@codepier.io with the words “Personal Data Request” in the
+                subject or body of your message, along with an explanation of what data subject right you are seeking to
+                exercise. For your protection, we may take steps to verify identity before responding to your request.
+                How do I object or restrict the manner in which CodePier processes my personal data? You have a right to
+                ask us to stop using or limit our use of your personal data in certain circumstances—for example, if we
+                have no lawful basis to keep using your data, or if you think your personal data is inaccurate.
+            </p>
+
+            <p>
+                CodePier offers you the ability to restrict the processing of your data for specific uses, which you can
+                find in the “My Account” page of the services. Individuals in the European Economic Area have the right to
+                opt out of all of our processing of their personal data for direct marketing purposes. To exercise this
+                right, please see the “My Account” page for your Account. You may also click the “unsubscribe” link in any
+                of our marketing emails.
+            </p>
+
+            <p>
+                The rights and options described above are subject to limitations and exceptions under applicable law.
+                In addition to those rights, you have the right to lodge a complaint with the relevant supervisory
+                authority. However, we encourage you to contact us first, and we will do our very best to resolve your
+                concern.
+            </p>
+
+            <h1>CHANGES TO THIS PRIVACY POLICY</h1>
+
+            <p>
+                We reserve the right to update or modify this Privacy Policy at any time and from time to time without
+                prior notice. Please review this policy periodically, and especially before you provide any information.
+                This Privacy Policy was last updated on the date indicated above. Your continued use of the Services
+                after any changes or revisions to this Privacy Policy shall indicate your agreement with the terms of
+                such revised Privacy Policy.
+            </p>
+
+            <h1>CONTACTING US</h1>
+            <p>
+                Please also feel free to contact us if you have any questions about this Privacy Policy or the
+                information practices of the Services. You may contact us as follows: support@codepier.io.
+            </p>
         </div>
     </section>
 @endsection

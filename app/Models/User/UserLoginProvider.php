@@ -3,13 +3,12 @@
 namespace App\Models\User;
 
 use App\Traits\Encryptable;
-use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserLoginProvider extends Model
 {
-    use SoftDeletes, ConnectedToUser, Encryptable;
+    use SoftDeletes, Encryptable;
 
     protected $guarded = ['id'];
 
