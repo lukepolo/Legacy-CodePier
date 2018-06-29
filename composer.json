@@ -23,6 +23,7 @@
     "laravel/passport": "6.0.*",
     "laravel/socialite": "^3.0",
     "laravel/tinker": "^1.0",
+    "league/csv": "^9.1",
     "league/flysystem-aws-s3-v3": "^1.0",
     "lord/laroute": "^2.4.7",
     "malc0mn/vultr-api-client": "^1.1",
