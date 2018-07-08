@@ -57,8 +57,11 @@
             </div>
 
             <div class="flyform--group">
-                <input type="text" name="working_directory" v-model="form.working_directory" placeholder=" ">
-                <label for="working_directory">Working Directory</label>
+                <tooltip message="The directory that the process will run in">
+                    <span class="icon-info"></span>
+                </tooltip>
+                <label class="flyform--group-iconlabel" for="working_directory">Working Directory</label>
+                <input type="text" name="working_directory" v-model="form.working_directory" placeholder="optional">
             </div>
 
             <div class="flyform--group">
