@@ -1,5 +1,4 @@
 // APP STYLING
-@import "site/variables";
 @import "base";
 @import "modules/buttons";
 @import "modules/icons";
@@ -27,13 +26,15 @@
 body {
   display: flex;
   flex-direction: column;
+  background-color: $color-background-inverse;
+  color: $color-text-inverse-primary;
 }
 
 a {
   &:active,
   &:focus,
   &:hover {
-    color: mix($color-primary, $color-text-primary, 80%);
+    color: mix($color-text-link, $color-text-primary, 80%);
   }
 }
 
@@ -49,10 +50,11 @@ h5,
 h6 {
   font-weight: 800;
   font-family: $font-web-heading;
+  color: $color-text-inverse-secondary;
 }
 
 h1 {
-  color: $color-text-primary;
+  color: $color-text-inverse-primary;
   font-size: 34px;
 }
 
@@ -60,7 +62,7 @@ h2 {
   text-transform: none;
   font-weight: 400;
   font-size: 28px;
-  color: $color-text-primary;
+  color: $color-text-inverse-primary;
 }
 
 h3 {
@@ -70,7 +72,7 @@ h3 {
   line-height: 1em;
 
   small {
-    color: rgba($color-text-primary, 0.5);
+    color: rgba($color-text-inverse-primary, 0.5);
   }
 }
 
@@ -86,10 +88,14 @@ h5 {
     display: block;
     height: 4px;
     width: 40px;
-    background-color: $color-primary;
+    background-color: $color-text-link;
     border-radius: 4px;
     margin-top: 6px;
   }
+}
+
+header {
+  border-bottom-color: $color-divider-inverse;
 }
 
 .btn-primary {
@@ -97,7 +103,7 @@ h5 {
 }
 
 .btn-default {
-  background-color: $black;
+  background-color: $gray-dark;
   color: $white !important;
 }
 
@@ -132,12 +138,12 @@ h5 {
 }
 
 .section--content {
-  ul,
-  ol {
+  ol,
+  ul {
     font-size: 1.3em;
 
-    ul,
-    ol {
+    ol,
+    ul {
       font-size: 1em;
       list-style-type: disc;
       margin-bottom: 30px;

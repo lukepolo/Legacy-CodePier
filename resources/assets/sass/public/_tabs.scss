@@ -24,7 +24,7 @@
       left: 50%;
       top: 100%;
       transform: translateX(-50%);
-      border: 10px solid mix($color-primary, $white, 30%);
+      border: 10px solid mix($color-text-link, $white, 30%);
       border-bottom: none;
       border-right-color: transparent;
       border-left-color: transparent;
@@ -33,14 +33,14 @@
     }
 
     &-selected {
-      background-color: $color-primary;
-      color: $color-text-inverse;
+      background-color: $color-text-link;
+      color: $color-text-inverse-primary;
       cursor: pointer;
 
       &:before {
         border-top-width: 10px;
         transition: all 0.2s ease;
-        border-top-color: $color-primary;
+        border-top-color: $color-text-link;
       }
     }
 
@@ -48,7 +48,7 @@
     &:focus:not(.tabs--item-selected),
     &:hover:not(.tabs--item-selected) {
       cursor: pointer;
-      background-color: mix($color-primary, $white, 30%);
+      background-color: mix($color-text-link, $white, 30%);
       transition: all 0.2s ease;
 
       &:before {

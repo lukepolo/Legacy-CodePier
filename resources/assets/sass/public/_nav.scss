@@ -31,7 +31,7 @@
   }
 
   &--link {
-    color: $color-text-primary;
+    color: $color-text-inverse-primary;
     font-size: 14px;
     font-weight: 400;
     font-family: $font-heading;
@@ -42,11 +42,11 @@
     &:active,
     &:focus,
     &:hover {
-      color: $color-primary;
+      color: $color-text-link;
 
       &:after {
         content: "";
-        background-color: $color-primary;
+        background-color: $color-text-link;
         height: 2px;
         position: absolute;
         right: 0;
@@ -62,26 +62,26 @@
     }
 
     &-highlight {
-      color: $color-primary;
+      color: $color-text-link;
       font-weight: 600;
 
       &:active,
       &:focus,
       &:hover {
-        color: $color-primary;
+        color: $color-text-link;
       }
     }
 
     &-block {
-      background-color: $color-primary;
-      color: $color-text-inverse;
+      background-color: $color-text-link;
+      color: $color-text-primary;
       font-weight: 600;
 
       &:hover,
       &:active,
       &:focus {
-        color: $color-text-inverse;
-        background-color: mix($color-primary, $white, 80%);
+        color: $color-text-primary;
+        background-color: mix($color-text-link, $white, 80%);
       }
     }
 

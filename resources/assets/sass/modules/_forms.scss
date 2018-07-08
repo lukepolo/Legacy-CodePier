@@ -117,7 +117,7 @@
     pointer-events: all;
 
     &:hover {
-      color: $color-primary;
+      color: $color-text-link;
     }
   }
 
@@ -193,7 +193,7 @@ textarea {
   resize: none;
 
   &:focus {
-    outline: 3px solid $color-primary;
+    outline: 3px solid $color-text-link;
   }
 }
 

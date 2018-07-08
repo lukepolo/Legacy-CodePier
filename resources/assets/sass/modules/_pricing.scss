@@ -3,7 +3,7 @@
 #section--pricingintro {
   h1 {
     font-size: 2.7em;
-    color: mix($color-primary, $white, 50%);
+    color: mix($color-text-link, $white, 50%);
     text-align: center;
     padding: $spacing 0px;
 
@@ -53,17 +53,17 @@
 
     &.selected {
       margin: -20px -1px;
-      border: 3px solid $color-primary;
+      border: 3px solid $color-text-link;
       z-index: 1;
 
       .pricing--header {
-        background-color: $color-primary;
+        background-color: $color-text-link;
         color: $white;
       }
 
       small {
         font-style: italic;
-        //color: $color-text-inverse;
+        //color: $color-text-inverse-primary;
       }
     }
   }
@@ -75,7 +75,7 @@
     padding: 10px 20px;
     font-size: 2.5em;
     border-bottom: 1px solid $color-divider;
-    background-color: rgba($grayLight, 0.2);
+    background-color: rgba($gray-light, 0.2);
 
     &-price {
       font-size: 1.5em;
@@ -112,7 +112,7 @@
     text-transform: uppercase;
     text-align: center;
     background-color: $green;
-    color: $color-text-inverse;
+    color: $color-text-inverse-primary;
     padding: 10px;
   }
 

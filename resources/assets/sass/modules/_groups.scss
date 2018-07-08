@@ -9,11 +9,11 @@
     display: flex;
     flex-direction: column;
     @include card(1);
-    border: 1px solid mix($black, $gray, 60%);
+    border: 1px solid mix($gray-dark, $gray, 60%);
 
     &-heading {
       background-color: mix($white, $gray, 10%);
-      border-bottom: 1px solid mix($black, $gray, 10%);
+      border-bottom: 1px solid mix($gray-dark, $gray, 10%);
       padding: $spacing;
       position: relative;
       min-height: 61px;
@@ -36,13 +36,13 @@
         font-weight: 400;
         letter-spacing: 0.5px;
         background-color: transparent;
-        border: 1px solid $black;
+        border: 1px solid $gray-dark;
         width: calc(100% - 72px);
         margin: -10px;
         padding: 9px;
 
         &:focus {
-          outline: 2px solid $color-primary;
+          outline: 2px solid $color-text-link;
         }
       }
 

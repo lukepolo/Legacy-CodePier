@@ -1,14 +1,14 @@
 // Feature Styles =====================
 // ====================================
 #section--features {
-  background-color: $color-background-web;
+  background-color: $color-background-inverse-contrast;
   margin-bottom: 0px;
 
   h4 {
     text-transform: none;
     font-size: 18px;
     font-weight: 500;
-    color: $color-text-primary;
+    color: $color-text-inverse-primary;
     margin-top: 10px;
   }
 }
@@ -30,7 +30,7 @@
   &--img {
     flex: 0 0 auto;
     font-size: 40px;
-    color: $color-text-accent;
+    color: $color-text-link;
     margin-right: 15px;
 
     > span {

@@ -27,7 +27,7 @@
     <body>
         <div id="app-layout">
             <header>
-                <div class="logo-container">
+                <div class="logo">
                     <router-link to="/">
                         <img src="/assets/img/codepier_w.svg">
                     </router-link>

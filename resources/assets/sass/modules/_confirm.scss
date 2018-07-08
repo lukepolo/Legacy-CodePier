@@ -3,7 +3,7 @@
 .confirm {
   z-index: 100;
   background-color: $color-background;
-  border: 1px solid mix($black, $gray, 50%);
+  border: 1px solid mix($gray-dark, $gray, 50%);
   border-radius: 3px;
   margin: $spacing/2;
   position: relative;
@@ -109,7 +109,7 @@
   transform: translateX(-50%);
   width: 400px;
   background-color: $color-background;
-  border: 1px solid mix($black, $gray, 50%);
+  border: 1px solid mix($gray-dark, $gray, 50%);
   border-radius: 3px;
   z-index: 300;
 
@@ -132,7 +132,7 @@
     content: "";
     width: 10px;
     height: 11px;
-    border: 10px solid mix($black, $gray, 50%);
+    border: 10px solid mix($gray-dark, $gray, 50%);
     border-bottom-width: 11px;
     border-left-color: transparent;
     border-right-color: transparent;
@@ -144,7 +144,7 @@
   }
 
   .btn-footer {
-    border-top: 1px solid $black;
+    border-top: 1px solid $gray-dark;
     margin: 0px;
     padding: $spacing/2;
   }
@@ -163,7 +163,7 @@
 
     &:after {
       border-top: none;
-      border-bottom: 10px solid mix($black, $gray, 50%);
+      border-bottom: 10px solid mix($gray-dark, $gray, 50%);
       bottom: auto;
       top: -12px;
     }
@@ -191,7 +191,7 @@
 }
 
 .confirm-header {
-  border-bottom: 1px solid $black;
+  border-bottom: 1px solid $gray-dark;
   padding: $spacing/2;
 }
 
@@ -229,7 +229,7 @@
       top: 50%;
       bottom: auto;
       transform: translateY(-50%);
-      border: 10px solid mix($black, $gray, 50%);
+      border: 10px solid mix($gray-dark, $gray, 50%);
       border-right: none;
       border-top-color: transparent;
       border-bottom-color: transparent;

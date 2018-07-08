@@ -1,19 +1,25 @@
 // HEADER STYLES ===========================================
 // =========================================================
 header {
-  background-color: $black;
+  background-color: $color-background-contrast;
   display: flex;
-
-  .muted {
-    font-size: 0.8em;
-    text-transform: uppercase;
-    opacity: 0.5;
-    display: inline-block;
-    padding-right: 5px;
-  }
+  justify-content: space-between;
 }
 
-.logo-container {
+// header {
+//   background-color: $gray-dark;
+//   display: flex;
+//
+//   .muted {
+//     font-size: 0.8em;
+//     text-transform: uppercase;
+//     opacity: 0.5;
+//     display: inline-block;
+//     padding-right: 5px;
+//   }
+// }
+
+.logo {
   flex: 0 0 220px;
   display: flex;
   align-items: center;

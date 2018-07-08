@@ -47,7 +47,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $color-primary;
+      color: $color-text-link;
       outline: none;
     }
 
@@ -195,7 +195,7 @@ button[disabled="disabled"] {
     }
 
     &:hover:after {
-      color: $color-text-accent;
+      color: $color-text-link;
     }
   }
 }
@@ -214,7 +214,7 @@ button[disabled="disabled"] {
   &:active,
   &:focus,
   &:hover {
-    color: mix($text-color, $grayLight, 70%);
+    color: mix($text-color, $gray-light, 70%);
     cursor: pointer;
   }
 }
