@@ -454,8 +454,6 @@ class ServerService implements ServerServiceContract
             $tokenScriptFile = "/opt/codepier/cert-bot-scripts/$sslCertificate->id-set-token.sh";
             $this->remoteTaskService->writeToFile($tokenScriptFile, '
     #!/bin/bash
-    # $CERTBOT_VALIDATION
-    # $CERTBOT_TOKEN
     curl -X "POST" "'.config('app.url_dns').'/update" \
         -H \'Content-Type: application/json; charset=utf-8\' \
         -H \'X-Api-Key: '.$sslCertificate->acme_password.'\' \
