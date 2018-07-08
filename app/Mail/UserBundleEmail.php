@@ -29,7 +29,7 @@ class UserBundleEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.user-bundle')
+        return $this->subject('Your User Data')->markdown('mail.user-bundle')
             ->attach($this->bundlePath);
     }
 }
