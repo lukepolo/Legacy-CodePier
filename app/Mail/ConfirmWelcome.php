@@ -29,7 +29,7 @@ class ConfirmWelcome extends Mailable
      */
     public function build()
     {
-        return $this->from('hello@codepier.io', 'CodePier')
+        return $this->subject('Please Confirm Your Email')->from('hello@codepier.io', 'CodePier')
             ->markdown('mail.confirm-welcome');
     }
 }
