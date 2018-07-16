@@ -42,7 +42,7 @@ class InstallServerFeature implements ShouldQueue
 
         $serverFeatureService = app(ServerFeatureServiceContract::class);
 
-        $this->makeCommand($server, $server, null, 'Installing '.$serverFeatureService->getBaseFeatures()->get($service)->get($feature)->get('name').' on server');
+        $this->makeCommand($server, $server, null, 'TEST');
     }
 
     /**

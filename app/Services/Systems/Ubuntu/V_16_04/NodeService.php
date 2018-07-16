@@ -20,7 +20,7 @@ class NodeService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash');
+        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash');
 
         $this->remoteTaskService->appendTextToFile('/etc/profile', '
 lazynvm() {
