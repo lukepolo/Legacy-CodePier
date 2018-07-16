@@ -34,6 +34,7 @@ import {
 
 export default [
   {
+      name : 'create_site',
       path : '/site/create',
       component : CreateSite,
   },

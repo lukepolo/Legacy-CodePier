@@ -1,3 +1,10 @@
 @import "base";
 @import "layouts";
 @import "modules";
+
+.section {
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

@@ -9,8 +9,6 @@
         </router-link>
     </div>
 
-    <site-progress></site-progress>
-
     <ul class="nav navbar-right nav-right">
 
         <template v-if="isSubscribed">

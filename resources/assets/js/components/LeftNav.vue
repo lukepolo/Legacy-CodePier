@@ -38,8 +38,6 @@
                     <site :site="site"></site>
                 </div>
 
-                <site-form :pile="currentPile.id"></site-form>
-                
             </div>
 
             <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
@@ -59,13 +57,11 @@
 </template>
 
 <script>
-import SiteForm from "./SiteForm.vue";
 import Site from "./left-nav-components/Site.vue";
 
 export default {
   components: {
     Site,
-    SiteForm,
   },
   methods: {
     changePile(pile_id) {

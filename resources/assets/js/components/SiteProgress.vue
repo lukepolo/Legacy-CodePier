@@ -1,20 +1,8 @@
 <template>
 <div class="progress">
-    <div class="progress--item">
-        <!-- completed -->
+    <div class="progress--item" :class="{ completed : createdSite }">
         <div class="progress--item-number">
             1
-        </div>
-        <div class="progress--item-name">
-            Create Site
-        </div>
-    </div>
-
-    <div class="progress--item-divider"></div>
-
-    <div class="progress--item">
-        <div class="progress--item-number">
-            2
         </div>
         <div class="progress--item-name">
             Site Setup
@@ -23,9 +11,9 @@
 
     <div class="progress--item-divider"></div>
 
-    <div class="progress--item">
+    <div class="progress--item" :class="{ completed : provisionedInfrastructure }">
         <div class="progress--item-number">
-            3
+            2
         </div>
         <div class="progress--item-name">
             Provision Infrastructure
@@ -36,7 +24,7 @@
 
     <div class="progress--item">
         <div class="progress--item-number">
-            4
+            3
         </div>
         <div class="progress--item-name">
             Deploy
@@ -45,3 +33,19 @@
 
 </div>
 </template>
+
+<script>
+export default {
+  props: {
+    createdSite: {
+      default: false,
+    },
+    siteSetup: {
+      default: false,
+    },
+    provisionedInfrastructure: {
+      default: false,
+    },
+  },
+};
+</script>
