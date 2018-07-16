@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Horizon\Horizon;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
@@ -76,6 +77,10 @@ class AppServiceProvider extends ServiceProvider
 
         if (\Auth::check() && ! \Auth::user()->processing) {
             config('sentry.user_context', false);
+        }
+
+        if (config('app.env') === 'local') {
+//            Artisan::call('clear:app-caches');
         }
     }
 
