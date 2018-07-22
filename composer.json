@@ -43,6 +43,7 @@
     "vinkla/hashids": "^5.0.0"
   },
   "require-dev": {
+    "beyondcode/laravel-query-detector": "^0.4.0",
     "filp/whoops": "~2.0",
     "friendsofphp/php-cs-fixer": "^2.10",
     "fzaninotto/faker": "~1.4",
