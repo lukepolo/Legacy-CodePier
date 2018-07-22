@@ -64,8 +64,6 @@ class PHP
     ];
 
     /**
-     * @description PHP
-     *
      * @options 7.0, 7.1, 7.2
      * @multiple false
      */
