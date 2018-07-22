@@ -67,8 +67,6 @@ class Swift
 
         $this->connectToServer('codepier');
 
-        $this->remoteTaskService->run('echo $PATH');
-
         $this->remoteTaskService->run("swiftenv install $version");
     }
 
