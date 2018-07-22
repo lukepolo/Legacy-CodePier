@@ -28,6 +28,6 @@ class ClearAppCaches extends Command
      */
     public function handle()
     {
-        Cache::flush('app.services');
+        Cache::tags('app.services')->flush();
     }
 }

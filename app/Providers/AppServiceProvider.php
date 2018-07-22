@@ -5,7 +5,6 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Artisan;
 use Laravel\Horizon\Horizon;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
@@ -19,6 +18,7 @@ use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Artisan;
 use App\Observers\Server\ServerObserver;
 use App\Observers\Site\LifelineObserver;
 use App\Models\Site\SiteServerDeployment;
@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (config('app.env') === 'local') {
-//            Artisan::call('clear:app-caches');
+            Artisan::call('clear:app-caches');
         }
     }
 
