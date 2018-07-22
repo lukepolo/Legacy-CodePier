@@ -86,6 +86,14 @@ return [
             'block_for' => null,
         ],
 
+        'check-ssh-connections' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 10,
+            'block_for' => null,
+        ],
+
     ],
 
     /*
@@ -117,5 +125,6 @@ return [
         'server_commands' => 'server_commands',
         'site_deployments' => 'site_deployments',
         'server_provisioning' => 'server_provisioning',
+        'check_ssh_connection' => 'check_ssh_connection',
     ],
 ];
