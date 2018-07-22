@@ -24,7 +24,12 @@ class Vapor
 
     ];
 
-    public function installVaporTools()
+    /**
+     *  @name Vapor Tools
+     *
+     * @description Vapor tools allow you to run vapor applications
+     */
+    public function installVapor()
     {
         $this->connectToServer();
         $this->remoteTaskService->run('wget -q https://repo.vapor.codes/apt/keyring.gpg -O- | apt-key add -');

@@ -51,8 +51,6 @@ class Swift
     ];
 
     /**
-     * @description Swift
-     *
      * @options 4.0,4.1,4.2
      * @multiple false
      */
