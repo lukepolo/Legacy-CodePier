@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./public/",
+    "module": "esNext",
+    "moduleResolution": "Node",
+    "baseUrl": "",
+    "target": "ES5",
+    "lib": ["ES6", "dom"],
+    "types": ["vue", "vuex", "vue-router", "webpack-env", "reflect-metadata"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@app": ["resources/js/app"],
+      "@app/*": ["resources/js/app/*"],
+
+      "@config": ["resources/js/config"],
+      "@config/*": ["resources/js/config/*"],
+
+      "@store": ["resources/js/app/store"],
+      "@store/*": ["resources/js/app/store/*"],
+
+      "@models": ["resources/js/app/models"],
+      "@models/*": ["resources/js/app/models/*"],
+
+      "@routes": ["resources/js/routes"],
+      "@routes/*": ["resources/js/routes/*"],
+
+      "@resources": ["resources/js/resources"],
+      "@resources/*": ["resources/js/resources/*"],
+
+      "@views": ["resources/js/resources/views"],
+      "@views/*": ["resources/js/resources/views/*"],
+
+      "@components": ["resources/js/app/components"],
+      "@components/*": ["resources/js/app/components/*"]
+    }
+  },
+  "include": ["./resources/js/**/*.ts"]
+}

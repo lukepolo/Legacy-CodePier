@@ -5,7 +5,7 @@ return [
     /*
      * The destination path for the javascript file.
      */
-    'path' => 'resources/assets/js',
+    'path' => 'resources/js/vendor',
 
     /*
      * The destination filename for the javascript file.
