@@ -4,22 +4,13 @@
             <h2>Forgot Password</h2>
         </div>
 
-        <!--action="{{ url('/password/email') }}"-->
-        <form method="POST" class="validation-form floating-labels">
-
-            <div class="flyform--content">
-                <div class="flyform--group">
-                    <input type="email" name="email" placeholder=" " required>
-                    <label for="email">Email</label>
-                </div>
+        <base-form v-form="form">
+            <base-input type="email" label="Email" name="email" v-model="form.email" validate></base-input>
+            <div slot="buttons">
+                <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
+                <button class="btn btn-primary" type="submit" :class="{ 'btn-disabled' : !form.isValid() }" :disabled="!form.isValid()">Reset Password</button>
             </div>
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
-                    <button class="btn btn-primary" type="submit">Reset Password</button>
-                </div>
-            </div>
-        </form>
+        </base-form>
     </div>
 </template>
 
@@ -38,11 +29,9 @@ export default Vue.extend({
     return {
       form: this.createForm({
         email: null,
-        password: null,
       }).validation({
         rules: {
           email: "required|email",
-          password: "required",
         },
       }),
     };

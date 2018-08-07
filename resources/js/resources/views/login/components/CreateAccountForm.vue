@@ -4,35 +4,17 @@
             <h2>Create Account</h2>
             <p>Fill out the following fields to create your account.</p>
         </div>
-        <!--action="{{ url('/register') }}"-->
-        <form method="POST">
 
-            <div class="flyform--content">
-                <div class="flyform--group">
-                    <input type="text" name="name" required>
-                    <label for="name">Name</label>
-                </div>
-                <div class="flyform--group">
-                    <input type="email" name="email" required>
-                    <label for="email">Email</label>
-                </div>
-                <div class="flyform--group">
-                    <input type="password" name="password" required>
-                    <label for="password">Password</label>
-                </div>
-                <div class="flyform--group">
-                    <input type="password" name="password_confirmation" required>
-                    <label for="password_confirmation">Confirm Password</label>
-                </div>
+        <base-form v-form="form">
+            <base-input validate name="name" label="Name" v-model="form.name"></base-input>
+            <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
+            <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
+            <base-input validate name="confirm-password" label="Confirm Password" type="password" v-model="form.passwordConfirmed"></base-input>
+            <div slot="buttons">
+                <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
+                <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Sign Up</button>
             </div>
-
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
-                    <button class="btn btn-primary" type="submit">Sign Up</button>
-                </div>
-            </div>
-        </form>
+        </base-form>
     </div>
 </template>
 
@@ -50,12 +32,15 @@ export default Vue.extend({
   data() {
     return {
       form: this.createForm({
+        name: null,
         email: null,
         password: null,
+        passwordConfirmed: null,
       }).validation({
         rules: {
+          name: "required",
           email: "required|email",
-          password: "required",
+          password: "required|confirmed|min:8",
         },
       }),
     };

@@ -38,7 +38,7 @@ export default Vue.extend({
       }).validation({
         rules: {
           email: "required|email",
-          password: "required",
+          password: "required|min:8",
         },
       }),
     };
