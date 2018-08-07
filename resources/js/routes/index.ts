@@ -8,6 +8,6 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 |
 */
 
-$router.route("/", "login/Login");
+$router.route("/login", "login/Login");
 
 $router.route("*", "errors/404");
