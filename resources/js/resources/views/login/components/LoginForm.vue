@@ -4,8 +4,6 @@
             <h2>Login</h2>
         </div>
 
-        <!--@include('auth.errors')-->
-
         <base-form v-form="form">
             <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
             <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
