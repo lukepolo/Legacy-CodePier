@@ -40,7 +40,7 @@ export default Vue.extend({
         rules: {
           name: "required",
           email: "required|email",
-          password: "required|confirmed|min:8",
+          password: "required|min:8|confirmed",
         },
       }),
     };
