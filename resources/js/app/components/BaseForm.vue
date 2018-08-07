@@ -1,5 +1,5 @@
 <template>
-    <form method="POST">
+    <form :method="method">
         <div class="flyform--content">
             <slot></slot>
         </div>
@@ -20,6 +20,10 @@
         props : {
             data : {
                 required : false,
+            },
+            method : {
+                type : String,
+                default : 'POST',
             }
         }
     })

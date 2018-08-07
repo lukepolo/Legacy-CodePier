@@ -3,6 +3,7 @@
         <input
             :id="name"
             :name="name"
+            :type="type"
             v-bind="$attrs"
             :value="value"
             :tabindex="tabindex"
@@ -17,6 +18,10 @@
     import Vue from 'vue';
     export default Vue.extend({
         props : {
+            type : {
+                type : String,
+              default : 'text'
+            },
             value : {
                 required : true,
             },
@@ -25,7 +30,8 @@
                 type : String,
             },
             label : {
-                type : String
+                type : String,
+                required : true,
             },
             tabindex : {
                 default : 0,
