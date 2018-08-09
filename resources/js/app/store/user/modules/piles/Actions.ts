@@ -11,8 +11,8 @@ export default class Actions {
 
   get = (context: ActionContext<PilesState, RootState>, data) => {
     return this.$pileService.get().then((response) => {
-      context.commit('SET_PILES', response.data);
+      context.commit("SET_PILES", response.data);
       return response.data;
-    })
+    });
   };
 }

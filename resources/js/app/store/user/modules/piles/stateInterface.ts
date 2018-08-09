@@ -1,3 +1,3 @@
 export interface PilesState {
-    piles : []
+  piles: [];
 }
