@@ -33,7 +33,10 @@ export default class Actions {
       });
   };
 
-  me = () => {
-    this.$http.get("/api/me");
+  me = (context: ActionContext<AuthState, RootState>) => {
+    return this.$http.get("/api/me").then((response) => {
+        context.commit('SET_USER', response.data);
+        return response.data;
+    });
   };
 }

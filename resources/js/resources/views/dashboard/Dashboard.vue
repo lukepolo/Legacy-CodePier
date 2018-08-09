@@ -81,7 +81,6 @@ export default {
   },
   computed: {
     piles() {
-      return [];
       return this.$store.state.user.piles.piles;
     },
     user() {
