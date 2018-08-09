@@ -1,1 +1,3 @@
-export interface AuthState {}
+export interface AuthState {
+    user : Object
+}
