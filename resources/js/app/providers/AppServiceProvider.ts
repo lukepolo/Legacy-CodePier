@@ -1,4 +1,6 @@
+import AuthService from '@app/services/AuthService';
 import OauthService from '@app/services/OauthService';
+import LocalStorage from "@app/services/LocalStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
 
 /*
@@ -10,10 +12,14 @@ import ServiceProvider from "varie/lib/support/ServiceProvider";
 |
 */
 export default class AppProviderServiceProvider extends ServiceProvider {
-  public boot() {}
+  public boot() {
+
+  }
 
   public register() {
-    this.app.bind('OauthService', OauthService)
+    this.app.bind('AuthService', AuthService);
+    this.app.bind('OauthService', OauthService);
+    this.app.bind('LocalStorage', LocalStorage);
     this.app.$container.bind('ApiRouteService').toConstantValue(require('@app/../vendor/laroute'))
   }
 }

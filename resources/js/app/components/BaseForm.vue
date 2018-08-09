@@ -1,5 +1,5 @@
 <template>
-    <form :method="method">
+    <form :method="method" @submit.prevent="action">
         <div class="flyform--content">
             <slot></slot>
         </div>
@@ -18,6 +18,9 @@
     import Vue from 'vue';
     export default Vue.extend({
         props : {
+            action: {
+                required : true,
+            },
             data : {
                 required : false,
             },

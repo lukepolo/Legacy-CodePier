@@ -12,6 +12,15 @@
 |
 */
 
+Route::post('login', 'Auth\LoginController@login');
+Route::group(['middleware' => [
+    'api',
+    'web'
+],
+], function () {
+    Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+});
+
 Route::group(['middleware' => [
         'auth:api',
     ],
