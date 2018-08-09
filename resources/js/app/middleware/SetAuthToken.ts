@@ -1,6 +1,6 @@
 import LocalStorage from "@app/services/LocalStorage";
 
-export default class CsrfToken {
+export default class SetAuthToken {
 
   public request(config) {
     let $localStorage = $app.make<LocalStorage>('LocalStorage');

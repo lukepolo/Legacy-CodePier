@@ -1,4 +1,4 @@
-import CsrfToken from "./CsrfToken";
+import SetAuthToken from "./SetAuthToken";
 import LoadingScreen from "./LoadingScreen";
 
-export default [CsrfToken, LoadingScreen];
+export default [SetAuthToken, LoadingScreen];
