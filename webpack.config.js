@@ -29,9 +29,20 @@ module.exports = function(env, argv) {
           opts[0].filename = "../resources/views/layouts/app.blade.php";
           return opts;
         });
-
-        config.devServer.proxy("http://app.codepier.test");
       });
+
+      config.devServer.proxy([
+        {
+          context: ["/api"],
+          target: "http://app.codepier.test",
+          changeOrigin: true,
+        },
+        {
+          context: ["/provider/**/*link"],
+          target: "http://app.codepier.test",
+          changeOrigin: true,
+        },
+      ]);
     })
     .build();
 };

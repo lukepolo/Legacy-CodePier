@@ -8,6 +8,16 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 |
 */
 
+$router.route('/provider/:provider/callback', 'oauth');
+
+$router.middleware(['Auth']).group(() => {
+    $router.route('/', 'dashboard/Dashboard');
+});
+
+
 $router.route("/login", "login/Login");
+
+
+
 
 $router.route("*", "errors/404");

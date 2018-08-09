@@ -20,7 +20,6 @@ if (config('app.env') === 'local') {
 |
 */
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
-Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
 
 /*
 |--------------------------------------------------------------------------
@@ -116,10 +115,8 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 Route::domain(config('app.url'))->group(function () {
 
     // Authentication / Register Routes...
-    Route::post('login', 'Auth\LoginController@login');
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 
     // Password Reset Routes...
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
@@ -165,6 +162,8 @@ Route::domain(config('app.url'))->group(function () {
 |--------------------------------------------------------------------------
 |
 */
+//Route::get('login', 'Controller@app')->name('login');
+//Route::redirect('login', action('Auth\LoginController@login'));
 
-Route::redirect('login', action('Auth\LoginController@login'));
+
 Route::get('/', 'Controller@welcome');

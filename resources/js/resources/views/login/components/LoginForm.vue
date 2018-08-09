@@ -3,8 +3,7 @@
         <div class="flyform--heading">
             <h2>Login</h2>
         </div>
-
-        <base-form v-form="form">
+        <base-form v-form="form" :action="login">
             <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
             <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
             <div slot="buttons">
@@ -40,6 +39,11 @@ export default Vue.extend({
         },
       }),
     };
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("auth/login", this.form);
+    },
   },
 });
 </script>

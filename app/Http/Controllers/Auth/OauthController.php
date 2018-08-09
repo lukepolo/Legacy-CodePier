@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Contracts\Encryption\Encrypter;
 use Socialite;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -10,7 +11,6 @@ use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
-use Illuminate\Support\Facades\Session;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 
@@ -34,14 +34,11 @@ class OauthController extends Controller
     /**
      * Handles provider requests.
      *
-     * @param Request $request
      * @param $provider
      * @return mixed
      */
-    public function newProvider(Request $request, $provider)
+    public function newProvider($provider)
     {
-        Session::put('url.intended', $request->headers->get('referer'));
-
         $scopes = null;
 
         $providerDriver = Socialite::driver($provider);
@@ -61,22 +58,24 @@ class OauthController extends Controller
     /**
      * Handles the request from the provider.
      *
+     * @param Encrypter $encrypter
      * @param Request $request
      * @param $provider
      * @return mixed
+     * @throws \Exception
      */
-    public function getHandleProviderCallback(Request $request, $provider)
+    public function getHandleProviderCallback(Encrypter $encrypter, Request $request, $provider)
     {
         try {
             switch ($provider) {
                 case self::SLACK:
-                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
+                    $tokenData = Socialite::driver($provider)->stateless()->getAccessTokenResponse($request->get('code'));
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default:
 
-                    $socialUser = Socialite::driver($provider)->user();
+                    $socialUser = Socialite::driver($provider)->stateless()->user();
 
                     if (! \Auth::user()) {
                         $userProvider = UserLoginProvider::withTrashed()
@@ -112,7 +111,7 @@ class OauthController extends Controller
                     break;
             }
 
-            return redirect()->intended(config('app.url'));
+            return response()->json(\Auth::user()->createToken('app')->accessToken);
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();

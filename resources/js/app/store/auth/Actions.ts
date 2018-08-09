@@ -1,17 +1,32 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { AuthState } from "./stateInterface";
+import AuthService from "@app/services/AuthService";
 import getDecorators from "inversify-inject-decorators";
 import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
-import OauthService from "@app/services/OauthService";
+import LocalStorage from "@app/services/LocalStorage";
 
 const { lazyInject } = getDecorators($app.$container);
 
 export default class Actions {
   @lazyInject("$http") private $http: HttpServiceInterface;
-  @lazyInject("OauthService") private $oauthService: OauthService;
+  @lazyInject("AuthService") private $authService: AuthService;
+  @lazyInject("LocalStorage") private $localStorage: LocalStorage;
 
-  redirectToProvider = (context: ActionContext<AuthState, RootState>, data) => {
-    console.info(data);
+  login = (context: ActionContext<AuthState, RootState>, data) => {
+    return this.$authService.login(data.email, data.password).then((response) => {
+      return response.data;
+    })
   };
+
+  oAuthLogin = (context: ActionContext<AuthState, RootState>, {provider, code, state}) => {
+    return this.$authService.oAuthLogin(provider, code, state).then((response) => {
+        this.$localStorage.set('token', response.data);
+        return response.data;
+    })
+  };
+
+  me = () => {
+    this.$http.get('/api/me');
+  }
 }

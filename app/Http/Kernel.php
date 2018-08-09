@@ -36,7 +36,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
             \App\Http\Middleware\GitCommit::class,
             \App\Http\Middleware\SentryContext::class,
         ],
@@ -44,6 +43,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:300,1',
             'bindings',
+            \App\Http\Middleware\SentryContext::class,
         ],
     ];
 

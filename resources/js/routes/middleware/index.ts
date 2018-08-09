@@ -6,4 +6,8 @@
 | in the order in which you provide them
 |
 */
-export default {};
+import Auth from './Auth';
+
+export default {
+    Auth
+};

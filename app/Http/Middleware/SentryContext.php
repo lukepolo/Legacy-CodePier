@@ -16,14 +16,10 @@ class SentryContext
      */
     public function handle($request, Closure $next)
     {
-        if (app()->bound('sentry')) {
+        // TODO - move this
+        if (auth()->check() && app()->bound('sentry')) {
             $sentry = app('sentry');
-
-            if (auth()->check()) {
-                $sentry->user_context(['id' => Auth::user()->id, 'name' => Auth::user()->name]);
-            } else {
-                $sentry->user_context(['id' => null]);
-            }
+            $sentry->user_context(['id' => Auth::user()->id, 'name' => Auth::user()->name]);
         }
 
         return $next($request);
