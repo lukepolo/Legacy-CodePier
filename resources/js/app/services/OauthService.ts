@@ -2,16 +2,15 @@ import { injectable, inject } from "inversify";
 
 @injectable()
 export default class OauthService {
+  private apiRouteService;
 
-    private apiRouteService;
+  constructor(@inject("ApiRouteService") ApiRouteService) {
+    this.apiRouteService = ApiRouteService;
+  }
 
-    constructor(@inject('ApiRouteService') ApiRouteService) {
-        this.apiRouteService = ApiRouteService;
-    }
-
-    getRedirectUrlForProvider(provider) {
-        return this.apiRouteService.action('Auth\OauthController@newProvider', {
-            provider
-        });
-    }
+  getRedirectUrlForProvider(provider) {
+    return this.apiRouteService.action("AuthOauthController@newProvider", {
+      provider,
+    });
+  }
 }

@@ -14,19 +14,26 @@ export default class Actions {
   @lazyInject("LocalStorage") private $localStorage: LocalStorage;
 
   login = (context: ActionContext<AuthState, RootState>, data) => {
-    return this.$authService.login(data.email, data.password).then((response) => {
-      return response.data;
-    })
+    return this.$authService
+      .login(data.email, data.password)
+      .then((response) => {
+        return response.data;
+      });
   };
 
-  oAuthLogin = (context: ActionContext<AuthState, RootState>, {provider, code, state}) => {
-    return this.$authService.oAuthLogin(provider, code, state).then((response) => {
-        this.$localStorage.set('token', response.data);
+  oAuthLogin = (
+    context: ActionContext<AuthState, RootState>,
+    { provider, code, state },
+  ) => {
+    return this.$authService
+      .oAuthLogin(provider, code, state)
+      .then((response) => {
+        this.$localStorage.set("token", response.data);
         return response.data;
-    })
+      });
   };
 
   me = () => {
-    this.$http.get('/api/me');
-  }
+    this.$http.get("/api/me");
+  };
 }
