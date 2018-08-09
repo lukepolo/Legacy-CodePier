@@ -9,7 +9,10 @@ const { lazyInject } = getDecorators($app.$container);
 export default class Actions {
   @lazyInject("OauthService") private $oauthService: OauthService;
 
-  redirectToProvider = (context: ActionContext<OauthState, RootState>, provider) => {
+  redirectToProvider = (
+    context: ActionContext<OauthState, RootState>,
+    provider,
+  ) => {
     window.location = this.$oauthService.getRedirectUrlForProvider(provider);
   };
 }

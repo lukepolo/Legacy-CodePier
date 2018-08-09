@@ -15,19 +15,19 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    export default Vue.extend({
-        props : {
-            action: {
-                required : true,
-            },
-            data : {
-                required : false,
-            },
-            method : {
-                type : String,
-                default : 'POST',
-            }
-        }
-    })
+import Vue from "vue";
+export default Vue.extend({
+  props: {
+    action: {
+      required: true,
+    },
+    data: {
+      required: false,
+    },
+    method: {
+      type: String,
+      default: "POST",
+    },
+  },
+});
 </script>

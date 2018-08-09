@@ -15,31 +15,31 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    export default Vue.extend({
-        props : {
-            type : {
-                type : String,
-              default : 'text'
-            },
-            value : {
-                required : true,
-            },
-            name : {
-                required : true,
-                type : String,
-            },
-            label : {
-                type : String,
-                required : true,
-            },
-            tabindex : {
-                default : 0,
-                type : Number,
-            },
-            validation : {
-                required : false
-            },
-        }
-    })
+import Vue from "vue";
+export default Vue.extend({
+  props: {
+    type: {
+      type: String,
+      default: "text",
+    },
+    value: {
+      required: true,
+    },
+    name: {
+      required: true,
+      type: String,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    tabindex: {
+      default: 0,
+      type: Number,
+    },
+    validation: {
+      required: false,
+    },
+  },
+});
 </script>

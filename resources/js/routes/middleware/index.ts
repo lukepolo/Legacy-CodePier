@@ -6,8 +6,8 @@
 | in the order in which you provide them
 |
 */
-import Auth from './Auth';
+import Auth from "./Auth";
 
 export default {
-    Auth
+  Auth,
 };
