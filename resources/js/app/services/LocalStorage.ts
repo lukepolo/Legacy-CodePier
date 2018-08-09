@@ -4,6 +4,8 @@ import { injectable } from "inversify";
 export default class LocalStorage {
   private $storage;
 
+  // TODO - Need to figure out how to protect this token from users in the browser
+  // Removal of $app would do it.... but removes our helper (is that a bad thing)
   constructor() {
     this.$storage = window.localStorage;
     // @ts-ignore

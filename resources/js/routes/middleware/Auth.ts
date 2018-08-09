@@ -1,7 +1,8 @@
+import ConfigInterface from "varie/lib/config/ConfigInterface";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";
-import ConfigInterface from "../../../../node_modules/varie/lib/config/ConfigInterface";
 
 export default function(to, from, next) {
+  // TODO - we need access to the token in a diff. place earlier
   if (
     localStorage &&
     !localStorage.getItem("token") &&
