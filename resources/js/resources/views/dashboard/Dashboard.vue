@@ -46,9 +46,11 @@
                     </p>
 
                     <div class="group">
-                        <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" :key="pile.id" v-for="(pile, index) in piles"></pile>
-                        <div class="group--item">
-                            <a @click="newPile()" class="add-pile">
+                        <pile :pile="pile" :key="pile.id" v-for="pile in piles"></pile>
+
+                        <pile v-if="addingPile" @closeNewPile="addingPile = false"></pile>
+                        <div class="group--item" v-else>
+                            <a @click="addingPile = true" class="add-pile">
                                 <div class="group--item-content">
                                     <span class="icon-layers"></span>
                                 </div>
@@ -59,12 +61,14 @@
                             </a>
                         </div>
 
-                        <!--<div class="group&#45;&#45;item" v-if="!isSubscribed">-->
-                            <!--<router-link :to="{ name : 'subscription' }" class="subscribe-pile">-->
-                                <!--Upgrade Account-->
-                                <!--<div class="small">The free plan only allows for 1 site. <br>Upgrade now to add more!</div>-->
-                            <!--</router-link>-->
-                        <!--</div>-->
+                        <div class="group--item" v-if="!isSubscribed">
+                            <router-link :to="{ name : 'subscription' }" class="subscribe-pile">
+                                Upgrade Account
+                                <div class="small">The free plan only allows for 1 site. <br>Upgrade now to add more!</div>
+                            </router-link>
+                        </div>
+
+                        >> Show welcome modal {{ showWelcomeModal }} <<
                     </div>
                 </div>
             </div>
@@ -79,29 +83,22 @@ export default {
   components: {
     Pile,
   },
+  data() {
+    return {
+      addingPile: false,
+    };
+  },
   computed: {
     piles() {
       return this.$store.state.user.piles.piles;
     },
-    user() {
-      return this.$store.state.auth.user;
-    },
     showWelcomeModal() {
-      return false; // TODO
       return !this.user.last_read_announcement;
     },
   },
   methods: {
-    deletePile(index) {
-      this.$store.commit("REMOVE_TEMP_PILE", index);
-    },
-    newPile() {
-      this.$store.state.user_piles.piles.push({
-        name: null,
-        editing: true,
-      });
-    },
     markAnnouncementRead() {
+      // TODO
       this.$store.dispatch("system/markAnnouncementRead");
     },
   },

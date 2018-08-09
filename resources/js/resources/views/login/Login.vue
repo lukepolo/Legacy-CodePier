@@ -6,7 +6,7 @@
           <div class="login-wrap">
             <div class="img-wrap">
               <router-link to="/">
-                <img src="../../../../img/CP_Logo-onGray.svg" alt="CodePier" style="display: block;">
+                <img src="../../../../img/CP_Logo-onGray.svg" alt="CodePier">
               </router-link>
             </div>
 
