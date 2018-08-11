@@ -58,47 +58,51 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                showRequestDataModal : false,
-                showDeleteAccountModal : false,
-            }
-        },
-        methods: {
-            requestData() {
-                this.$store.dispatch("user/requestData", {
-                    user : this.user.id
-                }).then(() => {
-                    this.showRequestDataModal = true;
-                });
-            },
-            toggleMarketing() {
-                this.user.marketing = !this.user.marketing;
-                this.$store.dispatch("user/updateMarketing", {
-                    user : this.user.id,
-                    marketing : this.user.marketing,
-                });
-            },
-            toggleProcessing() {
-                this.user.processing = !this.user.processing;
-                this.$store.dispatch("user/updateDataProcessing", {
-                    user : this.user.id,
-                    processing : this.user.processing,
-                });
-            },
-            deleteAccount() {
-                this.$store.dispatch("user/deleteAccount", {
-                    user : this.user.id,
-                }).then(() => {
-                    window.location.reload();
-                });
-            }
-        },
-        computed : {
-            user() {
-                return this.$store.state.user.user;
-            }
-        }
-    }
+export default {
+  data() {
+    return {
+      showRequestDataModal: false,
+      showDeleteAccountModal: false,
+    };
+  },
+  methods: {
+    requestData() {
+      this.$store
+        .dispatch("user/requestData", {
+          user: this.user.id,
+        })
+        .then(() => {
+          this.showRequestDataModal = true;
+        });
+    },
+    toggleMarketing() {
+      this.user.marketing = !this.user.marketing;
+      this.$store.dispatch("user/updateMarketing", {
+        user: this.user.id,
+        marketing: this.user.marketing,
+      });
+    },
+    toggleProcessing() {
+      this.user.processing = !this.user.processing;
+      this.$store.dispatch("user/updateDataProcessing", {
+        user: this.user.id,
+        processing: this.user.processing,
+      });
+    },
+    deleteAccount() {
+      this.$store
+        .dispatch("user/deleteAccount", {
+          user: this.user.id,
+        })
+        .then(() => {
+          window.location.reload();
+        });
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
+  },
+};
 </script>

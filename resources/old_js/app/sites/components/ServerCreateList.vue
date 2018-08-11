@@ -37,15 +37,15 @@
 export default {
   props: {
     classes: {
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
     },
     serverTypes() {
-      return _.pickBy(window.Laravel.serverTypes, type => {
+      return _.pickBy(window.Laravel.serverTypes, (type) => {
         if (this.hasLoadBalancer && type === "load_balancer") {
           return false;
         }
@@ -55,7 +55,7 @@ export default {
     },
     siteServers() {
       return this.$store.getters["user_site_servers/getServers"](
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     servers() {
@@ -67,7 +67,7 @@ export default {
           return server.type === "load_balancer";
         }).length > 0
       );
-    }
-  }
+    },
+  },
 };
 </script>

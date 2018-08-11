@@ -55,15 +55,15 @@ export default {
     return {
       form: this.createForm({
         bitt: null,
-        servers: []
-      })
+        servers: [],
+      }),
     };
   },
   methods: {
     runBitt() {
       this.form.bitt = this.bitt.id;
       this.$store.dispatch("bitts/run", this.form);
-    }
+    },
   },
   computed: {
     bitt() {
@@ -71,7 +71,7 @@ export default {
     },
     servers() {
       return this.$store.state.user_servers.servers;
-    }
-  }
+    },
+  },
 };
 </script>

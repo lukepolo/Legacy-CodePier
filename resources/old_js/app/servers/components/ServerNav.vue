@@ -22,7 +22,7 @@ export default {
   computed: {
     serverId() {
       return this.$route.params.server_id;
-    }
-  }
+    },
+  },
 };
 </script>

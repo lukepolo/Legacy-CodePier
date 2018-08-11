@@ -13,13 +13,13 @@
 import DatabaseSection from "../components/DatabaseSection";
 export default {
   components: {
-    DatabaseSection
+    DatabaseSection,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -27,7 +27,7 @@ export default {
         this.$store.dispatch("user_site_schemas/get", this.siteId);
         this.$store.dispatch("user_site_schema_users/get", this.siteId);
         this.$store.dispatch("user_site_server_features/get", {
-          site: this.siteId
+          site: this.siteId,
         });
       }
 
@@ -36,7 +36,7 @@ export default {
         this.$store.dispatch("user_server_schema_users/get", this.serverId);
         this.$store.dispatch("user_server_features/get", this.serverId);
       }
-    }
+    },
   },
   computed: {
     siteId() {
@@ -67,10 +67,10 @@ export default {
             ) {
               return options.enabled;
             }
-          })
+          }),
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>

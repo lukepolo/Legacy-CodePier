@@ -42,22 +42,22 @@
 </template>
 
 <script>
-  export default {
-    props: ['bitt'],
-    methods: {
-      runForm () {
-        this.$store.commit('bitts/view', this.bitt)
-      },
-      deleteBitt () {
-        this.$store.dispatch('bitts/destroy', this.bitt.id).then(() => {
-          this.$emit('searchBitts', true)
-        })
-      }
+export default {
+  props: ["bitt"],
+  methods: {
+    runForm() {
+      this.$store.commit("bitts/view", this.bitt);
     },
-    computed : {
-      user() {
-        return this.$store.state.user.user;
-      }
-    }
-  }
+    deleteBitt() {
+      this.$store.dispatch("bitts/destroy", this.bitt.id).then(() => {
+        this.$emit("searchBitts", true);
+      });
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
+  },
+};
 </script>

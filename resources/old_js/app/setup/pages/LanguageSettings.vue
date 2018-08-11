@@ -18,13 +18,13 @@
 import LanguageSetting from "../components/LanguageSetting";
 export default {
   components: {
-    LanguageSetting
+    LanguageSetting,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -32,24 +32,24 @@ export default {
         this.$store.dispatch("user_site_language_settings/get", this.siteId);
         this.$store.dispatch(
           "user_site_language_settings/getAvailable",
-          this.siteId
+          this.siteId,
         );
       }
 
       if (this.serverId) {
         this.$store.dispatch(
           "user_server_language_settings/get",
-          this.serverId
+          this.serverId,
         );
         this.$store.dispatch(
           "user_server_language_settings/getAvailable",
-          this.serverId
+          this.serverId,
         );
       }
     },
     isRunningCommandFor(id) {
       return this.isCommandRunning("App\\Models\\LanguageSetting", id);
-    }
+    },
   },
   computed: {
     site() {
@@ -84,7 +84,7 @@ export default {
     },
     hasLanguageItems() {
       return !_.isEmpty(this.availableLanguageSettings);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -96,7 +96,7 @@
 export default {
   created() {
     this.$store.dispatch("admin_categories/get").then(() => {
-      this.$store.dispatch("buoys/show", this.buoyAppId).then(buoy => {
+      this.$store.dispatch("buoys/show", this.buoyAppId).then((buoy) => {
         this.form.icon = buoy.icon;
         this.form.ports = buoy.ports;
         this.form.title = buoy.title;
@@ -120,9 +120,9 @@ export default {
         active: false,
         category: null,
         buoy_class: null,
-        description: null
+        description: null,
       }),
-      image: null
+      image: null,
     };
   },
   methods: {
@@ -141,13 +141,13 @@ export default {
 
       this.$store.dispatch("buoys/update", {
         form: data,
-        buoy_app: this.buoyAppId
+        buoy_app: this.buoyAppId,
       });
     },
     createImage(file) {
       const reader = new FileReader();
 
-      reader.onload = e => {
+      reader.onload = (e) => {
         this.image = e.target.result;
       };
 
@@ -168,7 +168,7 @@ export default {
       this.form.icon = image;
 
       this.createImage(image);
-    }
+    },
   },
   computed: {
     buoyAppId() {
@@ -179,7 +179,7 @@ export default {
     },
     categories() {
       return this.$store.state.admin_categories.categories;
-    }
-  }
+    },
+  },
 };
 </script>

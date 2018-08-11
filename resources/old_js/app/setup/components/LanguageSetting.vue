@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       form: this.createForm({
-        params: {}
-      })
+        params: {},
+      }),
     };
   },
   created() {
@@ -67,7 +67,7 @@ export default {
           site: this.siteId,
           params: this.form.params,
           setting: this.setting.name,
-          language: this.setting.type
+          language: this.setting.type,
         });
       }
 
@@ -76,13 +76,13 @@ export default {
           server: this.serverId,
           params: this.form.params,
           setting: this.setting.name,
-          language: this.setting.type
+          language: this.setting.type,
         });
       }
     },
     ucwords(param) {
       return _.startCase(param);
-    }
+    },
   },
   computed: {
     siteId() {
@@ -92,7 +92,7 @@ export default {
       return this.$route.params.server_id;
     },
     languageSetting() {
-      return _.find(this.languageSettings, languageSetting => {
+      return _.find(this.languageSettings, (languageSetting) => {
         return (
           languageSetting.languageSetting === this.setting.language &&
           languageSetting.setting === this.setting.name
@@ -103,10 +103,10 @@ export default {
       if (this.languageSetting) {
         return this.isCommandRunning(
           "App\\Models\\LanguageSetting",
-          this.languageSetting.id
+          this.languageSetting.id,
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>

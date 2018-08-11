@@ -72,8 +72,8 @@
 export default {
   props: {
     cronTiming: {
-      default: "* * * * *"
-    }
+      default: "* * * * *",
+    },
   },
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
         month: 1,
         minute: 0,
         weekDay: 0,
-        everySelection: "minute"
+        everySelection: "minute",
       },
       stepOneOptions: {
         Minute: "minute",
@@ -91,7 +91,7 @@ export default {
         Day: "day",
         Week: "week",
         Month: "month",
-        Year: "year"
+        Year: "year",
       },
       weekDays: {
         Sunday: 0,
@@ -100,7 +100,7 @@ export default {
         Wednesday: 3,
         Thursday: 4,
         Friday: 5,
-        Saturday: 6
+        Saturday: 6,
       },
       months: {
         January: 1,
@@ -114,19 +114,19 @@ export default {
         September: 9,
         October: 10,
         November: 11,
-        December: 12
-      }
+        December: 12,
+      },
     };
   },
   watch: {
     cronJobFormat: function(cronTiming) {
       this.$emit("update:cronTiming", cronTiming);
-    }
+    },
   },
   methods: {
     getDayText(day) {
       return _.ordinalize(day);
-    }
+    },
   },
   computed: {
     cronJobFormat() {
@@ -196,7 +196,7 @@ export default {
         default:
           return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>

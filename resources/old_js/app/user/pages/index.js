@@ -1,6 +1,6 @@
 export const UserInfo = require("./UserInfo");
 export const UserSshKeys = require("./UserSshKeys");
-export const UserPrivacy = require('./UserPrivacy');
+export const UserPrivacy = require("./UserPrivacy");
 export const UserSubscription = require("./UserSubscription");
 export const UserServerProviders = require("./UserServerProviders");
 export const UserRepositoryProviders = require("./UserRepositoryProviders");

@@ -90,15 +90,15 @@ export default {
         port: null,
         type: "tcp",
         from_ip: null,
-        description: null
-      })
+        description: null,
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -123,7 +123,7 @@ export default {
         this.form.site = this.siteId;
         this.$store
           .dispatch("user_site_firewall_rules/store", this.form)
-          .then(firewallRule => {
+          .then((firewallRule) => {
             if (firewallRule.id) {
               this.resetForm();
             }
@@ -134,7 +134,7 @@ export default {
         this.form.server = this.serverId;
         this.$store
           .dispatch("user_server_firewall_rules/store", this.form)
-          .then(firewallRule => {
+          .then((firewallRule) => {
             if (firewallRule.id) {
               this.resetForm();
             }
@@ -145,14 +145,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_firewall_rules/destroy", {
           site: this.siteId,
-          firewall_rule: firewallRuleId
+          firewall_rule: firewallRuleId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_firewall_rules/destroy", {
           server: this.serverId,
-          firewall_rule: firewallRuleId
+          firewall_rule: firewallRuleId,
         });
       }
     },
@@ -162,7 +162,7 @@ export default {
     resetForm() {
       this.form.reset();
       this.showForm = false;
-    }
+    },
   },
   computed: {
     siteId() {
@@ -182,7 +182,7 @@ export default {
       if (this.serverId) {
         return this.$store.state.user_server_firewall_rules.firewall_rules;
       }
-    }
-  }
+    },
+  },
 };
 </script>

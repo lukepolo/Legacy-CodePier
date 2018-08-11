@@ -22,5 +22,5 @@ export default [
   ...teams,
   ...servers,
 
-  { path: "*", component: PageNotFound }
+  { path: "*", component: PageNotFound },
 ];

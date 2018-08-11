@@ -1,8 +1,10 @@
+import Echo from "laravel-echo";
+import PileService from "@app/services/PileService";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
-import LocalStorage from "@app/services/LocalStorage";
-import PileService from "@app/services/PileService";
+import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
+import ConfigInterface from "../../../../node_modules/varie/lib/config/ConfigInterface";
 
 /*
 |--------------------------------------------------------------------------
@@ -16,19 +18,17 @@ export default class AppProviderServiceProvider extends ServiceProvider {
   public boot() {}
 
   public register() {
+    // SYSTEM
+    this.app.singleton("CookieStorage", CookieStorage);
+
     // AUTH
     this.app.bind("AuthService", AuthService);
     this.app.bind("OauthService", OauthService);
-
-    // SYSTEM
-    this.app.bind("LocalStorage", LocalStorage);
 
     // PILES
     this.app.bind("PileService", PileService);
 
     // ROUTING
-    this.app.$container
-      .bind("ApiRouteService")
-      .toConstantValue(require("@app/../vendor/laroute"));
+    this.app.constant("ApiRouteService", require("@app/../vendor/laroute"));
   }
 }

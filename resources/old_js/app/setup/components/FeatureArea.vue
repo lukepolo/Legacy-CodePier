@@ -134,7 +134,7 @@ export default {
     "frameworks",
     "server",
     "selected_server_features",
-    "current_selected_features"
+    "current_selected_features",
   ],
   methods: {
     updateValue(feature, enabled) {
@@ -218,7 +218,7 @@ export default {
         feature: feature.input_name,
         parameters: parameters,
         server: this.server.id,
-        service: feature.service
+        service: feature.service,
       });
     },
     getFrameworks: function(area) {
@@ -228,7 +228,7 @@ export default {
       if (feature.conflicts.length) {
         return this.currentlySelectedHasFeature(
           feature.service,
-          feature.conflicts[0]
+          feature.conflicts[0],
         );
       }
       return false;
@@ -248,7 +248,7 @@ export default {
       if (options && options.suffix) {
         return options.suffix;
       }
-    }
+    },
   },
   computed: {
     availableServerFrameworks() {
@@ -258,11 +258,11 @@ export default {
       if (this.server) {
         return this.isCommandRunning(
           "App\\Models\\Server\\Server",
-          this.server.id
+          this.server.id,
         );
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

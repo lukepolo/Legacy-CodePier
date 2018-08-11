@@ -61,32 +61,32 @@
 export default {
   props: {
     title: {
-      default: ""
+      default: "",
     },
     update: {
-      default: null
+      default: null,
     },
     server_ids: {
-      default: () => []
+      default: () => [],
     },
     showFormGroup: {
-      default: false
+      default: false,
     },
     server_types: {
-      default: () => []
+      default: () => [],
     },
     availableServerTypes: {
-      default: () => window.Laravel.serverTypes
-    }
+      default: () => window.Laravel.serverTypes,
+    },
   },
   data() {
     return {
       form: {
         server_ids: this.server_ids ? this.server_ids : [],
-        server_types: this.server_types ? this.server_types : []
+        server_types: this.server_types ? this.server_types : [],
       },
       showingModal: false,
-      showServerTypes: true
+      showServerTypes: true,
     };
   },
   created() {
@@ -100,7 +100,7 @@ export default {
     },
     "form.server_types": function() {
       this.$emit("update:server_types", this.form.server_types);
-    }
+    },
   },
   methods: {
     close() {
@@ -112,7 +112,7 @@ export default {
       });
     },
     serverTypeSelected(serverType) {
-      return _.find(this.form.server_types, selectedServerType => {
+      return _.find(this.form.server_types, (selectedServerType) => {
         return selectedServerType === serverType;
       });
     },
@@ -121,7 +121,7 @@ export default {
       Vue.nextTick(() => {
         Vue.set(this, "showingModal", true);
       });
-    }
+    },
   },
   computed: {
     site() {
@@ -130,13 +130,13 @@ export default {
     siteServers() {
       return _.filter(
         this.$store.getters["user_site_servers/getServers"](
-          this.$route.params.site_id
+          this.$route.params.site_id,
         ),
-        server => {
-          return _.find(this.availableServerTypes, serverType => {
+        (server) => {
+          return _.find(this.availableServerTypes, (serverType) => {
             return server.type === serverType;
           });
-        }
+        },
       );
     },
     displayServerSelection() {
@@ -146,7 +146,7 @@ export default {
         }
         return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>

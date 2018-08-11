@@ -52,15 +52,15 @@ export default {
         ports: [],
         options: [],
         server: null,
-        buoy_app_id: null
-      })
+        buoy_app_id: null,
+      }),
     };
   },
   methods: {
     installBuoy() {
       this.form.buoy_app_id = this.buoyApp.id;
       return this.$store.dispatch("buoys/installOnServer", this.form);
-    }
+    },
   },
   computed: {
     buoyApp() {
@@ -76,7 +76,7 @@ export default {
       return _.filter(this.$store.state.user_servers.servers, function(server) {
         return server.progress >= 100;
       });
-    }
-  }
+    },
+  },
 };
 </script>

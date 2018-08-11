@@ -26,15 +26,15 @@ import { Bitt } from "../components";
 
 export default {
   components: {
-    Bitt
+    Bitt,
   },
   created() {
     this.search();
   },
-  methods : {
+  methods: {
     search() {
       this.$store.dispatch("bitts/get");
-    }
+    },
   },
   computed: {
     bitts() {
@@ -45,7 +45,7 @@ export default {
     },
     categories() {
       // return this.$store.state.categoriesStore.categories;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -15,23 +15,23 @@ import CustomFiles from "./../../setup/components/CustomFiles";
 export default {
   components: {
     CustomFiles,
-    FrameworkFiles
+    FrameworkFiles,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
       this.$store.dispatch("user_site_files/get", this.$route.params.site_id);
-    }
+    },
   },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
-    }
-  }
+    },
+  },
 };
 </script>

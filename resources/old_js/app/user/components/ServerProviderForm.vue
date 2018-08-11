@@ -42,42 +42,42 @@
 export default {
   props: {
     provider: {
-      default: null
+      default: null,
     },
     adding: {
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       form: this.createForm({
         token: null,
-        account : null,
-        secret_token: null
-      })
+        account: null,
+        secret_token: null,
+      }),
     };
   },
   methods: {
     cancel() {
-      Vue.set(this.form, 'token', null);
-      Vue.set(this.form, 'account', null);
-      Vue.set(this.form, 'secret_token', null);
+      Vue.set(this.form, "token", null);
+      Vue.set(this.form, "account", null);
+      Vue.set(this.form, "secret_token", null);
 
       this.$emit("update:adding", false);
     },
     connectProvider() {
       this.form
         .post(
-          "/api/server/providers/" + this.provider.provider_name + "/provider "
+          "/api/server/providers/" + this.provider.provider_name + "/provider ",
         )
         .then(() => {
           this.$store.dispatch(
             "user_server_providers/get",
-            this.$store.state.user.user.id
+            this.$store.state.user.user.id,
           );
           this.cancel();
         });
-    }
-  }
+    },
+  },
 };
 </script>

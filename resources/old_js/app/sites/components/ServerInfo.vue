@@ -251,22 +251,22 @@ export default {
   props: {
     server: {},
     showInfo: {
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      showing: this.server.progress < 100 ? true : this.showInfo
+      showing: this.server.progress < 100 ? true : this.showInfo,
     };
   },
   components: {
-    CpuLoads
+    CpuLoads,
   },
   created() {
     if (this.server.progress < 100) {
       this.$store.dispatch(
         "user_server_provisioning/getCurrentStep",
-        this.server.id
+        this.server.id,
       );
     }
   },
@@ -295,11 +295,11 @@ export default {
         return _.first(
           _.orderBy(
             this.stats.memory,
-            memory => {
+            (memory) => {
               return this.getMemoryUsage(memory);
             },
-            ["desc"]
-          )
+            ["desc"],
+          ),
         );
       }
     },
@@ -307,7 +307,7 @@ export default {
       if (this.stats && this.stats.loads) {
         return this.stats.loads[1];
       }
-    }
+    },
   },
   methods: {
     toggle() {
@@ -317,16 +317,16 @@ export default {
       this.$store.dispatch("user_server_provisioning/retry", this.server.id);
     },
     getCpuLoad(load) {
-      let loadPercent = load / this.stats.cpus * 100;
+      let loadPercent = (load / this.stats.cpus) * 100;
       return loadPercent > 100 ? 100 : loadPercent;
     },
     getMemoryUsage(stats) {
       return (
-        this.getBytesFromString(stats.used) /
-        this.getBytesFromString(stats.total) *
+        (this.getBytesFromString(stats.used) /
+          this.getBytesFromString(stats.total)) *
         100
       );
-    }
-  }
+    },
+  },
 };
 </script>

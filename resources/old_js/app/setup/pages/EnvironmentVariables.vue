@@ -73,15 +73,15 @@ export default {
       showForm: false,
       form: this.createForm({
         value: "",
-        variable: null
-      })
+        variable: null,
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -107,9 +107,9 @@ export default {
           .dispatch("user_site_environment_variables/store", {
             site: this.siteId,
             value: this.form.value,
-            variable: this.form.variable
+            variable: this.form.variable,
           })
-          .then(environmentVariable => {
+          .then((environmentVariable) => {
             if (environmentVariable) {
               this.resetForm();
             }
@@ -121,9 +121,9 @@ export default {
           .dispatch("user_server_environment_variables/store", {
             server: this.serverId,
             value: this.form.value,
-            variable: this.form.variable
+            variable: this.form.variable,
           })
-          .then(environmentVariable => {
+          .then((environmentVariable) => {
             if (environmentVariable) {
               this.resetForm();
             }
@@ -134,14 +134,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_environment_variables/destroy", {
           site: this.siteId,
-          environment_variable: environmentVariableId
+          environment_variable: environmentVariableId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_environment_variables/destroy", {
           server: this.serverId,
-          environment_variable: environmentVariableId
+          environment_variable: environmentVariableId,
         });
       }
     },
@@ -152,7 +152,7 @@ export default {
       this.showForm = false;
       this.form.value = null;
       this.form.variable = null;
-    }
+    },
   },
   computed: {
     site() {
@@ -179,7 +179,7 @@ export default {
         return this.$store.state.user_server_environment_variables
           .environment_variables;
       }
-    }
-  }
+    },
+  },
 };
 </script>

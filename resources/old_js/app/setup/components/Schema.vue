@@ -62,8 +62,8 @@ export default {
       form: this.createForm({
         name: null,
         password: null,
-        schema_ids: [this.schema.id]
-      })
+        schema_ids: [this.schema.id],
+      }),
     };
   },
   methods: {
@@ -71,14 +71,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_schemas/destroy", {
           schema: database,
-          site: this.siteId
+          site: this.siteId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_schemas/destroy", {
           schema: database,
-          server: this.serverId
+          server: this.serverId,
         });
       }
     },
@@ -86,14 +86,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_schema_users/destroy", {
           schema_user: user,
-          site: this.siteId
+          site: this.siteId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_schema_users/destroy", {
           schema_user: user,
-          server: this.serverId
+          server: this.serverId,
         });
       }
     },
@@ -104,9 +104,9 @@ export default {
             site: this.siteId,
             name: this.form.name,
             password: this.form.password,
-            schema_ids: this.form.schema_ids
+            schema_ids: this.form.schema_ids,
           })
-          .then(schema => {
+          .then((schema) => {
             if (schema.id) {
               this.resetForm();
             }
@@ -118,9 +118,9 @@ export default {
             server: this.serverId,
             name: this.form.name,
             password: this.form.password,
-            schema_ids: this.form.schema_ids
+            schema_ids: this.form.schema_ids,
           })
-          .then(schema => {
+          .then((schema) => {
             if (schema.id) {
               this.resetForm();
             }
@@ -130,7 +130,7 @@ export default {
     resetForm() {
       this.form.reset();
       this.showForm = false;
-    }
+    },
   },
   computed: {
     siteId() {
@@ -140,7 +140,7 @@ export default {
       return this.$route.params.server_id;
     },
     users() {
-      return _.filter(this.schemaUsers, schemaUser => {
+      return _.filter(this.schemaUsers, (schemaUser) => {
         return schemaUser.schema_ids.indexOf(this.schema.id) > -1;
       });
     },
@@ -154,7 +154,7 @@ export default {
     },
     shouldShowForm() {
       return this.users.length === 0 || this.showForm;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -12,23 +12,23 @@ export default [
         name: "bitts_market_place",
         components: {
           default: BittsMarketPlace,
-          right: RunBitt
-        }
+          right: RunBitt,
+        },
       },
       {
         path: "create",
         name: "bitt_create",
         components: {
-          default: BittsForm
-        }
+          default: BittsForm,
+        },
       },
       {
         path: ":bitt_id/edit",
         name: "bitt_edit",
         components: {
-          default: BittsForm
-        }
-      }
-    ]
-  }
+          default: BittsForm,
+        },
+      },
+    ],
+  },
 ];

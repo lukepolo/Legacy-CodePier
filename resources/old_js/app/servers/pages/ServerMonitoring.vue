@@ -9,21 +9,21 @@
 import CpuLoads from "./../../sites/components/CpuLoads";
 export default {
   components: {
-    CpuLoads
+    CpuLoads,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
-    fetchData() {}
+    fetchData() {},
   },
   computed: {
     server() {
       return this.$store.state.user_servers.server;
-    }
-  }
+    },
+  },
 };
 </script>

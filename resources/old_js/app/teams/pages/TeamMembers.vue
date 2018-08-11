@@ -79,7 +79,7 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -89,7 +89,7 @@ export default {
     sendInvite() {
       this.$store.dispatch("sendTeamInvite", {
         email: this.email,
-        team_id: this.$store.state.user_teams.team.id
+        team_id: this.$store.state.user_teams.team.id,
       });
     },
     resendInvite: function(invite_id) {
@@ -98,13 +98,13 @@ export default {
     deleteMember: function(member_id) {
       this.$store.dispatch("deleteTeamMember", {
         member_id: member_id,
-        team_id: this.$store.state.user_teams.team.id
+        team_id: this.$store.state.user_teams.team.id,
       });
-    }
+    },
   },
   data() {
     return {
-      email: null
+      email: null,
     };
   },
   computed: {
@@ -119,7 +119,7 @@ export default {
     },
     isOwnerOfTeam() {
       return this.team.owner_id === this.$store.state.user.user.id;
-    }
-  }
+    },
+  },
 };
 </script>

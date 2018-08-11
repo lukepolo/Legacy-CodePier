@@ -34,7 +34,7 @@
 import Schema from "./Schema";
 export default {
   components: {
-    Schema
+    Schema,
   },
   props: ["database"],
   data() {
@@ -42,8 +42,8 @@ export default {
       loaded: true,
       showForm: false,
       form: this.createForm({
-        name: null
-      })
+        name: null,
+      }),
     };
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
           .dispatch("user_site_schemas/store", {
             site: this.siteId,
             database: this.database,
-            name: this.form.name
+            name: this.form.name,
           })
           .then(() => {
             this.resetForm();
@@ -65,7 +65,7 @@ export default {
           .dispatch("user_server_schemas/store", {
             server: this.serverId,
             database: this.database,
-            name: this.form.name
+            name: this.form.name,
           })
           .then(() => {
             this.resetForm();
@@ -75,7 +75,7 @@ export default {
     resetForm() {
       this.form.reset();
       this.showForm = false;
-    }
+    },
   },
   computed: {
     siteId() {
@@ -86,23 +86,26 @@ export default {
     },
     schemas() {
       if (this.siteId) {
-        return _.filter(this.$store.state.user_site_schemas.schemas, schema => {
-          return schema.database === this.database;
-        });
+        return _.filter(
+          this.$store.state.user_site_schemas.schemas,
+          (schema) => {
+            return schema.database === this.database;
+          },
+        );
       }
 
       if (this.serverId) {
         return _.filter(
           this.$store.state.user_server_schemas.schemas,
-          schema => {
+          (schema) => {
             return schema.database === this.database;
-          }
+          },
         );
       }
     },
     shouldShowForm() {
       return (this.loaded && this.schemas.length === 0) || this.showForm;
-    }
-  }
+    },
+  },
 };
 </script>

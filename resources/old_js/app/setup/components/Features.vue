@@ -63,18 +63,18 @@ import FeatureArea from "./FeatureArea";
 
 export default {
   components: {
-    FeatureArea
+    FeatureArea,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   data() {
     return {
       section: null,
-      currentSelectedFeatures: null
+      currentSelectedFeatures: null,
     };
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_server_features/get", {
           site: this.siteId,
-          server_type: this.$route.params.type
+          server_type: this.$route.params.type,
         });
       }
 
@@ -116,7 +116,7 @@ export default {
       } else {
         Vue.set(areaFeatures[feature.name], "enabled", enabled);
       }
-    }
+    },
   },
   computed: {
     siteId() {
@@ -155,7 +155,7 @@ export default {
     },
     availableServerFrameworks() {
       return this.$store.state.server_frameworks.frameworks;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -68,22 +68,22 @@ import SiteForm from "./../../../components/SiteForm";
 export default {
   props: ["pile", "index"],
   components: {
-    SiteForm
+    SiteForm,
   },
   data() {
     return {
       form: this.createForm({
         pile: this.pile.id,
-        name: this.pile.name
+        name: this.pile.name,
       }),
       addingSite: false,
-      editing: this.pile.editing
+      editing: this.pile.editing,
     };
   },
   watch: {
     editing() {
       this.focus();
-    }
+    },
   },
   mounted() {
     this.focus();
@@ -123,12 +123,12 @@ export default {
       }
 
       this.editing = false;
-    }
+    },
   },
   computed: {
     sites() {
       return this.$store.state.user_piles.piles[this.pile.id].sites;
-    }
-  }
+    },
+  },
 };
 </script>

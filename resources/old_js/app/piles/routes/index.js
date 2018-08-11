@@ -4,6 +4,6 @@ export default [
   {
     path: "/piles",
     name: "piles",
-    component: Piles
-  }
+    component: Piles,
+  },
 ];

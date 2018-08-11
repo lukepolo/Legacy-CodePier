@@ -148,7 +148,7 @@ export default {
   components: {
     LeftNav,
     ServerFeatures,
-    ServerProviderSelector
+    ServerProviderSelector,
   },
   data() {
     return {
@@ -158,7 +158,7 @@ export default {
       },
       is_custom: false,
       server_provider_id: null,
-      customize_server: !this.$route.params.site_id
+      customize_server: !this.$route.params.site_id,
     };
   },
   watch: {
@@ -169,12 +169,12 @@ export default {
     },
     "form.serverOptionId": function() {
       let region = _.find(this.server_regions, {
-        id: this.form.serverOptionRegion
+        id: this.form.serverOptionRegion,
       });
       if (region && !this.isServerOptionInRegion(region)) {
         Vue.set(this.form, "serverOptionRegion", null);
       }
-    }
+    },
   },
   created() {
     this.$store.dispatch("user_server_providers/get", user.id);
@@ -182,7 +182,8 @@ export default {
   methods: {
     getProviderData(server_provider_id) {
       this.is_custom = false;
-      let provider = _.find(this.server_providers, { id: server_provider_id }).provider_name;
+      let provider = _.find(this.server_providers, { id: server_provider_id })
+        .provider_name;
       if (provider) {
         this.$store.dispatch("server_providers/getFeatures", provider);
         this.$store.dispatch("server_providers/getOptions", provider);
@@ -192,12 +193,12 @@ export default {
     createServer() {
       this.$store
         .dispatch("user_servers/store", this.getFormData(this.$el))
-        .then(server => {
+        .then((server) => {
           if (server.id) {
             if (this.siteId) {
               app.$router.push({
                 name: "site_overview",
-                params: { site_id: this.siteId }
+                params: { site_id: this.siteId },
               });
             } else {
               app.$router.push("/");
@@ -207,13 +208,13 @@ export default {
     },
     isServerOptionInRegion(region) {
       let serverOption = _.find(this.server_options, {
-        id: this.form.serverOptionId
+        id: this.form.serverOptionId,
       });
       if (serverOption && serverOption.meta && serverOption.meta.regions) {
         return _.indexOf(serverOption.meta.regions, region.provider_name) > -1;
       }
       return true;
-    }
+    },
   },
   computed: {
     pile() {
@@ -235,13 +236,13 @@ export default {
       return this.$store.state.server_providers.features;
     },
     userServerProviders() {
-        return this.$store.state.user_server_providers.providers;
+      return this.$store.state.user_server_providers.providers;
     },
     userServerProviderAccounts() {
-        return _.filter(this.userServerProviders, (provider) => {
-            return provider.server_provider_id === this.server_provider_id;
-        });
-    }
-  }
+      return _.filter(this.userServerProviders, (provider) => {
+        return provider.server_provider_id === this.server_provider_id;
+      });
+    },
+  },
 };
 </script>

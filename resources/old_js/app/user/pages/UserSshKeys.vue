@@ -59,8 +59,8 @@ export default {
     return {
       form: this.createForm({
         name: null,
-        ssh_key: null
-      })
+        ssh_key: null,
+      }),
     };
   },
   created() {
@@ -77,12 +77,12 @@ export default {
     },
     deleteSshKey: function(sshKeyId) {
       this.$store.dispatch("user_ssh_keys/destroy", sshKeyId);
-    }
+    },
   },
   computed: {
     user_ssh_keys() {
       return this.$store.state.user_ssh_keys.ssh_keys;
-    }
-  }
+    },
+  },
 };
 </script>

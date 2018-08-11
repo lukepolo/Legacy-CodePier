@@ -76,7 +76,7 @@ import { ServerSelection, Daemon } from "./../components";
 export default {
   components: {
     Daemon,
-    ServerSelection
+    ServerSelection,
   },
   data() {
     return {
@@ -87,15 +87,15 @@ export default {
         command: null,
         server_ids: [],
         server_types: [],
-        working_directory : null,
-      })
+        working_directory: null,
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -118,7 +118,7 @@ export default {
         this.form.site = this.siteId;
         this.$store
           .dispatch("user_site_daemons/store", this.form)
-          .then(daemon => {
+          .then((daemon) => {
             if (daemon.id) {
               this.resetForm();
             }
@@ -129,7 +129,7 @@ export default {
         this.form.server = this.serverId;
         this.$store
           .dispatch("user_server_daemons/store", this.form)
-          .then(daemon => {
+          .then((daemon) => {
             if (daemon.id) {
               this.resetForm();
             }
@@ -142,10 +142,12 @@ export default {
     resetForm() {
       this.form.reset();
       if (this.site) {
-        this.form.command = this.site.path + (this.site.zero_downtime_deployment ? "/current/" : "/");
+        this.form.command =
+          this.site.path +
+          (this.site.zero_downtime_deployment ? "/current/" : "/");
       }
       this.showForm = false;
-    }
+    },
   },
   computed: {
     site() {
@@ -175,7 +177,7 @@ export default {
     },
     shouldShowForm() {
       return (this.loaded && this.daemons.length === 0) || this.showForm;
-    }
-  }
+    },
+  },
 };
 </script>

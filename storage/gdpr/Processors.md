@@ -1,26 +1,31 @@
 ## CodePier Processors
 
-### Support 
-* Crisp
-* Slack
+### Support
+
+- Crisp
+- Slack
 
 ### Server Providers
-* Digital Ocean
-* Linode
-* Vultr
+
+- Digital Ocean
+- Linode
+- Vultr
 
 ### Repository Providers
-* GitHub
-* BitBucket
-* GitLab
+
+- GitHub
+- BitBucket
+- GitLab
 
 ### Payment Processors
-* Stripe
 
+- Stripe
 
-### Email 
-* MailChimp
-* MailGun
+### Email
+
+- MailChimp
+- MailGun
 
 ### Storage
-* Digital Ocean (Spaces)
+
+- Digital Ocean (Spaces)

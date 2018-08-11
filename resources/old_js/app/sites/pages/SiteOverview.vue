@@ -311,17 +311,17 @@ export default {
       notificationChannelsForm: this.createForm({
         site: null,
         server: null,
-        lifelines: null
+        lifelines: null,
       }),
       renameForm: {
         domain: null,
-        wildcard_domain : null
-      }
+        wildcard_domain: null,
+      },
     };
   },
   components: {
     LifeLines,
-    DeleteSite
+    DeleteSite,
   },
   created() {
     this.fetchData();
@@ -331,20 +331,20 @@ export default {
     site: function(site) {
       Vue.set(this.renameForm, "domain", site.name);
       Vue.set(this.renameForm, "wildcard_domain", site.wildcard_domain);
-    }
+    },
   },
   methods: {
     createDeployHook() {
       return this.$store.dispatch(
         "user_site_deployments/createDeployHook",
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     removeDeployHook() {
       this.$store
         .dispatch("user_site_deployments/removeDeployHook", {
           site: this.$route.params.site_id,
-          hook: this.site.automatic_deployment_id
+          hook: this.site.automatic_deployment_id,
         })
         .catch(() => {
           this.site.automatic_deployment_id = false;
@@ -355,14 +355,18 @@ export default {
       this.$store.dispatch("user_notification_providers/get");
       this.$store.dispatch(
         "user_site_deployments/get",
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
       Vue.set(this.renameForm, "domain", this.site ? this.site.name : null);
-      Vue.set(this.renameForm, "wildcard_domain", this.site ? this.site.wildcard_domain : null);
+      Vue.set(
+        this.renameForm,
+        "wildcard_domain",
+        this.site ? this.site.wildcard_domain : null,
+      );
     },
     getDns(refresh) {
       let data = {
-        site: this.$route.params.site_id
+        site: this.$route.params.site_id,
       };
 
       if (refresh) {
@@ -375,7 +379,7 @@ export default {
       this.$store
         .dispatch("user_sites/updateNotificationChannels", {
           site: this.$route.params.site_id,
-          slack_channel_preferences: this.notificationChannelsForm.data()
+          slack_channel_preferences: this.notificationChannelsForm.data(),
         })
         .then(() => {
           this.showSlackForm = false;
@@ -393,7 +397,7 @@ export default {
         Vue.set(
           this,
           "notificationChannelsForm",
-          this.createForm(_.cloneDeep(site.slack_channel_preferences))
+          this.createForm(_.cloneDeep(site.slack_channel_preferences)),
         );
       }
       return site;
@@ -401,7 +405,7 @@ export default {
     siteServers() {
       let siteServers = _.get(
         this.$store.state.user_site_servers.servers,
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
 
       if (siteServers && siteServers.length) {
@@ -424,7 +428,7 @@ export default {
     siteServers() {
       return _.get(
         this.$store.state.user_site_servers.servers,
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     dnsIsPointedToServer() {
@@ -439,7 +443,7 @@ export default {
       return this.$store.state.user_notification_providers.providers.length > 0
         ? true
         : false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 const path = require("path");
 const VarieBundler = require("varie-bundler");
-
+const ENV = require("dotenv").config().parsed;
 module.exports = function(env, argv) {
   return new VarieBundler(argv, __dirname)
     .entry("app", ["resources/js/app/app.ts", "resources/sass/app.scss"])
@@ -13,6 +13,11 @@ module.exports = function(env, argv) {
       "@resources": path.join(__dirname, "resources/js/resources"),
       "@views": path.join(__dirname, "resources/js/resources/views"),
       "@components": path.join(__dirname, "resources/js/app/components"),
+    })
+    .environmentVariables({
+      ENV: ENV.APP_ENV,
+      PUSHER_APP_KEY: ENV.PUSHER_APP_KEY,
+      PUSHER_APP_ID: ENV.PUSHER_APP_KEY,
     })
     .chainWebpack((config, env) => {
       config.plugin("clean").tap((opts) => {

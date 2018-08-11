@@ -110,15 +110,15 @@ export default {
         new_password: null,
         confirm_password: null,
         workflow: null,
-        second_auth_active: null
+        second_auth_active: null,
       }),
       token: null,
       secondAuthImage: null,
-      secondAuthSecret: null
+      secondAuthSecret: null,
     };
   },
   watch: {
-    user: "setData"
+    user: "setData",
   },
   created() {
     this.setData();
@@ -126,7 +126,7 @@ export default {
   computed: {
     user() {
       return this.$store.state.user.user;
-    }
+    },
   },
   methods: {
     setData() {
@@ -143,7 +143,7 @@ export default {
       this.$store.dispatch("auth/validateSecondAuth", this.token);
     },
     activateSecondAuth() {
-      this.$store.dispatch("auth/getSecondAuthQr").then(secondAuth => {
+      this.$store.dispatch("auth/getSecondAuthQr").then((secondAuth) => {
         this.secondAuthImage = secondAuth.image;
         this.secondAuthSecret = secondAuth.secret;
       });
@@ -151,7 +151,7 @@ export default {
     deactivateSecondAuth() {
       this.form.second_auth_active = false;
       this.updateUser();
-    }
-  }
+    },
+  },
 };
 </script>

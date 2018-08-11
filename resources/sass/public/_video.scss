@@ -11,7 +11,7 @@
 
 .video {
   max-width: 800px;
-  margin: $spacing*3 auto $spacing;
+  margin: $spacing * 3 auto $spacing;
 
   &--header {
     text-align: center;
@@ -46,7 +46,7 @@
   &--controls {
     display: flex;
     justify-content: center;
-    margin-top: $spacing*2;
+    margin-top: $spacing * 2;
 
     &-item {
       flex: 0 0 200px;

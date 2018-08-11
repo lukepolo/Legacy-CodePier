@@ -37,12 +37,12 @@ export default {
   methods: {
     deleteCategory(categoryId) {
       this.$store.dispatch("admin_categories/destroy", categoryId);
-    }
+    },
   },
   computed: {
     categories() {
       return this.$store.state.admin_categories.categories;
-    }
-  }
+    },
+  },
 };
 </script>

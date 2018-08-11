@@ -35,7 +35,7 @@ export default {
   computed: {
     bitt() {
       return this.$store.state.bitts.viewBitt;
-    }
-  }
+    },
+  },
 };
 </script>

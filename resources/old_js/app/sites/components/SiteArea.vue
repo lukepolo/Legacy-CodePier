@@ -81,7 +81,7 @@ import DeleteSite from "./../components/DeleteSite";
 export default {
   data() {
     return {
-      transitionName: null
+      transitionName: null,
     };
   },
   components: {
@@ -89,7 +89,7 @@ export default {
     LeftNav,
     Servers,
     SiteHeader,
-    DeleteSite
+    DeleteSite,
   },
   created() {
     this.fetchData();
@@ -133,13 +133,13 @@ export default {
             app.$router.push({
               name: "site_overview",
               params: {
-                site_id: this.site.id
-              }
+                site_id: this.site.id,
+              },
             });
           });
       }
       this.checkRedirect();
-    }
+    },
   },
   methods: {
     checkRedirect() {
@@ -152,25 +152,25 @@ export default {
               if (this.workFlowCompleted !== this.$route.name) {
                 this.$router.push({
                   name: this.workFlowCompleted,
-                  params: { site_id: site.id }
+                  params: { site_id: site.id },
                 });
               }
             } else {
               this.$router.push({
                 name: "site_workflow",
-                params: { site_id: site.id }
+                params: { site_id: site.id },
               });
             }
           } else if (this.$route.name === "site_workflow") {
             this.$router.push({
               name: "site_overview",
-              params: { site_id: site.id }
+              params: { site_id: site.id },
             });
           }
         } else {
           this.$router.push({
             name: "site_repository",
-            params: { site_id: site.id }
+            params: { site_id: site.id },
           });
         }
       }
@@ -194,7 +194,7 @@ export default {
           }
           return flow;
         }),
-        "order"
+        "order",
       );
 
       let currentWorkflowIndex = _.findKey(workflows, function(flow) {
@@ -214,17 +214,17 @@ export default {
       this.$store
         .dispatch("user_sites/updateWorkflow", {
           workflow: workflow,
-          site: this.$route.params.site_id
+          site: this.$route.params.site_id,
         })
         .then(() => {
           if (this.workFlowCompleted === true) {
             this.$router.push({
               name: "site_overview",
-              params: { site_id: this.site.id }
+              params: { site_id: this.site.id },
             });
           }
         });
-    }
+    },
   },
   computed: {
     pileId() {
@@ -254,11 +254,14 @@ export default {
       }
     },
     notOverview() {
-      return this.$route.name !== "site_overview" && this.$route.name !== "site_backups";
+      return (
+        this.$route.name !== "site_overview" &&
+        this.$route.name !== "site_backups"
+      );
     },
     workFlowName() {
       return this.workFlowCompleted.replace("site_", "").replace("_", " ");
-    }
-  }
+    },
+  },
 };
 </script>

@@ -4,14 +4,14 @@ import { AuthState } from "./stateInterface";
 import AuthService from "@app/services/AuthService";
 import getDecorators from "inversify-inject-decorators";
 import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
-import LocalStorage from "@app/services/LocalStorage";
+import CookieStorage from "@app/services/CookieStorage";
 
 const { lazyInject } = getDecorators($app.$container);
 
 export default class Actions {
   @lazyInject("$http") private $http: HttpServiceInterface;
   @lazyInject("AuthService") private $authService: AuthService;
-  @lazyInject("LocalStorage") private $localStorage: LocalStorage;
+  @lazyInject("CookieStorage") private $cookieStorage: CookieStorage;
 
   login = (context: ActionContext<AuthState, RootState>, data) => {
     return this.$authService
@@ -28,7 +28,7 @@ export default class Actions {
     return this.$authService
       .oAuthLogin(provider, code, state)
       .then((response) => {
-        this.$localStorage.set("token", response.data);
+        this.$cookieStorage.set("token", response.data);
         return response.data;
       });
   };

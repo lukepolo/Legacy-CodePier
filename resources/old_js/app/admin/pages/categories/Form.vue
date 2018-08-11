@@ -39,7 +39,7 @@ export default {
     if (this.categoryId) {
       this.$store
         .dispatch("admin_categories/show", this.categoryId)
-        .then(category => {
+        .then((category) => {
           this.form.name = category.name;
         });
     }
@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       form: this.createForm({
-        name: null
-      })
+        name: null,
+      }),
     };
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
       } else {
         this.$store.dispatch("admin_categories/store", this.form);
       }
-    }
+    },
   },
   computed: {
     categoryId() {
@@ -68,7 +68,7 @@ export default {
     },
     category() {
       return this.$store.state.admin_categories.category;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -69,17 +69,17 @@ import ServerProviderForm from "../components/ServerProviderForm";
 export default {
   props: [],
   components: {
-    ServerProviderForm
+    ServerProviderForm,
   },
   data() {
     return {
-      adding_provider: {}
+      adding_provider: {},
     };
   },
   created() {
     this.$store.dispatch(
       "user_server_providers/get",
-      this.$store.state.user.user.id
+      this.$store.state.user.user.id,
     );
   },
   computed: {
@@ -92,16 +92,16 @@ export default {
   },
   methods: {
     connectProvider(provider) {
-        Vue.set(this.adding_provider, provider.id, true);
+      Vue.set(this.adding_provider, provider.id, true);
     },
     isConnected: function(server_provider_id) {
       return _.find(this.user_server_providers, {
-        server_provider_id: server_provider_id
+        server_provider_id: server_provider_id,
       });
     },
     getServerProvider(server_provider_id) {
       return _.find(this.server_providers, {
-        id: server_provider_id
+        id: server_provider_id,
       }).name;
     },
     deleteProvider(provider) {
@@ -110,6 +110,6 @@ export default {
         user: this.$store.state.user.user.id,
       });
     },
-  }
+  },
 };
 </script>

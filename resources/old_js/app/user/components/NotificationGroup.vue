@@ -12,7 +12,7 @@ import NotificationSetting from "./NotificationSetting";
 export default {
   props: ["title", "notification_settings"],
   components: {
-    NotificationSetting
-  }
+    NotificationSetting,
+  },
 };
 </script>

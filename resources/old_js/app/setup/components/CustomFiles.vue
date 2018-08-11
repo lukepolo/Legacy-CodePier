@@ -24,12 +24,12 @@ export default {
   data() {
     return {
       form: this.createForm({
-        file: ""
-      })
+        file: "",
+      }),
     };
   },
   components: {
-    File
+    File,
   },
   methods: {
     isRunningCommandFor(file) {
@@ -47,7 +47,7 @@ export default {
           .dispatch("user_site_files/find", {
             custom: true,
             site: this.siteId,
-            file: this.form.file
+            file: this.form.file,
           })
           .then(() => {
             this.form.file = "";
@@ -59,13 +59,13 @@ export default {
           .dispatch("user_server_files/find", {
             custom: true,
             file: this.form.file,
-            server: this.serverId
+            server: this.serverId,
           })
           .then(() => {
             this.form.file = "";
           });
       }
-    }
+    },
   },
   computed: {
     runningCommands() {
@@ -96,7 +96,7 @@ export default {
       if (this.serverId) {
         return this.$store.state.user_server_files;
       }
-    }
-  }
+    },
+  },
 };
 </script>

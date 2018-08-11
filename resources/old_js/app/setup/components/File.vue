@@ -69,7 +69,7 @@ export default {
     return {
       showFile: this.forceShow,
       reload_server: null,
-      isReloading: false
+      isReloading: false,
     };
   },
   mounted() {
@@ -81,7 +81,7 @@ export default {
       ace
         .edit(editor)
         .setValue(
-          this.file.unencrypted_content ? this.file.unencrypted_content : ""
+          this.file.unencrypted_content ? this.file.unencrypted_content : "",
         );
       ace.edit(editor).clearSelection(1);
     },
@@ -89,14 +89,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_files/destroy", {
           site: this.siteId,
-          file: this.file.id
+          file: this.file.id,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_files/destroy", {
           server: this.serverId,
-          file: this.file.id
+          file: this.file.id,
         });
       }
     },
@@ -105,7 +105,7 @@ export default {
         this.$store.dispatch("user_site_files/update", {
           site: this.siteId,
           content: this.getContent(),
-          file_id: this.file.id
+          file_id: this.file.id,
         });
       }
 
@@ -113,7 +113,7 @@ export default {
         this.$store.dispatch("user_server_files/update", {
           server: this.serverId,
           content: this.getContent(),
-          file_id: this.file.id
+          file_id: this.file.id,
         });
       }
     },
@@ -122,7 +122,7 @@ export default {
         .dispatch("user_site_files/reload", {
           file: this.file.id,
           server: this.reload_server,
-          site: this.siteId
+          site: this.siteId,
         })
         .then(() => {
           this.isReloading = false;
@@ -131,7 +131,7 @@ export default {
     },
     getContent() {
       return ace.edit(this.$refs.editor).getValue();
-    }
+    },
   },
   computed: {
     siteId() {
@@ -142,7 +142,7 @@ export default {
     },
     siteServers() {
       let servers = this.$store.getters["user_site_servers/getServers"](
-        this.siteId
+        this.siteId,
       );
 
       let server = _.first(servers);
@@ -151,7 +151,7 @@ export default {
       }
 
       return servers;
-    }
-  }
+    },
+  },
 };
 </script>
