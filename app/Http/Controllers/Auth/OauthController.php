@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Contracts\Encryption\Encrypter;
+use Carbon\Carbon;
 use Socialite;
+use Firebase\JWT\JWT;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\RepositoryProvider;
@@ -13,6 +14,7 @@ use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
+use Illuminate\Contracts\Encryption\Encrypter;
 
 class OauthController extends Controller
 {
@@ -20,6 +22,8 @@ class OauthController extends Controller
     const GITHUB = 'github';
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
+
+    private $encrypter;
 
     public static $repositoryProviders = [
         self::GITHUB,
@@ -30,6 +34,15 @@ class OauthController extends Controller
     public static $notificationProviders = [
         self::SLACK,
     ];
+
+    /**
+     * OauthController constructor.
+     * @param Encrypter $encrypter
+     */
+    public function __construct(Encrypter $encrypter)
+    {
+        $this->encrypter = $encrypter;
+    }
 
     /**
      * Handles provider requests.
@@ -111,7 +124,11 @@ class OauthController extends Controller
                     break;
             }
 
-            return response()->json(\Auth::user()->createToken('app')->accessToken);
+            return $this->encrypter->encrypt(JWT::encode([
+                'sub' => \Auth::user()->id,
+                'csrf' => csrf_token(),
+                'expiry' => Carbon::now()->addMinutes(config('session.lifetime')),
+            ], $this->encrypter->getKey()));
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();
