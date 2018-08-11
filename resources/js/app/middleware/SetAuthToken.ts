@@ -1,7 +1,5 @@
 import LocalStorage from "@app/services/LocalStorage";
-import ConfigInterface from "varie/lib/config/ConfigInterface";
 
-// TODO - Need to figure out how to protect this token from users in the browser
 export default class SetAuthToken {
   public request(config) {
     let $localStorage = $app.make<LocalStorage>("LocalStorage");
@@ -9,7 +7,6 @@ export default class SetAuthToken {
     if (token) {
       config.headers.common.Authorization = `Bearer ${token}`;
     }
-
     return config;
   }
 

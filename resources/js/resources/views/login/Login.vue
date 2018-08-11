@@ -47,6 +47,12 @@ export default Vue.extend({
     CreateAccountForm,
     ResetPasswordForm,
   },
+  beforeCreate() {
+    if (this.LocalStorage.get("token")) {
+      this.$router.push({ name: "dashboard" });
+    }
+  },
+  $inject: ["LocalStorage"],
   data() {
     return {
       formType: "login",
