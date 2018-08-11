@@ -32,7 +32,7 @@ import ServerSelection from "./ServerSelection";
 export default {
   props: ["daemon"],
   components: {
-    ServerSelection
+    ServerSelection,
   },
   data() {
     return {
@@ -40,8 +40,8 @@ export default {
         daemon: this.daemon.id,
         site: this.$route.params.site_id,
         server_ids: this.daemon.server_ids,
-        server_types: this.daemon.server_types
-      })
+        server_types: this.daemon.server_types,
+      }),
     };
   },
   methods: {
@@ -54,17 +54,17 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_daemons/destroy", {
           site: this.siteId,
-          daemon: this.daemon.id
+          daemon: this.daemon.id,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_daemons/destroy", {
           server: this.serverId,
-          daemon: this.daemon.id
+          daemon: this.daemon.id,
         });
       }
-    }
+    },
   },
   computed: {
     siteId() {
@@ -75,7 +75,7 @@ export default {
     },
     isRunningCommand() {
       return this.isCommandRunning("App\\Models\\Daemon", this.daemon.id);
-    }
-  }
+    },
+  },
 };
 </script>

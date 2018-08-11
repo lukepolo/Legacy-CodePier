@@ -232,24 +232,23 @@ export default {
       loaded: false,
       showForm: false,
       form: this.createForm({
-        wildcard : false,
+        wildcard: false,
         type: null,
         domains: null,
         private_key: null,
-        certificate: null
+        certificate: null,
       }),
-      installExistingCertId : null,
+      installExistingCertId: null,
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
-
       // this.$store.dispatch('user_ssl_certificates/get')
 
       if (this.siteId) {
@@ -275,11 +274,11 @@ export default {
             site_id: this.siteId,
             type: this.form.type,
             domains: this.form.domains,
-            wildcard : this.form.wildcard,
+            wildcard: this.form.wildcard,
             private_key: this.form.private_key,
-            certificate: this.form.certificate
+            certificate: this.form.certificate,
           })
-          .then(data => {
+          .then((data) => {
             if (data) {
               this.resetForm();
             }
@@ -293,9 +292,9 @@ export default {
             server_id: this.serverId,
             domains: this.form.domains,
             private_key: this.form.private_key,
-            certificate: this.form.certificate
+            certificate: this.form.certificate,
           })
-          .then(data => {
+          .then((data) => {
             if (data) {
               this.resetForm();
             }
@@ -307,7 +306,7 @@ export default {
         this.$store.dispatch("user_site_ssl_certificates/update", {
           active: true,
           site: this.siteId,
-          ssl_certificate: ssl_certificate_id
+          ssl_certificate: ssl_certificate_id,
         });
       }
     },
@@ -316,7 +315,7 @@ export default {
         this.$store.dispatch("user_site_ssl_certificates/update", {
           active: false,
           site: this.siteId,
-          ssl_certificate: ssl_certificate_id
+          ssl_certificate: ssl_certificate_id,
         });
       }
     },
@@ -324,14 +323,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_ssl_certificates/destroy", {
           site: this.siteId,
-          ssl_certificate: ssl_certificate_id
+          ssl_certificate: ssl_certificate_id,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_ssl_certificates/destroy", {
           server: this.serverId,
-          ssl_certificate: ssl_certificate_id
+          ssl_certificate: ssl_certificate_id,
         });
       }
     },
@@ -340,8 +339,8 @@ export default {
     },
     tryWildcardInstall(id) {
       this.$store.dispatch("user_site_ssl_certificates/wildcardInstall", {
-        site : this.siteId,
-        ssl_certificate : id
+        site: this.siteId,
+        ssl_certificate: id,
       });
     },
     retryInstall(domains, type) {
@@ -350,7 +349,7 @@ export default {
           .dispatch("user_site_ssl_certificates/store", {
             site_id: this.siteId,
             domains: domains,
-            type: type
+            type: type,
           })
           .then(() => {
             this.form.reset();
@@ -362,7 +361,7 @@ export default {
           .dispatch("user_server_ssl_certificates/store", {
             domains: domains,
             type: type,
-            server_id: this.serverId
+            server_id: this.serverId,
           })
           .then(() => {
             this.form.reset();
@@ -378,7 +377,7 @@ export default {
         this.form.type = "existing";
       }
       this.showForm = false;
-    }
+    },
   },
   computed: {
     site() {
@@ -404,7 +403,7 @@ export default {
     },
     siteServers() {
       return this.$store.getters["user_site_servers/getServers"](
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     sslCertificates() {
@@ -417,7 +416,7 @@ export default {
       return (
         (this.loaded && this.sslCertificates.length === 0) || this.showForm
       );
-    }
-  }
+    },
+  },
 };
 </script>

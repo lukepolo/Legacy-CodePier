@@ -31,7 +31,7 @@ export default {
   methods: {
     hasNotificationSetting(notification_setting, service) {
       let notification = _.find(this.userNotificationSettings, {
-        notification_setting_id: notification_setting.id
+        notification_setting_id: notification_setting.id,
       });
 
       if (notification) {
@@ -47,12 +47,12 @@ export default {
 
       if (provider) {
         return _.find(this.userNotificationProviders, {
-          notification_provider_id: provider.id
+          notification_provider_id: provider.id,
         });
       }
 
       return false;
-    }
+    },
   },
   computed: {
     userNotificationSettings() {
@@ -63,7 +63,7 @@ export default {
     },
     userNotificationProviders() {
       return this.$store.state.user_notification_providers.providers;
-    }
-  }
+    },
+  },
 };
 </script>

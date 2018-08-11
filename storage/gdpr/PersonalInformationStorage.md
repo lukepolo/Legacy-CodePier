@@ -1,12 +1,12 @@
 ## CodePier Storage Of Personal Infoormation
 
 ### Datagbases
-* MySQL
-* Redis
 
+- MySQL
+- Redis
 
 ### File Locations
-* Server Logs
-* Error Logs
-* Info Logs
 
+- Server Logs
+- Error Logs
+- Info Logs

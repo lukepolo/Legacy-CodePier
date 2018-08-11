@@ -71,7 +71,7 @@ export default {
     siteServers() {
       let siteServers = _.get(
         this.$store.state.user_site_servers.servers,
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
 
       if (siteServers && siteServers.length) {
@@ -79,12 +79,12 @@ export default {
       }
 
       return [];
-    }
+    },
   },
   watch: {
     $route: function() {
       $("#middle .section-content").scrollTop(0);
-    }
-  }
+    },
+  },
 };
 </script>

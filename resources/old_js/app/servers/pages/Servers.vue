@@ -124,13 +124,13 @@
 export default {
   data() {
     return {
-      showArchive: false
+      showArchive: false,
     };
   },
   watch: {
     showArchive: function() {
       this.$store.dispatch("user_servers/getTrashed");
-    }
+    },
   },
   computed: {
     servers() {
@@ -138,7 +138,7 @@ export default {
         return this.$store.state.user_servers.servers;
       }
       return this.$store.state.user_servers.trashed;
-    }
-  }
+    },
+  },
 };
 </script>

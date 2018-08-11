@@ -11,7 +11,7 @@ import { BuoyApp } from "../components";
 
 export default {
   components: {
-    BuoyApp
+    BuoyApp,
   },
   created() {
     this.$store.dispatch("buoys/get");
@@ -25,7 +25,7 @@ export default {
     },
     buoyAppsPagination() {
       return this.$store.state.buoys.buoy_apps;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -13,21 +13,21 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
       this.$store.dispatch(
         "user_server_buoys/get",
-        this.$route.params.server_id
+        this.$route.params.server_id,
       );
     },
     removeBuoy(buoyId) {
       this.$store.dispatch("user_server_buoys/destroy", {
         buoy: buoyId,
-        server: this.$route.params.server_id
+        server: this.$route.params.server_id,
       });
-    }
+    },
   },
   computed: {
     server() {
@@ -35,7 +35,7 @@ export default {
     },
     serverBuoys() {
       return this.$store.state.user_server_buoys.buoys;
-    }
-  }
+    },
+  },
 };
 </script>

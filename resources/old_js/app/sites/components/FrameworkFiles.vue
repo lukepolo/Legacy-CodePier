@@ -10,7 +10,7 @@
 import File from "./../../setup/components/File";
 export default {
   components: {
-    File
+    File,
   },
   methods: {
     isRunningCommandFor(file) {
@@ -22,20 +22,20 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
     },
     files() {
-      return this.siteFiles.filter(file => {
+      return this.siteFiles.filter((file) => {
         return file.framework_file;
       });
     },
     siteFiles() {
       return this.$store.state.user_site_files.files;
-    }
-  }
+    },
+  },
 };
 </script>

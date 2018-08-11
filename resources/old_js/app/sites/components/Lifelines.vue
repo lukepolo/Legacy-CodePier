@@ -58,7 +58,7 @@
 import LifeLine from "./Lifeline";
 export default {
   components: {
-    LifeLine
+    LifeLine,
   },
   data() {
     return {
@@ -66,14 +66,14 @@ export default {
       form: this.createForm({
         name: null,
         threshold: 5,
-        site: this.$route.params.site_id
-      })
+        site: this.$route.params.site_id,
+      }),
     };
   },
   watch: {
     $route: function() {
       this.fetchData();
-    }
+    },
   },
   created() {
     this.fetchData();
@@ -82,7 +82,7 @@ export default {
     fetchData() {
       this.$store.dispatch(
         "user_site_life_lines/get",
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     createLifeline() {
@@ -90,7 +90,7 @@ export default {
         this.form.reset();
         this.showLifelineForm = true;
       });
-    }
+    },
   },
   computed: {
     site() {
@@ -98,7 +98,7 @@ export default {
     },
     lifeLines() {
       return this.$store.state.user_site_life_lines.life_lines;
-    }
-  }
+    },
+  },
 };
 </script>

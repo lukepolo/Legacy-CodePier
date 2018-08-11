@@ -31,11 +31,11 @@ import ServerHeader from "./ServerHeader";
 export default {
   components: {
     LeftNav,
-    ServerHeader
+    ServerHeader,
   },
   data() {
     return {
-      transitionName: null
+      transitionName: null,
     };
   },
   watch: {
@@ -45,7 +45,7 @@ export default {
       //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       this.transitionName = "bounce";
       this.fetchData();
-    }
+    },
   },
   created() {
     this.fetchData();
@@ -57,12 +57,12 @@ export default {
         // TODO - we can remove after we put events out
         this.$store.dispatch("user_servers/show", serverId);
       }
-    }
+    },
   },
   computed: {
     server() {
       return this.$store.state.user_servers.server;
-    }
-  }
+    },
+  },
 };
 </script>

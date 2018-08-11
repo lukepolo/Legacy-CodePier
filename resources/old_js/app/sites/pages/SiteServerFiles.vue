@@ -19,7 +19,7 @@ import CustomFiles from "./../../setup/components/CustomFiles";
 export default {
   components: {
     File,
-    CustomFiles
+    CustomFiles,
   },
   created() {
     this.fetchData();
@@ -30,10 +30,10 @@ export default {
       if (siteServers.length > 1) {
         this.$router.push({
           name: "site_overview",
-          params: { site_id: this.site.id }
+          params: { site_id: this.site.id },
         });
       }
-    }
+    },
   },
   methods: {
     fetchData() {
@@ -47,7 +47,7 @@ export default {
         }
       }
       return false;
-    }
+    },
   },
   computed: {
     runningCommands() {
@@ -57,7 +57,7 @@ export default {
       return this.$store.state.user_sites.site;
     },
     files() {
-      return this.siteFiles.filter(file => {
+      return this.siteFiles.filter((file) => {
         return !file.custom && !file.framework_file;
       });
     },
@@ -67,7 +67,7 @@ export default {
     siteServers() {
       let siteServers = _.get(
         this.$store.state.user_site_servers.servers,
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
 
       if (siteServers && siteServers.length) {
@@ -75,7 +75,7 @@ export default {
       }
 
       return [];
-    }
-  }
+    },
+  },
 };
 </script>

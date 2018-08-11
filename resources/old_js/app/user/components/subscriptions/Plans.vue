@@ -69,8 +69,8 @@ export default {
   data() {
     return {
       form: {
-        plan: this.selectedPlan
-      }
+        plan: this.selectedPlan,
+      },
     };
   },
   watch: {
@@ -79,18 +79,18 @@ export default {
     },
     "form.plan": function() {
       this.$emit("update:selectedPlan", this.form.plan);
-    }
+    },
   },
   computed: {
     isActive() {
       if (this.userSubscription) {
         return _.find(this.plans, {
-          id: this.userSubscription.active_plan
+          id: this.userSubscription.active_plan,
         });
       }
     },
     plans() {
-      return _.filter(this.$store.state.subscriptions.plans, plan => {
+      return _.filter(this.$store.state.subscriptions.plans, (plan) => {
         return plan.plan_id.indexOf(this.type) > -1;
       });
     },
@@ -107,7 +107,7 @@ export default {
     },
     userSubscriptionData() {
       return this.$store.state.user_subscription.subscription;
-    }
-  }
+    },
+  },
 };
 </script>

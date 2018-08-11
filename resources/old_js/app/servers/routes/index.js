@@ -5,7 +5,7 @@ import {
   ServerSites,
   ServerFiles,
   ServerBuoys,
-  ServerMonitoring
+  ServerMonitoring,
 } from "../pages";
 
 import {
@@ -13,7 +13,7 @@ import {
   ServerArea,
   SecurityNav,
   ServerSetupNav,
-  ServerInformationNav
+  ServerInformationNav,
 } from "../components";
 
 import {
@@ -26,7 +26,7 @@ import {
   ServerFeatures,
   SslCertificates,
   LanguageSettings,
-  EnvironmentVariables
+  EnvironmentVariables,
 } from "../../setup/pages";
 
 export default [
@@ -36,7 +36,7 @@ export default [
   {
     path: "/server/create/:site_id/:type",
     name: "server_form_with_site",
-    component: ServerForm
+    component: ServerForm,
   },
   {
     path: "/server/:server_id",
@@ -49,8 +49,8 @@ export default [
         components: {
           default: ServerInfo,
           nav: ServerNav,
-          subNav: ServerInformationNav
-        }
+          subNav: ServerInformationNav,
+        },
       },
       {
         path: "info/sites",
@@ -58,8 +58,8 @@ export default [
         components: {
           default: ServerSites,
           nav: ServerNav,
-          subNav: ServerInformationNav
-        }
+          subNav: ServerInformationNav,
+        },
       },
       {
         path: "info/monitoring",
@@ -67,8 +67,8 @@ export default [
         components: {
           default: ServerMonitoring,
           nav: ServerNav,
-          subNav: ServerInformationNav
-        }
+          subNav: ServerInformationNav,
+        },
       },
       {
         path: "info/databases",
@@ -76,8 +76,8 @@ export default [
         components: {
           default: Databases,
           nav: ServerNav,
-          subNav: ServerInformationNav
-        }
+          subNav: ServerInformationNav,
+        },
       },
       {
         path: "info/buoys",
@@ -85,8 +85,8 @@ export default [
         components: {
           default: ServerBuoys,
           nav: ServerNav,
-          subNav: ServerInformationNav
-        }
+          subNav: ServerInformationNav,
+        },
       },
       {
         path: "security",
@@ -94,8 +94,8 @@ export default [
         components: {
           default: SshKeys,
           nav: ServerNav,
-          subNav: SecurityNav
-        }
+          subNav: SecurityNav,
+        },
       },
       {
         path: "security/firewall-rules",
@@ -103,8 +103,8 @@ export default [
         components: {
           default: FirewallRules,
           nav: ServerNav,
-          subNav: SecurityNav
-        }
+          subNav: SecurityNav,
+        },
       },
       {
         path: "security/ssl-certificates",
@@ -112,8 +112,8 @@ export default [
         components: {
           default: SslCertificates,
           nav: ServerNav,
-          subNav: SecurityNav
-        }
+          subNav: SecurityNav,
+        },
       },
       {
         path: "setup",
@@ -121,8 +121,8 @@ export default [
         components: {
           default: EnvironmentVariables,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/cron-jobs",
@@ -130,8 +130,8 @@ export default [
         components: {
           default: CronJobs,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/daemons",
@@ -139,8 +139,8 @@ export default [
         components: {
           default: Daemons,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/workers",
@@ -148,8 +148,8 @@ export default [
         components: {
           default: Workers,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/files",
@@ -157,8 +157,8 @@ export default [
         components: {
           default: ServerFiles,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/language-settings",
@@ -166,8 +166,8 @@ export default [
         components: {
           default: LanguageSettings,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
+          subNav: ServerSetupNav,
+        },
       },
       {
         path: "setup/features",
@@ -175,9 +175,9 @@ export default [
         components: {
           default: ServerFeatures,
           nav: ServerNav,
-          subNav: ServerSetupNav
-        }
-      }
-    ]
-  }
+          subNav: ServerSetupNav,
+        },
+      },
+    ],
+  },
 ];

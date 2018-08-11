@@ -7,7 +7,7 @@
   &--item {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
-    grid-gap: $spacing*3;
+    grid-gap: $spacing * 3;
 
     @include breakpoint(md) {
       grid-template-columns: 1fr;
@@ -25,7 +25,7 @@
   justify-content: center;
   align-items: center;
   list-style: none;
-  margin: $spacing*3 0px 0px 0px;
+  margin: $spacing * 3 0px 0px 0px;
   padding: 0px;
 
   li {

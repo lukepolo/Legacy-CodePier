@@ -70,15 +70,15 @@ export default {
       showForm: false,
       form: this.createForm({
         name: null,
-        ssh_key: null
-      })
+        ssh_key: null,
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -101,7 +101,7 @@ export default {
         this.form.site = this.siteId;
         this.$store
           .dispatch("user_site_ssh_keys/store", this.form)
-          .then(sshKey => {
+          .then((sshKey) => {
             if (sshKey.id) {
               this.resetForm();
             }
@@ -112,7 +112,7 @@ export default {
         this.form.server = this.serverId;
         this.$store
           .dispatch("user_server_ssh_keys/store", this.form)
-          .then(sshKey => {
+          .then((sshKey) => {
             if (sshKey.id) {
               this.resetForm();
             }
@@ -123,14 +123,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_ssh_keys/destroy", {
           ssh_key: sshKeyId,
-          site: this.siteId
+          site: this.siteId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_ssh_keys/destroy", {
           ssh_key: sshKeyId,
-          server: this.serverId
+          server: this.serverId,
         });
       }
     },
@@ -140,7 +140,7 @@ export default {
     resetForm() {
       this.form.reset();
       this.showForm = false;
-    }
+    },
   },
   computed: {
     siteId() {
@@ -160,7 +160,7 @@ export default {
       if (this.serverId) {
         return this.$store.state.user_server_ssh_keys.ssh_keys;
       }
-    }
-  }
+    },
+  },
 };
 </script>

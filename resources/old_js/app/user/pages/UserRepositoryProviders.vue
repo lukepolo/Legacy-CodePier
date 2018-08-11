@@ -24,7 +24,7 @@ export default {
   created() {
     this.$store.dispatch(
       "user_repository_providers/get",
-      this.$store.state.user.user.id
+      this.$store.state.user.user.id,
     );
   },
   computed: {
@@ -33,17 +33,17 @@ export default {
     },
     user_repository_providers() {
       return this.$store.state.user_repository_providers.providers;
-    }
+    },
   },
   methods: {
     isConnected: function(repository_provider_id) {
       return _.find(this.user_repository_providers, {
-        repository_provider_id: parseInt(repository_provider_id)
+        repository_provider_id: parseInt(repository_provider_id),
       });
     },
     disconnectProvider: function(repository_provider_id) {
       let repository_provider = _.find(this.user_repository_providers, function(
-        repository_provider
+        repository_provider,
       ) {
         return (
           repository_provider.repository_provider_id === repository_provider_id
@@ -52,16 +52,16 @@ export default {
 
       this.$store.dispatch("user_repository_providers/destroy", {
         user: this.$store.state.user.user.id,
-        repository_provider: repository_provider
+        repository_provider: repository_provider,
       });
     },
     registerProvider(provider) {
       window.location.replace(
         this.action("AuthOauthController@newProvider", {
-          provider: provider
-        })
+          provider: provider,
+        }),
       );
-    }
-  }
+    },
+  },
 };
 </script>

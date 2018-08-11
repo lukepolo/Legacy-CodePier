@@ -13,6 +13,6 @@
 
 <script>
 export default {
-  props: ["site"]
+  props: ["site"],
 };
 </script>

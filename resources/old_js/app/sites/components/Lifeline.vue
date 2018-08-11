@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       interval: null,
-      currentTime: moment()
+      currentTime: moment(),
     };
   },
   mounted() {
@@ -59,7 +59,7 @@ export default {
   methods: {
     updateCurrentTime() {
       this.currentTime = moment();
-    }
+    },
   },
   computed: {
     checkedIn() {
@@ -67,7 +67,7 @@ export default {
         .clone()
         .subtract(this.lifeLine.threshold, "minutes")
         .isBefore(this.parseDate(this.lifeLine.last_seen));
-    }
-  }
+    },
+  },
 };
 </script>

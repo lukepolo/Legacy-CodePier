@@ -81,7 +81,7 @@ export default {
   components: {
     CronJob,
     CronJobMaker,
-    ServerSelection
+    ServerSelection,
   },
   data() {
     return {
@@ -92,15 +92,15 @@ export default {
         user: "root",
         cronTiming: "* * * * *",
         server_ids: [],
-        server_types: []
-      })
+        server_types: [],
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -130,9 +130,9 @@ export default {
             site: this.siteId,
             user: this.form.user,
             server_ids: this.form.server_ids,
-            server_types: this.form.server_types
+            server_types: this.form.server_types,
           })
-          .then(cronJob => {
+          .then((cronJob) => {
             if (cronJob) {
               this.resetForm();
             }
@@ -146,9 +146,9 @@ export default {
             user: this.form.user,
             server: this.serverId,
             server_ids: this.form.server_ids,
-            server_types: this.form.server_types
+            server_types: this.form.server_types,
           })
-          .then(cronJob => {
+          .then((cronJob) => {
             if (cronJob) {
               this.resetForm();
             }
@@ -164,7 +164,7 @@ export default {
         this.form.cron = "";
       }
       this.showForm = false;
-    }
+    },
   },
   computed: {
     site() {
@@ -193,7 +193,7 @@ export default {
     },
     shouldShowForm() {
       return (this.loaded && this.cronJobs.length === 0) || this.showForm;
-    }
-  }
+    },
+  },
 };
 </script>

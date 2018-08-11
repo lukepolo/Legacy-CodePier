@@ -125,14 +125,14 @@ export default {
         auto_restart: true,
         number_of_workers: 1,
         working_directory: null,
-      })
+      }),
     };
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
@@ -155,7 +155,7 @@ export default {
         this.form.site = this.siteId;
         this.$store
           .dispatch("user_site_workers/store", this.form)
-          .then(worker => {
+          .then((worker) => {
             if (worker.id) {
               this.resetForm();
             }
@@ -166,7 +166,7 @@ export default {
         this.form.server = this.serverId;
         this.$store
           .dispatch("user_server_workers/store", this.form)
-          .then(worker => {
+          .then((worker) => {
             if (worker.id) {
               this.resetForm();
             }
@@ -177,14 +177,14 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_workers/destroy", {
           worker: worker_id,
-          site: this.siteId
+          site: this.siteId,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_workers/destroy", {
           worker: worker_id,
-          server: this.serverId
+          server: this.serverId,
         });
       }
     },
@@ -194,10 +194,12 @@ export default {
     resetForm() {
       this.form.reset();
       if (this.site) {
-        this.form.command = this.site.path + (this.site.zero_downtime_deployment ? "/current/" : "/");
+        this.form.command =
+          this.site.path +
+          (this.site.zero_downtime_deployment ? "/current/" : "/");
       }
       this.showForm = false;
-    }
+    },
   },
   computed: {
     site() {
@@ -227,7 +229,7 @@ export default {
     },
     shouldShowForm() {
       return (this.loaded && this.workers.length === 0) || this.showForm;
-    }
-  }
+    },
+  },
 };
 </script>

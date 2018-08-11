@@ -108,7 +108,7 @@
 import LeftNav from "../../../components/LeftNav";
 export default {
   components: {
-    LeftNav
+    LeftNav,
   },
   data() {
     return {
@@ -116,13 +116,13 @@ export default {
       creating_team: false,
       create_form: this.createForm({
         piles: [],
-        name: null
+        name: null,
       }),
       edit_form: this.createForm({
         piles: [],
         name: null,
-        team: null
-      })
+        team: null,
+      }),
     };
   },
   methods: {
@@ -157,7 +157,7 @@ export default {
       this.edit_form.team = team.id;
       this.edit_form.name = team.name;
       this.edit_form.piles = _.map(team.piles, "id");
-    }
+    },
   },
   computed: {
     teams() {
@@ -165,7 +165,7 @@ export default {
     },
     all_user_piles() {
       return this.$store.state.user_piles.all_user_piles;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -59,7 +59,7 @@ export default {
   methods: {
     install() {
       this.$store.dispatch("buoys/show", this.buoyApp.id);
-    }
+    },
   },
   computed: {
     allServerBuoys() {
@@ -72,14 +72,14 @@ export default {
             return server;
           }
         }),
-        _.isEmpty
+        _.isEmpty,
       );
     },
     servers() {
       return _.filter(this.$store.state.user_servers.servers, function(server) {
         return server.progress >= 100;
       });
-    }
-  }
+    },
+  },
 };
 </script>

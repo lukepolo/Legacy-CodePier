@@ -97,7 +97,7 @@ import RepositoryProviderSelector from "./../components/RepositoryProviderSelect
 
 export default {
   components: {
-    RepositoryProviderSelector
+    RepositoryProviderSelector,
   },
   data() {
     return {
@@ -108,8 +108,8 @@ export default {
         repository: null,
         web_directory: "public",
         custom_provider: false,
-        user_repository_provider_id: null
-      })
+        user_repository_provider_id: null,
+      }),
     };
   },
   created() {
@@ -146,7 +146,7 @@ export default {
           }
         }
       }
-    }
+    },
   },
   methods: {
     fetchData() {
@@ -155,7 +155,7 @@ export default {
       this.$store.dispatch("repository_providers/get");
       this.$store.dispatch(
         "user_repository_providers/get",
-        this.$store.state.user.user.id
+        this.$store.state.user.user.id,
       );
     },
     siteChange() {
@@ -198,20 +198,20 @@ export default {
         custom_provider: this.form.custom_provider,
         user_repository_provider_id: !this.form.custom_provider
           ? this.form.user_repository_provider_id
-          : null
+          : null,
       });
     },
     getProviderByUrl(providerUrl) {
-      let provider = _.find(this.repository_providers, repositoryProvider => {
+      let provider = _.find(this.repository_providers, (repositoryProvider) => {
         return repositoryProvider.url === providerUrl;
       });
 
       if (provider) {
         return _.find(this.repository_providers, {
-          id: provider.id
+          id: provider.id,
         });
       }
-    }
+    },
   },
   computed: {
     site() {
@@ -232,12 +232,12 @@ export default {
     providerUrl() {
       if (this.form.user_repository_provider_id) {
         let userRepository = _.find(this.user_repository_providers, {
-          id: this.form.user_repository_provider_id
+          id: this.form.user_repository_provider_id,
         });
 
         if (userRepository) {
           let repositoryProvider = _.find(this.repository_providers, {
-            id: userRepository.repository_provider_id
+            id: userRepository.repository_provider_id,
           });
 
           if (repositoryProvider) {
@@ -252,7 +252,7 @@ export default {
         "/" +
         (this.form.repository ? this.form.repository : "")
       );
-    }
-  }
+    },
+  },
 };
 </script>

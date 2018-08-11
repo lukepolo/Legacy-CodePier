@@ -99,42 +99,42 @@ export default {
   data() {
     return {
       sudoPassword: null,
-      databasePassword: null
+      databasePassword: null,
     };
   },
   methods: {
     revealSudoPassword() {
       this.$store
         .dispatch("user_servers/getSudoPassword", {
-          server: this.server.id
+          server: this.server.id,
         })
-        .then(response => {
+        .then((response) => {
           this.sudoPassword = response;
         });
     },
     refreshSudoPassword() {
       this.$store
         .dispatch("user_servers/refreshSudoPassword", {
-          server: this.server.id
+          server: this.server.id,
         })
-        .then(response => {
+        .then((response) => {
           this.sudoPassword = response;
         });
     },
     revealDatabasePassword() {
       this.$store
         .dispatch("user_servers/getDatabasePassword", {
-          server: this.server.id
+          server: this.server.id,
         })
-        .then(response => {
+        .then((response) => {
           this.databasePassword = response;
         });
-    }
+    },
   },
   computed: {
     server() {
       return this.$store.state.user_servers.server;
-    }
-  }
+    },
+  },
 };
 </script>

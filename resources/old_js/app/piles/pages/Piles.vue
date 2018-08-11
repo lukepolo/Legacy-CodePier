@@ -80,7 +80,7 @@ import LeftNav from "../../../components/LeftNav";
 export default {
   components: {
     Pile,
-    LeftNav
+    LeftNav,
   },
   computed: {
     piles() {
@@ -91,7 +91,7 @@ export default {
     },
     showWelcomeModal() {
       return !this.user.last_read_announcement;
-    }
+    },
   },
   methods: {
     deletePile(index) {
@@ -100,12 +100,12 @@ export default {
     newPile() {
       this.$store.state.user_piles.piles.push({
         name: null,
-        editing: true
+        editing: true,
       });
     },
     markAnnouncementRead() {
       this.$store.dispatch("system/markAnnouncementRead");
-    }
-  }
+    },
+  },
 };
 </script>

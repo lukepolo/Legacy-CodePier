@@ -49,13 +49,13 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
       this.$store.dispatch(
         "user_server_sites/get",
-        this.$route.params.server_id
+        this.$route.params.server_id,
       );
     },
     iszeroDowntimeDeployment(site) {
@@ -69,7 +69,7 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   computed: {
     server() {
@@ -77,7 +77,7 @@ export default {
     },
     sites() {
       return this.$store.state.user_server_sites.sites;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -4,7 +4,7 @@
     rgba($color-background-web, 1),
     rgba($color-background-web, 0)
   );
-  padding: $spacing*2 0px;
+  padding: $spacing * 2 0px;
 
   h2 {
     max-width: 720px;
@@ -15,8 +15,8 @@
 .testimonials {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: $spacing*3;
-  margin-top: $spacing*3;
+  grid-gap: $spacing * 3;
+  margin-top: $spacing * 3;
 
   @include breakpoint(md) {
     grid-template-columns: 1fr;

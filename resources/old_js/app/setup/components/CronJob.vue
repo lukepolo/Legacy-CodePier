@@ -32,7 +32,7 @@ import ServerSelection from "./ServerSelection";
 export default {
   props: ["cronJob"],
   components: {
-    ServerSelection
+    ServerSelection,
   },
   data() {
     return {
@@ -40,8 +40,8 @@ export default {
         cron_job: this.cronJob.id,
         site: this.$route.params.site_id,
         server_ids: this.cronJob.server_ids,
-        server_types: this.cronJob.server_types
-      })
+        server_types: this.cronJob.server_types,
+      }),
     };
   },
   methods: {
@@ -54,17 +54,17 @@ export default {
       if (this.siteId) {
         this.$store.dispatch("user_site_cron_jobs/destroy", {
           site: this.siteId,
-          cron_job: this.cronJob.id
+          cron_job: this.cronJob.id,
         });
       }
 
       if (this.serverId) {
         this.$store.dispatch("user_server_cron_jobs/destroy", {
           server: this.serverId,
-          cron_job: this.cronJob.id
+          cron_job: this.cronJob.id,
         });
       }
-    }
+    },
   },
   computed: {
     siteId() {
@@ -75,7 +75,7 @@ export default {
     },
     isRunningCommand() {
       return this.isCommandRunning("App\\Models\\CronJob", this.cronJob.id);
-    }
-  }
+    },
+  },
 };
 </script>

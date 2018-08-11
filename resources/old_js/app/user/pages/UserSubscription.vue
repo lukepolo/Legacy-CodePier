@@ -123,7 +123,7 @@ import Plans from "./../components/subscriptions/Plans";
 export default {
   components: {
     Card,
-    Plans
+    Plans,
   },
   data() {
     return {
@@ -134,18 +134,18 @@ export default {
         plan: null,
         token: null,
         coupon: null,
-        subscription: null
+        subscription: null,
       }),
       createCardForm: {
         card: null,
         error: null,
-        instance: null
+        instance: null,
       },
       updateCardForm: this.createForm({
         card: null,
         error: null,
-        instance: null
-      })
+        instance: null,
+      }),
     };
   },
   watch: {
@@ -156,7 +156,7 @@ export default {
       } else {
         this.form.plan = "cancel";
       }
-    }
+    },
   },
   created() {
     this.$store.dispatch("subscriptions/plans");
@@ -228,10 +228,10 @@ export default {
       this.cancelSubscription();
     },
     createToken(cardForm) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         cardForm.instance
           .createToken(cardForm.card)
-          .then(result => {
+          .then((result) => {
             if (result.error) {
               cardForm.error = result.error.message;
             }
@@ -258,7 +258,7 @@ export default {
     },
     invoiceTotal(total) {
       return (total / 100).toFixed(2);
-    }
+    },
   },
   computed: {
     hasCoupon() {
@@ -291,7 +291,7 @@ export default {
     },
     userSubscriptionData() {
       return this.$store.state.user_subscription.subscription;
-    }
-  }
+    },
+  },
 };
 </script>

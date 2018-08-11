@@ -16,19 +16,19 @@ import CustomFiles from "./../../setup/components/CustomFiles";
 export default {
   components: {
     File,
-    CustomFiles
+    CustomFiles,
   },
   created() {
     this.fetchData();
   },
   watch: {
-    $route: "fetchData"
+    $route: "fetchData",
   },
   methods: {
     fetchData() {
       this.$store.dispatch(
         "user_server_files/get",
-        this.$route.params.server_id
+        this.$route.params.server_id,
       );
     },
     isRunningCommandFor(file) {
@@ -39,11 +39,11 @@ export default {
         }
       }
       return false;
-    }
+    },
   },
   computed: {
     files() {
-      return this.serverFiles.filter(file => {
+      return this.serverFiles.filter((file) => {
         return !file.custom && !file.framework_file;
       });
     },
@@ -55,7 +55,7 @@ export default {
     },
     runningCommands() {
       return this.$store.state.commands.running_commands;
-    }
-  }
+    },
+  },
 };
 </script>

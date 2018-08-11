@@ -83,10 +83,10 @@ export default {
     // this.$store.dispatch("admin_categories/get");
     // this.$store.dispatch("server_systems/get");
     if (this.bittId) {
-        this.$store.dispatch("bitts/show", this.bittId).then((bitt) => {
-          this.form.fill(bitt);
-          this.renderContent();
-        });
+      this.$store.dispatch("bitts/show", this.bittId).then((bitt) => {
+        this.form.fill(bitt);
+        this.renderContent();
+      });
     } else {
       this.renderContent();
     }
@@ -96,54 +96,51 @@ export default {
       form: this.createForm({
         title: null,
         script: null,
-        user : 'root',
+        user: "root",
         systems: [],
         private: true,
         category: null,
-        description: null
-      })
+        description: null,
+      }),
     };
   },
   mounted() {
-    this.$store.commit('bitts/view', null)
+    this.$store.commit("bitts/view", null);
   },
   methods: {
     cancel() {
       this.$router.push({
-        name : 'bitts_market_place'
-      })
+        name: "bitts_market_place",
+      });
     },
     renderContent() {
       let editor = this.$refs.editor;
-      ace
-        .edit(editor)
-        .setValue(
-          this.form.script ? this.form.script : ""
-        );
+      ace.edit(editor).setValue(this.form.script ? this.form.script : "");
       ace.edit(editor).clearSelection(1);
     },
     getContent() {
       return ace.edit(this.$refs.editor).getValue();
     },
     saveUpdateBitt() {
-
       this.form.script = this.getContent();
 
       if (this.bittId) {
-        this.$store.dispatch("bitts/update", {
-          form: this.form.data(),
-          bitt: this.bittId
-        }).then((bitt) => {
-          this.$store.commit("bitts/view", bitt)
-          this.$router.push({ name : 'bitts_market_place'})
-        });
+        this.$store
+          .dispatch("bitts/update", {
+            form: this.form.data(),
+            bitt: this.bittId,
+          })
+          .then((bitt) => {
+            this.$store.commit("bitts/view", bitt);
+            this.$router.push({ name: "bitts_market_place" });
+          });
       } else {
         this.$store.dispatch("bitts/store", this.form).then((bitt) => {
-          this.$store.commit("bitts/view", bitt)
-          this.$router.push({ name : 'bitts_market_place'})
+          this.$store.commit("bitts/view", bitt);
+          this.$router.push({ name: "bitts_market_place" });
         });
       }
-    }
+    },
   },
   computed: {
     bittId() {
@@ -154,7 +151,7 @@ export default {
     },
     categories() {
       return this.$store.state.admin_categories.categories;
-    }
-  }
+    },
+  },
 };
 </script>

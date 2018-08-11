@@ -145,18 +145,18 @@ import { DeploymentStepCard } from "../components";
 export default {
   components: {
     draggable,
-    DeploymentStepCard
+    DeploymentStepCard,
   },
   data() {
     return {
       active: [],
       inactive: [],
-      afterDeployment : [],
+      afterDeployment: [],
       form: this.createForm({
         keep_releases: 10,
         zero_downtime_deployment: true,
-        site: this.$route.params.site_id
-      })
+        site: this.$route.params.site_id,
+      }),
     };
   },
   created() {
@@ -165,7 +165,7 @@ export default {
   },
   watch: {
     $route: "fetchData",
-    site: "siteChange"
+    site: "siteChange",
   },
   methods: {
     siteChange() {
@@ -182,13 +182,13 @@ export default {
       this.$store
         .dispatch(
           "user_site_deployments/getDeploymentSteps",
-          this.$route.params.site_id
+          this.$route.params.site_id,
         )
         .then(() => {
           this.$store
             .dispatch(
               "user_site_deployments/getSiteDeploymentSteps",
-              this.$route.params.site_id
+              this.$route.params.site_id,
             )
             .then(() => {
               this.clearChanges();
@@ -199,19 +199,19 @@ export default {
       this.saveSiteDeploymentConfig();
       this.$store.dispatch("user_site_deployments/updateSiteDeployment", {
         site: this.$route.params.site_id,
-        deployment_steps: this.active.concat(this.afterDeployment)
+        deployment_steps: this.active.concat(this.afterDeployment),
       });
     },
     saveSiteDeploymentConfig() {
       this.$store.dispatch(
         "user_site_deployments/updateSiteDeploymentConfig",
-        this.form
+        this.form,
       );
     },
     hasStep(task) {
       if (this.currentSiteDeploymentSteps.length) {
         return _.find(this.currentSiteDeploymentSteps, {
-          internal_deployment_function: task
+          internal_deployment_function: task,
         });
       }
       return false;
@@ -226,7 +226,7 @@ export default {
         script: "",
         step: "Custom Step",
         description: "Custom Step",
-        editing: true
+        editing: true,
       });
     },
     sortInactiveList: function() {
@@ -235,7 +235,7 @@ export default {
       });
     },
     deselectAllDeployments() {
-      _.each(this.active, step => {
+      _.each(this.active, (step) => {
         this.inactive.push(step);
       });
 
@@ -244,7 +244,7 @@ export default {
       this.sortInactiveList();
     },
     selectAllDeployments() {
-      _.each(this.inactive, step => {
+      _.each(this.inactive, (step) => {
         this.active.push(step);
       });
 
@@ -255,18 +255,18 @@ export default {
       this.inactive = [];
       this.afterDeployment = [];
 
-      _.each(this.currentSiteDeploymentSteps, step => {
+      _.each(this.currentSiteDeploymentSteps, (step) => {
         if (step.script) {
           step.editing = false;
         }
-        if(step.after_deploy) {
+        if (step.after_deploy) {
           this.afterDeployment.push(step);
         } else {
           this.active.push(step);
         }
       });
 
-      _.each(this.deploymentSteps, step => {
+      _.each(this.deploymentSteps, (step) => {
         if (!this.hasStep(step.internal_deployment_function)) {
           this.inactive.push(step);
         }
@@ -281,11 +281,11 @@ export default {
     getSuggestedOrder(deploymentStep) {
       let internalStep = this.internalStep(deploymentStep);
       if (internalStep) {
-        let activeSteps = _.filter(this.deploymentSteps, step => {
+        let activeSteps = _.filter(this.deploymentSteps, (step) => {
           return _.find(this.active, { step: step.step });
         });
 
-        let steps = _.filter(activeSteps, step => {
+        let steps = _.filter(activeSteps, (step) => {
           return step.order < internalStep.order;
         });
 
@@ -296,7 +296,7 @@ export default {
     },
     internalStep(deploymentStep) {
       if (deploymentStep.internal_deployment_function && this.deploymentSteps) {
-        return _.find(this.deploymentSteps, step => {
+        return _.find(this.deploymentSteps, (step) => {
           return (
             step.internal_deployment_function ===
             deploymentStep.internal_deployment_function
@@ -321,7 +321,7 @@ export default {
         return step.zero_downtime_deployment;
       }
       return false;
-    }
+    },
   },
   computed: {
     site() {
@@ -332,7 +332,7 @@ export default {
         (value, index) => {
           value.id = `temp_${index}`;
           return value;
-        }
+        },
       );
     },
     currentSiteDeploymentSteps() {
@@ -340,7 +340,7 @@ export default {
     },
     showZeroDowntimeDeploymentOptions() {
       return this.form.zero_downtime_deployment;
-    }
-  }
+    },
+  },
 };
 </script>

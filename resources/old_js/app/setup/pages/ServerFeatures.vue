@@ -27,17 +27,17 @@ import Features from "../components/Features";
 export default {
   props: ["update"],
   components: {
-    Features
+    Features,
   },
   methods: {
     dispatchMethod() {
       this.$store.dispatch(
         "user_site_server_features/update",
         _.merge(this.$route.params, {
-          formData: this.getFormData(this.$el)
-        })
+          formData: this.getFormData(this.$el),
+        }),
       );
-    }
+    },
   },
   computed: {
     siteId() {
@@ -50,7 +50,7 @@ export default {
     },
     serverId() {
       return this.$route.params.server_id;
-    }
-  }
+    },
+  },
 };
 </script>

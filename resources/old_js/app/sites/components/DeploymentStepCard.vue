@@ -60,14 +60,9 @@ import { ServerSelection } from "./../../setup/components";
 
 export default {
   components: {
-    ServerSelection
+    ServerSelection,
   },
-  props: [
-    "deploymentStep",
-    "order",
-    "suggestedOrder",
-    "afterDeploy"
-  ],
+  props: ["deploymentStep", "order", "suggestedOrder", "afterDeploy"],
   data() {
     return {
       step: this.deploymentStep.step,
@@ -77,7 +72,7 @@ export default {
         : [],
       server_types: this.deploymentStep.server_types
         ? this.deploymentStep.server_types
-        : []
+        : [],
     };
   },
   created() {
@@ -95,7 +90,7 @@ export default {
     },
     server_types: function() {
       this.deploymentStep.server_types = this.server_types;
-    }
+    },
   },
   methods: {
     edit() {
@@ -119,12 +114,12 @@ export default {
     },
     deleteStep() {
       this.$emit("deleteStep");
-    }
+    },
   },
   computed: {
     siteServers() {
       return this.$store.getters["user_site_servers/getServers"](
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     displayServerSelection() {
@@ -152,7 +147,7 @@ export default {
         this.deploymentStep.internal_deployment_function &&
         this.deploymentSteps
       ) {
-        return _.find(this.deploymentSteps, step => {
+        return _.find(this.deploymentSteps, (step) => {
           return (
             step.internal_deployment_function ===
             this.deploymentStep.internal_deployment_function
@@ -161,7 +156,7 @@ export default {
       }
 
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

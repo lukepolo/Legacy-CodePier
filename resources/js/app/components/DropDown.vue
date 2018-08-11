@@ -50,23 +50,24 @@ export default {
   methods: {
     show(target) {
       if (
-        this.open &&
-        !app.isTag(target, "textarea") &&
-        !app.isTag(target, "input") &&
-        !app.isTag(target, "select") &&
-        !app.isTag(target, "option")
+        this.open
+        // &&
+        // !this.isTag(target, "textarea") &&
+        // !this.isTag(target, "input") &&
+        // !this.isTag(target, "select") &&
+        // !this.isTag(target, "option")
       ) {
         this.open = false;
 
         return this.open;
       }
 
-      app.$emit("close-dropdowns");
+      this.$emit("close-dropdowns");
       this.open = true;
     },
   },
   created() {
-    app.$on("close-dropdowns", () => {
+    this.$on("close-dropdowns", () => {
       this.open = false;
     });
   },

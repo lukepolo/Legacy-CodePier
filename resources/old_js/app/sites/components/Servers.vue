@@ -127,14 +127,14 @@ import ServerCreateList from "./ServerCreateList";
 export default {
   components: {
     ServerInfo,
-    ServerCreateList
+    ServerCreateList,
   },
   data() {
     return {
       connectServers: false,
       form: this.createForm({
-        connected_servers: []
-      })
+        connected_servers: [],
+      }),
     };
   },
   created() {
@@ -144,7 +144,7 @@ export default {
     $route: "fetchData",
     siteServers: function() {
       this.resetAttachedServers();
-    }
+    },
   },
   methods: {
     fetchData() {
@@ -162,7 +162,7 @@ export default {
     resetAttachedServers() {
       this.connectServers = false;
       this.form.connected_servers = _.map(this.siteServers, "id");
-    }
+    },
   },
   computed: {
     user() {
@@ -173,11 +173,11 @@ export default {
     },
     siteServers() {
       return this.$store.getters["user_site_servers/getServers"](
-        this.$route.params.site_id
+        this.$route.params.site_id,
       );
     },
     availableServers() {
-      return _.filter(this.$store.state.user_servers.servers, server => {
+      return _.filter(this.$store.state.user_servers.servers, (server) => {
         if (server.progress >= 100) {
           return true;
         }
@@ -193,7 +193,7 @@ export default {
       return (
         "Attach " + _("server").pluralize(serverCount > 0 ? serverCount : 1)
       );
-    }
-  }
+    },
+  },
 };
 </script>

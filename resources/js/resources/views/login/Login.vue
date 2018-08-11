@@ -48,11 +48,11 @@ export default Vue.extend({
     ResetPasswordForm,
   },
   beforeCreate() {
-    if (this.LocalStorage.get("token")) {
+    if (this.CookieStorage.get("token")) {
       this.$router.push({ name: "dashboard" });
     }
   },
-  $inject: ["LocalStorage"],
+  $inject: ["CookieStorage"],
   data() {
     return {
       formType: "login",

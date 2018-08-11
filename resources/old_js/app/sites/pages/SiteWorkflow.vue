@@ -77,7 +77,7 @@ import DeleteSite from "./../components/DeleteSite";
 
 export default {
   components: {
-    DeleteSite
+    DeleteSite,
   },
   data() {
     return {
@@ -85,56 +85,56 @@ export default {
         {
           order: 2,
           name: "site_deployment",
-          description: "Set up Site Deployment"
+          description: "Set up Site Deployment",
         },
         {
           order: 3,
           name: "site_databases",
-          description: "Create Databases"
+          description: "Create Databases",
         },
         {
           order: 4,
           name: "site_files",
-          description: "Update Your Site Files"
+          description: "Update Your Site Files",
         },
         {
           order: 5,
           name: "site_ssl_certs",
           description: "Set up SSL Certificates",
           tooltip:
-            "You can install a free Lets Encrypt certificate or include your own"
+            "You can install a free Lets Encrypt certificate or include your own",
         },
         {
           order: 6,
           name: "site_workers",
-          description: "Set up Workers"
+          description: "Set up Workers",
         },
         {
           order: 7,
           name: "site_daemons",
-          description: "Set up Daemons"
+          description: "Set up Daemons",
         },
         {
           order: 8,
           name: "site_cron_jobs",
-          description: "Set up Cron Jobs"
+          description: "Set up Cron Jobs",
         },
         {
           order: 9,
           name: "site_firewall_rules",
           description: "Open Firewall Ports",
-          tooltip: "Ports 22 / 80 / 443 Are opened by default"
+          tooltip: "Ports 22 / 80 / 443 Are opened by default",
         },
         {
           order: 10,
           name: "site_ssh_keys",
           description: "Set up Additional SSH Keys",
-          tooltip: "Add keys that are not already in your account"
+          tooltip: "Add keys that are not already in your account",
         },
         {
           order: 11,
           name: "site_environment_variables",
-          description: "Set up Environment Variables"
+          description: "Set up Environment Variables",
         },
         {
           order: 1,
@@ -142,12 +142,12 @@ export default {
           description: "Change Server Software",
           tooltip:
             "Your site has already been customized based on your repository",
-          subtext: "Advanced Users should review the default software"
-        }
+          subtext: "Advanced Users should review the default software",
+        },
       ],
       form: this.createForm({
-        workflow: []
-      })
+        workflow: [],
+      }),
     };
   },
   created() {
@@ -155,32 +155,32 @@ export default {
       this.workflows[0],
       this.workflows[1],
       this.workflows[2],
-      this.workflows[3]
+      this.workflows[3],
     ]);
   },
   methods: {
     skipWorkflow() {
       this.$store.dispatch("user_sites/updateWorkflow", {
         workflow: {},
-        site: this.$route.params.site_id
+        site: this.$route.params.site_id,
       });
     },
     saveWorkflow() {
       let workflow = _.invert(
-        _.map(_.orderBy(this.form.workflow, "order"), "name")
+        _.map(_.orderBy(this.form.workflow, "order"), "name"),
       );
       this.$store.dispatch("user_sites/updateWorkflow", {
         workflow: _.mapValues(workflow, function() {
           return false;
         }),
-        site: this.$route.params.site_id
+        site: this.$route.params.site_id,
       });
-    }
+    },
   },
   computed: {
     site() {
       return this.$store.state.user_sites.site;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,11 +1,8 @@
-import ConfigInterface from "varie/lib/config/ConfigInterface";
+import CookieStorage from "@app/services/CookieStorage";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";
-import LocalStorage from "@app/services/LocalStorage";
 
 export default function(to, from, next) {
-  if (
-    !$app.make<LocalStorage>("LocalStorage").get("token")
-  ) {
+  if (!$app.make<CookieStorage>("CookieStorage").get("token")) {
     next({
       name: "login",
     });

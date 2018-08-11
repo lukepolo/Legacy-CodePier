@@ -58,77 +58,81 @@
 </template>
 
 <script>
-    export default {
-      data() {
-        return {
-          tab : 0
-        }
-      },
-      watch: {
-        '$route' : {
-          handler : 'fetchData',
-          immediate : true,
-        },
-
-      },
-      methods : {
-        fetchData() {
-          this.$store.dispatch(
-            "user_site_schema_backups/get",
-            this.$route.params.site_id
-          );
-        },
-        backupNow() {
-          this.$store.dispatch('user_site_schema_backups/backupNow', this.$route.params.site_id).then(() => {
-            this.showSuccess('You have started database backups for this site.')
-          })
-        },
-        getBackups(server) {
-            let foundServer = _.find(this.backups.servers, { id : server.id });
-            if(foundServer) {
-                return foundServer.backups
-            }
-            return []
-        },
-        toggleBackups(server) {
-            if(server.backups_enabled) {
-              return this.disableBackups(server);
-            }
-            this.enableBackups(server)
-        },
-        enableBackups(server) {
-          this.$store.dispatch("user_server_schema_backups/enable", server.id)
-        },
-        disableBackups(server) {
-          this.$store.dispatch("user_server_schema_backups/disable", server.id)
-        },
-        restoreBackup(server, backup) {
-          this.$store.dispatch("user_server_schema_backups/restore", {
-            backup: backup.id,
-            server: server.id
-          });
-        },
-        downloadBackup(server, backup) {
-          this.$store.dispatch("user_server_schema_backups/download", {
-            backup: backup.id,
-            server: server.id
-          });
-        },
-      },
-      computed : {
-        backups() {
-          return this.$store.state.user_site_schema_backups.backups;
-        },
-        siteServers() {
-          return _.filter(
-            this.$store.getters["user_site_servers/getServers"](
-              this.$route.params.site_id
-            ),
-            server => {
-              return server.type === 'full_stack' || server.type === 'database'
-            }
-          );
-        },
+export default {
+  data() {
+    return {
+      tab: 0,
+    };
+  },
+  watch: {
+    $route: {
+      handler: "fetchData",
+      immediate: true,
+    },
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch(
+        "user_site_schema_backups/get",
+        this.$route.params.site_id,
+      );
+    },
+    backupNow() {
+      this.$store
+        .dispatch(
+          "user_site_schema_backups/backupNow",
+          this.$route.params.site_id,
+        )
+        .then(() => {
+          this.showSuccess("You have started database backups for this site.");
+        });
+    },
+    getBackups(server) {
+      let foundServer = _.find(this.backups.servers, { id: server.id });
+      if (foundServer) {
+        return foundServer.backups;
       }
-    }
+      return [];
+    },
+    toggleBackups(server) {
+      if (server.backups_enabled) {
+        return this.disableBackups(server);
+      }
+      this.enableBackups(server);
+    },
+    enableBackups(server) {
+      this.$store.dispatch("user_server_schema_backups/enable", server.id);
+    },
+    disableBackups(server) {
+      this.$store.dispatch("user_server_schema_backups/disable", server.id);
+    },
+    restoreBackup(server, backup) {
+      this.$store.dispatch("user_server_schema_backups/restore", {
+        backup: backup.id,
+        server: server.id,
+      });
+    },
+    downloadBackup(server, backup) {
+      this.$store.dispatch("user_server_schema_backups/download", {
+        backup: backup.id,
+        server: server.id,
+      });
+    },
+  },
+  computed: {
+    backups() {
+      return this.$store.state.user_site_schema_backups.backups;
+    },
+    siteServers() {
+      return _.filter(
+        this.$store.getters["user_site_servers/getServers"](
+          this.$route.params.site_id,
+        ),
+        (server) => {
+          return server.type === "full_stack" || server.type === "database";
+        },
+      );
+    },
+  },
+};
 </script>

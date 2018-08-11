@@ -7,6 +7,6 @@ export default [
   {
     path: "/my/team/:team_id/members",
     name: "team_members",
-    component: TeamMembers
-  }
+    component: TeamMembers,
+  },
 ];

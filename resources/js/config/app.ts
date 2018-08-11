@@ -1,4 +1,5 @@
 import HttpServiceProvider from "varie/lib/http/ServiceProvider";
+import BroadcastProvider from "@app/providers/BroadcastProvider";
 import AppServiceProvider from "@app/providers/AppServiceProvider";
 import StateServiceProvider from "varie/lib/state/ServiceProvider";
 import ConfigServiceProvider from "varie/lib/config/ServiceProvider";
@@ -78,6 +79,7 @@ export default {
      * Application Service Providers...
      */
     AppServiceProvider,
+    BroadcastProvider,
     NotificationsProvider,
   },
 };

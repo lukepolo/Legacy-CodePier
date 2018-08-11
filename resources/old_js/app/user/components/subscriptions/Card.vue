@@ -17,8 +17,8 @@ export default {
       stripe: {
         card: null,
         error: null,
-        instance: null
-      }
+        instance: null,
+      },
     };
   },
   watch: {
@@ -28,8 +28,8 @@ export default {
         this.$emit("update:card", this.stripe.card);
         this.$emit("update:error", this.stripe.error);
         this.$emit("update:instance", this.stripe.instance);
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.stripe.instance = Stripe(window.Laravel.stripeKey);
@@ -42,23 +42,23 @@ export default {
           lineHeight: "24px",
           fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
           fontSmoothing: "antialiased",
-          fontSize: "16px"
+          fontSize: "16px",
         },
         invalid: {
           color: "#F4645F",
-          iconColor: "#F4645F"
-        }
-      }
+          iconColor: "#F4645F",
+        },
+      },
     });
 
     this.stripe.card.mount("#" + this.cardType + "-card-element");
 
-    this.stripe.card.addEventListener("change", event => {
+    this.stripe.card.addEventListener("change", (event) => {
       this.stripe.error = null;
       if (event.error) {
         this.stripe.error = event.error.message;
       }
     });
-  }
+  },
 };
 </script>

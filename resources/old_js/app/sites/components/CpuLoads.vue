@@ -30,11 +30,11 @@ export default {
   props: {
     stats: {},
     showLabels: {
-      default: true
+      default: true,
     },
     lastUpdatedAt: {
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
     getCpuLoad(load) {
@@ -50,7 +50,7 @@ export default {
       }
 
       return moment().add(-ago, "minutes");
-    }
-  }
+    },
+  },
 };
 </script>
