@@ -4,6 +4,7 @@
     "outDir": "./public/",
     "module": "esNext",
     "moduleResolution": "Node",
+    "noImplicitAny": false,
     "baseUrl": "",
     "target": "ES5",
     "lib": ["ES6", "dom"],
