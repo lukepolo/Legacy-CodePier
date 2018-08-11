@@ -17,6 +17,10 @@ $router
     $router.route("/", "dashboard/Dashboard").setName("dashboard");
   });
 
-$router.route("/login", "login/Login").setName("login");
+$router.area("login/Login").group(() => {
+  $router.route("/login", "login/Login").setName("login");
+  $router.route("/register", "login/Login");
+  $router.route("/forgot-password", "login/Login");
+});
 
 $router.route("*", "errors/404");

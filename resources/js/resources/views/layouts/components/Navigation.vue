@@ -118,7 +118,11 @@ export default {
       this.$refs.search.focus();
     },
     logout() {
-      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("auth/logout").then(() => {
+        this.$router.push({
+          name: "login",
+        });
+      });
     },
     changeTeam(teamID) {
       this.$store.dispatch("changeTeams", teamID);

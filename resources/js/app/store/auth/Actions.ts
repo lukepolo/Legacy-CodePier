@@ -5,11 +5,13 @@ import AuthService from "@app/services/AuthService";
 import getDecorators from "inversify-inject-decorators";
 import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 import CookieStorage from "@app/services/CookieStorage";
+import RouterInterface from "varie/lib/routing/RouterInterface";
 
 const { lazyInject } = getDecorators($app.$container);
 
 export default class Actions {
   @lazyInject("$http") private $http: HttpServiceInterface;
+  @lazyInject("$router") private $router: RouterInterface;
   @lazyInject("AuthService") private $authService: AuthService;
   @lazyInject("CookieStorage") private $cookieStorage: CookieStorage;
 
@@ -37,6 +39,12 @@ export default class Actions {
     return this.$http.get("/api/me").then((response) => {
       context.commit("SET_USER", response.data);
       return response.data;
+    });
+  };
+
+  logout = () => {
+    return new Promise((resolve) => {
+      resolve(this.$cookieStorage.remove("token"));
     });
   };
 }
