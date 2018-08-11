@@ -85,7 +85,11 @@ class JwtGuard
     public function user(Request $request)
     {
         if ($request->bearerToken()) {
-            return $this->authenticateViaJWT($request) || $this->authenticateViaBearerToken($request);
+            $user = $this->authenticateViaJWT($request);
+            if (empty($user)) {
+                $user = $this->authenticateViaBearerToken($request);
+            }
+            return $user;
         }
     }
 
