@@ -3,13 +3,10 @@
         <system-alerts></system-alerts>
         <navigation></navigation>
         <div id="xlarge-wrap">
-
             <div id="main">
-                <router-view></router-view>
+                <router-view class="view"></router-view>
             </div>
-
             <!--<events-bar v-if="hasSites"></events-bar>-->
-
         </div>
         <!--<announcements></announcements>-->
         <!--<portal-target name="modal" slim></portal-target>-->
