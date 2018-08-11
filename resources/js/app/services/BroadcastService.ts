@@ -19,6 +19,5 @@ export default class BroadcastService {
           ? `${window.location.hostname}:6001`
           : "https://ws.codepier.io:6001",
     });
-    console.info("got here");
   }
 }
