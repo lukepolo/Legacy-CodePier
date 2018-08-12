@@ -15,4 +15,11 @@ export default class Actions {
       return response.data;
     });
   };
+
+  changePile = (context: ActionContext<PilesState, RootState>, pile) => {
+    return this.$pileService.changePile(pile).then((response) => {
+      context.commit("auth/SET_USER", response.data, { root: true });
+      return response.data;
+    });
+  };
 }

@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 
 @injectable()
-export default class PileService {
+export default class SiteService {
   private $http;
   private $apiRouteService;
 
@@ -15,16 +15,7 @@ export default class PileService {
 
   get() {
     return this.$http.get(
-      this.$apiRouteService.action("PilePileController@index"),
-    );
-  }
-
-  changePile(pile) {
-    return this.$http.post(
-      this.$apiRouteService.action("PilePileController@changePile"),
-      {
-        pile,
-      },
+      this.$apiRouteService.action("SiteSiteController@index"),
     );
   }
 }

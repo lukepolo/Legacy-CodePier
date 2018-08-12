@@ -1,8 +1,6 @@
 <template>
 
-    <section id="left" class="section-column" v-if="hasSites">
-
-
+    <section id="left" class="section-column" v-if="sites.length">
 
         <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="section-header pile-dropdown">
             <span slot="sub" class="icon-arrow-down"></span>
@@ -34,7 +32,7 @@
 
             <div class="site-container">
 
-                <div class="site" v-for="site in sites">
+                <div class="site" v-for="site in pileSites">
                     <site :site="site"></site>
                 </div>
 
@@ -59,8 +57,8 @@
 </template>
 
 <script>
-import SiteForm from "./SiteForm.vue";
 import Site from "./left-nav-components/Site.vue";
+import SiteForm from "./../../dashboard/components/SiteForm.vue";
 
 export default {
   components: {
@@ -68,32 +66,29 @@ export default {
     SiteForm,
   },
   methods: {
-    changePile(pile_id) {
-      this.$store.dispatch("user_piles/change", pile_id);
+    changePile(pileId) {
+      this.$store.dispatch("user/piles/changePile", pileId);
     },
   },
   computed: {
-    userSshKeys() {
-      return this.$store.state.user_ssh_keys.ssh_keys;
+    sites() {
+      return this.$store.state.user.sites.sites;
     },
     piles() {
-      return this.$store.state.user_piles.piles;
+      return this.$store.state.user.piles.piles;
+    },
+    pileSites() {
+      return this.$store.getters["user/sites/sitesByPileId"](
+        this.currentPile.id,
+      );
+    },
+    userSshKeys() {
+      return this.$store.state.user.ssh_keys.ssh_keys;
     },
     currentPile() {
-      if (this.user) {
-        return this.getPile(this.user.current_pile_id);
-      }
-    },
-    user() {
-      return this.$store.state.user.user;
-    },
-    sites() {
-      return _.filter(this.$store.state.user_sites.sites, (site) => {
-        return site.pile_id === this.current_pile_id;
-      });
-    },
-    current_pile_id() {
-      return this.$store.state.user.user.current_pile_id;
+      return this.$store.getters["user/piles/pileById"](
+        this.user.current_pile_id,
+      );
     },
   },
 };

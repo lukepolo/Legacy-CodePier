@@ -4,6 +4,7 @@
         <navigation></navigation>
         <div id="xlarge-wrap">
             <div id="main">
+                <left-nav></left-nav>
                 <router-view class="view"></router-view>
             </div>
             <!--<events-bar v-if="hasSites"></events-bar>-->
@@ -15,18 +16,21 @@
 
 <script>
 import Vue from "vue";
+import LeftNav from "./components/LeftNav";
 import Navigation from "./components/Navigation";
 import SystemAlerts from "./components/SystemAlerts";
 import Announcements from "./components/Announcements";
 
 export default Vue.extend({
   components: {
+    LeftNav,
     Navigation,
     SystemAlerts,
     Announcements,
   },
   mounted() {
     this.$store.dispatch("user/piles/get");
+    this.$store.dispatch("user/sites/get");
   },
 });
 </script>

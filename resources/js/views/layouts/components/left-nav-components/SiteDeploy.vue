@@ -25,6 +25,8 @@ export default {
   },
   computed: {
     hasDeployableServers() {
+      // TODO
+      return false;
       const deployableServers = _.filter(
         this.$store.state.user_site_servers.servers[this.site.id],
         (server) => {
