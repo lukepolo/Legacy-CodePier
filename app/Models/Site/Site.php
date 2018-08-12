@@ -60,6 +60,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
+        'is_deployable',
         'last_deployment_status',
     ];
 
@@ -216,6 +217,11 @@ class Site extends Model
         }
 
         return false;
+    }
+
+    public function getIsDeployableAttribute()
+    {
+        return $this->provisionedServers()->count() > 0;
     }
 
     public function lastDeployment()

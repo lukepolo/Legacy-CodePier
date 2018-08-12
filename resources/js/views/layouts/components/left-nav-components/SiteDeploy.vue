@@ -16,6 +16,11 @@
 <script>
 export default {
   props: ["site"],
+  created() {
+    this.$store.dispatch("user/sites/servers/get", {
+      site: this.site.id,
+    });
+  },
   methods: {
     deploySite: function() {
       if (!this.isDeploying) {
@@ -25,28 +30,12 @@ export default {
   },
   computed: {
     hasDeployableServers() {
-      // TODO
-      return false;
-      const deployableServers = _.filter(
-        this.$store.state.user_site_servers.servers[this.site.id],
-        (server) => {
-          return server.progress >= 100;
-        },
-      );
-
-      if (deployableServers && _.keys(deployableServers).length) {
-        return true;
-      }
-
-      return false;
+      return this.site.is_deployable;
     },
     isDeploying() {
       const status = this.site.last_deployment_status;
       return status === "Running" || status === "Queued";
     },
-  },
-  created() {
-    this.$store.dispatch("user_site_servers/get", this.site.id);
   },
 };
 </script>
