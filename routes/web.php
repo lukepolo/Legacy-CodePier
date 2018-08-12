@@ -114,14 +114,7 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 */
 Route::domain(config('app.url'))->group(function () {
 
-    // Authentication / Register Routes...
-    Route::post('register', 'Auth\RegisterController@register');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-    // Password Reset Routes...
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 
     /*
     |--------------------------------------------------------------------------
@@ -162,8 +155,5 @@ Route::domain(config('app.url'))->group(function () {
 |--------------------------------------------------------------------------
 |
 */
-//Route::get('login', 'Controller@app')->name('login');
-//Route::redirect('login', action('Auth\LoginController@login'));
-
 
 Route::get('/', 'Controller@welcome');
