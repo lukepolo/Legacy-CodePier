@@ -4,10 +4,10 @@
             <h2>Forgot Password</h2>
         </div>
 
-        <base-form v-form="form">
+        <base-form v-form="form" :action="requestResetPassword">
             <base-input type="email" label="Email" name="email" v-model="form.email" validate></base-input>
             <div slot="buttons">
-                <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
+                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
                 <button class="btn btn-primary" type="submit" :class="{ 'btn-disabled' : !form.isValid() }" :disabled="!form.isValid()">Reset Password</button>
             </div>
         </base-form>
@@ -18,13 +18,9 @@
 <script>
 import Vue from "vue";
 
+import ShareAccountInfoMixin from "./mixins/ShareAccountInfoMixin";
 export default Vue.extend({
-  props: {
-    formType: {
-      type: String,
-      required: true,
-    },
-  },
+  mixins: [ShareAccountInfoMixin],
   data() {
     return {
       form: this.createForm({
@@ -35,6 +31,11 @@ export default Vue.extend({
         },
       }),
     };
+  },
+  methods: {
+    requestResetPassword() {
+      alert("requestResetPassword");
+    },
   },
 });
 </script>
