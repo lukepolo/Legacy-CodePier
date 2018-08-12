@@ -23,6 +23,9 @@ $router.area("login/AuthArea").group(() => {
   $router
     .route("forgot-password", "login/ForgotPassword")
     .setName("forgotPassword");
+  $router
+    .route("reset-password", "login/ResetPassword")
+    .setName("resetPassword");
 });
 
 $router.route("*", "errors/404");

@@ -65,6 +65,30 @@ export default class Actions {
       });
   };
 
+  forgotPasswordRequest = (
+    context: ActionContext<AuthState, RootState>,
+    form,
+  ) => {
+    return this.$authService.forgotPasswordRequest(form.email);
+  };
+
+  resetPassword = (
+    context: ActionContext<AuthState, RootState>,
+    { form, token },
+  ) => {
+    console.info(token);
+    return this.$authService
+      .resetPassword(token, form.email, form.password, form.passwordConfirmed)
+      .then((response) => {
+        this.$cookieStorage.set("token", response.data);
+        context.dispatch("me");
+        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+          name: null,
+          email: null,
+        });
+      });
+  };
+
   me = (context: ActionContext<AuthState, RootState>) => {
     return this.$http.get("/api/me").then((response) => {
       context.commit("SET_USER", response.data);
