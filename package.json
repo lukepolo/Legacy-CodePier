@@ -22,6 +22,7 @@
     "prettier": "^1.14.2",
     "pretty-quick": "^1.4.1"
   },
+  "version": "0.0.1",
   "dependencies": {
     "axios": "^0.18.0",
     "brace": "^0.11.1",

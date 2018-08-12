@@ -67,8 +67,6 @@
                                 <div class="small">The free plan only allows for 1 site. <br>Upgrade now to add more!</div>
                             </router-link>
                         </div>
-
-                        >> Show welcome modal {{ showWelcomeModal }} <<
                     </div>
                 </div>
             </div>

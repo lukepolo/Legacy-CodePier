@@ -18,6 +18,7 @@ module.exports = function(env, argv) {
       ENV: ENV.APP_ENV,
       PUSHER_APP_KEY: ENV.PUSHER_APP_KEY,
       PUSHER_APP_ID: ENV.PUSHER_APP_KEY,
+      VERSION: require("./package").version,
     })
     .chainWebpack((config, env) => {
       config.plugin("clean").tap((opts) => {

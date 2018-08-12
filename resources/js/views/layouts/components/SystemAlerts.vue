@@ -19,12 +19,12 @@
 
 <script>
 export default {
-  $inject: ["BroadcastService"],
+  $inject: ["$config", "BroadcastService"],
   data() {
     return {
       online: true,
       socketConnection: true,
-      current_version: 123,
+      current_version: this.$config.get("env.VERSION"),
     };
   },
   created() {
@@ -53,7 +53,7 @@ export default {
       return this.$store.state.auth.user;
     },
     version() {
-      return 123;
+      return this.$store.state.system.version;
     },
   },
 };

@@ -21,6 +21,10 @@ export default class BroadcastService {
     });
   }
 
+  listen(channel, event, callback) {
+    return this.$echo.channel("app").listen(event, callback);
+  }
+
   isConnected() {
     return this.$echo.connector.socket.connected;
   }

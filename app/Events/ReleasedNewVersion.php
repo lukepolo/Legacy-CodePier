@@ -6,6 +6,7 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Support\Facades\File;
 
 class ReleasedNewVersion implements ShouldBroadcastNow
 {
@@ -18,7 +19,9 @@ class ReleasedNewVersion implements ShouldBroadcastNow
      */
     public function __construct()
     {
-        $this->version = current_version();
+        $content = File::get(base_path('package.json'));
+        $content = json_decode($content);
+        $this->version = $content->version;
     }
 
     /**

@@ -36,14 +36,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-            \App\Http\Middleware\GitCommit::class,
-            \App\Http\Middleware\SentryContext::class,
         ],
 
         'api' => [
             'throttle:300,1',
             'bindings',
-            \App\Http\Middleware\SentryContext::class,
         ],
     ];
 

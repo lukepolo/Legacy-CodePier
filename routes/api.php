@@ -12,8 +12,8 @@
 |
 */
 
-Route::post('login', 'Auth\LoginController@login');
 // Authentication / Register Routes...
+Route::post('login', 'Auth\LoginController@login');
 Route::post('register', 'Auth\RegisterController@register');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -21,12 +21,12 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
+Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+
 Route::group(['middleware' => [
         'auth:api',
     ],
 ], function () {
-    Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
-
     Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
 
     Route::apiResource('2fa', 'Auth\SecondAuthController', [
