@@ -3,9 +3,9 @@ import RootState from "@store/rootState";
 import { AuthState } from "./stateInterface";
 import AuthService from "@app/services/AuthService";
 import getDecorators from "inversify-inject-decorators";
-import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 import CookieStorage from "@app/services/CookieStorage";
 import RouterInterface from "varie/lib/routing/RouterInterface";
+import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 
 const { lazyInject } = getDecorators($app.$container);
 
@@ -21,7 +21,7 @@ export default class Actions {
       .then((response) => {
         this.$cookieStorage.set("token", response.data);
         context.dispatch("me");
-        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+        context.commit("UPDATE_AUTH_AREA_DATA", {
           name: null,
           email: null,
         });
@@ -38,7 +38,7 @@ export default class Actions {
       .then((response) => {
         this.$cookieStorage.set("token", response.data);
         context.dispatch("me");
-        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+        context.commit("UPDATE_AUTH_AREA_DATA", {
           name: null,
           email: null,
         });
@@ -57,7 +57,7 @@ export default class Actions {
       .then((response) => {
         this.$cookieStorage.set("token", response.data);
         context.dispatch("me");
-        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+        context.commit("UPDATE_AUTH_AREA_DATA", {
           name: null,
           email: null,
         });
@@ -82,7 +82,7 @@ export default class Actions {
       .then((response) => {
         this.$cookieStorage.set("token", response.data);
         context.dispatch("me");
-        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+        context.commit("UPDATE_AUTH_AREA_DATA", {
           name: null,
           email: null,
         });
