@@ -1,1 +1,3 @@
-export interface SystemState {}
+export interface SystemState {
+  version: string;
+}

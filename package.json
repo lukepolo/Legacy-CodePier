@@ -6,6 +6,7 @@
     "prod": "webpack --mode production --no-progress --hide-modules",
     "precommit": "vendor/bin/php-cs-fixer fix --config=.php_cs && git add . && pretty-quick --staged"
   },
+  "version": "0.0.1",
   "dependencies": {
     "axios": "^0.18.0",
     "brace": "^0.11.1",

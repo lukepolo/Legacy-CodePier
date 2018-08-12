@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
 
 class Handler extends ExceptionHandler
 {
@@ -39,7 +40,14 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         if ($this->shouldReport($exception) && config('app.env') == 'production') {
-            app('sentry')->captureException($exception);
+            $user = Auth::user();
+            $sentry = app('sentry');
+
+            if (! empty($user)) {
+                $sentry->user_context(['id' => $user->id, 'name' => $user->name]);
+            }
+
+            $sentry->captureException($exception);
         }
         parent::report($exception);
     }
