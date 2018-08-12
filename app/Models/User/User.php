@@ -72,6 +72,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'is_subscribed',
+        'has_ssh_key',
         'subscription_plan',
     ];
 
@@ -84,6 +85,11 @@ class User extends Authenticatable
     public function getIsSubscribedAttribute()
     {
         return $this->attributes['is_subscribed'] = $this->subscribed();
+    }
+
+    public function getHasSshKeyAttribute()
+    {
+        return $this->sshKeys()->count() > 0;
     }
 
     public function getSubscriptionPlanAttribute()
