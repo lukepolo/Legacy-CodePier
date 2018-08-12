@@ -8,7 +8,7 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 @injectable()
 export default class Sites extends RestStoreModule {
   constructor(@inject("SiteService") $siteService) {
-    super($siteService, "sites");
+    super($siteService, "site");
     this.setName("Sites")
       .addState(state)
       .addActions(actions($siteService))

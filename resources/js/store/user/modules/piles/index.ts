@@ -9,7 +9,7 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 @injectable()
 export default class Piles extends RestStoreModule {
   constructor(@inject("PileService") $pileService: PileService) {
-    super($pileService, "piles");
+    super($pileService, "pile");
     this.setName("Piles")
       .addState(state)
       .addActions(actions($pileService))
