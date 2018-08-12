@@ -15,11 +15,14 @@
       "@app": ["resources/js/app"],
       "@app/*": ["resources/js/app/*"],
 
+      "@views": ["resources/js/views"],
+      "@views/*": ["resources/js/views/*"],
+
+      "@store": ["resources/js/store"],
+      "@store/*": ["resources/js/store/*"],
+
       "@config": ["resources/js/config"],
       "@config/*": ["resources/js/config/*"],
-
-      "@store": ["resources/js/app/store"],
-      "@store/*": ["resources/js/app/store/*"],
 
       "@models": ["resources/js/app/models"],
       "@models/*": ["resources/js/app/models/*"],
@@ -29,9 +32,6 @@
 
       "@resources": ["resources/js/resources"],
       "@resources/*": ["resources/js/resources/*"],
-
-      "@views": ["resources/js/resources/views"],
-      "@views/*": ["resources/js/resources/views/*"],
 
       "@components": ["resources/js/app/components"],
       "@components/*": ["resources/js/app/components/*"]
