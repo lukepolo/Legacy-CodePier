@@ -45,7 +45,7 @@ export default {
   },
   watch: {
     adding: function() {
-      Vue.nextTick(() => {
+      this.$nextTick(() => {
         if (this.adding) {
           this.$refs.domain.focus();
         }
@@ -54,7 +54,13 @@ export default {
   },
   methods: {
     saveSite() {
-      this.$store.dispatch("user_sites/store", this.form);
+      this.$store
+        .dispatch("user/sites/create", {
+          data: this.form,
+        })
+        .then(() => {
+          this.cancel();
+        });
     },
     cancel() {
       this.$emit("update:adding", false);
