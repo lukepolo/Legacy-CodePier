@@ -1,12 +1,16 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { AuthState } from "./stateInterface";
+import UserService from "@app/services/UserService";
+import AuthService from "@app/services/AuthService";
+import OauthService from "@app/services/OauthService";
+import CookieStorage from "@app/services/CookieStorage";
 
 export default function(
-  $authService,
-  $cookieStorage,
-  $oauthService,
-  $userService,
+  $authService: AuthService,
+  $cookieStorage: CookieStorage,
+  $oauthService: OauthService,
+  $userService: UserService,
 ) {
   return {
     login: (context: ActionContext<AuthState, RootState>, data) => {
