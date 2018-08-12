@@ -4,7 +4,6 @@ import Getters from "./getters";
 import Mutations from "./mutations";
 import { injectable, inject } from "inversify";
 import BroadcastService from "@app/services/BroadcastService";
-import StateServiceInterface from "../../../../node_modules/varie/lib/state/StateServiceInterface";
 
 @injectable()
 export default class System {

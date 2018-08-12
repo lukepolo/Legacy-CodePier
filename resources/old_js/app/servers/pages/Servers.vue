@@ -29,7 +29,7 @@
                                     Archived
                                 </template>
                             </th>
-                            <th class="text-center">Actions</th>
+                            <th class="text-center">RestStoreActions</th>
                         </tr>
                         </thead>
                         <tbody>

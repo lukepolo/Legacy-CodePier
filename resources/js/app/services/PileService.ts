@@ -1,22 +1,13 @@
 import { injectable, inject } from "inversify";
+import RestServiceClass from "@app/services/RestServiceClass";
 
 @injectable()
-export default class PileService {
-  private $http;
-  private $apiRouteService;
-
+export default class PileService extends RestServiceClass {
   constructor(
     @inject("$http") $http,
     @inject("ApiRouteService") apiRouteService,
   ) {
-    this.$http = $http;
-    this.$apiRouteService = apiRouteService;
-  }
-
-  get() {
-    return this.$http.get(
-      this.$apiRouteService.action("PilePileController@index"),
-    );
+    super($http, apiRouteService, "PilePileController");
   }
 
   changePile(pile) {

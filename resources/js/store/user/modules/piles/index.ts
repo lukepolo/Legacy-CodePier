@@ -1,24 +1,19 @@
 import state from "./state";
-import Actions from "./actions";
-import Getters from "./getters";
-import Mutations from "./mutations";
-import { injectable } from "inversify";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
+import { injectable, inject } from "inversify";
+import PileService from "@app/services/PileService";
+import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class Piles {
-  public name;
-  public state;
-  public actions;
-  public getters;
-  public mutations;
-  public namespaced;
-
-  constructor() {
-    this.name = "Piles";
-    this.state = state;
-    this.namespaced = true;
-    this.actions = new Actions();
-    this.getters = new Getters();
-    this.mutations = new Mutations();
+export default class Piles extends RestStoreModule {
+  constructor(@inject("PileService") $pileService: PileService) {
+    super($pileService, "piles");
+    this.setName("Piles")
+      .addState(state)
+      .addActions(actions($pileService))
+      .addMutations(mutations)
+      .addGetters(getters);
   }
 }
