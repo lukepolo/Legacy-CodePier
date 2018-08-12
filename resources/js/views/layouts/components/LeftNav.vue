@@ -40,7 +40,7 @@
                 
             </div>
 
-            <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
+            <div class="slack-invite" v-if="!user.has_ssh_key">
                 <router-link :to="{ name : 'user_ssh_keys' }">
                     Create A SSH Key
                     <div class="small">You have not created an account ssh key</div>
@@ -81,9 +81,6 @@ export default {
       return this.$store.getters["user/sites/sitesByPileId"](
         this.user.current_pile_id,
       );
-    },
-    userSshKeys() {
-      return this.$store.state.user.ssh_keys.ssh_keys;
     },
     currentPile() {
       return this.$store.getters["user/piles/pileById"](
