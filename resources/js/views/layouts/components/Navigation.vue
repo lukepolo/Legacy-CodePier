@@ -98,17 +98,16 @@ export default {
   },
   computed: {
     currentTeam() {
-      // const currentTeam = this.$store.state.user.user.current_team;
-      //
-      // if (currentTeam) {
-      //   return currentTeam.name;
-      // }
+      const currentTeam = this.user.current_team;
+
+      if (currentTeam) {
+        return currentTeam.name;
+      }
       return "Private";
     },
-    user() {
-      return this.$store.state.user.user;
-    },
     teams() {
+      // TODO
+      return [];
       return this.$store.state.user_teams.teams;
     },
   },
@@ -125,7 +124,8 @@ export default {
       });
     },
     changeTeam(teamID) {
-      this.$store.dispatch("changeTeams", teamID);
+      // TODO
+      // this.$store.dispatch("changeTeams", teamID);
     },
   },
 };

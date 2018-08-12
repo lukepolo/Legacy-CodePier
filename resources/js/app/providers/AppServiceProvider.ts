@@ -6,6 +6,7 @@ import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
 import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
+import SiteService from "@app/services/SiteService";
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     this.app.bind("OauthService", OauthService);
 
     this.app.bind("PileService", PileService);
+    this.app.bind("SiteService", SiteService);
     this.app.bind("UserService", UserService);
 
     // ROUTING

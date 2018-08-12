@@ -1,7 +1,10 @@
+import PileModel from "@models/PileModel";
 import { PilesState } from "./stateInterface";
 
 export default class Getters {
-  SAMPLE_GETTER = (state: PilesState) => {
-    return state;
+  pileById = (state: PilesState) => (pileId) => {
+    return state.piles[
+      state.piles.map((pile: PileModel) => pile.id).indexOf(pileId)
+    ];
   };
 }
