@@ -17,10 +17,12 @@ $router
     $router.route("/", "dashboard/Dashboard").setName("dashboard");
   });
 
-$router.area("login/Login").group(() => {
-  $router.route("/login", "login/Login").setName("login");
-  $router.route("/register", "login/Login");
-  $router.route("/forgot-password", "login/Login");
+$router.area("login/AuthArea").group(() => {
+  $router.route("login", "login/Login").setName("login");
+  $router.route("register", "login/Register").setName("register");
+  $router
+    .route("forgot-password", "login/ForgotPassword")
+    .setName("forgotPassword");
 });
 
 $router.route("*", "errors/404");

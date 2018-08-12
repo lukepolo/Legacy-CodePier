@@ -1,66 +1,43 @@
 <template>
-  <section>
-    <section class="view">
-      <section id="middle" class="section-column full-form">
-        <div class="section-content">
-          <div class="login-wrap">
-            <div class="img-wrap">
-              <router-link to="/">
-                <img src="../../../../img/CP_Logo-onGray.svg" alt="CodePier">
-              </router-link>
-            </div>
-
-            <login-form :formType.sync="formType" v-if="formType === 'login'"></login-form>
-            <reset-password-form :formType.sync="formType" v-if="formType === 'reset'"></reset-password-form>
-            <create-account-form :formType.sync="formType" v-if="formType === 'create'"></create-account-form>
-
-            <h5 class="text-center"> - Or sign in using -</h5>
-
-            <ul class="list-inline text-center">
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('github')"><i class="fa fa-github"></i></a>
-              </li>
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('bitbucket')"><i class="fa fa-bitbucket"></i></a>
-              </li>
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('gitlab')"><i class="fa fa-gitlab"></i></a>
-              </li>
-            </ul>
-          </div>
-
+    <div id="login_form">
+        <div class="flyform--heading">
+            <h2>Login</h2>
         </div>
-      </section>
-    </section>
-  </section>
+        <base-form v-form="form" :action="login">
+            <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
+            <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
+            <div slot="buttons">
+                <router-link @click.prevent :to="{ name : 'register' }" class="btn">Create A Account</router-link>
+                <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Login</button>
+            </div>
+            <div slot="links">
+                <router-link :to="{ name : 'forgotPassword' }" >Forgot password?</router-link>
+            </div>
+        </base-form>
+    </div>
 </template>
 
 <script>
 import Vue from "vue";
-import LoginForm from "./components/LoginForm";
-import CreateAccountForm from "./components/CreateAccountForm";
-import ResetPasswordForm from "./components/ResetPasswordForm";
-
+import ShareAccountInfoMixin from "./mixins/ShareAccountInfoMixin";
 export default Vue.extend({
-  components: {
-    LoginForm,
-    CreateAccountForm,
-    ResetPasswordForm,
-  },
-  beforeCreate() {
-    if (this.CookieStorage.get("token")) {
-      this.$router.push({ name: "dashboard" });
-    }
-  },
-  $inject: ["CookieStorage"],
+  mixins: [ShareAccountInfoMixin],
   data() {
     return {
-      formType: "login",
+      form: this.createForm({
+        email: this.$parent.authAreaData.email,
+        password: this.$parent.authAreaData.password,
+      }).validation({
+        rules: {
+          email: "required|email",
+          password: "required|min:8",
+        },
+      }),
     };
   },
   methods: {
-    oauthLogin(provider) {
-      this.$store.dispatch("auth/oauth/redirectToProvider", provider);
+    login() {
+      this.$store.dispatch("auth/login", this.form);
     },
   },
 });
