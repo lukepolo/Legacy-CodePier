@@ -44,7 +44,7 @@ export default Vue.extend({
   $inject: ["CookieStorage"],
   methods: {
     oauthLogin(provider) {
-      this.$store.dispatch("auth/oauth/redirectToProvider", provider);
+      this.$store.dispatch("auth/redirectToProvider", provider);
     },
   },
   computed: {

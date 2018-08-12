@@ -1,6 +1,6 @@
 <template>
 
-    <section id="left" class="section-column" v-if="sites.length">
+    <section id="left" class="section-column" v-if="sites.length && currentPile">
 
         <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="section-header pile-dropdown">
             <span slot="sub" class="icon-arrow-down"></span>
@@ -79,7 +79,7 @@ export default {
     },
     pileSites() {
       return this.$store.getters["user/sites/sitesByPileId"](
-        this.currentPile.id,
+        this.user.current_pile_id,
       );
     },
     userSshKeys() {

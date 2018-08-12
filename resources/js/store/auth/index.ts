@@ -1,24 +1,25 @@
 import state from "./state";
-import Actions from "./actions";
-import Getters from "./getters";
-import Mutations from "./mutations";
-import { injectable } from "inversify";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
+import StoreModule from "varie/lib/state/StoreModule";
+import { injectable, inject, unmanaged } from "inversify";
 
 @injectable()
-export default class auth {
-  public name;
-  public state;
-  public actions;
-  public getters;
-  public mutations;
-  public namespaced;
-
-  constructor() {
-    this.name = "Oauth";
-    this.state = state;
-    this.namespaced = true;
-    this.actions = new Actions();
-    this.getters = new Getters();
-    this.mutations = new Mutations();
+export default class Auth extends StoreModule {
+  constructor(
+    @inject("AuthService") $authService,
+    @inject("CookieStorage") $cookieStorage,
+    @inject("OauthService") $oauthService,
+    @inject("UserService") $userService,
+  ) {
+    super();
+    this.setName("Auth")
+      .addState(state)
+      .addActions(
+        actions($authService, $cookieStorage, $oauthService, $userService),
+      )
+      .addMutations(mutations)
+      .addGetters(getters);
   }
 }

@@ -1,24 +1,18 @@
 import state from "./state";
-import Actions from "./actions";
-import Getters from "./getters";
-import Mutations from "./mutations";
-import { injectable } from "inversify";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
+import StoreModule from "varie/lib/state/StoreModule";
+import { injectable, inject, unmanaged } from "inversify";
 
 @injectable()
-export default class SshKeys {
-  public name;
-  public state;
-  public actions;
-  public getters;
-  public mutations;
-  public namespaced;
-
-  constructor() {
-    this.name = "SshKeys";
-    this.state = state;
-    this.namespaced = true;
-    this.actions = new Actions();
-    this.getters = new Getters();
-    this.mutations = new Mutations();
+export default class SshKeys extends StoreModule {
+  constructor(@inject("$http") $http) {
+    super();
+    this.setName("SshKeys")
+      .addState(state)
+      .addActions(actions($http))
+      .addMutations(mutations)
+      .addGetters(getters);
   }
 }

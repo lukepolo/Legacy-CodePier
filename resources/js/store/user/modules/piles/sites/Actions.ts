@@ -7,7 +7,8 @@ import getDecorators from "inversify-inject-decorators";
 const { lazyInject } = getDecorators($app.$container);
 
 export default class Actions {
-  @lazyInject("SiteService") private $siteService: SiteService;
+  @lazyInject("SiteService")
+  private $siteService: SiteService;
 
   get = (context: ActionContext<SitesState, RootState>) => {
     return this.$siteService.get().then(({ data }) => {

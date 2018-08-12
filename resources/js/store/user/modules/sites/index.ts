@@ -1,24 +1,18 @@
 import state from "./state";
-import Actions from "./actions";
-import Getters from "./getters";
-import Mutations from "./mutations";
-import { injectable } from "inversify";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
+import { injectable, inject } from "inversify";
+import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class Sites {
-  public name;
-  public state;
-  public actions;
-  public getters;
-  public mutations;
-  public namespaced;
-
-  constructor() {
-    this.name = "Sites";
-    this.state = state;
-    this.namespaced = true;
-    this.actions = new Actions();
-    this.getters = new Getters();
-    this.mutations = new Mutations();
+export default class Sites extends RestStoreModule {
+  constructor(@inject("SiteService") $siteService) {
+    super($siteService, "sites");
+    this.setName("Sites")
+      .addState(state)
+      .addActions(actions($siteService))
+      .addMutations(mutations)
+      .addGetters(getters);
   }
 }

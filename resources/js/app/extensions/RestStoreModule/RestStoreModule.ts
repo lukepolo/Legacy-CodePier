@@ -1,5 +1,4 @@
 import actions from "./restStoreActions";
-import getters from "./restStoreGetters";
 import mutations from "./restStoreMutations";
 
 import { injectable, unmanaged } from "inversify";
@@ -12,6 +11,5 @@ export default class RestStoreModule extends StoreModule {
     this.addActions(actions($service, stateName)).addMutations(
       mutations(stateName),
     );
-    // .addActions(getters)
   }
 }

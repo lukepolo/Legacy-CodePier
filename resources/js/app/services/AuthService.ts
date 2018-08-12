@@ -61,7 +61,6 @@ export default class AuthService {
   }
 
   resetPassword(token, email, password, confirmPassword) {
-    console.info(token);
     return this.$http.post(
       this.apiRouteService.action("AuthResetPasswordController@reset"),
       {

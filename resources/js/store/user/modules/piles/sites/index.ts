@@ -5,7 +5,7 @@ import Mutations from "./mutations";
 import { injectable } from "inversify";
 
 @injectable()
-export default class Oauth {
+export default class Sites {
   public name;
   public state;
   public actions;
@@ -14,7 +14,7 @@ export default class Oauth {
   public namespaced;
 
   constructor() {
-    this.name = "Oauth";
+    this.name = "Sites";
     this.state = state;
     this.namespaced = true;
     this.actions = new Actions();

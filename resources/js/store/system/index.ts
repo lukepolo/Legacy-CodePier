@@ -1,27 +1,20 @@
 import state from "./state";
-import Actions from "./actions";
-import Getters from "./getters";
-import Mutations from "./mutations";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
 import { injectable, inject } from "inversify";
-import BroadcastService from "@app/services/BroadcastService";
+import StoreModule from "varie/lib/state/StoreModule";
 
 @injectable()
-export default class System {
-  public name;
-  public state;
-  public actions;
-  public getters;
-  public mutations;
-  public namespaced;
-  private $broadcastService: BroadcastService;
-
+export default class System extends StoreModule {
+  private $broadcastService;
   constructor(@inject("BroadcastService") $broadcastService) {
-    this.name = "System";
-    this.state = state;
-    this.namespaced = true;
-    this.actions = new Actions();
-    this.getters = new Getters();
-    this.mutations = new Mutations();
+    super();
+    this.setName("System")
+      .addState(state)
+      .addActions(actions)
+      .addMutations(mutations)
+      .addGetters(getters);
     this.$broadcastService = $broadcastService;
     this.listenForVersionChanges();
   }
