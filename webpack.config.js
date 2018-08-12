@@ -6,12 +6,12 @@ module.exports = function(env, argv) {
     .entry("app", ["resources/js/app/app.ts", "resources/sass/app.scss"])
     .aliases({
       "@app": path.join(__dirname, "resources/js/app"),
-      "@routes": path.join(__dirname, "resources/js/routes"),
+      "@views": path.join(__dirname, "resources/js/views"),
+      "@store": path.join(__dirname, "resources/js/store"),
       "@config": path.join(__dirname, "resources/js/config"),
-      "@store": path.join(__dirname, "resources/js/app/store"),
+      "@routes": path.join(__dirname, "resources/js/routes"),
       "@models": path.join(__dirname, "resources/js/app/models"),
       "@resources": path.join(__dirname, "resources/js/resources"),
-      "@views": path.join(__dirname, "resources/js/resources/views"),
       "@components": path.join(__dirname, "resources/js/app/components"),
     })
     .environmentVariables({

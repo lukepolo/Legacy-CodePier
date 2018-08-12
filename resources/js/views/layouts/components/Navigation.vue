@@ -3,7 +3,7 @@
         <!--<notifications></notifications>-->
         <div class="logo-container">
             <router-link to="/">
-                <img src="./../../../../../img/CP_Logo_TX-onGray.svg">
+                <img src="./../../../../img/CP_Logo_TX-onGray.svg">
             </router-link>
         </div>
 
