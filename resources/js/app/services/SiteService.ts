@@ -1,21 +1,12 @@
 import { injectable, inject } from "inversify";
+import RestServiceClass from "@app/services/RestServiceClass";
 
 @injectable()
-export default class SiteService {
-  private $http;
-  private $apiRouteService;
-
+export default class SiteService extends RestServiceClass {
   constructor(
     @inject("$http") $http,
     @inject("ApiRouteService") apiRouteService,
   ) {
-    this.$http = $http;
-    this.$apiRouteService = apiRouteService;
-  }
-
-  get() {
-    return this.$http.get(
-      this.$apiRouteService.action("SiteSiteController@index"),
-    );
+    super($http, apiRouteService, "SiteSiteController");
   }
 }
