@@ -12,36 +12,26 @@ export default class RestServiceClass {
     this.$controllerClass = controllerClass;
   }
 
-  get() {
-    return this.$http.get(
-      this.$apiRouteService.action(`${this.$controllerClass}@index`),
-    );
+  get(parameters) {
+    return this.$http.get(this.getUrl("index", parameters));
   }
 
-  show(resourceIds) {
-    // TODO - we need to write something that can derive it
-    console.info(this.$apiRouteService.action(`${this.$controllerClass}@show`));
-    return this.$http.get(
-      this.$apiRouteService.action(`${this.$controllerClass}@show`),
-    );
+  show(parameters) {
+    return this.$http.get(this.getUrl("show", parameters));
   }
 
-  update(resourceIds, data) {
-    // TODO - we need to write something that can derive it
-    console.info(
-      this.$apiRouteService.action(`${this.$controllerClass}@update`),
-    );
-    return this.$http.put(
-      this.$apiRouteService.action(`${this.$controllerClass}@update`),
-      {
-        data,
-      },
-    );
+  update(parameters, data) {
+    return this.$http.get(this.getUrl("update", parameters), data);
   }
 
-  destroy() {
-    return this.$http.delete(
-      this.$apiRouteService.action(`${this.$controllerClass}@destroy`),
+  destroy(parameters) {
+    return this.$http.delete(this.getUrl("destroy", parameters));
+  }
+
+  private getUrl(action, parameters) {
+    return this.$apiRouteService.action(
+      `${this.$controllerClass}@${action}`,
+      parameters,
     );
   }
 }

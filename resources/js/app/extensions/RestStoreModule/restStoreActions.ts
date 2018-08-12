@@ -1,7 +1,7 @@
 export default function($service, stateName) {
   return {
-    get({ commit }) {
-      return $service.get().then((response) => {
+    get({ commit }, parameters) {
+      return $service.get(parameters).then((response) => {
         commit(`SET_${stateName.toUpperCase()}`, response.data);
         return response.data;
       });
