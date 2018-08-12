@@ -14,7 +14,6 @@
     </div>
 </template>
 
-
 <script>
 import Vue from "vue";
 
@@ -34,7 +33,12 @@ export default Vue.extend({
   },
   methods: {
     requestResetPassword() {
-      alert("requestResetPassword");
+      this.$store
+        .dispatch("auth/forgotPasswordRequest", this.form)
+        .then(() => {});
+      this.$router.push({
+        name: "login",
+      });
     },
   },
 });

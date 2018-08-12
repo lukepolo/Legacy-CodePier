@@ -53,18 +53,41 @@ class ForgotPasswordController extends Controller
             // We will send the password reset link to this user. Once we have attempted
             // to send the link, we will examine the response then see the message we
             // need to show to the user. Finally, we'll send out a proper response.
-            $response = $this->broker()->sendResetLink(
+            $this->broker()->sendResetLink(
                 $request->only('email')
             );
 
-            return $response == Password::RESET_LINK_SENT
-                ? $this->sendResetLinkResponse($response)
-                : $this->sendResetLinkFailedResponse($request, $response);
+            return response()->json();
         }
 
         Mail::to($email)
             ->send(new PasswordResetOnOauthUser);
 
-        return $this->sendResetLinkResponse(Password::RESET_LINK_SENT);
+        return response()->json();
+    }
+
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkResponse($response)
+    {
+        return response()->json();
+    }
+
+    /**
+     * Get the response for a failed password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json('Error', 500)->withErrors(
+            ['email' => trans($response)]
+        );
     }
 }

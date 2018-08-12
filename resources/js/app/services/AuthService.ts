@@ -48,4 +48,28 @@ export default class AuthService {
       },
     );
   }
+
+  forgotPasswordRequest(email) {
+    return this.$http.post(
+      this.apiRouteService.action(
+        "AuthForgotPasswordController@sendResetLinkEmail",
+      ),
+      {
+        email,
+      },
+    );
+  }
+
+  resetPassword(token, email, password, confirmPassword) {
+    console.info(token);
+    return this.$http.post(
+      this.apiRouteService.action("AuthResetPasswordController@reset"),
+      {
+        email,
+        token,
+        password,
+        password_confirmation: confirmPassword,
+      },
+    );
+  }
 }

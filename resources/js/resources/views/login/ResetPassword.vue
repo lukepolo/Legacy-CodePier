@@ -9,8 +9,8 @@
             <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
             <base-input validate name="confirm-password" label="Confirm Password" type="password" v-model="form.passwordConfirmed"></base-input>
             <div slot="buttons">
-                <button @click.prevent="$emit('update:formType', 'login')" class="btn">Cancel</button>
-                <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Sign Up</button>
+                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
+                <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Reset Password</button>
             </div>
         </base-form>
     </div>
@@ -21,12 +21,6 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  props: {
-    formType: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       form: this.createForm({
@@ -43,7 +37,16 @@ export default Vue.extend({
   },
   methods: {
     resetPassword() {
-      alert("reset password");
+      this.$store
+        .dispatch("auth/resetPassword", {
+          form: this.form,
+          token: Object.keys(this.$route.query)[0],
+        })
+        .then(() => {
+          this.$router.push({
+            name: "dashboard",
+          });
+        });
     },
   },
 });

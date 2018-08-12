@@ -156,4 +156,5 @@ Route::domain(config('app.url'))->group(function () {
 |
 */
 
+Route::get('/reset-password', 'Controller@app')->name('password.reset');
 Route::get('/', 'Controller@welcome');
