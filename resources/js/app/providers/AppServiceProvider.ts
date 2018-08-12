@@ -1,5 +1,6 @@
 import Vue from "vue";
 import PortalVue from "portal-vue";
+import UserService from "@app/services/UserService";
 import PileService from "@app/services/PileService";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
@@ -23,12 +24,11 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     // SYSTEM
     this.app.singleton("CookieStorage", CookieStorage);
 
-    // AUTH
     this.app.bind("AuthService", AuthService);
     this.app.bind("OauthService", OauthService);
 
-    // PILES
     this.app.bind("PileService", PileService);
+    this.app.bind("UserService", UserService);
 
     // ROUTING
     this.app.constant("ApiRouteService", require("@app/../vendor/laroute"));
