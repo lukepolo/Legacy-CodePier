@@ -333,6 +333,13 @@
         },
         {
           host: null,
+          methods: ["POST"],
+          uri: "api/user/resend-confirmation",
+          name: null,
+          action: "UserUserConfirmController@store",
+        },
+        {
+          host: null,
           methods: ["GET", "HEAD"],
           uri: "api/2fa",
           name: "2fa.index",
@@ -3598,13 +3605,6 @@
         },
         {
           host: "app.codepier.test",
-          methods: ["POST"],
-          uri: "user/resend-confirmation",
-          name: null,
-          action: "UserUserConfirmController@store",
-        },
-        {
-          host: "app.codepier.test",
           methods: ["GET", "HEAD"],
           uri: "user/{code}/confirm-registration",
           name: null,
@@ -3636,6 +3636,13 @@
           methods: ["GET", "HEAD"],
           uri: "{any}",
           name: null,
+          action: "Controller@app",
+        },
+        {
+          host: null,
+          methods: ["GET", "HEAD"],
+          uri: "reset-password",
+          name: "password.reset",
           action: "Controller@app",
         },
         {

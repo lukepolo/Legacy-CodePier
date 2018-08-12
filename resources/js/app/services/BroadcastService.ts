@@ -20,4 +20,8 @@ export default class BroadcastService {
           : "https://ws.codepier.io:6001",
     });
   }
+
+  isConnected() {
+    return this.$echo.connector.socket.connected;
+  }
 }

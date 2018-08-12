@@ -42,12 +42,10 @@ export default {
   },
   methods: {
     resendConfirmation() {
-      this.$store.dispatch("user/resendConfirmation");
+      this.$store.dispatch("user/resendConfirmationEmail");
     },
     checkSocketConnection() {
-      // TODO
-      this.$set(this, "socketConnection", true);
-      // this.$set(this, "socketConnection", Echo.connector.socket.connected);
+      this.$set(this, "socketConnection", this.BroadcastService.isConnected());
     },
   },
   computed: {
