@@ -109,16 +109,32 @@ export default Vue.extend({
     },
     deletePile() {
       if (this.pile) {
-        return this.$store.dispatch("user/piles/destroy", this.pile.id);
+        return this.$store.dispatch("user/piles/destroy", {
+          pile: this.pile.id,
+        });
       }
       this.cancel();
     },
     savePile() {
       if (this.pile) {
-        return this.$store.dispatch("user/piles/update", this.form);
+        return this.$store
+          .dispatch("user/piles/update", {
+            data: this.form,
+            parameters: {
+              pile: this.pile.id,
+            },
+          })
+          .then(() => {
+            this.cancel();
+          });
       }
-      this.$store.dispatch("user/piles/store", this.form);
-      this.cancel();
+      this.$store
+        .dispatch("user/piles/create", {
+          data: this.form,
+        })
+        .then(() => {
+          this.cancel();
+        });
     },
   },
 });
