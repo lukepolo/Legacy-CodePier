@@ -98,7 +98,6 @@ export default {
   },
   methods: {
     markAnnouncementRead() {
-      // TODO
       this.$store.dispatch("user/markAnnouncementRead");
     },
   },

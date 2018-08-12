@@ -134,7 +134,6 @@ Route::domain(config('app.url'))->group(function () {
         Route::get('second-auth', 'Auth\SecondAuthController@show');
         Route::post('second-auth', 'Auth\SecondAuthController@store');
 
-        Route::post('user/resend-confirmation', 'User\UserConfirmController@store');
         Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
     });
 

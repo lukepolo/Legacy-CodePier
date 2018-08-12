@@ -19,4 +19,10 @@ export default class UserService {
       this.apiRouteService.action("AnnouncementsController@store"),
     );
   }
+
+  resendConfirmation() {
+    return this.$http.post(
+      this.apiRouteService.action("UserUserConfirmController@store"),
+    );
+  }
 }

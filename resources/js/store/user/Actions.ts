@@ -20,4 +20,12 @@ export default class Actions {
       return response.data;
     });
   };
+
+  resendConfirmationEmail = (
+    context: ActionContext<UserState, RootState>,
+    data,
+  ) => {
+    // app.showSuccess("We have sent you another confirmation email");
+    return this.$userService.resendConfirmation();
+  };
 }
