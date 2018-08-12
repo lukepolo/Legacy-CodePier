@@ -16,7 +16,7 @@ export default class AuthService {
 
   login(email, password) {
     return this.$http.post(
-      "/api" + this.apiRouteService.action("AuthLoginController@login"),
+      this.apiRouteService.action("AuthLoginController@login"),
       {
         email,
         password,
@@ -34,6 +34,18 @@ export default class AuthService {
           provider,
         },
       ),
+    );
+  }
+
+  createAccount(name, email, password, confirmPassword) {
+    return this.$http.post(
+      this.apiRouteService.action("AuthRegisterController@register"),
+      {
+        name,
+        email,
+        password,
+        password_confirmation: confirmPassword,
+      },
     );
   }
 }

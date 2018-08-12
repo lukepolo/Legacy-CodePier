@@ -13,6 +13,14 @@
 */
 
 Route::post('login', 'Auth\LoginController@login');
+// Authentication / Register Routes...
+Route::post('register', 'Auth\RegisterController@register');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Password Reset Routes...
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
 Route::group(['middleware' => [
     'api',
     'web'

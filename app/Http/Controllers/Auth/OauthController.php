@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Carbon\Carbon;
+use App\Services\AuthService;
 use Socialite;
-use Firebase\JWT\JWT;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\RepositoryProvider;
@@ -23,7 +22,7 @@ class OauthController extends Controller
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
 
-    private $encrypter;
+    private $authService;
 
     public static $repositoryProviders = [
         self::GITHUB,
@@ -37,11 +36,11 @@ class OauthController extends Controller
 
     /**
      * OauthController constructor.
-     * @param Encrypter $encrypter
+     * @param AuthService $authService
      */
-    public function __construct(Encrypter $encrypter)
+    public function __construct(AuthService $authService)
     {
-        $this->encrypter = $encrypter;
+        $this->authService = $authService;
     }
 
     /**
@@ -124,11 +123,7 @@ class OauthController extends Controller
                     break;
             }
 
-            return $this->encrypter->encrypt(JWT::encode([
-                'sub' => \Auth::user()->id,
-                'csrf' => csrf_token(),
-                'expiry' => Carbon::now()->addMinutes(config('session.lifetime')),
-            ], $this->encrypter->getKey()));
+            return $this->authService->generateJwtToken();
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();

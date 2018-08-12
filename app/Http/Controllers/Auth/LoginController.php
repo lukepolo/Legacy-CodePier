@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -28,15 +29,38 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/';
 
+    private $authService;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param AuthService $authService
      */
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
+        $this->authService = $authService;
         $this->redirectTo = config('app.url');
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        if ($this->attemptLogin($request)) {
+            $this->authenticated($request, $this->guard()->user());
+            return response()->json($this->authService->generateJwtToken());
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 
     /**

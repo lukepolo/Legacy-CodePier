@@ -19,6 +19,12 @@ export default class Actions {
     return this.$authService
       .login(data.email, data.password)
       .then((response) => {
+        this.$cookieStorage.set("token", response.data);
+        context.dispatch("me");
+        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+          name: null,
+          email: null,
+        });
         return response.data;
       });
   };
@@ -31,6 +37,30 @@ export default class Actions {
       .oAuthLogin(provider, code, state)
       .then((response) => {
         this.$cookieStorage.set("token", response.data);
+        context.dispatch("me");
+        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+          name: null,
+          email: null,
+        });
+        return response.data;
+      });
+  };
+
+  createAccount = (context: ActionContext<AuthState, RootState>, form) => {
+    return this.$authService
+      .createAccount(
+        form.name,
+        form.email,
+        form.password,
+        form.passwordConfirmed,
+      )
+      .then((response) => {
+        this.$cookieStorage.set("token", response.data);
+        context.dispatch("me");
+        context.dispatch("UPDATE_AUTH_AREA_DATA", {
+          name: null,
+          email: null,
+        });
         return response.data;
       });
   };

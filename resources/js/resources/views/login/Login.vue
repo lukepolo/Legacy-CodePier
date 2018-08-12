@@ -37,7 +37,11 @@ export default Vue.extend({
   },
   methods: {
     login() {
-      this.$store.dispatch("auth/login", this.form);
+      this.$store.dispatch("auth/login", this.form).then(() => {
+        this.$router.push({
+          name: "dashboard",
+        });
+      });
     },
   },
 });

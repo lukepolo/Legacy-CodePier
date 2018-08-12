@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User\User;
+use App\Services\AuthService;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -32,15 +35,19 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
+    private $authService;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param AuthService $authService
      */
-    public function __construct()
+    public function __construct(AuthService $authService)
     {
+        $this->authService = $authService;
         $this->redirectTo = config('app.url');
         $this->middleware('guest');
+        $this->authService = $authService;
     }
 
     /**
@@ -78,5 +85,22 @@ class RegisterController extends Controller
         ]);
 
         return $user;
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return response()->json($this->authService->generateJwtToken());
     }
 }
