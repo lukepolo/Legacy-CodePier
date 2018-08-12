@@ -8,7 +8,7 @@
             </div>
             <!--<events-bar v-if="hasSites"></events-bar>-->
         </div>
-        <!--<announcements></announcements>-->
+        <announcements></announcements>
         <portal-target name="modal" slim></portal-target>
     </div>
 </template>
@@ -17,10 +17,13 @@
 import Vue from "vue";
 import Navigation from "./components/Navigation";
 import SystemAlerts from "./components/SystemAlerts";
+import Announcements from "./components/Announcements";
+
 export default Vue.extend({
   components: {
     Navigation,
     SystemAlerts,
+    Announcements,
   },
   mounted() {
     this.$store.dispatch("user/piles/get");
