@@ -9,7 +9,7 @@
             <!--<events-bar v-if="hasSites"></events-bar>-->
         </div>
         <!--<announcements></announcements>-->
-        <!--<portal-target name="modal" slim></portal-target>-->
+        <portal-target name="modal" slim></portal-target>
     </div>
 </template>
 

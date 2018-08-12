@@ -1,10 +1,10 @@
-import Echo from "laravel-echo";
+import Vue from "vue";
+import PortalVue from "portal-vue";
 import PileService from "@app/services/PileService";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
 import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
-import ConfigInterface from "../../../../node_modules/varie/lib/config/ConfigInterface";
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,9 @@ import ConfigInterface from "../../../../node_modules/varie/lib/config/ConfigInt
 |
 */
 export default class AppProviderServiceProvider extends ServiceProvider {
-  public boot() {}
+  public boot() {
+    Vue.use(PortalVue);
+  }
 
   public register() {
     // SYSTEM
