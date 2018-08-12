@@ -1,3 +1,3 @@
 export interface SitesState {
-  sites: [];
+  sites: Array<object>;
 }

@@ -14,6 +14,10 @@ export default class UserService {
     this.apiRouteService = ApiRouteService;
   }
 
+  me() {
+    return this.$http.get("/api/me");
+  }
+
   markAnnouncementRead() {
     return this.$http.post(
       this.apiRouteService.action("AnnouncementsController@store"),
