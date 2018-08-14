@@ -1,6 +1,5 @@
 <template>
     <ul class="nav nav-tabs">
-
         <router-link tag="li" class="wizard-item" :to="{ name : 'my_account' }" exact>
             <a>
                 My Account
