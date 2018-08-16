@@ -13,7 +13,7 @@ export default class BroadcastService {
 
     this.$echo = new Echo({
       broadcaster: "socket.io",
-      key: env.echoServerKey,
+      key: env.PUSHER_APP_KEY,
       host:
         env.ENV === "local"
           ? `${window.location.hostname}:6001`

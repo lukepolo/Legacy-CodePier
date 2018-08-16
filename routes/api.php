@@ -36,6 +36,8 @@ Route::group(['middleware' => [
         ]
     );
 
+    Route::resource('subscription/plans', 'SubscriptionController');
+
     /*
     |--------------------------------------------------------------------------
     | User Routes
