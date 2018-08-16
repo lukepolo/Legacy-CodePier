@@ -1,12 +1,14 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { UserState } from "./stateInterface";
+import UserService from "@app/services/UserService";
 
-export default function($http) {
+export default function(userService: UserService) {
   return {
-    sampleAction: (context: ActionContext<UserState, RootState>, data) => {
-      return $http.post("/some-url", {
-        data,
+    update: (context: ActionContext<UserState, RootState>, form) => {
+      return userService.update(form).then(({ data }) => {
+        context.commit("auth/SET_USER", data, { root: true });
+        return data;
       });
     },
   };

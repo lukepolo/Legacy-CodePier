@@ -8,7 +8,8 @@
                 v-bind="$attrs"
                 :value="value"
                 :tabindex="tabindex"
-                @input="$emit('input', $event.target.value)"
+                :checked="value === true || value === 1"
+                @change="$emit('input', $event.target.checked)"
                 placeholder=" "
             >
             <span class="icon"></span>

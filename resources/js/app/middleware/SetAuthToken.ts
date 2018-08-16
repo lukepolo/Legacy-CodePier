@@ -24,6 +24,6 @@ export default class SetAuthToken implements HttpMiddlewareInterface {
   }
 
   public responseError(error) {
-    return Promise.reject(error);
+    return error;
   }
 }

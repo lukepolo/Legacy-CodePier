@@ -7,7 +7,7 @@
             </a>
         </router-link>
 
-        <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }">
+        <router-link tag="li" class="wizard-item" :to="{ name : 'user_subscription' }">
             <a>
                 Subscription
                 <div class="small">Get more features by switching plans, there are options for everyone!</div>
@@ -27,14 +27,14 @@
             </a>
         </router-link>
 
-        <router-link tag="li" class="wizard-item" :to="{ name : 'user_repository_providers' }">
+        <router-link tag="li" class="wizard-item" :to="{ name : 'user_source_control_providers' }">
             <a>
                 Source Control Providers
                 <div class="small">You can make your life easier by attaching a github / bitbucket / gitlab account to allow us to deploy your code</div>
             </a>
         </router-link>
 
-        <router-link tag="li" class="wizard-item" :to="{ name : 'user_notification_providers' }">
+        <router-link tag="li" class="wizard-item" :to="{ name : 'user_notification_settings' }">
             <a>
                 Notification Settings
                 <div class="small">Manage how we notify you about failed deployments, provisions and much more</div>

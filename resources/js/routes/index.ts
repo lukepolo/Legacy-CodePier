@@ -19,6 +19,20 @@ $router
 
     $router.area("user/AccountArea").group(() => {
       $router.route("my-account", "user/MyAccount").setName("my_account");
+      $router
+        .route("subscription", "user/Subscription")
+        .setName("user_subscription");
+      $router.route("ssh-keys", "user/SshKeys").setName("user_ssh_keys");
+      $router
+        .route("server-providers", "user/ServerProviders")
+        .setName("user_server_providers");
+      $router
+        .route("source-control", "user/SourceControlProviders")
+        .setName("user_source_control_providers");
+      $router
+        .route("notification", "user/NotificationSettings")
+        .setName("user_notification_settings");
+      $router.route("privacy", "user/PrivacySettings").setName("user_privacy");
     });
   });
 

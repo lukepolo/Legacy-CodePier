@@ -104,23 +104,24 @@ export default {
   },
   methods: {
     setData() {
-      this.form.name = this.user.name;
-      this.form.email = this.user.email;
-      this.form.workflow = this.user.workflow;
-      this.form.second_auth_active = this.user.second_auth_active;
+      this.form.fill(this.user);
     },
     updateUser() {
-      this.form.user_id = this.user.id;
-      this.$store.dispatch("user/update", this.form);
+      this.$store.dispatch("user/update", this.form.data());
     },
     validateSecondAuth() {
-      this.$store.dispatch("auth/validateSecondAuth", this.token);
+      this.$store.dispatch("auth/twoFactor/validate", this.token).then(() => {
+        this.secondAuthImage = null;
+        this.secondAuthSecret = null;
+      });
     },
     activateSecondAuth() {
-      this.$store.dispatch("auth/getSecondAuthQr").then((secondAuth) => {
-        this.secondAuthImage = secondAuth.image;
-        this.secondAuthSecret = secondAuth.secret;
-      });
+      this.$store
+        .dispatch("auth/twoFactor/generateQr")
+        .then(({ image, secret }) => {
+          this.secondAuthImage = image;
+          this.secondAuthSecret = secret;
+        });
     },
     deactivateSecondAuth() {
       this.form.second_auth_active = false;
