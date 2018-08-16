@@ -64,7 +64,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             $this->output .= $output."\n";
         }
 
-        if ($this->session->getExitStatus() != 0) {
+        if (! $expectedFailure && $this->session->getExitStatus() != 0) {
             \Log::critical('Error while running Command '.$command, ['server' => $this->server->id]);
             \Log::critical($output, ['server' => $this->server->id]);
 

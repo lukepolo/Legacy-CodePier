@@ -52,7 +52,7 @@ port = :9001
     {
         $this->connectToServer($sshUser);
 
-        $workingDirectory = ! empty($worker->working_directory) ? "directory='$worker->working_directory'" : '';
+        $workingDirectory = ! empty($worker->working_directory) ? "directory=$worker->working_directory" : '';
         $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $worker->id . '.conf ', '
 [program:server-worker-' . $worker->id . ']
 '.$workingDirectory.'
@@ -89,7 +89,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $worker->id . '.log
     {
         $this->connectToServer($sshUser);
 
-        $workingDirectory = ! empty($daemon->working_directory) ? "directory='$daemon->working_directory'" : '';
+        $workingDirectory = ! empty($daemon->working_directory) ? "directory=$daemon->working_directory" : '';
         $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-daemon-' . $daemon->id . '.conf ', '
 [program:server-daemon-' . $daemon->id . ']
 '.$workingDirectory.'
