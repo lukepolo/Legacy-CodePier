@@ -7,7 +7,7 @@ export default class Loading implements HttpMiddlewareInterface {
   private spinnerTimeout = null;
   private requestsCounter = 0;
 
-  public request(config: object) {
+  public request(config) {
     if (this.timeoutSet === false) {
       this.spinnerTimeout = setTimeout(() => {
         this._turnOnSpinner();
@@ -20,7 +20,7 @@ export default class Loading implements HttpMiddlewareInterface {
     return config;
   }
 
-  public response(response: object) {
+  public response(response) {
     if (--this.requestsCounter === 0) {
       this._turnOffSpinner();
     }
@@ -32,7 +32,7 @@ export default class Loading implements HttpMiddlewareInterface {
     if (--this.requestsCounter === 0) {
       this._turnOffSpinner();
     }
-    return Promise.reject(error);
+    return error;
   }
 
   private _turnOnSpinner() {

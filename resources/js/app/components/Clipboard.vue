@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Clipboard from "clipboard";
 export default {
   props: ["data"],
   created() {

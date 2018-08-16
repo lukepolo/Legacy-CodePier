@@ -18,6 +18,13 @@ export default class UserService {
     return this.$http.get("/api/me");
   }
 
+  update(data) {
+    return this.$http.put(
+      this.apiRouteService.action("UserUserController@update", { user: 1 }),
+      data,
+    );
+  }
+
   markAnnouncementRead() {
     return this.$http.post(
       this.apiRouteService.action("AnnouncementsController@store"),

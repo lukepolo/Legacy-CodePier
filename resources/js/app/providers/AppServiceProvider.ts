@@ -1,10 +1,13 @@
 import Vue from "vue";
 import PortalVue from "portal-vue";
+
 import UserService from "@app/services/UserService";
 import PileService from "@app/services/PileService";
-import AuthService from "@app/services/AuthService";
 
+import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
+import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
+
 import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
 
@@ -31,6 +34,7 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     // AUTH SERVICES
     this.app.bind("AuthService", AuthService);
     this.app.bind("OauthService", OauthService);
+    this.app.bind("TwoFactorAuthentication", TwoFactorAuthentication);
 
     // PILE SERVICES
     this.app.bind("PileService", PileService);
