@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\WorkerRepository;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -102,5 +103,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Horizon::routeSlackNotificationsTo(config('services.slack.horizon'));
+
+
+
+        $this->app->bind(
+            WorkerRepository::class,
+            WorkerRepository::class
+        );
     }
 }
