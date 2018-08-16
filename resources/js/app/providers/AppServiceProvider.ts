@@ -12,6 +12,7 @@ import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
 
 import SiteService from "@app/services/SiteService";
+import SubscriptionService from "@app/services/SubscriptionService";
 import SiteServerService from "@app/services/Site/SiteServerService";
 
 /*
@@ -45,6 +46,7 @@ export default class AppProviderServiceProvider extends ServiceProvider {
 
     // USER SERVICES
     this.app.bind("UserService", UserService);
+    this.app.bind("SubscriptionService", SubscriptionService);
 
     // ROUTING
     this.app.constant("ApiRouteService", require("@app/../vendor/laroute"));

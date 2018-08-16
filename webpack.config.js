@@ -16,6 +16,7 @@ module.exports = function(env, argv) {
     })
     .environmentVariables({
       ENV: ENV.APP_ENV,
+      STRIPE_KEY: ENV.STRIPE_KEY,
       PUSHER_APP_KEY: ENV.PUSHER_APP_KEY,
       PUSHER_APP_ID: ENV.PUSHER_APP_KEY,
       VERSION: require("./package").version,
