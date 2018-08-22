@@ -124,11 +124,11 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
                         $deploymentSteps[] = [
                                'order' => (int) $order,
-                               'zero_downtime_deployment' => $this->getFirstDocParam($method, 'zero_downtime_deployment') === '' ? true : false,
+                               'zero_downtime_deployment' => $this->getFirstDocParam($method, 'zero_downtime_deployment'),
                                'description' => $description,
                                'internal_deployment_function' => $method->name,
                                'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                               'enabled' => $this->getFirstDocParam($method, 'not_default') === 'true' ? false : true,
+                               'enabled' => $this->getFirstDocParam($method, 'not_default'),
                            ];
                     }
                 }

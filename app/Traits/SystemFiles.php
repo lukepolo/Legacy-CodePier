@@ -141,10 +141,11 @@ trait SystemFiles
      */
     public function getDocParam($method, $param, $default = null)
     {
-        preg_match_all('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
+        preg_match_all('/\@'.$param.'(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
-            return preg_replace("/[\n\r]/", '', $matches[1]);
+            $value = trim($matches[1]);
+            return ! empty($value) ? $value : true;
         }
 
         return $default;
@@ -158,10 +159,11 @@ trait SystemFiles
      */
     public function getFirstDocParam($method, $param, $default = null)
     {
-        preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
+        preg_match('/\@'.$param.'(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
-            return preg_replace("/[\n\r]/", '', $matches[1]);
+            $value = trim($matches[1]);
+            return ! empty($value) ? $value : true;
         }
 
         return $default;
