@@ -6,6 +6,9 @@ use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\ServiceConstructorTrait;
 
+/*
+ * @disabled
+ */
 class Swift
 {
     use ServiceConstructorTrait;
@@ -72,16 +75,7 @@ class Swift
 
     public function getNginxConfig(Site $site)
     {
-        // TODO - figure out port
-        return '
-            location / {
-                try_files $uri @proxy;
-            }
-        
-            location @proxy {
-                proxy_pass http://127.0.0.1:8080;
-            }
-        ';
+        return $this->getFrameworkService($site)->getNginxConfig($site);
     }
 
     private function getFrameworkService(Site $site)

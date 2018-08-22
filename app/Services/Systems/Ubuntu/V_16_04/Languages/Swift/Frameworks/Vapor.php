@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\Swift\Frameworks;
 
+use App\Models\Site\Site;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class Vapor
@@ -34,5 +35,19 @@ class Vapor
         $this->remoteTaskService->run('echo "deb https://repo.vapor.codes/apt $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/vapor.list');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install vapor -y');
+    }
+
+    public function getNginxConfig(Site $site)
+    {
+        // TODO - figure out port
+        return '
+            location / {
+                try_files $uri @proxy;
+            }
+        
+            location @proxy {
+                proxy_pass http://127.0.0.1:8080;
+            }
+        ';
     }
 }
