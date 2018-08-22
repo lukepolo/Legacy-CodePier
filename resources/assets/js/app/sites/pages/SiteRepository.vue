@@ -67,7 +67,7 @@
                             <option value=""></option>
                             <template v-for="(features, language) in availableLanguages">
                                 <optgroup :label="language">
-                                    <option :value="language">
+                                    <option :value="language" v-if="language !== 'Swift'">
                                         {{ language | startCase }}
                                     </option>
                                     <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework | startCase }}</option>
