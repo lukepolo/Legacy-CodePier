@@ -17,19 +17,6 @@ trait Vapor
         return [$this->remoteTaskService->run("cd $this->release; vapor update -y")];
     }
 
-
-//    /** @var WorkerRepository  */
-//    protected $workerRepository;
-//
-//    /**
-//     * Swift constructor.
-//     * @param WorkerRepository $workerRepository
-//     */
-//    public function __construct(WorkerRepository $workerRepository)
-//    {
-//        $this->workerRepository = $workerRepository;
-//    }
-//
     /**
      * @description Vapor Build
      *

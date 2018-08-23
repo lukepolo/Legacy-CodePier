@@ -39,14 +39,13 @@ class Vapor
 
     public function getNginxConfig(Site $site)
     {
-        // TODO - figure out port
         return '
             location / {
                 try_files $uri @proxy;
             }
         
             location @proxy {
-                proxy_pass http://127.0.0.1:8080;
+                proxy_pass http://127.0.0.1:'.$site->port.';
             }
         ';
     }
