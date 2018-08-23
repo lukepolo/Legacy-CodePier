@@ -55,7 +55,10 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     {
         return $this->saveNewSteps(
             $site,
-            $this->buildDeploymentOptions($this->getDeploymentClass($site), $this->getFrameworkClass($site))->filter(function ($step) {
+            $this->buildDeploymentOptions($this->getDeploymentClass($site), $this->getFrameworkClass($site))->filter(function ($step) use ($site) {
+                if ($site->zero_downtime_deployment == 0 && $step['zero_downtime_deployment']) {
+                    return false;
+                }
                 return $step['enabled'] == true;
             })
         );
