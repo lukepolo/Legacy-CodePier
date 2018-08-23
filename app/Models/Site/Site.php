@@ -69,6 +69,10 @@ class Site extends Model
         'slack_channel_preferences' => 'array',
     ];
 
+    protected $with = [
+        'lastDeployment',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
