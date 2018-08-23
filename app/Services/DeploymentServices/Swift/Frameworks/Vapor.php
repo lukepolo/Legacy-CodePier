@@ -44,8 +44,7 @@ trait Vapor
 
         $workerRepository = app(WorkerRepository::class);
 
-        // TODO - use $site->port eventually
-        $command = "$this->release/.build/release/Run-{$this->site->id} --port 8080";
+        $command = "$this->release/.build/release/Run-{$this->site->id} --port {$this->site->port}";
         if ($this->site->workers()->where(
             'command', $command
         )->get()->isEmpty()) {
