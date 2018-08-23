@@ -37,6 +37,8 @@ class Site extends Model
 {
     use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable, HasServers;
 
+    const STARTING_PORT = 8080;
+
     protected $guarded = [
         'id',
         'public_ssh_key',
