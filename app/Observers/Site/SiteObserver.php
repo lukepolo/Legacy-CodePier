@@ -45,6 +45,8 @@ class SiteObserver
     public function creating(Site $site)
     {
         $site->hash = unique_hash();
+        Site::withTrashed()->count();
+        $site->port = Site::STARTING_PORT + Site::withTrashed()->count();
     }
 
     public function created(Site $site)
