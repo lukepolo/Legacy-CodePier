@@ -50,9 +50,10 @@ Route::group(['middleware' => [
         ],
     ]);
 
-    Route::apiResource('user', 'User\UserController', [
-        'except' => 'index',
-    ]);
+    Route::put('/me', 'User\UserController@update');
+//    Route::apiResource('user', 'User\UserController', [
+//        'except' => 'index',
+//    ]);
 
     Route::get('user/{user}/request-data', 'User\UserController@requestData');
     Route::patch('user/{user}/update-marketing', 'User\UserController@updateMarketing');

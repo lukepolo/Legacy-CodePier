@@ -20,7 +20,7 @@ export default class UserService {
 
   update(data) {
     return this.$http.put(
-      this.apiRouteService.action("UserUserController@update", { user: 1 }),
+      this.apiRouteService.action("UserUserController@update"),
       data,
     );
   }
