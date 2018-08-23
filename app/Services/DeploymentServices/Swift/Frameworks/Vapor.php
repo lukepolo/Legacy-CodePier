@@ -70,6 +70,6 @@ trait Vapor
     public function vaporKillRunningProcess()
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
-        return [$this->remoteTaskService->run("killall Run-{$this->site->id}")];
+        return [$this->remoteTaskService->run("killall Run-{$this->site->id}", true)];
     }
 }
