@@ -128,7 +128,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                                'description' => $description,
                                'internal_deployment_function' => $method->name,
                                'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                               'enabled' => $this->getFirstDocParam($method, 'not_default'),
+                               'enabled' => ! $this->getFirstDocParam($method, 'not_default'),
                            ];
                     }
                 }
