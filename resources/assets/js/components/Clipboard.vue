@@ -5,10 +5,11 @@
 </template>
 
 <script>
+import ClipboardJS from "clipboard";
 export default {
   props: ["data"],
   created() {
-    new Clipboard(".clipboard", {
+    new ClipboardJS(".clipboard", {
       text: this.data,
     });
   },
