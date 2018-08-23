@@ -6,9 +6,6 @@ use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\ServiceConstructorTrait;
 
-/*
- * @disabled
- */
 class Swift
 {
     use ServiceConstructorTrait;

@@ -7,7 +7,7 @@ use App\Repositories\WorkerRepository;
 trait Vapor
 {
     /**
-     * @description Some Command
+     * @description Vapor Update
      *
      * @order 210
      */
