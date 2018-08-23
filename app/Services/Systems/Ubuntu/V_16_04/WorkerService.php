@@ -64,6 +64,8 @@ user=' . $worker->user . '
 numprocs=' . $worker->number_of_workers . '
 redirect_stderr=true
 stdout_logfile=/home/codepier/workers/server-worker-' . $worker->id . '.log
+stopasgroup=true
+stopsignal=QUIT
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
@@ -101,6 +103,8 @@ user=' . $daemon->user . '
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/codepier/workers/server-worker-' . $daemon->id . '.log
+stopasgroup=true
+stopsignal=QUIT
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
