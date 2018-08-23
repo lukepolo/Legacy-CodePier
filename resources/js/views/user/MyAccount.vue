@@ -1,7 +1,9 @@
 <template>
-    <form @submit.prevent="updateUser">
+    <base-form :action="updateUser">
 
-        <base-input label="Name" name="name" v-model="form.name"></base-input>
+        <base-input label="Name" name="name" v-model="form.name">
+          <span slot="append">APPEND HERE</span>
+        </base-input>
         <base-input type="email" label="Email" name="email" v-model="form.email"></base-input>
 
         <template v-if="user.password">
@@ -75,7 +77,7 @@
                 </template>
             </div>
         </div>
-    </form>
+    </base-form>
 </template>
 
 <script>

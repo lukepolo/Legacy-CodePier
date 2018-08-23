@@ -2,3 +2,4 @@
 .cache-loader
 /resources/js/vendor
 /vendor/
+/resources/sass/base/_variables.scss

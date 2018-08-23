@@ -1,16 +1,22 @@
 <template>
     <div class="flyform--group">
-        <input
-            :id="name"
-            :name="name"
-            :type="type"
-            v-bind="$attrs"
-            :value="value"
-            :tabindex="tabindex"
-            @input="$emit('input', $event.target.value)"
-            placeholder=" "
-        >
-        <label :for="name" v-if="label">{{ label }}</label>
+        <slot>
+          <input
+              :id="name"
+              :name="name"
+              :type="type"
+              v-bind="$attrs"
+              :value="value"
+              :tabindex="tabindex"
+              :class="{ 'someClass' : !doesAppendExist, 'someOtherClass' : doesAppendExist }"
+              @input="$emit('input', $event.target.value)"
+              placeholder=" "
+          >
+          <label :for="name" v-if="label">{{ label }}</label>
+        </slot>
+          <div class="some-class-you-need-for-appending" v-if="doesAppendExist">
+            <slot name="append"></slot>
+          </div>
     </div>
 </template>
 
@@ -39,6 +45,11 @@ export default Vue.extend({
     },
     validation: {
       required: false,
+    },
+  },
+  computed: {
+    doesAppendExist() {
+      return Object.keys(this.$slots).indexOf("append") >= 0;
     },
   },
 });
