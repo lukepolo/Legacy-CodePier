@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         ServerCommand::observe(ServerCommandObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
 
-        // TODO - what are these suppose to be doing?
+        // TODO - these should move into the oauth provider
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_at'))) {
                 $provider->expires_at = Carbon::now()->addSeconds($expiresIn);
