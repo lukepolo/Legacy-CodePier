@@ -5,7 +5,7 @@
   margin-top: 0px;
 
   h2 {
-    color: $color-text-inverse;
+    color: $color-text-inverse-primary;
   }
 }
 
@@ -15,7 +15,7 @@
 
   &--header {
     text-align: center;
-    color: $color-text-inverse;
+    color: $color-text-inverse-primary;
     margin: -$spacing/2 0 $spacing;
   }
 
@@ -53,9 +53,9 @@
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-family: $font-web-heading;
+      font-family: $font-heading-web;
       font-weight: 500;
-      color: $color-text-inverse;
+      color: $color-text-inverse-primary;
       padding: $spacing 25px;
       position: relative;
       border-top: 9px solid $black;

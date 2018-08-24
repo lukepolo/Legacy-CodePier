@@ -63,7 +63,7 @@
 
       small {
         font-style: italic;
-        //color: $color-text-inverse;
+        //color: $color-text-inverse-primary;
       }
     }
   }
@@ -75,7 +75,7 @@
     padding: 10px 20px;
     font-size: 2.5em;
     border-bottom: 1px solid $color-divider;
-    background-color: rgba($grayLight, 0.2);
+    background-color: rgba($gray-light, 0.2);
 
     &-price {
       font-size: 1.5em;
@@ -107,12 +107,12 @@
   }
 
   &--banner {
-    font-family: $font-web-heading;
+    font-family: $font-heading-web;
     font-size: 20px;
     text-transform: uppercase;
     text-align: center;
     background-color: $green;
-    color: $color-text-inverse;
+    color: $color-text-inverse-primary;
     padding: 10px;
   }
 

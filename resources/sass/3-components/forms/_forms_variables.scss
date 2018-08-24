@@ -8,7 +8,7 @@ $jcf-font-name: "icomoon";
 $white: #ffffff !default;
 $black: #212121 !default;
 $gray: #727272 !default;
-$grayLight: #b6b6b6 !default;
+$gray-light: #b6b6b6 !default;
 $blueDark: #455a64 !default;
 $blue: #607d8b !default;
 $blueLight: #cfd8dc !default;
@@ -18,14 +18,14 @@ $red: #c33c54 !default;
 
 // COLOR DECLARATIONS
 $jcf-color-background: $white !default;
-$jcf-color-primary-dark: $blueDark !default;
-$jcf-color-primary: $blue !default;
-$jcf-color-primary-light: $blueLight !default;
+$color-primary: $blueDark !default;
+$color-primary: $blue !default;
+$color-primary-light: $blueLight !default;
 $jcf-color-accent: $pink !default;
-$jcf-color-text-primary: $black !default;
+$color-text-primary: $black !default;
 $jcf-color-text-secondary: $gray !default;
 $jcf-color-text-inverse: $white !default;
-$jcf-color-divider: $grayLight !default;
+$jcf-color-divider: $gray-light !default;
 
 // FONT VARIABLES ------------------------------------------
 // ---------------------------------------------------------
@@ -43,7 +43,7 @@ $jcf-font-size: 16px !default;
 // FORM VARIABLES ------------------------------------------
 // ---------------------------------------------------------
 $jcf-form-width: 400px !default;
-$jcf-form-padding: 40px !default;
+$spacing: 40px !default;
 
 $jcf-transition-in: all 0.5s !default;
 $jcf-transition-out: all 0.2s !default;

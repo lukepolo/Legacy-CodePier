@@ -17,12 +17,12 @@
   width: $jcf-form-width;
   max-width: $jcf-form-width;
   background-color: $jcf-color-background;
-  color: $jcf-color-text-primary;
+  color: $color-text-primary;
   font-family: $jcf-font;
   font-size: $jcf-font-size;
   margin-left: auto;
   margin-right: auto;
-  padding: $jcf-form-padding;
+  padding: $spacing;
 
   * {
     box-sizing: border-box;
@@ -36,13 +36,13 @@
   input {
     width: 100%;
     background-color: $jcf-color-background;
-    color: $jcf-color-text-primary;
+    color: $color-text-primary;
     font-size: $jcf-font-size + ($jcf-font-size/2);
     font-weight: 300;
     border: none;
-    border-bottom: 1px solid $jcf-color-divider;
+    border-bottom: 1px solid $color-divider;
     margin: 0px;
-    padding: 0px ($jcf-form-padding/4) ($jcf-form-padding/4);
+    padding: 0px ($spacing/4) ($spacing/4);
 
     &:focus {
       box-shadow: none;
@@ -81,7 +81,7 @@
     bottom: 0px;
     left: 0px;
     margin: 0px;
-    padding: 0px ($jcf-form-padding/4);
+    padding: 0px ($spacing/4);
 
     // accent underline hidden
     &:after {
@@ -107,6 +107,6 @@
     font-size: 0.9em;
     font-weight: 600;
     color: $jcf-color-text-secondary;
-    margin-bottom: $jcf-form-padding/4;
+    margin-bottom: $spacing/4;
   }
 }

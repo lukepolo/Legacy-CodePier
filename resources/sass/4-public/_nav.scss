@@ -74,13 +74,13 @@
 
     &-block {
       background-color: $color-primary;
-      color: $color-text-inverse;
+      color: $color-text-inverse-primary;
       font-weight: 600;
 
       &:hover,
       &:active,
       &:focus {
-        color: $color-text-inverse;
+        color: $color-text-inverse-primary;
         background-color: mix($color-primary, $white, 80%);
       }
     }

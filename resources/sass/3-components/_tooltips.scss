@@ -10,12 +10,13 @@
   z-index: 100;
 }
 
-.#{$hintPrefix}none {
-  &:before,
-  &:after {
-    opacity: 0 !important;
-  }
-}
+// TODO: not sure what this was for, but breaking compile
+// .#{$hintPrefix}none {
+//   &:before,
+//   &:after {
+//     opacity: 0 !important;
+//   }
+// }
 
 .heading--btns {
   [class^="hint-"],

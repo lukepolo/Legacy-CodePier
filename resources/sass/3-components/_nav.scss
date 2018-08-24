@@ -58,7 +58,7 @@
       &:before {
         content: "";
         display: inline-block;
-        border: $spacing * 1.6 solid rgba($grayLight, 0.3);
+        border: $spacing * 1.6 solid rgba($gray-light, 0.3);
         border-top-color: transparent;
         border-bottom-color: transparent;
         border-right: none;
