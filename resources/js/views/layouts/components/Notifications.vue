@@ -10,8 +10,9 @@
 </template>
 
 <script>
-import Notification from "./Notification.vue";
-export default {
+import Vue from "vue";
+import Notification from "./notification-components/Notification.vue";
+export default Vue.extend({
   components: {
     Notification,
   },
@@ -25,5 +26,5 @@ export default {
       this.$store.dispatch("notifications/remove", notification);
     },
   },
-};
+});
 </script>

@@ -41,7 +41,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   data() {
     return {
       announcementDate: this.moment("2018-08-12"),
@@ -60,5 +61,5 @@ export default {
       return this.moment(this.$store.state.auth.user.last_read_announcement);
     },
   },
-};
+});
 </script>

@@ -1,5 +1,6 @@
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   created() {
     let authAreaData = this.$parent.authAreaData;
     this.$set(this.form, "email", authAreaData.email);
@@ -17,5 +18,5 @@ export default {
       });
     },
   },
-};
+});
 </script>

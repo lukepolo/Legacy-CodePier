@@ -27,7 +27,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: {
     tag: {
       default: "li",
@@ -74,5 +75,5 @@ export default {
   slots() {
     return this.$slots;
   },
-};
+});
 </script>

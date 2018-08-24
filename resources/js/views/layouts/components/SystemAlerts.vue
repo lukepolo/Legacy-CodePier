@@ -18,7 +18,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   $inject: ["$config", "BroadcastService"],
   data() {
     return {
@@ -56,5 +57,5 @@ export default {
       return this.$store.state.system.version;
     },
   },
-};
+});
 </script>

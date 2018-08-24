@@ -10,7 +10,8 @@
     </transition>
 </template>
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: ["notification"],
   data() {
     return {
@@ -36,5 +37,5 @@ export default {
       this.$store.dispatch("notifications/remove", notification);
     },
   },
-};
+});
 </script>

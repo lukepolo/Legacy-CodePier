@@ -72,9 +72,10 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Pile from "./components/Pile";
 
-export default {
+export default Vue.extend({
   components: {
     Pile,
   },
@@ -96,5 +97,5 @@ export default {
       this.$store.dispatch("user/markAnnouncementRead");
     },
   },
-};
+});
 </script>

@@ -24,7 +24,6 @@
                 </li>
             </template>
 
-
             <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled">
                 <li>
                     <span class="dropdown-heading">Change Team</span>
@@ -82,12 +81,13 @@
 </template>
 
 <script>
-// import Notifications from "./Notifications.vue";
+import Vue from "vue";
+import Notifications from "varie/Notifications.vue";
 
-export default {
-  // components: {
-  //   Notifications,
-  // },
+export default Vue.extend({
+  components: {
+    Notifications,
+  },
   data() {
     return {
       form: this.createForm({
@@ -128,5 +128,5 @@ export default {
       // this.$store.dispatch("changeTeams", teamID);
     },
   },
-};
+});
 </script>

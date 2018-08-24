@@ -116,9 +116,10 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Card from "./components/subscriptions/Card";
 import Plans from "./components/subscriptions/Plans";
-export default {
+export default Vue.extend({
   components: {
     Card,
     Plans,
@@ -283,5 +284,5 @@ export default {
       return this.$store.state.user.subscription.subscription;
     },
   },
-};
+});
 </script>

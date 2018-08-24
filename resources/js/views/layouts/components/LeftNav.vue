@@ -57,10 +57,11 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Site from "./left-nav-components/Site.vue";
 import SiteForm from "./../../dashboard/components/SiteForm.vue";
 
-export default {
+export default Vue.extend({
   components: {
     Site,
     SiteForm,
@@ -88,5 +89,5 @@ export default {
       );
     },
   },
-};
+});
 </script>

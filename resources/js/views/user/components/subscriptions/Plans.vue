@@ -64,7 +64,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: ["selectedPlan", "title", "type"],
   data() {
     return {
@@ -109,5 +110,5 @@ export default {
       return this.$store.state.user.subscription.subscription;
     },
   },
-};
+});
 </script>

@@ -20,7 +20,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: {
     type: String,
     size: String,
@@ -65,5 +66,5 @@ export default {
       return "none";
     },
   },
-};
+});
 </script>

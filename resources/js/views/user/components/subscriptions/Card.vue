@@ -10,7 +10,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: ["cardType", "card", "error", "instance"],
   data() {
     return {
@@ -60,5 +61,5 @@ export default {
       }
     });
   },
-};
+});
 </script>
