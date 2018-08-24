@@ -1,8 +1,8 @@
 <template>
-    <span :is="tag" class="dropdown" :class="{ open : open }" @click="show($event.target)">
+    <span :is="tag" class="dropdown" :class="position" @click="show($event.target)">
 
         <slot name="header">
-            <a href="#" @click.prevent class="dropdown-toggle">
+            <a href="#" @click.prevent class="dropdown--toggle">
                 <span :class="icon"></span>
                 <span class="muted" v-if="muted">{{ muted }} :</span>
 
@@ -19,9 +19,9 @@
         </slot>
 
         <slot name="content" @click.stop="done">
-            <ul class="dropdown-menu">
+            <div class="dropdown--menu">
                 <slot></slot>
-            </ul>
+            </div>
         </slot>
     </span>
 </template>
@@ -30,8 +30,11 @@
 import Vue from "vue";
 export default Vue.extend({
   props: {
+    position: {
+      default: "bottom left",
+    },
     tag: {
-      default: "li",
+      default: "div",
     },
     name: {
       default: null,

@@ -1,99 +1,168 @@
 // DROPDOWN STYLES =========================================
 // =========================================================
-// todo jf - decrease style specificity on dropdowns
 
 .dropdown {
-  list-style: none;
+  position: relative;
 
-  a {
-    color: $white;
-  }
-
-  .dropdown-menu {
+  &--menu {
     display: none;
-  }
-
-  &.open {
-    .dropdown-menu {
-      display: initial;
-      position: absolute;
-    }
-  }
-}
-
-.dropdown-menu {
-  background-color: $black;
-  border-radius: 0;
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
-  z-index: 160;
-
-  &.dropup {
-    top: auto;
-    bottom: 100%;
-  }
-
-  &.nowrap {
+    position: absolute;
+    background-color: $color-background-nav;
     white-space: nowrap;
-  }
+    border: 1px solid $color-divider;
+    @include card(1);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 
-  li {
-    > span,
     a {
-      color: rgba($color-text-primary, 0.7);
-      font-size: 14px;
-      padding: ($spacing/2) ($spacing) !important;
-      white-space: nowrap;
-
-      [class^="icon-"],
-      [class*=" icon-"] {
-        font-size: 1.4em;
-        line-height: 19px;
-        position: relative;
-        top: 2px;
-        right: 5px;
-      }
-    }
-
-    > a {
       display: block;
-    }
+      font-weight: 400;
+      padding: ($spacing/2) $spacing;
 
-    .selected,
-    a:active,
-    a:focus,
-    a:hover {
-      background-color: $gray;
-      color: $blue;
-      cursor: pointer;
+      &:active,
+      &:focus,
+      &:hover {
+        color: $color-text-link;
+        background-color: $color-background;
+      }
     }
 
     [class^="icon-"],
     [class*=" icon-"] {
-      display: inline-block;
-      min-width: 20px;
-      text-align: center;
+      padding-right: 5px;
     }
   }
 
-  .dropdown-heading {
+  &--divider {
     display: block;
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
     text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba($color-text-primary, 0.1);
-    color: $color-text-primary;
-    text-align: center;
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 10px;
+
+    span {
+      display: block;
+      padding: ($spacing/2) $spacing;
+    }
   }
 
-  .divider {
-    background-color: $color-background;
+  // OPEN STYLES
+  &.open {
+    .dropdown--menu {
+      display: initial;
+    }
+  }
+
+  // POSITIONING
+  &.bottom {
+    .dropdown--menu {
+      top: 100%;
+      bottom: auto;
+    }
+  }
+
+  &.left {
+    .dropdown--menu {
+      left: auto;
+      right: 0;
+    }
   }
 }
 
-.dropdown.btn.open {
-  @include card(1);
-  transform: scale(1);
-  transition: all 0.1s;
-}
+// .dropdown {
+//   list-style: none;
+//
+//   a {
+//     color: $white;
+//   }
+//
+//   .dropdown-menu {
+//     display: none;
+//   }
+//
+//   &.open {
+//     .dropdown-menu {
+//       display: initial;
+//       position: absolute;
+//     }
+//   }
+// }
+//
+// .dropdown-menu {
+//   background-color: $black;
+//   border-radius: 0;
+//   font-weight: normal;
+//   margin: 0;
+//   padding: 0;
+//   z-index: 160;
+//
+//   &.dropup {
+//     top: auto;
+//     bottom: 100%;
+//   }
+//
+//   &.nowrap {
+//     white-space: nowrap;
+//   }
+//
+//   li {
+//     > span,
+//     a {
+//       color: rgba($color-text-primary, 0.7);
+//       font-size: 14px;
+//       padding: ($spacing/2) ($spacing) !important;
+//       white-space: nowrap;
+//
+//       [class^="icon-"],
+//       [class*=" icon-"] {
+//         font-size: 1.4em;
+//         line-height: 19px;
+//         position: relative;
+//         top: 2px;
+//         right: 5px;
+//       }
+//     }
+//
+//     > a {
+//       display: block;
+//     }
+//
+//     .selected,
+//     a:active,
+//     a:focus,
+//     a:hover {
+//       background-color: $gray;
+//       color: $blue;
+//       cursor: pointer;
+//     }
+//
+//     [class^="icon-"],
+//     [class*=" icon-"] {
+//       display: inline-block;
+//       min-width: 20px;
+//       text-align: center;
+//     }
+//   }
+//
+//   .dropdown-heading {
+//     display: block;
+//     text-transform: uppercase;
+//     font-size: 12px;
+//     letter-spacing: 0.5px;
+//     border-bottom: 1px solid rgba($color-text-primary, 0.1);
+//     color: $color-text-primary;
+//     text-align: center;
+//   }
+//
+//   .divider {
+//     background-color: $color-background;
+//   }
+// }
+//
+// .dropdown.btn.open {
+//   @include card(1);
+//   transform: scale(1);
+//   transition: all 0.1s;
+// }
