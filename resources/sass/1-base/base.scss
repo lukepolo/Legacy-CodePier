@@ -118,7 +118,11 @@ small {
   }
 
   &-primary {
-    color: $color-state-neutral;
+    color: $color-primary;
+  }
+
+  &-accent {
+    color: $color-accent;
   }
 
   &-success {
