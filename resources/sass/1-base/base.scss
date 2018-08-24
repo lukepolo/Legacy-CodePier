@@ -1,14 +1,10 @@
 // BASE STYLES =============================================
 // =========================================================
-@import "base/normalize";
-@import "base/bootstrap";
-@import "base/variables";
-@import "base/mixins";
-@import "base/transitions/slide";
+@import "normalize";
+@import "variables";
+@import "mixins";
 
-@import "~font-awesome/scss/font-awesome";
-
-// BASICS --------------------------------------------------
+// SIZING --------------------------------------------------
 // ---------------------------------------------------------
 * {
   box-sizing: border-box;
@@ -22,14 +18,40 @@ html {
 
 body {
   background-color: $color-background;
+  color: $color-text-primary;
   font-family: $font-body;
   font-weight: $font-weight;
-  color: $color-text-primary;
 }
 
+// IMAGES --------------------------------------------------
+// ---------------------------------------------------------
 img {
-  width: 100%; // TODO - janice fix it
   max-width: 100%;
+}
+
+// LINKS ---------------------------------------------------
+// ---------------------------------------------------------
+a {
+  color: $color-text-link;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: mix($white, $color-text-link, 50%);
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.text-link {
+  color: $color-text-link;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: mix($white, $color-text-link, 50%);
+  }
 }
 
 // TEXT ----------------------------------------------------
@@ -46,42 +68,11 @@ hr {
 }
 
 pre {
-  font-family: "Cutive Mono", monospace;
+  font-family: $font-monospace;
 }
 
 small {
   color: $color-text-secondary;
-}
-
-.break-word {
-  word-break: break-word;
-}
-
-.text-clip {
-  max-width: 185px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-
-.placeholder {
-  font-size: 18px;
-  font-family: $font-heading;
-  font-weight: 400;
-  color: $color-text-secondary;
-  letter-spacing: 0.5px;
-  margin: $spacing 0;
-}
-
-p.info {
-  font-size: 1.2em;
-}
-
-.small {
-  font-size: 11px;
-  color: rgba($color-text-primary, 0.7);
-  padding-top: $spacing/4;
 }
 
 .text {
@@ -111,6 +102,36 @@ p.info {
     text-transform: uppercase;
     font-weight: 600;
   }
+
+  &-break {
+    word-break: break-word;
+  }
+
+  // TODO: jf - can we remove this
+  &-clip {
+    @include lineclamp(1);
+    max-width: 185px;
+    vertical-align: bottom;
+  }
+}
+
+.placeholder {
+  font-size: 18px;
+  font-family: $font-heading;
+  font-weight: 400;
+  color: $color-text-secondary;
+  letter-spacing: 0.5px;
+  margin: $spacing 0;
+}
+
+p.info {
+  font-size: 1.2em;
+}
+
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, 0.7);
+  padding-top: $spacing/4;
 }
 
 // FORMS ---------------------------------------------------
@@ -141,7 +162,7 @@ textarea {
 }
 
 select option {
-  color: $color-text-inverse;
+  color: $color-text-inverse-primary;
 }
 
 // HEADINGS ------------------------------------------------
@@ -216,36 +237,11 @@ h6 {
   }
 }
 
-// LINKS ---------------------------------------------------
-// ---------------------------------------------------------
-a {
-  display: inline-flex;
-  color: $color-primary;
-
-  &:active,
-  &:focus,
-  &:hover {
-    color: mix($white, $blue, 50%);
-    text-decoration: none;
-    cursor: pointer;
-  }
-}
-
-.text-link {
-  cursor: pointer;
-
-  &:active,
-  &:focus,
-  &:hover {
-    color: mix($color-primary, $color-text-primary, 50%);
-  }
-}
-
 // LISTS ---------------------------------------------------
 // ---------------------------------------------------------
 button {
   border: none;
-  background-color: $color-text-inverse;
+  background-color: $color-text-inverse-primary;
 }
 
 // TABLES --------------------------------------------------
@@ -298,7 +294,7 @@ tr {
 
   tr {
     &:nth-child(even) {
-      background-color: rgba($grayLight, 0.1);
+      background-color: rgba($gray-light, 0.1);
     }
   }
 }

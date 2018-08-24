@@ -1,0 +1,77 @@
+// VARIABLES ===============================================
+// =========================================================
+
+// COLOR VARIABLES -----------------------------------------
+// ---------------------------------------------------------
+$white: #ffffff !default;
+$black: #2b2b2b !default;
+$gray-dark: #3c3f41 !default;
+$gray: #505254 !default;
+$gray-light: #b6b6b6 !default;
+$gray-xlight: #eff1f3 !default;
+
+$blue: #48acf0 !default;
+$red: #f4645f !default;
+$green: #83b692 !default;
+$yellow: #fec07a !default;
+
+// COLOR DECLARATIONS --------------------------------------
+// ---------------------------------------------------------
+
+// BACKGROUNDS
+$color-background: $gray-dark !default;
+$color-background-light: $gray-dark; // figure out mix for left Sidebar
+$color-background-dark: $gray-dark; // figure out mix for right sidebar
+$color-background-inverse: $white !default;
+$color-background-inverse-light: $gray-xlight !default;
+$color-background-inverse-dark: $gray;
+
+// BASIC
+$color-primary: $blue !default;
+$color-accent: $red !default;
+
+// TEXT
+$color-text-primary: $white !default;
+$color-text-secondary: $gray-light !default;
+$color-text-inverse-primary: $black !default;
+$color-text-inverse-secondary: $gray-light !default;
+$color-text-link: $blue !default;
+$color-text-accent: $red !default;
+
+// DIVIDERS
+$color-divider: $black !default;
+$color-divider-inverse: $gray-light !default;
+
+// STATES
+$color-state-success: $green !default;
+$color-state-neutral: $blue !default;
+$color-state-warning: $yellow !default;
+$color-state-danger: $red !default;
+$color-state-null: $gray !default;
+
+// HOVER
+// $color-hover-overlay:             rgba($gray, .3);
+// $color-hover-overlay-inverse:     rgba($gray-dark, .3);
+// $color-hover-link:                mix($black, $color-text-link, 30%);
+// $color-hover-link-inverse:        mix($white, $color-text-link, 40%);
+// $color-hover-list:                mix($color-text-link, $white, 5%);
+
+// FONT VARIABLES ------------------------------------------
+// ---------------------------------------------------------
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");
+@import url("https://fonts.googleapis.com/css?family=Cutive+Mono");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,800");
+
+// Logo Font                      'AKASHI' https://www.fontsquirrel.com/fonts/Akashi
+$font-body: "Roboto", sans-serif !default;
+$font-heading: "Open Sans", serif !default;
+$font-heading-web: "Montserrat", serif !default;
+$font-monospace: "Cutive Mono", monospace !default;
+$font-icon: "icomoon" !default;
+
+$font-size: 15px !default;
+$font-weight: 300 !default;
+
+// LAYOUT VARIABLES ----------------------------------------
+// ---------------------------------------------------------
+$spacing: 20px !default;

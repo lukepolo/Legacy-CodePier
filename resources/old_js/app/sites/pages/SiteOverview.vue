@@ -260,7 +260,7 @@
                 <h3 class="text-center heading">Recent Deployments</h3>
 
                 <div v-if="!recentDeployments">
-                    <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
+                    <div class="text-empty text-center">Recent deployments will show up here once you have deployed your site.</div>
                 </div>
                 <template v-else>
                     <div class="list">

@@ -14,7 +14,7 @@
 
         <div v-if="!lifeLines.length">
             <p>Lifelines enable you to add monitoring to your services by pinging a URL periodically. If the time goes over your set threshold, CodePier will let you know.</p>
-            <div class="placeholder text-center">You don't have any lifelines active.</div>
+            <div class="text-empty text-center">You don't have any lifelines active.</div>
         </div>
         <div v-else>
             <p>Add the provided URL (<span class="icon-clipboard"></span>) to your service to start monitoring.<br></p>
