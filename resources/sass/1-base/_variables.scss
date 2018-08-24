@@ -3,51 +3,57 @@
 
 // COLOR VARIABLES -----------------------------------------
 // ---------------------------------------------------------
-$white: #ffffff !default;
-$black: #2b2b2b !default;
-$gray-dark: #3c3f41 !default;
-$gray: #505254 !default;
-$gray-light: #b6b6b6 !default;
-$gray-xlight: #eff1f3 !default;
+$white: #ffffff;
+$black: #2b2b2b;
+$gray-dark: #3c3f41;
+$gray: #505254;
+$gray-light: #b6b6b6;
+$gray-xlight: #eff1f3;
 
-$blue: #48acf0 !default;
-$red: #f4645f !default;
-$green: #83b692 !default;
-$yellow: #fec07a !default;
+$blue: #48acf0;
+$red: #f4645f;
+$green: #83b692;
+$yellow: #fec07a;
 
 // COLOR DECLARATIONS --------------------------------------
 // ---------------------------------------------------------
 
 // BACKGROUNDS
-$color-background: $gray-dark !default;
+$color-background: $gray-dark;
 $color-background-light: $gray-dark; // figure out mix for left Sidebar
 $color-background-dark: $gray-dark; // figure out mix for right sidebar
-$color-background-inverse: $white !default;
-$color-background-inverse-light: $gray-xlight !default;
+$color-background-inverse: $white;
+$color-background-inverse-light: $gray-xlight;
 $color-background-inverse-dark: $gray;
 
 // BASIC
-$color-primary: $blue !default;
-$color-accent: $red !default;
+$color-primary: $blue;
+$color-accent: $red;
 
 // TEXT
-$color-text-primary: $white !default;
-$color-text-secondary: $gray-light !default;
-$color-text-inverse-primary: $black !default;
-$color-text-inverse-secondary: $gray-light !default;
-$color-text-link: $blue !default;
-$color-text-accent: $red !default;
+$color-text-primary: $white;
+$color-text-secondary: $gray-light;
+$color-text-inverse-primary: $black;
+$color-text-inverse-secondary: $gray-light;
+$color-text-link: $blue;
+$color-text-accent: $red;
 
 // DIVIDERS
-$color-divider: $black !default;
-$color-divider-inverse: $gray-light !default;
+$color-divider: $black;
+$color-divider-inverse: $gray-light;
 
 // STATES
-$color-state-success: $green !default;
-$color-state-neutral: $blue !default;
-$color-state-warning: $yellow !default;
-$color-state-danger: $red !default;
-$color-state-null: $gray !default;
+$color-state-success: $green;
+$color-state-neutral: $blue;
+$color-state-warning: $yellow;
+$color-state-danger: $red;
+$color-state-null: $gray;
+
+$color-state-text-success: mix($color-state-success, $white, 75%);
+$color-state-text-neutral: mix($color-state-neutral, $white, 75%);
+$color-state-text-warning: mix($color-state-warning, $white, 75%);
+$color-state-text-danger: mix($color-state-danger, $white, 75%);
+$color-state-text-null: mix($color-state-null, $white, 75%);
 
 // HOVER
 // $color-hover-overlay:             rgba($gray, .3);
@@ -63,15 +69,15 @@ $color-state-null: $gray !default;
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,800");
 
 // Logo Font                      'AKASHI' https://www.fontsquirrel.com/fonts/Akashi
-$font-body: "Roboto", sans-serif !default;
-$font-heading: "Open Sans", serif !default;
-$font-heading-web: "Montserrat", serif !default;
-$font-monospace: "Cutive Mono", monospace !default;
-$font-icon: "icomoon" !default;
+$font-body: "Roboto", sans-serif;
+$font-heading: "Open Sans", serif;
+$font-heading-web: "Montserrat", serif;
+$font-monospace: "Cutive Mono", monospace;
+$font-icon: "icomoon";
 
-$font-size: 15px !default;
-$font-weight: 300 !default;
+$font-size: 15px;
+$font-weight: 300;
 
 // LAYOUT VARIABLES ----------------------------------------
 // ---------------------------------------------------------
-$spacing: 20px !default;
+$spacing: 20px;
