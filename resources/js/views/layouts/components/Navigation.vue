@@ -1,11 +1,9 @@
 <template>
     <header>
         <notifications></notifications>
-        <div class="logo-container">
-            <router-link to="/">
-                <img src="./../../../../img/CP_Logo_TX-onGray.svg">
-            </router-link>
-        </div>
+        <router-link to="/" class="header--logo">
+            <img src="./../../../../img/CP_Logo_TX-onGray.svg">
+        </router-link>
 
         <ul class="nav navbar-right nav-right">
 

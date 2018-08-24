@@ -1,8 +1,8 @@
 // HEADER STYLES ===========================================
 // =========================================================
 header {
-  background-color: $black;
   display: flex;
+  background-color: $color-background-nav;
 
   .muted {
     font-size: 0.8em;
@@ -13,14 +13,11 @@ header {
   }
 }
 
-.logo-container {
-  flex: 0 0 220px;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-
-  a {
-    width: 100%;
-    display: inline-block;
+.header {
+  &--logo {
+    flex: 0 0 220px;
+    display: flex;
+    align-items: center;
+    padding-left: $spacing;
   }
 }
