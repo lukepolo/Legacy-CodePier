@@ -69,9 +69,7 @@ export default class SubscriptionService {
           "download",
           decodeURI(disposition.match(/filename="(.*)"/)[1]),
         );
-        document.body.appendChild(link);
         link.click();
-        link.remove();
         window.URL.revokeObjectURL(url);
       });
   }
