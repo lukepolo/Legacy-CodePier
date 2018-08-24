@@ -16,13 +16,13 @@
 
             <ul class="list-inline text-center">
               <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('github')"><i class="fa fa-github"></i></a>
+                <a class="btn btn-primary btn-circle" @click="oauthLogin('github')"><span class="icon-github"></span></a>
               </li>
               <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('bitbucket')"><i class="fa fa-bitbucket"></i></a>
+                <a class="btn btn-primary btn-circle" @click="oauthLogin('bitbucket')"><span class="icon-bitbucket"></span></a>
               </li>
               <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('gitlab')"><i class="fa fa-gitlab"></i></a>
+                <a class="btn btn-primary btn-circle" @click="oauthLogin('gitlab')"><span class="icon-gitlab"></span></a>
               </li>
             </ul>
           </div>

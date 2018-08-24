@@ -2,8 +2,8 @@
 // =========================================================
 .btn {
   border: none;
-  background-color: $jcf-color-text-inverse;
-  color: $jcf-color-text-primary !important;
+  background-color: $color-text-inverse-primary;
+  color: $color-text-primary !important;
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -68,18 +68,18 @@ span.btn {
 }
 
 .btn-primary {
-  background-color: $jcf-color-primary;
-  color: $jcf-color-text-primary !important;
+  background-color: $color-primary;
+  color: $color-text-primary !important;
 }
 
 .btn-success {
   background-color: $green;
-  color: $jcf-color-text-primary !important;
+  color: $color-text-primary !important;
 }
 
 .btn-danger {
   background-color: $red;
-  color: $jcf-color-text-primary !important;
+  color: $color-text-primary !important;
 }
 
 .btn-small {
@@ -119,7 +119,7 @@ button[disabled="disabled"] {
 // ---------------------------------------------------------
 .btn-footer {
   text-align: center;
-  border-top: 1px solid $jcf-color-divider;
+  border-top: 1px solid $color-divider;
   background-color: transparent;
   margin: $spacing 0 0;
   padding: $spacing;
@@ -215,7 +215,7 @@ button[disabled="disabled"] {
   &:active,
   &:focus,
   &:hover {
-    color: mix($text-color, $grayLight, 70%);
+    color: mix($text-color, $gray-light, 70%);
     cursor: pointer;
   }
 }
