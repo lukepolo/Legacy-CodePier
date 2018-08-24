@@ -2,3 +2,34 @@
 @import "header"; //cleanup
 //@import "footer"; //cleanup
 //@import "main"; //cleanup
+
+#app {
+  display: grid;
+  grid-template-areas: "banner banner banner" "header header header" "left middle right" "footer footer footer";
+  grid-template-columns: 275px 1fr 275px;
+  grid-template-rows: min-content 1fr min-content min-content;
+}
+
+header {
+  grid-area: header;
+}
+
+footer {
+  grid-area: footer;
+}
+
+#left {
+  grid-area: left;
+}
+
+#middle {
+  grid-area: middle;
+}
+
+#right {
+  grid-area: right;
+}
+
+.banner--container {
+  grid-area: banner;
+}

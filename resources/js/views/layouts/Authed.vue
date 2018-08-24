@@ -2,13 +2,15 @@
     <div id="app" v-if="user">
         <system-alerts></system-alerts>
         <navigation></navigation>
-        <div id="xlarge-wrap">
-            <div id="main">
-                <left-nav></left-nav>
-                <router-view class="view"></router-view>
-            </div>
-            <!--<events-bar v-if="hasSites"></events-bar>-->
+        <left-nav></left-nav>
+        <router-view class="view"></router-view>
+        <div class="right stuff">
+          right nav
         </div>
+        <footer class="events">
+          events bar
+        </footer>
+        <!--<events-bar v-if="hasSites"></events-bar>-->
         <announcements></announcements>
         <portal-target name="modal" slim></portal-target>
     </div>
