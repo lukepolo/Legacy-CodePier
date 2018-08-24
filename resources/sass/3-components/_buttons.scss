@@ -1,6 +1,7 @@
 // BUTTON STYLES ===========================================
 // =========================================================
 .btn {
+  border: none;
   background-color: $jcf-color-text-inverse;
   color: $jcf-color-text-primary !important;
   font-size: 16px;
@@ -291,4 +292,8 @@ button[disabled="disabled"] {
       @include button-link-hover($color-state-danger);
     }
   }
+}
+
+button {
+  @extend .btn;
 }

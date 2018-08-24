@@ -1,6 +1,37 @@
 // FORMS STYLES ============================================
 // =========================================================
 
+// FORMS ---------------------------------------------------
+// ---------------------------------------------------------
+input {
+  background-color: transparent;
+}
+
+label {
+  font-weight: 400;
+  color: mix($blue, $white, 30%);
+  letter-spacing: 0.4px;
+  display: block;
+}
+
+textarea {
+  width: 100%;
+  background-color: transparent;
+  color: $color-text-primary;
+  font-family: $font-body;
+  border: 1px solid $color-divider;
+  padding: $spacing/2;
+  resize: none;
+
+  &:focus {
+    outline: 3px solid $color-primary;
+  }
+}
+
+select option {
+  color: $color-text-inverse-primary;
+}
+
 @import "forms/forms-update";
 
 //@import 'forms/forms_variables';
@@ -13,9 +44,9 @@
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
 
+#forgot_form,
 #login_form,
-#register_form,
-#forgot_form {
+#register_form {
   background-color: mix($color-background, $white, 95%);
   margin-bottom: $spacing * 2;
 }
@@ -68,8 +99,8 @@
   }
 
   .jcf-form-wrap {
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
   }
 
   .input-checkbox,
@@ -91,9 +122,11 @@
       }
     }
   }
+
   h3 {
     margin-bottom: $spacing * 2;
   }
+
   .input-question {
     margin-bottom: $spacing;
   }
@@ -142,9 +175,9 @@
     width: 250px;
   }
 
-  &.hint--small,
+  &.hint--large,
   &.hint--medium,
-  &.hint--large {
+  &.hint--small {
     &:after {
       text-align: center;
     }
@@ -153,15 +186,15 @@
 
 #right {
   .jcf-form-wrap {
-    padding: 0px $spacing;
+    padding: 0 $spacing;
 
     .jcf-input-group {
       margin-bottom: $spacing;
     }
 
     .btn-footer {
-      margin: 0px 0px (-$spacing);
-      padding: $spacing/2 0px;
+      margin: 0 0 (-$spacing);
+      padding: $spacing/2 0;
     }
   }
 
@@ -174,15 +207,18 @@
 .jcf-form-wrap {
   box-shadow: none;
 }
+
 .jcf-form-wrap input[type="text"]:valid + label:before,
 .jcf-form-wrap input[type="email"]:valid + label:before,
 .jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
 }
+
 .jcf-form-wrap .input-checkbox .icon:before,
 .jcf-form-wrap .input-radio .icon:before {
   top: -2px;
 }
+
 textarea {
   width: 100%;
   background-color: transparent;
@@ -199,6 +235,6 @@ textarea {
 
 .jcf-sub-form {
   border-left: 1px solid $color-divider;
-  margin: -30px 0px 0px 30px;
-  padding: 30px 0px 0px 20px;
+  margin: -30px 0 0 30px;
+  padding: 30px 0 0 20px;
 }

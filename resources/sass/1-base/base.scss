@@ -61,6 +61,9 @@ span {
 }
 
 p {
+  &.intro {
+    font-size: 1.2em;
+  }
 }
 
 hr {
@@ -73,6 +76,12 @@ pre {
 
 small {
   color: $color-text-secondary;
+}
+
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, 0.7);
+  padding-top: $spacing/4;
 }
 
 .text {
@@ -88,12 +97,24 @@ small {
     text-align: right;
   }
 
-  &-error {
-    color: $red;
+  &-primary {
+    color: $color-state-neutral;
   }
 
-  &-primary {
-    color: $blue;
+  &-success {
+    color: $color-state-success;
+  }
+
+  &-warning {
+    color: $color-state-warning;
+  }
+
+  &-error {
+    color: $color-state-danger;
+  }
+
+  &-null {
+    color: $color-state-null;
   }
 
   &-badge {
@@ -113,56 +134,16 @@ small {
     max-width: 185px;
     vertical-align: bottom;
   }
-}
 
-.placeholder {
-  font-size: 18px;
-  font-family: $font-heading;
-  font-weight: 400;
-  color: $color-text-secondary;
-  letter-spacing: 0.5px;
-  margin: $spacing 0;
-}
-
-p.info {
-  font-size: 1.2em;
-}
-
-.small {
-  font-size: 11px;
-  color: rgba($color-text-primary, 0.7);
-  padding-top: $spacing/4;
-}
-
-// FORMS ---------------------------------------------------
-// ---------------------------------------------------------
-input {
-  background-color: transparent;
-}
-
-label {
-  font-weight: 400;
-  color: mix($blue, $white, 30%);
-  letter-spacing: 0.4px;
-  display: block;
-}
-
-textarea {
-  width: 100%;
-  background-color: transparent;
-  color: $color-text-primary;
-  font-family: $font-body;
-  border: 1px solid $color-divider;
-  padding: $spacing/2;
-  resize: none;
-
-  &:focus {
-    outline: 3px solid $color-primary;
+  // empty state text
+  &-empty {
+    font-size: 18px;
+    font-family: $font-heading;
+    font-weight: 400;
+    color: $color-text-secondary;
+    letter-spacing: 0.5px;
+    margin: $spacing 0;
   }
-}
-
-select option {
-  color: $color-text-inverse-primary;
 }
 
 // HEADINGS ------------------------------------------------
@@ -177,7 +158,7 @@ h6 {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: rgba($color-text-primary, 0.5);
+  color: $color-text-secondary;
   margin: 0;
 
   &.primary {
@@ -185,22 +166,13 @@ h6 {
   }
 
   &.secondary {
-    color: mix($blue, $white, 30%);
+    color: mix($color-text-accent, $white, 30%);
   }
 
   small {
     text-transform: none;
     letter-spacing: 0;
   }
-}
-
-.h--label {
-  color: rgba($white, 0.9);
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  display: inline-block;
-  padding: 5px 10px;
-  border-bottom: 2px solid $color-text-secondary;
 }
 
 .heading {
@@ -233,68 +205,6 @@ h6 {
         right: 40px;
         transform: none;
       }
-    }
-  }
-}
-
-// LISTS ---------------------------------------------------
-// ---------------------------------------------------------
-button {
-  border: none;
-  background-color: $color-text-inverse-primary;
-}
-
-// TABLES --------------------------------------------------
-// ---------------------------------------------------------
-table {
-  width: 100%;
-  max-width: 100%;
-  margin-top: $spacing;
-  border: 1px solid $color-divider;
-  background-color: $color-background;
-
-  + table {
-    margin-top: $spacing * 2;
-  }
-}
-
-th {
-  text-align: left;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid $color-divider;
-  color: mix($blue, $white, 30%);
-  background-color: rgba($black, 0.5);
-}
-
-td,
-th {
-  padding: 8px 10px;
-}
-
-tr {
-  &:nth-child(even) {
-    background-color: rgba($black, 0.3);
-  }
-
-  &:hover {
-    background-color: rgba($white, 0.1);
-    cursor: pointer;
-  }
-}
-
-.table--light {
-  border: none;
-  background-color: $white;
-
-  th {
-    color: $color-primary;
-    background-color: $white;
-    text-align: center;
-  }
-
-  tr {
-    &:nth-child(even) {
-      background-color: rgba($gray-light, 0.1);
     }
   }
 }

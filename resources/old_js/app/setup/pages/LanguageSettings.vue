@@ -2,7 +2,7 @@
     <form>
         <template v-if="hasLanguageItems">
             <template v-for="(settings, language) in availableLanguageSettings">
-                <h3 class="h--label heading">{{ language }} settings</h3>
+                <h3 class="heading">{{ language }} settings</h3>
                 <template v-for="setting in settings">
                     <language-setting :setting="setting" :languageSettings="languageSettings"></language-setting>
                 </template>

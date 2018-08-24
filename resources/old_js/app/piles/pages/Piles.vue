@@ -40,7 +40,7 @@
                     </div>
                 </modal>
 
-                    <p class="info">
+                    <p class="intro">
                         Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.
                         To get started create a site.
                     </p>

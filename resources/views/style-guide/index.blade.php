@@ -6,7 +6,7 @@
     <div class="section-content">
         <div class="container">
             <h2>Groups</h2>
-            <p class="info">
+            <p class="intro">
                 Groups are used to display items in a grid format. They are fixed width, will wrap, and form to the height of the largest container in the row. Currently groups are used for Piles and Buoys.
             </p>
             <div class="group">
