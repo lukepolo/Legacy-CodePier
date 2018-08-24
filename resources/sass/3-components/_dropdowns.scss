@@ -8,6 +8,17 @@
   a {
     color: $white;
   }
+
+  .dropdown-menu {
+    display: none;
+  }
+
+  &.open {
+    .dropdown-menu {
+      display: initial;
+      position: absolute;
+    }
+  }
 }
 
 .dropdown-menu {

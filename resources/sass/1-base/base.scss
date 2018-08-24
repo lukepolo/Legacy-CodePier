@@ -21,6 +21,7 @@ body {
   color: $color-text-primary;
   font-family: $font-body;
   font-weight: $font-weight;
+  font-size: $font-size;
 }
 
 // IMAGES --------------------------------------------------
@@ -33,6 +34,7 @@ img {
 // ---------------------------------------------------------
 a {
   color: $color-text-link;
+  text-decoration: none;
 
   &:active,
   &:focus,

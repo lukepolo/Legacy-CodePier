@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="banner--container">
     <div v-if="!online" class="banner banner-danger">
         It appears you are having some connection issues ....
     </div>
