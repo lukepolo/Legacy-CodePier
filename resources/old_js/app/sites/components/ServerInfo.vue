@@ -71,7 +71,7 @@
                     </div>
 
                     <div v-if="currentProvisioningStep">
-                        <div class="server--status-text text-error" v-if="currentProvisioningStep.failed">
+                        <div class="server--status-text text-danger" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
                         </div>
                         <div v-if="currentProvisioningStep.failed"class="server-btns">

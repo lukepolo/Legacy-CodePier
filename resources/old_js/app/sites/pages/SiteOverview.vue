@@ -107,7 +107,7 @@
 
                 <template v-if="dns.host">
                     Your domain is currently pointing to :
-                    <a :href="'//' + dns.ip" target="_blank" :class="{ 'text-error' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
+                    <a :href="'//' + dns.ip" target="_blank" :class="{ 'text-danger' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
                         {{ dns.ip }}
                     </a>
                 </template>

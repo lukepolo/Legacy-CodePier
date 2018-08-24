@@ -40,7 +40,7 @@
                 <template v-else-if="server && !hasFeature(feature)">
                     <div class="flyform--group-actions">
                         <template v-if="hasConflicts(feature)">
-                            <small class="text-error">
+                            <small class="text-danger">
                                 conflicts with <br> {{ hasConflicts(feature) }}
                             </small>
                         </template>

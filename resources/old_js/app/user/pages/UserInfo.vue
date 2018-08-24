@@ -41,7 +41,7 @@
             </div>
             <div class="flyform--footer-links">
                 <template v-if="user.second_auth_active">
-                    <a @click="deactivateSecondAuth" class="text-error">Deactivate Second Authentication</a>
+                    <a @click="deactivateSecondAuth" class="text-danger">Deactivate Second Authentication</a>
                 </template>
                 <template v-else>
                     <template v-if="secondAuthImage">

@@ -63,6 +63,8 @@
   @return 0 $primary-offset $blur $color;
 }
 
+// STATUS DOT ----------------------------------------------
+// ---------------------------------------------------------
 @mixin status($status) {
   height: 1em;
   width: 1em;
@@ -72,13 +74,13 @@
   top: 2px;
 
   @if $status == success {
-    background-color: $green;
-  } @else if $status == error {
-    background-color: $red;
+    background-color: $color-state-success;
+  } @else if $status == danger {
+    background-color: $color-state-danger;
   } @else if $status == warning {
-    background-color: $yellow;
+    background-color: $color-state-warning;
   } @else {
-    background-color: $grayLight;
+    background-color: $color-state-null;
   }
 }
 
@@ -86,7 +88,6 @@
 // ---------------------------------------------------------
 @mixin lineclamp($lines) {
   $box-height: $lines + 0.5 + em;
-
   overflow: hidden;
 
   // Webkit Browsers

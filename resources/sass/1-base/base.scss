@@ -40,6 +40,18 @@ a {
     color: mix($white, $color-text-link, 50%);
     text-decoration: none;
     cursor: pointer;
+
+    &.text-success {
+      color: mix($white, $green, 30%);
+    }
+
+    &.text-danger {
+      color: mix($white, $red, 30%);
+    }
+
+    &.text-warning {
+      color: mix($white, $yellow, 30%);
+    }
   }
 }
 
@@ -84,6 +96,14 @@ small {
   padding-top: $spacing/4;
 }
 
+.primary {
+  color: $color-primary;
+}
+
+.accent {
+  color: $color-accent;
+}
+
 .text {
   &-center {
     text-align: center;
@@ -109,7 +129,7 @@ small {
     color: $color-state-warning;
   }
 
-  &-error {
+  &-danger {
     color: $color-state-danger;
   }
 
