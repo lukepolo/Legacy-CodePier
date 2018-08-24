@@ -35,4 +35,13 @@ export default class SubscriptionService {
       ),
     );
   }
+
+  subscribe(form) {
+    return this.$http.post(
+      this.apiRouteService.action(
+        "UserSubscriptionUserSubscriptionController@store",
+      ),
+      form,
+    );
+  }
 }

@@ -68,7 +68,7 @@
 
                 </div>
                 <div class="grid--item">
-                    <div class="flyform--group coupon-form">
+                    <div class="flyform--group">
                         <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
                         <label for="coupon">Coupon Code</label>
                     </div>

@@ -5,7 +5,7 @@
                 Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
-            <div class="alert alert-error" v-if="isCanceled">
+            <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
         </template>
@@ -68,10 +68,8 @@
 
                 </div>
                 <div class="grid--item">
-                    <div class="flyform--group coupon-form">
-                        <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
-                        <label for="coupon">Coupon Code</label>
-                    </div>
+
+                    <base-input label="Coupon Code" name="coupon" v-model="form.coupon"></base-input>
 
                     <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
                         <strong>{{ hasCoupon.coupon.id }} -</strong> {{ hasCoupon.coupon.percent_off }}% off {{ hasCoupon.coupon.duration }}
@@ -83,7 +81,7 @@
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
-                        <template v-if="isCanceled">
+                        <template v-if="userSubscriptionData.isCanceled">
                             Resume Subscription
                         </template>
                         <template v-else-if="userSubscription">
@@ -194,12 +192,10 @@ export default {
       this.createToken(this.createCardForm).then(() => {
         if (!this.createCardForm.error && this.form.token) {
           this.$store
-            .dispatch("user_subscription/store", this.form)
+            .dispatch("user/subscription/subscribe", this.form.data())
             .then(() => {
               this.coupon = null;
               this.processing = false;
-              this.$store.dispatch("user/get");
-              this.$store.dispatch("user_subscription/getInvoices");
             })
             .catch(() => {
               this.processing = false;
@@ -272,12 +268,6 @@ export default {
     },
     invoices() {
       return this.$store.state.user.subscription.invoices;
-    },
-    isCanceled() {
-      if (this.userSubscription) {
-        return this.userSubscription.ends_at !== null;
-      }
-      return false;
     },
     currentCard() {
       if (this.userSubscriptionData) {

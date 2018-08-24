@@ -1,6 +1,6 @@
 <template>
     <header>
-        <!--<notifications></notifications>-->
+        <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
                 <img src="./../../../../img/CP_Logo_TX-onGray.svg">
@@ -82,12 +82,12 @@
 </template>
 
 <script>
-import Notifications from "./Notifications.vue";
+// import Notifications from "./Notifications.vue";
 
 export default {
-  components: {
-    Notifications,
-  },
+  // components: {
+  //   Notifications,
+  // },
   data() {
     return {
       form: this.createForm({

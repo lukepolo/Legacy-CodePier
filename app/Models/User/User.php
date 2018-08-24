@@ -419,6 +419,7 @@ class User extends Authenticatable
             'switchingPlans'       => $this->onTrial(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
+            'isCanceled'            => ! empty($this->ends_at),
             'isOnTrail'            => $this->onGenericTrial(),
             'subscriptionEnds'     => $this->getNextBillingCycle(),
             'subscriptionName'     => $this->getSubscriptionName(),
