@@ -2,11 +2,11 @@
     <section>
         <template v-if="userSubscription">
             <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
-                Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
+                Your free trial ends on <strong>{{ moment(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
             <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
-                Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
+                Your subscription has been canceled and will end on {{ moment(userSubscription.ends_at).format('l') }}
             </div>
         </template>
 
@@ -80,7 +80,7 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
+                    <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid() | processing }">
                         <template v-if="userSubscriptionData.isCanceled">
                             Resume Subscription
                         </template>
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="flyform--footer-links" v-if="userSubscription">
-                    <button class="text-error" @click="cancelSubscription" v-if="!isCanceled">
+                    <button class="text-error" @click="cancelSubscription" v-if="!userSubscription.isCanceled">
                         Cancel Subscription
                     </button>
                 </div>
@@ -106,9 +106,9 @@
             <h3>Payment History</h3>
             <table>
                 <tr v-for="invoice in invoices">
-                    <td> {{ parseDate(invoice.date.date).format('l') }}</td>
+                    <td> {{ moment(invoice.date.date).format('l') }}</td>
                     <td> ${{ invoiceTotal(invoice.total) }}</td>
-                    <td class="text-right"><a :href="downloadLink(invoice.id)">Download</a></td>
+                    <td class="text-right"><div class="link" @click="downloadLink(invoice.id)">Download</div></td>
                 </tr>
             </table>
         </template>
@@ -119,6 +119,7 @@
 import Vue from "vue";
 import Card from "./components/subscriptions/Card";
 import Plans from "./components/subscriptions/Plans";
+
 export default Vue.extend({
   components: {
     Card,
@@ -134,6 +135,10 @@ export default Vue.extend({
         token: null,
         coupon: null,
         subscription: null,
+      }).validation({
+        rules: {
+          plan: "required",
+        },
       }),
       createCardForm: {
         card: null,
@@ -251,7 +256,7 @@ export default Vue.extend({
         });
     },
     downloadLink: function(invoice) {
-      return "/subscription/invoices/" + invoice;
+      this.$store.dispatch("user/subscription/downloadInvoice", invoice);
     },
     invoiceTotal(total) {
       return (total / 100).toFixed(2);

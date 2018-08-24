@@ -44,4 +44,35 @@ export default class SubscriptionService {
       form,
     );
   }
+
+  downloadInvoice(invoice) {
+    return this.$http
+      .get(
+        this.apiRouteService.action(
+          "UserSubscriptionUserSubscriptionInvoiceController@show",
+          { invoice },
+        ),
+        {
+          headers: {
+            accept: "application/pdf",
+          },
+          responseType: "blob",
+        },
+      )
+      .then((response) => {
+        const blob = new Blob([response.data]);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        let disposition = response.headers["content-disposition"];
+        link.setAttribute(
+          "download",
+          decodeURI(disposition.match(/filename="(.*)"/)[1]),
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      });
+  }
 }

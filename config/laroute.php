@@ -5,12 +5,12 @@ return [
     /*
      * The destination path for the javascript file.
      */
-    'path' => 'resources/js/vendor',
+    'path' => 'resources/js/app/helpers',
 
     /*
      * The destination filename for the javascript file.
      */
-    'filename' => 'laroute',
+    'filename' => 'routes',
 
     /*
      * The namespace for the helper functions. By default this will bind them to

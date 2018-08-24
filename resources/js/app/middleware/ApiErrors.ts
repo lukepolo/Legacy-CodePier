@@ -22,8 +22,9 @@ export default class ApiErrors implements HttpMiddlewareInterface {
   }
 
   public responseError(error) {
-    console.info(error.response.data);
-    this.notificationService.showError(error.response.data);
+    if (error.response && error.response.data) {
+      this.notificationService.showError(error.response.data);
+    }
     return error;
   }
 }

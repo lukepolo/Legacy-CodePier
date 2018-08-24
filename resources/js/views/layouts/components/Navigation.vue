@@ -82,7 +82,7 @@
 
 <script>
 import Vue from "vue";
-import Notifications from "varie/Notifications.vue";
+import Notifications from "./Notifications";
 
 export default Vue.extend({
   components: {

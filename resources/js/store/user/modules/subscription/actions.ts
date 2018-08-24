@@ -21,16 +21,14 @@ export default function(subscriptionService: SubscriptionService) {
       });
     },
     subscribe: (context: ActionContext<SubscriptionState, RootState>, form) => {
-      return subscriptionService.subscribe(form).then(
-        ({ data }) => {
-          // context.dispatch("invoices");
-          // context.commit("SET_SUBSCRIPTION", data);
-          // context.dispatch("auth/me", {}, { root : true });
-        },
-        (error) => {
-          alert(error);
-        },
-      );
+      return subscriptionService.subscribe(form).then(({ data }) => {
+        context.dispatch("invoices");
+        context.commit("SET_SUBSCRIPTION", data);
+        context.dispatch("auth/me", {}, { root: true });
+      });
+    },
+    downloadInvoice({}, invoice) {
+      return subscriptionService.downloadInvoice(invoice);
     },
   };
 }

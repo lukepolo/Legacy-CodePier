@@ -67,11 +67,7 @@ Route::group(['middleware' => [
     */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
-                'except' => [
-                    'show',
-                ],
-            ]);
+            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
             Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
         });

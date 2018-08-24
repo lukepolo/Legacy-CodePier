@@ -16,13 +16,13 @@
                         <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
                             <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
                             <small>
-                                <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
+                                <template v-if="userSubscription.isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
                                     Valid Until
                                 </template>
                                 <template v-else>
                                     Next billing date
                                 </template>
-                                : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
+                                : {{ moment(userSubscriptionData.subscriptionEnds.date).format('l') }}
                             </small>
                         </template>
                     </label>
@@ -31,8 +31,6 @@
             <template v-else>
                 <div class="pricing--coming">COMING SOON!</div>
             </template>
-
-
             <template v-if="type === 'captain'">
                 <hr>
                 <ul>
@@ -45,7 +43,6 @@
                     <li>Server Monitoring</li>
                     <li>Teams</li>
                     <li>API Access</li>
-
                 </ul>
             </template>
             <template v-else-if="type === 'firstmate'">
@@ -94,12 +91,6 @@ export default Vue.extend({
       return this.$store.state.subscriptions.plans.filter((plan) => {
         return plan.plan_id.indexOf(this.type) > -1;
       });
-    },
-    isCanceled() {
-      if (this.userSubscription) {
-        return this.userSubscription.ends_at !== null;
-      }
-      return false;
     },
     userSubscription() {
       if (this.userSubscriptionData) {

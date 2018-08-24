@@ -1,40 +1,31 @@
 <template>
     <transition name="fade">
-        <div class="notification" :class="notification.class">
+        <div class="notification" :class="notification.severity">
             <button @click="close(notification)" class="notification-close" type="button">
                 <span>&times;</span>
             </button>
             <h4 class="notification-heading" v-if="notification.title">{{notification.title}}</h4>
-            <div class="notification-text" v-html="notification.text"></div>
+            <div class="notification-text" v-html="notification.message"></div>
         </div>
     </transition>
 </template>
-<script>
+
+<script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-  props: ["notification"],
-  data() {
-    return {
-      timer: null,
-    };
+  props: {
+    notification: Object,
   },
   created() {
-    const timeout = this.notification.hasOwnProperty("timeout")
-      ? this.notification.timeout
-      : true;
-    if (timeout) {
-      this.timer = setTimeout(
-        function() {
-          this.close(this.notification);
-        }.bind(this),
-        this.notification.timeout,
-      );
-    }
+    setTimeout(() => {
+      if (this.notification.duration && this.notification.duration > 0) {
+        this.close();
+      }
+    }, this.notification.duration);
   },
   methods: {
-    close: function(notification) {
-      clearTimeout(this.timer);
-      this.$store.dispatch("notifications/remove", notification);
+    close() {
+      this.$store.dispatch("varie/notifications/remove", this.notification);
     },
   },
 });
