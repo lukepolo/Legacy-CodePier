@@ -2,11 +2,11 @@
     <section>
         <template v-if="userSubscription">
             <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
-                Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
+                Your free trial ends on <strong>{{ moment(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
-            <div class="alert alert-error" v-if="isCanceled">
-                Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
+            <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
+                Your subscription has been canceled and will end on {{ moment(userSubscription.ends_at).format('l') }}
             </div>
         </template>
 
@@ -68,10 +68,8 @@
 
                 </div>
                 <div class="grid--item">
-                    <div class="flyform--group coupon-form">
-                        <input type="text" name="coupon" v-model="form.coupon" placeholder=" ">
-                        <label for="coupon">Coupon Code</label>
-                    </div>
+
+                    <base-input label="Coupon Code" name="coupon" v-model="form.coupon"></base-input>
 
                     <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
                         <strong>{{ hasCoupon.coupon.id }} -</strong> {{ hasCoupon.coupon.percent_off }}% off {{ hasCoupon.coupon.duration }}
@@ -82,8 +80,8 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
-                        <template v-if="isCanceled">
+                    <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid() | processing }">
+                        <template v-if="userSubscriptionData.isCanceled">
                             Resume Subscription
                         </template>
                         <template v-else-if="userSubscription">
@@ -96,7 +94,7 @@
                 </div>
 
                 <div class="flyform--footer-links" v-if="userSubscription">
-                    <button class="text-danger" @click="cancelSubscription" v-if="!isCanceled">
+                    <button class="text-danger" @click="cancelSubscription" v-if="!userSubscription.isCanceled">
                         Cancel Subscription
                     </button>
                 </div>
@@ -108,9 +106,9 @@
             <h3>Payment History</h3>
             <table>
                 <tr v-for="invoice in invoices">
-                    <td> {{ parseDate(invoice.date.date).format('l') }}</td>
+                    <td> {{ moment(invoice.date.date).format('l') }}</td>
                     <td> ${{ invoiceTotal(invoice.total) }}</td>
-                    <td class="text-right"><a :href="downloadLink(invoice.id)">Download</a></td>
+                    <td class="text-right"><div class="link" @click="downloadLink(invoice.id)">Download</div></td>
                 </tr>
             </table>
         </template>
@@ -118,9 +116,11 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Card from "./components/subscriptions/Card";
 import Plans from "./components/subscriptions/Plans";
-export default {
+
+export default Vue.extend({
   components: {
     Card,
     Plans,
@@ -135,6 +135,10 @@ export default {
         token: null,
         coupon: null,
         subscription: null,
+      }).validation({
+        rules: {
+          plan: "required",
+        },
       }),
       createCardForm: {
         card: null,
@@ -194,12 +198,10 @@ export default {
       this.createToken(this.createCardForm).then(() => {
         if (!this.createCardForm.error && this.form.token) {
           this.$store
-            .dispatch("user_subscription/store", this.form)
+            .dispatch("user/subscription/subscribe", this.form.data())
             .then(() => {
               this.coupon = null;
               this.processing = false;
-              this.$store.dispatch("user/get");
-              this.$store.dispatch("user_subscription/getInvoices");
             })
             .catch(() => {
               this.processing = false;
@@ -254,7 +256,7 @@ export default {
         });
     },
     downloadLink: function(invoice) {
-      return "/subscription/invoices/" + invoice;
+      this.$store.dispatch("user/subscription/downloadInvoice", invoice);
     },
     invoiceTotal(total) {
       return (total / 100).toFixed(2);
@@ -273,12 +275,6 @@ export default {
     invoices() {
       return this.$store.state.user.subscription.invoices;
     },
-    isCanceled() {
-      if (this.userSubscription) {
-        return this.userSubscription.ends_at !== null;
-      }
-      return false;
-    },
     currentCard() {
       if (this.userSubscriptionData) {
         return this.userSubscriptionData.card;
@@ -293,5 +289,5 @@ export default {
       return this.$store.state.user.subscription.subscription;
     },
   },
-};
+});
 </script>

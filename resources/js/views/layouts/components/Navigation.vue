@@ -1,6 +1,6 @@
 <template>
     <header>
-        <!--<notifications></notifications>-->
+        <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
                 <img src="./../../../../img/CP_Logo_TX-onGray.svg">
@@ -23,7 +23,6 @@
                     <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
                 </li>
             </template>
-
 
             <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled">
                 <li>
@@ -82,9 +81,10 @@
 </template>
 
 <script>
-import Notifications from "./Notifications.vue";
+import Vue from "vue";
+import Notifications from "./Notifications";
 
-export default {
+export default Vue.extend({
   components: {
     Notifications,
   },
@@ -128,5 +128,5 @@ export default {
       // this.$store.dispatch("changeTeams", teamID);
     },
   },
-};
+});
 </script>

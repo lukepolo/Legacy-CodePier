@@ -134,7 +134,6 @@ Route::domain(config('app.url'))->group(function () {
         'second_auth',
     ])->group(function () {
         Route::get('/roadmap', 'PublicController@roadmap');
-        Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
         Route::get('/events-bar', 'Controller@appEventsBar');
         Route::get('/{any}', 'Controller@app')->where('any', '.*');
     });

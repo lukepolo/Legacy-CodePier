@@ -49,6 +49,11 @@ module.exports = function(env, argv) {
           target: "http://app.codepier.test",
           changeOrigin: true,
         },
+        {
+          context: ["/subscription/invoices/**/*"],
+          target: "http://app.codepier.test",
+          changeOrigin: true,
+        },
       ]);
     })
     .build();

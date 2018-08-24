@@ -27,12 +27,11 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id = null)
+    public function update(UserUpdateRequest $request)
     {
-        $user = empty($id) ? $request->user() : User::findOrFail($id);
+        $user = $request->user();
 
         $user->fill([
             'name' => $request->get('name'),

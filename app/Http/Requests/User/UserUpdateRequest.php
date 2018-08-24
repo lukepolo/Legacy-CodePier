@@ -13,7 +13,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::check() && \Auth::user()->hasRole('admin') || \Auth::user()->id === $this->get('user');
+        return \Auth::check();
     }
 
     /**

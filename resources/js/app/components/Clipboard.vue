@@ -5,13 +5,14 @@
 </template>
 
 <script>
+import Vue from "vue";
 import ClipboardJS from "clipboard";
-export default {
+export default Vue.extend({
   props: ["data"],
   created() {
     new ClipboardJS(".clipboard", {
       text: this.data,
     });
   },
-};
+});
 </script>

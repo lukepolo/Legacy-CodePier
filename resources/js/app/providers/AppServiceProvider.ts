@@ -49,6 +49,6 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     this.app.bind("SubscriptionService", SubscriptionService);
 
     // ROUTING
-    this.app.constant("ApiRouteService", require("@app/../vendor/laroute"));
+    this.app.constant("ApiRouteService", require("@app/helpers/routes"));
   }
 }

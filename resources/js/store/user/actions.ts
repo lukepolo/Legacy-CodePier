@@ -11,5 +11,11 @@ export default function(userService: UserService) {
         return data;
       });
     },
+    markAnnouncementRead: (context: ActionContext<UserState, RootState>) => {
+      return userService.markAnnouncementRead().then(({ data }) => {
+        context.commit("auth/SET_USER", data, { root: true });
+        return data;
+      });
+    },
   };
 }

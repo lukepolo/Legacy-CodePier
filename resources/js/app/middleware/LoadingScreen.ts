@@ -6,6 +6,7 @@ export default class Loading implements HttpMiddlewareInterface {
   private timeoutSet = false;
   private spinnerTimeout = null;
   private requestsCounter = 0;
+  private spinnerId = "app-spinner";
 
   public request(config) {
     if (this.timeoutSet === false) {
@@ -41,7 +42,7 @@ export default class Loading implements HttpMiddlewareInterface {
 
     if (!spinnerElement) {
       let spinner = document.createElement("div");
-      spinner.id = "app-spinner";
+      spinner.id = this.spinnerId;
       spinner.classList.add("sk-container");
 
       let cube = document.createElement("div");
@@ -59,7 +60,7 @@ export default class Loading implements HttpMiddlewareInterface {
   }
 
   private _getSpinnerElement() {
-    return document.getElementById("spinner");
+    return document.getElementById(this.spinnerId);
   }
   private _turnOffSpinner() {
     console.info("turn it off");

@@ -1,29 +1,23 @@
 <template id="notifications">
     <div class="notifications">
-        <notification
-            v-for="(notification, index) in notifications"
-            :notification="notification"
-            :key="index"
-        >
-        </notification>
+        <transition-group name="notification-animation">
+            <notification :notification="notification" :key="notification.id" v-for="notification in notifications"></notification>
+        </transition-group>
     </div>
 </template>
 
 <script>
-import Notification from "./Notification.vue";
-export default {
+import Vue from "vue";
+import Notification from "./notification-components/Notification";
+
+export default Vue.extend({
   components: {
     Notification,
   },
   computed: {
     notifications() {
-      return this.$store.state.notifications.notifications;
+      return this.$store.state.varie.notifications.notifications;
     },
   },
-  methods: {
-    removeNotification: function(notification) {
-      this.$store.dispatch("notifications/remove", notification);
-    },
-  },
-};
+});
 </script>

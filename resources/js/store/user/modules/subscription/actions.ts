@@ -20,5 +20,15 @@ export default function(subscriptionService: SubscriptionService) {
         context.commit("SET_INVOICES", data);
       });
     },
+    subscribe: (context: ActionContext<SubscriptionState, RootState>, form) => {
+      return subscriptionService.subscribe(form).then(({ data }) => {
+        context.dispatch("invoices");
+        context.commit("SET_SUBSCRIPTION", data);
+        context.dispatch("auth/me", {}, { root: true });
+      });
+    },
+    downloadInvoice({}, invoice) {
+      return subscriptionService.downloadInvoice(invoice);
+    },
   };
 }

@@ -20,9 +20,10 @@
 </template>
 
 <script>
+import Vue from "vue";
 import SiteDeploy from "./SiteDeploy.vue";
 
-export default {
+export default Vue.extend({
   props: ["site"],
   components: {
     SiteDeploy,
@@ -49,5 +50,5 @@ export default {
       return status;
     },
   },
-};
+});
 </script>

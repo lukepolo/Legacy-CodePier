@@ -14,7 +14,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: ["site"],
   created() {
     this.$store.dispatch("user/sites/servers/get", {
@@ -37,5 +38,5 @@ export default {
       return status === "Running" || status === "Queued";
     },
   },
-};
+});
 </script>
