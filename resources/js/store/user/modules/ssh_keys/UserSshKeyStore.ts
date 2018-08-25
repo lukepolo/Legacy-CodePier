@@ -9,7 +9,7 @@ import { injectable } from "inversify";
 export default class UserSshKeyStore extends StoreModule {
   constructor() {
     super();
-    this.setName("ssh-keys")
+    this.setName("sshKeys")
       .addState(state)
       .addActions(actions)
       .addMutations(mutations)

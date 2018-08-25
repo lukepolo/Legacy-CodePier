@@ -4,7 +4,7 @@ import getters from "./getters";
 import mutations from "./mutations";
 import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
-import TwoFactorStore from "@store/auth/modules/twoFactor/TwoFactorStore";
+import TwoFactorStore from "@store/auth/modules/two-factor/TwoFactorStore";
 
 @injectable()
 export default class AuthStore extends StoreModule {

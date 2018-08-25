@@ -13,7 +13,7 @@ import UserSubscriptionStore from "@store/user/modules/subscription/UserSubscrip
 export default class UserStore extends StoreModule {
   constructor(@inject("UserService") userService) {
     super();
-    this.setName("User")
+    this.setName("user")
       .addState(state)
       .addActions(actions(userService))
       .addMutations(mutations)

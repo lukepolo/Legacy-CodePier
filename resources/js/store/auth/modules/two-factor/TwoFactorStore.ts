@@ -13,7 +13,7 @@ export default class TwoFactorStore extends StoreModule {
     twoFactorAuthentication: TwoFactorAuthentication,
   ) {
     super();
-    this.setName("two-factor")
+    this.setName("twoFactor")
       .addState(state)
       .addActions(actions(twoFactorAuthentication))
       .addMutations(mutations)
