@@ -32,7 +32,7 @@ export default Vue.extend({
   },
   beforeRouteEnter(to, from, next) {
     SubscriptionStore().then((store) => {
-      $app.make("$store").registerStore(store.default);
+      $app.make("storeService").registerStore(store.default);
       next();
     });
   },
