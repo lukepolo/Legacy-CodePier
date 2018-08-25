@@ -7,7 +7,7 @@ import PileService from "@app/services/PileService";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class Piles extends RestStoreModule {
+export default class UserPileStore extends RestStoreModule {
   constructor(@inject("PileService") $pileService: PileService) {
     super($pileService, "pile");
     this.setName("Piles")

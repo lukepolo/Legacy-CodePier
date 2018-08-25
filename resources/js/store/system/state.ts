@@ -1,3 +1,5 @@
-export default {
-  version: $config.get("env.VERSION"),
+export default ($config) => {
+  return {
+    version: $config.get("env.VERSION"),
+  };
 };

@@ -6,17 +6,22 @@ import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
 
 @injectable()
-export default class System extends StoreModule {
+export default class SystemStore extends StoreModule {
   private $broadcastService;
-  constructor(@inject("BroadcastService") $broadcastService) {
+  constructor(
+    @inject("$config") $config,
+    @inject("BroadcastService") $broadcastService,
+  ) {
     super();
-    this.setName("System")
-      .addState(state)
+
+    this.$broadcastService = $broadcastService;
+
+    this.setName("system")
+      .addState(state($config))
       .addActions(actions)
       .addMutations(mutations)
-      .addGetters(getters);
-    this.$broadcastService = $broadcastService;
-    this.listenForVersionChanges();
+      .addGetters(getters)
+      .listenForVersionChanges();
   }
 
   listenForVersionChanges() {

@@ -6,10 +6,10 @@ import StoreModule from "varie/lib/state/StoreModule";
 import { injectable, inject, unmanaged } from "inversify";
 
 @injectable()
-export default class Subscription extends StoreModule {
+export default class SubscriptionStore extends StoreModule {
   constructor(@inject("SubscriptionService") subscriptionService) {
     super();
-    this.setName("Subscription")
+    this.setName("subscriptions")
       .addState(state)
       .addActions(actions(subscriptionService))
       .addMutations(mutations)

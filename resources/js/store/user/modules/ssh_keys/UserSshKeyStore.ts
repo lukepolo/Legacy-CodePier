@@ -2,16 +2,16 @@ import state from "./state";
 import actions from "./actions";
 import getters from "./getters";
 import mutations from "./mutations";
-import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
+import { injectable } from "inversify";
 
 @injectable()
-export default class User extends StoreModule {
-  constructor(@inject("UserService") userService) {
+export default class UserSshKeyStore extends StoreModule {
+  constructor() {
     super();
-    this.setName("User")
+    this.setName("ssh-keys")
       .addState(state)
-      .addActions(actions(userService))
+      .addActions(actions)
       .addMutations(mutations)
       .addGetters(getters);
   }

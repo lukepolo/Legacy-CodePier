@@ -4,14 +4,18 @@ import getters from "./getters";
 import mutations from "./mutations";
 import StoreModule from "varie/lib/state/StoreModule";
 import { injectable, inject, unmanaged } from "inversify";
+import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 
 @injectable()
-export default class Subscriptions extends StoreModule {
-  constructor(@inject("SubscriptionService") subscriptionService) {
+export default class TwoFactorStore extends StoreModule {
+  constructor(
+    @inject("TwoFactorAuthentication")
+    twoFactorAuthentication: TwoFactorAuthentication,
+  ) {
     super();
-    this.setName("Subscriptions")
+    this.setName("two-factor")
       .addState(state)
-      .addActions(actions(subscriptionService))
+      .addActions(actions(twoFactorAuthentication))
       .addMutations(mutations)
       .addGetters(getters);
   }

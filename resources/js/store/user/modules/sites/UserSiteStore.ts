@@ -6,10 +6,10 @@ import { injectable, inject } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class Sites extends RestStoreModule {
+export default class UserSiteStore extends RestStoreModule {
   constructor(@inject("SiteService") $siteService) {
     super($siteService, "site");
-    this.setName("Sites")
+    this.setName("sites")
       .addState(state)
       .addActions(actions($siteService))
       .addMutations(mutations)
