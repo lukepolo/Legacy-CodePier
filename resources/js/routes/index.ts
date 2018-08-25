@@ -6,6 +6,8 @@
 */
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
+import Dashboard from "@views/dashboard/Dashboard.vue";
+
 export default function($router: RouterInterface) {
   $router.route("/provider/:provider/callback", "oauth");
 
@@ -14,7 +16,7 @@ export default function($router: RouterInterface) {
     .layout("authed")
     .middleware(["Auth"])
     .group(() => {
-      $router.route("/", "dashboard/Dashboard").setName("dashboard");
+      $router.route("/", Dashboard).setName("dashboard");
 
       $router.area("user/AccountArea").group(() => {
         $router.route("my-account", "user/MyAccount").setName("my_account");
