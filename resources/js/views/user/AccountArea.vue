@@ -23,13 +23,14 @@
 <script>
 import Vue from "vue";
 import AccountNav from "./components/AccountNav";
+const SubscriptionStore = () =>
+  import("@store/subscriptions/SubscriptionStore");
+
 export default Vue.extend({
   components: {
     AccountNav,
   },
   beforeRouteEnter(to, from, next) {
-    const SubscriptionStore = () =>
-      import("@store/subscriptions/SubscriptionStore");
     SubscriptionStore().then((store) => {
       $app.make("$store").registerStore(store.default);
       next();
