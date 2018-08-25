@@ -6,10 +6,14 @@
 */
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
+import UserViews from "@views/user";
+import LoginViews from "@views/login";
 import Dashboard from "@views/dashboard/Dashboard.vue";
 
+import ErrorViews from "@views/errors";
+
 export default function($router: RouterInterface) {
-  $router.route("/provider/:provider/callback", "oauth");
+  $router.route("/provider/:provider/callback", LoginViews.Oauth);
 
   // AUTHED
   $router
@@ -18,38 +22,28 @@ export default function($router: RouterInterface) {
     .group(() => {
       $router.route("/", Dashboard).setName("dashboard");
 
-      $router.area("user/AccountArea").group(() => {
-        $router.route("my-account", "user/MyAccount").setName("my_account");
+      $router.area(UserViews.AccountArea).group(() => {
+        $router.route("my-account", UserViews.MyAccount).setName("my_account");
         $router
-          .route("subscription", "user/Subscription")
+          .route("subscription", UserViews.Subscription)
           .setName("user_subscription");
-        $router.route("ssh-keys", "user/SshKeys").setName("user_ssh_keys");
         $router
-          .route("server-providers", "user/ServerProviders")
-          .setName("user_server_providers");
-        $router
-          .route("source-control", "user/SourceControlProviders")
-          .setName("user_source_control_providers");
-        $router
-          .route("notification", "user/NotificationSettings")
-          .setName("user_notification_settings");
-        $router
-          .route("privacy", "user/PrivacySettings")
+          .route("privacy", UserViews.PrivacySettings)
           .setName("user_privacy");
       });
     });
 
   // PUBLIC
-  $router.area("login/AuthArea").group(() => {
-    $router.route("login", "login/Login").setName("login");
-    $router.route("register", "login/Register").setName("register");
+  $router.area(LoginViews.AuthArea).group(() => {
+    $router.route("login", LoginViews.Login).setName("login");
+    $router.route("register", LoginViews.Register).setName("register");
     $router
-      .route("forgot-password", "login/ForgotPassword")
+      .route("forgot-password", LoginViews.Register)
       .setName("forgotPassword");
     $router
-      .route("reset-password", "login/ResetPassword")
+      .route("reset-password", LoginViews.ResetPassword)
       .setName("resetPassword");
   });
 
-  $router.route("*", "errors/404");
+  $router.route("*", ErrorViews.Error404);
 }
