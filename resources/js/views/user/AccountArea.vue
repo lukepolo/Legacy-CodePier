@@ -22,7 +22,8 @@
 
 <script>
 import Vue from "vue";
-import AccountNav from "./components/AccountNav";
+import AccountNav from "./components/AccountNav.vue";
+
 const SubscriptionStore = () =>
   import("@store/subscriptions/SubscriptionStore");
 
