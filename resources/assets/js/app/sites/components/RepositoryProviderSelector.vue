@@ -1,26 +1,14 @@
 <template>
     <div>
-        <div class="flex" v-if="!workFlowCompleted">
-            <div class="flex--grow">
-                <h2>Choose Repository</h2>
-                <h4 class="secondary">&nbsp;</h4>
-            </div>
-
-            <div class="heading--btns">
-                <delete-site :site="site"></delete-site>
-            </div>
-        </div>
-
-        <hr v-if="!workFlowCompleted">
 
         <div class="providers grid-4">
             <label v-for="repository_provider in repository_providers">
                 <template v-if="isConnected(repository_provider.id)">
                     <input
-                            name="user_repository_provider_id"
-                            type="radio"
-                            v-model="user_provider"
-                            :value="isConnected(repository_provider.id).id"
+                        name="user_repository_provider_id"
+                        type="radio"
+                        v-model="user_provider"
+                        :value="isConnected(repository_provider.id).id"
                     >
                 </template>
 

@@ -3,7 +3,7 @@
 .footer {
   flex: 0 0 auto;
   display: flex;
-  border-top: 1px solid $color-divider;
+  border-top: 1px solid $color-divider-inverse;
   padding: $spacing*4;
   position: relative;
 
@@ -27,7 +27,7 @@
       }
 
       a {
-        color: $color-text-primary;
+        color: $color-text-inverse-primary;
 
         &:active,
         &:focus,

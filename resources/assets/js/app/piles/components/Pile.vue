@@ -54,22 +54,17 @@
                 <h4>No Sites</h4>
             </template>
 
-            <div :class="{ 'disabled' : !siteCreateEnabled }" class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
+            <div :class="{ 'disabled' : !siteCreateEnabled }" class="group--item-link" v-if="pile.id" @click="createSite">
                 <span class="icon-plus"></span> Create New Site
             </div>
-
-            <site-form :pile="pile" :adding.sync="addingSite"></site-form>
         </div>
     </div>
 </template>
 
 <script>
-import SiteForm from "./../../../components/SiteForm";
+
 export default {
   props: ["pile", "index"],
-  components: {
-    SiteForm
-  },
   data() {
     return {
       form: this.createForm({
@@ -95,6 +90,9 @@ export default {
           this.$refs.pile_name.focus();
         }
       });
+    },
+    createSite() {
+        this.$router.push({ name : 'create_site', params : { pile_id : this.pile.id }})
     },
     cancel() {
       if (!this.pile.id) {

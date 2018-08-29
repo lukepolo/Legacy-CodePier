@@ -33,7 +33,7 @@
 .section-header {
   flex: 0 0 auto;
   text-align: center;
-  background-color: rgba($black, 0.1);
+  background-color: rgba($gray-dark, 0.1);
   border-bottom: 1px solid $color-divider;
   padding: $spacing;
   position: relative;
@@ -116,10 +116,10 @@
       padding: $spacing;
 
       &:hover {
-        color: $color-text-accent;
+        color: $color-text-link;
 
         + .icon-arrow-down {
-          color: $color-text-accent;
+          color: $color-text-link;
         }
       }
 
@@ -136,7 +136,7 @@
       &:before {
         content: "";
         display: block;
-        border: 15px solid $black;
+        border: 15px solid $gray-dark;
         border-top: none;
         border-left-color: transparent;
         border-right-color: transparent;

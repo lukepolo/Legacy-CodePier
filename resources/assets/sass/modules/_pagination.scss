@@ -15,12 +15,12 @@
     &:hover:not(.pagination--item-ellipsis):not(.active):not(.disabled) {
       cursor: pointer;
       color: $blue;
-      background-color: $black;
+      background-color: $gray-dark;
     }
 
     &.active {
-      color: $color-primary;
-      border-bottom-color: $color-primary;
+      color: $color-text-link;
+      border-bottom-color: $color-text-link;
       border-radius: 0;
     }
 

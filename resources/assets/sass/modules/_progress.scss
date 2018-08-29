@@ -1,0 +1,106 @@
+.progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  color: rgba($color-text-primary, 0.4);
+  margin: 0;
+  //margin: 20px 15%;
+
+  &--item {
+    flex: 0 0 auto;
+    display: flex;
+    //flex-direction: column;
+    //justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &-divider {
+      //flex: 1 0 30px;
+      width: 30px;
+      //height: 4px;
+      //max-width: 150px;
+      //background-color: rgba($color-text-primary, .4);
+    }
+
+    &-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      border: 2px solid mix($color-text-primary, $black, 60%);
+      border-radius: 50%;
+    }
+
+    &-name {
+      border-bottom: 2px solid mix($color-text-primary, $black, 60%);
+      letter-spacing: 0.6px;
+      padding: 4px 20px 4px 30px;
+      margin: 0 0 0 -15px;
+      white-space: nowrap;
+    }
+
+    // Active Style
+    &:first-child {
+      .progress--item-number {
+        border-color: $color-state-neutral;
+        background-color: $color-state-neutral;
+        color: $color-text-primary;
+      }
+
+      .progress--item-name {
+        color: $color-text-primary;
+        border-color: $color-state-neutral;
+      }
+    }
+
+    // Completed Styles
+    &.completed {
+      .progress--item {
+        &-number {
+          background-color: $color-state-success;
+          border-color: $color-state-success;
+          color: $color-text-primary;
+          font-size: 0;
+
+          &:after {
+            content: "";
+            transform: scale(1.2);
+            border: 2px solid white;
+            width: 9px;
+            height: 16px;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+            position: relative;
+            top: -2px;
+            right: -1px;
+          }
+        }
+
+        &-name {
+          color: $color-text-primary;
+          border-color: $color-state-success;
+        }
+      }
+
+      + .progress--item-divider {
+        background-color: $color-text-primary;
+
+        + .progress--item:not(.completed) {
+          .progress--item-number {
+            border-color: $color-state-neutral;
+            background-color: $color-state-neutral;
+            color: $color-text-primary;
+          }
+
+          .progress--item-name {
+            color: $color-text-primary;
+            border-color: $color-state-neutral;
+          }
+        }
+      }
+    }
+  }
+}

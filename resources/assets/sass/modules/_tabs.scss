@@ -8,7 +8,7 @@
 .tab-list {
   flex: 0 1 250px;
   list-style: none;
-  border-right: 1px solid $black;
+  border-right: 1px solid $gray-dark;
   margin: $spacing 0px;
   padding: $spacing;
 }
@@ -45,7 +45,7 @@
 
     &.active {
       a {
-        border-bottom-color: $color-primary;
+        border-bottom-color: $color-text-link;
       }
     }
   }
@@ -58,7 +58,7 @@
   .nav-tabs {
     flex: 0 0 230px;
     flex-direction: column;
-    border-right: 1px solid $black;
+    border-right: 1px solid $gray-dark;
     margin: 0px $spacing * 2 0px 0px;
 
     li {
@@ -76,7 +76,7 @@
 
       &.router-link-active {
         a {
-          color: $color-primary;
+          color: $color-text-link;
 
           &:after {
             content: "";
@@ -96,7 +96,7 @@
             right: -15px;
             top: 50%;
             transform: translateY(-50%);
-            border-left: 15px solid $black;
+            border-left: 15px solid $gray-dark;
             border-top: 15px solid transparent;
             border-bottom: 15px solid transparent;
           }
@@ -147,7 +147,7 @@
   &.router-link-active > a {
     color: $color-text-primary;
     font-weight: 400;
-    border-color: $color-accent;
+    border-color: $color-text-accent;
   }
 }
 

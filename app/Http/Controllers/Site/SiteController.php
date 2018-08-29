@@ -74,16 +74,21 @@ class SiteController extends Controller
     public function store(SiteRequest $request)
     {
         $isDomain = is_domain($request->get('domain'));
+        $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
 
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'domain'              => $isDomain ? $request->get('domain') : 'default',
-            'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
+            'pile_id'             => $request->get('pile_id'),
             'workflow'            => \Auth::user()->workflow ? null : [],
             'wildcard_domain'     => $request->get('wildcard_domain', 0),
-            'keep_releases'       => 10,
-            'zero_downtime_deployment' => true,
+            'domain'              => $isDomain ? $request->get('domain') : 'default',
+            'type'                        => $request->get('type'),
+            'branch'                      => $request->get('branch'),
+            'framework'                   => $request->get('framework'),
+            'repository'                  => $request->get('repository'),
+            'web_directory'               => $request->get('web_directory'),
+            'user_repository_provider_id' => $userRepositoryProvider->id,
         ]);
 
         return response()->json($site);

@@ -6,6 +6,7 @@
 
         <section id="middle" class="section-column" :class="{'in-workflow' : workFlowCompleted !== true}">
 
+            <site-progress :createdSite="true" :siteSetup="workFlowCompleted === true" :provisionedInfrastructure="siteServers && siteServers.length > 0"></site-progress>
             <site-header></site-header>
 
             <div class="section-content">
@@ -258,7 +259,12 @@ export default {
     },
     workFlowName() {
       return this.workFlowCompleted.replace("site_", "").replace("_", " ");
-    }
+    },
+    siteServers() {
+      return this.$store.getters["user_site_servers/getServers"](
+          this.$route.params.site_id
+      );
+    },
   }
 };
 </script>
