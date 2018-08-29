@@ -35,8 +35,9 @@
                     </ul>
                 </div>
             </div>
-            <plans :selectedPlan.sync="form.plan" title="First Mate" type="firstmate"></plans>
-            <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
+            >> {{ form.plan }} <<
+            <plans v-model="form.plan" title="First Mate" type="firstmate"></plans>
+            <plans v-model="form.plan" title="Captain" type="captain"></plans>
         </div>
 
         <form @submit.prevent="createSubscription" method="post">

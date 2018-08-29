@@ -1,4 +1,5 @@
 <template>
+
     <div class="pricing--item" :class="{ selected : isActive }">
         <div class="pricing--header">
             <div class="pricing--header-name">{{ title }}</div>
@@ -7,7 +8,7 @@
             <template v-if="type !== 'captain'">
                 <div class="flyform--group-radio" v-for="plan in plans">
                     <label>
-                        <input v-model="form.plan" type="radio" name="plan" :value="plan.plan_id">
+                        <input type="radio" name="plan" :value="plan.id">
                         <span class="icon"></span>
                         ${{ (plan.amount/ 100) }} / {{ plan.interval }}
                         <strong v-if="plan.metadata.save">
@@ -63,27 +64,27 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
-  props: ["selectedPlan", "title", "type"],
-  data() {
-    return {
-      form: {
-        plan: this.selectedPlan,
-      },
-    };
-  },
+  props: ["title", "type"],
+  // data() {
+  //   return {
+  //     form: {
+  //       plan: this.selectedPlan,
+  //     },
+  //   };
+  // },
   watch: {
-    selectedPlan: function() {
-      this.$set(this.form, "plan", this.selectedPlan);
-    },
-    "form.plan": function() {
-      this.$emit("update:selectedPlan", this.form.plan);
-    },
+    // selectedPlan: function() {
+    //   this.$set(this.form, "plan", this.selectedPlan);
+    // },
+    // "form.plan": function() {
+    //   this.$emit("update:selectedPlan", this.form.plan);
+    // },
   },
   computed: {
     isActive() {
       if (this.userSubscription) {
         return this.plans.find(
-          (plan) => plan.id === this.userSubscription.active_plan,
+          (plan) => plan.plan_id === this.userSubscription.active_plan,
         );
       }
     },
