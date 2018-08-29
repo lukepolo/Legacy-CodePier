@@ -44,18 +44,6 @@ class ServerFeatureService implements ServerFeatureServiceContract
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getAllFeatures()
-    {
-        return collect(array_merge_recursive(
-            $this->getBaseFeatures()->toArray(),
-            $this->getLanguages()->toArray(),
-            $this->getFrameworks()->toArray()
-        ));
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function getBaseFeatures()
     {
         return Cache::tags('app.services')->rememberForever('availableFeatures', function () {

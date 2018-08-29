@@ -181,7 +181,8 @@ class User extends Authenticatable
             $sites = $this->currentPile
                 ->sites()
                 ->with(['servers.commands' =>function ($query) {
-                    $query->where('failed', 0)
+                    $query->with('command')
+                        ->where('failed', 0)
                         ->where('completed', 0);
                 }])
                 ->get();

@@ -109,7 +109,7 @@ trait Laravel
      *
      * @order 400
      *
-     * @not_default true
+     * @not_default
      */
     public function laravelTerminateRestartHorizon()
     {
@@ -123,7 +123,7 @@ trait Laravel
      *
      * @order 410
      *
-     * @not_default true
+     * @not_default
      */
     public function laravelRestartWorkers()
     {

@@ -37,11 +37,8 @@ class SystemService implements SystemServiceContract
 
     const LANGUAGES = [
         'PHP' => 'Languages\PHP\PHP',
+        'Swift' => 'Languages\Swift\Swift',
         'Ruby' => 'Languages\Ruby\Ruby',
-    ];
-
-    const FRAMEWORKS = [
-        'Languages\PHP\Frameworks\Laravel',
     ];
 
     const WEB_SERVER = 'web';
