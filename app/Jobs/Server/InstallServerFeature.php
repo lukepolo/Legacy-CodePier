@@ -42,7 +42,20 @@ class InstallServerFeature implements ShouldQueue
 
         $serverFeatureService = app(ServerFeatureServiceContract::class);
 
-        $this->makeCommand($server, $server, null, 'Installing '.$serverFeatureService->getBaseFeatures()->get($service)->get($feature)->get('name').' on server');
+        switch ($service) {
+            case str_contains($service, 'Languages') && str_contains($service, 'Frameworks'):
+                $framework = str_after($service, '\\Frameworks\\');
+                $language = str_before(str_replace('Languages\\', '', $service), '\\Frameworks\\');
+                $featureObject = $serverFeatureService->getFrameworks()->get($language)->get($framework)->get($feature);
+                break;
+            case str_contains($service, 'Languages'):
+                $language = substr($service, strrpos($service, '\\') + 1);
+                $featureObject = $serverFeatureService->getLanguages()->get($language)->get($feature);
+                break;
+            default:
+                $featureObject = $serverFeatureService->getBaseFeatures()->get($service)->get($feature);
+        }
+        $this->makeCommand($server, $server, null, 'Installing '.$featureObject->get('name').' on server');
     }
 
     /**

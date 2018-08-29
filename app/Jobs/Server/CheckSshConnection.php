@@ -62,7 +62,7 @@ class CheckSshConnection implements ShouldQueue
         if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
             dispatch(
                 (new self($this->server))
-                    ->delay(20)
+                    ->delay(5)
                     ->onQueue(config('queue.channels.server_commands'))
             );
 

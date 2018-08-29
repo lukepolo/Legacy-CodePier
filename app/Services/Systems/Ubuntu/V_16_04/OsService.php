@@ -83,6 +83,17 @@ class OsService
         $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, '');
     }
 
+    public function addAutoRemovalCronJob()
+    {
+        $this->connectToServer();
+
+        $cronJob = 'DEBIAN_FRONTEND=noninteractive apt autoremove -y';
+
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
+
+        $this->createCronJob($this->server, $cronJob, 'root');
+    }
+
     /**
      *  @description SWAP is a virtual space to help guard against memory errors in applications.
      *
