@@ -16,12 +16,12 @@
 
             <div class="grid-2">
                 <div class="flyform--group-checkbox">
-                    <label>
-                        <input type="checkbox" v-model="form.zero_downtime_deployment" name="zero_downtime_deployment" value="1">
+
+                    <label :class="{ disabled : site.type === 'Swift' }">
+                        <input type="checkbox" v-model="form.zero_downtime_deployment" name="zero_downtime_deployment" value="1" :disabled="site.type === 'Swift'">
                         <span class="icon"></span>
                         Zero Downtime Deployment
-                        <tooltip message="Your app can be deployed in zero d`owntime deployment, we suggest you go for it!"
-                                 size="medium">
+                        <tooltip message="Your app can be deployed in zero d`owntime deployment, we suggest you go for it!" size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                     </label>

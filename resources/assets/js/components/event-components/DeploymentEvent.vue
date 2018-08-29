@@ -38,18 +38,18 @@
                 </template>
             </drop-down-event>
         </div>
-        <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+        <div class="events--item-pile"><span class="icon-layers"></span> {{ pile.name }}</div>
         <div class="events--item-site">
             <span class="icon-browser"></span>
-            {{ getSite(event.site_id, 'name') }}
+            {{ site.name }}
         </div>
 
         <div class="events--item-commit">
             <a target="_blank" :href="repositoryUrl" v-if="event.git_commit"><span class="icon-github"></span> </a>
 
-            <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } " v-if="event.status === 'Completed'">
-                Rollback
-            </confirm>
+            <!--<confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } " v-if="event.status === 'Completed'">-->
+                <!--Rollback-->
+            <!--</confirm>-->
         </div>
         <div class="events--item-time">
             <time-ago :time="event.created_at"></time-ago>
@@ -81,17 +81,22 @@ export default {
     },
   },
   computed: {
+    site() {
+      return this.getSite(this.event.site_id);
+    },
+    pile() {
+      return this.getPile(this.site.pile_id);
+    },
     repositoryUrl() {
-      let site = this.getSite(this.event.site_id);
       let repositoryProvider = this.getRepositoryProvider(
-        site.user_repository_provider_id,
+        this.site.user_repository_provider_id,
       );
 
       return (
         "https://" +
         repositoryProvider.url +
         "/" +
-        site.repository +
+        this.site.repository +
         "/" +
         repositoryProvider.commit_url +
         "/" +

@@ -13,7 +13,7 @@ class HTML
      *
      * @order 300
      *
-     * @not_default true
+     * @not_default
      */
     public function installNodeDependencies()
     {
@@ -36,7 +36,7 @@ class HTML
      *
      * @order 301
      *
-     * @not_default true
+     * @not_default
      */
     public function installNodeDependenciesWithYarn()
     {

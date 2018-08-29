@@ -72,7 +72,6 @@ mix
     vue: "Vue",
     lodash: "_",
     ace: "brace",
-    clipboard: "Clipboard",
     jquery: ["$", "jQuery"],
   })
   .sourceMaps()

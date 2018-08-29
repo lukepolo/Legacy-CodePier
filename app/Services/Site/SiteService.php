@@ -8,6 +8,7 @@ use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
+use App\Services\DeploymentServices\Swift\Swift;
 use App\Services\Systems\SystemService;
 use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepFailed;
@@ -35,6 +36,7 @@ class SiteService implements SiteServiceContract
         'php' => PHP::class,
         'html' => HTML::class,
         'ruby' => Ruby::class,
+        'swift' => Swift::class,
     ];
 
     /**

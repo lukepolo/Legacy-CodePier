@@ -141,7 +141,7 @@ trait DeployTrait
      *
      * @order 370
      *
-     * @not_default true
+     * @not_default
      */
     public function restartDaemons()
     {
@@ -155,7 +155,7 @@ trait DeployTrait
      *
      * @order 375
      *
-     * @not_default true
+     * @not_default
      */
     public function restartWorkers()
     {

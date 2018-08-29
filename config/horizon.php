@@ -114,6 +114,13 @@ return [
                 'processes' => 30,
                 'tries' => 1,
             ],
+            'check_ssh_connection' => [
+                'connection' => 'check-ssh-connections',
+                'queue' => ['check_ssh_connection'],
+                'balance' => 'auto',
+                'processes' => 10,
+                'tries' => 1,
+            ],
         ],
 
         'local' => [
@@ -157,6 +164,13 @@ return [
                 'queue' => ['server_provisioning'],
                 'balance' => 'auto',
                 'processes' => 3,
+                'tries' => 1,
+            ],
+            'check_ssh_connection' => [
+                'connection' => 'check-ssh-connections',
+                'queue' => ['check_ssh_connection'],
+                'balance' => 'auto',
+                'processes' => 1,
                 'tries' => 1,
             ],
         ],

@@ -53,14 +53,14 @@ class CheckServerStatus implements ShouldQueue
                 $serverService->saveInfo($this->server);
                 dispatch(
                     (new CheckSshConnection($this->server))
-                        ->onQueue(config('queue.channels.server_commands'))
+                        ->onQueue(config('queue.channels.check_ssh_connection'))
                 );
             } else {
                 if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
                     dispatch(
                         (new self($this->server, $this->provision))
                             ->delay(10)
-                            ->onQueue(config('queue.channels.server_commands'))
+                            ->onQueue(config('queue.channels.check_ssh_connection'))
                     );
 
                     return;

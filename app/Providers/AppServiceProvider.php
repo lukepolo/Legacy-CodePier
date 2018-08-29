@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\WorkerRepository;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -18,6 +19,7 @@ use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Artisan;
 use App\Observers\Server\ServerObserver;
 use App\Observers\Site\LifelineObserver;
 use App\Models\Site\SiteServerDeployment;
@@ -51,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         ServerCommand::observe(ServerCommandObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
 
-        // TODO - what are these suppose to be doing?
+        // TODO - these should move into the oauth provider
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_at'))) {
                 $provider->expires_at = Carbon::now()->addSeconds($expiresIn);
@@ -77,6 +79,10 @@ class AppServiceProvider extends ServiceProvider
         if (\Auth::check() && ! \Auth::user()->processing) {
             config('sentry.user_context', false);
         }
+
+        if (config('app.env') === 'local') {
+            Artisan::call('clear:app-caches');
+        }
     }
 
     /**
@@ -97,5 +103,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Horizon::routeSlackNotificationsTo(config('services.slack.horizon'));
+
+
+
+        $this->app->bind(
+            WorkerRepository::class,
+            WorkerRepository::class
+        );
     }
 }
