@@ -419,12 +419,12 @@ class User extends Authenticatable
             'switchingPlans'       => $this->onTrial(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
-            'isCanceled'            => ! empty($this->ends_at),
             'isOnTrail'            => $this->onGenericTrial(),
             'subscriptionEnds'     => $this->getNextBillingCycle(),
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
+            'isCanceled'            => ! empty($this->subscription()->ends_at),
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }

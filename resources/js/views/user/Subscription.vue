@@ -4,7 +4,6 @@
             <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
                 Your free trial ends on <strong>{{ moment(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
-
             <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
                 Your subscription has been canceled and will end on {{ moment(userSubscription.ends_at).format('l') }}
             </div>
@@ -15,14 +14,14 @@
         </div>
 
         <div class="pricing pricing-inapp">
-            <div class="pricing--item" :class="{ selected : !this.userSubscription }">
+            <div class="pricing--item" :class="{ selected : !userSubscription }">
                 <div class="pricing--header">
                     <div class="pricing--header-name">Riggers</div>
                 </div>
                 <div class="pricing--features">
                     <div class="flyform--group-radio">
                         <label>
-                            <input type="radio" name="plan" value="cancel" v-model="form.plan">
+                            <input type="radio" name="plan" :value="userSubscription ? 'cancel' : null" v-model="form.plan">
                             <span class="icon"></span>
                             Free
                         </label>
@@ -35,7 +34,6 @@
                     </ul>
                 </div>
             </div>
-            >> {{ form.plan }} <<
             <plans v-model="form.plan" title="First Mate" type="firstmate"></plans>
             <plans v-model="form.plan" title="Captain" type="captain"></plans>
         </div>
@@ -69,7 +67,6 @@
 
                 </div>
                 <div class="grid--item">
-
                     <base-input label="Coupon Code" name="coupon" v-model="form.coupon"></base-input>
 
                     <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
@@ -91,12 +88,6 @@
                         <template v-else>
                             Select Plan
                         </template>
-                    </button>
-                </div>
-
-                <div class="flyform--footer-links" v-if="userSubscription">
-                    <button class="text-error" @click="cancelSubscription" v-if="!userSubscription.isCanceled">
-                        Cancel Subscription
                     </button>
                 </div>
             </div>
@@ -158,8 +149,6 @@ export default Vue.extend({
       if (this.userSubscription) {
         this.form.plan = this.userSubscription.active_plan;
         this.form.subscription = this.userSubscription.id;
-      } else {
-        this.form.plan = "cancel";
       }
     },
   },
@@ -217,9 +206,8 @@ export default Vue.extend({
         this.processing = true;
 
         return this.$store
-          .dispatch("user_subscription/patch", this.form)
+          .dispatch("user/subscription/update", this.form)
           .then(() => {
-            this.$store.dispatch("user_subscription/getInvoices");
             this.coupon = null;
             this.processing = false;
           })
@@ -248,12 +236,10 @@ export default Vue.extend({
     },
     cancelSubscription() {
       this.processing = true;
-
       this.$store
-        .dispatch("user_subscription/cancel", this.userSubscription.id)
+        .dispatch("user/subscription/cancel", this.userSubscription.id)
         .then(() => {
           this.processing = false;
-          this.$store.dispatch("user_subscription/getInvoices");
         });
     },
     downloadLink: function(invoice) {

@@ -8,7 +8,7 @@
             <template v-if="type !== 'captain'">
                 <div class="flyform--group-radio" v-for="plan in plans">
                     <label>
-                        <input type="radio" name="plan" :value="plan.id">
+                        <input type="radio" name="plan" :value="plan.plan_id" @input="$emit('input', $event.target.value)" :checked="value === plan.plan_id">
                         <span class="icon"></span>
                         ${{ (plan.amount/ 100) }} / {{ plan.interval }}
                         <strong v-if="plan.metadata.save">
@@ -64,22 +64,7 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
-  props: ["title", "type"],
-  // data() {
-  //   return {
-  //     form: {
-  //       plan: this.selectedPlan,
-  //     },
-  //   };
-  // },
-  watch: {
-    // selectedPlan: function() {
-    //   this.$set(this.form, "plan", this.selectedPlan);
-    // },
-    // "form.plan": function() {
-    //   this.$emit("update:selectedPlan", this.form.plan);
-    // },
-  },
+  props: ["value", "title", "type"],
   computed: {
     isActive() {
       if (this.userSubscription) {

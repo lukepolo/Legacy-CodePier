@@ -68,8 +68,12 @@ Route::group(['middleware' => [
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
-            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
+
+            Route::get('subscription', 'Subscription\UserSubscriptionController@index');
+            Route::post('subscription', 'Subscription\UserSubscriptionController@store');
+            Route::put('subscription', 'Subscription\UserSubscriptionController@update');
+            Route::delete('subscription', 'Subscription\UserSubscriptionController@destroy');
         });
     });
 
