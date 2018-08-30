@@ -30,6 +30,16 @@ export default function($router: RouterInterface) {
         $router
           .route("privacy", UserViews.PrivacySettings)
           .setName("user_privacy");
+        $router.route("ssh-keys", UserViews.SshKeys).setName("user_ssh_keys");
+        $router
+          .route("server-providers", UserViews.ServerProviders)
+          .setName("user_server_providers");
+        $router
+          .route("source-control-providers", UserViews.SourceControlProviders)
+          .setName("user_source_control_providers");
+        $router
+          .route("notification-settings", UserViews.NotificationSettings)
+          .setName("user_notification_settings");
       });
     });
 

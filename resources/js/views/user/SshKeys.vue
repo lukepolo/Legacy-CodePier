@@ -1,5 +1,9 @@
 <template>
-   <div>
-       Ssh keys
-   </div>
+    <div>
+        test
+    </div>
 </template>
+
+<script>
+export default {};
+</script>

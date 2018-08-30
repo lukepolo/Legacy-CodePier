@@ -4,6 +4,7 @@ import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 import AuthStore from "@store/auth/AuthStore";
 import UserStore from "@store/user/UserStore";
 import SystemStore from "@store/system/SystemStore";
+import SubscriptionStore from "@store/subscriptions/SubscriptionStore";
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ export default class StoreServiceProvider extends ServiceProvider {
     this.$store
       .registerStore(AuthStore)
       .registerStore(SystemStore)
-      .registerStore(UserStore);
+      .registerStore(UserStore)
+      .registerStore(SubscriptionStore);
   }
 }
