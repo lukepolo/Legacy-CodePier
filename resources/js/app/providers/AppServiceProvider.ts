@@ -14,6 +14,7 @@ import ServiceProvider from "varie/lib/support/ServiceProvider";
 import SiteService from "@app/services/SiteService";
 import SubscriptionService from "@app/services/SubscriptionService";
 import SiteServerService from "@app/services/Site/SiteServerService";
+import UserSshKeyService from "@app/services/User/UserSshKeyService";
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,7 @@ export default class AppProviderServiceProvider extends ServiceProvider {
 
     // USER SERVICES
     this.app.bind("UserService", UserService);
+    this.app.bind("UserSshKeyService", UserSshKeyService);
     this.app.bind("SubscriptionService", SubscriptionService);
 
     // ROUTING
