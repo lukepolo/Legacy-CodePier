@@ -36,10 +36,12 @@ class ServerMemory extends Notification
             }
         }
 
-        $this->slackChannel = $server->name;
-
         if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
+        }
+
+        if (empty($this->slackChannel)) {
+            $this->slackChannel = $server->name;
         }
     }
 
