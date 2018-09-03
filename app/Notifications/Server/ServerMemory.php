@@ -5,7 +5,7 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use App\Notifications\Channels\DiscordMessage;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -66,10 +66,10 @@ class ServerMemory extends Notification
         $memory = $this->memory;
 
         if (! empty($memory)) {
-            $mailMessage = (new MailMessage())->subject('Memory High : '.$server->name.' ('.$server->ip.')')->error();
+            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
             foreach ($memory as $name => $stats) {
-                $mailMessage->line($name.': '.$stats['used'].' / '.$stats['total']);
+                $mailMessage->line($name.': '.$this->getUsedStat($stats));
             }
 
             return $mailMessage;
@@ -91,12 +91,12 @@ class ServerMemory extends Notification
         if (! empty($memory)) {
             return (new SlackMessage())
                 ->error()
-                ->content('Memory High : '.$server->name.' ('.$server->ip.')')
+                ->content($this->getContent($server))
                 ->attachment(function ($attachment) use ($server, $memory) {
-                    $attachment = $attachment->title('Memory Allocation');
+                    $attachment = $attachment->title($this->getTitle());
                     foreach ($memory as $name => $stats) {
                         $attachment->fields([
-                            $name => $stats['used'].' / '.$stats['total'],
+                            $name => $this->getUsedStat($stats),
                         ]);
                     }
                 });
@@ -118,11 +118,11 @@ class ServerMemory extends Notification
         if (! empty($memory)) {
             return (new DiscordMessage())
                 ->error()
-                ->content('Memory High : '.$server->name.' ('.$server->ip.')')
+                ->content($this->getContent($server))
                 ->embed(function ($embed) use ($server, $memory) {
-                    $embed->title('Memory Allocation');
+                    $embed->title($this->getTitle());
                     foreach ($memory as $name => $stats) {
-                        $embed->field($name, $stats['used'].' / '.$stats['total']);
+                        $embed->field($name, $this->getUsedStat($stats));
                     }
                 });
         }
@@ -140,5 +140,20 @@ class ServerMemory extends Notification
             'server'=> $notifiable->id,
             'stats' => $notifiable->stats,
         ];
+    }
+
+    private function getContent(Server $server)
+    {
+        return 'Memory High : '.$server->name.' ('.$server->ip.')';
+    }
+
+    private function getTitle()
+    {
+        return 'Memory Allocation';
+    }
+
+    private function getUsedStat($stats)
+    {
+        return $stats['used'].' / '.$stats['total'];
     }
 }
