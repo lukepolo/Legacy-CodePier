@@ -57,4 +57,14 @@ class Lifeline extends Model
     {
         return $this->site->routeNotificationForSlack();
     }
+
+    /**
+     * Route notifications for the Discord channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForDiscord()
+    {
+        return $this->site->routeNotificationForDiscord();
+    }
 }
