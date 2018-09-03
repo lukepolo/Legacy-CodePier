@@ -31,7 +31,7 @@ class ServerMemory extends Notification
         $this->memory = [];
 
         foreach ($server->stats['memory'] as $memoryName => $stats) {
-            if (preg_replace('/[^0-9]/', '', $stats['free']) <= 0.2) {
+            if (($stats['free'] / $stats['total']) * 100 <= 10) {
                 $this->memory[$memoryName] = $stats;
             }
         }
@@ -94,11 +94,11 @@ class ServerMemory extends Notification
                 ->content($this->getContent($server))
                 ->attachment(function ($attachment) use ($server, $memory) {
                     $attachment = $attachment->title($this->getTitle());
+                    $fields = [];
                     foreach ($memory as $name => $stats) {
-                        $attachment->fields([
-                            $name => $this->getUsedStat($stats),
-                        ]);
+                        $fields[$name] = $this->getUsedStat($stats);
                     }
+                    $attachment->fields($fields);
                 });
         }
     }
@@ -154,6 +154,6 @@ class ServerMemory extends Notification
 
     private function getUsedStat($stats)
     {
-        return $stats['used'].' / '.$stats['total'];
+        return round(100 - ($stats['free'] / $stats['total']) * 100).'%';
     }
 }

@@ -152,6 +152,6 @@ class ServerDiskUsage extends Notification
 
     private function getUsedStat($stats)
     {
-        return $stats['used'].' / '.$stats['available'];
+        return $stats['percent'];
     }
 }
