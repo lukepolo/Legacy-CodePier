@@ -53,7 +53,6 @@ mix
     "axios",
     "brace",
     "clipboard",
-    "filesize-parser",
     "jquery",
     "laravel-echo",
     "lodash",

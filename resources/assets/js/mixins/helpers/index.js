@@ -12,7 +12,7 @@ import { isTag, hasClass } from "./elements";
 
 import { now, diff, parseDate } from "./date-time";
 
-import { getBytesFromString } from "./file-size";
+import { megaBytesToHumanReadable } from "./file-size";
 
 import { local } from "./environment";
 
@@ -52,8 +52,8 @@ Vue.mixin({
     handleApiError,
     isCommandRunning,
     serverHasFeature,
-    getBytesFromString,
     getRepositoryProvider,
+    megaBytesToHumanReadable,
   },
   computed: {
     local,
