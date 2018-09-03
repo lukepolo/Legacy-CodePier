@@ -5,8 +5,10 @@ namespace App\Notifications\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class SiteDeploymentSuccessful extends Notification
 {
@@ -35,7 +37,7 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function via($notifiable)
     {
-        return $this->siteDeployment->site->user->getNotificationPreferences(get_class($this), [SlackMessageChannel::class], ['broadcast']);
+        return $this->siteDeployment->site->user->getNotificationPreferences(get_class($this), [SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']);
     }
 
     /**
@@ -84,6 +86,37 @@ class SiteDeploymentSuccessful extends Notification
                             'Message' =>  $siteDeployment->commit_message,
                         ])
                     );
+            });
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $commit = '';
+        $site = $notifiable;
+        $url = url('site/'.$notifiable->id);
+        $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
+
+        if (! empty($notifiable->userRepositoryProvider)) {
+            $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
+            if (! empty($repositoryProvider)) {
+                $commit = 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit;
+            }
+        }
+
+        return (new DiscordMessage())
+            ->success()
+            ->content('Deployment Completed')
+            ->embed(function ($embed) use ($url, $commit, $site, $siteDeployment) {
+                $embed->title('('.$site->pile->name.') '.$site->domain, $url)
+                    ->field('Commit', $commit)
+                    ->field('Message', $siteDeployment->commit_message);
             });
     }
 }

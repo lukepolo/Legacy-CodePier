@@ -5,9 +5,11 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class ServerLoad extends Notification
 {
@@ -47,7 +49,7 @@ class ServerLoad extends Notification
      */
     public function via()
     {
-        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -98,6 +100,30 @@ class ServerLoad extends Notification
                 ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
                 ->attachment(function ($attachment) use ($server, $fields) {
                     $attachment->title('CPU Allocation across '.$this->cpus.' CPUs')->fields($fields);
+                });
+        }
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param Server $server
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($server)
+    {
+        if ($this->highLoad) {
+            return (new DiscordMessage())
+                ->error()
+                ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
+                ->embed(function ($embed) use ($server, $fields) {
+                    $embed->title('CPU Allocation across '.$this->cpus.' CPUs');
+
+                    foreach ($server->stats['loads'] as $mins => $load) {
+                        $load = round(($load / $this->cpus) * 100, 2);
+                        $embed->field($mins.' minutes ago', $load.'%');
+                    }
                 });
         }
     }

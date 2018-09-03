@@ -5,8 +5,11 @@ namespace App\Notifications\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\SlackMessageChannel;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class SiteDeploymentFailed extends Notification
 {
@@ -42,7 +45,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
+        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
     /**
@@ -86,6 +89,27 @@ class SiteDeploymentFailed extends Notification
                     ->fields([
                         'Error' => $error,
                     ]);
+            });
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $pile = $notifiable->pile->name;
+        $domain = $notifiable->domain;
+        $error = strlen($this->errorMessage) >= 1024 ? substr($this->errorMessage, 0, 1021).'...' : $this->errorMessage;
+        $url = url('site/'.$notifiable->id);
+
+        return (new DiscordMessage('Deployment Failed'))
+            ->error()
+            ->embed(function ($embed) use ($url, $error, $pile, $domain) {
+                $embed->title('('.$pile.') '.$domain, $url)->field('Error', $error);
             });
     }
 }

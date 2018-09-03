@@ -6,8 +6,8 @@
         </div>
 
         <div class="settings--options">
-            <template v-for="service in notification_setting.services">
-            <div class="flyform--group-checkbox" v-show="isConnected(service)">
+            <template v-for="service in connectedServices">
+            <div class="flyform--group-checkbox">
                 <label>
                     <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
                     <input
@@ -43,15 +43,9 @@ export default {
       if (service === "mail") {
         return true;
       }
-      let provider = _.find(this.notificationProviders, "name", service);
 
-      if (provider) {
-        return _.find(this.userNotificationProviders, {
-          notification_provider_id: provider.id
-        });
-      }
-
-      return false;
+      const provider = this.notificationProviders.find(provider => provider.provider_name === service)
+      return this.userNotificationProviders.filter(userProvider => userProvider.id === provider.id).length === 1
     }
   },
   computed: {
@@ -63,6 +57,9 @@ export default {
     },
     userNotificationProviders() {
       return this.$store.state.user_notification_providers.providers;
+    },
+    connectedServices() {
+      return this.notification_setting.services.filter(service => this.isConnected(service))
     }
   }
 };

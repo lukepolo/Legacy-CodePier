@@ -5,9 +5,11 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Channels\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class ServerMemory extends Notification
 {
@@ -48,7 +50,7 @@ class ServerMemory extends Notification
      */
     public function via()
     {
-        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -96,6 +98,31 @@ class ServerMemory extends Notification
                         $attachment->fields([
                             $name => $stats['used'].' / '.$stats['total'],
                         ]);
+                    }
+                });
+        }
+    }
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $server = $notifiable;
+        $memory = $this->memory;
+
+        if (! empty($memory)) {
+            return (new DiscordMessage())
+                ->error()
+                ->content('Memory High : '.$server->name.' ('.$server->ip.')')
+                ->embed(function ($embed) use ($server, $memory) {
+                    $embed->title('Memory Allocation');
+                    foreach ($memory as $name => $stats) {
+                        $embed->field($name, $stats['used'].' / '.$stats['total']);
                     }
                 });
         }
