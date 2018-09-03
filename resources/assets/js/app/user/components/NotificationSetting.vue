@@ -4,7 +4,6 @@
         <div class="settings--name">
             {{ notification_setting.name }} <small>{{ notification_setting.description }}</small>
         </div>
-
         <div class="settings--options">
             <template v-for="service in connectedServices">
             <div class="flyform--group-checkbox">
@@ -45,7 +44,12 @@ export default {
       }
 
       const provider = this.notificationProviders.find(provider => provider.provider_name === service)
-      return this.userNotificationProviders.filter(userProvider => userProvider.id === provider.id).length === 1
+        if(provider) {
+            return this.userNotificationProviders.find(userProvider => {
+                return userProvider.notification_provider_id === provider.id
+            })
+        }
+        return false;
     }
   },
   computed: {

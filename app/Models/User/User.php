@@ -235,7 +235,6 @@ class User extends Authenticatable
 
         if (! empty($userNotification)) {
             $services = [];
-
             in_array('slack', $userNotification->services) ? $services[] = SlackMessageChannel::class : null;
             in_array('discord', $userNotification->services) ? $services[] = DiscordMessageChannel::class : null;
         }
