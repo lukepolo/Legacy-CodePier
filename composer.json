@@ -38,6 +38,7 @@
     "socialiteproviders/gitlab": "^3.0.1",
     "socialiteproviders/slack": "^3.0",
     "spatie/laravel-newsletter": "^4.2",
+    "spatie/ssl-certificate": "^1.12",
     "stevenmaguire/oauth2-bitbucket": "^3.0",
     "toin0u/digitalocean-v2": "^2.2",
     "vinkla/hashids": "^5.0.0"
