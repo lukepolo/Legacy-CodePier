@@ -23,11 +23,17 @@ class NotificationProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            \App\Models\NotificationProvider::firstOrCreate([
+            $provider = \App\Models\NotificationProvider::firstOrNew([
                 'provider_name'   => $provider,
+
+            ]);
+
+            $provider->fill([
                 'name'            => $data['name'],
                 'connection_type' => $data['connection_type'],
             ]);
+
+            $provider->save();
         }
     }
 }
