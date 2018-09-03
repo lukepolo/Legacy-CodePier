@@ -113,8 +113,8 @@
                                         warning : parseInt(stats.percent) < 75 && parseInt(stats.percent) >= 50
                                     }"
                                     :style="{ width : stats.percent }"></div>
-                                <div class="stats-label stats-used">{{ stats.used }}</div>
-                                <div class="stats-label stats-available">{{ stats.available }}</div>
+                                <div class="stats-label stats-used">{{ megaBytesToHumanReadable(stats.used) }}</div>
+                                <div class="stats-label stats-available">{{ megaBytesToHumanReadable(stats.available) }}</div>
                             </div>
                         </div>
 
@@ -144,8 +144,8 @@
                                         width : getMemoryUsage(stats)+'%'
                                     }"
                                 ></div>
-                                <div class="stats-label stats-used">{{stats.used}}</div>
-                                <div class="stats-label stats-available">{{stats.total}}</div>
+                                <div class="stats-label stats-used">{{megaBytesToHumanReadable(stats.used)}}</div>
+                                <div class="stats-label stats-available">{{megaBytesToHumanReadable(stats.total)}}</div>
                             </div>
                         </div>
 
@@ -322,8 +322,8 @@ export default {
     },
     getMemoryUsage(stats) {
       return (
-        this.getBytesFromString(stats.used) /
-        this.getBytesFromString(stats.total) *
+          stats.used /
+          stats.total *
         100
       );
     }
