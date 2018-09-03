@@ -5,9 +5,11 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class ServerDiskUsage extends Notification
 {
@@ -46,7 +48,7 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return ! empty($this->disks) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return ! empty($this->disks) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -94,6 +96,31 @@ class ServerDiskUsage extends Notification
                         $attachment->fields([
                             $name => $stats['used'].' / '.$stats['available'],
                         ]);
+                    }
+                });
+        }
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $server = $notifiable;
+        $disks = $this->disks;
+
+        if (! empty($disks)) {
+            return (new DiscordMessage())
+                ->error()
+                ->content('High Disk Usage : '.$server->name.' ('.$server->ip.')')
+                ->embed(function ($embed) use ($server, $disks) {
+                    $embed->title('Disk Information');
+                    foreach ($disks as $name => $stats) {
+                        $embed->field($name, $stats['used'].' / '.$stats['available']);
                     }
                 });
         }

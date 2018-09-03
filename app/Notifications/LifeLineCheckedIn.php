@@ -6,9 +6,11 @@ use App\Models\Site\Lifeline;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class LifeLineCheckedIn extends Notification implements ShouldQueue
 {
@@ -29,7 +31,7 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
 
         $this->slackChannel = $this->lifeline->site->getSlackChannelName('lifelines');
 
-        return $this->lifeline->site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
+        return $this->lifeline->site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
     /**
@@ -52,7 +54,21 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
     public function toSlack()
     {
         return (new SlackMessage())
-            ->error()
+            ->success()
             ->content('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord()
+    {
+        return (new DiscordMessage())
+            ->success()
+            ->embed(function ($embed) {
+                $embed->title('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
+            });
     }
 }

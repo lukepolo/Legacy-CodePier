@@ -11,9 +11,14 @@
                        <template v-if="isConnected(provider.id)">
                            <div class="providers--item-footer-disconnect"><h4><span class="icon-check_circle"></span> Disconnect</h4></div>
                        </template>
-                       <template v-else>
+                       <template v-if="!isConnected(provider.id) && provider.connection_type === 'oauth'">
                            <div class="providers--item-footer-connect">
                                <h4><span class="icon-link"></span> Connect Account</h4>
+                           </div>
+                       </template>
+                       <template v-if="!isConnected(provider.id) && provider.connection_type !== 'oauth'">
+                           <div class="providers--item-footer-connect">
+                               <notification-provider-form :adding.sync="adding_provider[provider.id]" :provider="provider"></notification-provider-form>
                            </div>
                        </template>
                    </div>
@@ -40,9 +45,17 @@
 
 <script>
 import NotificationGroup from "./../components/NotificationGroup";
+import NotificationProviderForm from "../components/NotificationProviderForm";
+
 export default {
   components: {
-    NotificationGroup
+    NotificationGroup,
+    NotificationProviderForm
+  },
+  data() {
+    return {
+      adding_provider: {}
+    }
   },
   computed: {
     notification_settings() {
@@ -60,11 +73,15 @@ export default {
   },
   methods: {
     connectProvider(provider) {
-      window.location.replace(
-        this.action("AuthOauthController@newProvider", {
-          provider: provider.provider_name
-        })
-      );
+      if (provider.connection_type === 'oauth') {
+        window.location.replace(
+          this.action("AuthOauthController@newProvider", {
+            provider: provider.provider_name
+          })
+        );
+      } else {
+        Vue.set(this.adding_provider, provider.id, true);
+      }
     },
     isConnected: function(notification_provider_id) {
       if (
