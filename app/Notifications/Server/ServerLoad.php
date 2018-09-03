@@ -61,19 +61,14 @@ class ServerLoad extends Notification
      */
     public function toMail($server)
     {
-        $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
-
         if ($this->highLoad) {
-            $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
+            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
             foreach ($this->server->stats['loads'] as $mins => $load) {
-                $load = round(($load / $this->cpus) * 100, 2);
-
-                $mailMessage
-                    ->line($load.'% '.$mins.' minutes ago');
+                $mailMessage->line(`{$this->calculateLoad($load)} {$this->minsAgo($mins)}`);
             }
 
-            $mailMessage->line('Across '.$this->cpus.' CPUs');
+            $mailMessage->line($this->getTitle());
 
             return $mailMessage;
         }
@@ -88,18 +83,17 @@ class ServerLoad extends Notification
      */
     public function toSlack($server)
     {
-        $fields = [];
-        foreach ($server->stats['loads'] as $mins => $load) {
-            $load = round(($load / $this->cpus) * 100, 2);
-            $fields[$mins.' minutes ago'] = $load.'%';
-        }
-
         if ($this->highLoad) {
             return (new SlackMessage())
                 ->error()
-                ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
-                ->attachment(function ($attachment) use ($server, $fields) {
-                    $attachment->title('CPU Allocation across '.$this->cpus.' CPUs')->fields($fields);
+                ->content($this->getContent($server))
+                ->attachment(function ($attachment) use ($server) {
+                    $fields = [];
+                    foreach ($server->stats['loads'] as $mins => $load) {
+                        $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
+                    }
+
+                    $attachment->title($this->getTitle())->fields($fields);
                 });
         }
     }
@@ -116,13 +110,11 @@ class ServerLoad extends Notification
         if ($this->highLoad) {
             return (new DiscordMessage())
                 ->error()
-                ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
-                ->embed(function ($embed) use ($server, $fields) {
-                    $embed->title('CPU Allocation across '.$this->cpus.' CPUs');
-
+                ->content($this->getContent($server))
+                ->embed(function ($embed) use ($server) {
+                    $embed->title($this->getTitle());
                     foreach ($server->stats['loads'] as $mins => $load) {
-                        $load = round(($load / $this->cpus) * 100, 2);
-                        $embed->field($mins.' minutes ago', $load.'%');
+                        $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
                     }
                 });
         }
@@ -140,5 +132,25 @@ class ServerLoad extends Notification
             'server'=> $server->id,
             'stats' => $server->stats,
         ];
+    }
+
+    private function getTitle()
+    {
+        return 'CPU Allocation across '.$this->cpus.' CPUs';
+    }
+
+    private function getContent(Server $server)
+    {
+        return 'High CPU Usage : '.$server->name.' ('.$server->ip.')';
+    }
+
+    private function calculateLoad($load)
+    {
+        return round(($load / $this->cpus) * 100, 2).'%';
+    }
+
+    private function minsAgo($mins)
+    {
+        return $mins.' minutes ago';
     }
 }
