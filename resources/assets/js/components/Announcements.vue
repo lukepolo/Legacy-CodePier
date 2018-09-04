@@ -9,6 +9,7 @@
                 <h4>Vapor for Swift!</h4>
                 <li>We have released our initial take on using Vapor! Give it a go and let us know if we missed anything.</li>
                 <li>Discord Notification Provider! You can now use discord for your notifications!</li>
+                <li>For subscribers we now check if they have an invalid / expiring SSL certificate daily! </li>
             </ul>
 
             <h2>Fixes</h2>

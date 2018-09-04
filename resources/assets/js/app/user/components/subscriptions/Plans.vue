@@ -37,14 +37,11 @@
                 <hr>
                 <ul>
                     <li><strong>Priority Support</strong></li>
-                    <li><strong>Unlimited</strong> Sites</li>
                     <li><strong>Unlimited</strong> Servers</li>
-                    <li><strong>Unlimited</strong> Deployments</li>
-                    <li>Multiple Server Types</li>
-                    <li>Buoys (1 Click Apps)</li>
-                    <li>Server Monitoring</li>
+                    <li>Everything in First Mate</li>
                     <li>Teams</li>
                     <li>API Access</li>
+                    <li>100GB of Database Backups</li>
 
                 </ul>
             </template>
@@ -52,11 +49,14 @@
                 <hr>
                 <ul>
                     <li><strong>Unlimited</strong> Sites</li>
+                    <li>Everything in Riggers</li>
                     <li>30 Servers</li>
-                    <li><strong>Unlimited</strong> Deployments</li>
                     <li>Multiple Server Types</li>
-                    <li>Buoys (1 Click Apps)</li>
                     <li>Server Monitoring</li>
+                    <li>15GB of Database Backups (beta)</li>
+                    <li>Bitts - Custom Scripts</li>
+                    <li>Buoys (1 Click Apps)</li>
+                    <li>Check for Invalid / Expired SSL Certificate Daily</li>
                 </ul>
             </template>
         </div>

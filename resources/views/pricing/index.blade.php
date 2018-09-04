@@ -44,6 +44,7 @@
                             <li>15GB of Database Backups <small>In BETA!</small></li>
                             <li>Bitts - Custom Scripts</li>
                             <li>Buoys - 1 Click Installs</li>
+                            <li>Check for Invalid / Expired SSL Certificate Daily</li>
                             {{--<li>1 Month of Event Retention</li>--}}
                         </ul>
                     </div>
