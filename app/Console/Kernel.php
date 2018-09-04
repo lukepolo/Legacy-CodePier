@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckSslCertificates;
 use App\Console\Commands\PingLifeLines;
 use App\Console\Commands\CheckLifeLines;
 use Illuminate\Console\Scheduling\Schedule;
@@ -35,6 +36,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(GetServerProviderOptions::class)->daily();
         $schedule->command(GetServerProviderOptions::class)->daily();
+
+        $schedule->command(CheckSslCertificates::class)->daily();
 
         $schedule->command(PingLifeLines::class)->everyMinute();
     }

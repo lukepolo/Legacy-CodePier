@@ -17,6 +17,8 @@ class SslCertExpiring extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $slackChannel;
+
     private $site;
     private $sslCertificate;
 
@@ -39,6 +41,7 @@ class SslCertExpiring extends Notification implements ShouldQueue
     public function via(Site $site)
     {
         $this->site = $site;
+        $this->slackChannel = $this->site->getSlackChannelName('site');
         return $site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 

@@ -3,11 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Site\Site;
-use App\Notifications\SslCertExpiring;
-use App\Notifications\SslCertInvalid;
 use Illuminate\Console\Command;
-use Spatie\SslCertificate\Exceptions\CouldNotDownloadCertificate;
+use Illuminate\Support\Facades\DB;
+use App\Notifications\SslCertInvalid;
+use App\Notifications\SslCertExpiring;
 use Spatie\SslCertificate\SslCertificate;
+use Spatie\SslCertificate\Exceptions\CouldNotDownloadCertificate;
 
 class CheckSslCertificates extends Command
 {
@@ -42,23 +43,47 @@ class CheckSslCertificates extends Command
      */
     public function handle()
     {
-        $site = Site::findOrFail($this->argument('siteId'));
-        if ($site->domain !== 'default') {
-            try {
-                $certificate = SslCertificate::createForHostName($site->domain);
-            } catch (CouldNotDownloadCertificate $certificate) {
-                $site->notify(new SslCertInvalid());
-                return;
-            }
+        $siteModel = new Site();
+        DB::table('sites')
+            ->selectRaw('sites.id, sites.domain, sites.user_id, sites.name')
+            ->join('users', function ($join) {
+                $join->on('users.id', 'sites.user_id');
+            })
+            ->join('subscriptions', function ($join) {
+                $join->on('subscriptions.user_id', 'users.id')
+                ->orWhere('users.role', 'admin');
+            })
+            ->join('sslCertificateables', function ($join) {
+                $join->on('sslCertificateables.sslCertificateable_id', 'sites.id')
+                    ->where('sslCertificateables.sslCertificateable_type', Site::class);
+            })
+            ->join('ssl_certificates', function ($join) {
+                $join->on('ssl_certificates.id', 'sslCertificateables.ssl_certificate_id')
+                    ->where('ssl_certificates.active', true);
+            })
+            ->orderBy('sites.id')
+            ->whereNull('sites.deleted_at')
+            ->where('sites.domain', '!=', 'default')
+            ->chunk(1000, function ($sites) use ($siteModel) {
+                foreach ($sites as $site) {
+                    $siteModel->id = $site->id;
+                    $siteModel->fill((array) $site);
+                    try {
+                        $certificate = SslCertificate::createForHostName($site->domain);
+                    } catch (CouldNotDownloadCertificate $certificate) {
+                        $siteModel->notify(new SslCertInvalid());
+                        return;
+                    }
 
-            if (! $certificate->isValid()) {
-                $site->notify(new SslCertInvalid($certificate));
-                return;
-            }
-            if ($certificate->daysUntilExpirationDate() < 7) {
-                $site->notify(new SslCertExpiring($certificate));
-                return;
-            }
-        }
+                    if (! $certificate->isValid()) {
+                        $siteModel->notify(new SslCertInvalid($certificate));
+                        return;
+                    }
+                    if ($certificate->daysUntilExpirationDate() < 7) {
+                        $siteModel->notify(new SslCertExpiring($certificate));
+                        return;
+                    }
+                }
+            });
     }
 }
