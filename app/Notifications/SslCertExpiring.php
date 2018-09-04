@@ -82,7 +82,7 @@ class SslCertExpiring extends Notification implements ShouldQueue
 
     private function getTitle()
     {
-        return $this->site->name.' SSL Certificate is Expiring in '.$this->sslCertificate->daysUntilExpirationDate();
+        return $this->site->name.' SSL Certificate is Expiring in '.$this->sslCertificate->daysUntilExpirationDate().' days';
     }
 
     private function getContent()

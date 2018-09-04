@@ -25,7 +25,6 @@ class SiteWildcardSslController extends Controller
 
         $cnames = dns_get_record('_acme-challenge.'.$sslCertificate->domains, DNS_CNAME);
 
-        ddd($cnames);
         $valid = false;
 
         if (! empty($cnames)) {
