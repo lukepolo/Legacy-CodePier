@@ -32,10 +32,10 @@ class ServerMemory extends Notification
 
         foreach ($server->stats['memory'] as $memoryName => $stats) {
             if (
-                is_numeric($stats['free']) &&
-                (is_numeric($stats['total']) && $stats['total'] > 0)
+                is_numeric($stats['used']) &&
+                (is_numeric($stats['used']) && $stats['total'] > 0)
             ) {
-                if (($stats['free'] / $stats['total']) * 100 <= 10) {
+                if (($stats['used'] / $stats['total']) * 100 <= 10) {
                     $this->memory[$memoryName] = $stats;
                 }
             }
@@ -161,6 +161,6 @@ class ServerMemory extends Notification
 
     private function getUsedStat($stats)
     {
-        return round(100 - ($stats['free'] / $stats['total']) * 100).'%';
+        return round(100 - ($stats['used'] / $stats['total']) * 100).'%';
     }
 }
