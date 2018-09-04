@@ -17,6 +17,8 @@ class SslCertInvalid extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $slackChannel;
+
     private $site;
     private $sslCertificate;
 
@@ -38,7 +40,9 @@ class SslCertInvalid extends Notification implements ShouldQueue
      */
     public function via(Site $site)
     {
+        $site->load('user');
         $this->site = $site;
+        $this->slackChannel = $this->site->getSlackChannelName('site');
         return $site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
@@ -82,11 +86,11 @@ class SslCertInvalid extends Notification implements ShouldQueue
 
     private function getTitle()
     {
-        return $this->site->name.' SSL Certificate is Invalid';
+        return $this->site->domain.' SSL Certificate is Invalid';
     }
 
     private function getContent()
     {
-        return 'Your sites SSL certificate for '.$this->site->name.' is invalid, please go to CodePier to create a new certificate.';
+        return 'Your sites SSL certificate for '.$this->site->domain.' is invalid, please go to CodePier to create a new certificate.';
     }
 }
