@@ -114,7 +114,7 @@
                                     }"
                                     :style="{ width : stats.percent }"></div>
                                 <div class="stats-label stats-used">{{ megaBytesToHumanReadable(stats.used) }}</div>
-                                <div class="stats-label stats-available">{{ megaBytesToHumanReadable(stats.available) }}</div>
+                                <div class="stats-label stats-available">{{ megaBytesToHumanReadable(parseInt(stats.used) + parseInt(stats.available)) }}</div>
                             </div>
                         </div>
 
@@ -144,7 +144,7 @@
                                         width : getMemoryUsage(stats)+'%'
                                     }"
                                 ></div>
-                                <div class="stats-label stats-used">{{megaBytesToHumanReadable(stats.used)}}</div>
+                                <div class="stats-label stats-used">{{megaBytesToHumanReadable(parseInt(stats.total) - parseInt(stats.available))}}</div>
                                 <div class="stats-label stats-available">{{megaBytesToHumanReadable(stats.total)}}</div>
                             </div>
                         </div>
@@ -322,9 +322,11 @@ export default {
     },
     getMemoryUsage(stats) {
       return (
-          stats.used /
-          stats.total *
-        100
+          100 - (
+              stats.available /
+              stats.total *
+            100
+          )
       );
     }
   }
