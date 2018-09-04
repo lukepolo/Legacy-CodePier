@@ -31,8 +31,13 @@ class ServerMemory extends Notification
         $this->memory = [];
 
         foreach ($server->stats['memory'] as $memoryName => $stats) {
-            if (($stats['free'] / $stats['total']) * 100 <= 10) {
-                $this->memory[$memoryName] = $stats;
+            if (
+                is_numeric($stats['free']) &&
+                (is_numeric($stats['total']) && $stats['total'] > 0)
+            ) {
+                if (($stats['free'] / $stats['total']) * 100 <= 10) {
+                    $this->memory[$memoryName] = $stats;
+                }
             }
         }
 
