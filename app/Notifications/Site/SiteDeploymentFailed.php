@@ -104,10 +104,12 @@ class SiteDeploymentFailed extends Notification
         $domain = $notifiable->domain;
         $url = url('site/'.$notifiable->id);
 
-        return (new DiscordMessage($this->getContent($pile, $domain)))
+        return (new DiscordMessage())
             ->error()
+            ->content($this->getContent($pile, $domain))
             ->embed(function ($embed) use ($url, $pile, $domain) {
-                $embed->title($this->getTitle($pile, $domain), $url)->field('Error', ' TOO BIG?');
+                $embed->title($this->getTitle($pile, $domain))
+                    ->field('Error', $this->getError());
             });
     }
 
@@ -118,7 +120,7 @@ class SiteDeploymentFailed extends Notification
 
     private function getTitle($pile, $domain)
     {
-        return '('.$pile.') '.$domain;
+        return '('.$pile->name.') '.$domain;
     }
 
     private function getError()
