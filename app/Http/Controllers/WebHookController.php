@@ -104,7 +104,6 @@ class WebHookController extends Controller
 
             $memoryStats = $this->getStats($request->get('memory'));
 
-//            http://stats.codepier.test/webhook/memory/ZGALVaq1b9kXrRnlM4B841DgEoK03pQyjWPxOm6Y?memory=name=Mem: total=3855 used=324 free=303 available=3156
             if (isset($memoryStats['name'])) {
                 $server->update([
                     'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,

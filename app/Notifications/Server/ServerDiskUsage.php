@@ -154,6 +154,8 @@ class ServerDiskUsage extends Notification
 
     private function getUsedStat($stats)
     {
-        return $stats['percent'];
+        $used = mb_to_readable_format($stats['used']);
+        $total = mb_to_readable_format($stats['used'] + $stats['available']);
+        return "{$used} / {$total} ({$stats['percent']})";
     }
 }

@@ -132,3 +132,17 @@ if (! function_exists('create_pre_signed_s3')) {
         return (string) $request->getUri();
     }
 }
+
+if (! function_exists('mb_to_readable_format')) {
+    /**
+     * Converts megabytes to a readable format
+     *
+     * @param $meabytes
+     * @return string
+     */
+    function mb_to_readable_format($meabytes)
+    {
+        $i = floor(log($meabytes, 1024));
+        return round($meabytes / pow(1024, $i), [2,2,3][$i]).' '.['MB','GB','TB'][$i];
+    }
+}

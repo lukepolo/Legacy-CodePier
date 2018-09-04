@@ -37,14 +37,14 @@ class MemoryMonitorNotifications extends Command
                 "name" => "Swap",
                 "used" => "500",
                 "total" => "2048",
-                "available" => "250"
+                "available" => "1024"
             ],
             'Swap' => [
                 "free" => "75",
                 "name" => "Swap",
                 "used" => "1024",
                 "total" => "2048",
-                "available" => "512"
+                "available" => "128"
             ]
         ];
 

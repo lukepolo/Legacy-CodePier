@@ -36,9 +36,9 @@ class DiskMonitorNotifications extends Command
         $server->update([
             'stats->disk_usage->'.$diskName => [
                 "disk" => "/dev/vda1",
-                "used" => "9216",
-                "percent" => "99%",
-                "available"=> "1024"
+                "used" => "10000",
+                "percent" => "95%",
+                "available"=> "9500"
             ]
         ]);
 
