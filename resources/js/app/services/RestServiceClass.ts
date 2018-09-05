@@ -33,6 +33,10 @@ export default class RestServiceClass {
   }
 
   private getUrl(action, parameters) {
+    // laroute deletes params when replacing......
+    if (parameters) {
+      parameters = JSON.parse(JSON.stringify(parameters));
+    }
     return this.$apiRouteService.action(
       `${this.$controllerClass}@${action}`,
       parameters,

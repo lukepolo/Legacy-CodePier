@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="key in user_ssh_keys">
-                    <td>{{ key.name }}</td>
+                    <td>{{ key.name }} {{ key.id }}</td>
                     <td class="table--action">
                         <tooltip message="Delete">
                             <span class="table--action-delete">

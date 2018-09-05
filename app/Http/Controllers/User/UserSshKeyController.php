@@ -24,7 +24,8 @@ class UserSshKeyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\SshKeyRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return SshKey
      */
     public function store(SshKeyRequest $request)
     {
@@ -42,27 +43,22 @@ class UserSshKeyController extends Controller
             );
         }
 
-        return response()->json($sshKey);
+        return $sshKey;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $sshKey = \Auth::user()->sshKeys->keyBy('id')->get($id);
-
         foreach (\Auth::user()->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerSshKey($server, $sshKey))
                     ->onQueue(config('queue.channels.server_commands'))
             );
         }
-
-        return $this->remoteResponse();
     }
 }

@@ -26,7 +26,7 @@ export default function(stateName) {
     },
     [`DESTROYED_${stateName.toUpperCase()}`]: (state, data) => {
       let key = getItemKeyById(state, stateName, data[stateName]);
-      if (key) {
+      if (key > -1) {
         state[`${stateName}s`].splice(key, 1);
       }
     },

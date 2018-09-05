@@ -25,7 +25,7 @@ export default function($service, stateName) {
       });
     },
     destroy({ commit }, parameters) {
-      return $service.destroy(parameters).then((response) => {
+      $service.destroy(parameters).then((response) => {
         commit(`DESTROYED_${stateName.toUpperCase()}`, parameters);
         return response.data;
       });
