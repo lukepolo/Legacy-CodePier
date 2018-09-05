@@ -162,6 +162,7 @@ Route::group(['middleware' => [
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
             Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
+            Route::post('notification-providers/{provider}', 'Providers\UserNotificationProviderController@connect');
         });
 
         /*

@@ -32,6 +32,7 @@ use App\Models\User\UserRepositoryProvider;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Site\Deployment\DeploymentStep;
+use App\Http\Controllers\Auth\Providers\NotificationProvidersController;
 
 class Site extends Model
 {
@@ -253,6 +254,20 @@ class Site extends Model
         });
 
         return $slackProvider ? $slackProvider->token : null;
+    }
+
+    /**
+     * Route notifications for the Discord channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForDiscord()
+    {
+        $discordProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
+            return $userNotificationProvider->notificationProvider->provider_name == NotificationProvidersController::DISCORD;
+        });
+
+        return $discordProvider ? $discordProvider->token : null;
     }
 
     public function slackChannel()

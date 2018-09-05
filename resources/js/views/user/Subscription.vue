@@ -28,9 +28,9 @@
                     </div>
                     <hr>
                     <ul>
+                        <li><strong>Unlimited</strong> Deployments</li>
                         <li>1 Site</li>
                         <li>1 Full Stack Server</li>
-                        <li><strong>Unlimited</strong> Deployments</li>
                     </ul>
                 </div>
             </div>

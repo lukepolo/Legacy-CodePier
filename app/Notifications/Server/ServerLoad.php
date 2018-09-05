@@ -5,9 +5,11 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class ServerLoad extends Notification
 {
@@ -33,10 +35,12 @@ class ServerLoad extends Notification
             $this->highLoad = true;
         }
 
-        $this->slackChannel = $server->name;
-
         if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
+        }
+
+        if (empty($this->slackChannel)) {
+            $this->slackChannel = $server->name;
         }
     }
 
@@ -47,7 +51,7 @@ class ServerLoad extends Notification
      */
     public function via()
     {
-        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -59,19 +63,14 @@ class ServerLoad extends Notification
      */
     public function toMail($server)
     {
-        $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
-
         if ($this->highLoad) {
-            $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
+            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
             foreach ($this->server->stats['loads'] as $mins => $load) {
-                $load = round(($load / $this->cpus) * 100, 2);
-
-                $mailMessage
-                    ->line($load.'% '.$mins.' minutes ago');
+                $mailMessage->line(`{$this->calculateLoad($load)} {$this->minsAgo($mins)}`);
             }
 
-            $mailMessage->line('Across '.$this->cpus.' CPUs');
+            $mailMessage->line($this->getTitle());
 
             return $mailMessage;
         }
@@ -86,18 +85,39 @@ class ServerLoad extends Notification
      */
     public function toSlack($server)
     {
-        $fields = [];
-        foreach ($server->stats['loads'] as $mins => $load) {
-            $load = round(($load / $this->cpus) * 100, 2);
-            $fields[$mins.' minutes ago'] = $load.'%';
-        }
-
         if ($this->highLoad) {
             return (new SlackMessage())
                 ->error()
-                ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
-                ->attachment(function ($attachment) use ($server, $fields) {
-                    $attachment->title('CPU Allocation across '.$this->cpus.' CPUs')->fields($fields);
+                ->content($this->getContent($server))
+                ->attachment(function ($attachment) use ($server) {
+                    $fields = [];
+                    foreach ($server->stats['loads'] as $mins => $load) {
+                        $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
+                    }
+
+                    $attachment->title($this->getTitle())->fields($fields);
+                });
+        }
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param Server $server
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($server)
+    {
+        if ($this->highLoad) {
+            return (new DiscordMessage())
+                ->error()
+                ->content($this->getContent($server))
+                ->embed(function ($embed) use ($server) {
+                    $embed->title($this->getTitle());
+                    foreach ($server->stats['loads'] as $mins => $load) {
+                        $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
+                    }
                 });
         }
     }
@@ -114,5 +134,25 @@ class ServerLoad extends Notification
             'server'=> $server->id,
             'stats' => $server->stats,
         ];
+    }
+
+    private function getTitle()
+    {
+        return 'CPU Allocation across '.$this->cpus.' CPUs';
+    }
+
+    private function getContent(Server $server)
+    {
+        return 'High CPU Usage : '.$server->name.' ('.$server->ip.')';
+    }
+
+    private function calculateLoad($load)
+    {
+        return round(($load / $this->cpus) * 100, 2).'%';
+    }
+
+    private function minsAgo($mins)
+    {
+        return $mins.' minutes ago';
     }
 }

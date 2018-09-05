@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 class NotificationSettings extends Seeder
 {
     const SLACK = \App\Http\Controllers\Auth\OauthController::SLACK;
+    const DISCORD = \App\Http\Controllers\Auth\Providers\NotificationProvidersController::DISCORD;
     const MAIL = 'mail';
 
     /**
@@ -33,6 +34,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\Site\SiteDeploymentSuccessful::class => [
@@ -42,6 +44,7 @@ class NotificationSettings extends Seeder
                 'description' => 'Sends a notification that a deployment has been been successful for all servers',
                 'services' => [
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\Server\ServerDiskUsage::class => [
@@ -52,6 +55,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\Server\ServerLoad::class => [
@@ -62,6 +66,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\Server\ServerMemory::class => [
@@ -72,6 +77,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\BuoyInstall::class => [
@@ -91,6 +97,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
             \App\Notifications\LifeLineThresholdExceeded::class => [
@@ -101,6 +108,7 @@ class NotificationSettings extends Seeder
                 'services' => [
                     self::MAIL,
                     self::SLACK,
+                    self::DISCORD,
                 ],
             ],
         ];

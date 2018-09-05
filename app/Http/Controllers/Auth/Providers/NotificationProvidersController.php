@@ -7,6 +7,10 @@ use App\Models\NotificationProvider;
 
 class NotificationProvidersController extends Controller
 {
+    const OAUTH = 'oauth';
+    const WEBHOOK = 'webhook';
+    const DISCORD = 'discord';
+    
     /**
      * Display a listing of the resource.
      *
