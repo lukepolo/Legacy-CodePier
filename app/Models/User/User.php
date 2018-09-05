@@ -225,7 +225,7 @@ class User extends Authenticatable
         return collect($deploymentsRunning);
     }
 
-    public function getNotificationPreferences($notificationClass, $defaults = [], $required = [])
+    public function getNotificationPreferences($notificationClass, $defaults = ['mail'], $required = [])
     {
         $this->load('notificationSettings.setting');
 
@@ -235,6 +235,7 @@ class User extends Authenticatable
 
         if (! empty($userNotification)) {
             $services = [];
+            in_array('mail', $userNotification->services) ? $services[] = 'mail' : null;
             in_array('slack', $userNotification->services) ? $services[] = SlackMessageChannel::class : null;
             in_array('discord', $userNotification->services) ? $services[] = DiscordMessageChannel::class : null;
         }
