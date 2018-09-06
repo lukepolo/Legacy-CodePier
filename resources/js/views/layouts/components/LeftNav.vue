@@ -1,8 +1,8 @@
 <template>
 
-    <section id="left" class="section-column" v-if="sites.length && currentPile">
+    <section id="left" class="column" v-if="sites.length && currentPile">
 
-        <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="section-header pile-dropdown">
+        <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="column--header pile-dropdown">
             <span slot="sub" class="icon-arrow-down"></span>
             <span slot="sub" class="icon-web"></span>
 
@@ -28,7 +28,7 @@
             </template>
         </drop-down>
 
-        <div class="section-content">
+        <div class="column--content">
 
             <div class="site-container">
 

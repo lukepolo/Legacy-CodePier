@@ -44,7 +44,7 @@ export default {
   },
   watch: {
     $route: function() {
-      $("#middle .section-content").scrollTop(0);
+      $("#middle .column--content").scrollTop(0);
     },
   },
 };

@@ -1,9 +1,9 @@
 @extends('layouts.style-guide')
 
 @section('content')
-    <h3 class="section-header primary">Content</h3>
+    <h3 class="column--header primary">Content</h3>
 
-    <div class="section-content">
+    <div class="column--content">
         <div class="container">
             <h2>Groups</h2>
             <p class="intro">

@@ -1,5 +1,5 @@
 <template>
-  <div class="section-content" v-if="buoyApp">
+  <div class="column--content" v-if="buoyApp">
     <div class="side-container">
       <template v-if="buoyApp && buoyApp.icon_url">
         <img :src="buoyApp.icon_url" style="max-width:100px">

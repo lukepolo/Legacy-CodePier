@@ -1,12 +1,12 @@
-//@import "layout";
-@import "header"; //cleanup
-//@import "footer"; //cleanup
-//@import "main"; //cleanup
+//@import "layout"; // $red -delete?
+@import "header"; // $green
+@import "footer"; // $green
+@import "main"; // $red
 
 #app {
   display: grid;
   grid-template-areas: "banner banner banner" "header header header" "left middle right" "footer footer footer";
-  grid-template-columns: 275px 1fr 275px;
+  grid-template-columns: min-content 1fr min-content;
   grid-template-rows: min-content min-content 1fr auto;
 
   // Allows grid to always stay at 100vh and 100vw
@@ -28,6 +28,7 @@ footer {
 #left {
   grid-area: left;
   overflow: auto;
+  width: 275px;
 }
 
 #middle {
@@ -38,6 +39,7 @@ footer {
 #right {
   grid-area: right;
   overflow: auto;
+  width: 275px;
 }
 
 .banner--container {

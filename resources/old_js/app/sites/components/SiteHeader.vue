@@ -1,5 +1,5 @@
 <template>
-    <h3 class="section-header primary" v-if="site">
+    <h3 class="column--header primary" v-if="site">
 
         <router-link :to="{ name : 'site_overview', params : { site : site.id } }">
             {{ site.name }}
@@ -9,7 +9,7 @@
             &nbsp; <a :href="'//'+site.domain" target="_blank"><i class="fa fa-external-link"></i></a>
         </template>
 
-        <div class="section-header--btn-right">
+        <div class="column--header--btn-right">
 
             <drop-down tag="span" v-if="siteServers">
 

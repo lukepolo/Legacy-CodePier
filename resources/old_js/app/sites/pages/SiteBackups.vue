@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="section-content">
+        <div class="column--content">
             <ul class="wizard">
                 <template v-for="(server, serverIndex) in siteServers">
                     <li class="wizard-item" v-bind:class="{ 'router-link-active': tab === serverIndex }">

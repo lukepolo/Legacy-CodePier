@@ -19,9 +19,9 @@ $yellow: #fec07a;
 // ---------------------------------------------------------
 
 // BACKGROUNDS
-$color-background: $gray-dark;
-$color-background-light: $gray-dark; // figure out mix for left Sidebar
-$color-background-dark: $gray-dark; // figure out mix for right sidebar
+$color-background: mix($gray-dark, $white, 95%);
+$color-background-light: mix($gray-dark, $white, 90%);
+$color-background-dark: $gray-dark;
 $color-background-inverse: $white;
 $color-background-inverse-light: $gray-xlight;
 $color-background-inverse-dark: $gray;

@@ -9,7 +9,7 @@ const router = new VueRouter({
   mode: "history",
   routes: routes,
   scrollBehavior() {
-    let elements = document.getElementsByClassName("section-content");
+    let elements = document.getElementsByClassName("column--content");
 
     for (let i = 0; i < elements.length; i++) {
       elements[i].scrollTop = 0;

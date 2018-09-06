@@ -42,8 +42,8 @@ footer {
 #left {
   flex: 0 0 275px;
 
-  .section-header,
-  .section-content {
+  .column--header,
+  .column--content {
     width: 275px;
   }
 }
@@ -64,8 +64,8 @@ footer {
 #right {
   flex: 0 0 325px;
 
-  .section-header,
-  .section-content {
+  .column--header,
+  .column--content {
     width: 325px;
   }
 }
@@ -76,19 +76,19 @@ footer {
   flex-basis: 275px;
   transition: all 4s ease;
 
-  .section-header,
-  .section-content {
+  .column--header,
+  .column--content {
     opacity: 1;
   }
 
-  .section-header .icon-web {
+  .column--header .icon-web {
     position: absolute;
     opacity: 0;
   }
 }
 
 #right {
-  .section-header .icon-server {
+  .column--header .icon-server {
     position: absolute;
     opacity: 0;
   }
@@ -101,8 +101,8 @@ footer {
     position: relative;
     z-index: 250;
 
-    .section-header,
-    .section-content {
+    .column--header,
+    .column--content {
       position: absolute;
       left: -234px;
       width: 275px;
@@ -111,7 +111,7 @@ footer {
       transition: all 0.3s ease;
     }
 
-    .section-header {
+    .column--header {
       top: 0px;
       background-color: mix($color-background, $black, 90%);
 
@@ -133,7 +133,7 @@ footer {
       }
     }
 
-    .section-content {
+    .column--content {
       top: 64px;
       bottom: 0px;
     }
@@ -145,8 +145,8 @@ footer {
     }
 
     &:hover {
-      .section-header,
-      .section-content {
+      .column--header,
+      .column--content {
         left: 0px;
         @include card(2);
         transition: all 0.3s ease;
@@ -179,8 +179,8 @@ footer {
     position: relative;
     z-index: 250;
 
-    .section-header,
-    .section-content {
+    .column--header,
+    .column--content {
       position: absolute;
       right: -285px;
       width: 325px;
@@ -189,12 +189,12 @@ footer {
       transition: all 0.3s ease;
     }
 
-    .section-header {
+    .column--header {
       top: 0px;
       background-color: mix(mix($color-background, $white, 90%), $black, 90%);
     }
 
-    .section-content {
+    .column--content {
       top: 64px;
       bottom: 0px;
     }
@@ -204,7 +204,7 @@ footer {
       transition: all 0.3s ease;
     }
 
-    .section-header .icon-server {
+    .column--header .icon-server {
       position: absolute;
       left: 8px;
       font-size: 1.2em;
@@ -214,8 +214,8 @@ footer {
     }
 
     &:hover {
-      .section-header,
-      .section-content {
+      .column--header,
+      .column--content {
         right: 0px;
         @include card(2);
         transition: all 0.3s ease;
@@ -226,7 +226,7 @@ footer {
         transition: all 0.3s ease;
       }
 
-      .section-header .icon-server {
+      .column--header .icon-server {
         opacity: 0;
         transition: all 0.3s ease;
       }

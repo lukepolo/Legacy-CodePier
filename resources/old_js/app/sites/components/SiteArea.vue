@@ -4,11 +4,11 @@
 
         <left-nav></left-nav>
 
-        <section id="middle" class="section-column" :class="{'in-workflow' : workFlowCompleted !== true}">
+        <section id="middle" class="column" :class="{'in-workflow' : workFlowCompleted !== true}">
 
             <site-header></site-header>
 
-            <div class="section-content">
+            <div class="column--content">
 
                 <div class="container">
 
@@ -62,7 +62,7 @@
         </section>
 
 
-        <section id="right" v-if="site" class="section-column">
+        <section id="right" v-if="site" class="column">
             <portal-target name="right-panel">
                 <servers></servers>
             </portal-target>

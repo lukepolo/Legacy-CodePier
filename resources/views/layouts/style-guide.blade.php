@@ -43,10 +43,10 @@
             <div id="xlarge-wrap">
                 <div id="main">
                     <section class="view">
-                        <section id="left" class="section-column">
-                            <h3 class="section-header">Components</h3>
+                        <section id="left" class="column">
+                            <h3 class="column--header">Components</h3>
                         </section>
-                        <section id="middle" class="section-column">
+                        <section id="middle" class="column">
                             @yield('content')
                         </section>
                     </section>
