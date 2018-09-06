@@ -54,11 +54,15 @@ class UserSshKeyController extends Controller
     public function destroy($id)
     {
         $sshKey = \Auth::user()->sshKeys->keyBy('id')->get($id);
-        foreach (\Auth::user()->provisionedServers as $server) {
-            dispatch(
-                (new RemoveServerSshKey($server, $sshKey))
-                    ->onQueue(config('queue.channels.server_commands'))
-            );
+        if ($sshKey->servers->count()) {
+            foreach ($sshKey->servers as $server) {
+                dispatch(
+                    (new RemoveServerSshKey($server, $sshKey))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
+            }
+            return;
         }
+        $sshKey->delete();
     }
 }
