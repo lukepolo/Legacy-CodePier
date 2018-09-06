@@ -3,17 +3,16 @@ import HttpMiddlewareInterface from "varie/lib/http/HttpMiddlewareInterface";
 
 @injectable()
 export default class Loading implements HttpMiddlewareInterface {
-  private timeoutSet = false;
-  private spinnerTimeout = null;
   private requestsCounter = 0;
+  private $timeoutDelay = 1250;
+  private spinnerTimeout = null;
   private spinnerId = "app-spinner";
 
   public request(config) {
-    if (this.timeoutSet === false) {
+    if (!this.spinnerTimeout) {
       this.spinnerTimeout = setTimeout(() => {
         this._turnOnSpinner();
-      }, 1500);
-      this.timeoutSet = true;
+      }, this.$timeoutDelay);
     }
 
     this.requestsCounter++;

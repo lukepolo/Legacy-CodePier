@@ -105,6 +105,9 @@ class WebHookController extends Controller
             $memoryStats = $this->getStats($request->get('memory'));
 
             if (isset($memoryStats['name'])) {
+                if (empty($memoryStats['available'])) {
+                    $memoryStats['available'] = $memoryStats['free'];
+                }
                 $server->update([
                     'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
                 ]);

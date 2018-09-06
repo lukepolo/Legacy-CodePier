@@ -14,14 +14,26 @@ class NotificationProvidersSeeder extends Seeder
         $providers = [
             \App\Http\Controllers\Auth\OauthController::SLACK => [
                 'name' => 'Slack',
+                'connection_type' => \App\Http\Controllers\Auth\Providers\NotificationProvidersController::OAUTH,
+            ],
+            \App\Http\Controllers\Auth\Providers\NotificationProvidersController::DISCORD => [
+                'name' => 'Discord',
+                'connection_type' => \App\Http\Controllers\Auth\Providers\NotificationProvidersController::WEBHOOK,
             ],
         ];
 
         foreach ($providers as $provider => $data) {
-            \App\Models\NotificationProvider::firstOrCreate([
-                'provider_name' => $provider,
-                'name'          => $data['name'],
+            $provider = \App\Models\NotificationProvider::firstOrNew([
+                'provider_name'   => $provider,
+
             ]);
+
+            $provider->fill([
+                'name'            => $data['name'],
+                'connection_type' => $data['connection_type'],
+            ]);
+
+            $provider->save();
         }
     }
 }

@@ -5,8 +5,11 @@ namespace App\Notifications\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\SlackMessageChannel;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class SiteDeploymentFailed extends Notification
 {
@@ -42,7 +45,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
+        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
     /**
@@ -58,7 +61,7 @@ class SiteDeploymentFailed extends Notification
             ->markdown('mail.notifications.deployment-failed', [
                 'errorMessage' => str_replace("\n", '<br>', $this->errorMessage),
             ])
-            ->subject('('.$notifiable->pile->name.') '.$notifiable->domain.' Deployment Failed')
+            ->subject($this->getContent($notifiable->pile, $notifiable->domain))
             ->line('Your site failed to deploy on '.$this->server->name.' ('.$this->server->ip.') '.' because : ')
             ->action('Go to your site', url('site/'.$notifiable->id))
             ->error();
@@ -73,19 +76,55 @@ class SiteDeploymentFailed extends Notification
      */
     public function toSlack($notifiable)
     {
-        $pile = $notifiable->pile->name;
+        $pile = $notifiable->pile;
         $domain = $notifiable->domain;
-        $error = $this->errorMessage;
         $url = url('site/'.$notifiable->id);
 
         return (new SlackMessage())
             ->error()
-            ->content('Deployment Failed')
-            ->attachment(function ($attachment) use ($url, $error, $pile, $domain) {
-                $attachment->title('('.$pile.') '.$domain, $url)
+            ->content($this->getContent($pile, $domain))
+            ->attachment(function ($attachment) use ($url, $pile, $domain) {
+                $attachment->title($this->getTitle($pile, $domain), $url)
                     ->fields([
-                        'Error' => $error,
+                        'Error' => $this->getError(),
                     ]);
             });
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $pile = $notifiable->pile;
+        $domain = $notifiable->domain;
+        $url = url('site/'.$notifiable->id);
+
+        return (new DiscordMessage())
+            ->error()
+            ->content($this->getContent($pile, $domain))
+            ->embed(function ($embed) use ($url, $pile, $domain) {
+                $embed->title($this->getTitle($pile, $domain))
+                    ->field('Error', $this->getError());
+            });
+    }
+
+    private function getContent($pile, $domain)
+    {
+        return '('.$pile->name.') '.$domain.' Deployment Failed';
+    }
+
+    private function getTitle($pile, $domain)
+    {
+        return '('.$pile->name.') '.$domain;
+    }
+
+    private function getError()
+    {
+        return strlen($this->errorMessage) >= 1024 ? substr($this->errorMessage, 0, 1021).'...' : $this->errorMessage;
     }
 }

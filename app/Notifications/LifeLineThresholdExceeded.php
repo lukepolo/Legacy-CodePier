@@ -6,9 +6,11 @@ use App\Models\Site\Lifeline;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class LifeLineThresholdExceeded extends Notification implements ShouldQueue
 {
@@ -31,7 +33,7 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
 
         $this->slackChannel = $this->lifeline->site->getSlackChannelName('lifelines');
 
-        return $this->lifeline->site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
+        return $this->lifeline->site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
     /**
@@ -68,5 +70,25 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
         return (new SlackMessage())
             ->error()
             ->content($message);
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord()
+    {
+        $message = 'Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has not checked in since '.$this->lifeline->last_seen.'.';
+
+        if ($this->lifeline->sent_notifications == 3) {
+            $message .= ' Last warning! You will receive a notification when a lifeline has been updated';
+        }
+
+        return (new DiscordMessage())
+            ->error()
+            ->embed(function ($embed) use ($message) {
+                $embed->title($message);
+            });
     }
 }

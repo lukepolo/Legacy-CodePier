@@ -68,8 +68,12 @@ Route::group(['middleware' => [
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
-            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
+
+            Route::get('subscription', 'Subscription\UserSubscriptionController@index');
+            Route::post('subscription', 'Subscription\UserSubscriptionController@store');
+            Route::put('subscription', 'Subscription\UserSubscriptionController@update');
+            Route::delete('subscription', 'Subscription\UserSubscriptionController@destroy');
         });
     });
 
@@ -158,6 +162,7 @@ Route::group(['middleware' => [
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
             Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
+            Route::post('notification-providers/{provider}', 'Providers\UserNotificationProviderController@connect');
         });
 
         /*

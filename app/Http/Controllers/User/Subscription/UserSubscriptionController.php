@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
-use Cache;
-use Stripe\Error\Card;
 use Stripe\Stripe;
 use Stripe\Coupon;
 use Carbon\Carbon;
+use Stripe\Error\Card;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Stripe\Error\InvalidRequest;
 use Laravel\Cashier\Subscription;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\User\UserSubscriptionRequest;
 use App\Http\Requests\User\UserSubscriptionUpdateRequest;
 
@@ -163,10 +163,9 @@ class UserSubscriptionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
         /** @var User $user */
         $user = $request->user();
@@ -197,7 +196,7 @@ class UserSubscriptionController extends Controller
     private function validateCoupon($coupon)
     {
         if (! empty($coupon)) {
-            Stripe::setApiKey(\Config::get('services.stripe.secret'));
+            Stripe::setApiKey(config('services.stripe.secret'));
             try {
                 $coupon = Coupon::retrieve($coupon);
                 return $coupon->valid;

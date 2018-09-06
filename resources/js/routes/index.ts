@@ -1,51 +1,59 @@
-let $router = $app.make<RouterInterface>("$router");
-import RouterInterface from "varie/lib/routing/RouterInterface";
-
 /*
 |--------------------------------------------------------------------------
 | Your default routes for your application
 |--------------------------------------------------------------------------
 |
 */
+import RouterInterface from "varie/lib/routing/RouterInterface";
 
-$router.route("/provider/:provider/callback", "oauth");
+import UserViews from "@views/user";
+import LoginViews from "@views/login";
+import Dashboard from "@views/dashboard/Dashboard.vue";
 
-// AUTHED
-$router
-  .layout("authed")
-  .middleware(["Auth"])
-  .group(() => {
-    $router.route("/", "dashboard/Dashboard").setName("dashboard");
+import ErrorViews from "@views/errors";
 
-    $router.area("user/AccountArea").group(() => {
-      $router.route("my-account", "user/MyAccount").setName("my_account");
-      $router
-        .route("subscription", "user/Subscription")
-        .setName("user_subscription");
-      $router.route("ssh-keys", "user/SshKeys").setName("user_ssh_keys");
-      $router
-        .route("server-providers", "user/ServerProviders")
-        .setName("user_server_providers");
-      $router
-        .route("source-control", "user/SourceControlProviders")
-        .setName("user_source_control_providers");
-      $router
-        .route("notification", "user/NotificationSettings")
-        .setName("user_notification_settings");
-      $router.route("privacy", "user/PrivacySettings").setName("user_privacy");
+export default function($router: RouterInterface) {
+  $router.route("/provider/:provider/callback", LoginViews.Oauth);
+
+  // AUTHED
+  $router
+    .layout("authed")
+    .middleware(["Auth"])
+    .group(() => {
+      $router.route("/", Dashboard).setName("dashboard");
+
+      $router.area(UserViews.AccountArea).group(() => {
+        $router.route("my-account", UserViews.MyAccount).setName("my_account");
+        $router
+          .route("subscription", UserViews.Subscription)
+          .setName("user_subscription");
+        $router
+          .route("privacy", UserViews.PrivacySettings)
+          .setName("user_privacy");
+        $router.route("ssh-keys", UserViews.SshKeys).setName("user_ssh_keys");
+        $router
+          .route("server-providers", UserViews.ServerProviders)
+          .setName("user_server_providers");
+        $router
+          .route("source-control-providers", UserViews.SourceControlProviders)
+          .setName("user_source_control_providers");
+        $router
+          .route("notification-settings", UserViews.NotificationSettings)
+          .setName("user_notification_settings");
+      });
     });
+
+  // PUBLIC
+  $router.area(LoginViews.AuthArea).group(() => {
+    $router.route("login", LoginViews.Login).setName("login");
+    $router.route("register", LoginViews.Register).setName("register");
+    $router
+      .route("forgot-password", LoginViews.Register)
+      .setName("forgotPassword");
+    $router
+      .route("reset-password", LoginViews.ResetPassword)
+      .setName("resetPassword");
   });
 
-// PUBLIC
-$router.area("login/AuthArea").group(() => {
-  $router.route("login", "login/Login").setName("login");
-  $router.route("register", "login/Register").setName("register");
-  $router
-    .route("forgot-password", "login/ForgotPassword")
-    .setName("forgotPassword");
-  $router
-    .route("reset-password", "login/ResetPassword")
-    .setName("resetPassword");
-});
-
-$router.route("*", "errors/404");
+  $router.route("*", ErrorViews.Error404);
+}

@@ -5,9 +5,11 @@ namespace App\Notifications\Server;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Messages\DiscordMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
+use App\Notifications\Channels\DiscordMessageChannel;
 
 class ServerMemory extends Notification
 {
@@ -29,15 +31,22 @@ class ServerMemory extends Notification
         $this->memory = [];
 
         foreach ($server->stats['memory'] as $memoryName => $stats) {
-            if (preg_replace('/[^0-9]/', '', $stats['free']) <= 0.2) {
-                $this->memory[$memoryName] = $stats;
+            if (
+                is_numeric($stats['available']) &&
+                (is_numeric($stats['available']) && $stats['total'] > 0)
+            ) {
+                if (($stats['available'] / $stats['total']) * 100 <= 10) {
+                    $this->memory[$memoryName] = $stats;
+                }
             }
         }
 
-        $this->slackChannel = $server->name;
-
         if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
+        }
+
+        if (empty($this->slackChannel)) {
+            $this->slackChannel = $server->name;
         }
     }
 
@@ -48,7 +57,7 @@ class ServerMemory extends Notification
      */
     public function via()
     {
-        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -64,10 +73,10 @@ class ServerMemory extends Notification
         $memory = $this->memory;
 
         if (! empty($memory)) {
-            $mailMessage = (new MailMessage())->subject('Memory High : '.$server->name.' ('.$server->ip.')')->error();
+            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
             foreach ($memory as $name => $stats) {
-                $mailMessage->line($name.': '.$stats['used'].' / '.$stats['total']);
+                $mailMessage->line($name.': '.$this->getUsedStat($stats));
             }
 
             return $mailMessage;
@@ -89,13 +98,38 @@ class ServerMemory extends Notification
         if (! empty($memory)) {
             return (new SlackMessage())
                 ->error()
-                ->content('Memory High : '.$server->name.' ('.$server->ip.')')
+                ->content($this->getContent($server))
                 ->attachment(function ($attachment) use ($server, $memory) {
-                    $attachment = $attachment->title('Memory Allocation');
+                    $attachment = $attachment->title($this->getTitle());
+                    $fields = [];
                     foreach ($memory as $name => $stats) {
-                        $attachment->fields([
-                            $name => $stats['used'].' / '.$stats['total'],
-                        ]);
+                        $fields[$name] = $this->getUsedStat($stats);
+                    }
+                    $attachment->fields($fields);
+                });
+        }
+    }
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return DiscordMessage
+     */
+    public function toDiscord($notifiable)
+    {
+        $server = $notifiable;
+        $memory = $this->memory;
+
+        if (! empty($memory)) {
+            return (new DiscordMessage())
+                ->error()
+                ->content($this->getContent($server))
+                ->embed(function ($embed) use ($server, $memory) {
+                    $embed->title($this->getTitle());
+                    foreach ($memory as $name => $stats) {
+                        $embed->field($name, $this->getUsedStat($stats));
                     }
                 });
         }
@@ -113,5 +147,22 @@ class ServerMemory extends Notification
             'server'=> $notifiable->id,
             'stats' => $notifiable->stats,
         ];
+    }
+
+    private function getContent(Server $server)
+    {
+        return 'Memory High : '.$server->name.' ('.$server->ip.')';
+    }
+
+    private function getTitle()
+    {
+        return 'Memory Allocation';
+    }
+
+    private function getUsedStat($stats)
+    {
+        $used = mb_to_readable_format($stats['total'] - $stats['available']);
+        $total = mb_to_readable_format($stats['total']);
+        return "{$used} / {$total} (".round(100 - ($stats['available'] / $stats['total']) * 100).'%)';
     }
 }

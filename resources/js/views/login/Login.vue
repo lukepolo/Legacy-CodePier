@@ -20,6 +20,7 @@
 <script>
 import Vue from "vue";
 import ShareAccountInfoMixin from "./mixins/ShareAccountInfoMixin";
+
 export default Vue.extend({
   mixins: [ShareAccountInfoMixin],
   data() {

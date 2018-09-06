@@ -16,6 +16,7 @@ use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 use App\Notifications\Channels\SlackMessageChannel;
+use App\Notifications\Channels\DiscordMessageChannel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -239,12 +240,9 @@ class User extends Authenticatable
         $userNotification = $this->notificationSettings->keyBy('setting.event')->get($notificationClass);
 
         if (! empty($userNotification)) {
-            $services = array_replace($userNotification->services,
-                array_fill_keys(
-                    array_keys($userNotification->services, 'slack'),
-                    SlackMessageChannel::class
-                )
-            );
+            $services = [];
+            in_array('slack', $userNotification->services) ? $services[] = SlackMessageChannel::class : null;
+            in_array('discord', $userNotification->services) ? $services[] = DiscordMessageChannel::class : null;
         }
 
         return array_merge($services, $required);
@@ -419,12 +417,12 @@ class User extends Authenticatable
             'switchingPlans'       => $this->onTrial(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
-            'isCanceled'            => ! empty($this->ends_at),
             'isOnTrail'            => $this->onGenericTrial(),
             'subscriptionEnds'     => $this->getNextBillingCycle(),
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
+            'isCanceled'            => ! empty($this->subscription()->ends_at),
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }

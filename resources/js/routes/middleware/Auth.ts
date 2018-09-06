@@ -5,14 +5,14 @@ import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface
 
 @injectable()
 export default class Auth implements RouteMiddlewareInterface {
-  private $store;
+  private storeService;
   private $cookieStorage;
 
   constructor(
-    @inject("$store") $store: StateServiceInterface,
+    @inject("storeService") storeService: StateServiceInterface,
     @inject("CookieStorage") cookieStorage: CookieStorage,
   ) {
-    this.$store = $store.getStore();
+    this.storeService = storeService.getStore();
     this.$cookieStorage = cookieStorage;
   }
   passes(to, from, next) {
@@ -23,8 +23,8 @@ export default class Auth implements RouteMiddlewareInterface {
       return false;
     }
 
-    if (!this.$store.state.auth.user) {
-      this.$store.dispatch("auth/me").then(() => {
+    if (!this.storeService.state.auth.user) {
+      this.storeService.dispatch("auth/me").then(() => {
         return true;
       });
     }

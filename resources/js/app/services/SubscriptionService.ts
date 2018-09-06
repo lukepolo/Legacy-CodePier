@@ -45,6 +45,23 @@ export default class SubscriptionService {
     );
   }
 
+  updateSubscription(form) {
+    return this.$http.put(
+      this.apiRouteService.action(
+        "UserSubscriptionUserSubscriptionController@update",
+      ),
+      form,
+    );
+  }
+
+  cancelSubscription() {
+    return this.$http.delete(
+      this.apiRouteService.action(
+        "UserSubscriptionUserSubscriptionController@destroy",
+      ),
+    );
+  }
+
   downloadInvoice(invoice) {
     return this.$http
       .get(
