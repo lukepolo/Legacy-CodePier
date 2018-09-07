@@ -160,7 +160,7 @@ Route::group(['middleware' => [
             Route::apiResource('ssh-keys', 'UserSshKeyController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
-            Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
+            Route::apiResource('source-control-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
             Route::post('notification-providers/{provider}', 'Providers\UserNotificationProviderController@connect');
         });
@@ -314,7 +314,7 @@ Route::group(['middleware' => [
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
             Route::apiResource('server-providers', 'ServerProvidersController');
-            Route::apiResource('repository-providers', 'RepositoryProvidersController');
+            Route::apiResource('source-control-providers', 'RepositoryProvidersController');
             Route::apiResource('notification-providers', 'NotificationProvidersController');
         });
     });

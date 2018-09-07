@@ -18,6 +18,8 @@ import UserSshKeyService from "@app/services/User/UserSshKeyService";
 
 import SystemServerProviderService from "@app/services/System/SystemServerProviderService";
 import UserServerProviderService from "@app/services/User/UserServerProviderService";
+import UserSourceControlProviderService from "@app/services/User/UserSourceControlProviderService";
+import SystemSourceControlProviderService from "@app/services/System/SystemSourceControlProviderService";
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,10 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     // SYSTEM
     this.app.singleton("CookieStorage", CookieStorage);
     this.app.bind("SystemServerProviderService", SystemServerProviderService);
+    this.app.bind(
+      "SystemSourceControlProviderService",
+      SystemSourceControlProviderService,
+    );
 
     // AUTH SERVICES
     this.app.bind("AuthService", AuthService);
@@ -54,6 +60,10 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     this.app.bind("UserSshKeyService", UserSshKeyService);
     this.app.bind("SubscriptionService", SubscriptionService);
     this.app.bind("UserServerProviderService", UserServerProviderService);
+    this.app.bind(
+      "UserSourceControlProviderService",
+      UserSourceControlProviderService,
+    );
 
     // ROUTING
     this.app.constant("ApiRouteService", require("@app/helpers/routes"));
