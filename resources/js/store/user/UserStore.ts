@@ -8,6 +8,7 @@ import UserPileStore from "@store/user/modules/piles/UserPileStore";
 import UserSiteStore from "@store/user/modules/sites/UserSiteStore";
 import UserSshKeyStore from "@store/user/modules/ssh_keys/UserSshKeyStore";
 import UserSubscriptionStore from "@store/user/modules/subscription/UserSubscriptionStore";
+import UserServerProviderStore from "@store/user/modules/server-providers/UserServerProviderStore";
 
 @injectable()
 export default class UserStore extends StoreModule {
@@ -21,6 +22,7 @@ export default class UserStore extends StoreModule {
       .addModule(UserPileStore)
       .addModule(UserSiteStore)
       .addModule(UserSshKeyStore)
-      .addModule(UserSubscriptionStore);
+      .addModule(UserSubscriptionStore)
+      .addModule(UserServerProviderStore);
   }
 }

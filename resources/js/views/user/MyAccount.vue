@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="updateUser">
+    <base-form v-form="form" :action="updateUser">
 
         <base-input label="Name" name="name" v-model="form.name"></base-input>
         <base-input type="email" label="Email" name="email" v-model="form.email"></base-input>
@@ -18,7 +18,7 @@
 
         <div class="flyform--footer">
             <div class="flyform--footer-btns">
-                <button class="btn btn-primary" type="submit">Update Profile</button>
+                <button class="btn btn-primary" type="submit" :disabled="!form.isValid() || !form.isDirty()">Update Profile</button>
             </div>
             <div class="flyform--footer-links">
                 <template v-if="user.second_auth_active">
@@ -75,7 +75,7 @@
                 </template>
             </div>
         </div>
-    </form>
+    </base-form>
 </template>
 
 <script>
@@ -105,7 +105,7 @@ export default Vue.extend({
   },
   methods: {
     setData() {
-      this.form.fill(this.user);
+      this.form.merge(this.user).setAsOriginalData();
     },
     updateUser() {
       this.$store.dispatch("user/update", this.form.data());
@@ -125,7 +125,9 @@ export default Vue.extend({
         });
     },
     deactivateSecondAuth() {
-      this.form.second_auth_active = false;
+      this.form.fill({
+        second_auth_active: false,
+      });
       this.updateUser();
     },
   },

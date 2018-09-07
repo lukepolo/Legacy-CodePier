@@ -4,6 +4,7 @@ import getters from "./getters";
 import mutations from "./mutations";
 import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
+import ServerProvidersStore from "@store/system/modules/server-providers/ServerProvidersStore";
 
 @injectable()
 export default class SystemStore extends StoreModule {
@@ -21,6 +22,7 @@ export default class SystemStore extends StoreModule {
       .addActions(actions)
       .addMutations(mutations)
       .addGetters(getters)
+      .addModule(ServerProvidersStore)
       .listenForVersionChanges();
   }
 

@@ -27,6 +27,17 @@ class UserServerProvider extends Model
         'token_secret',
     ];
 
+    protected $hidden = [
+        'token',
+        'refresh_token',
+        'token_secret',
+        'expires_at',
+        'created_at',
+        'user_id',
+        'deleted_at',
+        'provider_id',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations

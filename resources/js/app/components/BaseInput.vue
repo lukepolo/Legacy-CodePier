@@ -3,7 +3,7 @@
         <tooltip size="medium" placement="top-right" :messsage="tooltip" v-if="tooltip">
             <span class="fa fa-info-circle"></span>
         </tooltip>
-           <template>
+           <template v-if="type !== 'textarea'">
                <input
                    :id="name"
                    :name="name"
@@ -14,8 +14,19 @@
                    v-on="$listeners"
                    placeholder=" "
                />
-               // TODO - put area back in
            </template>
+            <template v-else>
+                <textarea
+                    :id="name"
+                    :name="name"
+                    :type="type"
+                    v-bind="$attrs"
+                    :value="value"
+                    :tabindex="tabindex"
+                    v-on="$listeners"
+                    placeholder=" "
+                ></textarea>
+            </template>
         <label :class="{ 'flyform--group-iconlabel' : tooltip }" :for="name" v-if="label">{{ label }}</label>
     </div>
 </template>
@@ -52,7 +63,6 @@ export default Vue.extend({
   },
   created() {
     this.$listeners.input = ($event) => {
-      console.info("test");
       this.$emit("input", $event.target.value);
     };
   },

@@ -15,18 +15,6 @@ class ServerProvidersController extends Controller
      */
     public function index()
     {
-        return response(ServerProvider::where('provider_class', '!=', CustomProvider::class)->get());
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return response(ServerProvider::findOrFail($id));
+        return ServerProvider::where('provider_class', '!=', CustomProvider::class)->get();
     }
 }
