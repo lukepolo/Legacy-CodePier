@@ -34,10 +34,9 @@ export default {
       );
     },
     disconnectProvider() {
-      this.$store.dispatch(
-        "sourceControlProviders/destroy",
-        this.isConnected.repository_provider_id,
-      );
+      this.$store.dispatch("user/sourceControlProviders/destroy", {
+        source_control_provider: this.provider.id,
+      });
     },
   },
   computed: {
