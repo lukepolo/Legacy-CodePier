@@ -28,15 +28,25 @@ export default function(
       context: ActionContext<AuthState, RootState>,
       { provider, code, state },
     ) => {
-      return $authService.oAuthLogin(provider, code, state).then((response) => {
-        $cookieStorage.set("token", response.data);
-        context.dispatch("me");
-        context.commit("UPDATE_AUTH_AREA_DATA", {
-          name: null,
-          email: null,
-        });
-        return response.data;
-      });
+      if (!$cookieStorage.get("token")) {
+        return $authService
+          .oAuthLogin(provider, code, state)
+          .then((response) => {
+            $cookieStorage.set("token", response.data);
+            context.dispatch("me");
+            context.commit("UPDATE_AUTH_AREA_DATA", {
+              name: null,
+              email: null,
+            });
+            return response.data;
+          });
+      } else {
+        return $authService
+          .oAuthConnect(provider, code, state)
+          .then((response) => {
+            return response.data;
+          });
+      }
     },
     createAccount: (context: ActionContext<AuthState, RootState>, form) => {
       return $authService

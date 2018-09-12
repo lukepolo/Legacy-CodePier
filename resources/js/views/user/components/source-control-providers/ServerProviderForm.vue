@@ -28,9 +28,6 @@ export default {
       this.connectProvider();
     },
     connectProvider() {
-      alert(
-        "We need to figure out how to add another oauth provider after logging in....it redirects to login..but we don't want all that",
-      );
       this.$store.dispatch(
         "user/sourceControlProviders/redirectToProvider",
         this.provider.provider_name,

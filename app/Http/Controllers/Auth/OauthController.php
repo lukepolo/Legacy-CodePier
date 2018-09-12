@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Services\AuthService;
 use Socialite;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use App\Services\AuthService;
 use App\Models\RepositoryProvider;
 use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
@@ -14,6 +14,7 @@ use App\Models\User\UserLoginProvider;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Auth\Factory as Auth;
 
 class OauthController extends Controller
 {
@@ -22,6 +23,7 @@ class OauthController extends Controller
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
 
+    private $auth;
     private $authService;
 
     public static $repositoryProviders = [
@@ -38,8 +40,9 @@ class OauthController extends Controller
      * OauthController constructor.
      * @param AuthService $authService
      */
-    public function __construct(AuthService $authService)
+    public function __construct(Auth $auth, AuthService $authService)
     {
+        $this->auth = $auth;
         $this->authService = $authService;
     }
 
@@ -78,6 +81,8 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Encrypter $encrypter, Request $request, $provider)
     {
+        $this->auth->shouldUse('api');
+
         try {
             switch ($provider) {
                 case self::SLACK:
@@ -101,7 +106,7 @@ class OauthController extends Controller
                             $alreadyRegistered = User::where('email', $socialUser->getEmail())->first();
 
                             if (! empty($alreadyRegistered)) {
-                                return redirect('/login')->withErrors('You have already registered with this email.');
+                                return response()->json('You have already registered with this email.', 500);
                             }
 
                             $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
@@ -149,11 +154,7 @@ class OauthController extends Controller
                 throw $e;
             }
 
-            if (\Auth::check()) {
-                return redirect()->back()->withErrors($e->getMessage());
-            } else {
-                return redirect('/login')->withErrors($e->getMessage());
-            }
+            return response()->json($e->getMessage(), 500);
         }
     }
 
