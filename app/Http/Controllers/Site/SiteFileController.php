@@ -82,7 +82,7 @@ class SiteFileController extends Controller
             $request->get('content')
         );
 
-        event(new SiteFileUpdated($site, $file));
+        event(new SiteFileUpdated($site, $file, $this->shouldFlushLaravelConfigCache($site, $file)));
 
         return response()->json($file);
     }
@@ -123,5 +123,21 @@ class SiteFileController extends Controller
                 Server::findOrFail($serverId)
             )
         );
+    }
+
+    /**
+     * Determine if the Laravel config cache should be refreshed
+     *
+     * @param \App\Models\Site\Site $site
+     * @param \App\Models\File $file
+     * @return boolean
+     */
+    protected function shouldFlushLaravelConfigCache($site, $file)
+    {
+        if (ends_with($file->file_path, '.env') && $site->framework === 'PHP.Laravel' && $site->deploymentSteps->where('step', 'Laravel Cache Config')->first()) {
+            return true;
+        }
+
+        return false;
     }
 }

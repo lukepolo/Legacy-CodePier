@@ -462,4 +462,24 @@ class SiteService implements SiteServiceContract
             ]);
         }
     }
+
+    /**
+    * Cache Laravel config for given site
+    * @param Site $site
+    * @param Server $server
+    * @return boolean
+    */
+    public function cacheLaravelConfig(Site $site, Server $server)
+    {
+        $this->remoteTaskService->ssh($server, 'codepier');
+
+        $artisan = 'php /home/codepier/'.$site->domain.($site->zero_downtime_deployment ? '/current' : null).'/artisan';
+
+        try {
+            $this->remoteTaskService->run("$artisan config:cache");
+            return true;
+        } catch (FailedCommand $e) {
+            return false;
+        }
+    }
 }

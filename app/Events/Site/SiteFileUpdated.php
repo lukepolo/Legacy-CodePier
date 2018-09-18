@@ -17,15 +17,18 @@ class SiteFileUpdated
      *
      * @param Site $site
      * @param File $file
+     * @param boolean|null $shouldFlushLaravelConfigCache
      */
-    public function __construct(Site $site, File $file)
+    public function __construct(Site $site, File $file, $shouldFlushLaravelConfigCache = false)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $file, 'Updating');
+            $status = 'Updating';
+            $shouldFlushLaravelConfigCache ? $status .= ' (and refreshing config cache for)' : null;
+            $siteCommand = $this->makeCommand($site, $file, $status);
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new UpdateServerFile($server, $file, $siteCommand))
+                    (new UpdateServerFile($server, $file, $siteCommand, $site, $shouldFlushLaravelConfigCache))
                         ->onQueue(config('queue.channels.server_commands'))
                 );
             }
