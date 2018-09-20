@@ -5,17 +5,15 @@ import { injectable, inject } from "inversify";
 export default class BroadcastService {
   private $echo;
 
-  constructor(@inject("$config") $config) {
+  constructor(@inject("ConfigService") configService) {
     // @ts-ignore
     window.io = require("socket.io-client");
 
-    let env = $config.get("env");
-
     this.$echo = new Echo({
       broadcaster: "socket.io",
-      key: env.PUSHER_APP_KEY,
+      key: configService.get("services.PUSHER_APP_KEY"),
       host:
-        env.ENV === "local"
+        configService.get("app.ENV") === "local"
           ? `${window.location.hostname}:6001`
           : "https://ws.codepier.io:6001",
     });

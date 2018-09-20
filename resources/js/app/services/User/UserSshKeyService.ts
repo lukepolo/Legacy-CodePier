@@ -4,9 +4,9 @@ import RestServiceClass from "@app/services/RestServiceClass";
 @injectable()
 export default class UserSshKeyService extends RestServiceClass {
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") apiRouteService,
   ) {
-    super($http, apiRouteService, "UserUserSshKeyController");
+    super(httpService, apiRouteService, "UserUserSshKeyController");
   }
 }

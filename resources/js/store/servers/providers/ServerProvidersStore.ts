@@ -8,13 +8,13 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 @injectable()
 export default class ServerProvidersStore extends RestStoreModule {
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("SystemServerProviderService") systemServerProviderService,
   ) {
     super(systemServerProviderService, "provider");
     this.setName("serverProviders")
       .addState(state)
-      .addActions(actions($http))
+      .addActions(actions(httpService))
       .addMutations(mutations)
       .addGetters(getters);
   }

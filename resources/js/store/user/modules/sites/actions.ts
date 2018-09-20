@@ -2,10 +2,10 @@ import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { SitesState } from "./stateInterface";
 
-export default function($http) {
+export default function(httpService) {
   return {
     changePile: (context: ActionContext<SitesState, RootState>, data) => {
-      return $http.post("/some-url", {
+      return httpService.post("/some-url", {
         data,
       });
     },

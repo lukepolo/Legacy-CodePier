@@ -4,18 +4,18 @@ import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 @injectable()
 export default class SubscriptionService {
   private apiRouteService;
-  private $http: HttpServiceInterface;
+  private httpService: HttpServiceInterface;
 
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") ApiRouteService,
   ) {
-    this.$http = $http;
+    this.httpService = httpService;
     this.apiRouteService = ApiRouteService;
   }
 
   getCurrentSubscription() {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action(
         "UserSubscriptionUserSubscriptionController@index",
       ),
@@ -23,13 +23,13 @@ export default class SubscriptionService {
   }
 
   plans() {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action("SubscriptionController@index"),
     );
   }
 
   invoices() {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action(
         "UserSubscriptionUserSubscriptionInvoiceController@index",
       ),
@@ -37,7 +37,7 @@ export default class SubscriptionService {
   }
 
   subscribe(form) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action(
         "UserSubscriptionUserSubscriptionController@store",
       ),
@@ -46,7 +46,7 @@ export default class SubscriptionService {
   }
 
   updateSubscription(form) {
-    return this.$http.put(
+    return this.httpService.put(
       this.apiRouteService.action(
         "UserSubscriptionUserSubscriptionController@update",
       ),
@@ -55,7 +55,7 @@ export default class SubscriptionService {
   }
 
   cancelSubscription() {
-    return this.$http.delete(
+    return this.httpService.delete(
       this.apiRouteService.action(
         "UserSubscriptionUserSubscriptionController@destroy",
       ),
@@ -63,7 +63,7 @@ export default class SubscriptionService {
   }
 
   downloadInvoice(invoice) {
-    return this.$http
+    return this.httpService
       .get(
         this.apiRouteService.action(
           "UserSubscriptionUserSubscriptionInvoiceController@show",

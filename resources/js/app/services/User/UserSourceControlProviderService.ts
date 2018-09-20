@@ -4,11 +4,11 @@ import RestServiceClass from "@app/services/RestServiceClass";
 @injectable()
 export default class UserSourceControlProviderService extends RestServiceClass {
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") apiRouteService,
   ) {
     super(
-      $http,
+      httpService,
       apiRouteService,
       "UserProvidersUserRepositoryProviderController",
     );

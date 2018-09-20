@@ -8,7 +8,7 @@ export default class ApiErrors implements HttpMiddlewareInterface {
   private notificationService: NotificationServiceInterface;
 
   constructor(
-    @inject("notificationService")
+    @inject("NotificationService")
     notificationService: NotificationServiceInterface,
   ) {
     this.notificationService = notificationService;

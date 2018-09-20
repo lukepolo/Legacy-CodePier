@@ -4,18 +4,18 @@ import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 @injectable()
 export default class AuthService {
   private apiRouteService;
-  private $http: HttpServiceInterface;
+  private httpService: HttpServiceInterface;
 
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") ApiRouteService,
   ) {
-    this.$http = $http;
+    this.httpService = httpService;
     this.apiRouteService = ApiRouteService;
   }
 
   login(email, password) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("AuthLoginController@login"),
       {
         email,
@@ -25,7 +25,7 @@ export default class AuthService {
   }
 
   oAuthLogin(provider, code, state) {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action(
         "AuthOauthController@getHandleProviderCallback",
         {
@@ -38,7 +38,7 @@ export default class AuthService {
   }
 
   oAuthConnect(provider, code, state) {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action(
         "AuthOauthController@getHandleProviderCallback",
         {
@@ -51,7 +51,7 @@ export default class AuthService {
   }
 
   createAccount(name, email, password, confirmPassword) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("AuthRegisterController@register"),
       {
         name,
@@ -63,7 +63,7 @@ export default class AuthService {
   }
 
   forgotPasswordRequest(email) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action(
         "AuthForgotPasswordController@sendResetLinkEmail",
       ),
@@ -74,7 +74,7 @@ export default class AuthService {
   }
 
   resetPassword(token, email, password, confirmPassword) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("AuthResetPasswordController@reset"),
       {
         email,

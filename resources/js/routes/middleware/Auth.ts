@@ -9,7 +9,7 @@ export default class Auth implements RouteMiddlewareInterface {
   private $cookieStorage;
 
   constructor(
-    @inject("storeService") storeService: StateServiceInterface,
+    @inject("StoreService") storeService: StateServiceInterface,
     @inject("CookieStorage") cookieStorage: CookieStorage,
   ) {
     this.storeService = storeService.getStore();

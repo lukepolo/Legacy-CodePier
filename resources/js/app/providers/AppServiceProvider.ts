@@ -10,6 +10,7 @@ import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 
 import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
+import NotificationSettingService from "@app/services/System/NotificationSettingService";
 
 import SiteService from "@app/services/SiteService";
 import SubscriptionService from "@app/services/SubscriptionService";
@@ -38,6 +39,7 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     // SYSTEM
     this.app.singleton("CookieStorage", CookieStorage);
     this.app.bind("SystemServerProviderService", SystemServerProviderService);
+    this.app.bind("NotificationSettingService", NotificationSettingService);
     this.app.bind(
       "SystemSourceControlProviderService",
       SystemSourceControlProviderService,
