@@ -52,7 +52,7 @@
 export default {
   props: {
     provider: {
-      default: null,
+      required: true,
     },
   },
   data() {

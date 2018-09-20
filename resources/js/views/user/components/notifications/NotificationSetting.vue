@@ -30,7 +30,6 @@ export default {
   props: ["setting"],
   methods: {
     hasNotificationSetting(setting, service) {
-      return true;
       // let notification = _.find(this.userNotificationSettings, {
       //   setting_id: setting.id,
       // });
@@ -38,30 +37,24 @@ export default {
       // if (notification) {
       //   return _.indexOf(notification.services, service) !== -1;
       // }
-      // return false;
+      return false;
     },
     isConnected(service) {
-      return true;
-      // if (service === "mail") {
-      //   return true;
-      // }
-      // let provider = _.find(this.notificationProviders, "name", service);
-      //
-      // if (provider) {
-      //   return _.find(this.userNotificationProviders, {
-      //     notification_provider_id: provider.id,
-      //   });
-      // }
-      //
-      // return false;
+      if (service === "mail") {
+        return true;
+      }
+
+      return this.notificationProviders.find((provider) => {
+        return provider.provider_name === service;
+      });
     },
   },
   computed: {
     userNotificationSettings() {
-      return this.$store.state.user_settings.settings;
+      return this.$store.state.user.notification.setting.settings;
     },
     notificationProviders() {
-      return this.$store.state.notification_providers.providers;
+      return this.$store.state.notification.providers.providers;
     },
     userNotificationProviders() {
       return this.$store.state.user_notification_providers.providers;

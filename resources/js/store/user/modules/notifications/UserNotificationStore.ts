@@ -4,11 +4,11 @@ import getters from "./getters";
 import mutations from "./mutations";
 import StoreModule from "varie/lib/state/StoreModule";
 import { injectable, inject, unmanaged } from "inversify";
-import NotificationSettingStore from "@store/notifications/modules/settings/NotificationSettingStore";
-import NotificationProviderStore from "@store/notifications/modules/providers/NotificationProviderStore";
+import UserNotificationSettingStore from "@store/user/modules/notifications/modules/settings/UserNotificationSettingStore";
+import UserNotificationProviderStore from "@store/user/modules/notifications/modules/providers/UserNotificationProviderStore";
 
 @injectable()
-export default class NotificationStore extends StoreModule {
+export default class UserNotificationStore extends StoreModule {
   constructor(@inject("HttpService") httpService) {
     super();
     this.setName("notification")
@@ -16,7 +16,7 @@ export default class NotificationStore extends StoreModule {
       .addActions(actions(httpService))
       .addMutations(mutations)
       .addGetters(getters)
-      .addModule(NotificationSettingStore)
-      .addModule(NotificationProviderStore);
+      .addModule(UserNotificationProviderStore)
+      .addModule(UserNotificationSettingStore);
   }
 }

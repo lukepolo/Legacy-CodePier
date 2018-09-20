@@ -6,16 +6,14 @@ import { injectable, inject, unmanaged } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class UserSourceControlProviderStore extends RestStoreModule {
+export default class UserNotificationSettingStore extends RestStoreModule {
   constructor(
-    @inject("UserSourceControlProviderService")
-    userSourceControlProviderService,
-    @inject("OauthService") oauthService,
+    @inject("UserNotificationSettingService") userNotificationSettingService,
   ) {
-    super(userSourceControlProviderService, "provider");
-    this.setName("sourceControlProviders")
+    super(userNotificationSettingService, "setting");
+    this.setName("settings")
       .addState(state)
-      .addActions(actions(userSourceControlProviderService, oauthService))
+      .addActions(actions(userNotificationSettingService))
       .addMutations(mutations)
       .addGetters(getters);
   }

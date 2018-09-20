@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import RestServiceClass from "@app/services/RestServiceClass";
 
 @injectable()
-export default class UserSourceControlProviderService extends RestServiceClass {
+export default class UserNotificationProviderService extends RestServiceClass {
   constructor(
     @inject("HttpService") httpService,
     @inject("ApiRouteService") apiRouteService,
@@ -10,7 +10,7 @@ export default class UserSourceControlProviderService extends RestServiceClass {
     super(
       httpService,
       apiRouteService,
-      "UserProvidersUserRepositoryProviderController",
+      "UserProvidersUserNotificationProviderController",
     );
   }
 }

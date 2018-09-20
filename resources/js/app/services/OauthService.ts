@@ -13,4 +13,12 @@ export default class OauthService {
       provider,
     });
   }
+
+  redirectToProvider(provider) {
+    window.location.replace(
+      this.apiRouteService.action("AuthOauthController@newProvider", {
+        provider: provider,
+      }),
+    );
+  }
 }

@@ -4,18 +4,17 @@ import getters from "./getters";
 import mutations from "./mutations";
 import { injectable, inject, unmanaged } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
+import NotificationProviderService from "@app/services/Notification/NotificationProviderService";
 
 @injectable()
-export default class UserSourceControlProviderStore extends RestStoreModule {
+export default class NotificationProviderStore extends RestStoreModule {
   constructor(
-    @inject("UserSourceControlProviderService")
-    userSourceControlProviderService,
-    @inject("OauthService") oauthService,
+    @inject("NotificationProviderService") notificationProviderService,
   ) {
-    super(userSourceControlProviderService, "provider");
-    this.setName("sourceControlProviders")
+    super(notificationProviderService, "provider");
+    this.setName("providers")
       .addState(state)
-      .addActions(actions(userSourceControlProviderService, oauthService))
+      .addActions(actions(notificationProviderService))
       .addMutations(mutations)
       .addGetters(getters);
   }
