@@ -1,5 +1,5 @@
 <template>
-    <div id="register_form">
+    <div id="register_form" class="login--form">
         <div class="flyform--heading">
             <h2>Create Account</h2>
             <p>Fill out the following fields to create your account.</p>

@@ -27,11 +27,9 @@
     <body>
         <div id="app-layout">
             <header>
-                <div class="logo-container">
-                    <router-link to="/">
-                        <img src="/assets/img/codepier_w.svg">
-                    </router-link>
-                </div>
+                <router-link to="/" class="header--logo">
+                    <img src="/assets/img/codepier_w.svg">
+                </router-link>
 
                 <ul class="nav nav-left nav-piles">
                     <li class="dropdown arrow">
@@ -45,10 +43,10 @@
             <div id="xlarge-wrap">
                 <div id="main">
                     <section class="view">
-                        <section id="left" class="section-column">
-                            <h3 class="section-header">Components</h3>
+                        <section id="left" class="column">
+                            <h3 class="column--header">Components</h3>
                         </section>
-                        <section id="middle" class="section-column">
+                        <section id="middle" class="column">
                             @yield('content')
                         </section>
                     </section>

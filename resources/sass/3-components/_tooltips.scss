@@ -1,0 +1,26 @@
+// TOOLTIP STYLES ==========================================
+// =========================================================
+//@import "~hint.css/src/hint";
+
+[data-toggle="tooltip"],
+[class^="hint-"],
+[class*=" hint-"] {
+  cursor: pointer;
+  vertical-align: bottom;
+  z-index: 100;
+}
+
+// TODO: not sure what this was for, but breaking compile
+// .#{$hintPrefix}none {
+//   &:before,
+//   &:after {
+//     opacity: 0 !important;
+//   }
+// }
+
+.heading--btns {
+  [class^="hint-"],
+  [class*=" hint-"] {
+    z-index: 150;
+  }
+}

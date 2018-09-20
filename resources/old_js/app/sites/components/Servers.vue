@@ -1,9 +1,9 @@
 <template>
     <div v-if="site">
-        <h3 class="section-header">
+        <h3 class="column--header">
             Attached Servers
 
-            <div class="section-header--btn-right" v-if="siteServers && siteServers.length || availableServers.length">
+            <div class="column--header--btn-right" v-if="siteServers && siteServers.length || availableServers.length">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
@@ -23,7 +23,7 @@
             <span class="icon-server"></span>
         </h3>
 
-        <div class="section-content">
+        <div class="column--content">
 
             <template v-if="!connectServers && siteServers">
                 <template v-for="server in siteServers">
@@ -52,7 +52,7 @@
                <template v-if="site.repository && workFlowCompleted">
                    <template v-if="availableServers.length">
 
-                       <h3 class="section-header--secondary">Available Servers</h3>
+                       <h3 class="column--header--secondary">Available Servers</h3>
 
                        <form @submit.prevent="linkServers">
 
@@ -93,7 +93,7 @@
                    </template>
 
                    <template v-else>
-                       <h3 class="section-header--secondary">Lets create your first Server</h3>
+                       <h3 class="column--header--secondary">Lets create your first Server</h3>
                        <server-create-list classes="btn"></server-create-list>
                        <template v-if="availableServers.length">
                            <li>
@@ -108,7 +108,7 @@
                <template v-else>
                    <div class="jcf-form-wrap">
                        <div class="jcf-input-group">
-                           <h5 class="section-header--secondary">
+                           <h5 class="column--header--secondary">
                                Please fill out your <br>app requirements before creating a server
                            </h5>
                        </div>

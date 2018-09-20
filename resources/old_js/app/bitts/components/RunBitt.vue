@@ -1,5 +1,5 @@
 <template>
-        <div class="section-content">
+        <div class="column--content">
             <div class="side-container">
                 <h3>{{ bitt.title }}</h3>
 

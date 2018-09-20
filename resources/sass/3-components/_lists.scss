@@ -1,0 +1,377 @@
+// LIST ITEM STYLES ========================================
+// =========================================================
+
+// SITE LIST STYLES ----------------------------------------
+// ---------------------------------------------------------
+.site > a {
+  display: block;
+  color: $color-text-primary;
+  border-bottom: 1px solid $color-divider;
+  padding: $spacing;
+  position: relative;
+
+  &.router-link-active {
+    color: $color-text-accent;
+    background-color: mix($gray, $black, 50%);
+  }
+
+  &:not(.router-link-active):hover {
+    color: mix($white, $blue, 50%);
+    background-color: rgba($white, 0.05);
+    cursor: pointer;
+  }
+}
+
+.site-name {
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: $spacing/4;
+
+  // EVENTS ITEM STATUS
+  .event-status {
+    flex: 0 0 auto;
+    width: 1em;
+    margin-right: $spacing;
+
+    &-neutral {
+      @include status(null);
+      top: -3px;
+    }
+
+    &-success {
+      @include status(success);
+      top: -3px;
+    }
+
+    &-error {
+      @include status(error);
+      top: -3px;
+    }
+
+    &-warning {
+      @include status(warning);
+      top: -3px;
+    }
+  }
+
+  .deploy-status {
+    float: right;
+    text-align: right;
+
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 1.5em;
+    }
+
+    .btn-disabled {
+      background-color: transparent;
+    }
+
+    .deploy-status-text {
+      display: block;
+      font-size: 0.7em;
+      color: $color-text-secondary;
+      position: relative;
+      left: 7px;
+      top: -5px;
+    }
+  }
+}
+
+// Clean Up
+
+#left .column--content {
+  display: flex;
+  flex-direction: column;
+
+  .btn-container {
+    flex: 1 1 auto;
+  }
+}
+
+.site-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slack-invite a {
+  display: block;
+  border-top: 1px solid $color-divider;
+  text-align: center;
+  padding: $spacing;
+
+  &:hover {
+    background-color: rgba($white, 0.05);
+  }
+}
+
+// After server list
+.server + .slack-invite a {
+  border-top: none;
+  border-bottom: 1px solid $color-divider;
+}
+
+.status {
+  flex: 0 0 auto;
+  margin-right: $spacing/2;
+
+  &--neutral {
+    @include status(null);
+  }
+
+  &--success {
+    @include status(success);
+  }
+
+  &--error {
+    @include status(error);
+  }
+
+  &--warning {
+    @include status(warning);
+  }
+}
+
+// SERVER LIST
+.list {
+  + .list {
+    margin-top: $spacing;
+  }
+
+  &--item {
+    display: block;
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
+
+    &:not(.list--item-heading):last-child {
+      border: none;
+    }
+
+    .icon-arrow-right {
+      transition: all 0.2s ease;
+    }
+
+    &.selected {
+      background-color: mix($gray, $black, 50%);
+
+      .icon-arrow-right {
+        color: $color-text-accent;
+        transform: rotate(90deg) scale(1.3);
+        transition: all 0.2s ease;
+      }
+    }
+
+    &-text {
+      flex-grow: 1;
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: $spacing/4;
+      padding-right: 1.4em;
+    }
+
+    &-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        transform: scale(1.3);
+        color: $color-text-secondary;
+      }
+
+      &-subgroup {
+        padding: $spacing/2 $spacing $spacing/2 $spacing * 3;
+      }
+    }
+
+    &-heading {
+      border: 1px solid $color-divider;
+      background-color: rgba($color-divider, 0.5);
+      font-weight: 400;
+      padding: $spacing/2 $spacing;
+    }
+
+    &-subgroup {
+      padding: $spacing/2 $spacing $spacing/2 $spacing * 2;
+    }
+
+    &-click {
+      &:hover {
+        background-color: rgba($color-divider, 0.2);
+        cursor: pointer;
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+          color: $color-primary;
+        }
+      }
+    }
+
+    @at-root a#{ &}:hover {
+      cursor: pointer;
+
+      &:before {
+        content: "\f105";
+        font-family: "icomoon";
+        font-size: 2em;
+        line-height: 0.7em;
+        display: inline-block;
+        float: right;
+      }
+    }
+  }
+
+  &--icon {
+    [class^="icon-"]:hover,
+    [class*=" icon-"]:hover {
+      cursor: pointer;
+      color: $color-primary;
+    }
+
+    .icon-trash:hover {
+      color: $red;
+    }
+
+    + .list--icon {
+      margin-left: $spacing;
+    }
+
+    .icon-trash {
+      position: relative;
+      top: -3px;
+    }
+  }
+}
+
+// Site Files
+.editor {
+  &:not(.ace_editor) {
+    border: 4px solid mix($gray, $black, 50%);
+  }
+
+  .editor--actions {
+    background-color: $gray;
+    padding: 20px;
+  }
+}
+
+// Forms Inside list items
+.list {
+  .flyform--submit {
+    padding: 0 20px;
+  }
+
+  .flyform--group {
+    margin-top: 10px;
+  }
+}
+
+// CPU USAGE
+.cpu-load {
+  display: flex;
+}
+
+.cpu-group {
+  flex: 1 1 1em;
+
+  &:nth-child(2) {
+    margin: 0 5px;
+  }
+}
+
+.cpu-min {
+  text-align: center;
+}
+
+// LIFELINE STYLES -----------------------------------------
+// ---------------------------------------------------------
+.lifeline {
+  label {
+    top: -4px;
+  }
+
+  &--item:not(:last-child) {
+    border-bottom: 1px solid transparent;
+  }
+
+  &--btns {
+    span + span {
+      margin-left: $spacing/2;
+    }
+  }
+
+  .confirm-container {
+    margin: 0;
+  }
+}
+
+// SERVER TYPE LIST STYLES ---------------------------------
+// ---------------------------------------------------------
+.server-type-list {
+  min-width: 300px;
+
+  .server-type-list-text {
+    display: block;
+    color: $color-text-accent;
+    text-align: center;
+    font-weight: 300;
+    border-top: 1px solid $color-divider;
+    padding: 60px 20px 20px;
+
+    &:hover:after {
+      display: none;
+    }
+  }
+
+  p {
+    padding: 0 $spacing;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li a {
+    cursor: pointer;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: $color-text-secondary;
+    padding: $spacing/1.5 $spacing;
+    position: relative;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue;
+
+      &:after {
+        content: "\f105";
+        font-family: "icomoon";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $blue;
+        font-size: 1.5em;
+      }
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  li:not(:last-child) {
+    border-bottom: 1px solid $color-divider;
+  }
+}

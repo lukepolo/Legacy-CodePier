@@ -1,10 +1,10 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <h3 class="section-header primary">Create New Server</h3>
+        <section id="middle" class="column">
+            <h3 class="column--header primary">Create New Server</h3>
 
-            <div class="section-content">
+            <div class="column--content">
                 <div class="container">
                     <form @submit.prevent="createServer()" class="validation-form floating-labels">
 

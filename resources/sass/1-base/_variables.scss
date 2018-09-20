@@ -1,0 +1,87 @@
+// VARIABLES ===============================================
+// =========================================================
+
+// COLOR VARIABLES -----------------------------------------
+// ---------------------------------------------------------
+$white: #ffffff;
+$black: #2b2b2b;
+$gray-dark: #3c3f41;
+$gray: #505254;
+$gray-light: #b6b6b6;
+$gray-xlight: #eff1f3;
+
+$blue: #48acf0;
+$red: #f4645f;
+$green: #83b692;
+$yellow: #fec07a;
+
+// COLOR DECLARATIONS --------------------------------------
+// ---------------------------------------------------------
+
+// BACKGROUNDS
+$color-background: mix($gray-dark, $white, 95%);
+$color-background-light: mix($gray-dark, $white, 90%);
+$color-background-dark: $gray-dark;
+$color-background-inverse: $white;
+$color-background-inverse-light: $gray-xlight;
+$color-background-inverse-dark: $gray;
+
+// NAVIGATION
+$color-background-nav: $black;
+$color-background-nav-inverse: $white;
+
+// BASIC
+$color-primary: $blue;
+$color-accent: $red;
+
+// TEXT
+$color-text-primary: $white;
+$color-text-secondary: $gray-light;
+$color-text-inverse-primary: $black;
+$color-text-inverse-secondary: $gray-light;
+$color-text-link: $blue;
+$color-text-accent: $red;
+
+// DIVIDERS
+$color-divider: $black;
+$color-divider-inverse: $gray-light;
+
+// STATES
+$color-state-success: $green;
+$color-state-neutral: $blue;
+$color-state-warning: $yellow;
+$color-state-danger: $red;
+$color-state-null: $gray;
+
+$color-state-text-success: mix($color-state-success, $white, 75%);
+$color-state-text-neutral: mix($color-state-neutral, $white, 75%);
+$color-state-text-warning: mix($color-state-warning, $white, 75%);
+$color-state-text-danger: mix($color-state-danger, $white, 75%);
+$color-state-text-null: mix($color-state-null, $white, 75%);
+
+// HOVER
+// $color-hover-overlay:             rgba($gray, .3);
+// $color-hover-overlay-inverse:     rgba($gray-dark, .3);
+// $color-hover-link:                mix($black, $color-text-link, 30%);
+// $color-hover-link-inverse:        mix($white, $color-text-link, 40%);
+// $color-hover-list:                mix($color-text-link, $white, 5%);
+
+// FONT VARIABLES ------------------------------------------
+// ---------------------------------------------------------
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");
+@import url("https://fonts.googleapis.com/css?family=Cutive+Mono");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,800");
+
+// Logo Font                      'AKASHI' https://www.fontsquirrel.com/fonts/Akashi
+$font-body: "Roboto", sans-serif;
+$font-heading: "Open Sans", serif;
+$font-heading-web: "Montserrat", serif;
+$font-monospace: "Cutive Mono", monospace;
+$font-icon: "icomoon";
+
+$font-size: 14px;
+$font-weight: 300;
+
+// LAYOUT VARIABLES ----------------------------------------
+// ---------------------------------------------------------
+$spacing: 20px;

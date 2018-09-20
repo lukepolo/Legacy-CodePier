@@ -107,7 +107,7 @@
 
                 <template v-if="dns.host">
                     Your domain is currently pointing to :
-                    <a :href="'//' + dns.ip" target="_blank" :class="{ 'text-error' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
+                    <a :href="'//' + dns.ip" target="_blank" :class="{ 'text-danger' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
                         {{ dns.ip }}
                     </a>
                 </template>
@@ -260,7 +260,7 @@
                 <h3 class="text-center heading">Recent Deployments</h3>
 
                 <div v-if="!recentDeployments">
-                    <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
+                    <div class="text-empty text-center">Recent deployments will show up here once you have deployed your site.</div>
                 </div>
                 <template v-else>
                     <div class="list">

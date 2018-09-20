@@ -1,8 +1,8 @@
 <template>
     <section>
-        <section id="middle" class="section-column">
-            <h3 class="section-header primary">My Servers</h3>
-            <div class="section-content">
+        <section id="middle" class="column">
+            <h3 class="column--header primary">My Servers</h3>
+            <div class="column--content">
                 <div class="container">
                     <ul class="wizard">
                         <li class="wizard-item" v-bind:class="{ 'router-link-active': !showArchive }">

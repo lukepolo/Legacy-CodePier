@@ -1,0 +1,237 @@
+// BASE STYLES =============================================
+// =========================================================
+@import "normalize"; // $green
+@import "variables"; // $green
+@import "mixins"; // $green
+
+// SIZING --------------------------------------------------
+// ---------------------------------------------------------
+* {
+  box-sizing: border-box;
+}
+
+#app,
+body,
+html {
+  height: 100vh;
+}
+
+body {
+  background-color: $color-background;
+  color: $color-text-primary;
+  font-family: $font-body;
+  font-weight: $font-weight;
+  font-size: $font-size;
+}
+
+// IMAGES --------------------------------------------------
+// ---------------------------------------------------------
+img {
+  max-width: 100%;
+}
+
+// LINKS ---------------------------------------------------
+// ---------------------------------------------------------
+a {
+  display: inline-block;
+  color: $color-text-link;
+  text-decoration: none;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: mix($white, $color-text-link, 50%);
+    text-decoration: none;
+    cursor: pointer;
+
+    &.text-success {
+      color: mix($white, $green, 30%);
+    }
+
+    &.text-danger {
+      color: mix($white, $red, 30%);
+    }
+
+    &.text-warning {
+      color: mix($white, $yellow, 30%);
+    }
+  }
+}
+
+.text-link {
+  color: $color-text-link;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: mix($white, $color-text-link, 50%);
+  }
+}
+
+// TEXT ----------------------------------------------------
+// ---------------------------------------------------------
+span {
+  display: inline-block;
+}
+
+p {
+  &.intro {
+    font-size: 1.2em;
+  }
+}
+
+hr {
+  border-top-color: $color-divider;
+}
+
+pre {
+  font-family: $font-monospace;
+}
+
+small {
+  color: $color-text-secondary;
+}
+
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, 0.7);
+  padding-top: $spacing/4;
+}
+
+.primary {
+  color: $color-primary;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+.text {
+  &-center {
+    text-align: center;
+  }
+
+  &-left {
+    text-align: left;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-primary {
+    color: $color-primary;
+  }
+
+  &-accent {
+    color: $color-accent;
+  }
+
+  &-success {
+    color: $color-state-success;
+  }
+
+  &-warning {
+    color: $color-state-warning;
+  }
+
+  &-danger {
+    color: $color-state-danger;
+  }
+
+  &-null {
+    color: $color-state-null;
+  }
+
+  &-badge {
+    font-size: 1.2em;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &-break {
+    word-break: break-word;
+  }
+
+  // TODO: jf - can we remove this
+  &-clip {
+    @include lineclamp(1);
+    max-width: 185px;
+    vertical-align: bottom;
+  }
+
+  // empty state text
+  &-empty {
+    font-size: 18px;
+    font-family: $font-heading;
+    font-weight: 400;
+    color: $color-text-secondary;
+    letter-spacing: 0.5px;
+    margin: $spacing 0;
+  }
+}
+
+// HEADINGS ------------------------------------------------
+// ---------------------------------------------------------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-heading;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $color-text-secondary;
+  margin: 0;
+
+  &.primary {
+    font-weight: 700;
+  }
+
+  &.secondary {
+    color: mix($color-text-accent, $white, 30%);
+  }
+
+  small {
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+
+.heading {
+  margin-bottom: $spacing;
+
+  &--btns {
+    display: flex;
+    align-items: center;
+
+    .btn-link {
+      font-size: 18px;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+.in-workflow {
+  .heading--btns {
+    align-items: flex-start;
+    margin-top: 5px;
+
+    .confirm-dialog {
+      left: auto;
+      right: -40px;
+      transform: none;
+
+      &:after,
+      &:before {
+        left: auto;
+        right: 40px;
+        transform: none;
+      }
+    }
+  }
+}

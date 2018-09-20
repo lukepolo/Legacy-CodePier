@@ -7,8 +7,8 @@
             <tooltip message="Servers to Run On"><span class="icon-server" @click="showModal()"></span></tooltip>
             <server-selection-modal v-if="showingModal">
                 <template v-if="site">
-                    <h3 class="section-header">Select Servers</h3>
-                    <div class="section-content section-content-padding">
+                    <h3 class="column--header">Select Servers</h3>
+                    <div class="column--content column--content-padding">
                         <p>By default we install on all servers. To select specific servers, choose from the list below:</p>
 
                         <h4 class="text-primary">{{ title }}</h4>

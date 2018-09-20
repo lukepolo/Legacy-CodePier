@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td class="break-word">{{ cronJob.job }}</td>
+        <td class="text-break">{{ cronJob.job }}</td>
         <td>{{ cronJob.user }}</td>
         <td>
             <template v-if="isRunningCommand">

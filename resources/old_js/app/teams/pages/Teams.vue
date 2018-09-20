@@ -1,11 +1,11 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <h3 class="section-header primary">
+        <section id="middle" class="column">
+            <h3 class="column--header primary">
                 My Teams
             </h3>
-            <div class="section-content">
+            <div class="column--content">
                 <div class="container">
                     <div class="panel-heading clearfix">
                         Teams

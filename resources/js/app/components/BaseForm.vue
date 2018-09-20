@@ -1,5 +1,5 @@
 <template>
-    <form :method="method" @submit.prevent="action">
+    <form @submit.prevent="action">
         <div class="flyform--content">
             <slot></slot>
         </div>
@@ -20,13 +20,6 @@ export default Vue.extend({
   props: {
     action: {
       required: true,
-    },
-    data: {
-      required: false,
-    },
-    method: {
-      type: String,
-      default: "POST",
     },
   },
 });

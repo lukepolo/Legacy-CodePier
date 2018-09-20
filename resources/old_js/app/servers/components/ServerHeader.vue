@@ -1,8 +1,8 @@
 <template>
-    <h3 class="section-header primary" v-if="server">
+    <h3 class="column--header primary" v-if="server">
         Server {{ server.name }} <small>({{ server.ip }})</small>
 
-        <div class="section-header--btn-right">
+        <div class="column--header--btn-right">
 
             <drop-down tag="span">
 

@@ -1,0 +1,92 @@
+// Main Navigation ====================
+// ====================================
+.nav {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  &--left {
+    max-height: 60px;
+  }
+
+  &--right {
+    justify-content: flex-end;
+
+    @include breakpoint(sm) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  &--logo {
+    width: 250px;
+    margin-left: $spacing/2;
+    padding: 0 $spacing;
+
+    @include breakpoint(sm) {
+      padding: $spacing/2;
+    }
+  }
+
+  &--link {
+    color: $color-text-primary;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: $font-heading;
+    text-transform: uppercase;
+    padding: $spacing $spacing * 1.5;
+    position: relative;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $color-primary;
+
+      &:after {
+        content: "";
+        background-color: $color-primary;
+        height: 2px;
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        left: 0;
+      }
+
+      @include breakpoint(sm) {
+        &:after {
+          display: none;
+        }
+      }
+    }
+
+    &-highlight {
+      color: $color-primary;
+      font-weight: 600;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: $color-primary;
+      }
+    }
+
+    &-block {
+      background-color: $color-primary;
+      color: $color-text-inverse-primary;
+      font-weight: 600;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $color-text-inverse-primary;
+        background-color: mix($color-primary, $white, 80%);
+      }
+    }
+
+    @include breakpoint(sm) {
+      padding: 15px 18px;
+    }
+  }
+}

@@ -1,34 +1,26 @@
 <template>
-  <section>
-    <section class="view">
-      <section id="middle" class="section-column full-form">
-        <div class="section-content">
-          <div class="login-wrap">
-            <div class="img-wrap">
-              <router-link to="/">
-                <img src="../../../img/CP_Logo-onGray.svg" alt="CodePier">
-              </router-link>
-            </div>
+  <section id="middle" class="fullScreen">
+    <div class="login">
+      <router-link to="/" class="login--img">
+        <img src="../../../img/CP_Logo-onGray.svg" alt="CodePier">
+      </router-link>
 
-            <router-view></router-view>
+      <router-view></router-view>
 
-            <h5 class="text-center"> - Or sign in using -</h5>
+      <h5 class="text-center"> - Or sign in using - </h5>
 
-            <ul class="list-inline text-center">
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('github')"><i class="fa fa-github"></i></a>
-              </li>
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('bitbucket')"><i class="fa fa-bitbucket"></i></a>
-              </li>
-              <li>
-                <a class="btn btn-primary btn-circle" @click="oauthLogin('gitlab')"><i class="fa fa-gitlab"></i></a>
-              </li>
-            </ul>
-          </div>
+      <div class="social">
+        <div class="social--item">
+          <a class="btn btn-primary btn-circle" @click="oauthLogin('github')"><span class="icon-github"></span></a>
         </div>
-      </section>
-    </section>
+        <div class="social--item">
+          <a class="btn btn-primary btn-circle" @click="oauthLogin('bitbucket')"><span class="icon-bitbucket"></span></a>
+        </div>
+        <div class="social--item">
+          <a class="btn btn-primary btn-circle" @click="oauthLogin('gitlab')"><span class="icon-gitlab"></span></a>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 

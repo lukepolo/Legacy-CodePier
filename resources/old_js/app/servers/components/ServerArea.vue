@@ -3,9 +3,9 @@
 
         <left-nav></left-nav>
 
-        <section id="middle" class="section-column">
+        <section id="middle" class="column">
             <server-header></server-header>
-            <div class="section-content">
+            <div class="column--content">
                 <div class="container">
 
                     <transition>

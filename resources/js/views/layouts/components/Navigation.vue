@@ -1,13 +1,31 @@
 <template>
     <header>
         <notifications></notifications>
-        <div class="logo-container">
-            <router-link to="/">
-                <img src="./../../../../img/CP_Logo_TX-onGray.svg">
-            </router-link>
+        <router-link to="/" class="header--logo">
+            <img src="./../../../../img/CP_Logo_TX-onGray.svg">
+        </router-link>
+
+        <div class="nav">
+          <div class="nav--item">
+
+            <drop-down icon="icon-settings">
+                <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
+                <router-link v-if="teamsEnabled" :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
+                <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
+                <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
+                <template v-if="isAdmin">
+                    <div class="dropdown--divider">Admin</div>
+                    <a href="/horizon" target="_blank"><span class="icon-laravel"></span> Laravel Horizon</a>
+                    <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
+                </template>
+                <div class="dropdown--divider"></div>
+                <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
+            </drop-down>
+          </div>
         </div>
 
-        <ul class="nav navbar-right nav-right">
+
+        <!--<ul class="nav navbar-right nav-right">
 
             <template v-if="isSubscribed">
                 <!--<li class="search-container">-->
@@ -16,7 +34,7 @@
                 <!--</div>-->
                 <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
                 <!--</li>-->
-                <li>
+        <!--        <li>
                     <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
                 </li>
                 <li>
@@ -48,7 +66,7 @@
                 <li><a target="_blank" href="/all-features">All Features</a></li>
                 <li><a target="_blank" href="/change-log">Change Log</a></li>
             </drop-down>
-
+<!--
             <drop-down icon="icon-settings">
                 <li>
                     <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
@@ -75,8 +93,8 @@
                 <li>
                     <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
                 </li>
-            </drop-down>
-        </ul>
+            </drop-down> -->
+    <!--    </ul> -->
     </header>
 </template>
 

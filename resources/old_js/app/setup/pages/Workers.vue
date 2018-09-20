@@ -27,7 +27,7 @@
             </thead>
             <tbody>
             <tr v-for="worker in workers">
-                <td class="break-word">{{ worker.command }}</td>
+                <td class="text-break">{{ worker.command }}</td>
                 <td>{{ worker.user }}</td>
                 <td>{{ worker.auto_start }}</td>
                 <td>{{ worker.auto_restart }}</td>

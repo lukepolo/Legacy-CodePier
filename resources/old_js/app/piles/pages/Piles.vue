@@ -1,9 +1,9 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <h3 class="section-header primary">My Piles</h3>
-            <div class="section-content">
+        <section id="middle" class="column">
+            <h3 class="column--header primary">My Piles</h3>
+            <div class="column--content">
                 <div class="container">
                 <modal v-if="showWelcomeModal">
                     <div class="modal--header">
@@ -40,7 +40,7 @@
                     </div>
                 </modal>
 
-                    <p class="info">
+                    <p class="intro">
                         Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.
                         To get started create a site.
                     </p>

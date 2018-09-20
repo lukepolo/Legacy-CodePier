@@ -1,7 +1,9 @@
 <template>
     <base-form v-form="form" :action="updateUser">
 
-        <base-input label="Name" name="name" v-model="form.name"></base-input>
+        <base-input label="Name" name="name" v-model="form.name">
+          <span slot="append">APPEND HERE</span>
+        </base-input>
         <base-input type="email" label="Email" name="email" v-model="form.email"></base-input>
 
         <template v-if="user.password">
@@ -22,7 +24,7 @@
             </div>
             <div class="flyform--footer-links">
                 <template v-if="user.second_auth_active">
-                    <a @click="deactivateSecondAuth" class="text-error">Deactivate Second Authentication</a>
+                    <a @click="deactivateSecondAuth" class="text-danger">Deactivate Second Authentication</a>
                 </template>
                 <template v-else>
                     <template v-if="secondAuthImage">

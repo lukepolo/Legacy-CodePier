@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td class="break-word">{{ daemon.command }}</td>
+        <td class="text-break">{{ daemon.command }}</td>
         <td>{{ daemon.user }}</td>
         <td>
             <template v-if="isRunningCommand">

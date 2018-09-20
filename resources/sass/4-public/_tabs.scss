@@ -1,0 +1,60 @@
+// Tabs Styles ========================
+// ====================================
+.tabs {
+  display: flex;
+  margin-bottom: $spacing;
+  justify-content: center;
+
+  &--item {
+    font-size: 1.1em;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 0.1px;
+    border-radius: 20px;
+    background-color: rgba($gray, 0.1);
+    margin-right: 20px;
+    padding: 5px 20px;
+    position: relative;
+    transition: all 0.2s ease;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 10px solid mix($color-primary, $white, 30%);
+      border-bottom: none;
+      border-right-color: transparent;
+      border-left-color: transparent;
+      border-top-width: 0;
+      transition: all 0.2s ease;
+    }
+
+    &-selected {
+      background-color: $color-primary;
+      color: $color-text-inverse-primary;
+      cursor: pointer;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all 0.2s ease;
+        border-top-color: $color-primary;
+      }
+    }
+
+    &:active:not(.tabs--item-selected),
+    &:focus:not(.tabs--item-selected),
+    &:hover:not(.tabs--item-selected) {
+      cursor: pointer;
+      background-color: mix($color-primary, $white, 30%);
+      transition: all 0.2s ease;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all 0.2s ease;
+      }
+    }
+  }
+}

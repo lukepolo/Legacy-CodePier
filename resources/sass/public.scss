@@ -1,6 +1,5 @@
 // APP STYLING
-@import "site/variables";
-@import "base";
+@import "1-base/base";
 @import "modules/buttons";
 @import "modules/icons";
 @import "modules/pricing";
@@ -48,7 +47,7 @@ h4,
 h5,
 h6 {
   font-weight: 800;
-  font-family: $font-web-heading;
+  font-family: $font-heading-web;
 }
 
 h1 {
@@ -132,12 +131,12 @@ h5 {
 }
 
 .section--content {
-  ul,
-  ol {
+  ol,
+  ul {
     font-size: 1.3em;
 
-    ul,
-    ol {
+    ol,
+    ul {
       font-size: 1em;
       list-style-type: disc;
       margin-bottom: 30px;

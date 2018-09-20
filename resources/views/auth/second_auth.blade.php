@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="view">
-        <section id="middle" class="section-column full-form">
-            <div class="section-content">
+        <section id="middle" class="column full-form">
+            <div class="column--content">
                 <div class="login-wrap">
                     <div class="img-wrap">
                         <router-link to="/">

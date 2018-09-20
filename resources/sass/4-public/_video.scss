@@ -1,0 +1,85 @@
+// Video Container Styles =============
+// ====================================
+#section--video {
+  background-color: mix($gray, $white, 90%);
+  margin-top: 0px;
+
+  h2 {
+    color: $color-text-inverse-primary;
+  }
+}
+
+.video {
+  max-width: 800px;
+  margin: $spacing * 3 auto $spacing;
+
+  &--header {
+    text-align: center;
+    color: $color-text-inverse-primary;
+    margin: -$spacing/2 0 $spacing;
+  }
+
+  &--item {
+    //video container
+    border: 5px solid $black;
+
+    &-embed {
+      // styles for responsive embed
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+
+      embed,
+      iframe,
+      object {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  &--controls {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacing * 2;
+
+    &-item {
+      flex: 0 0 200px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: $font-heading-web;
+      font-weight: 500;
+      color: $color-text-inverse-primary;
+      padding: $spacing 25px;
+      position: relative;
+      border-top: 9px solid $black;
+
+      @include breakpoint(sm) {
+        flex-basis: 100px;
+      }
+
+      &:hover {
+        background-color: darken($color-text-primary, 2);
+        cursor: pointer;
+      }
+
+      &.active {
+        &:before {
+          content: "";
+          height: 3px;
+          position: absolute;
+          right: 3px;
+          bottom: calc(100% + 3px);
+          left: 3px;
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="parent">
-    <section id="middle" class="section-column">
-      <div class="section-content">
+    <section id="middle" class="column">
+      <div class="column--content">
         <div class="container">
           <router-view name="nav" />
           <router-view />

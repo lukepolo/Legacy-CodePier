@@ -1,0 +1,75 @@
+// CARD STYLES =============================================
+// =========================================================
+.card {
+  @include card(1);
+
+  hr {
+    border: none;
+    border-bottom: 1px solid $color-divider;
+    margin: $spacing (-$spacing);
+  }
+
+  .heading {
+    @include card(1);
+    background-color: $color-primary;
+    color: rgba($white, 0.8);
+    border-top: 10px solid $color-primary;
+    padding: ($spacing/2) $spacing;
+    margin: (-$spacing) (-$spacing) ($spacing);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $color-text-primary;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    p {
+      font-size: 0.9em;
+      margin: 10px 0px 0px;
+      padding: 0px;
+    }
+  }
+}
+
+// SERVER LIST
+.group-list {
+  .item:last-child {
+    border: none;
+  }
+}
+
+.item {
+  display: block;
+  border-bottom: 1px solid $color-divider;
+  padding: $spacing;
+  position: relative;
+
+  &.selected {
+    background-color: mix($gray, $black, 50%);
+  }
+}
+
+.item-name {
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: $spacing/4;
+  padding-right: 1.4em;
+}
+
+a.item:hover {
+  cursor: pointer;
+
+  &:before {
+    content: "\f105";
+    font-family: "icomoon";
+    font-size: 2em;
+    line-height: 0.7em;
+    display: inline-block;
+    float: right;
+  }
+}

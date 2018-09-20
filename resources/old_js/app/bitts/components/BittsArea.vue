@@ -1,13 +1,13 @@
 <template>
     <div class="parent">
-        <!--<section id="left" class="section-column">-->
-            <!--<h3 class="section-header">Search</h3>-->
+        <!--<section id="left" class="column">-->
+            <!--<h3 class="column--header">Search</h3>-->
         <!--</section>-->
-        <section id="middle" class="section-column">
-            <h3 class="section-header primary">
+        <section id="middle" class="column">
+            <h3 class="column--header primary">
                Bitts
             </h3>
-            <div class="section-content">
+            <div class="column--content">
                 <div class="container">
 
                     <transition>
@@ -22,8 +22,8 @@
             </div>
         </section>
 
-        <section id="right" class="section-column" v-if="bitt">
-            <h3 class="section-header">Run Bitt</h3>
+        <section id="right" class="column" v-if="bitt">
+            <h3 class="column--header">Run Bitt</h3>
             <router-view name="right"></router-view>
         </section>
 

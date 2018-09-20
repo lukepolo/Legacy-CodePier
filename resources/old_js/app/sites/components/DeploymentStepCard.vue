@@ -3,7 +3,7 @@
       <template v-if="internalStep || deploymentStep.editing === false">
 
           <template v-if="!internalStep">
-              <a class="text-error pull-right" @click="deleteStep"><span class="icon-trash"></span></a>
+              <a class="text-danger pull-right" @click="deleteStep"><span class="icon-trash"></span></a>
               <a class="text-success pull-right" @click="edit"><span class="icon-pencil"></span></a>
           </template>
 

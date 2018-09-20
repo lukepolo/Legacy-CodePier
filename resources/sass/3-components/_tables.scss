@@ -1,0 +1,55 @@
+// TABLES ==================================================
+// =========================================================
+
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-top: $spacing;
+  border: 1px solid $color-divider;
+  background-color: $color-background;
+
+  + table {
+    margin-top: $spacing * 2;
+  }
+}
+
+th {
+  text-align: left;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid $color-divider;
+  color: mix($blue, $white, 30%);
+  background-color: rgba($black, 0.5);
+}
+
+td,
+th {
+  padding: 8px 10px;
+}
+
+tr {
+  &:nth-child(even) {
+    background-color: rgba($black, 0.3);
+  }
+
+  &:hover {
+    background-color: rgba($white, 0.1);
+    cursor: pointer;
+  }
+}
+
+.table--light {
+  border: none;
+  background-color: $white;
+
+  th {
+    color: $color-primary;
+    background-color: $white;
+    text-align: center;
+  }
+
+  tr {
+    &:nth-child(even) {
+      background-color: rgba($gray-light, 0.1);
+    }
+  }
+}

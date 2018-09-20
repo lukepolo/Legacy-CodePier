@@ -1,0 +1,45 @@
+// LOGIN STYLES ============================================
+// =========================================================
+.login {
+  max-width: 400px;
+  margin: auto;
+
+  &--img {
+    display: block;
+    max-width: 230px;
+    margin: $spacing auto;
+
+    @include breakpoint(xs) {
+      height: 50px;
+      background-image: url("../../../img/CP_Logo_TX-onGray.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+
+      img {
+        display: none;
+      }
+    }
+  }
+
+  &--form {
+    background-color: $color-background;
+    margin: 0 $spacing $spacing;
+  }
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: $spacing 0;
+
+  &--item {
+    margin: 0 $spacing/2;
+  }
+
+  [class^="icon-"],
+  [class*=" icon-"] {
+    font-size: 1.8em;
+  }
+}

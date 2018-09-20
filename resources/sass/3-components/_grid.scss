@@ -1,0 +1,139 @@
+// GRID STYLES =============================================
+// =========================================================
+@mixin grid($columns, $rows) {
+  display: grid;
+  grid-gap: $spacing;
+  grid-template-columns: repeat($columns, 1fr);
+}
+
+@mixin span($span) {
+  grid-column-end: span $span;
+}
+
+// GRID COLUMNS --------------------------------------------
+// ---------------------------------------------------------
+.grid-1 {
+  @include grid(1, auto);
+}
+
+.grid-2 {
+  @include grid(2, auto);
+}
+
+.grid-3 {
+  @include grid(3, auto);
+}
+
+.grid-4 {
+  @include grid(4, auto);
+}
+
+.grid-5 {
+  @include grid(5, auto);
+}
+
+.grid-6 {
+  @include grid(6, auto);
+}
+
+.grid-7 {
+  @include grid(7, auto);
+}
+
+.grid-8 {
+  @include grid(8, auto);
+}
+
+.grid-9 {
+  @include grid(9, auto);
+}
+
+.grid-10 {
+  @include grid(10, auto);
+}
+
+.grid-11 {
+  @include grid(11, auto);
+}
+
+.grid-12 {
+  @include grid(12, auto);
+}
+
+// GRID SPANS ----------------------------------------------
+// ---------------------------------------------------------
+.span-1 {
+  @include span(1);
+}
+
+.span-2 {
+  @include span(2);
+}
+
+.span-3 {
+  @include span(3);
+}
+
+.span-4 {
+  @include span(4);
+}
+
+.span-5 {
+  @include span(5);
+}
+
+.span-6 {
+  @include span(6);
+}
+
+.span-7 {
+  @include span(7);
+}
+
+.span-8 {
+  @include span(8);
+}
+
+.span-9 {
+  @include span(9);
+}
+
+.span-10 {
+  @include span(10);
+}
+
+.span-11 {
+  @include span(11);
+}
+
+.span-12 {
+  @include span(12);
+}
+
+// DROPDOWN INSIDE OF GRID ---------------------------------
+// ---------------------------------------------------------
+.grid--item {
+  + .dropdown-menu {
+    width: 100%;
+    top: calc(100% + 10px);
+    padding: $spacing/2;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      transform: translateX(-50%);
+      border: 10px solid $color-text-inverse-primary;
+      border-top: none;
+      border-left-color: transparent;
+      border-right-color: transparent;
+    }
+  }
+}
+
+// GRID MODIFICATIONS --------------------------------------
+// ---------------------------------------------------------
+.grid-gap-large {
+  grid-gap: $spacing * 3;
+}

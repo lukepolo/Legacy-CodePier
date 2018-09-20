@@ -1,0 +1,226 @@
+// MAIN CONTENT STYLES =====================================
+// =========================================================
+
+#left {
+  background-color: $color-background-dark;
+
+  .column--header {
+    background-color: mix($black, $color-background-dark, 25%);
+  }
+}
+
+#middle {
+  @include card(2);
+  background-color: $color-background;
+
+  .column--header {
+    background-color: mix($black, $color-background, 25%);
+  }
+
+  &.fullScreen {
+    background-color: $color-background-dark;
+  }
+}
+
+#right {
+  @include card(2);
+  background-color: $color-background-light;
+
+  .column--header {
+    background-color: mix($black, $color-background-light, 25%);
+  }
+}
+
+.column {
+  &:not(:first-child) {
+    border-left: 1px solid $color-divider;
+  }
+
+  &--header {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+  }
+
+  &--content {
+    &-padding {
+      padding: $spacing * 2;
+    }
+  }
+}
+
+//   &.full-form {
+//     background-color: $color-background;
+//   }
+// }
+//
+
+// // SECTION HEADER
+//
+// .column--header {
+//   flex: 0 0 auto;
+//   text-align: center;
+//   background-color: rgba($black, 0.1);
+//   border-bottom: 1px solid $color-divider;
+//   padding: $spacing;
+//   position: relative;
+//
+//   &--btn-right {
+//     position: absolute;
+//     top: 50%;
+//     right: $spacing;
+//     left: auto;
+//     transform: translateY(-50%);
+//     z-index: 200;
+//
+//     .dropdown + .btn,
+//     .dropdown + .dropdown {
+//       margin-left: $spacing * 0.75;
+//     }
+//
+//     .dropdown-menu {
+//       right: 0;
+//       left: auto;
+//
+//       > li a {
+//         display: block;
+//       }
+//     }
+//
+//     .jcf-form-wrap {
+//       padding: $spacing;
+//       min-width: 300px;
+//     }
+//
+//     .jcf-input-group {
+//       margin-bottom: 0;
+//     }
+//
+//     textarea {
+//       border: 1px solid $color-background;
+//     }
+//
+//     input[type="text"] {
+//       font-size: $font-size;
+//       border-bottom: 1px solid $color-background;
+//       margin-bottom: $spacing;
+//     }
+//
+//     .clipboard {
+//       [class^="icon-"],
+//       [class*=" icon-"] {
+//         right: 0;
+//       }
+//     }
+//   }
+//
+//   &--btn-left {
+//     @extend .column--header--btn-right;
+//     right: auto;
+//     left: $spacing;
+//
+//     .dropdown-menu {
+//       list-style: none;
+//       right: auto;
+//       left: 0;
+//     }
+//   }
+//
+//   &--secondary {
+//     text-align: center;
+//     padding: $spacing;
+//     position: relative;
+//   }
+//
+//   &.pile-dropdown {
+//     padding: 0;
+//
+//     .dropdown-toggle {
+//       color: rgba($color-text-primary, 0.5);
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       padding: $spacing;
+//
+//       &:hover {
+//         color: $color-text-accent;
+//
+//         + .icon-arrow-down {
+//           color: $color-text-accent;
+//         }
+//       }
+//
+//       [class^="icon-"],
+//       [class*=" icon-"] {
+//         margin-right: 5px;
+//       }
+//     }
+//
+//     .dropdown-menu {
+//       left: 50%;
+//       transform: translateX(-50%);
+//
+//       &:before {
+//         content: "";
+//         display: block;
+//         border: 15px solid $black;
+//         border-top: none;
+//         border-left-color: transparent;
+//         border-right-color: transparent;
+//         position: absolute;
+//         left: 50%;
+//         bottom: 100%;
+//         transform: translateX(-50%);
+//       }
+//     }
+//
+//     .icon-arrow-down {
+//       position: absolute;
+//       top: 50%;
+//       right: $spacing;
+//       transform: translateY(calc(-50% - 2px)) scale(1.3);
+//       pointer-events: none;
+//     }
+//   }
+// }
+//
+// // SECTION CONTENT
+//
+// .column--content {
+//   flex: 1 1 auto;
+//   display: flex;
+//   flex-direction: column;
+//   overflow-y: auto;
+//   overflow-x: visible;
+//   -webkit-overflow-scrolling: touch;
+//
+//   &-padding {
+//     padding: $spacing;
+//   }
+//
+//   .container {
+//     flex: 1 1 auto;
+//     padding: $spacing * 2;
+//   }
+//
+//   .side-container {
+//     flex: 1 1 auto;
+//     padding: $spacing;
+//   }
+// }
+//
+// // Scroll Fix for Portal View in Right Panel
+// #right .vue-portal-target {
+//   flex: 1 1 auto;
+//   display: flex;
+//   flex-direction: column;
+//   overflow: hidden;
+//
+//   > div {
+//     display: flex;
+//     flex-direction: column;
+//     flex: 1 1 auto;
+//   }
+// }

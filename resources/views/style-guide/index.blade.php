@@ -1,12 +1,12 @@
 @extends('layouts.style-guide')
 
 @section('content')
-    <h3 class="section-header primary">Content</h3>
+    <h3 class="column--header primary">Content</h3>
 
-    <div class="section-content">
+    <div class="column--content">
         <div class="container">
             <h2>Groups</h2>
-            <p class="info">
+            <p class="intro">
                 Groups are used to display items in a grid format. They are fixed width, will wrap, and form to the height of the largest container in the row. Currently groups are used for Piles and Buoys.
             </p>
             <div class="group">
