@@ -1,2 +1,0 @@
-require("./sizes");
-require("./startCase");

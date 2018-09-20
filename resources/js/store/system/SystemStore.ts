@@ -4,6 +4,8 @@ import getters from "./getters";
 import mutations from "./mutations";
 import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
+import ServerProvidersStore from "@store/system/modules/server-providers/ServerProvidersStore";
+import SourceControlProviderStore from "@store/system/modules/source-control-providers/SourceControlProviderStore";
 
 @injectable()
 export default class SystemStore extends StoreModule {
@@ -21,6 +23,8 @@ export default class SystemStore extends StoreModule {
       .addActions(actions)
       .addMutations(mutations)
       .addGetters(getters)
+      .addModule(ServerProvidersStore)
+      .addModule(SourceControlProviderStore)
       .listenForVersionChanges();
   }
 

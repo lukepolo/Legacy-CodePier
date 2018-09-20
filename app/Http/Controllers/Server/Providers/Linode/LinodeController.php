@@ -49,6 +49,6 @@ class LinodeController extends Controller
             return response()->json('An unexpected error occurred, please try again', 400);
         }
 
-        return response()->json('OK');
+        return $userServerProvider;
     }
 }

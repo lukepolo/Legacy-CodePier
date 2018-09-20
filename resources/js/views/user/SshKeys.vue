@@ -7,14 +7,14 @@
 
             <base-input validate name="name" label="Name" v-model="form.name"></base-input>
 
-            <base-input tooltip="Usually located at ~/.ssh/id_rsa.pub" type="textarea" validate name="ssh_key" label="Public SSH Key" v-model="form.ssh_key"></base-input>
+            <base-input validate tooltip="Usually located at ~/.ssh/id_rsa.pub" type="textarea" validate name="ssh_key" label="Public SSH Key" v-model="form.ssh_key"></base-input>
 
             <div slot="buttons">
                 <button class="btn btn-primary" type="submit" :disabled="!form.isValid()">Install SSH Key</button>
             </div>
         </base-form>
 
-        <div v-if="user_ssh_keys.length">
+        <div v-if="userSshKeys.length">
             <h3>SSH Keys</h3>
 
             <table class="">
@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="key in user_ssh_keys">
+                    <tr v-for="key in userSshKeys">
                         <td>{{ key.name }} {{ key.id }}</td>
                         <td class="table--action">
                             <tooltip message="Delete">
@@ -51,7 +51,8 @@ export default {
         ssh_key: null,
       }).validation({
         rules: {
-          name: "required|min:5",
+          name: "required",
+          ssh_key: "required",
         },
       }),
     };
@@ -79,7 +80,7 @@ export default {
     },
   },
   computed: {
-    user_ssh_keys() {
+    userSshKeys() {
       return this.$store.state.user.sshKeys.ssh_keys;
     },
   },

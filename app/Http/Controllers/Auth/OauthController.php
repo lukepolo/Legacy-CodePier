@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Services\AuthService;
 use Socialite;
+
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use App\Services\AuthService;
+use Illuminate\Auth\AuthManager;
 use App\Models\RepositoryProvider;
 use App\SocialProviders\TokenData;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
@@ -22,6 +25,7 @@ class OauthController extends Controller
     const GITLAB = 'gitlab';
     const BITBUCKET = 'bitbucket';
 
+    private $authManager;
     private $authService;
 
     public static $repositoryProviders = [
@@ -36,10 +40,12 @@ class OauthController extends Controller
 
     /**
      * OauthController constructor.
+     * @param AuthManager $authManager
      * @param AuthService $authService
      */
-    public function __construct(AuthService $authService)
+    public function __construct(AuthManager $authManager, AuthService $authService)
     {
+        $this->authManager = $authManager;
         $this->authService = $authService;
     }
 
@@ -78,6 +84,12 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Encrypter $encrypter, Request $request, $provider)
     {
+        $this->authManager->shouldUse('api');
+
+        if (! Auth::user()) {
+            $this->authManager->shouldUse('web');
+        }
+
         try {
             switch ($provider) {
                 case self::SLACK:
@@ -89,7 +101,7 @@ class OauthController extends Controller
 
                     $socialUser = Socialite::driver($provider)->stateless()->user();
 
-                    if (! \Auth::user()) {
+                    if (! Auth::user()) {
                         $userProvider = UserLoginProvider::withTrashed()
                             ->with('user')
                             ->has('user')
@@ -101,18 +113,18 @@ class OauthController extends Controller
                             $alreadyRegistered = User::where('email', $socialUser->getEmail())->first();
 
                             if (! empty($alreadyRegistered)) {
-                                return redirect('/login')->withErrors('You have already registered with this email.');
+                                return response()->json('You have already registered with this email.', 500);
                             }
 
                             $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
                             $newUserModel = $this->createUser($socialUser, $newLoginProvider);
-                            \Auth::loginUsingId($newUserModel->id, true);
+                            Auth::loginUsingId($newUserModel->id, true);
                         } else {
                             if ($userProvider->deleted_at) {
                                 $userProvider->restore();
                             }
 
-                            \Auth::loginUsingId($userProvider->user->id, true);
+                            Auth::loginUsingId($userProvider->user->id, true);
                         }
                     }
 
@@ -149,11 +161,7 @@ class OauthController extends Controller
                 throw $e;
             }
 
-            if (\Auth::check()) {
-                return redirect()->back()->withErrors($e->getMessage());
-            } else {
-                return redirect('/login')->withErrors($e->getMessage());
-            }
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -187,7 +195,7 @@ class OauthController extends Controller
     public function getDisconnectService($providerType, int $serviceID)
     {
         if (UserRepositoryProvider::class == $providerType) {
-            if (! empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id',
+            if (! empty($userRepositoryProvider = Auth::user()->userRepositoryProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userRepositoryProvider->delete();
@@ -195,7 +203,7 @@ class OauthController extends Controller
         }
 
         if (UserNotificationProvider::class == $providerType) {
-            if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
+            if (! empty($userNotificationProvider = Auth::user()->userNotificationProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userNotificationProvider->delete();
@@ -249,7 +257,7 @@ class OauthController extends Controller
 
         $userRepositoryProvider->fill([
             'token'         => $socialUser->token,
-            'user_id'       => \Auth::user()->id,
+            'user_id'       => Auth::user()->id,
             'expires_at'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
             'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
             'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
@@ -279,7 +287,7 @@ class OauthController extends Controller
 
         $userNotificationProvider->fill([
             'token'         => $tokenData->token,
-            'user_id'       => \Auth::user()->id,
+            'user_id'       => Auth::user()->id,
             'expires_at'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
             'token_secret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,

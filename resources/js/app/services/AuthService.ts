@@ -37,6 +37,19 @@ export default class AuthService {
     );
   }
 
+  oAuthConnect(provider, code, state) {
+    return this.$http.get(
+      this.apiRouteService.action(
+        "AuthOauthController@getHandleProviderCallback",
+        {
+          state,
+          code,
+          provider,
+        },
+      ),
+    );
+  }
+
   createAccount(name, email, password, confirmPassword) {
     return this.$http.post(
       this.apiRouteService.action("AuthRegisterController@register"),

@@ -7,6 +7,7 @@ use App\Models\User\UserServerProvider;
 
 class UserServerProviderController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -34,10 +35,11 @@ class UserServerProviderController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|null
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        UserServerProvider::findOrFail($id)->delete();
+        return UserServerProvider::findOrFail($id)->delete();
     }
 }

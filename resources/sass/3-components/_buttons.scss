@@ -98,7 +98,7 @@ span.btn {
 }
 
 .btn-disabled,
-button[disabled="disabled"] {
+button[disabled] {
   background-color: mix($gray, $white, 80%);
   color: mix($gray, $white, 60%) !important;
   pointer-events: none;
