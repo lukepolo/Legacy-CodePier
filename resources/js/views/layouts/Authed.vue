@@ -5,6 +5,7 @@
         <left-nav></left-nav>
         <router-view class="view"></router-view>
 
+
         <!--<events-bar v-if="hasSites"></events-bar>-->
         <!-- <announcements></announcements> -->
         <!-- <portal-target name="modal" slim></portal-target> -->

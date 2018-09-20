@@ -16,6 +16,10 @@
   .column--header {
     background-color: mix($black, $color-background, 25%);
   }
+
+  &.fullScreen {
+    background-color: $color-background-dark;
+  }
 }
 
 #right {

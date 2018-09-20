@@ -1,31 +1,45 @@
 // LOGIN STYLES ============================================
 // =========================================================
-.login-wrap {
-  width: 400px;
-  margin: 20px auto 0px;
+.login {
+  max-width: 400px;
+  margin: auto;
 
-  .img-wrap {
+  &--img {
+    display: block;
     max-width: 230px;
-    margin: 0px auto 20px;
-  }
+    margin: $spacing auto;
 
-  .jcf-form-wrap {
-    margin-bottom: 40px;
-    background-color: mix($color-background, $white, 95%);
-  }
+    @include breakpoint(xs) {
+      height: 50px;
+      background-image: url("../../../img/CP_Logo_TX-onGray.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
 
-  .list-inline {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0px;
-
-    li {
-      padding: 0px 10px;
-
-      a {
-        font-size: 1.8em;
+      img {
+        display: none;
       }
     }
+  }
+
+  &--form {
+    background-color: $color-background;
+    margin: 0 $spacing $spacing;
+  }
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: $spacing 0;
+
+  &--item {
+    margin: 0 $spacing/2;
+  }
+
+  [class^="icon-"],
+  [class*=" icon-"] {
+    font-size: 1.8em;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div id="forgot_form">
+    <div id="forgot_form" class="login--form">
         <div class="flyform--heading">
             <h2>Forgot Password</h2>
         </div>
