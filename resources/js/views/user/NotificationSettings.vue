@@ -38,14 +38,14 @@ export default {
     NotificationGroup,
   },
   created() {
-    this.$store.dispatch("system/notificationSettings/getSettings");
+    this.$store.dispatch("notification/settings/get");
     // this.$store.dispatch("notificationProviders/get");
     // this.$store.dispatch("user_notification_settings/get");
     // this.$store.dispatch("user_notificationProviders/get");
   },
   computed: {
     notificationSettings() {
-      let settings = this.$store.state.system.notificationSettings.settings;
+      let settings = this.$store.state.notification.settings.settings;
       return settings.reduce((groups, setting) => {
         (groups[setting["group"]] = groups[setting["group"]] || []).push(
           setting,

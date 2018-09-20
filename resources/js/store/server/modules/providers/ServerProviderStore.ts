@@ -6,12 +6,15 @@ import { injectable, inject, unmanaged } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class UserServerProviderStore extends RestStoreModule {
-  constructor(@inject("UserServerProviderService") userServerProviderService) {
-    super(userServerProviderService, "provider");
-    this.setName("serverProviders")
+export default class ServerProviderStore extends RestStoreModule {
+  constructor(
+    @inject("HttpService") httpService,
+    @inject("SystemServerProviderService") systemServerProviderService,
+  ) {
+    super(systemServerProviderService, "provider");
+    this.setName("provider")
       .addState(state)
-      .addActions(actions(userServerProviderService))
+      .addActions(actions(httpService))
       .addMutations(mutations)
       .addGetters(getters);
   }

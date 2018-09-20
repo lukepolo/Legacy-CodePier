@@ -36,7 +36,6 @@ export default class Loading implements HttpMiddlewareInterface {
   }
 
   private _turnOnSpinner() {
-    console.info("turn it on");
     let spinnerElement = this._getSpinnerElement();
 
     if (!spinnerElement) {
@@ -62,7 +61,6 @@ export default class Loading implements HttpMiddlewareInterface {
     return document.getElementById(this.spinnerId);
   }
   private _turnOffSpinner() {
-    console.info("turn it off");
     clearTimeout(this.spinnerTimeout);
     this.spinnerTimeout = null;
     let spinnerElement = this._getSpinnerElement();

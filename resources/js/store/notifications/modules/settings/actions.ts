@@ -7,9 +7,7 @@ export default function(
   NotificationSettingService: NotificationSettingService,
 ) {
   return {
-    getSettings: (
-      context: ActionContext<NotificationSettingsState, RootState>,
-    ) => {
+    get: (context: ActionContext<NotificationSettingsState, RootState>) => {
       return NotificationSettingService.getSettings().then(({ data }) => {
         context.commit("SET_SETTINGS", data);
       });
