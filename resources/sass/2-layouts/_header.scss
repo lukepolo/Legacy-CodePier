@@ -4,6 +4,7 @@ header {
   display: flex;
   justify-content: space-between;
   background-color: $color-background-nav;
+  z-index: 1000;
 
   .muted {
     font-size: 0.8em;

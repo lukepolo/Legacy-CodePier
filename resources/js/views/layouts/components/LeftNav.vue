@@ -1,14 +1,11 @@
 <template>
-
     <section id="left" class="column" v-if="sites.length && currentPile">
-
-        <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="column--header pile-dropdown">
+        <drop-down tag="h3"  :name="currentPile ? `${currentPile.name} Sites` : '-'" icon="icon-layers" class="column--header">
             <span slot="sub" class="icon-arrow-down"></span>
             <span slot="sub" class="icon-web"></span>
 
-            <li>
                 <span class="dropdown-heading">Change Pile</span>
-            </li>
+
             <template v-for="pile in piles">
                 <li>
                     <a @click="changePile(pile.id)"
@@ -37,7 +34,7 @@
                 </div>
 
                 <site-form :pile="currentPile.id"></site-form>
-                
+
             </div>
 
             <div class="slack-invite" v-if="!user.has_ssh_key">

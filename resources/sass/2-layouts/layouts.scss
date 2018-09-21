@@ -1,7 +1,8 @@
-//@import "layout"; // $red -delete?
 @import "header"; // $green
 @import "footer"; // $green
-@import "main"; // $red
+@import "main"; // $green
+@import "column"; // $yellow
+//@import layout; // $red -delete?
 
 #app {
   display: grid;
@@ -27,18 +28,15 @@ footer {
 
 #left {
   grid-area: left;
-  overflow: auto;
   width: 275px;
 }
 
 #middle {
   grid-area: middle;
-  overflow: auto;
 }
 
 #right {
   grid-area: right;
-  overflow: auto;
   width: 275px;
 }
 

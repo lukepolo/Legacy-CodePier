@@ -2,7 +2,7 @@
     <span :is="tag" class="dropdown" :class="position" @click="show($event.target)">
 
         <slot name="header">
-            <a href="#" @click.prevent class="dropdown--toggle">
+            <div @click.prevent class="dropdown--toggle">
                 <span :class="icon"></span>
                 <span class="muted" v-if="muted">{{ muted }} :</span>
 
@@ -14,8 +14,11 @@
                 <template v-else>
                     <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
                 </template>
-            </a>
-            <slot name="sub"></slot>
+
+                <div class="dropdown--toggle-right">
+                  <slot name="sub"></slot>
+                </div>
+            </div>
         </slot>
 
         <slot name="content" @click.stop="done">

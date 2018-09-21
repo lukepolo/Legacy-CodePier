@@ -120,6 +120,12 @@ small {
     text-align: right;
   }
 
+  &-clip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &-primary {
     color: $color-primary;
   }

@@ -4,6 +4,17 @@
 .dropdown {
   position: relative;
 
+  &--toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-right {
+      position: absolute;
+      right: $spacing;
+    }
+  }
+
   &--menu {
     display: none;
     position: absolute;
