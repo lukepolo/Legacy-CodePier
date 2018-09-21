@@ -10,11 +10,12 @@ export default class UserSourceControlProviderStore extends RestStoreModule {
   constructor(
     @inject("UserSourceControlProviderService")
     userSourceControlProviderService,
+    @inject("OauthService") oauthService,
   ) {
     super(userSourceControlProviderService, "provider");
     this.setName("sourceControlProviders")
       .addState(state)
-      .addActions(actions(userSourceControlProviderService))
+      .addActions(actions(userSourceControlProviderService, oauthService))
       .addMutations(mutations)
       .addGetters(getters);
   }

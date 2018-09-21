@@ -9,7 +9,7 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 export default class UserServerProviderStore extends RestStoreModule {
   constructor(@inject("UserServerProviderService") userServerProviderService) {
     super(userServerProviderService, "provider");
-    this.setName("serverProviders")
+    this.setName("provider")
       .addState(state)
       .addActions(actions(userServerProviderService))
       .addMutations(mutations)

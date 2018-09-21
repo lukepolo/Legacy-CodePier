@@ -14,12 +14,15 @@ module.exports = function(env, argv) {
       "@resources": path.join(__dirname, "resources/js/resources"),
       "@components": path.join(__dirname, "resources/js/app/components"),
     })
-    .environmentVariables({
-      ENV: ENV.APP_ENV,
-      STRIPE_KEY: ENV.STRIPE_KEY,
-      PUSHER_APP_KEY: ENV.PUSHER_APP_KEY,
-      PUSHER_APP_ID: ENV.PUSHER_APP_KEY,
-      VERSION: require("./package").version,
+    .config({
+      app: {
+        ENV: ENV.APP_ENV,
+        VERSION: require("./package").version,
+      },
+      services: {
+        STRIPE_KEY: ENV.STRIPE_KEY,
+        PUSHER_APP_KEY: ENV.PUSHER_APP_KEY,
+      },
     })
     .chainWebpack((config, env) => {
       config.plugin("clean").tap((opts) => {

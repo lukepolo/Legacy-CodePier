@@ -20,12 +20,12 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
-  $inject: ["$config", "BroadcastService"],
+  $inject: ["ConfigService", "BroadcastService"],
   data() {
     return {
       online: true,
       socketConnection: true,
-      current_version: this.$config.get("env.VERSION"),
+      current_version: this.ConfigService.get("env.VERSION"),
     };
   },
   created() {

@@ -1,6 +1,5 @@
 <template>
-    <span :is="tag" class="dropdown" :class="position" @click="show($event.target)">
-
+    <div :is="tag" class="dropdown" :class="dropDownClasses" @click="toggle">
         <slot name="header">
             <div @click.prevent class="dropdown--toggle">
                 <span :class="icon"></span>
@@ -8,16 +7,15 @@
 
                 <template v-if="name && name.length > 18">
                     <tooltip :message="name" placement="bottom">
-                        <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
+                        <span class="text-clip">{{ name }}</span>
                     </tooltip>
                 </template>
                 <template v-else>
-                    <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
+                    <span class="text-clip">{{ name }}</span>
                 </template>
-
-                <div class="dropdown--toggle-right">
-                  <slot name="sub"></slot>
-                </div>
+            </div>
+            <div class="dropdown--toggle-right">
+              <slot name="sub"></slot>
             </div>
         </slot>
 
@@ -26,7 +24,7 @@
                 <slot></slot>
             </div>
         </slot>
-    </span>
+    </div>
 </template>
 
 <script>
@@ -54,32 +52,33 @@ export default Vue.extend({
       open: false,
     };
   },
+  created() {
+    document.addEventListener("click", this.close);
+  },
   methods: {
-    show(target) {
-      if (
-        this.open
-        // &&
-        // !this.isTag(target, "textarea") &&
-        // !this.isTag(target, "input") &&
-        // !this.isTag(target, "select") &&
-        // !this.isTag(target, "option")
-      ) {
-        this.open = false;
-
-        return this.open;
+    toggle() {
+      this.$nextTick(() => {
+        this.open = true;
+      });
+    },
+    close() {
+      if (this.open) {
+        this.$nextTick(() => {
+          this.open = false;
+        });
       }
-
-      this.$emit("close-dropdowns");
-      this.open = true;
     },
   },
-  created() {
-    this.$on("close-dropdowns", () => {
-      this.open = false;
-    });
+  computed: {
+    dropDownClasses() {
+      return {
+        open: this.open,
+        position: this.position,
+      };
+    },
   },
-  slots() {
-    return this.$slots;
+  beforeDestroy() {
+    document.removeEventListener("click", this.close);
   },
 });
 </script>

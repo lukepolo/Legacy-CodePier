@@ -10,6 +10,7 @@ import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 
 import CookieStorage from "@app/services/CookieStorage";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
+import NotificationSettingService from "@app/services/Notification/NotificationSettingService";
 
 import SiteService from "@app/services/SiteService";
 import SubscriptionService from "@app/services/SubscriptionService";
@@ -20,6 +21,9 @@ import SystemServerProviderService from "@app/services/System/SystemServerProvid
 import UserServerProviderService from "@app/services/User/UserServerProviderService";
 import UserSourceControlProviderService from "@app/services/User/UserSourceControlProviderService";
 import SystemSourceControlProviderService from "@app/services/System/SystemSourceControlProviderService";
+import NotificationProviderService from "@app/services/Notification/NotificationProviderService";
+import UserNotificationProviderService from "@app/services/User/UserNotificationProviderService";
+import UserNotificationSettingService from "@app/services/User/UserNotificationSettingService";
 
 /*
 |--------------------------------------------------------------------------
@@ -35,13 +39,20 @@ export default class AppProviderServiceProvider extends ServiceProvider {
   }
 
   public register() {
+    // TODO - THESE GROUPS SHOULD BE IN THEIR OWN SERVICE PROVIDERS
+
     // SYSTEM
     this.app.singleton("CookieStorage", CookieStorage);
+    // TODO - rename these
     this.app.bind("SystemServerProviderService", SystemServerProviderService);
     this.app.bind(
       "SystemSourceControlProviderService",
       SystemSourceControlProviderService,
     );
+
+    // NOTIFICATION SERVICES
+    this.app.bind("NotificationSettingService", NotificationSettingService);
+    this.app.bind("NotificationProviderService", NotificationProviderService);
 
     // AUTH SERVICES
     this.app.bind("AuthService", AuthService);
@@ -63,6 +74,15 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     this.app.bind(
       "UserSourceControlProviderService",
       UserSourceControlProviderService,
+    );
+    this.app.bind(
+      "UserNotificationProviderService",
+      UserNotificationProviderService,
+    );
+
+    this.app.bind(
+      "UserNotificationSettingService",
+      UserNotificationSettingService,
     );
 
     // ROUTING

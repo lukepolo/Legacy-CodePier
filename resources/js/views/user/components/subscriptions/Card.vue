@@ -33,7 +33,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.stripe.instance = Stripe($config.get("env").STRIPE_KEY);
+    this.stripe.instance = Stripe($config.get("services.STRIPE_KEY"));
 
     this.stripe.card = this.stripe.instance.elements().create("card", {
       style: {

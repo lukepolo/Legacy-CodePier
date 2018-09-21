@@ -1,5 +1,5 @@
 <template>
-    <div id="register_form">
+    <div>
         <div class="flyform--heading">
             <h2>Reset Password</h2>
         </div>

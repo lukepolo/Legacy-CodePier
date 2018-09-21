@@ -11,12 +11,12 @@ export default {
     SourceControlProvider,
   },
   created() {
+    this.$store.dispatch("sourceControlProviders/get");
     this.$store.dispatch("user/sourceControlProviders/get");
-    this.$store.dispatch("system/sourceControlProviders/get");
   },
   computed: {
     repositoryProviders() {
-      return this.$store.state.system.sourceControlProviders.providers;
+      return this.$store.state.sourceControlProviders.providers;
     },
   },
 };

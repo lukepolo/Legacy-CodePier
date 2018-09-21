@@ -4,14 +4,14 @@ import RestServiceClass from "@app/services/RestServiceClass";
 @injectable()
 export default class PileService extends RestServiceClass {
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") apiRouteService,
   ) {
-    super($http, apiRouteService, "PilePileController");
+    super(httpService, apiRouteService, "PilePileController");
   }
 
   changePile(pile) {
-    return this.$http.post(
+    return this.httpService.post(
       this.$apiRouteService.action("PilePileController@changePile"),
       {
         pile,

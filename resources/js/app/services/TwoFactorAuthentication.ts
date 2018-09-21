@@ -4,18 +4,18 @@ import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 @injectable()
 export default class TwoFactorAuthentication {
   private apiRouteService;
-  private $http: HttpServiceInterface;
+  private httpService: HttpServiceInterface;
 
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") ApiRouteService,
   ) {
-    this.$http = $http;
+    this.httpService = httpService;
     this.apiRouteService = ApiRouteService;
   }
 
   validate(token) {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("AuthSecondAuthController@store", {
         token,
       }),
@@ -23,7 +23,7 @@ export default class TwoFactorAuthentication {
   }
 
   generateQr() {
-    return this.$http.get(
+    return this.httpService.get(
       this.apiRouteService.action("AuthSecondAuthController@index"),
     );
   }

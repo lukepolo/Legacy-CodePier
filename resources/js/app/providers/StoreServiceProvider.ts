@@ -3,8 +3,11 @@ import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 
 import AuthStore from "@store/auth/AuthStore";
 import UserStore from "@store/user/UserStore";
+import ServerStore from "@store/server/ServerStore";
 import SystemStore from "@store/system/SystemStore";
 import SubscriptionStore from "@store/subscriptions/SubscriptionStore";
+import SourceControlProviderStore from "@store/source-control-providers/SourceControlProviderStore";
+import NotificationStore from "@store/notifications/NotificationStore";
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,9 @@ export default class StoreServiceProvider extends ServiceProvider {
       .registerStore(AuthStore)
       .registerStore(SystemStore)
       .registerStore(UserStore)
-      .registerStore(SubscriptionStore);
+      .registerStore(SubscriptionStore)
+      .registerStore(ServerStore)
+      .registerStore(SourceControlProviderStore)
+      .registerStore(NotificationStore);
   }
 }

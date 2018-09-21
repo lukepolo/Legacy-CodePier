@@ -4,35 +4,35 @@ import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
 @injectable()
 export default class UserService {
   private apiRouteService;
-  private $http: HttpServiceInterface;
+  private httpService: HttpServiceInterface;
 
   constructor(
-    @inject("$http") $http,
+    @inject("HttpService") httpService,
     @inject("ApiRouteService") ApiRouteService,
   ) {
-    this.$http = $http;
+    this.httpService = httpService;
     this.apiRouteService = ApiRouteService;
   }
 
   me() {
-    return this.$http.get("/api/me");
+    return this.httpService.get("/api/me");
   }
 
   update(data) {
-    return this.$http.put(
+    return this.httpService.put(
       this.apiRouteService.action("UserUserController@update"),
       data,
     );
   }
 
   markAnnouncementRead() {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("AnnouncementsController@store"),
     );
   }
 
   resendConfirmation() {
-    return this.$http.post(
+    return this.httpService.post(
       this.apiRouteService.action("UserUserConfirmController@store"),
     );
   }

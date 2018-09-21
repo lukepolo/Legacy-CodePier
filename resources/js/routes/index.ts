@@ -4,12 +4,12 @@
 |--------------------------------------------------------------------------
 |
 */
+import middleware from "./middleware";
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
 import UserViews from "@views/user";
 import LoginViews from "@views/login";
 import Dashboard from "@views/dashboard/Dashboard.vue";
-
 import ErrorViews from "@views/errors";
 
 export default function($router: RouterInterface) {
@@ -18,7 +18,7 @@ export default function($router: RouterInterface) {
   // AUTHED
   $router
     .layout("authed")
-    .middleware(["Auth"])
+    .middleware([middleware.Auth])
     .group(() => {
       $router.route("/", Dashboard).setName("dashboard");
 
