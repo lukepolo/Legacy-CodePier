@@ -7,6 +7,7 @@
 import middleware from "./middleware";
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
+import SiteViews from "@views/site";
 import UserViews from "@views/user";
 import LoginViews from "@views/login";
 import ServerViews from "@views/server";
@@ -46,6 +47,8 @@ export default function($router: RouterInterface) {
       });
 
       $router.route("servers", ServerViews.Servers).setName("servers");
+
+      $router.route("site/:site", SiteViews.SiteOverview).setName("site");
     });
 
   // PUBLIC

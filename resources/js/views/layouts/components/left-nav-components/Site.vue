@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{ name: 'site_overview', params : { site_id : site.id} }">
+    <router-link :to="{ name: 'site', params : { site : site.id} }">
         <div class="site-name">
             <tooltip
                     class="event-status"

@@ -45,8 +45,7 @@
             <template v-if="pile.sites && pile.sites.length">
                 <h4>Sites</h4>
                 <div class="list">
-                    <router-link class="list--item" :to="{ name: 'site_overview', params : { site_id : site.id} }"
-                                 v-for="site in pile.sites" :key="site.id">
+                    <router-link class="list--item"  :to="{ name: 'site', params : { site : site.id} }" v-for="site in pile.sites" :key="site.id">
                         <div class="list--item-name">
                             {{ site.name }}
                         </div>
