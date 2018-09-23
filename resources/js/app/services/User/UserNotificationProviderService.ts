@@ -13,4 +13,11 @@ export default class UserNotificationProviderService extends RestServiceClass {
       "UserProvidersUserNotificationProviderController",
     );
   }
+
+  connectProvider(provider, data) {
+    return this.httpService.post(
+      `/api/my/notification-providers/${provider}`,
+      data,
+    );
+  }
 }

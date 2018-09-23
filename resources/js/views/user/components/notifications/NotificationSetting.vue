@@ -29,8 +29,13 @@ export default {
       if (service === "mail") {
         return true;
       }
-      return this.notificationProviders.find((provider) => {
-        return provider.provider_name === service;
+      return this.userNotificationProviders.find((provider) => {
+        let notificationProvider = this.notificationProviders.find(
+          (provider) => {
+            return provider.provider_name === service;
+          },
+        );
+        return provider.notification_provider_id === notificationProvider.id;
       });
     },
     toggleSetting(service) {
@@ -49,11 +54,11 @@ export default {
     },
   },
   computed: {
-    notificationProviders() {
-      return this.$store.state.notification.providers.providers;
-    },
     userNotificationSettings() {
       return this.$store.state.user.notification.settings.settings;
+    },
+    notificationProviders() {
+      return this.$store.state.notification.providers.providers;
     },
     userNotificationProviders() {
       return this.$store.state.user.notification.provider.providers;

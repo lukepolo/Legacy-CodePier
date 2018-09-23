@@ -10,7 +10,7 @@
                 <div class="providers--item-footer-connect">
                     <form @submit.prevent="connectProvider" v-if="adding">
                         <div class="flyform--group" v-if="requiresWebhook">
-                            <input type="text" v-model="form.webhook" placeholder=" ">
+                            <input type="text" v-model="form.token" placeholder=" ">
                             <label>Webhook URL</label>
                         </div>
 
@@ -23,10 +23,10 @@
                     </form>
                     <h4 v-if="!adding">
                         <template v-if="isConnected">
-                            DISCONNECT
+                            Disconnect
                         </template>
                         <template v-else>
-                            connect account
+                            Connect Account
                         </template>
                     </h4>
                 </div>
@@ -46,7 +46,7 @@ export default {
     return {
       adding: false,
       form: this.createForm({
-        webhook: null,
+        token: null,
       }),
     };
   },
@@ -56,6 +56,10 @@ export default {
       this.adding = false;
     },
     selectProvider() {
+      if (this.isConnected) {
+        this.disconnectProvider();
+        return;
+      }
       if (this.isOauth) {
         return this.$store.dispatch(
           "user/notification/provider/redirectToProvider",
@@ -64,12 +68,19 @@ export default {
       }
       this.adding = true;
     },
+    disconnectProvider() {
+      this.$store.dispatch("user/notification/provider/destroy", {
+        notification_provider: this.provider.id,
+      });
+    },
     connectProvider() {
-      this.form
-        .post(`/api/my/notification-providers/${this.provider.name}`)
+      this.$store
+        .dispatch("user/notification/provider/connectProvider", {
+          data: this.form.data(),
+          provider: this.provider.provider_name,
+        })
         .then(() => {
-          this.$store.dispatch("user_notification_providers/get");
-          this.cancel();
+          this.adding = false;
         });
     },
   },

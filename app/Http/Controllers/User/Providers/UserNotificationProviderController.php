@@ -56,10 +56,11 @@ class UserNotificationProviderController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|null
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        UserNotificationProvider::findOrFail($id)->delete();
+        return response()->json(UserNotificationProvider::findOrFail($id)->delete());
     }
 }
