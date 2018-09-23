@@ -11,7 +11,6 @@
             <notification-group title="Buoys Notifications" :settings="notificationSettings['buoys']"></notification-group>
         </div>
     </section>
-
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { NotificationSettingsState } from "./stateInterface";
-import NotificationSettingService from "@app/services/System/NotificationSettingService";
+import NotificationSettingService from "@app/services/notification/NotificationSettingService";
 
 export default function(
   NotificationSettingService: NotificationSettingService,

@@ -16,11 +16,11 @@ export default class RestServiceClass {
     this.$controllerClass = controllerClass;
   }
 
-  get(parameters) {
+  get(parameters = null) {
     return this.httpService.get(this.getUrl("index", parameters));
   }
 
-  create(parameters, data) {
+  create(parameters = null, data) {
     return this.httpService.post(this.getUrl("store", parameters), data);
   }
 

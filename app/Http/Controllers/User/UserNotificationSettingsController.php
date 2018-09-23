@@ -26,42 +26,15 @@ class UserNotificationSettingsController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->get('notification_setting') as $notificationSettingId => $services) {
-            $userNotification = UserNotificationSetting::firstOrNew([
-                'user_id' => \Auth::user()->id,
-                'notification_setting_id' => $notificationSettingId,
-            ]);
+        $userNotification = UserNotificationSetting::firstOrNew([
+            'user_id' => \Auth::user()->id,
+            'notification_setting_id' => $request->get('notification_setting_id'),
+        ]);
 
-            $userNotification->services = collect($services)->filter(function ($item) {
-                return $item;
-            })->keys();
+        $userNotification->services = $request->get('services');
 
-            $userNotification->save();
-        }
+        $userNotification->save();
 
         return response()->json(\Auth::user()->notificationSettings);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //        return response()->json();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy($id)
-    {
     }
 }

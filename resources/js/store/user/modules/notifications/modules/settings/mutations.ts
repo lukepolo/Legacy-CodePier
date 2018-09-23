@@ -2,6 +2,8 @@ import { SettingsState } from "./stateInterface";
 
 export default function() {
   return {
-    SAMPLE_MUTATION: (state: SettingsState, data) => {},
+    SET_SETTINGS: (state: SettingsState, settings) => {
+      state.settings = settings;
+    },
   };
 }
