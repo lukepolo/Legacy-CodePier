@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use Carbon\Carbon;
-use App\Models\User\User;
 use App\Jobs\UserDataBundle;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserUpdateMarketing;
 use App\Http\Requests\User\UserUpdateRequest;
-use App\Http\Requests\UserUpdateDataProcessing;
 use Spatie\Newsletter\NewsletterFacade as NewsLetter;
 
 class UserController extends Controller
@@ -33,12 +30,19 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $user->fill([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'workflow' => $request->get('workflow', $user->workflow),
-            'second_auth_active' => $request->get('second_auth_active', $user->second_auth_active),
-        ]);
+        $user->fill($request->validated());
+
+        if ($request->has('marketing')) {
+            if ($user->marketing) {
+                Newsletter::subscribeOrUpdate($user->email, [
+                    'FNAME' => $user->name,
+                ]);
+            }
+
+            if (! $user->marketing) {
+                Newsletter::unsubscribe($user->email);
+            }
+        }
 
         if ($request->has('password')) {
             $user->password = \Hash::make($request->get('password'));
@@ -65,53 +69,6 @@ class UserController extends Controller
 
         dispatch(new UserDataBundle(\Auth::user()));
         return response()->json('OK');
-    }
-
-    /**
-     * @param UserUpdateMarketing $request
-     * @param null $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateMarketing(UserUpdateMarketing $request, $id = null)
-    {
-        $user = empty($id) ? $request->user() : User::findOrFail($id);
-
-        $user->fill([
-            'marketing' => $request->get('marketing'),
-        ]);
-
-        $user->save();
-
-
-        if ($user->marketing) {
-            Newsletter::subscribeOrUpdate($user->email, [
-                'FNAME' => $user->name,
-            ]);
-        }
-
-        if (! $user->marketing) {
-            Newsletter::unsubscribe($user->email);
-        }
-
-        return response()->json($user->fresh());
-    }
-
-    /**
-     * @param UserUpdateDataProcessing $request
-     * @param null $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateDataProcessing(UserUpdateDataProcessing $request, $id = null)
-    {
-        $user = empty($id) ? $request->user() : User::findOrFail($id);
-
-        $user->fill([
-            'processing' => $request->get('processing'),
-        ]);
-
-        $user->save();
-
-        return response()->json($user->fresh());
     }
 
     /**

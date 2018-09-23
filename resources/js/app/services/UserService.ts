@@ -36,4 +36,10 @@ export default class UserService {
       this.apiRouteService.action("UserUserConfirmController@store"),
     );
   }
+
+  requestData() {
+    return this.httpService.get(
+      this.apiRouteService.action("UserUserController@requestData"),
+    );
+  }
 }

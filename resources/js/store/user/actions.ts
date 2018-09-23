@@ -17,5 +17,8 @@ export default function(userService: UserService) {
         return data;
       });
     },
+    requestData: (context: ActionContext<UserState, RootState>) => {
+      return userService.requestData();
+    },
   };
 }

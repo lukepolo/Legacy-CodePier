@@ -44,20 +44,10 @@ Route::group(['middleware' => [
     |--------------------------------------------------------------------------
     |
     */
-    Route::apiResource('me', 'User\UserController', [
-        'only' => [
-            'index',
-        ],
-    ]);
-
-    Route::put('/me', 'User\UserController@update');
-//    Route::apiResource('user', 'User\UserController', [
-//        'except' => 'index',
-//    ]);
-
-    Route::get('user/{user}/request-data', 'User\UserController@requestData');
-    Route::patch('user/{user}/update-marketing', 'User\UserController@updateMarketing');
-    Route::patch('user/{user}/update-processing', 'User\UserController@updateDataProcessing');
+    Route::get('me', 'User\UserController@index');
+    Route::put('me', 'User\UserController@update');
+    Route::delete('me', 'User\UserController@destroy');
+    Route::get('request-data', 'User\UserController@requestData');
 
     /*
     |--------------------------------------------------------------------------

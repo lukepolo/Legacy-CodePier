@@ -426,7 +426,7 @@
           host: null,
           methods: ["GET", "HEAD"],
           uri: "api/me",
-          name: "me.index",
+          name: null,
           action: "UserUserController@index",
         },
         {
@@ -438,24 +438,17 @@
         },
         {
           host: null,
+          methods: ["DELETE"],
+          uri: "api/me",
+          name: null,
+          action: "UserUserController@destroy",
+        },
+        {
+          host: null,
           methods: ["GET", "HEAD"],
-          uri: "api/user/{user}/request-data",
+          uri: "api/request-data",
           name: null,
           action: "UserUserController@requestData",
-        },
-        {
-          host: null,
-          methods: ["PATCH"],
-          uri: "api/user/{user}/update-marketing",
-          name: null,
-          action: "UserUserController@updateMarketing",
-        },
-        {
-          host: null,
-          methods: ["PATCH"],
-          uri: "api/user/{user}/update-processing",
-          name: null,
-          action: "UserUserController@updateDataProcessing",
         },
         {
           host: null,

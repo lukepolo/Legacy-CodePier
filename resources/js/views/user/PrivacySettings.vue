@@ -67,41 +67,26 @@ export default {
   },
   methods: {
     requestData() {
-      this.$store
-        .dispatch("user/requestData", {
-          user: this.user.id,
-        })
-        .then(() => {
-          this.showRequestDataModal = true;
-        });
+      this.$store.dispatch("user/requestData").then(() => {
+        this.showRequestDataModal = true;
+      });
     },
     toggleMarketing() {
       this.user.marketing = !this.user.marketing;
-      this.$store.dispatch("user/updateMarketing", {
-        user: this.user.id,
+      this.$store.dispatch("user/update", {
         marketing: this.user.marketing,
       });
     },
     toggleProcessing() {
       this.user.processing = !this.user.processing;
-      this.$store.dispatch("user/updateDataProcessing", {
-        user: this.user.id,
+      this.$store.dispatch("user/update", {
         processing: this.user.processing,
       });
     },
     deleteAccount() {
-      this.$store
-        .dispatch("user/deleteAccount", {
-          user: this.user.id,
-        })
-        .then(() => {
-          window.location.reload();
-        });
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user.user;
+      this.$store.dispatch("user/destroy").then(() => {
+        window.location.reload();
+      });
     },
   },
 };
