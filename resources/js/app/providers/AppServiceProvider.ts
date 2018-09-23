@@ -24,6 +24,7 @@ import SystemSourceControlProviderService from "@app/services/System/SystemSourc
 import NotificationProviderService from "@app/services/Notification/NotificationProviderService";
 import UserNotificationProviderService from "@app/services/User/UserNotificationProviderService";
 import UserNotificationSettingService from "@app/services/User/UserNotificationSettingService";
+import UserServerService from "@app/services/User/UserServerService";
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,8 @@ export default class AppProviderServiceProvider extends ServiceProvider {
       "UserNotificationSettingService",
       UserNotificationSettingService,
     );
+
+    this.app.bind("UserServerService", UserServerService);
 
     // ROUTING
     this.app.constant("ApiRouteService", require("@app/helpers/routes"));

@@ -9,6 +9,7 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 
 import UserViews from "@views/user";
 import LoginViews from "@views/login";
+import ServerViews from "@views/server";
 import Dashboard from "@views/dashboard/Dashboard.vue";
 import ErrorViews from "@views/errors";
 
@@ -23,24 +24,28 @@ export default function($router: RouterInterface) {
       $router.route("/", Dashboard).setName("dashboard");
 
       $router.area(UserViews.AccountArea).group(() => {
-        $router.route("my-account", UserViews.MyAccount).setName("my_account");
+        $router
+          .route("my-account", UserViews.MyAccount)
+          .setName("user.account");
         $router
           .route("subscription", UserViews.Subscription)
-          .setName("user_subscription");
+          .setName("user.subscription");
         $router
           .route("privacy", UserViews.PrivacySettings)
-          .setName("user_privacy");
-        $router.route("ssh-keys", UserViews.SshKeys).setName("user_ssh_keys");
+          .setName("user.privacy");
+        $router.route("ssh-keys", UserViews.SshKeys).setName("user.ssh-keys");
         $router
           .route("server-providers", UserViews.ServerProviders)
-          .setName("user_server_providers");
+          .setName("user.server-providers");
         $router
           .route("source-control-providers", UserViews.SourceControlProviders)
-          .setName("user_source_control_providers");
+          .setName("user.source-control-providers");
         $router
           .route("notification-settings", UserViews.NotificationSettings)
-          .setName("user_notification_settings");
+          .setName("user.notification-settings");
       });
+
+      $router.route("servers", ServerViews.Servers).setName("servers");
     });
 
   // PUBLIC

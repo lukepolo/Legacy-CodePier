@@ -1,1 +1,4 @@
-export interface ServerState {}
+export interface ServerState {
+  servers: [];
+  deletedServers: [];
+}

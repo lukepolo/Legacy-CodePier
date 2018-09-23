@@ -82,7 +82,7 @@ Vue.mixin({
         return true;
       }
 
-      if (!this.$store.state.user.user.confirmed) {
+      if (!this.user.confirmed) {
         return false;
       }
 

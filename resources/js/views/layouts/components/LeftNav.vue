@@ -38,11 +38,11 @@
             </div>
 
             <div class="slack-invite" v-if="!user.has_ssh_key">
-                <router-link :to="{ name : 'user_ssh_keys' }">
+                <router-link :to="{ name : 'user.ssh-keys' }">
                     Create A SSH Key
                     <div class="small">You have not created an account ssh key</div>
                 </router-link>
-                <router-link :to="{ name : 'subscription' }" v-if="!isSubscribed">
+                <router-link :to="{ name : 'user.subscription' }" v-if="!isSubscribed">
                     Upgrade Account
                     <div class="small">Currently you only are getting 1 site and 1 server, upgrade now!</div>
                 </router-link>

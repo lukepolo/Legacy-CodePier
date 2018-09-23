@@ -9,14 +9,14 @@
           <div class="nav--item">
 
             <drop-down icon="icon-settings">
-                <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
+                <router-link :to="{ name: 'user.account' }"><span class="icon-person"></span>My Account</router-link>
                 <router-link v-if="teamsEnabled" :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
-                <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
+                <router-link :to="{ name: 'dashboard' }"><span class="icon-layers"></span>My Piles</router-link>
                 <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                 <template v-if="isAdmin">
                     <div class="dropdown--divider">Admin</div>
                     <a href="/horizon" target="_blank"><span class="icon-laravel"></span> Laravel Horizon</a>
-                    <router-link :to="{ name: 'categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
+                    <router-link :to="{ name: 'admin.categories' }"><span class="icon-settings"></span>Manage Categories</router-link>
                 </template>
                 <div class="dropdown--divider"></div>
                 <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>

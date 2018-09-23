@@ -59,7 +59,7 @@
               </div>
 
               <div class="group--item" v-if="!isSubscribed">
-                  <router-link :to="{ name : 'subscription' }" class="subscribe-pile">
+                  <router-link :to="{ name : 'user.subscription' }" class="subscribe-pile">
                       Upgrade Account
                       <div class="small">The free plan only allows for 1 site. <br>Upgrade now to add more!</div>
                   </router-link>
