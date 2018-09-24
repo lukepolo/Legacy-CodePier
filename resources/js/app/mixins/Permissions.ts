@@ -1,5 +1,6 @@
 import Vue from "vue";
 
+// TODO - all of these should return from the API
 Vue.mixin({
   computed: {
     user() {
@@ -36,7 +37,7 @@ Vue.mixin({
       if (this.isSubscribed) {
         return true;
       }
-      return this.$store.state.user_sites.sites.length <= 1;
+      return this.$store.state.user.sites.sites.length <= 1;
     },
     serverTypesEnabled() {
       if (this.isAdmin) {

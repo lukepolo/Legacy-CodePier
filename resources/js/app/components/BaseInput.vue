@@ -28,6 +28,7 @@
                 ></textarea>
             </template>
         <label :class="{ 'flyform--group-iconlabel' : tooltip }" :for="name" v-if="label">{{ label }}</label>
+        <div class="flyform--group-prefix-label">#</div>
     </div>
 </template>
 

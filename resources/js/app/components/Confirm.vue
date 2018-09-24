@@ -80,8 +80,8 @@ export default {
     textConfirmed() {
       if (this.confirm_with_text) {
         if (
-          _.lowerCase(this.confirmedText) !==
-          _.lowerCase(this.confirm_with_text)
+          this.confirmedText.toLowerCase() !==
+          this.confirm_with_text.toLowerCase()
         ) {
           return false;
         }

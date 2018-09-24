@@ -57,6 +57,11 @@
 <script>
 import LifeLine from "./Lifeline";
 export default {
+  props: {
+    site: {
+      required: true,
+    },
+  },
   components: {
     LifeLine,
   },
@@ -80,10 +85,10 @@ export default {
   },
   methods: {
     fetchData() {
-      this.$store.dispatch(
-        "user_site_life_lines/get",
-        this.$route.params.site_id,
-      );
+      // this.$store.dispatch(
+      //   "user_site_life_lines/get",
+      //   this.$route.params.site_id,
+      // );
     },
     createLifeline() {
       this.$store.dispatch("user_site_life_lines/store", this.form).then(() => {
@@ -93,10 +98,8 @@ export default {
     },
   },
   computed: {
-    site() {
-      return this.$store.state.user_sites.site;
-    },
     lifeLines() {
+      return [];
       return this.$store.state.user_site_life_lines.life_lines;
     },
   },
