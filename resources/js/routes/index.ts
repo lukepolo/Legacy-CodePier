@@ -22,7 +22,7 @@ export default function($router: RouterInterface) {
     .layout("authed")
     .middleware([middleware.Auth])
     .group(() => {
-      $router.route("/", Dashboard).setName("dashboard");
+      $router.route("", Dashboard).setName("dashboard");
 
       $router.area(UserViews.AccountArea).group(() => {
         $router
@@ -46,9 +46,11 @@ export default function($router: RouterInterface) {
           .setName("user.notification-settings");
       });
 
-      $router.route("servers", ServerViews.Servers).setName("servers");
+      $router.area(SiteViews.SiteArea).group(() => {
+        $router.route("site/:site", SiteViews.SiteOverview).setName("site");
+      });
 
-      $router.route("site/:site", SiteViews.SiteOverview).setName("site");
+      $router.route("servers", ServerViews.Servers).setName("servers");
     });
 
   // PUBLIC

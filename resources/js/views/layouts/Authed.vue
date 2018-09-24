@@ -26,9 +26,6 @@ export default Vue.extend({
     SystemAlerts,
     Announcements,
   },
-  beforeRouteEnter() {
-    alert("here");
-  },
   mounted() {
     this.$store.dispatch("user/piles/get");
     this.$store.dispatch("user/sites/get");
