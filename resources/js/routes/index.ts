@@ -46,7 +46,7 @@ export default function($router: RouterInterface) {
           .setName("user.notification-settings");
       });
 
-      $router.area(SiteViews.SiteArea).group(() => {
+      $router.middleware([middleware.SiteWorkflowMustBeCompleted]).group(() => {
         $router.route("site/:site", SiteViews.SiteOverview).setName("site");
       });
 

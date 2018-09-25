@@ -7,7 +7,9 @@
 |
 */
 import Auth from "./Auth";
+import SiteWorkflowMustBeCompleted from "./SiteWorkflowMustBeCompleted";
 
 export default {
   Auth,
+  SiteWorkflowMustBeCompleted,
 };

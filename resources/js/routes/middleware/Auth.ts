@@ -5,6 +5,7 @@ import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface
 
 @injectable()
 export default class Auth implements RouteMiddlewareInterface {
+  private next;
   private storeService;
   private $cookieStorage;
 
@@ -15,19 +16,31 @@ export default class Auth implements RouteMiddlewareInterface {
     this.storeService = storeService.getStore();
     this.$cookieStorage = cookieStorage;
   }
-  passes(to, from, next) {
+
+  handler(to, from, next) {
+    this.next = next;
+
     if (!this.$cookieStorage.get("token")) {
-      next({
-        name: "login",
-      });
-      return false;
+      return this.redirectToLogin();
     }
 
-    if (!this.storeService.state.auth.user) {
-      this.storeService.dispatch("auth/me").then(() => {
-        return true;
-      });
+    if (this.storeService.state.auth.user) {
+      return next();
     }
-    return true;
+
+    return this.storeService.dispatch("auth/me").then(
+      () => {
+        return next();
+      },
+      () => {
+        return this.redirectToLogin();
+      },
+    );
+  }
+
+  redirectToLogin() {
+    return this.next({
+      name: "login",
+    });
   }
 }
