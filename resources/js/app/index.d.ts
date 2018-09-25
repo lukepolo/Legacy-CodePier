@@ -1,6 +1,4 @@
 import Vue from "vue";
-import { Store } from "vuex";
-import RouterInterface from "varie/lib/routing/RouterInterface";
 
 /*
 |--------------------------------------------------------------------------
@@ -11,10 +9,7 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 |
 */
 declare module "vue/types/options" {
-  interface ComponentOptions<V extends Vue> {
-    router?: RouterInterface;
-    store?: Store<any>;
-  }
+  interface ComponentOptions<V extends Vue> {}
 }
 
 /*
@@ -26,7 +21,5 @@ declare module "vue/types/options" {
 |
 */
 declare module "vue/types/vue" {
-  interface Vue {
-    $store: Store<any>;
-  }
+  interface Vue {}
 }
