@@ -46,9 +46,13 @@ export default function($router: RouterInterface) {
           .setName("user.notification-settings");
       });
 
-      $router.middleware([middleware.SiteWorkflowMustBeCompleted]).group(() => {
-        $router.route("site/:site", SiteViews.SiteOverview).setName("site");
-      });
+      $router
+        .middleware([middleware.SiteWorkflowMustBeCompleted])
+        .prefix("site/:site")
+        .group(() => {
+          $router.route("", SiteViews.SiteOverview).setName("site");
+          $router.route("setup", SiteViews.SiteSetup).setName("site.setup");
+        });
 
       $router.route("servers", ServerViews.Servers).setName("servers");
     });

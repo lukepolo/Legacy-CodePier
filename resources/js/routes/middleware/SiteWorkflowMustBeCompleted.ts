@@ -14,24 +14,31 @@ export default class SiteWorkflowMustBeCompleted
   }
 
   handler(to, from, next) {
-    this.next = next;
-    this.site = this.storeService.getters["user/sites/show"](to.params.site);
-    if (!this.site) {
-      return this.storeService.dispatch("user/sites/get").then(() => {
-        this.site = this.storeService.getters["user/sites/show"](
-          to.params.site,
-        );
-        return this.checkWorkflow();
-      });
+    if (to.name !== "site.setup") {
+      this.next = next;
+      this.site = this.storeService.getters["user/sites/show"](to.params.site);
+      if (!this.site) {
+        return this.storeService.dispatch("user/sites/get").then(() => {
+          this.site = this.storeService.getters["user/sites/show"](
+            to.params.site,
+          );
+          return this.checkWorkflow();
+        });
+      }
+      return this.checkWorkflow();
     }
-    this.checkWorkflow();
+    return next();
   }
 
   checkWorkflow() {
     if (this.site.workflow) {
       return this.next();
     }
-    console.warn("TODO - they should be redirected to the workflow");
-    return this.next();
+    return this.next({
+      name: "site.setup",
+      params: {
+        site: this.site.id,
+      },
+    });
   }
 }

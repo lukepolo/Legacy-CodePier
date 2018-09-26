@@ -3,7 +3,7 @@
         <notification-channels-form :site="site"></notification-channels-form>
         <site-rename-form :site="site"></site-rename-form>
         <delete-site :site="site"></delete-site>
-        <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
+        <router-link :class="{ 'btn-disabled' : !siteActionsEnabled }" class="btn btn-primary" :to="{ name: 'site.setup', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
     </div>
 </template>
 
