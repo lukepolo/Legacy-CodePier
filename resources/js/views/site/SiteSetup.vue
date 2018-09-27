@@ -146,26 +146,40 @@ export default {
     },
   },
   computed: {
-    site() {
-      return this.$store.getters["user/sites/show"](this.$route.params.site);
-    },
     availableLanguages() {
       return this.$store.state.server.languages.languages;
     },
     availableFrameworks() {
       return this.$store.state.server.frameworks.frameworks;
     },
-    providerUrl() {
-      return "";
-    },
-    repositoryUrl() {
-      return "";
-    },
     repositoryProviders() {
       return this.$store.state.sourceControlProviders.providers;
     },
     userRepositoryProviders() {
       return this.$store.state.user.sourceControlProviders.providers;
+    },
+    site() {
+      return this.$store.getters["user/sites/show"](this.$route.params.site);
+    },
+    repositoryUrl() {
+      return `${this.providerUrl}/${this.form.repository}`;
+    },
+    providerUrl() {
+      let userRepository = this.userRepositoryProviders.find(
+        (repositoryProvider) => {
+          return (
+            repositoryProvider.id === this.form.user_repository_provider_id
+          );
+        },
+      );
+      if (userRepository) {
+        let provider = this.repositoryProviders.find((repositoryProvider) => {
+          return (
+            repositoryProvider.id === userRepository.repository_provider_id
+          );
+        });
+        return provider && provider.url;
+      }
     },
   },
 };
