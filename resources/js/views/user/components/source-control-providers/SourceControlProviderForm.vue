@@ -42,7 +42,7 @@ export default {
   computed: {
     isConnected() {
       return this.userRepositoryProviders.find((provider) => {
-        return this.provider.id === provider.id;
+        return this.provider.id === provider.repository_provider_id;
       });
     },
     repositoryProviders() {
