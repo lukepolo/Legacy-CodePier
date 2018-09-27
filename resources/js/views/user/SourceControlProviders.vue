@@ -1,14 +1,14 @@
 <template>
     <div class="providers grid-6">
-       <source-control-provider :provider="repositoryProvider" v-for="repositoryProvider in repositoryProviders" :key="repositoryProvider.id"></source-control-provider>
+       <source-control-provider-form :provider="repositoryProvider" v-for="repositoryProvider in repositoryProviders" :key="repositoryProvider.id"></source-control-provider-form>
     </div>
 </template>
 
 <script>
-import SourceControlProvider from "./components/source-control-providers/ServerProviderForm";
+import SourceControlProviderForm from "./components/source-control-providers/SourceControlProviderForm";
 export default {
   components: {
-    SourceControlProvider,
+    SourceControlProviderForm,
   },
   created() {
     this.$store.dispatch("sourceControlProviders/get");

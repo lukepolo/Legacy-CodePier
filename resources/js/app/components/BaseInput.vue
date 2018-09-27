@@ -67,10 +67,5 @@ export default Vue.extend({
       this.$emit("input", $event.target.value);
     };
   },
-  computed: {
-    componentType() {
-      return this.type === "textarea" ? "textarea" : "input";
-    },
-  },
 });
 </script>

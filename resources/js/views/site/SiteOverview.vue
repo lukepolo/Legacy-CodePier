@@ -35,14 +35,14 @@
 </template>
 
 <script>
-import SiteDns from "./components/SiteDns";
-import LifeLines from "./components/Lifelines";
-import SiteHeader from "./components/SiteHeader";
-import SiteSshKeyCard from "./components/SiteSshKeyCard";
-import RecentDeployments from "./components/RecentDeployments";
-import DatabaseBackupCard from "./components/DatabaseBackupCard";
-import DeploymentHookCard from "./components/DeploymentHookCard";
-import AutomaticDeploymentCard from "./components/AutomaticDeploymentCard";
+import SiteDns from "./components/dashboard-components/SiteDns";
+import LifeLines from "./components/dashboard-components/Lifelines";
+import SiteHeader from "./components/dashboard-components/SiteHeader";
+import SiteSshKeyCard from "./components/dashboard-components/SiteSshKeyCard";
+import RecentDeployments from "./components/dashboard-components/RecentDeployments";
+import DatabaseBackupCard from "./components/dashboard-components/DatabaseBackupCard";
+import DeploymentHookCard from "./components/dashboard-components/DeploymentHookCard";
+import AutomaticDeploymentCard from "./components/dashboard-components/AutomaticDeploymentCard";
 
 export default {
   components: {

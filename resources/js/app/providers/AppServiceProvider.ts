@@ -26,6 +26,8 @@ import UserNotificationProviderService from "@app/services/User/UserNotification
 import UserNotificationSettingService from "@app/services/User/UserNotificationSettingService";
 import UserServerService from "@app/services/User/UserServerService";
 
+import ServerService from "@app/services/ServerService";
+
 /*
 |--------------------------------------------------------------------------
 | App Service Provider
@@ -66,6 +68,9 @@ export default class AppProviderServiceProvider extends ServiceProvider {
     // SITE SERVICES
     this.app.bind("SiteService", SiteService);
     this.app.bind("SiteServerService", SiteServerService);
+
+    // SITE SERVICES
+    this.app.bind("ServerService", ServerService);
 
     // USER SERVICES
     this.app.bind("UserService", UserService);
