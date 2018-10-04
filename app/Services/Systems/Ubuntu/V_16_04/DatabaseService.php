@@ -139,7 +139,7 @@ class DatabaseService
 
         sleep(2);
 
-        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
+        $this->remoteTaskService->run("mongo admin --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
 
         $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service mongod restart');
     }
@@ -147,6 +147,8 @@ class DatabaseService
     /**
      * @param Schema $schema
      * @throws UnknownDatabase
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
      */
     public function addSchema(Schema $schema)
     {
@@ -164,8 +166,8 @@ class DatabaseService
                 $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
                 break;
             case self::MONGODB:
-                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.create('$database');\"");
-                // no break
+                // we dont create a database for mongo
+                break;
             default:
                 throw new UnknownDatabase($schema->database);
                 break;
@@ -175,6 +177,8 @@ class DatabaseService
     /**
      * @param Schema $schema
      * @throws UnknownDatabase
+     * @throws \App\Exceptions\FailedCommand
+     * @throws \App\Exceptions\SshConnectionFailed
      */
     public function removeSchema(Schema $schema)
     {
@@ -192,7 +196,7 @@ class DatabaseService
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb ' . $database);
                 break;
             case self::MONGODB:
-                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.dropDatabase('$database');\"");
+                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.getSiblingDB('$database').dropDatabase()\"");
                 break;
             default:
                 throw new UnknownDatabase($schema->database);

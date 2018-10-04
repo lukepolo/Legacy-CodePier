@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-CODEPIER_URL=http://2fe6f102.ngrok.io
+CODEPIER_URL=http://ae154fac.ngrok.io
 
 NL='\033[0m'
 RED='\033[0;31m'
