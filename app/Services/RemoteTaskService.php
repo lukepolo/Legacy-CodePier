@@ -139,15 +139,17 @@ echo \"Wrote\"");
      * @param $file
      * @param $findText
      * @param $text
+     * @param bool $cleanText
      * @return string
      * @throws FailedCommand
      * @throws SshConnectionFailed
-     * @throws \Exception
      */
-    public function findTextAndAppend($file, $findText, $text)
+    public function findTextAndAppend($file, $findText, $text, $cleanText = true)
     {
         $findText = $this->cleanRegex($findText);
-        $text = $this->cleanText($text);
+        if ($cleanText) {
+            $text = $this->cleanText($text);
+        }
 
         return $this->run("sed -i '/$findText/a $text' $file");
     }
