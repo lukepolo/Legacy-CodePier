@@ -41,7 +41,7 @@ export default {
   },
   created() {
     this.$store.dispatch("server/provider/get");
-    this.$store.dispatch("user/server/provider/get");
+    this.$store.dispatch("user/servers/provider/get");
   },
   methods: {
     deleteProvider(provider) {
@@ -55,7 +55,7 @@ export default {
       return this.$store.state.server.provider.providers;
     },
     userServerProviders() {
-      return this.$store.state.user.server.provider.providers;
+      return this.$store.state.user.servers.provider.providers;
     },
   },
 };

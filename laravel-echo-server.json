@@ -17,9 +17,6 @@
   "host": null,
   "port": "6001",
   "protocol": "http",
-  "socketio": {
-    "wsEngine": "uws"
-  },
   "sslCertPath": "",
   "sslKeyPath": "",
   "sslCertChainPath": "",
@@ -28,7 +25,6 @@
     "allowCors": true,
     "allowOrigin": "http://codepier.test",
     "allowMethods": "GET, POST",
-    "allowHeaders":
-      "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+    "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
   }
 }

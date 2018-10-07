@@ -44,5 +44,14 @@
 <script>
 export default {
   props: ["site"],
+  methods: {
+    removeDeployHook() {},
+  },
+  computed: {
+    workFlowCompleted() {
+      // TODO
+      return true;
+    },
+  },
 };
 </script>
