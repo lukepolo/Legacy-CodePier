@@ -8,11 +8,11 @@ import UserSiteServerStore from "@store/user/modules/sites/modules/servers/UserS
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
-  constructor(@inject("SiteService") $siteService) {
-    super($siteService, "site");
+  constructor(@inject("SiteService") siteService) {
+    super(siteService, "site");
     this.setName("sites")
       .addState(state)
-      .addActions(actions($siteService))
+      .addActions(actions(siteService))
       .addMutations(mutations)
       .addGetters(getters)
       .addModule(UserSiteServerStore);

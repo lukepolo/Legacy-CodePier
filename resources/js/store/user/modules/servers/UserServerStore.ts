@@ -4,7 +4,7 @@ import getters from "./getters";
 import mutations from "./mutations";
 import { injectable, inject, unmanaged } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
-import UserServerProviderStore from "@store/user/modules/servers/modules/UserServerProviderStore";
+import UserServerProviderStore from "@store/user/modules/servers/modules/providers/UserServerProviderStore";
 
 @injectable()
 export default class UserServerStore extends RestStoreModule {

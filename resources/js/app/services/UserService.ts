@@ -42,4 +42,15 @@ export default class UserService {
       this.apiRouteService.action("UserUserController@requestData"),
     );
   }
+
+  getActiveCommands() {
+    return this.httpService.get(
+      this.apiRouteService.action("UserUserController@getRunningCommands"),
+    );
+  }
+
+  getAvailableSslCertificates() {
+    // UserUserSslCertificates@index
+    // TODO - im not sure if there is a better way but this works?
+  }
 }

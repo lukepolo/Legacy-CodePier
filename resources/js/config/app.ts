@@ -12,6 +12,14 @@ import AutoRegisterFiltersServiceProvider from "varie/lib/plugins/autoRegisterFi
 import AutoRegisterLayoutsServiceProvider from "varie/lib/plugins/autoRegisterLayouts/ServiceProvider";
 import AutoRegisterComponentsServiceProvider from "varie/lib/plugins/autoRegisterComponents/ServiceProvider";
 import AutoRegisterDirectivesServiceProvider from "varie/lib/plugins/autoRegisterDirectives/ServiceProvider";
+import AdminProvider from "@app/providers/AdminProvider";
+import AuthProvider from "@app/providers/AuthProvider";
+import NotificationProvider from "@app/providers/NotificationProvider";
+import PileProvider from "@app/providers/PileProvider";
+import ServerProvider from "@app/providers/ServerProvider";
+import SiteProvider from "@app/providers/SiteProvider";
+import SystemProvider from "@app/providers/SystemProvider";
+import UserProvider from "@app/providers/UserProvider";
 
 export default {
   /*
@@ -81,5 +89,13 @@ export default {
     AppServiceProvider,
     BroadcastProvider,
     NotificationsProvider,
+    AdminProvider,
+    AuthProvider,
+    NotificationProvider,
+    PileProvider,
+    ServerProvider,
+    SiteProvider,
+    SystemProvider,
+    UserProvider,
   },
 };
