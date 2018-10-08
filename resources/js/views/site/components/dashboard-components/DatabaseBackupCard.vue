@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{ name : 'site_backups', params : { site : this.site.id } }" tag="div" class="grid--item">
+    <div class="grid--item">
         <div class="providers--item">
             <div class="providers--item-header">
                 <div class="providers--item-icon">
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script>

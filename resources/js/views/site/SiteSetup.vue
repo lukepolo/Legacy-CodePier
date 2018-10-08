@@ -1,6 +1,6 @@
 <template>
     <div v-if="site">
-        <base-form action="updateSite">
+        <base-form :action="updateSite">
             <pre>{{ form.data(false) }}</pre>
 
             <repository-provider-selector v-model="form.user_repository_provider_id" :custom.sync="form.custom_provider"></repository-provider-selector>
@@ -11,46 +11,41 @@
 
             <template v-if="form.user_repository_provider_id || form.custom_provider">
 
-                <div class="flyform--group">
-                    <div class="flyform--group-prefix">
-                        <input id="repository" ref="repository" type="text" v-model="form.repository" name="repository" placeholder=" " required>
-                        <label for="repository">Repository URL</label>
-                        <template v-if="!form.custom_provider">
-                            <div class="flyform--group-prefix-label">
-                                {{ providerUrl }}/
-                            </div>
-                        </template>
-                    </div>
-
-                    <template v-if="!form.custom_provider">
-                        <div class="flyform--input-icon-right">
-                            <a target="_blank" :href="'//'+repositoryUrl">
-                                <tooltip message="Check URL" class="tooltip-in-form">
-                                    <span class="icon-link"></span>
-                                </tooltip>
-                            </a>
-                        </div>
+                <base-input
+                    name="repository"
+                    label="Repository URL"
+                    :prefix="providerUrl" v-model="form.repository"
+                >
+                    <template v-if="!form.custom_provider" slot="prefix">
+                        {{ providerUrl }}/
                     </template>
-                </div>
 
-                <div class="flyform--group">
-                    <input id="branch" type="text" v-model="form.branch" name="branch" placeholder=" ">
-                    <label for="branch">Branch</label>
-                </div>
+                    <template v-if="!form.custom_provider" slot="icon">
+                        <a target="_blank" :href="'//'+repositoryUrl">
+                            <tooltip message="Check URL" class="tooltip-in-form">
+                                <span class="icon-link"></span>
+                            </tooltip>
+                        </a>
+                    </template>
+                </base-input>
 
-                <div class="flyform--group">
-                    <div class="flyform--group-prefix">
-                        <input id="web_directory" type="text" name="web_directory" v-model="form.web_directory" placeholder=" ">
-                        <label for="web_directory" class="flyform--group-iconlabel">Web Directory</label>
-                        <div class="flyform--group-prefix-label">
-                            ~/codepier/{{site.domain}}/
-                        </div>
-                        <tooltip message="The location of your apps entry" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
 
-                    </div>
-                </div>
+                <base-input
+                    name="branch"
+                    v-model="form.branch"
+                    label="Branch"
+                ></base-input>
+
+                <base-input
+                    name="web_directory"
+                    label="Web Directory"
+                    v-model="form.web_directory"
+                    tooltip="The location of your apps entry"
+                >
+                    <template slot="prefix">
+                        ~/codepier/{{site.domain}}/
+                    </template>
+                </base-input>
 
                 <div class="flyform--group">
                     <label>Language & Framework</label>
@@ -69,12 +64,9 @@
                     </div>
                 </div>
 
-                <div class="flyform--footer">
-                    <div class="flyform--footer-btns">
-                        <button class="btn btn-primary" type="submit" :disabled="form.isDirty()">Update Repository</button>
-                    </div>
-                </div>
-
+                <template slot="buttons">
+                    <button class="btn btn-primary" type="submit" :disabled="!form.isDirty() || !form.isValid()">Update Repository</button>
+                </template>
             </template>
         </base-form>
     </div>
@@ -97,11 +89,18 @@ export default {
       form: this.createForm({
         type: null,
         branch: "master",
-        framework: null,
         repository: null,
         custom_provider: false,
         web_directory: "public",
         user_repository_provider_id: null,
+      }).validation({
+        rules: {
+          type: "required",
+          branch: "required",
+          repository: "required",
+          web_directory: "required",
+          user_repository_provider_id: "required_without:custom_provider",
+        },
       }),
     };
   },
@@ -145,6 +144,11 @@ export default {
       }
     },
   },
+  methods: {
+    updateSite() {
+      alert("woo");
+    },
+  },
   computed: {
     availableLanguages() {
       return this.$store.state.server.languages.languages;
@@ -164,6 +168,7 @@ export default {
     repositoryUrl() {
       return `${this.providerUrl}/${this.form.repository}`;
     },
+    // TODO - we can return more data from he API to make this easier
     providerUrl() {
       let userRepository = this.userRepositoryProviders.find(
         (repositoryProvider) => {

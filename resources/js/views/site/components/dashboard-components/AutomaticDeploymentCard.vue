@@ -45,6 +45,7 @@
 export default {
   props: ["site"],
   methods: {
+    createDeployHook() {},
     removeDeployHook() {},
   },
   computed: {
