@@ -25,7 +25,7 @@ export default Vue.extend({
     return {
       online: true,
       socketConnection: true,
-      current_version: this.ConfigService.get("env.VERSION"),
+      current_version: this.configService.get("env.VERSION"),
     };
   },
   created() {
@@ -46,7 +46,7 @@ export default Vue.extend({
       this.$store.dispatch("user/resendConfirmationEmail");
     },
     checkSocketConnection() {
-      this.$set(this, "socketConnection", this.BroadcastService.isConnected());
+      this.$set(this, "socketConnection", this.broadcastService.isConnected());
     },
   },
   computed: {

@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 Vue.directive("file-editor", {
   bind: function(element, params) {
     const editor = ace.edit(element);

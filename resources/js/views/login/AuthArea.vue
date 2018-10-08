@@ -29,7 +29,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   beforeCreate() {
-    if (this.CookieStorage.get("token")) {
+    if (this.cookieStorage.get("token")) {
       this.$router.push({ name: "dashboard" });
     }
   },
