@@ -74,7 +74,7 @@ export default Vue.extend({
           );
         }
       } else {
-        this.$emit("change", this.checked !== true);
+        this.$emit("change", this.checked != true);
       }
     },
   },
@@ -82,7 +82,7 @@ export default Vue.extend({
     isChecked() {
       if (Array.isArray(this.checked)) {
         return this.checked.find((checkedValue) => {
-          return checkedValue === this.value;
+          return checkedValue == this.value;
         });
       }
       return this.checked;
