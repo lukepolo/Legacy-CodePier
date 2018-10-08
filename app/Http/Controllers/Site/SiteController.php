@@ -16,6 +16,7 @@ use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
 use App\Events\Site\SiteRestartDatabases;
 use App\Events\Site\SiteUpdatedWebConfig;
+use App\Models\User\UserRepositoryProvider;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Jobs\Site\FixSiteServerConfigurations;
@@ -23,7 +24,6 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Models\User\UserRepositoryProvider;
 
 class SiteController extends Controller
 {
@@ -31,8 +31,6 @@ class SiteController extends Controller
     private $repositoryService;
 
     /**
-     * SiteController constructor.
-     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
@@ -54,11 +52,7 @@ class SiteController extends Controller
             ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return response()->json(
@@ -66,36 +60,24 @@ class SiteController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param SiteRequest $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(SiteRequest $request)
     {
         $isDomain = is_domain($request->get('domain'));
 
         $site = Site::create([
-            'user_id'             => \Auth::user()->id,
-            'domain'              => $isDomain ? $request->get('domain') : 'default',
-            'pile_id'             => $request->get('pile_id'),
-            'name'                => $request->get('domain'),
-            'workflow'            => \Auth::user()->workflow ? null : [],
-            'wildcard_domain'     => $request->get('wildcard_domain', 0),
             'keep_releases'       => 10,
             'zero_downtime_deployment' => true,
+            'user_id'             => \Auth::user()->id,
+            'name'                => $request->get('domain'),
+            'pile_id'             => $request->get('pile_id'),
+            'workflow'            => \Auth::user()->workflow ? null : [],
+            'wildcard_domain'     => $request->get('wildcard_domain', 0),
+            'domain'              => $isDomain ? $request->get('domain') : 'default',
         ]);
 
         return response()->json($site);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         return response(
@@ -103,13 +85,6 @@ class SiteController extends Controller
         );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteRepositoryRequest $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(SiteRepositoryRequest $request, $id)
     {
         $site = Site::findOrFail($id);
@@ -117,9 +92,8 @@ class SiteController extends Controller
         $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
 
         $site->fill([
-            'type'                        => $request->get('type'),
             'branch'                      => $request->get('branch'),
-            'framework'                   => $request->get('framework'),
+            'type'                        => $request->get('site_type'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
             'user_repository_provider_id' => $userRepositoryProvider->id,
@@ -154,13 +128,6 @@ class SiteController extends Controller
         return response()->json($site);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         return response()->json(
@@ -168,11 +135,6 @@ class SiteController extends Controller
         );
     }
 
-    /**
-     * Deploys a site.
-     * @param DeploySiteRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function deploy(DeploySiteRequest $request, $siteId)
     {
         $site = Site::with('provisionedServers')->findOrFail($siteId);
@@ -189,10 +151,6 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Rollbacks a site.
-     * @param DeploySiteRequest $request
-     */
     public function rollback(DeploySiteRequest $request, $siteId)
     {
         $site = Site::with('provisionedServers')->findOrFail($siteId);
@@ -205,11 +163,6 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * @param SiteServerFeatureRequest $request
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function updateSiteServerFeatures(SiteServerFeatureRequest $request, $id)
     {
         $site = Site::findOrFail($id);
@@ -221,13 +174,6 @@ class SiteController extends Controller
         );
     }
 
-    /**
-     * Restarts a sites servers.
-     *
-     * @param $siteId
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function restartServer($siteId)
     {
         broadcast(new SiteRestartServers(Site::findOrFail($siteId)));
@@ -235,13 +181,6 @@ class SiteController extends Controller
         return $this->remoteResponse('OK');
     }
 
-    /**
-     * Restart the sites web services.
-     *
-     * @param $siteId
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function restartWebServices($siteId)
     {
         broadcast(new SiteRestartWebServices(Site::findOrFail($siteId)));
@@ -249,13 +188,6 @@ class SiteController extends Controller
         return $this->remoteResponse('OK');
     }
 
-    /**
-     * Restarts the sites databases.
-     *
-     * @param $siteId
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function restartDatabases($siteId)
     {
         broadcast(new SiteRestartDatabases(Site::findOrFail($siteId)));
@@ -263,13 +195,6 @@ class SiteController extends Controller
         return $this->remoteResponse('OK');
     }
 
-    /**
-     * Restarts the sites worker services.
-     *
-     * @param $siteId
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function restartWorkerServices($siteId)
     {
         broadcast(new SiteRestartWorkers(Site::findOrFail($siteId)));
@@ -277,10 +202,6 @@ class SiteController extends Controller
         return $this->remoteResponse('OK');
     }
 
-    /**
-     * @param $siteId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function refreshPublicKey($siteId)
     {
         $site = Site::findOrFail($siteId);
@@ -291,10 +212,6 @@ class SiteController extends Controller
         return response()->json($site);
     }
 
-    /**
-     * @param $siteId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function refreshDeployKey($siteId)
     {
         $site = Site::findOrFail($siteId);
@@ -324,11 +241,6 @@ class SiteController extends Controller
         return response()->json($site);
     }
 
-    /**
-     * @param SiteRename $request
-     * @param $siteId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function rename(SiteRename $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
@@ -356,10 +268,6 @@ class SiteController extends Controller
         return response()->json($site);
     }
 
-    /**
-     * @param $siteId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function fixServerConfigurations($siteId)
     {
         $site = Site::findOrFail($siteId);

@@ -29,7 +29,6 @@
                     </template>
                 </base-input>
 
-
                 <base-input
                     name="branch"
                     v-model="form.branch"
@@ -50,7 +49,7 @@
                 <div class="flyform--group">
                     <label>Language & Framework</label>
                     <div class="flyform--group-select" v-if="Object.keys(availableLanguages).length && Object.keys(availableFrameworks).length">
-                        <select v-model="form.type" name="type" required>
+                        <select v-model="form.site_type" name="site_type" required>
                             <option value=""></option>
                             <template v-for="(features, language) in availableLanguages">
                                 <optgroup :label="language">
@@ -87,7 +86,7 @@ export default {
   data() {
     return {
       form: this.createForm({
-        type: null,
+        site_type: null,
         branch: "master",
         repository: null,
         custom_provider: false,
@@ -95,8 +94,8 @@ export default {
         user_repository_provider_id: null,
       }).validation({
         rules: {
-          type: "required",
           branch: "required",
+          site_type: "required",
           repository: "required",
           web_directory: "required",
           user_repository_provider_id: "required_without:custom_provider",
@@ -143,10 +142,13 @@ export default {
         });
       }
     },
-  },
-  methods: {
     updateSite() {
-      alert("woo");
+      this.$store.dispatch("user/sites/update", {
+        data: this.form.data(),
+        parameters: {
+          site: this.$route.params.site,
+        },
+      });
     },
   },
   computed: {

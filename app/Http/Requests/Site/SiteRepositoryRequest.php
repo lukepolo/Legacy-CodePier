@@ -25,10 +25,9 @@ class SiteRepositoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|string',
             'branch' => 'required|string',
-            'framework' => 'nullable|string',
             'repository'=> [new Repository],
+            'site_type' => 'required|string',
             'web_directory' => 'nullable|string',
             'user_repository_provider_id' => 'required_unless:custom_provider,true|nullable|integer',
         ];

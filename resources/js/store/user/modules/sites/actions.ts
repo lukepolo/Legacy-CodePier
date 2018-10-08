@@ -3,7 +3,7 @@ import RootState from "@store/rootState";
 import { SitesState } from "./stateInterface";
 import UserSiteService from "@app/services/User/UserSiteService";
 
-export default function(siteService: UserSiteService) {
+export default function(userSiteService: UserSiteService) {
   return {
     changePile: (context: ActionContext<SitesState, RootState>, data) => {},
   };

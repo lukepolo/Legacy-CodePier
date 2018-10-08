@@ -51,6 +51,7 @@ class Site extends Model
     ];
 
     protected $hidden = [
+        'type',
         'private_ssh_key',
         'server_features',
     ];
@@ -61,6 +62,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
+        'site_type',
         'last_deployment_status',
     ];
 
@@ -285,6 +287,29 @@ class Site extends Model
         return '/home/codepier/'.$this->domain;
     }
 
+    public function getTypeAttribute()
+    {
+        $typeAndFramework = explode('.', $this->getOriginal('type'));
+        if (isset($typeAndFramework[0])) {
+            return $typeAndFramework[0];
+        }
+        return null;
+    }
+
+    public function getFrameworkAttribute()
+    {
+        $typeAndFramework = explode('.', $this->attributes['type']);
+        if (isset($typeAndFramework[1])) {
+            return $typeAndFramework[1];
+        }
+        return null;
+    }
+
+    public function getSiteTypeAttribute()
+    {
+        return $this->attributes['type'];
+    }
+
     public function getLastDeploymentStatusAttribute()
     {
         if ($this->lastDeployment) {
@@ -305,7 +330,7 @@ class Site extends Model
     public function getFrameworkClass()
     {
         if ($this->framework) {
-            return str_replace('.', '\\Frameworks\\', $this->framework);
+            return "$this->type\\Frameworks\\$this->framework";
         }
     }
 

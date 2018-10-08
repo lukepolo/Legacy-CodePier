@@ -79,10 +79,8 @@ class SiteFeatureService implements SiteFeatureServiceContract
                 }
             }
 
-            $languageAndFramework = explode('.', $site->framework);
-
-            if (isset($files[$languageAndFramework[0]][$languageAndFramework[1]])) {
-                $editableFiles = $editableFiles->merge($files[$languageAndFramework[0]][$languageAndFramework[1]]);
+            if (isset($files[$site->type][$site->framework])) {
+                $editableFiles = $editableFiles->merge($files[$site->type][$site->framework]);
             }
         }
 
@@ -108,7 +106,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
                             $siteSuggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
                             if (! empty($site->framework)) {
-                                $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
+                                $reflectionClass = $this->buildReflection("$language/Frameworks/$site->framework.php");
                                 $siteSuggestedFeatures = array_merge($siteSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                             }
 
