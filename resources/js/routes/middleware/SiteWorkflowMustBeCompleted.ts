@@ -14,6 +14,7 @@ export default class SiteWorkflowMustBeCompleted
   }
 
   handler(to, from, next) {
+    console.info(to.name);
     if (to.name !== "site.setup") {
       this.next = next;
       this.site = this.storeService.getters["user/sites/show"](to.params.site);

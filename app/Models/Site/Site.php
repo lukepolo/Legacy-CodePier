@@ -308,7 +308,9 @@ class Site extends Model
 
     public function getSiteTypeAttribute()
     {
-        return isset($this->attributes['type']) && $this->attributes['type'];
+        if (isset($this->attributes['type'])) {
+            return $this->attributes['type'];
+        }
     }
 
     public function getLastDeploymentStatusAttribute()
