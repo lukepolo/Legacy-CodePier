@@ -6,22 +6,15 @@
   padding: 0px 0px $spacing * 2;
   border-bottom: 2px solid rgba($white, 0.1);
 
-  input[type="radio"] {
-    position: absolute;
-    opacity: 0;
+  .providers--item--active {
+    background-color: rgba($black, 0.8);
 
-    &:checked {
-      + .providers--item {
-        background-color: rgba($black, 0.8);
+    .providers--item-footer-connected {
+      h4 {
+        color: $green;
 
-        .providers--item-footer-connected {
-          h4 {
-            color: $green;
-
-            &:after {
-              content: "ed";
-            }
-          }
+        &:after {
+          content: "ed";
         }
       }
     }
