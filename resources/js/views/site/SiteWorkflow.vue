@@ -27,7 +27,7 @@
         </div>
 
         <template slot="buttons">
-            <button @click.prevent="skipWorkflow" class="btn btn-danger" type="submit">Skip</button>
+            <button @click.prevent="skipWorkflow" class="btn btn-danger">Skip</button>
             <button class="btn btn-primary" type="submit">Continue</button>
         </template>
 
@@ -111,8 +111,6 @@ export default {
         },
       ],
       form: this.createForm({
-        test: false,
-        another: true,
         workflow: [],
       }),
     };
@@ -129,62 +127,42 @@ export default {
         ],
       })
       .setAsOriginalData();
-
-    // {
-    //   "site_files": {
-    //   "step": "site_files",
-    //     "order": 3,
-    //     "completed": true
-    // },
-    //   "site_workers": {
-    //   "step": "site_workers",
-    //     "order": 4,
-    //     "completed": true
-    // },
-    //   "site_cron_jobs": {
-    //   "step": "site_cron_jobs",
-    //     "order": 5,
-    //     "completed": true
-    // },
-    //   "site_databases": {
-    //   "step": "site_databases",
-    //     "order": 2,
-    //     "completed": true
-    // },
-    //   "site_deployment": {
-    //   "step": "site_deployment",
-    //     "order": 1,
-    //     "completed": true
-    // },
-    //   "site_environment_variables": {
-    //   "step": "site_environment_variables",
-    //     "order": 6,
-    //     "completed": true
-    // }
-    // }
   },
   methods: {
     skipWorkflow() {
-      // this.$store.dispatch("user_sites/updateWorkflow", {
-      //   workflow: {},
-      //   site: this.$route.params.site_id,
-      // });
+      this.$store
+        .dispatch("user/sites/updateWorkflow", {
+          workflow: [],
+          site: this.$route.params.site,
+        })
+        .then(() => {
+          this.$router.push({
+            name: "site",
+            params: {
+              site: this.$route.params.site,
+            },
+          });
+        });
     },
     saveWorkflow() {
-      this.$store.dispatch("user/sites/updateWorkflow", {
-        site: this.$route.params.site,
-        workflow: this.form.data().workflow.map((workflow) => {
-          return {
-            step: workflow.name,
-            order: workflow.order,
-          };
-        }),
-      });
-    },
-  },
-  computed: {
-    site() {
-      return this.$store.state.user_sites.site;
+      this.$store
+        .dispatch("user/sites/updateWorkflow", {
+          site: this.$route.params.site,
+          workflow: this.form.data().workflow.map((workflow) => {
+            return {
+              step: workflow.name,
+              order: workflow.order,
+            };
+          }),
+        })
+        .then(() => {
+          this.$router.push({
+            name: "site",
+            params: {
+              site: this.$route.params.site,
+            },
+          });
+        });
     },
   },
 };

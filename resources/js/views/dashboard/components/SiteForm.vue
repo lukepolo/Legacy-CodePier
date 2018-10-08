@@ -57,10 +57,15 @@ export default Vue.extend({
     saveSite() {
       this.$store
         .dispatch("user/sites/create", {
-          data: this.form,
+          data: this.form.data(),
         })
-        .then(() => {
-          this.cancel();
+        .then((site) => {
+          this.$router.push({
+            name: "site",
+            params: {
+              site: site.id,
+            },
+          });
         });
     },
     cancel() {

@@ -143,12 +143,21 @@ export default {
       }
     },
     updateSite() {
-      this.$store.dispatch("user/sites/update", {
-        data: this.form.data(),
-        parameters: {
-          site: this.$route.params.site,
-        },
-      });
+      this.$store
+        .dispatch("user/sites/update", {
+          data: this.form.data(),
+          parameters: {
+            site: this.$route.params.site,
+          },
+        })
+        .then(() => {
+          this.$router.push({
+            name: "site",
+            params: {
+              site: this.$route.params.site,
+            },
+          });
+        });
     },
   },
   computed: {

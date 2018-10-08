@@ -43,9 +43,28 @@ export default class SiteWorkflowMustBeCompleted
     } else if (!this.site.workflow) {
       return this.next({
         name: "site.workflow",
-        params: { site_id: this.site.id },
+        params: { site: this.site.id },
       });
     }
-    return this.next();
+    return this.next(this.getNextStep());
+  }
+
+  getNextStep() {
+    if (this.site.workflow) {
+      let availableSteps = this.site.workflow
+        .filter((step) => {
+          return !step.completed;
+        })
+        .sort((a, b) => {
+          return a.order > b.order;
+        });
+
+      let nextStep = availableSteps && availableSteps[0];
+      if (nextStep) {
+        return {
+          name: nextStep.step,
+        };
+      }
+    }
   }
 }
