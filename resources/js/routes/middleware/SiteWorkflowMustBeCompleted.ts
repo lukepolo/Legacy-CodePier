@@ -5,6 +5,7 @@ import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface
 @injectable()
 export default class SiteWorkflowMustBeCompleted
   implements RouteMiddlewareInterface {
+  private to;
   private next;
   private site;
   private storeService;
@@ -14,8 +15,8 @@ export default class SiteWorkflowMustBeCompleted
   }
 
   handler(to, from, next) {
-    console.info(to.name);
-    if (to.name !== "site.setup") {
+    this.to = to;
+    if (to.name !== "site.workflow") {
       this.next = next;
       this.site = this.storeService.getters["user/sites/show"](to.params.site);
       if (!this.site) {
@@ -32,14 +33,19 @@ export default class SiteWorkflowMustBeCompleted
   }
 
   checkWorkflow() {
-    if (this.site.workflow) {
-      return this.next();
+    if (!this.site.repository) {
+      if (this.to.name !== "site.setup") {
+        return this.next({
+          name: "site.setup",
+          params: { site: this.site.id },
+        });
+      }
+    } else if (!this.site.workflow) {
+      return this.next({
+        name: "site.workflow",
+        params: { site_id: this.site.id },
+      });
     }
-    return this.next({
-      name: "site.setup",
-      params: {
-        site: this.site.id,
-      },
-    });
+    return this.next();
   }
 }

@@ -6,5 +6,15 @@ import UserSiteService from "@app/services/User/UserSiteService";
 export default function(userSiteService: UserSiteService) {
   return {
     changePile: (context: ActionContext<SitesState, RootState>, data) => {},
+
+    updateWorkflow: (
+      context: ActionContext<SitesState, RootState>,
+      { site, workflow },
+    ) => {
+      return userSiteService.updateWorkflow(site, workflow).then(({ data }) => {
+        context.commit("user/sites/UPDATED_SITE", data, { root: true });
+        return data;
+      });
+    },
   };
 }

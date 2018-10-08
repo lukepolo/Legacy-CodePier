@@ -9,4 +9,15 @@ export default class UserSiteService extends RestServiceClass {
   ) {
     super(httpService, apiRouteService, "SiteSiteController");
   }
+
+  updateWorkflow(site, workflow) {
+    return this.httpService.post(
+      this.$apiRouteService.action("SiteSiteWorkflowController@store", {
+        site,
+      }),
+      {
+        workflow,
+      },
+    );
+  }
 }

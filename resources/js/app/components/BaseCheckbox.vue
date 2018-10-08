@@ -1,6 +1,9 @@
 <template>
     <div class="flyform--group-checkbox">
-        <label :for="name" v-if="label">
+        <tooltip size="medium" placement="top-right" :messsage="tooltip" v-if="tooltip">
+            <span class="fa fa-info-circle"></span>
+        </tooltip>
+        <label :for="name">
             <input
                 :id="name"
                 :name="name"
@@ -8,12 +11,13 @@
                 v-bind="$attrs"
                 :value="value"
                 :tabindex="tabindex"
-                :checked="value === true || value === 1"
-                @change="$emit('input', $event.target.checked)"
-                placeholder=" "
+                @change="updateValues"
+                :checked="isChecked"
             >
             <span class="icon"></span>
-            Enable
+            {{ label }}
+            <br>
+            <small>{{ description }}</small>
         </label>
     </div>
 </template>
@@ -21,9 +25,17 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
+  model: {
+    prop: "checked",
+    event: "change",
+  },
   props: {
-    value: {
+    checked: {
       required: true,
+    },
+    value: {
+      required: false,
+      default: true,
     },
     name: {
       required: true,
@@ -33,12 +45,47 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: false,
+    },
     tabindex: {
       default: 0,
       type: Number,
     },
+    tooltip: {
+      required: false,
+    },
     validation: {
       required: false,
+    },
+  },
+  methods: {
+    updateValues() {
+      if (Array.isArray(this.checked)) {
+        if (!this.isChecked) {
+          this.checked.push(this.value);
+        } else {
+          this.$emit(
+            "change",
+            this.checked.filter((checkedValue) => {
+              return checkedValue !== this.value;
+            }),
+          );
+        }
+      } else {
+        this.$emit("change", this.checked !== true);
+      }
+    },
+  },
+  computed: {
+    isChecked() {
+      if (Array.isArray(this.checked)) {
+        return this.checked.find((checkedValue) => {
+          return checkedValue === this.value;
+        });
+      }
+      return this.checked;
     },
   },
 });
