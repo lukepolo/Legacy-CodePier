@@ -42,10 +42,10 @@
         </div>
 
         <div class="group--item-content" v-if="pile">
-            <template v-if="pile.sites && pile.sites.length">
+            <template v-if="sites && sites.length">
                 <h4>Sites</h4>
                 <div class="list">
-                    <router-link class="list--item"  :to="{ name: 'site', params : { site : site.id} }" v-for="site in pile.sites" :key="site.id">
+                    <router-link class="list--item"  :to="{ name: 'site', params : { site : site.id} }" v-for="site in sites" :key="site.id">
                         <div class="list--item-name">
                             {{ site.name }}
                         </div>
@@ -134,6 +134,11 @@ export default Vue.extend({
         .then(() => {
           this.cancel();
         });
+    },
+  },
+  computed: {
+    sites() {
+      return this.$store.getters["user/sites/sitesByPileId"](this.pile.id);
     },
   },
 });

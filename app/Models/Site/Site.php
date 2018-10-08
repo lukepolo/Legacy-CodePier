@@ -298,16 +298,17 @@ class Site extends Model
 
     public function getFrameworkAttribute()
     {
-        $typeAndFramework = explode('.', $this->attributes['type']);
-        if (isset($typeAndFramework[1])) {
-            return $typeAndFramework[1];
+        if (isset($this->attributes['type'])) {
+            $typeAndFramework = explode('.', $this->attributes['type']);
+            if (isset($typeAndFramework[1])) {
+                return $typeAndFramework[1];
+            }
         }
-        return null;
     }
 
     public function getSiteTypeAttribute()
     {
-        return $this->attributes['type'];
+        return isset($this->attributes['type']) && $this->attributes['type'];
     }
 
     public function getLastDeploymentStatusAttribute()
