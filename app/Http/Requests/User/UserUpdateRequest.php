@@ -26,7 +26,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'string',
             'email' => 'email',
-            'workflow' => 'json',
+            'workflow' => 'boolean',
             'marketing' => 'boolean',
             'processing' => 'boolean',
             'second_auth_active' => 'boolean',
