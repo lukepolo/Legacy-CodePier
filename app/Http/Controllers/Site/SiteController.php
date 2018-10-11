@@ -114,7 +114,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
-        $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
+        $userRepositoryProvider =  UserRepositoryProvider::where('id', $request->get('user_repository_provider_id'))->first();
 
         $site->fill([
             'type'                        => $request->get('type'),
@@ -122,8 +122,14 @@ class SiteController extends Controller
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'user_repository_provider_id' => $userRepositoryProvider->id,
+            'user_repository_provider_id' => 0,
         ]);
+
+        if (! empty($userRepositoryProvider)) {
+            $site->fill([
+                'user_repository_provider_id' => $userRepositoryProvider->id,
+            ]);
+        }
 
         if ($site->isDirty('web_directory') || $site->isDirty('type') || $site->isDirty('framework')) {
             event(new SiteUpdatedWebConfig($site));
