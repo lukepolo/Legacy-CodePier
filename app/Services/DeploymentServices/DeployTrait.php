@@ -120,7 +120,6 @@ trait DeployTrait
         }
 
         if ($this->zeroDowntimeDeployment) {
-            dump($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; git clone ' . $url . ' --branch=' . $this->branch . (empty($this->sha) ? ' --depth=1' : '') . ' ' . $this->release);
             $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; git clone ' . $url . ' --branch=' . $this->branch . (empty($this->sha) ? ' --depth=1' : '') . ' ' . $this->release);
         } else {
             if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
