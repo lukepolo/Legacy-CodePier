@@ -130,19 +130,21 @@ export default {
       }
     },
     "form.repository": function(value) {
-      if (value.indexOf("http") > -1) {
-        var parser = document.createElement("a");
-        parser.href = value;
+      if(!this.form.custom_provider) {
+        if (value.indexOf("http") > -1) {
+          var parser = document.createElement("a");
+          parser.href = value;
 
-        let path = parser.pathname.substring(1);
+          let path = parser.pathname.substring(1);
 
-        if (this.form.repository !== path) {
-          this.form.repository = path;
+          if (this.form.repository !== path) {
+            this.form.repository = path;
 
-          let provider = this.getProviderByUrl(parser.hostname);
+            let provider = this.getProviderByUrl(parser.hostname);
 
-          if (provider) {
-            this.form.user_repository_provider_id = provider.id;
+            if (provider) {
+              this.form.user_repository_provider_id = provider.id;
+            }
           }
         }
       }
