@@ -16,8 +16,10 @@
             >
             <span class="icon"></span>
             {{ label }}
-            <br>
-            <small>{{ description }}</small>
+            <template v-if="description">
+                <br>
+                <small>{{ description }}</small>
+            </template>
         </label>
     </div>
 </template>

@@ -15,7 +15,7 @@
                 <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Sign Up</button>
             </div>
             <div slot="links">
-                <router-link :to="{ name : 'forgotPassword' }" >Forgot password?</router-link>
+                <router-link :to="{ name : 'forgot-password' }" >Forgot password?</router-link>
             </div>
         </base-form>
     </div>

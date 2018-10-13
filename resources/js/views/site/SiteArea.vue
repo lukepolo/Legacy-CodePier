@@ -1,5 +1,6 @@
 <template>
     <div>
+        this is the area?
         <router-view></router-view>
     </div>
 </template>

@@ -25,51 +25,36 @@ export default function($router: RouterInterface) {
       $router.route("", Dashboard).setName("dashboard");
 
       $router.area(UserViews.AccountArea).group(() => {
-        $router
-          .route("my-account", UserViews.MyAccount)
-          .setName("user.account");
-        $router
-          .route("subscription", UserViews.Subscription)
-          .setName("user.subscription");
-        $router
-          .route("privacy", UserViews.PrivacySettings)
-          .setName("user.privacy");
-        $router.route("ssh-keys", UserViews.SshKeys).setName("user.ssh-keys");
-        $router
-          .route("server-providers", UserViews.ServerProviders)
-          .setName("user.server-providers");
-        $router
-          .route("source-control-providers", UserViews.SourceControlProviders)
-          .setName("user.source-control-providers");
-        $router
-          .route("notification-settings", UserViews.NotificationSettings)
-          .setName("user.notification-settings");
+        $router.route("my-account", UserViews.MyAccount);
+        $router.route("subscription", UserViews.Subscription);
+        $router.route("privacy", UserViews.PrivacySettings);
+        $router.route("ssh-keys", UserViews.SshKeys);
+        $router.route("server-providers", UserViews.ServerProviders);
+        $router.route(
+          "source-control-providers",
+          UserViews.SourceControlProviders,
+        );
+        $router.route("notification-settings", UserViews.NotificationSettings);
       });
 
       $router
         .middleware([middleware.SiteWorkflowMustBeCompleted])
         .prefix("site/:site")
         .group(() => {
-          $router.route("", SiteViews.SiteOverview).setName("site");
-          $router.route("setup", SiteViews.SiteSetup).setName("site.setup");
-          $router
-            .route("workflow", SiteViews.SiteWorkflow)
-            .setName("site.workflow");
+          $router.route("", SiteViews.SiteOverview);
+          $router.route("setup", SiteViews.SiteSetup);
+          $router.route("workflow", SiteViews.SiteWorkflow);
         });
 
-      $router.route("servers", ServerViews.Servers).setName("servers");
+      $router.route("servers", ServerViews.Servers);
     });
 
   // PUBLIC
   $router.area(LoginViews.AuthArea).group(() => {
-    $router.route("login", LoginViews.Login).setName("login");
-    $router.route("register", LoginViews.Register).setName("register");
-    $router
-      .route("forgot-password", LoginViews.Register)
-      .setName("forgotPassword");
-    $router
-      .route("reset-password", LoginViews.ResetPassword)
-      .setName("resetPassword");
+    $router.route("login", LoginViews.Login);
+    $router.route("register", LoginViews.Register);
+    $router.route("forgot-password", LoginViews.Register);
+    $router.route("reset-password", LoginViews.ResetPassword);
   });
 
   $router.route("*", ErrorViews.Error404);
