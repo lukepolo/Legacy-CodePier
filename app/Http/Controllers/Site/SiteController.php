@@ -135,10 +135,6 @@ class SiteController extends Controller
             event(new SiteUpdatedWebConfig($site));
         }
 
-        if ($site->isDirty('repository') && ! empty($site->getOriginal('repository'))) {
-            $this->repositoryService->generateNewSshKeys($site);
-        }
-
         $site->save();
 
         if ($request->has('servers')) {

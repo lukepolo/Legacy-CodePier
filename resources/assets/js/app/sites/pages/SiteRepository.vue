@@ -39,6 +39,9 @@
                             </a>
                         </div>
                     </template>
+                    <small>
+                        ex : git@your-custom-domain.com:USER_NAME/REPOSITORY_NAME.git
+                    </small>
                 </div>
 
                 <div class="flyform--group">
