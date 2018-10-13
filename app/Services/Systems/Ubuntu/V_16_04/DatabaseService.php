@@ -170,8 +170,6 @@ class DatabaseService
                 break;
             case self::MONGODB:
                 // we dont create a database for mongo
-                $this->remoteTaskService->updateText('/etc/mongod.conf', 'security', 'security:');
-                $this->remoteTaskService->findTextAndAppend('/etc/mongod.conf', 'security', '\ \ authorization: "enabled"', false);
                 break;
             default:
                 throw new UnknownDatabase($schema->database);
