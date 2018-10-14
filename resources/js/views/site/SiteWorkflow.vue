@@ -32,7 +32,7 @@
         </template>
 
         <template slot="links">
-            <small>You can opt out of using the workflow in your <router-link :to="{ name: 'user.account' }">profile</router-link>.</small>
+            <small>You can opt out of using the workflow in your <router-link :to="{ name: 'my-account' }">profile</router-link>.</small>
         </template>
     </base-form>
 </template>

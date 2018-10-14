@@ -9,7 +9,7 @@
           <div class="nav--item">
 
             <drop-down icon="icon-settings">
-                <router-link :to="{ name: 'user.account' }"><span class="icon-person"></span>My Account</router-link>
+                <router-link :to="{ name: 'my.account' }"><span class="icon-person"></span>My Account</router-link>
                 <router-link v-if="teamsEnabled" :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                 <router-link :to="{ name: 'dashboard' }"><span class="icon-layers"></span>My Piles</router-link>
                 <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>

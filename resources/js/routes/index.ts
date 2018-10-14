@@ -24,18 +24,24 @@ export default function($router: RouterInterface) {
     .group(() => {
       $router.route("", Dashboard).setName("dashboard");
 
-      $router.area(UserViews.AccountArea).group(() => {
-        $router.route("my-account", UserViews.MyAccount);
-        $router.route("subscription", UserViews.Subscription);
-        $router.route("privacy", UserViews.PrivacySettings);
-        $router.route("ssh-keys", UserViews.SshKeys);
-        $router.route("server-providers", UserViews.ServerProviders);
-        $router.route(
-          "source-control-providers",
-          UserViews.SourceControlProviders,
-        );
-        $router.route("notification-settings", UserViews.NotificationSettings);
-      });
+      $router
+        .area(UserViews.AccountArea)
+        .prefix("my")
+        .group(() => {
+          $router.route("account", UserViews.MyAccount);
+          $router.route("subscription", UserViews.Subscription);
+          $router.route("privacy", UserViews.PrivacySettings);
+          $router.route("ssh-keys", UserViews.SshKeys);
+          $router.route("server-providers", UserViews.ServerProviders);
+          $router.route(
+            "source-control-providers",
+            UserViews.SourceControlProviders,
+          );
+          $router.route(
+            "notification-settings",
+            UserViews.NotificationSettings,
+          );
+        });
 
       $router
         .middleware([middleware.SiteWorkflowMustBeCompleted])
