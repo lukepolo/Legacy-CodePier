@@ -29,11 +29,11 @@ import Vue from "vue";
 
 export default Vue.extend({
   beforeCreate() {
-    if (this.cookieStorage.get("token")) {
+    if (this.cookieService.get("token")) {
       this.$router.push({ name: "dashboard" });
     }
   },
-  $inject: ["CookieStorage"],
+  $inject: ["CookieService"],
   methods: {
     oauthLogin(provider) {
       this.$store.dispatch("auth/redirectToProvider", provider);

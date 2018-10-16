@@ -10,7 +10,7 @@ import TwoFactorStore from "@store/auth/modules/two-factor/TwoFactorStore";
 export default class AuthStore extends StoreModule {
   constructor(
     @inject("AuthService") $authService,
-    @inject("CookieStorage") $cookieStorage,
+    @inject("CookieService") cookieService,
     @inject("OauthService") $oauthService,
     @inject("UserService") $userService,
   ) {
@@ -18,7 +18,7 @@ export default class AuthStore extends StoreModule {
     this.setName("auth")
       .addState(state)
       .addActions(
-        actions($authService, $cookieStorage, $oauthService, $userService),
+        actions($authService, cookieService, $oauthService, $userService),
       )
       .addMutations(mutations)
       .addGetters(getters)

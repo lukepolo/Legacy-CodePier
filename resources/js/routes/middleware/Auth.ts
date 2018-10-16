@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import CookieStorage from "@app/services/CookieStorage";
+import CookieInterface from "varie/lib/cookies/CookieInterface";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface";
 
@@ -7,20 +7,20 @@ import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface
 export default class Auth implements RouteMiddlewareInterface {
   private next;
   private storeService;
-  private $cookieStorage;
+  private cookieService;
 
   constructor(
     @inject("StoreService") storeService: StateServiceInterface,
-    @inject("CookieStorage") cookieStorage: CookieStorage,
+    @inject("CookieService") cookieService: CookieInterface,
   ) {
     this.storeService = storeService.getStore();
-    this.$cookieStorage = cookieStorage;
+    this.cookieService = cookieService;
   }
 
   handler(to, from, next) {
     this.next = next;
 
-    if (!this.$cookieStorage.get("token")) {
+    if (!this.cookieService.get("token")) {
       return this.redirectToLogin();
     }
 

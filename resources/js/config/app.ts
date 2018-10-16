@@ -2,6 +2,7 @@ import HttpServiceProvider from "varie/lib/http/ServiceProvider";
 import BroadcastProvider from "@app/providers/BroadcastProvider";
 import AppServiceProvider from "@app/providers/AppServiceProvider";
 import ConfigServiceProvider from "varie/lib/config/ServiceProvider";
+import CookieServiceProvider from "varie/lib/cookies/CookieServiceProvider";
 import StoreServiceProvider from "@app/providers/StoreServiceProvider";
 import RoutingServiceProvider from "@app/providers/RouteServiceProvider";
 import FormsServiceProvider from "varie/lib/plugins/forms/ServiceProvider";
@@ -72,6 +73,7 @@ export default {
      * Framework Service Providers...
      */
     ConfigServiceProvider,
+    CookieServiceProvider,
     StoreServiceProvider,
     RoutingServiceProvider,
     HttpServiceProvider,

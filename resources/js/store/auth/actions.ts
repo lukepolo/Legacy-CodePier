@@ -4,18 +4,18 @@ import { AuthState } from "./stateInterface";
 import UserService from "@app/services/UserService";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
-import CookieStorage from "@app/services/CookieStorage";
+import CookieInterface from "varie/lib/cookies/CookieInterface";
 
 export default function(
   $authService: AuthService,
-  $cookieStorage: CookieStorage,
+  cookieService: CookieInterface,
   $oauthService: OauthService,
   $userService: UserService,
 ) {
   return {
     login: (context: ActionContext<AuthState, RootState>, data) => {
       return $authService.login(data.email, data.password).then((response) => {
-        $cookieStorage.set("token", response.data);
+        cookieService.set("token", response.data);
         context.dispatch("me");
         context.commit("UPDATE_AUTH_AREA_DATA", {
           name: null,
@@ -28,11 +28,11 @@ export default function(
       context: ActionContext<AuthState, RootState>,
       { provider, code, state },
     ) => {
-      if (!$cookieStorage.get("token")) {
+      if (!cookieService.get("token")) {
         return $authService
           .oAuthLogin(provider, code, state)
           .then((response) => {
-            $cookieStorage.set("token", response.data);
+            cookieService.set("token", response.data);
             context.dispatch("me");
             context.commit("UPDATE_AUTH_AREA_DATA", {
               name: null,
@@ -57,7 +57,7 @@ export default function(
           form.passwordConfirmed,
         )
         .then((response) => {
-          $cookieStorage.set("token", response.data);
+          cookieService.set("token", response.data);
           context.dispatch("me");
           context.commit("UPDATE_AUTH_AREA_DATA", {
             name: null,
@@ -79,7 +79,7 @@ export default function(
       return $authService
         .resetPassword(token, form.email, form.password, form.passwordConfirmed)
         .then((response) => {
-          $cookieStorage.set("token", response.data);
+          cookieService.set("token", response.data);
           context.dispatch("me");
           context.commit("UPDATE_AUTH_AREA_DATA", {
             name: null,
@@ -95,7 +95,7 @@ export default function(
     },
     logout: (context: ActionContext<AuthState, RootState>, data) => {
       return new Promise((resolve) => {
-        resolve($cookieStorage.remove("token"));
+        resolve(cookieService.remove("token"));
       });
     },
     redirectToProvider: (

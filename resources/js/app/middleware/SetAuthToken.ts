@@ -1,18 +1,18 @@
 import { injectable, inject } from "inversify";
 
+import CookieInterface from "varie/lib/cookies/CookieInterface";
 import HttpMiddlewareInterface from "varie/lib/http/HttpMiddlewareInterface";
-import CookieStorage from "@app/services/CookieStorage";
 
 @injectable()
 export default class SetAuthToken implements HttpMiddlewareInterface {
-  private $cookieStorage;
+  private cookieService;
 
-  constructor(@inject("CookieStorage") cookieStorage: CookieStorage) {
-    this.$cookieStorage = cookieStorage;
+  constructor(@inject("CookieService") cookieService: CookieInterface) {
+    this.cookieService = cookieService;
   }
 
   public request(config) {
-    let token = this.$cookieStorage.get("token");
+    let token = this.cookieService.get("token");
     if (token) {
       config.headers.common.Authorization = `Bearer ${token}`;
     }
