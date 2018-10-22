@@ -89,6 +89,47 @@
                 </div>
             </drop-down>
 
+
+            <drop-down tag="span">
+                <div class="grid--item" slot="header">
+                    <div class="providers--item">
+                        <div class="providers--item-header">
+                            <div class="providers--item-icon">
+                                <span class="icon-web"></span>
+                            </div>
+                        </div>
+                        <div class="providers--item-footer">
+                            <div class="providers--item-footer-connect">
+                                <h4 class="providers--title">
+                                    Public SSH KEY
+                                    <small>Used to connect to your server from CodePier</small>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div slot="content" class="dropdown-menu dropdown-content nowrap">
+
+                    <h3>
+                        Public SSH KEY
+                    </h3>
+
+                    <div class="flex flex--center">
+                        <div class="flex--grow">
+                            <div class="flyform--group flyform--group-nomargin">
+                                <textarea rows="5" readonly>{{ server.ssh_key }}</textarea>
+                            </div>
+
+                            <div class="text-right">
+                                <tooltip message="Copy to Clipboard">
+                                    <clipboard :data="server.ssh_key"></clipboard>
+                                </tooltip>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </drop-down>
         </div>
 
     </section>
