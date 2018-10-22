@@ -72,6 +72,15 @@ class Server extends Model
         'database_password',
     ];
 
+    protected $appends = [
+        'ssh_key'
+    ];
+
+    public function getSshKeyAttribute()
+    {
+        return $this->public_ssh_key;
+    }
+
     public function getServerFeaturesAttribute()
     {
         $serverFeatures = json_decode($this->attributes['server_features'], true);
