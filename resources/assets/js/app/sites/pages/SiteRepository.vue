@@ -39,7 +39,7 @@
                             </a>
                         </div>
                     </template>
-                    <small>
+                    <small v-else>
                         ex : git@your-custom-domain.com:USER_NAME/REPOSITORY_NAME.git
                     </small>
                 </div>
