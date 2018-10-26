@@ -4,7 +4,7 @@
             <h2>Login</h2>
         </div>
         <base-form v-form="form" :action="login">
-            <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
+            <base-input validate name="email" label="Email" type="email" v-model="form.email" v-focus></base-input>
             <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
             <div slot="buttons">
                 <router-link @click.prevent :to="{ name : 'register' }" class="btn">Create Account</router-link>
@@ -13,6 +13,7 @@
             <div slot="links">
                 <router-link :to="{ name : 'forgot-password' }" >Forgot password?</router-link>
             </div>
+            <div @click="getUser">GetUser</div>
         </base-form>
     </div>
 </template>
@@ -43,6 +44,9 @@ export default Vue.extend({
           name: "dashboard",
         });
       });
+    },
+    getUser() {
+      this.$store.dispatch("auth/getUser");
     },
   },
 });

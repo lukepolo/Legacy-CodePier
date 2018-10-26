@@ -17,10 +17,9 @@ export default {
         forgotPassword: "/auth/forgot-password",
       },
       token: {
-        name: "token",
-        type: "bearer",
-        expiresAt: "expires_at",
+        expiresIn: "expires_in",
         accessToken: "access_token",
+        tokenTypeName: "token_type",
       },
     },
   },
