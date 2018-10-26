@@ -12,16 +12,22 @@
 |
 */
 
-// Authentication / Register Routes...
-Route::post('login', 'Auth\LoginController@login');
-Route::post('register', 'Auth\RegisterController@register');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::group(['middleware' => [
+    'api',
+],
+], function () {
+    // Authentication / Register Routes...
+    Route::post('login', 'Auth\AuthController@login');
+    Route::post('logout', 'Auth\AuthController@logout');
+    Route::post('refresh', 'Auth\AuthController@refresh');
+    Route::post('register', 'Auth\RegisterController@register');
 
-// Password Reset Routes...
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    // Password Reset Routes...
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
-Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+    Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+});
 
 Route::group(['middleware' => [
         'auth:api',

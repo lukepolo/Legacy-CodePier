@@ -41,6 +41,7 @@
     "spatie/ssl-certificate": "^1.12",
     "stevenmaguire/oauth2-bitbucket": "^3.0",
     "toin0u/digitalocean-v2": "^2.2",
+    "tymon/jwt-auth": "^1.0.0",
     "vinkla/hashids": "^5.0.0"
   },
   "require-dev": {

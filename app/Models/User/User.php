@@ -13,13 +13,14 @@ use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 use App\Notifications\Channels\SlackMessageChannel;
 use App\Notifications\Channels\DiscordMessageChannel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     const USER = 'user';
     const ADMIN = 'admin';
@@ -426,5 +427,15 @@ class User extends Authenticatable
             'isCanceled'            => ! empty($this->subscription()->ends_at),
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
