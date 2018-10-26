@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
 
 import CookieInterface from "varie/lib/cookies/CookieInterface";
-import HttpMiddlewareInterface from "varie/lib/http/HttpMiddlewareInterface";
+import AxiosHttpMiddlewareInterface from "varie/lib/http/AxiosHttpMiddlewareInterface";
 
 @injectable()
-export default class SetAuthToken implements HttpMiddlewareInterface {
+export default class SetAuthToken implements AxiosHttpMiddlewareInterface {
   private cookieService;
 
   constructor(@inject("CookieService") cookieService: CookieInterface) {

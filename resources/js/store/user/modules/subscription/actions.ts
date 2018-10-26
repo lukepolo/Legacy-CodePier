@@ -14,14 +14,14 @@ export default function(subscriptionService: SubscriptionService) {
       return subscriptionService.updateSubscription(form).then(({ data }) => {
         context.dispatch("invoices");
         context.commit("SET_SUBSCRIPTION", data);
-        context.dispatch("auth/me", {}, { root: true });
+        context.dispatch("auth/getUser", {}, { root: true });
       });
     },
     cancel: (context: ActionContext<SubscriptionState, RootState>) => {
       return subscriptionService.cancelSubscription().then(({ data }) => {
         context.dispatch("invoices");
         context.commit("SET_SUBSCRIPTION", data);
-        context.dispatch("auth/me", {}, { root: true });
+        context.dispatch("auth/getUser", {}, { root: true });
       });
     },
     plans: (context: ActionContext<SubscriptionState, RootState>) => {
@@ -38,7 +38,7 @@ export default function(subscriptionService: SubscriptionService) {
       return subscriptionService.subscribe(form).then(({ data }) => {
         context.dispatch("invoices");
         context.commit("SET_SUBSCRIPTION", data);
-        context.dispatch("auth/me", {}, { root: true });
+        context.dispatch("auth/getUser", {}, { root: true });
       });
     },
     downloadInvoice({}, invoice) {

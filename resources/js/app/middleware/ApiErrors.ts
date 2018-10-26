@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
 
-import HttpMiddlewareInterface from "varie/lib/http/HttpMiddlewareInterface";
+import AxiosHttpMiddlewareInterface from "varie/lib/http/AxiosHttpMiddlewareInterface";
 import NotificationServiceInterface from "varie/lib/plugins/notifications/NotificationServiceInterface";
 
 @injectable()
-export default class ApiErrors implements HttpMiddlewareInterface {
+export default class ApiErrors implements AxiosHttpMiddlewareInterface {
   private notificationService: NotificationServiceInterface;
 
   constructor(

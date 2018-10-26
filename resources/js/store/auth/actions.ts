@@ -1,108 +1,49 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { AuthState } from "./stateInterface";
-import UserService from "@app/services/UserService";
 import AuthService from "@app/services/AuthService";
-import OauthService from "@app/services/OauthService";
-import CookieInterface from "varie/lib/cookies/CookieInterface";
 
-export default function(
-  $authService: AuthService,
-  cookieService: CookieInterface,
-  $oauthService: OauthService,
-  $userService: UserService,
-) {
+export default function(authService: AuthService) {
   return {
     login: (context: ActionContext<AuthState, RootState>, data) => {
-      return $authService.login(data.email, data.password).then((response) => {
-        cookieService.set("token", response.data);
-        context.dispatch("me");
-        context.commit("UPDATE_AUTH_AREA_DATA", {
-          name: null,
-          email: null,
-        });
-        return response.data;
+      return authService.login(data.email, data.password).then((response) => {
+        return response;
       });
     },
-    oAuthLogin: (
-      context: ActionContext<AuthState, RootState>,
-      { provider, code, state },
-    ) => {
-      if (!cookieService.get("token")) {
-        return $authService
-          .oAuthLogin(provider, code, state)
-          .then((response) => {
-            cookieService.set("token", response.data);
-            context.dispatch("me");
-            context.commit("UPDATE_AUTH_AREA_DATA", {
-              name: null,
-              email: null,
-            });
-            return response.data;
-          });
-      } else {
-        return $authService
-          .oAuthConnect(provider, code, state)
-          .then((response) => {
-            return response.data;
-          });
-      }
-    },
-    createAccount: (context: ActionContext<AuthState, RootState>, form) => {
-      return $authService
-        .createAccount(
-          form.name,
-          form.email,
-          form.password,
-          form.passwordConfirmed,
-        )
+    register: (context: ActionContext<AuthState, RootState>, form) => {
+      return authService
+        .register(form.name, form.email, form.password, form.passwordConfirmed)
         .then((response) => {
-          cookieService.set("token", response.data);
-          context.dispatch("me");
-          context.commit("UPDATE_AUTH_AREA_DATA", {
-            name: null,
-            email: null,
-          });
-          return response.data;
+          return response;
         });
     },
     forgotPasswordRequest: (
       context: ActionContext<AuthState, RootState>,
       form,
     ) => {
-      return $authService.forgotPasswordRequest(form.email);
+      return authService.forgotPasswordRequest(form.email);
     },
     resetPassword: (
       context: ActionContext<AuthState, RootState>,
       { token, form },
     ) => {
-      return $authService
+      return authService
         .resetPassword(token, form.email, form.password, form.passwordConfirmed)
         .then((response) => {
-          cookieService.set("token", response.data);
-          context.dispatch("me");
-          context.commit("UPDATE_AUTH_AREA_DATA", {
-            name: null,
-            email: null,
-          });
+          return response;
         });
     },
-    me: (context: ActionContext<AuthState, RootState>, data) => {
-      return $userService.me().then((response) => {
-        context.commit("SET_USER", response.data);
+    getUser: (context: ActionContext<AuthState, RootState>) => {
+      return authService.getUser().then((response) => {
+        context.commit("SET_AUTH_USER", response.data);
         return response.data;
       });
     },
-    logout: (context: ActionContext<AuthState, RootState>, data) => {
+    logout: (context: ActionContext<AuthState, RootState>) => {
       return new Promise((resolve) => {
-        resolve(cookieService.remove("token"));
+        context.commit("REMOVE_AUTH");
+        resolve();
       });
-    },
-    redirectToProvider: (
-      context: ActionContext<AuthState, RootState>,
-      provider,
-    ) => {
-      window.location = $oauthService.getRedirectUrlForProvider(provider);
     },
   };
 }

@@ -1,13 +1,13 @@
-import ServiceProvider from "varie/lib/state/ServiceProvider";
+import ServiceProvider from "varie/lib/state/StateServiceProvider";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 
 import AuthStore from "@store/auth/AuthStore";
 import UserStore from "@store/user/UserStore";
 import ServerStore from "@store/server/ServerStore";
 import SystemStore from "@store/system/SystemStore";
+import NotificationStore from "@store/notifications/NotificationStore";
 import SubscriptionStore from "@store/subscriptions/SubscriptionStore";
 import SourceControlProviderStore from "@store/source-control-providers/SourceControlProviderStore";
-import NotificationStore from "@store/notifications/NotificationStore";
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ import NotificationStore from "@store/notifications/NotificationStore";
 |--------------------------------------------------------------------------
 |
 */
-export default class StoreServiceProvider extends ServiceProvider {
+export default class StateServiceProvider extends ServiceProvider {
   public $store: StateServiceInterface;
 
   map() {

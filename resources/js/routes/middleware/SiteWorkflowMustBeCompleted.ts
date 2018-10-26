@@ -8,20 +8,20 @@ export default class SiteWorkflowMustBeCompleted
   private to;
   private next;
   private site;
-  private storeService;
+  private stateService;
 
-  constructor(@inject("StoreService") storeService: StateServiceInterface) {
-    this.storeService = storeService.getStore();
+  constructor(@inject("StateService") stateService: StateServiceInterface) {
+    this.stateService = stateService.getStore();
   }
 
   handler(to, from, next) {
     this.to = to;
     if (to.name !== "site.workflow") {
       this.next = next;
-      this.site = this.storeService.getters["user/sites/show"](to.params.site);
+      this.site = this.stateService.getters["user/sites/show"](to.params.site);
       if (!this.site) {
-        return this.storeService.dispatch("user/sites/get").then(() => {
-          this.site = this.storeService.getters["user/sites/show"](
+        return this.stateService.dispatch("user/sites/get").then(() => {
+          this.site = this.stateService.getters["user/sites/show"](
             to.params.site,
           );
           return this.checkWorkflow();

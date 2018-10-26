@@ -46,7 +46,7 @@ export default Vue.extend({
   },
   methods: {
     register() {
-      this.$store.dispatch("auth/createAccount", this.form).then(() => {
+      this.$store.dispatch("auth/register", this.form).then(() => {
         this.$router.push({
           name: "dashboard",
         });

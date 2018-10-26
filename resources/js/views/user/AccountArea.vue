@@ -33,7 +33,7 @@ export default Vue.extend({
   },
   // beforeRouteEnter(to, from, next) {
   //   SubscriptionStore().then((store) => {
-  //     $app.make("storeService").registerStore(store.default);
+  //     $app.make("stateService").registerStore(store.default);
   //     next();
   //   });
   // },

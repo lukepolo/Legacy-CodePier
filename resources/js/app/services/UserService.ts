@@ -14,10 +14,6 @@ export default class UserService {
     this.apiRouteService = ApiRouteService;
   }
 
-  me() {
-    return this.httpService.get("/api/me");
-  }
-
   update(data) {
     return this.httpService.put(
       this.apiRouteService.action("UserUserController@update"),
