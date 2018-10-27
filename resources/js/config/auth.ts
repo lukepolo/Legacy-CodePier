@@ -4,7 +4,7 @@ export default {
   },
   guards: {
     user: {
-      driver: "JwtGuard",
+      driver: "JwtDriver",
       refreshToken: true,
       loginAfterReset: true,
       loginAfterRegister: true,

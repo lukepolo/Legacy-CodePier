@@ -1,6 +1,11 @@
 import ApiErrors from "./ApiErrors";
 import LoadingScreen from "./LoadingScreen";
 import ValidationErrors from "./ValidationErrors";
-import JwtGuardMiddleware from "varie-authentication-plugin/lib/guards/jwt/JwtGuardMiddleware";
+import JwtDriverMiddleware from "varie-authentication-plugin/lib/drivers/jwt/JwtDriverMiddleware";
 
-export default [ApiErrors, ValidationErrors, LoadingScreen, JwtGuardMiddleware];
+export default [
+  ApiErrors,
+  ValidationErrors,
+  LoadingScreen,
+  JwtDriverMiddleware,
+];

@@ -2,8 +2,8 @@ import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
 import ConfigInterface from "varie/lib/config/ConfigInterface";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
-import JwtGuard from "varie-authentication-plugin/lib/guards/jwt/JwtGuard";
 import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
+import JwtDriver from "varie-authentication-plugin/lib/drivers/jwt/JwtDriver";
 
 export default class AuthenticationServiceProvider extends ServiceProvider {
   private apiRouteService;
@@ -28,7 +28,7 @@ export default class AuthenticationServiceProvider extends ServiceProvider {
         ),
       });
 
-    this.app.singleton("JwtGuard", JwtGuard);
+    this.app.singleton("JwtDriver", JwtDriver);
     this.app.bind("AuthService", AuthService);
     this.app.bind("OauthService", OauthService);
     this.app.bind("TwoFactorAuthentication", TwoFactorAuthentication);
