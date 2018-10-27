@@ -21,7 +21,7 @@
     "portal-vue": "^1.4.0",
     "raven-js": "^3.27.0",
     "varie": "^0.8.0",
-    "varie-authentication-plugin": "0.0.3",
+    "varie-authentication-plugin": "0.0.4-next",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0",
