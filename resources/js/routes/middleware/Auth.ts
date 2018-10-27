@@ -1,46 +1,23 @@
 import { injectable, inject } from "inversify";
-import CookieInterface from "varie/lib/cookies/CookieInterface";
-import StateServiceInterface from "varie/lib/state/StateServiceInterface";
+import AuthServiceInterface from "varie/lib/authentication/AuthServiceInterface";
 import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface";
 
 @injectable()
 export default class Auth implements RouteMiddlewareInterface {
-  private next;
-  private stateService;
-  private cookieService;
+  private authService;
 
-  constructor(
-    @inject("StateService") stateService: StateServiceInterface,
-    @inject("CookieService") cookieService: CookieInterface,
-  ) {
-    this.stateService = stateService.getStore();
-    this.cookieService = cookieService;
+  constructor(@inject("AuthService") authService: AuthServiceInterface) {
+    this.authService = authService;
   }
 
   handler(to, from, next) {
-    this.next = next;
-
-    if (!this.cookieService.get("token")) {
-      return this.redirectToLogin();
-    }
-
-    if (this.stateService.state.auth.user) {
-      return next();
-    }
-
-    return this.stateService.dispatch("auth/getUser").then(
-      () => {
+    this.authService.isLoggedIn().then((isLoggedIn) => {
+      if (isLoggedIn) {
         return next();
-      },
-      () => {
-        return this.redirectToLogin();
-      },
-    );
-  }
-
-  redirectToLogin() {
-    return this.next({
-      name: "login",
+      }
+      return next({
+        name: "login",
+      });
     });
   }
 }

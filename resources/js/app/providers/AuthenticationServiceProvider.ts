@@ -5,7 +5,7 @@ import ServiceProvider from "varie/lib/support/ServiceProvider";
 import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 import ConfigInterface from "varie/lib/config/ConfigInterface";
 
-export default class AuthProvider extends ServiceProvider {
+export default class AuthenticationServiceProvider extends ServiceProvider {
   private apiRouteService;
 
   public register() {

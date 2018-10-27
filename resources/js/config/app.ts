@@ -15,14 +15,14 @@ import AutoRegisterLayoutServiceProvider from "varie/lib/plugins/autoRegisterLay
 import AutoRegisterComponentServiceProvider from "varie/lib/plugins/autoRegisterComponents/AutoRegisterComponentServiceProvider";
 import AutoRegisterDirectiveServiceProvider from "varie/lib/plugins/autoRegisterDirectives/AutoRegisterDirectiveServiceProvider";
 
-import AdminProvider from "@app/providers/AdminProvider";
-import AuthProvider from "@app/providers/AuthProvider";
-import NotificationProvider from "@app/providers/NotificationProvider";
 import PileProvider from "@app/providers/PileProvider";
-import ServerProvider from "@app/providers/ServerProvider";
 import SiteProvider from "@app/providers/SiteProvider";
-import SystemProvider from "@app/providers/SystemProvider";
 import UserProvider from "@app/providers/UserProvider";
+import AdminProvider from "@app/providers/AdminProvider";
+import ServerProvider from "@app/providers/ServerProvider";
+import SystemProvider from "@app/providers/SystemProvider";
+import NotificationProvider from "@app/providers/NotificationProvider";
+import AuthenticationServiceProvider from "@app/providers/AuthenticationServiceProvider";
 
 export default {
   /*
@@ -95,7 +95,7 @@ export default {
     BroadcastProvider,
     NotificationsProvider,
     AdminProvider,
-    AuthProvider,
+    AuthenticationServiceProvider,
     NotificationProvider,
     PileProvider,
     ServerProvider,
