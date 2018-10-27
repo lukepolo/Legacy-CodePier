@@ -1,9 +1,9 @@
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
-import JwtGuard from "varie/lib/authentication/guards/JwtGuard";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
-import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 import ConfigInterface from "varie/lib/config/ConfigInterface";
+import ServiceProvider from "varie/lib/support/ServiceProvider";
+import JwtGuard from "varie-authentication-plugin/lib/guards/jwt/JwtGuard";
+import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 
 export default class AuthenticationServiceProvider extends ServiceProvider {
   private apiRouteService;

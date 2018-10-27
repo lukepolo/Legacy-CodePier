@@ -10,9 +10,9 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 import SiteViews from "@views/site";
 import UserViews from "@views/user";
 import LoginViews from "@views/login";
+import ErrorViews from "@views/errors";
 import ServerViews from "@views/server";
 import Dashboard from "@views/dashboard/Dashboard.vue";
-import ErrorViews from "@views/errors";
 
 export default function($router: RouterInterface) {
   $router.route("/provider/:provider/callback", LoginViews.Oauth);

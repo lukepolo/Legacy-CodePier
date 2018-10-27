@@ -1,6 +1,5 @@
 import { injectable, inject } from "inversify";
-import VarieAuthService from "varie/lib/authentication/AuthService";
-import HttpServiceInterface from "varie/lib/http/HttpServiceInterface";
+import VarieAuthService from "varie-authentication-plugin/lib/AuthService";
 
 @injectable()
 export default class AuthService extends VarieAuthService {
