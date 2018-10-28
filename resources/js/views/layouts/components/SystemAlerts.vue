@@ -50,9 +50,6 @@ export default Vue.extend({
     },
   },
   computed: {
-    user() {
-      return this.$store.state.auth.user;
-    },
     version() {
       return this.$store.state.system.version;
     },

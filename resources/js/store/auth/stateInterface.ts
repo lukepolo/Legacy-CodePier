@@ -1,9 +1,12 @@
 export interface AuthState {
-  user: Object;
+  guards: {
+    user: object;
+    admin: object;
+  };
   authAreaData: {
-    name: String;
-    email: String;
-    password: String;
-    confirm_password: String;
+    name: string;
+    email: string;
+    password: string;
+    confirm_password: string;
   };
 }

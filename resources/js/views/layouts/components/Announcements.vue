@@ -58,7 +58,7 @@ export default Vue.extend({
       return this.announcementDate.isAfter(this.lastReadAnnouncement);
     },
     lastReadAnnouncement() {
-      return this.moment(this.$store.state.auth.user.last_read_announcement);
+      return this.moment(this.user.last_read_announcement);
     },
   },
 });
