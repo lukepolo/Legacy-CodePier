@@ -1,11 +1,11 @@
 export default {
   defaults: {
     guard: "user",
+    storagePath: "auth",
   },
   guards: {
     user: {
       driver: "JwtDriver",
-      storagePath: "auth.jwt",
       refreshToken: true,
       loginAfterReset: true,
       loginAfterRegister: true,
@@ -26,7 +26,6 @@ export default {
     },
     admin: {
       driver: "JwtDriver",
-      storagePath: "auth.jwt",
       refreshToken: true,
       loginAfterReset: true,
       loginAfterRegister: true,
