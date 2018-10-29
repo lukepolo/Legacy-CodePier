@@ -1,7 +1,6 @@
 export default {
   guards: {
     user: null,
-    admin: null,
   },
   authAreaData: {
     name: null,

@@ -22,7 +22,7 @@ import AdminProvider from "@app/providers/AdminProvider";
 import ServerProvider from "@app/providers/ServerProvider";
 import SystemProvider from "@app/providers/SystemProvider";
 import NotificationProvider from "@app/providers/NotificationProvider";
-import AuthenticationServiceProvider from "@app/providers/AuthenticationServiceProvider";
+import AuthenticationServiceProvider from "@app/providers/AuthProvider";
 
 export default {
   /*
