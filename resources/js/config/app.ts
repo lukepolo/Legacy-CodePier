@@ -1,11 +1,11 @@
-import HttpServiceProvider from "varie/lib/http/HttpServiceProvider";
 import BroadcastProvider from "@app/providers/BroadcastProvider";
 import AppServiceProvider from "@app/providers/AppServiceProvider";
+import HttpServiceProvider from "varie/lib/http/HttpServiceProvider";
+import StateServiceProvider from "@app/providers/StateServiceProvider";
+import RoutingServiceProvider from "@app/providers/RouteServiceProvider";
 import ConfigServiceProvider from "varie/lib/config/ConfigServiceProvider";
 import CookieServiceProvider from "varie/lib/cookies/CookieServiceProvider";
 import StorageServiceProvider from "varie/lib/storage/StorageServiceProvider";
-import StateServiceProvider from "@app/providers/StateServiceProvider";
-import RoutingServiceProvider from "@app/providers/RouteServiceProvider";
 import FormsServiceProvider from "varie/lib/plugins/forms/FormServiceProvider";
 import ValidationServiceProvider from "varie/lib/validation/ValidationServiceProvider";
 import NotificationsProvider from "varie/lib/plugins/notifications/NotificationServiceProvider";
@@ -21,8 +21,8 @@ import UserProvider from "@app/providers/UserProvider";
 import AdminProvider from "@app/providers/AdminProvider";
 import ServerProvider from "@app/providers/ServerProvider";
 import SystemProvider from "@app/providers/SystemProvider";
+import AuthServiceProvider from "@app/providers/AuthServiceProvider";
 import NotificationProvider from "@app/providers/NotificationProvider";
-import AuthenticationServiceProvider from "@app/providers/AuthProvider";
 
 export default {
   /*
@@ -92,10 +92,10 @@ export default {
      * Application Service Providers...
      */
     AppServiceProvider,
+    AuthServiceProvider,
     BroadcastProvider,
     NotificationsProvider,
     AdminProvider,
-    AuthenticationServiceProvider,
     NotificationProvider,
     PileProvider,
     ServerProvider,

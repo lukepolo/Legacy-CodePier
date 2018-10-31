@@ -1,15 +1,15 @@
 import AuthStore from "@store/auth/AuthStore";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
+import ConfigInterface from "varie/lib/config/ConfigInterface";
 import AxiosHttpService from "varie/lib/http/AxiosHttpService";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 import TwoFactorAuthentication from "@app/services/TwoFactorAuthentication";
 import AuthMiddleware from "varie-authentication-plugin/lib/AuthMiddleware";
 import JwtDriver from "varie-authentication-plugin/lib/drivers/jwt/JwtDriver";
-import ConfigInterface from "varie/lib/config/ConfigInterface";
 
-export default class AuthenticationServiceProvider extends ServiceProvider {
+export default class AuthServiceProvider extends ServiceProvider {
   private apiRouteService;
 
   public boot() {
