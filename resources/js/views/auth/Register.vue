@@ -3,11 +3,28 @@
         <h1>Create Account</h1>
         <p>Fill out the following fields to create your account.</p>
 
-        <form @submit.prevent="submit">
-            <input name="name" label="Name" v-model="form.name">
-            <input name="email" label="Email" type="email" v-model="form.email">
-            <input name="password" label="Password" type="password" v-model="form.password">
-            <input name="confirm-password" label="Confirm Password" type="password" v-model="form.passwordConfirmed">
+        <form @submit.prevent="register">
+
+            <div>
+                <label for="name">Name</label>
+                <input id="name" name="name" v-model="form.name">
+            </div>
+
+            <label>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" v-model="form.email">
+            </label>
+
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" v-model="form.password">
+            </div>
+
+            <div>
+                <label for="confirm-password">Confirm Password</label>
+                <input id="confirm-password" name="confirm-password" type="password" v-model="form.password_confirmation">
+            </div>
+
             <div>
                 <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
                 <button :disabed="!form.isValid()">Sign Up</button>
@@ -30,8 +47,8 @@ export default Vue.extend({
     return {
       form: this.createForm({
         name: null,
-        email: this.$parent.authAreaData.email,
-        password: this.$parent.authAreaData.password,
+        email: null,
+        password: null,
         passwordConfirmed: null,
       }).validation({
         rules: {
@@ -44,11 +61,19 @@ export default Vue.extend({
   },
   methods: {
     register() {
-      this.$store.dispatch("auth/register", this.form).then(() => {
-        this.$router.push({
-          name: "dashboard",
-        });
-      });
+      this.$store.dispatch("auth/register", this.form.data()).then(
+        () => {
+          this.form.reset();
+          this.$router.push({
+            name: "dashboard",
+          });
+        },
+        (error) => {
+          console.info(error);
+          // You should handle your error based on your error message
+          this.alertService.showError("Registration Failed.");
+        },
+      );
     },
   },
 });

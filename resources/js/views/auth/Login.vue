@@ -2,8 +2,17 @@
     <div>
         <h1>Login</h1>
         <form @submit.prevent="login">
-            <input name="email" label="Email" type="email" v-model="form.email" v-focus>
-            <input type="password" name="password" label="Password"  v-model="form.password">
+
+            <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" v-model="form.email" v-focus>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" v-model="form.password">
+            </div>
+
             <div>
                 <router-link @click.prevent :to="{ name : 'register' }" class="btn">Create Account</router-link>
                 <button :disabed="!form.isValid()">Login</button>
@@ -20,12 +29,13 @@ import Vue from "vue";
 import ShareAccountInfoMixin from "./mixins/ShareAccountInfoMixin";
 
 export default Vue.extend({
+  $inject: ["AlertService"],
   mixins: [ShareAccountInfoMixin],
   data() {
     return {
       form: this.createForm({
-        email: this.$parent.authAreaData.email,
-        password: this.$parent.authAreaData.password,
+        email: null,
+        password: null,
       }).validation({
         rules: {
           email: "required|email",
@@ -36,11 +46,18 @@ export default Vue.extend({
   },
   methods: {
     login() {
-      this.$store.dispatch("auth/login", this.form).then(() => {
-        this.$router.push({
-          name: "dashboard",
-        });
-      });
+      this.$store.dispatch("auth/login", this.form).then(
+        () => {
+          this.form.reset();
+          this.$router.push({
+            name: "dashboard",
+          });
+        },
+        (error) => {
+          // You should handle your error based on your error message
+          this.alertService.showError("Login Failed.");
+        },
+      );
     },
   },
 });

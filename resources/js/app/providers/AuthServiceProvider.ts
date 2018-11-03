@@ -30,7 +30,7 @@ export default class AuthServiceProvider extends ServiceProvider {
         logout: this.apiRouteService.action("AuthAuthController@logout"),
         refresh: this.apiRouteService.action("AuthAuthController@refresh"),
         register: this.apiRouteService.action(
-          "AuthRegisterCo=ntroller@register",
+          "AuthRegisterController@register",
         ),
         resetPassword: this.apiRouteService.action(
           "AuthResetPasswordController@reset",

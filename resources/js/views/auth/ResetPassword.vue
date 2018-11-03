@@ -3,9 +3,22 @@
         <h1>Reset Password</h1>
 
         <form @submit.prevent="resetPassword">
-            <input name="email" label="Email" type="email" v-model="form.email">
-            <input name="password" label="Password" type="password" v-model="form.password">
-            <input name="confirm-password" label="Confirm Password" type="password" v-model="form.passwordConfirmed">
+
+            <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" label="Email" type="email" v-model="form.email">
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" v-model="form.password">
+            </div>
+
+            <div>
+                <label for="confirm-password">Confirm Password</label>
+                <input id="confirm-password" name="confirm-password" type="password" v-model="form.password_confirmation">
+            </div>
+
             <div>
                 <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
                 <button :disabed="!form.isValid()">Reset Password</button>
@@ -36,15 +49,25 @@ export default Vue.extend({
   methods: {
     resetPassword() {
       this.$store
-        .dispatch("auth/resetPassword", {
-          form: this.form,
-          token: Object.keys(this.$route.query)[0],
-        })
-        .then(() => {
-          this.$router.push({
-            name: "dashboard",
-          });
-        });
+        .dispatch(
+          "auth/resetPassword",
+          Object.assign({
+            ...this.form.data(),
+            token: Object.keys(this.$route.query)[0],
+          }),
+        )
+        .then(
+          () => {
+            this.form.reset();
+            this.$router.push({
+              name: "dashboard",
+            });
+          },
+          (error) => {
+            // You should handle your error based on your error message
+            this.alertService.showError("Reset Password Failed.");
+          },
+        );
     },
   },
 });

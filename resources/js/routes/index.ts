@@ -9,13 +9,14 @@ import RouterInterface from "varie/lib/routing/RouterInterface";
 
 import SiteViews from "@views/site";
 import UserViews from "@views/user";
-import LoginViews from "@views/login";
 import ErrorViews from "@views/errors";
 import ServerViews from "@views/server";
 import Dashboard from "@views/dashboard/Dashboard.vue";
 
+import authRoutes from "./authRoutes";
+
 export default function($router: RouterInterface) {
-  $router.route("/provider/:provider/callback", LoginViews.Oauth);
+  // $router.route("/provider/:provider/callback", LoginViews.Oauth);
 
   // AUTHED
   $router
@@ -55,13 +56,7 @@ export default function($router: RouterInterface) {
       $router.route("servers", ServerViews.Servers);
     });
 
-  // PUBLIC
-  $router.area(LoginViews.AuthArea).group(() => {
-    $router.route("login", LoginViews.Login);
-    $router.route("register", LoginViews.Register);
-    $router.route("forgot-password", LoginViews.Register);
-    $router.route("reset-password", LoginViews.ResetPassword);
-  });
+  authRoutes($router);
 
   $router.route("*", ErrorViews.Error404);
 }

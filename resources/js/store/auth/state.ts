@@ -5,7 +5,5 @@ export default {
   authAreaData: {
     name: null,
     email: null,
-    password: null,
-    confirm_password: null,
   },
 };

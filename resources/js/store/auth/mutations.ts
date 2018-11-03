@@ -15,8 +15,6 @@ export default function() {
       state.authAreaData = Object.assign(state.authAreaData, {
         name: null,
         email: null,
-        password: null,
-        confirm_password: null,
       });
     },
   };

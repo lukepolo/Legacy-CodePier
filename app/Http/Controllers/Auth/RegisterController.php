@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User\User;
-use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -29,25 +28,12 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
-
-    private $authService;
-
-    /**
      * Create a new controller instance.
      *
-     * @param AuthService $authService
      */
-    public function __construct(AuthService $authService)
+    public function __construct()
     {
-        $this->authService = $authService;
-        $this->redirectTo = config('app.url');
         $this->middleware('guest');
-        $this->authService = $authService;
     }
 
     /**
@@ -90,8 +76,8 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
     {
@@ -101,6 +87,22 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-        return response()->json($this->authService->generateJwtToken());
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 }

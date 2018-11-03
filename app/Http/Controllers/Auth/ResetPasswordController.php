@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Services\AuthService;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
 {
@@ -23,34 +22,22 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
-
-    private $authService;
-
-    /**
      * Create a new controller instance.
      *
-     * @param AuthService $authService
      */
-    public function __construct(AuthService $authService)
+    public function __construct()
     {
-        $this->redirectTo = config('app.url');
         $this->middleware('guest');
-        $this->authService = $authService;
     }
 
     /**
      * Get the response for a successful password reset.
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function sendResetResponse()
     {
-        return response()->json($this->authService->generateJwtToken());
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -63,5 +50,21 @@ class ResetPasswordController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response()->json(['email' => trans($response)], 500);
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 }
