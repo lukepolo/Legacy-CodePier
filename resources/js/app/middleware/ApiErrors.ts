@@ -1,17 +1,14 @@
 import { injectable, inject } from "inversify";
 
+import AlertServiceInterface from "varie/lib/plugins/alerts/AlertServiceInterface";
 import AxiosHttpMiddlewareInterface from "varie/lib/http/AxiosHttpMiddlewareInterface";
-import NotificationServiceInterface from "varie/lib/plugins/notifications/NotificationServiceInterface";
 
 @injectable()
 export default class ApiErrors implements AxiosHttpMiddlewareInterface {
-  private notificationService: NotificationServiceInterface;
+  private alertService: AlertServiceInterface;
 
-  constructor(
-    @inject("NotificationService")
-    notificationService: NotificationServiceInterface,
-  ) {
-    this.notificationService = notificationService;
+  constructor(@inject("AlertService") alertService: AlertServiceInterface) {
+    this.alertService = alertService;
   }
 
   public request(config) {
@@ -24,7 +21,7 @@ export default class ApiErrors implements AxiosHttpMiddlewareInterface {
 
   public responseError(error) {
     if (error.response && error.response.data) {
-      this.notificationService.showError(error.response.data);
+      this.alertService.showError(error.response.data);
     }
     return error;
   }

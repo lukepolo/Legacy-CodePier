@@ -1,6 +1,6 @@
 <template>
     <header>
-        <notifications></notifications>
+        <alerts></alerts>
         <router-link to="/" class="header--logo">
             <img src="./../../../../img/CP_Logo_TX-onGray.svg">
         </router-link>
@@ -100,11 +100,11 @@
 
 <script>
 import Vue from "vue";
-import Notifications from "./Notifications";
+import Alerts from "./Alerts";
 
 export default Vue.extend({
   components: {
-    Notifications,
+    Alerts,
   },
   data() {
     return {

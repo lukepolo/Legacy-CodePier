@@ -15,7 +15,7 @@
 <script>
 import Vue from "vue";
 import LeftNav from "./components/LeftNav";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/Alert";
 import SystemAlerts from "./components/SystemAlerts";
 import Announcements from "./components/Announcements";
 

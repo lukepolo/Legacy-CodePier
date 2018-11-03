@@ -8,7 +8,7 @@ import CookieServiceProvider from "varie/lib/cookies/CookieServiceProvider";
 import StorageServiceProvider from "varie/lib/storage/StorageServiceProvider";
 import FormsServiceProvider from "varie/lib/plugins/forms/FormServiceProvider";
 import ValidationServiceProvider from "varie/lib/validation/ValidationServiceProvider";
-import NotificationsProvider from "varie/lib/plugins/notifications/NotificationServiceProvider";
+import AlertServiceProvider from "varie/lib/plugins/alerts/AlertServiceProvider";
 import AutoRegisterMixinServiceProvider from "varie/lib/plugins/autoRegisterMixins/AutoRegisterMixinServiceProvider";
 import AutoRegisterFilterServiceProvider from "varie/lib/plugins/autoRegisterFilters/AutoRegisterFilterServiceProvider";
 import AutoRegisterLayoutServiceProvider from "varie/lib/plugins/autoRegisterLayouts/AutoRegisterLayoutServiceProvider";
@@ -94,7 +94,7 @@ export default {
     AppServiceProvider,
     AuthServiceProvider,
     BroadcastProvider,
-    NotificationsProvider,
+    AlertServiceProvider,
     AdminProvider,
     NotificationProvider,
     PileProvider,

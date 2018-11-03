@@ -1,4 +1,4 @@
-import NotificationModel from "varie/lib/plugins/notifications/models/NotificationModel";
+import Alertmodel from "varie/lib/plugins/alerts/models/Alertmodel";
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ import NotificationModel from "varie/lib/plugins/notifications/models/Notificati
 export default interface rootState {
   varie: {
     notifications: {
-      notifications: Array<NotificationModel>;
+      notifications: Array<Alertmodel>;
     };
   };
 }
