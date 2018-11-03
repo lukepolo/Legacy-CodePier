@@ -4,7 +4,7 @@ import Vue from "vue";
 Vue.mixin({
   computed: {
     user() {
-      return this.$store.getters["auth/user"]("user");
+      return this.$store.getters["auth/user"]();
     },
     isAdmin() {
       return this.user && this.user.role === "admin";

@@ -14,6 +14,6 @@ export default class AuthStore extends StoreModule {
       .addState(state)
       .addActions(actions(authService))
       .addMutations(mutations())
-      .addGetters(getters);
+      .addGetters(getters(authService));
   }
 }
