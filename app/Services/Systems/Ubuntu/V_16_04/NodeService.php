@@ -20,20 +20,27 @@ class NodeService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash');
+        $this->remoteTaskService->run('groupadd nvm');
+        $this->remoteTaskService->run('usermod -aG nvm root');
+        $this->remoteTaskService->run('usermod -aG nvm codepier');
 
-        $this->remoteTaskService->appendTextToFile('/etc/profile', '
+        $this->remoteTaskService->run('git clone https://github.com/creationix/nvm.git /opt/.nvm');
+        $this->remoteTaskService->run('cd /opt/.nvm && git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`');
+        $this->remoteTaskService->run('chown :nvm /opt/.nvm');
+        $this->remoteTaskService->run('chmod g+ws /opt/.nvm');
+
+        $this->remoteTaskService->prependTextToFile('/etc/bash.bashrc', '
 lazynvm() {
-  export NVM_DIR=~/.nvm
+  export NVM_DIR=/opt/.nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 }
 
 nvm() {
   unset -f nvm
-  lazynvm 
+  lazynvm
   nvm $@
 }
- 
+
 node() {
   unset -f node
   lazynvm
@@ -54,13 +61,7 @@ yarn() {
 
 ');
 
-        $this->remoteTaskService->run('nvm install ' . $version);
-        $this->remoteTaskService->run('nvm alias default ' . $version);
-
-        $this->connectToServer('codepier');
-
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash');
-
+        $this->remoteTaskService->run("source /etc/bash.bashrc");
         $this->remoteTaskService->run('nvm install ' . $version);
         $this->remoteTaskService->run('nvm alias default ' . $version);
     }

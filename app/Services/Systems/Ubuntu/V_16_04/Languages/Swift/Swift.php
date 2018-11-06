@@ -61,9 +61,9 @@ class Swift
         $this->remoteTaskService->run('git clone https://github.com/kylef/swiftenv.git /opt/.swiftenv');
         $this->remoteTaskService->run('chown codepier:codepier /opt/.swiftenv');
 
-        $this->remoteTaskService->appendTextToFile('/etc/profile', 'export SWIFTENV_ROOT="/opt/.swiftenv"');
-        $this->remoteTaskService->appendTextToFile('/etc/profile', 'export PATH="$SWIFTENV_ROOT/bin:$PATH"');
-        $this->remoteTaskService->appendTextToFile('/etc/profile', 'eval "$(swiftenv init -)"');
+        $this->remoteTaskService->appendTextToFile('/etc/bash.bashrc', 'export SWIFTENV_ROOT="/opt/.swiftenv"');
+        $this->remoteTaskService->appendTextToFile('/etc/bash.bashrc', 'export PATH="$SWIFTENV_ROOT/bin:$PATH"');
+        $this->remoteTaskService->appendTextToFile('/etc/bash.bashrc', 'eval "$(swiftenv init -)"');
 
         $this->connectToServer('codepier');
 
