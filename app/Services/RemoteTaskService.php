@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
 use App\Models\Site\Site;
@@ -39,7 +40,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
         \Log::info('Running Command '.$command, ['server' => $this->server->id]);
 
         try {
-            $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
+            // TODO - we can version number the servers instead!!
+            if ($this->server->created_at < Carbon::create(2019, 12, 10)) {
+                $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
+            } else {
+                $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            }
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect', ['server' => $this->server->id]);
@@ -120,6 +126,20 @@ class RemoteTaskService implements RemoteTaskServiceContract
 $contents
 EOF
 echo \"Wrote\"");
+    }
+
+    /**
+     * @param $file
+     * @param $text
+     * @return string
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function prependTextToFile($file, $text)
+    {
+        $tempFile = substr($file, strrpos($file, '/') + 1);
+        return $this->run("echo '$text' | cat - $file > /tmp/$tempFile && mv /tmp/$tempFile $file");
     }
 
     /**
