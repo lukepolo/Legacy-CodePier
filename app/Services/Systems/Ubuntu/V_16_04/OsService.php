@@ -101,8 +101,11 @@ class OsService
      * @swappiness { "type" : "number" }
      * @vfsCachePressure { "type" : "number" }
      */
-    public function installSwap($size = '2', $swappiness = 10, $vfsCachePressure = 50)
+    public function installSwap($size = 2, $swappiness = 10, $vfsCachePressure = 50)
     {
+        if (! is_integer($size)) {
+            $size = 2;
+        }
         $this->connectToServer();
 
         $this->remoteTaskService->run('fallocate -l ' . $size . 'G /swapfile');
