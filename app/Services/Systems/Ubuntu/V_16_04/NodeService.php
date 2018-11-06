@@ -20,50 +20,22 @@ class NodeService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('groupadd nvm');
-        $this->remoteTaskService->run('usermod -aG nvm root');
-        $this->remoteTaskService->run('usermod -aG nvm codepier');
-
         $this->remoteTaskService->run('git clone https://github.com/creationix/nvm.git /opt/.nvm');
         $this->remoteTaskService->run('cd /opt/.nvm && git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`');
-        $this->remoteTaskService->run('chown -R :nvm /opt/.nvm');
-        $this->remoteTaskService->run('chmod -R g+ws /opt/.nvm');
+        $this->remoteTaskService->run('chown -R codepier:codepier /opt/.nvm');
 
         $this->remoteTaskService->prependTextToFile('/etc/bash.bashrc', '
-lazynvm() {
-  export NVM_DIR=/opt/.nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-}
-
-nvm() {
-  unset -f nvm
-  lazynvm
-  nvm $@
-}
-
-node() {
-  unset -f node
-  lazynvm
-  node $@
-}
-
-npm() {
-  unset -f npm
-  lazynvm
-  npm $@
-}
-
-yarn() {
-  unset -f yarn
-  lazynvm
-  yarn $@
-}
-
+export NVM_DIR=/opt/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 ');
 
-        $this->remoteTaskService->run("source /etc/bash.bashrc");
+        $this->connectToServer('codepier');
+
         $this->remoteTaskService->run('nvm install ' . $version);
         $this->remoteTaskService->run('nvm alias default ' . $version);
+
+        $this->connectToServer("root");
+
         $this->remoteTaskService->run('NVM_DIR=$(which npm) && ln -s $NVM_DIR /usr/bin/npm');
         $this->remoteTaskService->run('NODE_DIR=$(which node) && ln -s $NODE_DIR /usr/bin/node');
     }
