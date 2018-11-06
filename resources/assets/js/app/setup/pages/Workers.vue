@@ -101,7 +101,7 @@
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
                     <span class="btn" v-if="workers.length" @click.prevent="resetForm">Cancel</span>
-                    <button class="btn btn-primary" type="submit">Create Queue Worker</button>
+                    <button class="btn btn-primary" type="submit">Create Worker</button>
                 </div>
             </div>
 
