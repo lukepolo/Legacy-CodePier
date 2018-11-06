@@ -101,17 +101,9 @@ class OsService
      * @swappiness { "type" : "number" }
      * @vfsCachePressure { "type" : "number" }
      */
-    public function installSwap($size = 'auto', $swappiness = 10, $vfsCachePressure = 50)
+    public function installSwap($size = '2', $swappiness = 10, $vfsCachePressure = 50)
     {
         $this->connectToServer();
-
-        if (! is_numeric($size)) {
-            $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo'));
-        }
-
-        switch ($size) {
-//            case $size >
-        }
 
         $this->remoteTaskService->run('fallocate -l ' . $size . 'G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
