@@ -8,6 +8,7 @@ use App\Models\Server\Server;
 use Vultr\Exception\ApiException;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
+use App\Services\Server\ServerService;
 use App\Models\Server\ProvisioningKey;
 use App\Jobs\Server\UpdateSudoPassword;
 use App\Services\Systems\SystemService;
@@ -18,7 +19,6 @@ use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
 use App\Services\Server\Providers\CustomProvider;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
@@ -27,12 +27,10 @@ class ServerController extends Controller
     private $serverService;
     private $remoteTaskService;
 
-    const SERVER_VERSION = "1.0.1";
-
     /**
      * ServerController constructor.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Server\ServerService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      * @param \App\Services\Site\SiteService| SiteService $siteService
      */
