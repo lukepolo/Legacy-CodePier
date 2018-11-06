@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
 use App\Models\Site\Site;
@@ -40,11 +39,10 @@ class RemoteTaskService implements RemoteTaskServiceContract
         \Log::info('Running Command '.$command, ['server' => $this->server->id]);
 
         try {
-            // TODO - we can version number the servers instead!!
-            if ($this->server->created_at < Carbon::create(2019, 12, 10)) {
-                $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
-            } else {
+            if (version_compare($this->server->server_version, '1.0.1', '>=')) {
                 $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            } else {
+                $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
             }
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {

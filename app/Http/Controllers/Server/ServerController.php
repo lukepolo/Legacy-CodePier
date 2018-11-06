@@ -27,6 +27,8 @@ class ServerController extends Controller
     private $serverService;
     private $remoteTaskService;
 
+    const SERVER_VERSION = "1.0.1";
+
     /**
      * ServerController constructor.
      *
@@ -106,6 +108,7 @@ class ServerController extends Controller
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
             'type' => $request->user()->subscribed() ? $request->get('type', SystemService::FULL_STACK_SERVER) : SystemService::FULL_STACK_SERVER,
+            'server_version' =>  ServerService::SERVER_VERSION,
         ]);
 
         if (! empty($site)) {
