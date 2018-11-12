@@ -163,13 +163,17 @@ class ServerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
      *
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if ($request->has('force')) {
+            return response()->json(Server::withTrashed()->findOrFail($id)->forceDelete());
+        }
         return response()->json(Server::findOrFail($id)->delete());
     }
 

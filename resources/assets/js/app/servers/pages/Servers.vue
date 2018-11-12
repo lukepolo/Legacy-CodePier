@@ -78,6 +78,9 @@
                                     <confirm dispatch="user_servers/restore" :params="server.id">
                                         <span class="icon-refresh2"></span> &nbsp; Restore
                                     </confirm>
+                                    <confirm dispatch="user_servers/deleteServer" confirm_class="btn btn-danger" :params="server.id">
+                                        <span class="icon-trash"></span> &nbsp; Delete
+                                    </confirm>
                                 </template>
                                 <template v-else>
                                     <confirm dispatch="user_servers/archive" :params="server.id">
