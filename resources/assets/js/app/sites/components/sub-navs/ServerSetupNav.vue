@@ -20,6 +20,9 @@
                 <a>
                     Daemons
                     <div class="small">Configure daemons processes</div>
+                    <div class="small" v-if="!canCreateWorkers">
+                        <span class="text-error"><i class="fa fa-exclamation-triangle"></i> Your site is not configured to handle daemons.</span>
+                    </div>
                 </a>
             </router-link>
 
@@ -27,10 +30,13 @@
                 <a>
                     Workers
                     <div class="small">Configure workers processes</div>
+                    <div class="small" v-if="!canCreateWorkers">
+                        <span class="text-error"><i class="fa fa-exclamation-triangle"></i> Your site is not configured to handle workers.</span>
+                    </div>
                 </a>
             </router-link>
 
-            <router-link :to="{ name : 'site_server_files', params : { site_id : siteId } }" tag="li" v-if="siteServers.length <= 1">
+            <router-link :to="{ name : 'site_server_files', params : { site_id : siteId } }" tag="li" v-if="siteServers && siteServers.length >= 1">
                 <a>
                     Server Files
                     <div class="small">Customize your server files to suit your app</div>
@@ -69,16 +75,31 @@ export default {
       return this.$store.state.user_sites.site;
     },
     siteServers() {
-      let siteServers = _.get(
-        this.$store.state.user_site_servers.servers,
+      return this.$store.getters["user_site_servers/getServers"](
         this.$route.params.site_id
       );
-
-      if (siteServers && siteServers.length) {
-        return siteServers;
+    },
+    canCreateWorkers() {
+      if(this.siteServers && this.siteServers.length > 0) {
+        return this.siteServersCanCreateWorker;
+      } else if(this.siteFeatures && this.siteFeatures.WorkerService && this.siteFeatures.WorkerService.Supervisor && this.siteFeatures.WorkerService.Supervisor && this.siteFeatures.WorkerService.Supervisor.enabled == 1) {
+        return true;
       }
-
-      return [];
+     return false;
+    },
+    siteServersCanCreateWorker() {
+      if(this.siteServers && this.siteServers.length > 0) {
+        let workerServer = this.siteServers.find((server) => {
+            return server.server_features.WorkerService && server.server_features.WorkerService.Supervisor.enabled == 1;
+        });
+        if(workerServer) {
+          return true;
+        }
+      }
+      return false;
+    },
+    siteFeatures() {
+      return this.$store.state.user_site_server_features.features;
     }
   },
   watch: {

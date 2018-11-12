@@ -68,7 +68,6 @@ class Server extends Model
         'sudo_password',
         'public_ssh_key',
         'private_ssh_key',
-        'server_features',
         'database_password',
     ];
 
