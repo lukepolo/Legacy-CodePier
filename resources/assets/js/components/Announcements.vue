@@ -42,7 +42,7 @@
 export default {
   data() {
     return {
-      announcementDate: moment("2018-11-01"),
+      announcementDate: moment("2018-11-12"),
     };
   },
   methods: {
