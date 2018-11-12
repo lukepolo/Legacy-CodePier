@@ -81,7 +81,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (config('app.env') === 'local') {
-            Artisan::call('clear:app-caches');
+//            Artisan::call('clear:app-caches');
         }
     }
 
