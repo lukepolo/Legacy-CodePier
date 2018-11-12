@@ -28,8 +28,11 @@ export const store = ({ dispatch, commit }, data) => {
 
 export const updatePrivateIps = ({ dispatch, commit }, data) => {
   return Vue.request(data)
-    .post(
-      Vue.action("ServerPrivateIpAddressController@update"),
+    .patch(
+      Vue.action("ServerServerPrivateIpAddressController@update", {
+        server: data.server,
+      }),
+      "user_servers/set",
       "user_servers/update",
     )
     .then((server) => {
