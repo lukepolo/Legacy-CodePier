@@ -10,7 +10,7 @@
                 <li>You can manage private IPs for servers in the server page</li>
                 <li>New servers will take advantage of better NVM support</li>
                 <li>DNS Lookups for wildcard SSL now perform on the name server your domain is using.</li>
-                <li>Added new LTS node versions, and next version. (These will continue to roll following the releases of node)</li>
+                <li>Added new LTS node versions, and next version. (6.14.4 LTS, 8.12.0 LTS, 10.13.0 LTS, 11.1.0 Current)</li>
                 <li>Added Vultr server features (IPV6, Private IPs, backups, DDOS protection)</li>
                 <li>Easily see Private IP addresses from site overview pages</li>
                 <li>We warn you if daemons / workers cannot be used in the sub nav of the site pages</li>
