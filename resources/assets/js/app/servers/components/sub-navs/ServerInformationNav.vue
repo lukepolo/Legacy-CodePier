@@ -37,6 +37,13 @@
                         <!--<div class="small">Installed buoys on the system</div>-->
                     <!--</a>-->
                 <!--</router-link>-->
+
+                <router-link :to="{ name : 'server_private_ip_addresses', params : { server_id : serverId } }" tag="li" class="wizard-item">
+                    <a>
+                        Private IP Addresses
+                        <div class="small">Add / Remove Private IP Addresses</div>
+                    </a>
+                </router-link>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active">
