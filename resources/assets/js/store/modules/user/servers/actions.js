@@ -26,6 +26,18 @@ export const store = ({ dispatch, commit }, data) => {
     });
 };
 
+export const updatePrivateIps = ({ dispatch, commit }, data) => {
+  return Vue.request(data)
+    .post(
+      Vue.action("ServerPrivateIpAddressController@update"),
+      "user_servers/update",
+    )
+    .then((server) => {
+      app.showSuccess("You have updated your server private IP addresses");
+      return server;
+    });
+};
+
 export const deleteServer = ({ dispatch }, server) => {
   return Vue.request(server)
     .delete(
