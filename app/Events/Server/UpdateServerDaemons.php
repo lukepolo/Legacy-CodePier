@@ -6,6 +6,7 @@ use App\Models\Daemon;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Services\Systems\SystemService;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\Daemons\RemoveServerDaemon;
 use App\Jobs\Server\Daemons\InstallServerDaemon;
@@ -34,12 +35,16 @@ class UpdateServerDaemons
         $this->serverType = $server->type;
 
         $this->site->daemons->each(function (Daemon $daemon) {
-            if ($daemon->installableOnServer($this->server)) {
-                $this->installDaemon($daemon);
-            } else {
-                if (! $daemon->hasServer($this->server)) {
+            if ($this->site->hasWorkerServers()) {
+                if ($this->serverType == SystemService::WORKER_SERVER) {
+                    if (! $daemon->hasServer($this->server)) {
+                        $this->installDaemon($daemon);
+                    }
+                } else {
                     $this->removeDaemon($daemon);
                 }
+            } elseif (! $daemon->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+                $this->installDaemon($daemon);
             }
         });
     }
