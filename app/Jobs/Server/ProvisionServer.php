@@ -107,6 +107,9 @@ class ProvisionServer implements ShouldQueue
                 'addCodePierUser' => [
                     'step' => 'Adding CodePier User',
                 ],
+                'getPrivateIpAddresses' => [
+                    'step' => 'Getting private IP addresses',
+                ],
                 'setupUnattendedSecurityUpgrades' => [
                     'step' => 'Setup Unattended Security Upgrades',
                 ],
