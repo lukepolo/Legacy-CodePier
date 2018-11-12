@@ -22,6 +22,12 @@ class OsService
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt autoremove -y');
+
+        $privateIps = $this->remoteTaskService->run("ifconfig | grep 'inet addr' | cut -d ':' -f 2 | awk '{ print $1 }' | grep -E '^(192\.168|10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.)'");
+
+        $this->server->update([
+            'private_ips' => array_filter(array_map('trim', explode(' ', $privateIps)))
+        ]);
     }
 
     public function setTimezoneToUTC()

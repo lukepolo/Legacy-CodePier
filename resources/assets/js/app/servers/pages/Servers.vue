@@ -78,7 +78,7 @@
                                     <confirm dispatch="user_servers/restore" :params="server.id">
                                         <span class="icon-refresh2"></span> &nbsp; Restore
                                     </confirm>
-                                    <confirm dispatch="user_servers/deleteServer" confirm_class="btn btn-danger" :params="server.id">
+                                    <confirm confirm_position="left" dispatch="user_servers/deleteServer" confirm_class="btn btn-danger" message="This does not delete this from your server provider!" :params="server.id">
                                         <span class="icon-trash"></span> &nbsp; Delete
                                     </confirm>
                                 </template>
