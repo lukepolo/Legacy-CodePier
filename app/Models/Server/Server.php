@@ -51,6 +51,7 @@ class Server extends Model
     protected $casts = [
         'stats' => 'array',
         'options'  => 'array',
+        'private_ips' => 'array',
         'server_features' => 'array',
         'server_provider_features' => 'array',
         'slack_channel_preferences' => 'array',
