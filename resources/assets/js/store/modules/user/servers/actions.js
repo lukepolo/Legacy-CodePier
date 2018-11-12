@@ -26,6 +26,23 @@ export const store = ({ dispatch, commit }, data) => {
     });
 };
 
+export const deleteServer = ({ dispatch }, server) => {
+  return Vue.request(server)
+    .delete(
+      Vue.action("ServerServerController@destroy", {
+        server: server,
+        force: true,
+      }),
+    )
+    .then(() => {
+      dispatch("getTrashed");
+      if (app.$router.currentRoute.params.server_id) {
+        app.$router.push("/");
+      }
+      app.showSuccess("You have deleted the server");
+    });
+};
+
 export const archive = (context, server) => {
   return Vue.request(server)
     .delete(Vue.action("ServerServerController@destroy", { server: server }), [
