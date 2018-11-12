@@ -114,7 +114,7 @@ class VultrProvider implements ServerProviderContract
         ];
 
         foreach ($server->getServerProviderFeatures() as $featureModel) {
-            $serverOptions[$featureModel->option] = true;
+            $serverOptions[$featureModel->option] = 'yes';
         }
 
         $vultrServer = $this->client->server()->create($serverOptions);
