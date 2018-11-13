@@ -8,6 +8,7 @@ use App\Models\Server\Server;
 use Vultr\Exception\ApiException;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
+use App\Services\Server\ServerService;
 use App\Models\Server\ProvisioningKey;
 use App\Jobs\Server\UpdateSudoPassword;
 use App\Services\Systems\SystemService;
@@ -18,7 +19,6 @@ use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
 use App\Services\Server\Providers\CustomProvider;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
@@ -30,7 +30,7 @@ class ServerController extends Controller
     /**
      * ServerController constructor.
      *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Server\ServerService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      * @param \App\Services\Site\SiteService| SiteService $siteService
      */
@@ -106,6 +106,7 @@ class ServerController extends Controller
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
             'type' => $request->user()->subscribed() ? $request->get('type', SystemService::FULL_STACK_SERVER) : SystemService::FULL_STACK_SERVER,
+            'server_version' =>  ServerService::SERVER_VERSION,
         ]);
 
         if (! empty($site)) {
@@ -162,13 +163,17 @@ class ServerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
      *
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if ($request->has('force')) {
+            return response()->json(Server::withTrashed()->findOrFail($id)->forceDelete());
+        }
         return response()->json(Server::findOrFail($id)->delete());
     }
 

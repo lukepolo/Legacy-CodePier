@@ -5,7 +5,8 @@ import {
   ServerSites,
   ServerFiles,
   ServerBuoys,
-  ServerMonitoring
+  ServerMonitoring,
+  ServerPrivateIpAddresses,
 } from "../pages";
 
 import {
@@ -84,6 +85,15 @@ export default [
         name: "server_buoys",
         components: {
           default: ServerBuoys,
+          nav: ServerNav,
+          subNav: ServerInformationNav
+        }
+      },
+      {
+        path: "info/private-ip-addresses",
+        name: "server_private_ip_addresses",
+        components: {
+          default: ServerPrivateIpAddresses,
           nav: ServerNav,
           subNav: ServerInformationNav
         }

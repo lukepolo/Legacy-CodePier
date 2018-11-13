@@ -9,6 +9,9 @@
               </div>
               <div class="server--ip">
                   {{ server.ip }} &nbsp;
+                  <small v-if="privateIps">
+                      ({{ privateIps }})
+                  </small>
               </div>
             </div>
 
@@ -271,6 +274,11 @@ export default {
     }
   },
   computed: {
+    privateIps() {
+      if(this.server.private_ips && this.server.private_ips.length > 0) {
+        return this.server.private_ips.join(', ');
+      }
+    },
     serverType() {
       return _.replace(this.server.type, "_", " ");
     },

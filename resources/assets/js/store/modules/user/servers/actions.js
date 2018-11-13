@@ -26,6 +26,38 @@ export const store = ({ dispatch, commit }, data) => {
     });
 };
 
+export const updatePrivateIps = ({ dispatch, commit }, data) => {
+  return Vue.request(data)
+    .patch(
+      Vue.action("ServerServerPrivateIpAddressController@update", {
+        server: data.server,
+      }),
+      "user_servers/set",
+      "user_servers/update",
+    )
+    .then((server) => {
+      app.showSuccess("You have updated your server private IP addresses");
+      return server;
+    });
+};
+
+export const deleteServer = ({ dispatch }, server) => {
+  return Vue.request(server)
+    .delete(
+      Vue.action("ServerServerController@destroy", {
+        server: server,
+        force: true,
+      }),
+    )
+    .then(() => {
+      dispatch("getTrashed");
+      if (app.$router.currentRoute.params.server_id) {
+        app.$router.push("/");
+      }
+      app.showSuccess("You have deleted the server");
+    });
+};
+
 export const archive = (context, server) => {
   return Vue.request(server)
     .delete(Vue.action("ServerServerController@destroy", { server: server }), [

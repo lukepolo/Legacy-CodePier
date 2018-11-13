@@ -39,7 +39,11 @@ class RemoteTaskService implements RemoteTaskServiceContract
         \Log::info('Running Command '.$command, ['server' => $this->server->id]);
 
         try {
-            $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
+            if (version_compare($this->server->server_version, '1.0.1', '>=')) {
+                $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            } else {
+                $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
+            }
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect', ['server' => $this->server->id]);
@@ -120,6 +124,20 @@ class RemoteTaskService implements RemoteTaskServiceContract
 $contents
 EOF
 echo \"Wrote\"");
+    }
+
+    /**
+     * @param $file
+     * @param $text
+     * @return string
+     * @throws FailedCommand
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
+    public function prependTextToFile($file, $text)
+    {
+        $tempFile = substr($file, strrpos($file, '/') + 1);
+        return $this->run("echo '$text' | cat - $file > /tmp/$tempFile && mv /tmp/$tempFile $file");
     }
 
     /**

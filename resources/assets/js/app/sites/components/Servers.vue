@@ -1,9 +1,9 @@
 <template>
     <div v-if="site">
         <h3 class="section-header">
-            Attached Servers
+            Site Servers
 
-            <div class="section-header--btn-right" v-if="siteServers && siteServers.length || availableServers.length">
+            <div class="section-header--btn-right" v-if="workFlowCompleted === true && (siteServers && siteServers.length || availableServers.length)">
                 <drop-down icon="fa fa-plus" class="btn btn-default btn-xs" :class="{ 'btn-disabled' : !serverCreateEnabled }">
                     <server-create-list></server-create-list>
                     <template v-if="availableServers.length">
@@ -11,7 +11,7 @@
                         <ul>
                           <li>
                               <a href="#" @click.prevent="connectServers = !connectServers">
-                                  <span class="icon-server"></span> Attach a provisioned server
+                                  <span class="icon-server"></span> Add Already Provisioned Server
                               </a>
                           </li>
                         </ul>
@@ -49,7 +49,7 @@
             </template>
            <template v-else>
 
-               <template v-if="site.repository && workFlowCompleted">
+               <template v-if="site.repository && workFlowCompleted === true">
                    <template v-if="availableServers.length">
 
                        <h3 class="section-header--secondary">Available Servers</h3>

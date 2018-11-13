@@ -5,3 +5,4 @@ export const ServerBuoys = require("./ServerBuoys");
 export const ServerFiles = require("./ServerFiles");
 export const ServerSites = require("./ServerSites");
 export const ServerMonitoring = require("./ServerMonitoring");
+export const ServerPrivateIpAddresses = require("./ServerPrivateIpAddresses");
