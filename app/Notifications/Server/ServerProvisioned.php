@@ -30,6 +30,8 @@ class ServerProvisioned extends Notification
      */
     public function toMail(Server $server)
     {
+        $url = url("/server/{$server->id}/info/");
+
         return (new MailMessage())
             ->subject($server->name.' ('.$server->ip.') has been provisioned.')
             ->line($server->name.' ('.$server->ip.') has been provisioned.')
@@ -38,6 +40,7 @@ class ServerProvisioned extends Notification
             ->line('In order to login to your server, make sure that you have added an SSH key to your account.')
             ->line('Then you can run: "ssh codepier@'.$server->ip.'"')
             ->line('Database Password (user: codepier): '.$server->database_password)
-            ->line('Thank you for using our application!');
+            ->line('You can access these again in the server dashboard.')
+            ->action('Server Dashboard', $url);
     }
 }

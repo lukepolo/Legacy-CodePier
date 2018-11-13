@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
 
-                                <div class="flyform--group">
+                                <div class="flyform--group" v-if="server_provider_features && server_provider_features.length > 0">
                                     <label>Server Features</label>
                                 </div>
 

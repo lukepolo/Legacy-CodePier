@@ -128,14 +128,13 @@ class DigitalOceanProvider implements ServerProviderContract
         $backups = false;
         $monitoring = false;
         $privateNetworking = false;
-
-        $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
-        $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
-
         foreach ($server->getServerProviderFeatures() as $featureModel) {
             $feature = lcfirst($featureModel->option);
             $$feature = 1;
         }
+
+        $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
+        $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
 
         $this->setToken($this->getTokenFromServer($server));
 

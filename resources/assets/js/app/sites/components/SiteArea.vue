@@ -180,6 +180,9 @@ export default {
       if (!this.site || this.site.id !== parseInt(siteId)) {
         this.$store.dispatch("user_sites/show", siteId);
         this.$store.dispatch("user_site_servers/get", siteId);
+        this.$store.dispatch("user_site_server_features/get", {
+          site: siteId,
+        });
       } else {
         this.checkRedirect();
       }

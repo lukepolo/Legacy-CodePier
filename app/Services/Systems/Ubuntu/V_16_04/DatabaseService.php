@@ -95,7 +95,10 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \'' . $databasePassword . '\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
-        $this->remoteTaskService->run('service postgresql restart');
+        $this->remoteTaskService->updateText('/etc/postgresql/9.5/main/postgresql.conf', 'listen_addresses', "listen_addresses = '*'");
+
+        $this->remoteTaskService->run('/etc/init.d/postgresql restart');
+        $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '/etc/init.d/postgresql restart');
     }
 
     /**

@@ -104,14 +104,20 @@ class VultrProvider implements ServerProviderContract
 
         sleep(2);
 
-        $vultrServer = $this->client->server()->create([
+        $serverOptions = [
             'DCID' => ServerProviderRegion::findOrFail($server->options['server_region'])->external_id,
             'VPSPLANID' => $serverProviderOption->external_id,
             'OSID' => 215, // Ubuntu 16.04 x64
             'hostname' => $server->name,
             'label' => $server->name,
             'SSHKEYID' => $sshKeyId,
-        ]);
+        ];
+
+        foreach ($server->getServerProviderFeatures() as $featureModel) {
+            $serverOptions[$featureModel->option] = 'yes';
+        }
+
+        $vultrServer = $this->client->server()->create($serverOptions);
 
         $server = $this->saveServer($server, $vultrServer);
 

@@ -6,18 +6,26 @@
         <div class="modal--body">
             <h2>New</h2>
             <ul>
-                <h4>Vapor for Swift!</h4>
-                <li>We have released our initial take on using Vapor! Give it a go and let us know if we missed anything.</li>
-                <li>Discord Notification Provider! You can now use discord for your notifications!</li>
-                <li>For subscribers we now check if they have an invalid / expiring SSL certificate daily! </li>
+                <li>Private IPS now are collected so we can improve security when opening ports.</li>
+                <li>You can manage private IPs for servers in the server page</li>
+                <li>New servers will take advantage of better NVM support</li>
+                <li>DNS Lookups for wildcard SSL now perform on the name server your domain is using.</li>
+                <li>Added new LTS node versions, and next version. (6.14.4 LTS, 8.12.0 LTS, 10.13.0 LTS, 11.1.0 Current)</li>
+                <li>Added Vultr server features (IPV6, Private IPs, backups, DDOS protection)</li>
+                <li>Easily see Private IP addresses from site overview pages</li>
+                <li>We warn you if daemons / workers cannot be used in the sub nav of the site pages</li>
             </ul>
 
             <h2>Fixes</h2>
             <ul>
-                <li>A Ton Of Bug Fixes</li>
-                <li>Server provisioning should see a huge performance increase</li>
-                <li>Fixed issues of installing some server features</li>
-                <li>We always clear our DNS cache to check for wild card SSL CNAME checks</li>
+                <li>Fixed Postgres Database restart commands</li>
+                <li>Fixed Postgres permission issues</li>
+                <li>New Servers have improved performance tweaks</li>
+                <li>SWAP now has a set of 2 GB, you can increase this still in the advanced options</li>
+                <li>Load balancers wil now use private IPs of servers </li>
+                <li>Firewall Rules will react better when adding a new server</li>
+                <li>Worker / Daemons will not try to remove it knows the server does not have it installed</li>
+                <li>And more!</li>
             </ul>
 
             <p class="text-center">
@@ -34,7 +42,7 @@
 export default {
   data() {
     return {
-      announcementDate: moment("2018-09-01"),
+      announcementDate: moment("2018-11-12"),
     };
   },
   methods: {

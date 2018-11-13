@@ -35,6 +35,8 @@ class ServerService implements ServerServiceContract
 
     public static $serverOperatingSystem = 'ubuntu-16-04-x64';
 
+    const SERVER_VERSION = "1.0.1";
+
     const SSL_FILES = '/opt/codepier/ssl';
     const LETS_ENCRYPT = 'Let\'s Encrypt';
     const BITT_FILES = '/opt/codepier/bitts';
@@ -183,6 +185,16 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->run('reboot now', true);
+    }
+
+    // TODO - this should be removed after we get all private IP's
+    public function getPrivateIpAddresses(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+        $privateIps = $this->remoteTaskService->run("ifconfig | grep 'inet addr' | cut -d ':' -f 2 | awk '{ print $1 }' | grep -E '^(192\.168|10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.)'");
+        $server->update([
+            'private_ips' => array_filter(array_map('trim', explode(' ', $privateIps)))
+        ]);
     }
 
     /**

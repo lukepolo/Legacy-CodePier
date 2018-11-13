@@ -27,7 +27,9 @@
                         </confirm-dropdown>
                     </h3>
 
-                    <div class="flex flex--center">
+                    <button class="btn btn-primary btn-full" @click.stop="revealSudoPassword" v-if="!sudoPassword"><span class="icon-visibility"></span> Reveal</button>
+
+                    <div class="flex flex--center" v-if="sudoPassword">
                         <div class="flex--grow">
                             <div class="flyform--group flyform--group-nomargin">
                                 <textarea rows="1" readonly>{{ sudoPassword }}</textarea>
@@ -38,10 +40,6 @@
                                     <clipboard :data="sudoPassword"></clipboard>
                                 </tooltip>
                             </div>
-                        </div>
-
-                        <div class="flex--spacing">
-                            <button class="btn btn-primary btn-small" @click.stop="revealSudoPassword"><span class="icon-visibility"></span> Reveal</button>
                         </div>
                     </div>
                 </div>
@@ -68,7 +66,9 @@
                         Database Password
                     </h3>
 
-                    <div class="flex flex--center">
+                    <button class="btn btn-primary btn-full" v-if="!databasePassword" @click.stop="revealDatabasePassword"><span class="icon-visibility"></span> Reveal</button>
+
+                    <div class="flex flex--center" v-if="databasePassword">
                         <div class="flex--grow">
                             <div class="flyform--group flyform--group-nomargin">
                                 <textarea rows="1" readonly>{{ databasePassword }}</textarea>
@@ -79,10 +79,6 @@
                                     <clipboard :data="databasePassword"></clipboard>
                                 </tooltip>
                             </div>
-                        </div>
-
-                        <div class="flex--spacing">
-                            <button class="btn btn-primary" @click.stop="revealDatabasePassword"><span class="icon-visibility"></span> Reveal</button>
                         </div>
                     </div>
 

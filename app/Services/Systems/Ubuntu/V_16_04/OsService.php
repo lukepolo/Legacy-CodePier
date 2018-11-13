@@ -83,6 +83,19 @@ class OsService
         $this->addToServiceRestartGroup(SystemService::DAEMON_PROGRAMS_GROUP, '');
     }
 
+    public function getPrivateIpAddresses()
+    {
+        $this->connectToServer();
+
+        $privateIps = trim($this->remoteTaskService->run("ifconfig | grep 'inet addr' | cut -d ':' -f 2 | awk '{ print $1 }' | grep -E '^(192\.168|10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.)'", true));
+
+        if (! empty($privateIps)) {
+            $this->server->update([
+                'private_ips' => array_filter(array_map('trim', explode(' ', $privateIps)))
+            ]);
+        }
+    }
+
     public function addAutoRemovalCronJob()
     {
         $this->connectToServer();
@@ -101,13 +114,12 @@ class OsService
      * @swappiness { "type" : "number" }
      * @vfsCachePressure { "type" : "number" }
      */
-    public function installSwap($size = 'auto', $swappiness = 10, $vfsCachePressure = 50)
+    public function installSwap($size = 2, $swappiness = 10, $vfsCachePressure = 50)
     {
-        $this->connectToServer();
-
-        if (! is_numeric($size)) {
-            $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo')) * 2;
+        if (! is_integer($size)) {
+            $size = 2;
         }
+        $this->connectToServer();
 
         $this->remoteTaskService->run('fallocate -l ' . $size . 'G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
