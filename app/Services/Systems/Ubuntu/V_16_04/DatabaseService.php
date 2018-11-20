@@ -147,6 +147,7 @@ class DatabaseService
         $this->remoteTaskService->updateText('/etc/mongod.conf', 'security', 'security:');
         $this->remoteTaskService->findTextAndAppend('/etc/mongod.conf', 'security', '  authorization: "enabled"');
 
+        $this->remoteTaskService->run('systemctl enable mongod.service');
         $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, 'service mongod restart');
     }
 
