@@ -1,6 +1,6 @@
 <template>
     <section>
-        <template v-if="!server && update !==  false">
+        <template v-if="!server && update !== false">
             <form @submit.prevent="dispatchMethod" enctype="multipart/form-data" class="floating-labels">
 
                 <features></features>
