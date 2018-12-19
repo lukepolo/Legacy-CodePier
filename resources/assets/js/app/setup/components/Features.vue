@@ -111,10 +111,10 @@ export default {
 
       let areaFeatures = this.currentSelectedFeatures[feature.service];
 
-      if (!_.has(areaFeatures, feature.name)) {
-        Vue.set(areaFeatures, feature.name, { enabled: enabled });
+      if (!_.has(areaFeatures, feature.input_name)) {
+        Vue.set(areaFeatures, feature.input_name, { enabled: enabled });
       } else {
-        Vue.set(areaFeatures[feature.name], "enabled", enabled);
+        Vue.set(areaFeatures[feature.input_name], "enabled", enabled);
       }
     }
   },
