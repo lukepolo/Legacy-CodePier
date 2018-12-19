@@ -79,6 +79,13 @@ export default {
   },
   methods: {
     fetchData() {
+      if (this.siteId) {
+        this.$store.dispatch("user_site_server_features/get", {
+          site: this.siteId,
+          server_type: this.$route.params.type
+        });
+      }
+
       if (this.serverId) {
         this.$store.dispatch("user_server_features/get", this.serverId);
       }
@@ -104,10 +111,10 @@ export default {
 
       let areaFeatures = this.currentSelectedFeatures[feature.service];
 
-      if (!_.has(areaFeatures, feature.name)) {
-        Vue.set(areaFeatures, feature.name, { enabled: enabled });
+      if (!_.has(areaFeatures, feature.input_name)) {
+        Vue.set(areaFeatures, feature.input_name, { enabled: enabled });
       } else {
-        Vue.set(areaFeatures[feature.name], "enabled", enabled);
+        Vue.set(areaFeatures[feature.input_name], "enabled", enabled);
       }
     }
   },
