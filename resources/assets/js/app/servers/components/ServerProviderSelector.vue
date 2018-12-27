@@ -58,7 +58,7 @@
                 </div>
 
                 <small>
-                    This must be a fresh Ubuntu 16.04 system
+                    This must be a fresh Ubuntu system
                 </small>
 
                 <div class="providers--item-footer">
