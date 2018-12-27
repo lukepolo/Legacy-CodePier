@@ -103,8 +103,7 @@ class ServerController extends Controller
             'port' =>  $request->get('port', 22),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
-            // TODO - currently we only support ubuntu 16.04
-            'system_class' => 'ubuntu 16.04',
+            'system_class' => $request->get('system', SystemService::UBUNTU_18_04),
             'type' => $request->user()->subscribed() ? $request->get('type', SystemService::FULL_STACK_SERVER) : SystemService::FULL_STACK_SERVER,
             'server_version' =>  ServerService::SERVER_VERSION,
         ]);

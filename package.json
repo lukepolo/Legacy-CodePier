@@ -8,8 +8,7 @@
     "prod": "npm run production",
     "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "images": "NODE_ENV=images node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "precommit": "vendor/bin/php-cs-fixer fix --config=.php_cs && git add . && pretty-quick --staged",
-    "pretty": "prettier --write './resources/assets/**/*.*(scss|js|vue)'"
+    "precommit": " pretty-quick --staged"
   },
   "devDependencies": {
     "browser-sync": "^2.24.6",
