@@ -159,6 +159,7 @@ export default {
     hasFeature: function(feature) {
       let areaFeatures = null;
 
+      console.info(feature.service, this.selected_server_features)
       if (this.server && this.server.server_features) {
         areaFeatures = _.get(this.server.server_features, feature.service);
       } else if (this.selected_server_features) {
