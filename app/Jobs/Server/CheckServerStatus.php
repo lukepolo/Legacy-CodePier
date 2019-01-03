@@ -42,7 +42,7 @@ class CheckServerStatus implements ShouldQueue
      */
     public function handle(ServerServiceContract $serverService)
     {
-        $serverStatus = $serverService->getStatus($this->server, true);
+        $serverStatus = $serverService->getStatus($this->server);
 
         if ($this->provision) {
             $serverProvider = $this->server->serverProvider;

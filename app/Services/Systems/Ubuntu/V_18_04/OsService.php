@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_18_04;
 
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;

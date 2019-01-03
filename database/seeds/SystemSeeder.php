@@ -11,12 +11,16 @@ class SystemSeeder extends Seeder
      */
     public function run()
     {
-        /** @var \App\Services\Systems\SystemService $systemService */
-        $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
         foreach (\App\Services\Systems\SystemService::PROVISION_SYSTEMS as $system => $systemClass) {
-            \App\Models\System::firstOrCreate([
+            $systemModel = \App\Models\System::firstOrNew([
                 'name' => ucwords($system),
             ]);
+
+            $systemModel->fill([
+                'class' => $system
+            ]);
+
+            $systemModel->save();
         }
     }
 }
