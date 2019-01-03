@@ -26,9 +26,8 @@
     drift.load('c9yvcydd63sz');
 
     @if(\Auth::check() && \Auth::user()->processing)
-        drift.identify(userId, {
+        drift.identify({{ auth()->user()->id }}, {
             email: '{{ auth()->user()->email }}',
-            user_id: '{{ auth()->user()->id }}',
         });
     @endif
 
@@ -38,11 +37,13 @@
         drift.on('message',function(e){
             api.widget.show()
         });
-    })
 
-    document.getElementById('getHelp').onclick = function(e) {
-        e.preventDefault();
-        api.widget.show()
-    }
+        document.getElementById('getHelp').onclick = function(e) {
+            e.preventDefault();
+            api.widget.show()
+            api.goToNewConversation();
+        }
+
+    })
 </script>
 <!-- End of Async Drift Code -->
