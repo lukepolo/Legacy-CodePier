@@ -93,9 +93,9 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
-        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \'' . $databasePassword . '\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
+        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN PASSWORD \'md5' . md5($databasePassword) . '\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
-        $this->remoteTaskService->updateText('/etc/postgresql/9.5/main/postgresql.conf', 'listen_addresses', "listen_addresses = '*'");
+        $this->remoteTaskService->updateText('/etc/postgresql/10/main/postgresql.conf', 'listen_addresses', "listen_addresses = '*'");
 
         $this->remoteTaskService->run('/etc/init.d/postgresql restart');
         $this->addToServiceRestartGroup(SystemService::DATABASE_SERVICE_GROUP, '/etc/init.d/postgresql restart');
@@ -294,7 +294,7 @@ class DatabaseService
 
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"CREATE ROLE $schemaUser->name LOGIN UNENCRYPTED PASSWORD '$schemaUser->password';\"");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"CREATE ROLE $schemaUser->name LOGIN PASSWORD 'md5".md5($schemaUser->password)."';\"");
         $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"GRANT CONNECT ON DATABASE $schema->name TO $schemaUser->name;\"");
     }
 
