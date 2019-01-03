@@ -260,9 +260,6 @@ ssl_stapling_verify on;
 resolver 8.8.8.8 8.8.4.4 valid=300s;
 resolver_timeout 10s;
 
-add_header X-Frame-Options DENY;
-add_header X-Content-Type-Options nosniff;
-
 ');
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/before/ssl_redirect.conf', '
