@@ -2,7 +2,9 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Exceptions\InvalidSystem;
 use App\Exceptions\LinodeInvalidAccount;
+use App\Services\Systems\SystemService;
 use GuzzleHttp\Client;
 use App\Models\User\User;
 use App\Models\Server\Server;
@@ -116,9 +118,22 @@ class LinodeProvider implements ServerProviderContract
         $this->setToken($token);
         $this->setAction('linode.disk.createfromdistribution');
 
+        // curl https://api.vultr.com/v1/os/list
+        switch($server->system_class) {
+            case SystemService::UBUNTU_16_04 :
+                $distributionID = 146;
+                break;
+            case SystemService::UBUNTU_18_04 :
+                $distributionID = 164;
+                break;
+            default :
+                throw new InvalidSystem('The server does not have a valid system');
+                break;
+        }
+
         $diskInfo = $this->makeRequest('post', [
-            'label' => 'Ubuntu 16.04',
-            'DistributionID'=> 146, // ubuntu 16.04
+            'label' => $server->name,
+            'DistributionID'=> $distributionID,
             'LinodeID' => $serverInfo->LinodeID,
             'rootPass' => $server->sudo_password,
             'rootSSHKey' => $server->public_ssh_key,
@@ -133,7 +148,7 @@ class LinodeProvider implements ServerProviderContract
             'LinodeID' => $serverInfo->LinodeID,
             // https://www.linode.com/kernels
             'KernelID' => 138, // Latest 64 bit (4.9.15-x86_64-linode81)
-            'Label' => 'My Ubuntu 16.04 Profile',
+            'Label' => "$server->name Profile",
             'DiskList' => $diskInfo->DiskID.',,,,,,,,',
         ]);
 

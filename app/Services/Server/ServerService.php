@@ -33,8 +33,6 @@ class ServerService implements ServerServiceContract
     protected $systemService;
     protected $remoteTaskService;
 
-    public static $serverOperatingSystem = 'ubuntu-16-04-x64';
-
     const SERVER_VERSION = "1.0.1";
 
     const SSL_FILES = '/opt/codepier/ssl';
@@ -127,7 +125,7 @@ class ServerService implements ServerServiceContract
      * @return mixed
      * @throws \Exception
      */
-    public function getStatus(Server $server, $noDelete = false)
+    public function getStatus(Server $server)
     {
         $server->touch();
 
@@ -138,11 +136,8 @@ class ServerService implements ServerServiceContract
 
             return $status;
         } catch (\Exception $e) {
-            if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
-                $server->delete();
-
-                return 'Server Has Been Deleted';
-            }
+            $server->status = 'We are having issues detecting the server status.';
+            $server->save();
         }
     }
 

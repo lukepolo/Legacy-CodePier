@@ -121,7 +121,7 @@ trait SystemFiles
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'parameter_options' => $parameterOptions,
-                    'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
+                    'service' => preg_replace('/App\\\Services\\\Systems\\\.*?\\\.*?\\\(.*)/', '$1', $reflection->getName()),
                     'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
                     'multiple' => $this->getFirstDocParam($method, 'multiple', false),

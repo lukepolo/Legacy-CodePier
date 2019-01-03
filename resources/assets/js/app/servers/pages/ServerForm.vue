@@ -24,8 +24,19 @@
                                     <input type="text" id="server_name" name="server_name" placeholder=" " required>
                                     <label for="server_name">Server Name</label>
                                 </div>
+                                <div class="flyform--group">
+                                    <label>System</label>
+                                    <div class="flyform--group-select">
+                                        <select name="system">
+                                            <template v-for="system in systems" >
+                                                <option :selected="system.default"  :value="system.class" v-if="system.enabled">
+                                                    {{ system.name }}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-
 
                             <template v-if="userServerProviderAccounts.length > 1">
                                 <div class="flyform--group">
@@ -177,6 +188,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("server_systems/get");
     this.$store.dispatch("user_server_providers/get", user.id);
   },
   methods: {
@@ -241,6 +253,9 @@ export default {
         return _.filter(this.userServerProviders, (provider) => {
             return provider.server_provider_id === this.server_provider_id;
         });
+    },
+    systems() {
+        return this.$store.state.server_systems.systems;
     }
   }
 };
