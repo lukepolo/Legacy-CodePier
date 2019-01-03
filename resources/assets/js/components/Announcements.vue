@@ -6,26 +6,15 @@
         <div class="modal--body">
             <h2>New</h2>
             <ul>
-                <li>Private IPS now are collected so we can improve security when opening ports.</li>
-                <li>You can manage private IPs for servers in the server page</li>
-                <li>New servers will take advantage of better NVM support</li>
-                <li>DNS Lookups for wildcard SSL now perform on the name server your domain is using.</li>
-                <li>Added new LTS node versions, and next version. (6.14.4 LTS, 8.12.0 LTS, 10.13.0 LTS, 11.1.0 Current)</li>
-                <li>Added Vultr server features (IPV6, Private IPs, backups, DDOS protection)</li>
-                <li>Easily see Private IP addresses from site overview pages</li>
-                <li>We warn you if daemons / workers cannot be used in the sub nav of the site pages</li>
+                <li>Ubuntu 18.04 Servers Now Available</li>
+                <li>New selector for choosing which server version you wish to use</li>
             </ul>
 
             <h2>Fixes</h2>
             <ul>
-                <li>Fixed Postgres Database restart commands</li>
-                <li>Fixed Postgres permission issues</li>
-                <li>New Servers have improved performance tweaks</li>
-                <li>SWAP now has a set of 2 GB, you can increase this still in the advanced options</li>
-                <li>Load balancers wil now use private IPs of servers </li>
-                <li>Firewall Rules will react better when adding a new server</li>
-                <li>Worker / Daemons will not try to remove it knows the server does not have it installed</li>
-                <li>And more!</li>
+                <li>Progress now starts at 1% to give better feedback something is happening</li>
+                <li>Fixed issues with Swift Installation</li>
+                <li>Other Minor Bug Fixes</li>
             </ul>
 
             <p class="text-center">
@@ -42,7 +31,7 @@
 export default {
   data() {
     return {
-      announcementDate: moment("2018-11-12"),
+      announcementDate: moment("2019-01-02"),
     };
   },
   methods: {
