@@ -45,7 +45,7 @@ class CreateServer implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        broadcast(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
+        broadcast(new ServerProvisionStatusChanged($this->server, 'Creating Server', 1));
 
         /* @var Server $server */
         try {
