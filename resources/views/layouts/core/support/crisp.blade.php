@@ -1,49 +1,19 @@
-<!-- Start of Async Drift Code -->
-<script>
-    "use strict";
+<script type="text/javascript">
+  $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+  $crisp.push(["safe", true])
+  window.CRISP_READY_TRIGGER = function() {
+    if (!$crisp.is("chat:opened") === true) {
+      $crisp.push(["do", "chat:hide"])
+    }
+  };
+  @if(\Auth::check() && \Auth::user()->processing)
+      $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
+      $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
+  @endif
 
-    !function() {
-        var t = window.driftt = window.drift = window.driftt || [];
-        if (!t.init) {
-            if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-            t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
-                t.factory = function(e) {
-                    return function() {
-                        var n = Array.prototype.slice.call(arguments);
-                        return n.unshift(e), t.push(n), t;
-                    };
-                }, t.methods.forEach(function(e) {
-                t[e] = t.factory(e);
-            }), t.load = function(t) {
-                var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-                o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-                var i = document.getElementsByTagName("script")[0];
-                i.parentNode.insertBefore(o, i);
-            };
-        }
-    }();
-    drift.SNIPPET_VERSION = '0.3.1';
-    drift.load('c9yvcydd63sz');
-
-    @if(\Auth::check() && \Auth::user()->processing)
-        drift.identify({{ auth()->user()->id }}, {
-            email: '{{ auth()->user()->email }}',
-        });
-    @endif
-
-    drift.on('ready',function(api) {
-        api.widget.hide()
-
-        drift.on('message',function(e){
-            api.widget.show()
-        });
-
-        document.getElementById('getHelp').onclick = function(e) {
-            e.preventDefault();
-            api.widget.show()
-            api.goToNewConversation();
-        }
-
-    })
+  document.getElementById('getHelp').onclick = function(e) {
+    e.preventDefault();
+    $crisp.push(["do", "chat:open"])
+    $crisp.push(["do", "chat:show"])
+  }
 </script>
-<!-- End of Async Drift Code -->
