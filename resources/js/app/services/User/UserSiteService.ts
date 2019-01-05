@@ -20,4 +20,27 @@ export default class UserSiteService extends RestServiceClass {
       },
     );
   }
+
+  public async createDeployHook(site) {
+    return this.httpService.post(
+      this.$apiRouteService.action(
+        "SiteRepositoryRepositoryHookController@store",
+        {
+          site,
+        },
+      ),
+    );
+  }
+
+  public async removeDeployHook(site, hook) {
+    return this.httpService.delete(
+      this.$apiRouteService.action(
+        "SiteRepositoryRepositoryHookController@destroy",
+        {
+          site,
+          hook,
+        },
+      ),
+    );
+  }
 }

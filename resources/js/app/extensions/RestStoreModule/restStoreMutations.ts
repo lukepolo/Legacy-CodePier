@@ -21,8 +21,11 @@ export default function(stateName) {
     },
     [`UPDATED_${singular.toUpperCase()}`]: (state, data) => {
       let key = getItemKeyById(state, singular, data.id);
-      if (key) {
+      if (key > -1) {
         Object.assign(state[pluralized][key], state[pluralized][key], data);
+      }
+      if (state[singular] && state[singular].id === data.id) {
+        state[singular] = data;
       }
     },
     [`DESTROYED_${singular.toUpperCase()}`]: (state, data) => {

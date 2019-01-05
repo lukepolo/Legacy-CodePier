@@ -1,3 +1,4 @@
+import state from "./restStoreState";
 import actions from "./restStoreActions";
 import getters from "./restStoreGetters";
 import mutations from "./restStoreMutations";
@@ -11,6 +12,7 @@ export default class RestStoreModule extends StoreModule {
     super();
     this.addActions(actions($service, stateName))
       .addMutations(mutations(stateName))
-      .addGetters(getters(stateName));
+      .addGetters(getters(stateName))
+      .addState(state(stateName));
   }
 }

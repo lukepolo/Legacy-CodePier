@@ -44,8 +44,15 @@
 export default {
   props: ["site"],
   methods: {
-    createDeployHook() {},
-    removeDeployHook() {},
+    createDeployHook() {
+      this.$store.dispatch("user/sites/createDeployHook", this.site.id);
+    },
+    removeDeployHook() {
+      this.$store.dispatch("user/sites/removeDeployHook", {
+        site: this.site.id,
+        hook: this.site.automatic_deployment_id,
+      });
+    },
   },
   computed: {
     workFlowCompleted() {

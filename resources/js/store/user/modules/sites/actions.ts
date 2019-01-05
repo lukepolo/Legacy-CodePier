@@ -16,5 +16,25 @@ export default function(userSiteService: UserSiteService) {
         return data;
       });
     },
+
+    createDeployHook: async (
+      context: ActionContext<SitesState, RootState>,
+      site,
+    ) => {
+      return userSiteService.createDeployHook(site).then(({ data }) => {
+        context.commit("user/sites/UPDATED_SITE", data, { root: true });
+        return data;
+      });
+    },
+
+    removeDeployHook: async (
+      context: ActionContext<SitesState, RootState>,
+      { site, hook },
+    ) => {
+      return userSiteService.removeDeployHook(site, hook).then(({ data }) => {
+        context.commit("user/sites/UPDATED_SITE", data, { root: true });
+        return data;
+      });
+    },
   };
 }
