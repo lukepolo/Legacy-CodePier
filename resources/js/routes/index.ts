@@ -16,8 +16,6 @@ import Dashboard from "@views/dashboard/Dashboard.vue";
 import authRoutes from "./authRoutes";
 
 export default function($router: RouterInterface) {
-  // $router.route("/provider/:provider/callback", LoginViews.Oauth);
-
   // AUTHED
   $router
     .layout("authed")

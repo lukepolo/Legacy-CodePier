@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Auth\Traits\JwtAuthTrait;
 use Socialite;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use App\Services\AuthService;
 use Illuminate\Auth\AuthManager;
 use App\Models\RepositoryProvider;
 use App\SocialProviders\TokenData;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
@@ -20,6 +19,8 @@ use Illuminate\Contracts\Encryption\Encrypter;
 
 class OauthController extends Controller
 {
+    use JwtAuthTrait;
+
     const SLACK = 'slack';
     const GITHUB = 'github';
     const GITLAB = 'gitlab';
@@ -43,10 +44,9 @@ class OauthController extends Controller
      * @param AuthManager $authManager
      * @param AuthService $authService
      */
-    public function __construct(AuthManager $authManager, AuthService $authService)
+    public function __construct(AuthManager $authManager)
     {
         $this->authManager = $authManager;
-        $this->authService = $authService;
     }
 
     /**
@@ -82,11 +82,12 @@ class OauthController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function getHandleProviderCallback(Encrypter $encrypter, Request $request, $provider)
+    public function getHandleProviderCallback(Request $request, $provider)
     {
         $this->authManager->shouldUse('api');
 
-        if (! Auth::user()) {
+        if (! auth()->user()) {
+            // This allows us to keep track of the session
             $this->authManager->shouldUse('web');
         }
 
@@ -94,14 +95,15 @@ class OauthController extends Controller
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->stateless()->getAccessTokenResponse($request->get('code'));
-                    $newUserNotificationProvider = $this->saveNotificationProvider($provider,
-                        new TokenData($tokenData['access_token'], $tokenData['user_id']));
+                    $newUserNotificationProvider = $this->saveNotificationProvider($provider, new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default:
 
                     $socialUser = Socialite::driver($provider)->stateless()->user();
 
-                    if (! Auth::user()) {
+                    // Make them a login provider
+                    if (! auth()->user()) {
+                        ddd("DONT CREATE A NEW USER");
                         $userProvider = UserLoginProvider::withTrashed()
                             ->with('user')
                             ->has('user')
@@ -118,13 +120,13 @@ class OauthController extends Controller
 
                             $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
                             $newUserModel = $this->createUser($socialUser, $newLoginProvider);
-                            Auth::loginUsingId($newUserModel->id, true);
+                            auth()->loginUsingId($newUserModel->id, true);
                         } else {
                             if ($userProvider->deleted_at) {
                                 $userProvider->restore();
                             }
 
-                            Auth::loginUsingId($userProvider->user->id, true);
+                            auth()->loginUsingId($userProvider->user->id, true);
                         }
                     }
 
@@ -134,8 +136,7 @@ class OauthController extends Controller
 
                     break;
             }
-
-            return $this->authService->generateJwtToken();
+            return $this->respondWithToken(auth()->refresh());
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();
@@ -149,16 +150,8 @@ class OauthController extends Controller
                 $newUserRepositoryProvider->delete();
             }
 
-            if (! empty($newUserServerProvider)) {
-                $newUserServerProvider->delete();
-            }
-
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
-            }
-
-            if (config('app.env') === 'local') {
-                throw $e;
             }
 
             return response()->json($e->getMessage(), 500);
@@ -195,7 +188,7 @@ class OauthController extends Controller
     public function getDisconnectService($providerType, int $serviceID)
     {
         if (UserRepositoryProvider::class == $providerType) {
-            if (! empty($userRepositoryProvider = Auth::user()->userRepositoryProviders->where('id',
+            if (! empty($userRepositoryProvider = auth()->user()->userRepositoryProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userRepositoryProvider->delete();
@@ -203,7 +196,7 @@ class OauthController extends Controller
         }
 
         if (UserNotificationProvider::class == $providerType) {
-            if (! empty($userNotificationProvider = Auth::user()->userNotificationProviders->where('id',
+            if (! empty($userNotificationProvider = auth()->user()->userNotificationProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userNotificationProvider->delete();
@@ -257,7 +250,7 @@ class OauthController extends Controller
 
         $userRepositoryProvider->fill([
             'token'         => $socialUser->token,
-            'user_id'       => Auth::user()->id,
+            'user_id'       => auth()->user()->id,
             'expires_at'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
             'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
             'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
@@ -287,7 +280,7 @@ class OauthController extends Controller
 
         $userNotificationProvider->fill([
             'token'         => $tokenData->token,
-            'user_id'       => Auth::user()->id,
+            'user_id'       => auth()->user()->id,
             'expires_at'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
             'token_secret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,

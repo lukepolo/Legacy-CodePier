@@ -6,7 +6,7 @@ import Vue from "vue";
 export default Vue.extend({
   mounted() {
     this.$store
-      .dispatch("auth/oAuthLogin", {
+      .dispatch("auth/oAuth", {
         code: this.$route.query.code,
         state: this.$route.query.state,
         provider: this.$route.params.provider,

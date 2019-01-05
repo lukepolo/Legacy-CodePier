@@ -8,12 +8,6 @@ export default class OauthService {
     this.apiRouteService = ApiRouteService;
   }
 
-  getRedirectUrlForProvider(provider) {
-    return this.apiRouteService.action("AuthOauthController@newProvider", {
-      provider,
-    });
-  }
-
   redirectToProvider(provider) {
     window.location.replace(
       this.apiRouteService.action("AuthOauthController@newProvider", {

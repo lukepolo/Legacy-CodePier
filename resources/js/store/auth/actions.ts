@@ -2,9 +2,26 @@ import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { AuthState } from "./stateInterface";
 import AuthService from "@app/services/AuthService";
+import OauthService from "@app/services/OauthService";
 
-export default function(authService: AuthService) {
+export default function(authService: AuthService, oauthService: OauthService) {
   return {
+    oAuth: (
+      context: ActionContext<AuthState, RootState>,
+      { code, state, provider },
+    ) => {
+      context.dispatch("getUser").then((user) => {
+        if (user) {
+          return authService.oAuth(provider, code, state).then((response) => {
+            debugger;
+            return response;
+          });
+        }
+      });
+    },
+    redirectToProvider(context: ActionContext<AuthState, RootState>, provider) {
+      oauthService.redirectToProvider(provider);
+    },
     login: (context: ActionContext<AuthState, RootState>, data) => {
       return authService.login(data).then((response) => {
         context.commit("RESET_AUTH_AREA_DATA");
