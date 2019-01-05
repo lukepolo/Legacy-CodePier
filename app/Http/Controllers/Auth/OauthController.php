@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\Traits\JwtAuthTrait;
 use Socialite;
-
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Auth\AuthManager;
 use App\Models\RepositoryProvider;
 use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
@@ -16,6 +13,7 @@ use App\Models\User\UserLoginProvider;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use Illuminate\Contracts\Encryption\Encrypter;
+use App\Http\Controllers\Auth\Traits\JwtAuthTrait;
 
 class OauthController extends Controller
 {
@@ -38,16 +36,6 @@ class OauthController extends Controller
     public static $notificationProviders = [
         self::SLACK,
     ];
-
-    /**
-     * OauthController constructor.
-     * @param AuthManager $authManager
-     * @param AuthService $authService
-     */
-    public function __construct(AuthManager $authManager)
-    {
-        $this->authManager = $authManager;
-    }
 
     /**
      * Handles provider requests.
@@ -84,13 +72,6 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Request $request, $provider)
     {
-        $this->authManager->shouldUse('api');
-
-        if (! auth()->user()) {
-            // This allows us to keep track of the session
-            $this->authManager->shouldUse('web');
-        }
-
         try {
             switch ($provider) {
                 case self::SLACK:
@@ -103,7 +84,6 @@ class OauthController extends Controller
 
                     // Make them a login provider
                     if (! auth()->user()) {
-                        ddd("DONT CREATE A NEW USER");
                         $userProvider = UserLoginProvider::withTrashed()
                             ->with('user')
                             ->has('user')
@@ -120,13 +100,13 @@ class OauthController extends Controller
 
                             $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
                             $newUserModel = $this->createUser($socialUser, $newLoginProvider);
-                            auth()->loginUsingId($newUserModel->id, true);
+                            auth()->login($newUserModel);
                         } else {
                             if ($userProvider->deleted_at) {
                                 $userProvider->restore();
                             }
 
-                            auth()->loginUsingId($userProvider->user->id, true);
+                            auth()->login($userProvider->user);
                         }
                     }
 

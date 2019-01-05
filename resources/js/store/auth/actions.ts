@@ -10,13 +10,10 @@ export default function(authService: AuthService, oauthService: OauthService) {
       context: ActionContext<AuthState, RootState>,
       { code, state, provider },
     ) => {
-      context.dispatch("getUser").then((user) => {
-        if (user) {
-          return authService.oAuth(provider, code, state).then((response) => {
-            debugger;
-            return response;
-          });
-        }
+      return authService.isLoggedIn().then(() => {
+        return authService.oAuth(provider, code, state).then((response) => {
+          return response;
+        });
       });
     },
     redirectToProvider(context: ActionContext<AuthState, RootState>, provider) {
