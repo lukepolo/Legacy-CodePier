@@ -106,7 +106,7 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 */
 Route::domain(config('app.url'))->group(function () {
 
-
+    Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
 
     /*
     |--------------------------------------------------------------------------
@@ -125,8 +125,6 @@ Route::domain(config('app.url'))->group(function () {
     ])->group(function () {
         Route::get('second-auth', 'Auth\SecondAuthController@show');
         Route::post('second-auth', 'Auth\SecondAuthController@store');
-
-        Route::get('user/{code}/confirm-registration', 'User\UserConfirmController@update');
     });
 
     Route::middleware([

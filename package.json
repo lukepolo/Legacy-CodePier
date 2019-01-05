@@ -3,8 +3,7 @@
   "scripts": {
     "dev": "webpack --mode development --progress --hide-modules",
     "watch": "webpack-dev-server --mode development --progress --hot",
-    "prod": "webpack --mode production --no-progress --hide-modules",
-    "precommit": "vendor/bin/php-cs-fixer fix --config=.php_cs && git add . && pretty-quick --staged"
+    "prod": "webpack --mode production --no-progress --hide-modules"
   },
   "variePath": "resources/js",
   "version": "0.0.1",
