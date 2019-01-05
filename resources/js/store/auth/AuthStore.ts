@@ -6,6 +6,7 @@ import { injectable, inject } from "inversify";
 import StoreModule from "varie/lib/state/StoreModule";
 import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
+import TwoFactorStore from "@store/auth/modules/two-factor/TwoFactorStore";
 
 @injectable()
 export default class AuthStore extends StoreModule {
@@ -18,6 +19,7 @@ export default class AuthStore extends StoreModule {
       .addState(state)
       .addActions(actions(authService, oauthService))
       .addMutations(mutations())
-      .addGetters(getters(authService));
+      .addGetters(getters(authService))
+      .addModule(TwoFactorStore);
   }
 }
