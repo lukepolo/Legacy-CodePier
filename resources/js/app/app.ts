@@ -33,3 +33,10 @@ application.boot().then((app) => {
     render: (h) => h(BaseLayout),
   }).$mount($config.get("app.mount"));
 });
+
+
+
+
+
+
+
