@@ -6,10 +6,10 @@ import StoreModule from "varie/lib/state/StoreModule";
 import { injectable, inject, unmanaged } from "inversify";
 
 @injectable()
-export default class LifeLinesStore extends StoreModule {
+export default class SchemasStore extends StoreModule {
   constructor(@inject("HttpService") httpService) {
     super();
-    this.setName("lifelines")
+    this.setName("schemas")
       .addState(state)
       .addActions(actions(httpService))
       .addMutations(mutations)

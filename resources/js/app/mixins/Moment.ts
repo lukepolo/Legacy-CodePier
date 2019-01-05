@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 
 Vue.mixin({
   methods: {
-    moment(data, format) {
+    moment(data = null, format) {
       return moment(data, format);
     },
   },

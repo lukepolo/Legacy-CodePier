@@ -95,31 +95,34 @@ export default {
     };
   },
   watch: {
-    $route: function() {
-      this.fetchData();
+    $route: {
+      immediate: true,
+      handler: "fetchData",
     },
-  },
-  created() {
-    this.fetchData();
   },
   methods: {
     fetchData() {
-      // this.$store.dispatch(
-      //   "user_site_life_lines/get",
-      //   this.$route.params.site_id,
-      // );
+      this.$store.dispatch("user/sites/lifelines/get", {
+        site: this.$route.params.site,
+      });
     },
     createLifeline() {
-      this.$store.dispatch("user_site_life_lines/store", this.form).then(() => {
-        this.form.reset();
-        this.showLifelineForm = true;
-      });
+      this.$store
+        .dispatch("user/sites/lifelines/create", {
+          data: this.form.data(),
+          parameters: {
+            site: this.$route.params.site,
+          },
+        })
+        .then(() => {
+          this.form.reset();
+          this.showLifelineForm = true;
+        });
     },
   },
   computed: {
     lifeLines() {
-      return [];
-      return this.$store.state.user_site_life_lines.life_lines;
+      return this.$store.state.user.sites.lifelines.lifelines;
     },
   },
 };

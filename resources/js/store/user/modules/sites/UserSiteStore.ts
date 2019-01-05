@@ -5,6 +5,7 @@ import mutations from "./mutations";
 import { injectable, inject } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 import UserSiteServerStore from "@store/user/modules/sites/modules/servers/UserSiteServerStore";
+import UserSiteLifeLinesStore from "@store/user/modules/sites/modules/life-lines/UserSiteLifeLinesStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -15,6 +16,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addActions(actions(userSiteService))
       .addMutations(mutations)
       .addGetters(getters)
-      .addModule(UserSiteServerStore);
+      .addModule(UserSiteServerStore)
+      .addModule(UserSiteLifeLinesStore);
   }
 }

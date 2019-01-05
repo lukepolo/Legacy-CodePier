@@ -7,7 +7,7 @@
 
       <tooltip message="Delete" class="flyform--btn-right">
         <confirm
-          dispatch="user_site_life_lines/destroy"
+          dispatch="user/sites/lifelines/destroy"
           confirm_position="left btns-only"
           confirm_class="btn btn-small"
           :params="{ site: site.id, life_line: lifeLine.id }"
@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       interval: null,
-      currentTime: moment(),
+      currentTime: this.moment(),
     };
   },
   mounted() {
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     updateCurrentTime() {
-      this.currentTime = moment();
+      this.currentTime = this.moment();
     },
   },
   computed: {
@@ -75,7 +75,7 @@ export default {
       return this.currentTime
         .clone()
         .subtract(this.lifeLine.threshold, "minutes")
-        .isBefore(this.parseDate(this.lifeLine.last_seen));
+        .isBefore(this.moment(this.lifeLine.last_seen));
     },
   },
 };
