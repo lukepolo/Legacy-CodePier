@@ -1,3 +1,1 @@
-export default {
-  lifelines: [],
-};
+export default {};

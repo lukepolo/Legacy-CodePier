@@ -8,7 +8,7 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 @injectable()
 export default class UserSiteLifeLinesStore extends RestStoreModule {
   constructor(@inject("UserSiteLifeLineService") userSiteLifeLineService) {
-    super(userSiteLifeLineService, "lifeline");
+    super(userSiteLifeLineService, "life_line");
     this.setName("lifelines")
       .addState(state)
       .addActions(actions(userSiteLifeLineService))

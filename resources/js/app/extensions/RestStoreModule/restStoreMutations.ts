@@ -29,7 +29,7 @@ export default function(stateName) {
       }
     },
     [`DESTROYED_${singular.toUpperCase()}`]: (state, data) => {
-      let key = getItemKeyById(state, singular, data[Object.keys(data)[0]]);
+      let key = getItemKeyById(state, singular, data[singular]);
       if (key > -1) {
         state[pluralized].splice(key, 1);
       }

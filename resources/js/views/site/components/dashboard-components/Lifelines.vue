@@ -122,7 +122,7 @@ export default {
   },
   computed: {
     lifeLines() {
-      return this.$store.state.user.sites.lifelines.lifelines;
+      return this.$store.state.user.sites.lifelines.life_lines;
     },
   },
 };
