@@ -1,30 +1,26 @@
 <template>
-    <div :is="tag" class="dropdown" :class="dropDownClasses" @click="toggle">
-        <slot name="header">
-            <div @click.prevent class="dropdown--toggle">
-                <span :class="icon"></span>
-                <span class="muted" v-if="muted">{{ muted }} :</span>
+  <div :is="tag" class="dropdown" :class="dropDownClasses" @click="toggle">
+    <slot name="header">
+      <div @click.prevent class="dropdown--toggle">
+        <span :class="icon"></span>
+        <span class="muted" v-if="muted">{{ muted }} :</span>
 
-                <template v-if="name && name.length > 18">
-                    <tooltip :message="name" placement="bottom">
-                        <span class="text-clip">{{ name }}</span>
-                    </tooltip>
-                </template>
-                <template v-else>
-                    <span class="text-clip">{{ name }}</span>
-                </template>
-            </div>
-            <div class="dropdown--toggle-right">
-              <slot name="sub"></slot>
-            </div>
-        </slot>
+        <template v-if="name && name.length > 18">
+          <tooltip :message="name" placement="bottom">
+            <span class="text-clip">{{ name }}</span>
+          </tooltip>
+        </template>
+        <template v-else>
+          <span class="text-clip">{{ name }}</span>
+        </template>
+      </div>
+      <div class="dropdown--toggle-right"><slot name="sub"></slot></div>
+    </slot>
 
-        <slot name="content" @click.stop="done">
-            <div class="dropdown--menu">
-                <slot></slot>
-            </div>
-        </slot>
-    </div>
+    <slot name="content" @click.stop="done">
+      <div class="dropdown--menu"><slot></slot></div>
+    </slot>
+  </div>
 </template>
 
 <script>

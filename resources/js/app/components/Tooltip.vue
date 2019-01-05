@@ -1,22 +1,22 @@
 <template>
-    <span
-        :class="[
-        'hint--'+type,
-        'hint--'+size,
-        'hint--'+placement,
-        'hint--'+placementComputed,
-        {
-            'hint--rounded': this.rounded,
-            'hint--always': this.always,
-            'hint--no-animate': this.noAnimate
-        }]"
-        :aria-label="message"
-        @mouseover="startDelay"
-        @mouseleave="clearDelay"
-    >
-        {{ type }}
-        <slot></slot>
-    </span>
+  <span
+    :class="[
+      'hint--' + type,
+      'hint--' + size,
+      'hint--' + placement,
+      'hint--' + placementComputed,
+      {
+        'hint--rounded': this.rounded,
+        'hint--always': this.always,
+        'hint--no-animate': this.noAnimate,
+      },
+    ]"
+    :aria-label="message"
+    @mouseover="startDelay"
+    @mouseleave="clearDelay"
+  >
+    {{ type }} <slot></slot>
+  </span>
 </template>
 
 <script>

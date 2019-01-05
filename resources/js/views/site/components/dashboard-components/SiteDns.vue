@@ -1,21 +1,29 @@
 <template>
-   <div>
-       <h3>DNS
-           <tooltip message="Refresh DNS">
-               <span class="icon-refresh2 text-link" @click="getDns(true)"></span>
-           </tooltip>
-       </h3>
+  <div>
+    <h3>
+      DNS
+      <tooltip message="Refresh DNS">
+        <span class="icon-refresh2 text-link" @click="getDns(true)"></span>
+      </tooltip>
+    </h3>
 
-       <template v-if="dns && dns.host">
-           Your domain is currently pointing to :
-           <a :href="'//' + dns.ip" target="_blank" :class="{ 'text-danger' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
-               {{ dns.ip }}
-           </a>
-       </template>
-       <template v-else>
-           Cannot find DNS entry
-       </template>
-   </div>
+    <template v-if="dns && dns.host">
+      Your domain is currently pointing to :
+      <a
+        :href="'//' + dns.ip"
+        target="_blank"
+        :class="{
+          'text-danger': !dnsIsPointedToServer,
+          'text-success': dnsIsPointedToServer,
+        }"
+      >
+        {{ dns.ip }}
+      </a>
+    </template>
+    <template v-else>
+      Cannot find DNS entry
+    </template>
+  </div>
 </template>
 
 <script>

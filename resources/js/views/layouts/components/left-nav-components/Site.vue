@@ -1,22 +1,22 @@
 <template>
-    <router-link :to="{ name: 'site', params : { site : site.id} }">
-        <div class="site-name">
-            <tooltip
-                    class="event-status"
-                    :class="{
-                        'event-status-neutral' : site.last_deployment_status === 'Queued',
-                        'event-status-success' : site.last_deployment_status === 'Completed',
-                        'event-status-error' : site.last_deployment_status === 'Failed',
-                        'icon-spinner' : site.last_deployment_status === 'Running'
-                    }"
-                    :message="deploymentStatus"
-                    placement="right"
-            >
-            </tooltip>
-            {{ site.name }}
-            <site-deploy :site="site"></site-deploy>
-        </div>
-    </router-link>
+  <router-link :to="{ name: 'site', params: { site: site.id } }">
+    <div class="site-name">
+      <tooltip
+        class="event-status"
+        :class="{
+          'event-status-neutral': site.last_deployment_status === 'Queued',
+          'event-status-success': site.last_deployment_status === 'Completed',
+          'event-status-error': site.last_deployment_status === 'Failed',
+          'icon-spinner': site.last_deployment_status === 'Running',
+        }"
+        :message="deploymentStatus"
+        placement="right"
+      >
+      </tooltip>
+      {{ site.name }}
+      <site-deploy :site="site"></site-deploy>
+    </div>
+  </router-link>
 </template>
 
 <script>

@@ -1,45 +1,63 @@
 <template>
-    <section>
+  <section>
+    <ssh-guide></ssh-guide>
 
-        <ssh-guide></ssh-guide>
+    <base-form v-form="form" :action="createSshkey">
+      <base-input
+        validate
+        name="name"
+        label="Name"
+        v-model="form.name"
+      ></base-input>
 
-        <base-form v-form="form" :action="createSshkey">
+      <base-input
+        validate
+        tooltip="Usually located at ~/.ssh/id_rsa.pub"
+        type="textarea"
+        validate
+        name="ssh_key"
+        label="Public SSH Key"
+        v-model="form.ssh_key"
+      ></base-input>
 
-            <base-input validate name="name" label="Name" v-model="form.name"></base-input>
+      <div slot="buttons">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          :disabled="!form.isValid()"
+        >
+          Install SSH Key
+        </button>
+      </div>
+    </base-form>
 
-            <base-input validate tooltip="Usually located at ~/.ssh/id_rsa.pub" type="textarea" validate name="ssh_key" label="Public SSH Key" v-model="form.ssh_key"></base-input>
+    <div v-if="userSshKeys.length">
+      <h3>SSH Keys</h3>
 
-            <div slot="buttons">
-                <button class="btn btn-primary" type="submit" :disabled="!form.isValid()">Install SSH Key</button>
-            </div>
-        </base-form>
-
-        <div v-if="userSshKeys.length">
-            <h3>SSH Keys</h3>
-
-            <table class="">
-                <thead>
-                    <tr>
-                        <th>Key Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="key in userSshKeys">
-                        <td>{{ key.name }} {{ key.id }}</td>
-                        <td class="table--action">
-                            <tooltip message="Delete">
-                                <span class="table--action-delete">
-                                    <a @click.prevent="deleteSshKey(key.id)"><span class="icon-trash"></span></a>
-                                </span>
-                            </tooltip>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </section>
+      <table class="">
+        <thead>
+          <tr>
+            <th>Key Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="key in userSshKeys">
+            <td>{{ key.name }} {{ key.id }}</td>
+            <td class="table--action">
+              <tooltip message="Delete">
+                <span class="table--action-delete">
+                  <a @click.prevent="deleteSshKey(key.id)"
+                    ><span class="icon-trash"></span
+                  ></a>
+                </span>
+              </tooltip>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script>

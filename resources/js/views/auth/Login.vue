@@ -1,27 +1,41 @@
 <template>
-    <div>
-        <h1>Login</h1>
-        <form @submit.prevent="login">
+  <div>
+    <h1>Login</h1>
+    <form @submit.prevent="login">
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          v-model="form.email"
+          v-focus
+        />
+      </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" v-model="form.email" v-focus>
-            </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          v-model="form.password"
+        />
+      </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" type="password" name="password" v-model="form.password">
-            </div>
-
-            <div>
-                <router-link @click.prevent :to="{ name : 'register' }" class="btn">Create Account</router-link>
-                <button :disabed="!form.isValid()">Login</button>
-            </div>
-            <div>
-                <router-link :to="{ name : 'forgot-password' }" >Forgot password?</router-link>
-            </div>
-        </form>
-    </div>
+      <div>
+        <router-link @click.prevent :to="{ name: 'register' }" class="btn"
+          >Create Account</router-link
+        >
+        <button :disabed="!form.isValid()">Login</button>
+      </div>
+      <div>
+        <router-link :to="{ name: 'forgot-password' }"
+          >Forgot password?</router-link
+        >
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>

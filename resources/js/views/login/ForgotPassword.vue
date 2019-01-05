@@ -1,17 +1,28 @@
 <template>
-    <div id="forgot_form" class="login--form">
-        <div class="flyform--heading">
-            <h2>Forgot Password</h2>
-        </div>
+  <div id="forgot_form" class="login--form">
+    <div class="flyform--heading"><h2>Forgot Password</h2></div>
 
-        <base-form v-form="form" :action="requestResetPassword">
-            <base-input type="email" label="Email" name="email" v-model="form.email" validate></base-input>
-            <div slot="buttons">
-                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
-                <button class="btn btn-primary" type="submit" :class="{ 'btn-disabled' : !form.isValid() }" :disabled="!form.isValid()">Reset Password</button>
-            </div>
-        </base-form>
-    </div>
+    <base-form v-form="form" :action="requestResetPassword">
+      <base-input
+        type="email"
+        label="Email"
+        name="email"
+        v-model="form.email"
+        validate
+      ></base-input>
+      <div slot="buttons">
+        <router-link :to="{ name: 'login' }" class="btn">Cancel</router-link>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          :class="{ 'btn-disabled': !form.isValid() }"
+          :disabled="!form.isValid()"
+        >
+          Reset Password
+        </button>
+      </div>
+    </base-form>
+  </div>
 </template>
 
 <script>

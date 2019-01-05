@@ -1,32 +1,46 @@
 <template>
-    <div>
-        <h1>Reset Password</h1>
+  <div>
+    <h1>Reset Password</h1>
 
-        <form @submit.prevent="resetPassword">
+    <form @submit.prevent="resetPassword">
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          label="Email"
+          type="email"
+          v-model="form.email"
+        />
+      </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input id="email" name="email" label="Email" type="email" v-model="form.email">
-            </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          v-model="form.password"
+        />
+      </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" v-model="form.password">
-            </div>
+      <div>
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          id="confirm-password"
+          name="confirm-password"
+          type="password"
+          v-model="form.password_confirmation"
+        />
+      </div>
 
-            <div>
-                <label for="confirm-password">Confirm Password</label>
-                <input id="confirm-password" name="confirm-password" type="password" v-model="form.password_confirmation">
-            </div>
-
-            <div>
-                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
-                <button :disabed="!form.isValid()">Reset Password</button>
-            </div>
-        </form>
-    </div>
+      <div>
+        <router-link :to="{ name: 'login' }" class="btn">Cancel</router-link>
+        <button :disabed="!form.isValid()">Reset Password</button>
+      </div>
+    </form>
+  </div>
 </template>
-
 
 <script>
 import Vue from "vue";

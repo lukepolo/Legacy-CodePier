@@ -1,41 +1,51 @@
 <template>
-    <div>
-        <h1>Create Account</h1>
-        <p>Fill out the following fields to create your account.</p>
+  <div>
+    <h1>Create Account</h1>
+    <p>Fill out the following fields to create your account.</p>
 
-        <form @submit.prevent="register">
+    <form @submit.prevent="register">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" v-model="form.name" />
+      </div>
 
-            <div>
-                <label for="name">Name</label>
-                <input id="name" name="name" v-model="form.name">
-            </div>
+      <label>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" v-model="form.email" />
+      </label>
 
-            <label>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" v-model="form.email">
-            </label>
+      <div>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          v-model="form.password"
+        />
+      </div>
 
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" v-model="form.password">
-            </div>
+      <div>
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          id="confirm-password"
+          name="confirm-password"
+          type="password"
+          v-model="form.password_confirmation"
+        />
+      </div>
 
-            <div>
-                <label for="confirm-password">Confirm Password</label>
-                <input id="confirm-password" name="confirm-password" type="password" v-model="form.password_confirmation">
-            </div>
-
-            <div>
-                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
-                <button :disabed="!form.isValid()">Sign Up</button>
-            </div>
-            <div>
-                <router-link :to="{ name : 'forgot-password' }" >Forgot password?</router-link>
-            </div>
-        </form>
-    </div>
+      <div>
+        <router-link :to="{ name: 'login' }" class="btn">Cancel</router-link>
+        <button :disabed="!form.isValid()">Sign Up</button>
+      </div>
+      <div>
+        <router-link :to="{ name: 'forgot-password' }"
+          >Forgot password?</router-link
+        >
+      </div>
+    </form>
+  </div>
 </template>
-
 
 <script>
 import Vue from "vue";

@@ -1,28 +1,30 @@
 <template>
-    <label @click="selectProvider">
-        <div
-            class="providers--item"
-            :class="{
-                'providers--item--active' : isConnected.id === selected
-            }"
-            v-if="isConnected"
-        >
-            <div class="providers--item-header">
-                <div class="providers--item-icon">
-                    <span :class="'icon-' + repositoryProvider.name.toLowerCase()"></span>
-                </div>
-                <div class="providers--item-name">{{ repositoryProvider.name}}</div>
-            </div>
-            <div class="providers--item-footer">
-                <div class="providers--item-footer-connected">
-                    <h4><span class="icon-check_circle"></span>Select</h4>
-                </div>
-            </div>
+  <label @click="selectProvider">
+    <div
+      class="providers--item"
+      :class="{
+        'providers--item--active': isConnected.id === selected,
+      }"
+      v-if="isConnected"
+    >
+      <div class="providers--item-header">
+        <div class="providers--item-icon">
+          <span :class="'icon-' + repositoryProvider.name.toLowerCase()"></span>
         </div>
-        <template v-else>
-            <source-control-provider-form :provider="repositoryProvider"></source-control-provider-form>
-        </template>
-    </label>
+        <div class="providers--item-name">{{ repositoryProvider.name }}</div>
+      </div>
+      <div class="providers--item-footer">
+        <div class="providers--item-footer-connected">
+          <h4><span class="icon-check_circle"></span>Select</h4>
+        </div>
+      </div>
+    </div>
+    <template v-else>
+      <source-control-provider-form
+        :provider="repositoryProvider"
+      ></source-control-provider-form>
+    </template>
+  </label>
 </template>
 
 <script>

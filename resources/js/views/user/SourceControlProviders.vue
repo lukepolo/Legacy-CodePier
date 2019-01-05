@@ -1,7 +1,11 @@
 <template>
-    <div class="providers grid-6">
-       <source-control-provider-form :provider="repositoryProvider" v-for="repositoryProvider in repositoryProviders" :key="repositoryProvider.id"></source-control-provider-form>
-    </div>
+  <div class="providers grid-6">
+    <source-control-provider-form
+      :provider="repositoryProvider"
+      v-for="repositoryProvider in repositoryProviders"
+      :key="repositoryProvider.id"
+    ></source-control-provider-form>
+  </div>
 </template>
 
 <script>

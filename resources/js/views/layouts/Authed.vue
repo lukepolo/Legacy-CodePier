@@ -1,15 +1,14 @@
 <template>
-    <div id="app" v-if="user">
-        <system-alerts></system-alerts>
-        <navigation></navigation>
-        <left-nav></left-nav>
-        <router-view class="view"></router-view>
+  <div id="app" v-if="user">
+    <system-alerts></system-alerts>
+    <navigation></navigation>
+    <left-nav></left-nav>
+    <router-view class="view"></router-view>
 
-
-        <!--<events-bar v-if="hasSites"></events-bar>-->
-        <!-- <announcements></announcements> -->
-        <!-- <portal-target name="modal" slim></portal-target> -->
-    </div>
+    <!--<events-bar v-if="hasSites"></events-bar>-->
+    <!-- <announcements></announcements> -->
+    <!-- <portal-target name="modal" slim></portal-target> -->
+  </div>
 </template>
 
 <script>

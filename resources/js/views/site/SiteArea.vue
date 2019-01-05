@@ -1,8 +1,8 @@
 <template>
-    <div>
-        this is the area?
-        <router-view></router-view>
-    </div>
+  <div>
+    this is the area?
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>

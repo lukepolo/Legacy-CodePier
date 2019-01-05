@@ -1,110 +1,151 @@
 <template>
-    <section>
-        <template v-if="userSubscription">
-            <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
-                Your free trial ends on <strong>{{ moment(userSubscription.trial_ends_at).format('l') }}</strong>
-            </div>
-            <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
-                Your subscription has been canceled and will end on {{ moment(userSubscription.ends_at).format('l') }}
-            </div>
-        </template>
+  <section>
+    <template v-if="userSubscription">
+      <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
+        Your free trial ends on
+        <strong>{{
+          moment(userSubscription.trial_ends_at).format("l")
+        }}</strong>
+      </div>
+      <div class="alert alert-error" v-if="userSubscriptionData.isCanceled">
+        Your subscription has been canceled and will end on
+        {{ moment(userSubscription.ends_at).format("l") }}
+      </div>
+    </template>
 
-        <div class="text-center" v-if="!userSubscription">
-            <h2>Start your 5 day free trial!</h2>
+    <div class="text-center" v-if="!userSubscription">
+      <h2>Start your 5 day free trial!</h2>
+    </div>
+
+    <div class="pricing pricing-inapp">
+      <div class="pricing--item" :class="{ selected: !userSubscription }">
+        <div class="pricing--header">
+          <div class="pricing--header-name">Riggers</div>
         </div>
-
-        <div class="pricing pricing-inapp">
-            <div class="pricing--item" :class="{ selected : !userSubscription }">
-                <div class="pricing--header">
-                    <div class="pricing--header-name">Riggers</div>
-                </div>
-                <div class="pricing--features">
-                    <div class="flyform--group-radio">
-                        <label>
-                            <input type="radio" name="plan" :value="userSubscription ? 'cancel' : null" v-model="form.plan">
-                            <span class="icon"></span>
-                            Free
-                        </label>
-                    </div>
-                    <hr>
-                    <ul>
-                        <li><strong>Unlimited</strong> Deployments</li>
-                        <li>1 Site</li>
-                        <li>1 Full Stack Server</li>
-                    </ul>
-                </div>
-            </div>
-            <plans v-model="form.plan" title="First Mate" type="firstmate"></plans>
-            <plans v-model="form.plan" title="Captain" type="captain"></plans>
+        <div class="pricing--features">
+          <div class="flyform--group-radio">
+            <label>
+              <input
+                type="radio"
+                name="plan"
+                :value="userSubscription ? 'cancel' : null"
+                v-model="form.plan"
+              />
+              <span class="icon"></span> Free
+            </label>
+          </div>
+          <hr />
+          <ul>
+            <li><strong>Unlimited</strong> Deployments</li>
+            <li>1 Site</li>
+            <li>1 Full Stack Server</li>
+          </ul>
         </div>
+      </div>
+      <plans v-model="form.plan" title="First Mate" type="firstmate"></plans>
+      <plans v-model="form.plan" title="Captain" type="captain"></plans>
+    </div>
 
-        <form @submit.prevent="createSubscription" method="post">
-            <br><br>
+    <form @submit.prevent="createSubscription" method="post">
+      <br /><br />
 
-            <div class="grid-2">
-                <div class="grid--item">
-                    <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
+      <div class="grid-2">
+        <div class="grid--item">
+          <card
+            v-if="!userSubscription"
+            cardType="createCardForm"
+            :card.sync="createCardForm.card"
+            :error.sync="createCardForm.error"
+            :instance.sync="createCardForm.instance"
+          ></card>
 
-                    <form @submit.prevent="updateCard" method="post" v-if="currentCard">
-                        <div class="flyform--group">
-                            <div class="flyform--input-icon-right" v-if="!showCreditForm">
-                                <a @click="showCreditForm = true"><span class="icon-pencil"></span> </a>
-                            </div>
-                            <input type="text" :value="`${currentCard.brand} ending in ${currentCard.last4}`" disabled v-if="!showCreditForm">
-                            <label>Payment Method</label>
+          <form @submit.prevent="updateCard" method="post" v-if="currentCard">
+            <div class="flyform--group">
+              <div class="flyform--input-icon-right" v-if="!showCreditForm">
+                <a @click="showCreditForm = true"
+                  ><span class="icon-pencil"></span>
+                </a>
+              </div>
+              <input
+                type="text"
+                :value="`${currentCard.brand} ending in ${currentCard.last4}`"
+                disabled
+                v-if="!showCreditForm"
+              />
+              <label>Payment Method</label>
 
-                            <div v-if="showCreditForm" class="stripeContainer">
-                                <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
-                            </div>
-
-                        </div>
-
-                        <div class="flyform--footer-btns" v-if="showCreditForm">
-                            <span class="btn btn-small" @click="showCreditForm = false">Cancel</span>
-                            <button class="btn btn-primary btn-small" :class="{ 'btn-disabled' : processing }">Update Card</button>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="grid--item">
-                    <base-input label="Coupon Code" name="coupon" v-model="form.coupon"></base-input>
-
-                    <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
-                        <strong>{{ hasCoupon.coupon.id }} -</strong> {{ hasCoupon.coupon.percent_off }}% off {{ hasCoupon.coupon.duration }}
-                    </div>
-                </div>
-
+              <div v-if="showCreditForm" class="stripeContainer">
+                <card
+                  cardType="updateCardForm"
+                  :card.sync="updateCardForm.card"
+                  :error.sync="updateCardForm.error"
+                  :instance.sync="updateCardForm.instance"
+                ></card>
+              </div>
             </div>
 
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid() | processing }">
-                        <template v-if="userSubscriptionData.isCanceled">
-                            Resume Subscription
-                        </template>
-                        <template v-else-if="userSubscription">
-                            Update Subscription
-                        </template>
-                        <template v-else>
-                            Select Plan
-                        </template>
-                    </button>
-                </div>
+            <div class="flyform--footer-btns" v-if="showCreditForm">
+              <span class="btn btn-small" @click="showCreditForm = false"
+                >Cancel</span
+              >
+              <button
+                class="btn btn-primary btn-small"
+                :class="{ 'btn-disabled': processing }"
+              >
+                Update Card
+              </button>
             </div>
-        </form>
+          </form>
+        </div>
+        <div class="grid--item">
+          <base-input
+            label="Coupon Code"
+            name="coupon"
+            v-model="form.coupon"
+          ></base-input>
 
-        <template v-if="invoices.length">
-            <br><br>
-            <h3>Payment History</h3>
-            <table>
-                <tr v-for="invoice in invoices">
-                    <td> {{ moment(invoice.date.date).format('l') }}</td>
-                    <td> ${{ invoiceTotal(invoice.total) }}</td>
-                    <td class="text-right"><div class="link" @click="downloadLink(invoice.id)">Download</div></td>
-                </tr>
-            </table>
-        </template>
-    </section>
+          <div class="alert alert-success" v-if="isSubscribed && hasCoupon">
+            <strong>{{ hasCoupon.coupon.id }} -</strong>
+            {{ hasCoupon.coupon.percent_off }}% off
+            {{ hasCoupon.coupon.duration }}
+          </div>
+        </div>
+      </div>
+
+      <div class="flyform--footer">
+        <div class="flyform--footer-btns">
+          <button
+            class="btn btn-primary"
+            :class="{ 'btn-disabled': !form.isValid() | processing }"
+          >
+            <template v-if="userSubscriptionData.isCanceled">
+              Resume Subscription
+            </template>
+            <template v-else-if="userSubscription">
+              Update Subscription
+            </template>
+            <template v-else>
+              Select Plan
+            </template>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <template v-if="invoices.length">
+      <br /><br />
+      <h3>Payment History</h3>
+      <table>
+        <tr v-for="invoice in invoices">
+          <td>{{ moment(invoice.date.date).format("l") }}</td>
+          <td>${{ invoiceTotal(invoice.total) }}</td>
+          <td class="text-right">
+            <div class="link" @click="downloadLink(invoice.id)">Download</div>
+          </td>
+        </tr>
+      </table>
+    </template>
+  </section>
 </template>
 
 <script>

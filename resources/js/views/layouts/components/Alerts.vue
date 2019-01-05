@@ -1,9 +1,9 @@
 <template id="alerts">
-    <div class="alerts">
-        <transition-group name="alert-animation">
-            <alert :alert="alert" :key="alert.id" v-for="alert in alerts"></alert>
-        </transition-group>
-    </div>
+  <div class="alerts">
+    <transition-group name="alert-animation">
+      <alert :alert="alert" :key="alert.id" v-for="alert in alerts"></alert>
+    </transition-group>
+  </div>
 </template>
 
 <script>

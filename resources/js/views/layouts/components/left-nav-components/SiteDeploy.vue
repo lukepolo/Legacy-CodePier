@@ -1,16 +1,22 @@
 <template>
-   <span class="deploy-status">
-       <template v-if="site.repository && hasDeployableServers && siteActionsEnabled">
-           <tooltip message="Deploy Site" placement="left">
-               <a href="#" @click.prevent="deploySite" :class="{ 'btn-disabled' : isDeploying }">
-                   <span class="icon-deploy"></span>
-               </a>
-               <template v-if="isDeploying">
-                   <span class="deploy-status-text"> {{ isDeploying.status }}</span>
-               </template>
-           </tooltip>
-       </template>
-   </span>
+  <span class="deploy-status">
+    <template
+      v-if="site.repository && hasDeployableServers && siteActionsEnabled"
+    >
+      <tooltip message="Deploy Site" placement="left">
+        <a
+          href="#"
+          @click.prevent="deploySite"
+          :class="{ 'btn-disabled': isDeploying }"
+        >
+          <span class="icon-deploy"></span>
+        </a>
+        <template v-if="isDeploying">
+          <span class="deploy-status-text"> {{ isDeploying.status }}</span>
+        </template>
+      </tooltip>
+    </template>
+  </span>
 </template>
 
 <script>

@@ -1,27 +1,40 @@
 <template>
-    <form @submit.prevent="saveSite" v-if="adding && form.pile_id">
-        <div class="flyform--group">
-            <input id="domain" ref="domain" name="domain" v-model="form.domain" type="text" placeholder=" ">
-            <label for="domain">Domain / Alias</label>
-        </div>
-        <div class="flyform--group-checkbox">
-            <label>
-                <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
-                <span class="icon"></span>
-                Wildcard Domain
-                <tooltip :message="'If your site requires wildcard for sub domains'" size="medium">
-                    <span class="fa fa-info-circle"></span>
-                </tooltip>
-            </label>
-        </div>
-        <div class="flyform--footer">
-            <div class="flyform--footer-btns">
-                <span class="btn" @click.stop="cancel">Cancel</span>
-                <button class="btn btn-primary">Save</button>
-            </div>
-        </div>
-
-    </form>
+  <form @submit.prevent="saveSite" v-if="adding && form.pile_id">
+    <div class="flyform--group">
+      <input
+        id="domain"
+        ref="domain"
+        name="domain"
+        v-model="form.domain"
+        type="text"
+        placeholder=" "
+      />
+      <label for="domain">Domain / Alias</label>
+    </div>
+    <div class="flyform--group-checkbox">
+      <label>
+        <input
+          type="checkbox"
+          v-model="form.wildcard_domain"
+          name="wildcard_domain"
+          value="1"
+        />
+        <span class="icon"></span> Wildcard Domain
+        <tooltip
+          :message="'If your site requires wildcard for sub domains'"
+          size="medium"
+        >
+          <span class="fa fa-info-circle"></span>
+        </tooltip>
+      </label>
+    </div>
+    <div class="flyform--footer">
+      <div class="flyform--footer-btns">
+        <span class="btn" @click.stop="cancel">Cancel</span>
+        <button class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>

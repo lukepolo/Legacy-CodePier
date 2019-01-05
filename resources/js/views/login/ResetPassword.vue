@@ -1,21 +1,42 @@
 <template>
-    <div>
-        <div class="flyform--heading">
-            <h2>Reset Password</h2>
-        </div>
+  <div>
+    <div class="flyform--heading"><h2>Reset Password</h2></div>
 
-        <base-form v-form="form" :action="resetPassword">
-            <base-input validate name="email" label="Email" type="email" v-model="form.email"></base-input>
-            <base-input validate name="password" label="Password" type="password" v-model="form.password"></base-input>
-            <base-input validate name="confirm-password" label="Confirm Password" type="password" v-model="form.passwordConfirmed"></base-input>
-            <div slot="buttons">
-                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
-                <button class="btn btn-primary" :class="{ 'btn-disabled' : !form.isValid()}" :disabed="!form.isValid()">Reset Password</button>
-            </div>
-        </base-form>
-    </div>
+    <base-form v-form="form" :action="resetPassword">
+      <base-input
+        validate
+        name="email"
+        label="Email"
+        type="email"
+        v-model="form.email"
+      ></base-input>
+      <base-input
+        validate
+        name="password"
+        label="Password"
+        type="password"
+        v-model="form.password"
+      ></base-input>
+      <base-input
+        validate
+        name="confirm-password"
+        label="Confirm Password"
+        type="password"
+        v-model="form.passwordConfirmed"
+      ></base-input>
+      <div slot="buttons">
+        <router-link :to="{ name: 'login' }" class="btn">Cancel</router-link>
+        <button
+          class="btn btn-primary"
+          :class="{ 'btn-disabled': !form.isValid() }"
+          :disabed="!form.isValid()"
+        >
+          Reset Password
+        </button>
+      </div>
+    </base-form>
+  </div>
 </template>
-
 
 <script>
 import Vue from "vue";

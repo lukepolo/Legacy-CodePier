@@ -1,16 +1,32 @@
 <template>
-    <section>
-        <div class="providers grid-4">
-            <notification-provider-form :provider="notificationProvider" :key="notificationProvider.id" v-for="notificationProvider in notificationProviders"></notification-provider-form>
-        </div>
+  <section>
+    <div class="providers grid-4">
+      <notification-provider-form
+        :provider="notificationProvider"
+        :key="notificationProvider.id"
+        v-for="notificationProvider in notificationProviders"
+      ></notification-provider-form>
+    </div>
 
-        <div v-if="notificationSettings">
-            <notification-group title="Site Deployment Notifications" :settings="notificationSettings['site_deployment']"></notification-group>
-            <notification-group title="LifeLines Notifications" :settings="notificationSettings['lifelines']"></notification-group>
-            <notification-group title="Server Monitoring Notifications" :settings="notificationSettings['server_monitoring']"></notification-group>
-            <notification-group title="Buoys Notifications" :settings="notificationSettings['buoys']"></notification-group>
-        </div>
-    </section>
+    <div v-if="notificationSettings">
+      <notification-group
+        title="Site Deployment Notifications"
+        :settings="notificationSettings['site_deployment']"
+      ></notification-group>
+      <notification-group
+        title="LifeLines Notifications"
+        :settings="notificationSettings['lifelines']"
+      ></notification-group>
+      <notification-group
+        title="Server Monitoring Notifications"
+        :settings="notificationSettings['server_monitoring']"
+      ></notification-group>
+      <notification-group
+        title="Buoys Notifications"
+        :settings="notificationSettings['buoys']"
+      ></notification-group>
+    </div>
+  </section>
 </template>
 
 <script>

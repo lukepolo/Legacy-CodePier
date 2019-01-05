@@ -1,35 +1,45 @@
 <template>
-    <span class="confirm-container" @keyup.32.prevent @keyup.esc="close()">
-        <button :class="confirm_class" @click="toggle()">
-            <slot></slot>
-        </button>
-        <transition name="confirm">
-            <div v-show="confirm" class="confirm-dialog" :class="confirm_position">
-                <template v-if="confirm_with_text">
-                    <h4 class="confirm-header">{{ confirm_message }}</h4>
-                    <div class="confirm-content">
-                        <p>Please confirm by typing in: {{ confirm_with_text }}</p>
-                         <div class="flyform--group">
-                            <form @submit.prevent.stop="confirmMethod">
-                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name" placeholder=" ">
-                                <label for="confirm-name">Confirm</label>
-                            </form>
-                         </div>
-                    </div>
-                </template>
-                <h4 class="confirm-header" v-if="message">{{ message }}</h4>
-                <div class="confirm-content">
-                    <slot name="form"></slot>
-                </div>
-                <div class="btn-footer">
-                    <span class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</span>
-                    <slot name="confirm-button">
-                        <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
-                    </slot>
-                </div>
+  <span class="confirm-container" @keyup.32.prevent @keyup.esc="close()">
+    <button :class="confirm_class" @click="toggle()"><slot></slot></button>
+    <transition name="confirm">
+      <div v-show="confirm" class="confirm-dialog" :class="confirm_position">
+        <template v-if="confirm_with_text">
+          <h4 class="confirm-header">{{ confirm_message }}</h4>
+          <div class="confirm-content">
+            <p>Please confirm by typing in: {{ confirm_with_text }}</p>
+            <div class="flyform--group">
+              <form @submit.prevent.stop="confirmMethod">
+                <input
+                  ref="confirm_input"
+                  v-model="confirmedText"
+                  type="text"
+                  name="confirm-name"
+                  placeholder=" "
+                />
+                <label for="confirm-name">Confirm</label>
+              </form>
             </div>
-        </transition>
-    </span>
+          </div>
+        </template>
+        <h4 class="confirm-header" v-if="message">{{ message }}</h4>
+        <div class="confirm-content"><slot name="form"></slot></div>
+        <div class="btn-footer">
+          <span class="btn btn-small" @click.stop.prevent="close()">{{
+            cancelText
+          }}</span>
+          <slot name="confirm-button">
+            <button
+              class="btn btn-small"
+              :class="confirmButtonClass"
+              @click.stop.prevent="confirmMethod"
+            >
+              {{ confirmText }}
+            </button>
+          </slot>
+        </div>
+      </div>
+    </transition>
+  </span>
 </template>
 
 <script>

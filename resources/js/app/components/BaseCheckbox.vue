@@ -1,27 +1,31 @@
 <template>
-    <div class="flyform--group-checkbox">
-        <tooltip size="medium" placement="top-right" :messsage="tooltip" v-if="tooltip">
-            <span class="fa fa-info-circle"></span>
-        </tooltip>
-        <label :for="name">
-            <input
-                :id="name"
-                :name="name"
-                type="checkbox"
-                v-bind="$attrs"
-                :value="value"
-                :tabindex="tabindex"
-                @change="updateValues"
-                :checked="isChecked"
-            >
-            <span class="icon"></span>
-            {{ label }}
-            <template v-if="description">
-                <br>
-                <small>{{ description }}</small>
-            </template>
-        </label>
-    </div>
+  <div class="flyform--group-checkbox">
+    <tooltip
+      size="medium"
+      placement="top-right"
+      :messsage="tooltip"
+      v-if="tooltip"
+    >
+      <span class="fa fa-info-circle"></span>
+    </tooltip>
+    <label :for="name">
+      <input
+        :id="name"
+        :name="name"
+        type="checkbox"
+        v-bind="$attrs"
+        :value="value"
+        :tabindex="tabindex"
+        @change="updateValues"
+        :checked="isChecked"
+      />
+      <span class="icon"></span> {{ label }}
+      <template v-if="description">
+        <br />
+        <small>{{ description }}</small>
+      </template>
+    </label>
+  </div>
 </template>
 
 <script>

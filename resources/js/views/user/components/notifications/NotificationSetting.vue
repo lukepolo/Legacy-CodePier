@@ -1,21 +1,21 @@
 <template>
-    <div class="settings--group" v-if="userNotificationSettings.length">
-        <div class="settings--name">
-            {{ setting.name }} <small>{{ setting.description }}</small>
-        </div>
-        <div class="settings--options">
-            <template v-for="service in setting.services">
-                <div v-show="isConnected(service)">
-                    <div
-                        class="toggleSwitch--button toggleSwitch--button-switch"
-                        :class="{ right : hasNotificationSetting(service) }"
-                        @click="toggleSetting(service)"
-                    ></div>
-                    {{ service }}
-                </div>
-            </template>
-        </div>
+  <div class="settings--group" v-if="userNotificationSettings.length">
+    <div class="settings--name">
+      {{ setting.name }} <small>{{ setting.description }}</small>
     </div>
+    <div class="settings--options">
+      <template v-for="service in setting.services">
+        <div v-show="isConnected(service)">
+          <div
+            class="toggleSwitch--button toggleSwitch--button-switch"
+            :class="{ right: hasNotificationSetting(service) }"
+            @click="toggleSetting(service)"
+          ></div>
+          {{ service }}
+        </div>
+      </template>
+    </div>
+  </div>
 </template>
 
 <script>

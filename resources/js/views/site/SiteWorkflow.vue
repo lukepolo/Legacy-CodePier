@@ -1,40 +1,43 @@
 <template>
-    <base-form :action="saveWorkflow">
-        <div class="flex">
-            <div class="flex--grow">
-                <h2>Select the tasks needed to create your site.</h2>
-            </div>
+  <base-form :action="saveWorkflow">
+    <div class="flex">
+      <div class="flex--grow">
+        <h2>Select the tasks needed to create your site.</h2>
+      </div>
 
-            <div class="heading--btns">
-                <!--<delete-site :site="site"></delete-site>-->
-            </div>
-        </div>
+      <div class="heading--btns">
+        <!--<delete-site :site="site"></delete-site>-->
+      </div>
+    </div>
 
-        <hr>
-        <div class="grid-2">
-            <div class="grid-item">
-                <template v-for="workflow in workflows">
-                    <base-checkbox
-                        :label="workflow.description"
-                        :name="workflow.name"
-                        v-model="form.workflow"
-                        :value="workflow"
-                        :tooltip="workflow.tooltip"
-                        :description="workflow.subtext"
-                    ></base-checkbox>
-                </template>
-            </div>
-        </div>
-
-        <template slot="buttons">
-            <button @click.prevent="skipWorkflow" class="btn btn-danger">Skip</button>
-            <button class="btn btn-primary" type="submit">Continue</button>
+    <hr />
+    <div class="grid-2">
+      <div class="grid-item">
+        <template v-for="workflow in workflows">
+          <base-checkbox
+            :label="workflow.description"
+            :name="workflow.name"
+            v-model="form.workflow"
+            :value="workflow"
+            :tooltip="workflow.tooltip"
+            :description="workflow.subtext"
+          ></base-checkbox>
         </template>
+      </div>
+    </div>
 
-        <template slot="links">
-            <small>You can opt out of using the workflow in your <router-link :to="{ name: 'my-account' }">profile</router-link>.</small>
-        </template>
-    </base-form>
+    <template slot="buttons">
+      <button @click.prevent="skipWorkflow" class="btn btn-danger">Skip</button>
+      <button class="btn btn-primary" type="submit">Continue</button>
+    </template>
+
+    <template slot="links">
+      <small
+        >You can opt out of using the workflow in your
+        <router-link :to="{ name: 'my-account' }">profile</router-link>.</small
+      >
+    </template>
+  </base-form>
 </template>
 
 <script>

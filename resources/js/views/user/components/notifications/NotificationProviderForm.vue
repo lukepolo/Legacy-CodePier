@@ -1,38 +1,42 @@
 <template>
-    <label>
-        <div class="providers--item" @click="selectProvider">
-            <div class="providers--item-header">
-                <div class="providers--item-icon"><span :class="'icon-' + provider.name.toLowerCase().replace(/\s+/g, '-')"></span></div>
-                <div class="providers--item-name">{{ provider.name }}</div>
+  <label>
+    <div class="providers--item" @click="selectProvider">
+      <div class="providers--item-header">
+        <div class="providers--item-icon">
+          <span
+            :class="'icon-' + provider.name.toLowerCase().replace(/\s+/g, '-')"
+          ></span>
+        </div>
+        <div class="providers--item-name">{{ provider.name }}</div>
+      </div>
+
+      <div class="providers--item-footer">
+        <div class="providers--item-footer-connect">
+          <form @submit.prevent="connectProvider" v-if="adding">
+            <div class="flyform--group" v-if="requiresWebhook">
+              <input type="text" v-model="form.token" placeholder=" " />
+              <label>Webhook URL</label>
             </div>
 
             <div class="providers--item-footer">
-                <div class="providers--item-footer-connect">
-                    <form @submit.prevent="connectProvider" v-if="adding">
-                        <div class="flyform--group" v-if="requiresWebhook">
-                            <input type="text" v-model="form.token" placeholder=" ">
-                            <label>Webhook URL</label>
-                        </div>
-
-                        <div class="providers--item-footer">
-                            <div class="flyform--footer-btns">
-                                <span class="btn" @click.stop.prevent="cancel">Cancel</span>
-                                <button class="btn btn-primary">Connect</button>
-                            </div>
-                        </div>
-                    </form>
-                    <h4 v-if="!adding">
-                        <template v-if="isConnected">
-                            Disconnect
-                        </template>
-                        <template v-else>
-                            Connect Account
-                        </template>
-                    </h4>
-                </div>
+              <div class="flyform--footer-btns">
+                <span class="btn" @click.stop.prevent="cancel">Cancel</span>
+                <button class="btn btn-primary">Connect</button>
+              </div>
             </div>
+          </form>
+          <h4 v-if="!adding">
+            <template v-if="isConnected">
+              Disconnect
+            </template>
+            <template v-else>
+              Connect Account
+            </template>
+          </h4>
         </div>
-    </label>
+      </div>
+    </div>
+  </label>
 </template>
 
 <script>

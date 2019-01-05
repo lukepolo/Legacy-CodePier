@@ -1,19 +1,20 @@
 <template>
-    <div>
-        <h1>Forgot Password</h1>
-        <form @submit.prevent="requestResetPassword">
+  <div>
+    <h1>Forgot Password</h1>
+    <form @submit.prevent="requestResetPassword">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" v-model="form.email" />
+      </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input id="email" type="email" name="email" v-model="form.email">
-            </div>
-
-            <div>
-                <router-link :to="{ name : 'login' }" class="btn">Cancel</router-link>
-                <button type="submit" :disabled="!form.isValid()">Reset Password</button>
-            </div>
-        </form>
-    </div>
+      <div>
+        <router-link :to="{ name: 'login' }" class="btn">Cancel</router-link>
+        <button type="submit" :disabled="!form.isValid()">
+          Reset Password
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>

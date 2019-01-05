@@ -1,26 +1,45 @@
 <template>
-    <confirm
-            confirm_class="btn-link"
-            confirm_position="bottom"
-            message="Slack Notification Channels"
-            confirm_btn="btn-primary"
-    >
-        <tooltip message="Notifications" placement="bottom">
-            <span class="icon-notifications"></span>
-        </tooltip>
-        <div slot="form">
-            <template v-if="hasNotificationProviders">
-                <router-link :to="{ name : 'user.notification-settings' }">Connect a slack account</router-link> to receive site notifications.
-            </template>
-            <template v-else>
-                <p>Enter the slack channel name you want CodePier to send notifications.</p>
-                <base-input name="site" label="Deployments Channel" v-model="notificationChannelsForm.site"></base-input>
-                <base-input name="servers" label="Servers Channel" v-model="notificationChannelsForm.servers"></base-input>
-                <base-input name="lifelines" label="Lifeline Channel" v-model="notificationChannelsForm.lifelines"></base-input>
-            </template>
-        </div>
-        <button slot="confirm-button" class="btn btn-small btn-primary">Update Channels</button>
-    </confirm>
+  <confirm
+    confirm_class="btn-link"
+    confirm_position="bottom"
+    message="Slack Notification Channels"
+    confirm_btn="btn-primary"
+  >
+    <tooltip message="Notifications" placement="bottom">
+      <span class="icon-notifications"></span>
+    </tooltip>
+    <div slot="form">
+      <template v-if="hasNotificationProviders">
+        <router-link :to="{ name: 'user.notification-settings' }"
+          >Connect a slack account</router-link
+        >
+        to receive site notifications.
+      </template>
+      <template v-else>
+        <p>
+          Enter the slack channel name you want CodePier to send notifications.
+        </p>
+        <base-input
+          name="site"
+          label="Deployments Channel"
+          v-model="notificationChannelsForm.site"
+        ></base-input>
+        <base-input
+          name="servers"
+          label="Servers Channel"
+          v-model="notificationChannelsForm.servers"
+        ></base-input>
+        <base-input
+          name="lifelines"
+          label="Lifeline Channel"
+          v-model="notificationChannelsForm.lifelines"
+        ></base-input>
+      </template>
+    </div>
+    <button slot="confirm-button" class="btn btn-small btn-primary">
+      Update Channels
+    </button>
+  </confirm>
 </template>
 
 <script>

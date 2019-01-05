@@ -1,20 +1,26 @@
 <template>
-    <label>
-        <div class="providers--item" @click="selectProvider">
-            <div class="providers--item-header">
-                <div class="providers--item-icon"><span :class="'icon-' + provider.name.toLowerCase()"></span></div>
-                <div class="providers--item-name">{{ provider.name}}</div>
-            </div>
-            <div class="providers--item-footer">
-                <template v-if="isConnected">
-                    <div class="providers--item-footer-disconnect"><h4><span class="icon-check_circle"></span> Disconnect</h4></div>
-                </template>
-                <template v-else>
-                    <div class="providers--item-footer-connect"><h4><span class="icon-link"></span> Connect Account</h4></div>
-                </template>
-            </div>
+  <label>
+    <div class="providers--item" @click="selectProvider">
+      <div class="providers--item-header">
+        <div class="providers--item-icon">
+          <span :class="'icon-' + provider.name.toLowerCase()"></span>
         </div>
-    </label>
+        <div class="providers--item-name">{{ provider.name }}</div>
+      </div>
+      <div class="providers--item-footer">
+        <template v-if="isConnected">
+          <div class="providers--item-footer-disconnect">
+            <h4><span class="icon-check_circle"></span> Disconnect</h4>
+          </div>
+        </template>
+        <template v-else>
+          <div class="providers--item-footer-connect">
+            <h4><span class="icon-link"></span> Connect Account</h4>
+          </div>
+        </template>
+      </div>
+    </div>
+  </label>
 </template>
 
 <script>

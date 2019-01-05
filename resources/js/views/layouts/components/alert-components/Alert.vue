@@ -1,14 +1,13 @@
 <template>
-    <transition name="fade">
-        <div class="notification" :class="alert
-        .severity">
-            <button @click="close" class="notification-close" type="button">
-                <span>&times;</span>
-            </button>
-            <h4 class="notification-heading" v-if="alert.title">{{ alert.title }}</h4>
-            <div class="notification-text" v-html="alert.message"></div>
-        </div>
-    </transition>
+  <transition name="fade">
+    <div class="notification" :class="alert.severity">
+      <button @click="close" class="notification-close" type="button">
+        <span>&times;</span>
+      </button>
+      <h4 class="notification-heading" v-if="alert.title">{{ alert.title }}</h4>
+      <div class="notification-text" v-html="alert.message"></div>
+    </div>
+  </transition>
 </template>
 
 <script>

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        SHOW LOADING SCREEN
-    </div>
+  <div>SHOW LOADING SCREEN</div>
 </template>
 <script>
 import Vue from "vue";
