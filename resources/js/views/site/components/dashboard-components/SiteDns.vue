@@ -3,7 +3,7 @@
     <h3>
       DNS
       <tooltip message="Refresh DNS">
-        <span class="icon-refresh2 text-link" @click="getDns(true)"></span>
+        <span class="icon-refresh2 text-link" @click="getDns"></span>
       </tooltip>
     </h3>
 
@@ -29,25 +29,27 @@
 <script>
 export default {
   props: ["site"],
+  data() {
+    return {
+      dns: null,
+    };
+  },
+  watch: {
+    site: {
+      immediate: true,
+      handler: "getDns",
+    },
+  },
   methods: {
-    getDns(refresh) {
-      // let data = {
-      //   site: this.$route.params.site_id,
-      // };
-      //
-      // if (refresh) {
-      //   data.refresh = true;
-      // }
-      //
-      // this.$store.dispatch("user_site_dns/get", data);
+    getDns() {
+      this.$store.dispatch("user/sites/getDns", this.site.id).then((dns) => {
+        this.dns = dns;
+      });
     },
   },
   computed: {
-    dns() {
-      return null;
-      // return this.$store.state.user.sites.site.dns // TDOO - should come back on the site?
-    },
     dnsIsPointedToServer() {
+      // TODO
       return false;
       // if (this.siteServers && this.dns.ip) {
       //   return _.indexOf(_.map(this.siteServers, "ip"), this.dns.ip) > -1;

@@ -7,6 +7,12 @@ export default function(userSiteService: UserSiteService) {
   return {
     changePile: (context: ActionContext<SitesState, RootState>, data) => {},
 
+    getDns: (context: ActionContext<SitesState, RootState>, site) => {
+      return userSiteService.getDns(site).then(({ data }) => {
+        return data;
+      });
+    },
+
     rename: (
       context: ActionContext<SitesState, RootState>,
       { site, domain, wildcardDomain },

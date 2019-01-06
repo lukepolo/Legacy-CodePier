@@ -10,7 +10,9 @@
         <h3>Repository @ Deploy Branch</h3>
         {{ site.repository }} @ {{ site.branch }}
       </div>
-      <div class="grid--item"><site-dns :site="site"></site-dns></div>
+      <div class="grid--item" v-if="site.domain !== 'default'">
+        <site-dns :site="site"></site-dns>
+      </div>
     </div>
 
     <div class="providers grid-3">

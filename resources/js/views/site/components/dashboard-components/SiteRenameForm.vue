@@ -62,7 +62,6 @@ export default {
     site: {
       immediate: true,
       handler(site) {
-        console.info(site.wildcard_domain);
         this.renameForm.fill({
           domain: site.name,
           wildcard_domain: site.wildcard_domain,

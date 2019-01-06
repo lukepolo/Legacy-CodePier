@@ -21,6 +21,12 @@ export default class UserSiteService extends RestServiceClass {
     );
   }
 
+  public getDns(site) {
+    return this.httpService.get(
+      this.$apiRouteService.action("SiteSiteDnsController@index", { site }),
+    );
+  }
+
   public rename(site, domain, wildcardDomain) {
     return this.httpService.post(
       this.$apiRouteService.action("SiteSiteController@rename", { site }),
