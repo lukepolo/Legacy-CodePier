@@ -1,11 +1,10 @@
 <template>
   <confirm
-    dispatch="user_sites/renameSite"
+    dispatch="user/sites/rename"
     :params="{
       site: site.id,
-      pile_id: site.pile_id,
       domain: renameForm.domain,
-      wildcard_domain: renameForm.wildcard_domain,
+      wildcardDomain: renameForm.wildcard_domain,
     }"
     confirm_class="btn-link"
     confirm_position="bottom"
@@ -34,13 +33,11 @@
       </div>
 
       <div class="flyform--group">
-        <input
-          v-model="renameForm.domain"
-          type="text"
+        <base-input
+          label="Domain"
           name="domain"
-          placeholder=" "
-        />
-        <label for="domain">Domain</label>
+          v-model="renameForm.domain"
+        ></base-input>
       </div>
     </div>
   </confirm>
@@ -65,6 +62,7 @@ export default {
     site: {
       immediate: true,
       handler(site) {
+        console.info(site.wildcard_domain);
         this.renameForm.fill({
           domain: site.name,
           wildcard_domain: site.wildcard_domain,

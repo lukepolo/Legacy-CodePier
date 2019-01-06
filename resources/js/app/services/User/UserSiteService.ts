@@ -10,7 +10,7 @@ export default class UserSiteService extends RestServiceClass {
     super(httpService, apiRouteService, "SiteSiteController");
   }
 
-  updateWorkflow(site, workflow) {
+  public updateWorkflow(site, workflow) {
     return this.httpService.post(
       this.$apiRouteService.action("SiteSiteWorkflowController@store", {
         site,
@@ -21,7 +21,17 @@ export default class UserSiteService extends RestServiceClass {
     );
   }
 
-  public async createDeployHook(site) {
+  public rename(site, domain, wildcardDomain) {
+    return this.httpService.post(
+      this.$apiRouteService.action("SiteSiteController@rename", { site }),
+      {
+        domain,
+        wildcardDomain,
+      },
+    );
+  }
+
+  public createDeployHook(site) {
     return this.httpService.post(
       this.$apiRouteService.action(
         "SiteRepositoryRepositoryHookController@store",
@@ -32,7 +42,7 @@ export default class UserSiteService extends RestServiceClass {
     );
   }
 
-  public async removeDeployHook(site, hook) {
+  public removeDeployHook(site, hook) {
     return this.httpService.delete(
       this.$apiRouteService.action(
         "SiteRepositoryRepositoryHookController@destroy",
