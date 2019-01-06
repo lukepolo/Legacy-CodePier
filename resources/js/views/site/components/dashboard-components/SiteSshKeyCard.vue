@@ -1,5 +1,5 @@
 <template>
-  <drop-down tag="span" v-if="!site.user_repository_provider_id">
+  <drop-down tag="span">
     <div class="grid--item" slot="header">
       <div class="providers--item">
         <div class="providers--item-header">

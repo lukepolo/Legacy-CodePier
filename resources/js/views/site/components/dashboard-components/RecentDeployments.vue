@@ -55,10 +55,20 @@
 <script>
 export default {
   props: ["site"],
+  watch: {
+    site: {
+      immediate: true,
+      handler: function() {
+        this.$store.dispatch(
+          "user/sites/deployments/get",
+          this.$route.params.site_id,
+        );
+      },
+    },
+  },
   computed: {
     recentDeployments() {
-      // TODO
-      return [];
+      return this.$store.state.user.sites.deployments.deployments;
     },
   },
 };

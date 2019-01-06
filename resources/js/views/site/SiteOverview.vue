@@ -55,11 +55,8 @@ export default {
   },
   methods: {
     fetchData() {
+      // TODO - this probably should belong with its component
       this.$store.dispatch("user/notification/provider/get");
-      // this.$store.dispatch(
-      //   "user_site_deployments/get",
-      //   this.$route.params.site_id,
-      // );
     },
   },
   computed: {
