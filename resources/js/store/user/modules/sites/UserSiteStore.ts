@@ -8,6 +8,7 @@ import UserSiteServerStore from "@store/user/modules/sites/modules/servers/UserS
 import UserSiteLifeLinesStore from "@store/user/modules/sites/modules/life-lines/UserSiteLifeLinesStore";
 import UserSiteDeploymentStore from "@store/user/modules/sites/modules/deployments/UserSiteDeploymentStore";
 import UserSiteSshKeyStore from "@store/user/modules/sites/modules/ssh-keys/UserSiteSshKeyStore";
+import UserSiteFireWallRuleStore from "@store/user/modules/sites/modules/firewall-rules/UserSiteFireWallRuleStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -21,6 +22,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteServerStore)
       .addModule(UserSiteLifeLinesStore)
       .addModule(UserSiteDeploymentStore)
-      .addModule(UserSiteSshKeyStore);
+      .addModule(UserSiteSshKeyStore)
+      .addModule(UserSiteFireWallRuleStore);
   }
 }

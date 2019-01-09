@@ -30,7 +30,7 @@
       </tbody>
     </table>
 
-    <base-form v-form="form" :action="createKey" v-if="showForm">
+    <base-form v-form="form" :action="createSshKey" v-if="showForm">
       <base-input
         validate
         v-model="form.name"
@@ -88,7 +88,7 @@ export default {
         site: this.$route.params.site,
       });
     },
-    createKey() {
+    createSshKey() {
       this.$store
         .dispatch("user/sites/sshKeys/create", {
           data: this.form.data(),
