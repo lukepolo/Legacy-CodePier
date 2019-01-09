@@ -21,6 +21,7 @@ export default function($router: RouterInterface) {
               .route("", SiteViews.SiteSetup)
               .setAlias("repository-information")
               .setName("site.repository-information");
+
             $router.route("deployment", SiteViews.SiteDeployment);
             $router.route("files", SiteViews.SiteFiles);
             $router.route("database-management", SetupPages.DatabaseManagement);
@@ -36,6 +37,7 @@ export default function($router: RouterInterface) {
               .route("", SetupPages.SshKeys)
               .setAlias("ssh-keys")
               .setName("site.ssh-keys");
+
             $router.route("firewall-rules", SetupPages.FirewallRules);
             $router.route("ssl-certificates", SetupPages.SslCertificates);
           });
@@ -50,6 +52,7 @@ export default function($router: RouterInterface) {
               .route("", SetupPages.SshKeys)
               .setAlias("environment-variables")
               .setName("site.environment-variables");
+
             $router.route("cron-jobs", SetupPages.CronJobs);
             $router.route("daemons", SetupPages.Daemons);
             $router.route("workers", SetupPages.Workers);
