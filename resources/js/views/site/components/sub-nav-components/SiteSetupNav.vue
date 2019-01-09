@@ -2,7 +2,7 @@
   <div class="tab-container tab-left">
     <ul class="nav nav-tabs">
       <router-link
-        :to="{ name: 'site.repository', params: { site: siteId } }"
+        :to="{ name: 'site.repository-information', params: { site: siteId } }"
         tag="li"
         exact
       >
@@ -35,7 +35,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site.databases', params: { site: siteId } }"
+        :to="{ name: 'site.database-management', params: { site: siteId } }"
         tag="li"
         v-if="site"
       >
@@ -55,7 +55,7 @@
 export default {
   watch: {
     $route: function() {
-      $("#middle .section-content").scrollTop(0);
+      // $("#middle .section-content").scrollTop(0);
     },
   },
   computed: {

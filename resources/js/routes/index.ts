@@ -7,13 +7,13 @@
 import middleware from "./middleware";
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
-import SiteViews from "@views/site";
 import UserViews from "@views/user";
 import ErrorViews from "@views/errors";
 import ServerViews from "@views/server";
 import Dashboard from "@views/dashboard/Dashboard.vue";
 
 import authRoutes from "./authRoutes";
+import siteRoutes from "./siteRoutes";
 
 export default function($router: RouterInterface) {
   // AUTHED
@@ -42,25 +42,7 @@ export default function($router: RouterInterface) {
           );
         });
 
-      $router
-        .middleware([middleware.SiteWorkflow])
-        .prefix("site/:site")
-        .group(() => {
-          $router.route("", SiteViews.SiteOverview);
-          $router.route("workflow", SiteViews.SiteWorkflow);
-
-          $router.area(SiteViews.SiteArea).group(() => {
-            $router.route("setup", {
-              default: SiteViews.SiteSetup,
-              subNav: SiteViews.SiteSetupNav,
-            });
-
-            $router.route("ssh-keys", {
-              default: SiteViews.SiteSetup,
-              subNav: SiteViews.SiteSetupNav,
-            });
-          });
-        });
+      siteRoutes($router);
 
       $router.route("servers", ServerViews.Servers);
     });

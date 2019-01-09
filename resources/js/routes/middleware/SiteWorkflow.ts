@@ -34,9 +34,10 @@ export default class SiteWorkflow implements RouteMiddlewareInterface {
   }
   checkWorkflow() {
     if (!this.site.repository) {
-      if (this.to.name !== "site.setup") {
+      console.info(this.to.name);
+      if (this.to.name !== "site.repository-information") {
         return this.next({
-          name: "site.setup",
+          name: "site.repository-information",
           params: { site: this.site.id },
         });
       }

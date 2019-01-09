@@ -6,7 +6,10 @@
     <router-link
       :class="{ 'btn-disabled': !siteActionsEnabled }"
       class="btn btn-primary"
-      :to="{ name: 'site.setup', params: { site_id: site.id } }"
+      :to="{
+        name: 'site.repository-information',
+        params: { site_id: site.id },
+      }"
       >Manage Site &nbsp;<span class="icon-arrow-right"></span>
     </router-link>
   </div>

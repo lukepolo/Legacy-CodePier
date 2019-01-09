@@ -1,10 +1,10 @@
 <template>
   <div class="tab-container tab-left">
-    <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
+    <ul class="nav nav-tabs">
       <router-link
         :to="{
-          name: 'site_environment_variables',
-          params: { site_id: siteId },
+          name: 'site.environment-variables',
+          params: { site: siteId },
         }"
         tag="li"
         exact
@@ -16,7 +16,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_cron_jobs', params: { site_id: siteId } }"
+        :to="{ name: 'site.cron-jobs', params: { site: siteId } }"
         tag="li"
         exact
       >
@@ -27,7 +27,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_daemons', params: { site_id: siteId } }"
+        :to="{ name: 'site.daemons', params: { site: siteId } }"
         tag="li"
         exact
       >
@@ -44,7 +44,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_workers', params: { site_id: siteId } }"
+        :to="{ name: 'site.workers', params: { site: siteId } }"
         tag="li"
         exact
       >
@@ -61,7 +61,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_server_files', params: { site_id: siteId } }"
+        :to="{ name: 'site.server-files', params: { site: siteId } }"
         tag="li"
         v-if="siteServers && siteServers.length >= 1"
       >
@@ -72,7 +72,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_language_settings', params: { site_id: siteId } }"
+        :to="{ name: 'site.language-settings', params: { site: siteId } }"
         tag="li"
       >
         <a>
@@ -84,7 +84,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_server_features', params: { site_id: siteId } }"
+        :to="{ name: 'site.server-features', params: { site: siteId } }"
         tag="li"
       >
         <a>
@@ -104,51 +104,54 @@
 export default {
   computed: {
     siteId() {
-      return this.$route.params.site_id;
+      return this.$route.params.site;
     },
     site() {
-      return this.$store.state.user_sites.site;
+      return this.$store.getters["user/sites/show"](this.siteId);
     },
     siteServers() {
-      return this.$store.getters["user_site_servers/getServers"](
-        this.$route.params.site_id,
-      );
+      // return this.$store.getters["user_site_servers/getServers"](
+      //   this.$route.params.site,
+      // );
     },
     canCreateWorkers() {
-      if (this.siteServers && this.siteServers.length > 0) {
-        return this.siteServersCanCreateWorker;
-      } else if (
-        this.siteFeatures &&
-        this.siteFeatures.WorkerService &&
-        this.siteFeatures.WorkerService.Supervisor &&
-        this.siteFeatures.WorkerService.Supervisor &&
-        this.siteFeatures.WorkerService.Supervisor.enabled == 1
-      ) {
-        return true;
-      }
-      return false;
+      // if (this.siteServers && this.siteServers.length > 0) {
+      //   return this.siteServersCanCreateWorker;
+      // } else if (
+      //   this.siteFeatures &&
+      //   this.siteFeatures.WorkerService &&
+      //   this.siteFeatures.WorkerService.Supervisor &&
+      //   this.siteFeatures.WorkerService.Supervisor &&
+      //   this.siteFeatures.WorkerService.Supervisor.enabled == 1
+      // ) {
+      //   return true;
+      // }
+      // return false;
+      return true;
     },
     siteServersCanCreateWorker() {
-      if (this.siteServers && this.siteServers.length > 0) {
-        let workerServer = this.siteServers.find((server) => {
-          return (
-            server.server_features.WorkerService &&
-            server.server_features.WorkerService.Supervisor.enabled == 1
-          );
-        });
-        if (workerServer) {
-          return true;
-        }
-      }
-      return false;
+      // if (this.siteServers && this.siteServers.length > 0) {
+      //   let workerServer = this.siteServers.find((server) => {
+      //     return (
+      //       server.server_features.WorkerService &&
+      //       server.server_features.WorkerService.Supervisor.enabled == 1
+      //     );
+      //   });
+      //   if (workerServer) {
+      //     return true;
+      //   }
+      // }
+      // return false;
+      return true;
     },
     siteFeatures() {
-      return this.$store.state.user_site_server_features.features;
+      return {};
+      // return this.$store.state.user_site_server_features.features;
     },
   },
   watch: {
     $route: function() {
-      $("#middle .section-content").scrollTop(0);
+      // $("#middle .section-content").scrollTop(0);
     },
   },
 };

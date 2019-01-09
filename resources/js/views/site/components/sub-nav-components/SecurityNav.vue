@@ -1,8 +1,8 @@
 <template>
   <div class="tab-container tab-left">
-    <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
+    <ul class="nav nav-tabs">
       <router-link
-        :to="{ name: 'site_ssh_keys', params: { site_id: siteId } }"
+        :to="{ name: 'site.ssh-keys', params: { site: siteId } }"
         tag="li"
         class="wizard-item"
         exact
@@ -16,7 +16,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_firewall_rules', params: { site_id: siteId } }"
+        :to="{ name: 'site.firewall-rules', params: { site: siteId } }"
         tag="li"
         class="wizard-item"
       >
@@ -27,7 +27,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'site_ssl_certs', params: { site_id: siteId } }"
+        :to="{ name: 'site.ssl-certificates', params: { site: siteId } }"
         tag="li"
         v-if="site && site.domain !== 'default'"
       >
@@ -46,15 +46,15 @@
 export default {
   computed: {
     siteId() {
-      return this.$route.params.site_id;
+      return this.$route.params.site;
     },
     site() {
-      return this.$store.state.user_sites.site;
+      return this.$store.getters["user/sites/show"](this.siteId);
     },
   },
   watch: {
     $route: function() {
-      $("#middle .section-content").scrollTop(0);
+      // $("#middle .section-content").scrollTop(0);
     },
   },
 };

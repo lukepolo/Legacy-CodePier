@@ -2,7 +2,7 @@
   <section id="middle" class="section-column">
     <template v-if="workFlowCompleted">
       <h3 class="section-header primary" v-if="site">
-        <router-link :to="{ name: 'site-overview', params: { site: site.id } }">
+        <router-link :to="{ name: 'site', params: { site: site.id } }">
           {{ site.name }}
         </router-link>
 
@@ -106,7 +106,10 @@
         <div class="container">
           <ul class="wizard" v-if="site">
             <router-link
-              :to="{ name: 'site.repository', params: { site: site.id } }"
+              :to="{
+                name: 'site.repository-information',
+                params: { site: site.id },
+              }"
               tag="li"
               class="wizard-item"
             >
@@ -132,11 +135,8 @@
               <a>Server Setup</a>
             </router-link>
           </ul>
-
           <div class="tab-container tab-left child-view">
-            <div class="nav nav-tabs">
-              <router-view name="subNav"></router-view>
-            </div>
+            <div class="nav nav-tabs"><component :is="subNav"></component></div>
             <div class="tab-content"><router-view></router-view></div>
           </div>
         </div>
@@ -159,6 +159,9 @@ export default {
     },
     hasServers() {
       return false;
+    },
+    subNav() {
+      return this.$route.meta.data.subNav;
     },
   },
 };

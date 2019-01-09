@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import LifeLine from "./Lifeline";
+import LifeLine from "./life-line-components/Lifeline";
 export default {
   props: {
     site: {
