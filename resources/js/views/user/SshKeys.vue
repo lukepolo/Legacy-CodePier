@@ -91,7 +91,7 @@ export default {
           this.form.reset();
         });
     },
-    deleteSshKey: function(sshKeyId) {
+    deleteSshKey(sshKeyId) {
       this.$store.dispatch("user/sshKeys/destroy", {
         ssh_key: sshKeyId,
       });

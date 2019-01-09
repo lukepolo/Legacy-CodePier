@@ -1,7 +1,110 @@
 <template>
-  <div>Ssh Keys Setup</div>
+  <section>
+    <div class="flex flex--center">
+      <h3 class="flex--grow">SSH Keys</h3>
+
+      <tooltip message="Add SSH Key">
+        <span
+          class="btn btn-small btn-primary"
+          :class="{ 'btn-disabled': this.formIsOpen }"
+          @click="showForm = true"
+        >
+          <span class="icon-plus"></span>
+        </span>
+      </tooltip>
+    </div>
+
+    <table class="table" v-if="sshKeys.length">
+      <thead>
+        <tr>
+          <th colspan="3">Key Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="sshKey in sshKeys">
+          <td>{{ sshKey.name }}</td>
+          <td class="table--action">
+            <span class="icon-trash" @click="deleteSshKey(sshKey.id)"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <base-form v-form="form" :action="createKey" v-if="formIsOpen">
+      <base-input
+        validate
+        v-model="form.name"
+        label="Key Name"
+        name="name"
+      ></base-input>
+      <base-input
+        validate
+        type="textarea"
+        v-model="form.ssh_key"
+        label="Public Key"
+        name="ssh_key"
+      ></base-input>
+
+      <template slot="buttons">
+        <span class="btn" v-if="form.isDirty()" @click.prevent="form.reset()"
+          >Cancel</span
+        >
+        <button class="btn btn-primary" type="submit">Add SSH Key</button>
+      </template>
+    </base-form>
+  </section>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      showForm: false,
+      form: this.createForm({
+        name: null,
+        ssh_key: null,
+      }).validation({
+        rules: {
+          name: "required|max:255",
+          ssh_key: "required",
+        },
+      }),
+    };
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler: "fetchData",
+    },
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch("user/sites/sshKeys/get", {
+        site: this.$route.params.site,
+      });
+    },
+    createKey() {
+      this.$store.dispatch("user/sites/sshKeys/create", {
+        data: this.form.data(),
+        parameters: {
+          site: this.$route.params.site,
+        },
+      });
+    },
+    deleteSshKey(sshKeyId) {
+      this.$store.dispatch("user/sites/sshKeys/destroy", {
+        ssh_key: sshKeyId,
+        site: this.$route.params.site,
+      });
+    },
+  },
+  computed: {
+    formIsOpen() {
+      return true;
+    },
+    sshKeys() {
+      return this.$store.state.user.sites.sshKeys.ssh_keys;
+    },
+  },
+};
 </script>
