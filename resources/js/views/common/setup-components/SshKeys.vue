@@ -6,7 +6,7 @@
       <tooltip message="Add SSH Key">
         <span
           class="btn btn-small btn-primary"
-          :class="{ 'btn-disabled': this.formIsOpen }"
+          :class="{ 'btn-disabled': this.showForm === true }"
           @click="showForm = true"
         >
           <span class="icon-plus"></span>
@@ -30,7 +30,7 @@
       </tbody>
     </table>
 
-    <base-form v-form="form" :action="createKey" v-if="formIsOpen">
+    <base-form v-form="form" :action="createKey" v-if="showForm">
       <base-input
         validate
         v-model="form.name"
@@ -46,9 +46,7 @@
       ></base-input>
 
       <template slot="buttons">
-        <span class="btn" v-if="form.isDirty()" @click.prevent="form.reset()"
-          >Cancel</span
-        >
+        <span class="btn" @click.prevent="cancel">Cancel</span>
         <button class="btn btn-primary" type="submit">Add SSH Key</button>
       </template>
     </base-form>
@@ -76,6 +74,13 @@ export default {
       immediate: true,
       handler: "fetchData",
     },
+    sshKeys: {
+      handler() {
+        if (!this.sshKeys.length) {
+          this.showForm = true;
+        }
+      },
+    },
   },
   methods: {
     fetchData() {
@@ -84,12 +89,16 @@ export default {
       });
     },
     createKey() {
-      this.$store.dispatch("user/sites/sshKeys/create", {
-        data: this.form.data(),
-        parameters: {
-          site: this.$route.params.site,
-        },
-      });
+      this.$store
+        .dispatch("user/sites/sshKeys/create", {
+          data: this.form.data(),
+          parameters: {
+            site: this.$route.params.site,
+          },
+        })
+        .then(() => {
+          this.cancel();
+        });
     },
     deleteSshKey(sshKeyId) {
       this.$store.dispatch("user/sites/sshKeys/destroy", {
@@ -97,11 +106,12 @@ export default {
         site: this.$route.params.site,
       });
     },
+    cancel() {
+      this.form.reset();
+      this.showForm = false;
+    },
   },
   computed: {
-    formIsOpen() {
-      return true;
-    },
     sshKeys() {
       return this.$store.state.user.sites.sshKeys.ssh_keys;
     },
