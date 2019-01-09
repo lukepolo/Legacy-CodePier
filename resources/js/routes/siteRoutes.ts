@@ -11,7 +11,7 @@ export default function($router: RouterInterface) {
     .group(() => {
       $router.route("", SiteViews.SiteOverview);
       $router.route("workflow", SiteViews.SiteWorkflow);
-      // subNav: SiteViews.SiteSetupNav,
+
       $router
         .area(SiteViews.SiteArea)
         .data({ subNav: SiteViews.SiteSetupNav })
