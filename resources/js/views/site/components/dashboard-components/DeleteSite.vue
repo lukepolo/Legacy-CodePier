@@ -1,7 +1,7 @@
 <template>
   <confirm
-    dispatch="user_sites/destroy"
-    :params="site.id"
+    dispatch="user/sites/destroy"
+    :params="{ site: site.id }"
     :confirm_with_text="site.name"
     confirm_class="btn-link btn-link-danger"
     confirm_position="bottom"

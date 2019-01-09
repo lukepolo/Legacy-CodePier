@@ -28,7 +28,11 @@ export default function() {
       });
     },
     workFlowCompleted: (state: SitesState) => (site) => {
-      return getNextStep(site) === undefined;
+      return !!(
+        getNextStep(site) === undefined &&
+        site.repository &&
+        site.site_type
+      );
     },
     getNextWorkFlowStep: (state: SitesState) => (site) => {
       return getNextStep(site);
