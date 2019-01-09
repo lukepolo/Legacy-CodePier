@@ -43,12 +43,23 @@ export default function($router: RouterInterface) {
         });
 
       $router
-        .middleware([middleware.SiteWorkflowMustBeCompleted])
+        .middleware([middleware.SiteWorkflow])
         .prefix("site/:site")
         .group(() => {
           $router.route("", SiteViews.SiteOverview);
-          $router.route("setup", SiteViews.SiteSetup);
           $router.route("workflow", SiteViews.SiteWorkflow);
+
+          $router.area(SiteViews.SiteArea).group(() => {
+            $router.route("setup", {
+              default: SiteViews.SiteSetup,
+              subNav: SiteViews.SiteSetupNav,
+            });
+
+            $router.route("ssh-keys", {
+              default: SiteViews.SiteSetup,
+              subNav: SiteViews.SiteSetupNav,
+            });
+          });
         });
 
       $router.route("servers", ServerViews.Servers);

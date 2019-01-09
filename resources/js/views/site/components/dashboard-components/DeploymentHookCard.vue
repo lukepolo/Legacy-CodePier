@@ -16,6 +16,7 @@
     </div>
     <div slot="content" class="dropdown-menu dropdown-content nowrap">
       <h3>
+        // TODO
         <!--<confirm-dropdown dispatch="user_site_deployments/refreshDeployKey" :params="site.id">-->
         <!--Deploy Hook URL &nbsp;-->
         <!--<tooltip message="Refresh Deploy Key">-->
@@ -48,14 +49,10 @@ export default {
       );
     },
     removeDeployHook() {
-      this.$store
-        .dispatch("user_site_deployments/removeDeployHook", {
-          site: this.$route.params.site_id,
-          hook: this.site.automatic_deployment_id,
-        })
-        .catch(() => {
-          this.site.automatic_deployment_id = false;
-        });
+      this.$store.dispatch("user_site_deployments/removeDeployHook", {
+        site: this.$route.params.site_id,
+        hook: this.site.automatic_deployment_id,
+      });
     },
   },
   computed: {

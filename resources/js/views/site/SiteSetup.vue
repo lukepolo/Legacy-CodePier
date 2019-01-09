@@ -1,8 +1,6 @@
 <template>
   <div v-if="site">
     <base-form :action="updateSite">
-      <pre>{{ form.data(false) }}</pre>
-
       <repository-provider-selector
         v-model="form.user_repository_provider_id"
         :custom.sync="form.custom_provider"

@@ -3,8 +3,7 @@ import StateServiceInterface from "varie/lib/state/StateServiceInterface";
 import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface";
 
 @injectable()
-export default class SiteWorkflowMustBeCompleted
-  implements RouteMiddlewareInterface {
+export default class SiteWorkflow implements RouteMiddlewareInterface {
   private to;
   private next;
   private site;
@@ -18,12 +17,10 @@ export default class SiteWorkflowMustBeCompleted
     this.to = to;
     if (to.name !== "site.workflow") {
       this.next = next;
-      this.site = this.stateService.getters["user/sites/show"](to.params.site);
+      this.getSite(to.params.site);
       if (!this.site) {
         return this.stateService.dispatch("user/sites/get").then(() => {
-          this.site = this.stateService.getters["user/sites/show"](
-            to.params.site,
-          );
+          this.getSite(to.params.site);
           return this.checkWorkflow();
         });
       }
@@ -32,6 +29,9 @@ export default class SiteWorkflowMustBeCompleted
     return next();
   }
 
+  private getSite(siteId) {
+    return (this.site = this.stateService.getters["user/sites/show"](siteId));
+  }
   checkWorkflow() {
     if (!this.site.repository) {
       if (this.to.name !== "site.setup") {
@@ -46,25 +46,8 @@ export default class SiteWorkflowMustBeCompleted
         params: { site: this.site.id },
       });
     }
-    return this.next(this.getNextStep());
-  }
-
-  getNextStep() {
-    if (this.site.workflow) {
-      let availableSteps = this.site.workflow
-        .filter((step) => {
-          return !step.completed;
-        })
-        .sort((a, b) => {
-          return a.order > b.order;
-        });
-
-      let nextStep = availableSteps && availableSteps[0];
-      if (nextStep) {
-        return {
-          name: nextStep.step,
-        };
-      }
-    }
+    return this.next(
+      this.stateService.getters["user/sites/getNextWorkFlowStep"](this.site),
+    );
   }
 }
