@@ -7,11 +7,14 @@ import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
 export default class UserSiteDeploymentStore extends RestStoreModule {
-  constructor(@inject("SiteDeploymentService") siteDeploymentService) {
+  constructor(
+    @inject("SiteDeploymentService") siteDeploymentService,
+    @inject("SiteDeploymentStepService") siteDeploymentStepService,
+  ) {
     super(siteDeploymentService, "deployments");
     this.setName("deployments")
       .addState(state)
-      .addActions(actions(siteDeploymentService))
+      .addActions(actions(siteDeploymentService, siteDeploymentStepService))
       .addMutations(mutations)
       .addGetters(getters);
   }

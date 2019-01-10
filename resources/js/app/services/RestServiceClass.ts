@@ -41,9 +41,16 @@ export default class RestServiceClass {
     if (parameters) {
       parameters = JSON.parse(JSON.stringify(parameters));
     }
-    return this.$apiRouteService.action(
+
+    let url = this.$apiRouteService.action(
       `${this.$controllerClass}@${action}`,
       parameters,
     );
+
+    if (!url) {
+      throw `Invalid Controller/Action : ${this.$controllerClass}@${action}`;
+    }
+
+    return url;
   }
 }
