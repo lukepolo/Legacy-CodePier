@@ -13,6 +13,7 @@ import UserSiteSslCertificateStore from "@store/user/modules/sites/modules/ssl-c
 import UserSiteEnvironmentVariableStore from "@store/user/modules/sites/modules/environment-variables/UserSiteEnvironmentVariableStore";
 import UserSiteCronJobStore from "@store/user/modules/sites/modules/cron-jobs/UserSiteCronJobStore";
 import UserSiteDaemonStore from "@store/user/modules/sites/modules/daemons/UserSiteDaemonStore";
+import UserSiteWorkerStore from "@store/user/modules/sites/modules/workers/UserSiteWorkerStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -31,6 +32,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteSslCertificateStore)
       .addModule(UserSiteEnvironmentVariableStore)
       .addModule(UserSiteCronJobStore)
-      .addModule(UserSiteDaemonStore);
+      .addModule(UserSiteDaemonStore)
+      .addModule(UserSiteWorkerStore);
   }
 }
