@@ -47,7 +47,13 @@
 
       <template slot="buttons">
         <span class="btn" @click.prevent="cancel">Cancel</span>
-        <button class="btn btn-primary" type="submit">Add SSH Key</button>
+        <button
+          class="btn btn-primary"
+          :disabled="!form.isValid()"
+          type="submit"
+        >
+          Add SSH Key
+        </button>
       </template>
     </base-form>
   </section>

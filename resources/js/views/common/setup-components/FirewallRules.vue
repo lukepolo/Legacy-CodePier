@@ -82,7 +82,13 @@
 
       <template slot="buttons">
         <span class="btn" @click.prevent="cancel">Cancel</span>
-        <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
+        <button
+          class="btn btn-primary"
+          :disabled="!form.isValid()"
+          type="submit"
+        >
+          Add Firewall Rule
+        </button>
       </template>
     </base-form>
   </section>
@@ -103,6 +109,7 @@ export default {
           port: "required|max:6",
           type: "required",
           description: "required|max:255",
+          from_ip: "ip_address",
         },
       }),
     };

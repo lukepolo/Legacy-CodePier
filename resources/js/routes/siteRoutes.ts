@@ -49,7 +49,7 @@ export default function($router: RouterInterface) {
         .group(() => {
           $router.prefix("server-setup").group(() => {
             $router
-              .route("", SetupPages.SshKeys)
+              .route("", SetupPages.EnvironmentVariables)
               .setAlias("environment-variables")
               .setName("site.environment-variables");
 

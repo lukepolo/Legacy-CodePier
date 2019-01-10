@@ -5,6 +5,8 @@ import UserSiteLifeLineService from "@app/services/User/UserSiteLifeLineService"
 import SiteDeploymentService from "@app/services/Site/SiteDeploymentService";
 import SiteSshKeyService from "@app/services/Site/SiteSshKeyService";
 import SiteFirewallService from "@app/services/Site/SiteFirewallService";
+import SiteSslCertificateService from "@app/services/Site/SiteSslCertificateService";
+import SiteEnvironmentVariableService from "@app/services/Site/SiteEnvironmentVariableService";
 
 export default class SiteProvider extends ServiceProvider {
   public register() {
@@ -13,6 +15,11 @@ export default class SiteProvider extends ServiceProvider {
     this.app.bind("SiteSshKeyService", SiteSshKeyService);
     this.app.bind("SiteDeploymentService", SiteDeploymentService);
     this.app.bind("SiteFirewallService", SiteFirewallService);
+    this.app.bind("SiteSslCertificateService", SiteSslCertificateService);
+    this.app.bind(
+      "SiteEnvironmentVariableService",
+      SiteEnvironmentVariableService,
+    );
 
     // TODO - this needs to be changed
     this.app.bind("UserSiteLifeLineService", UserSiteLifeLineService);

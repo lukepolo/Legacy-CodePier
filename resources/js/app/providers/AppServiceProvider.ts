@@ -1,7 +1,8 @@
 import Vue from "vue";
 import PortalVue from "portal-vue";
+// TODO - make it module exports
+import routes from "@app/helpers/routes";
 import ServiceProvider from "varie/lib/support/ServiceProvider";
-
 /*
 |--------------------------------------------------------------------------
 | App Service Provider
@@ -16,6 +17,6 @@ export default class AppProviderServiceProvider extends ServiceProvider {
   }
 
   public register() {
-    this.app.constant("ApiRouteService", require("@app/helpers/routes"));
+    this.app.constant("ApiRouteService", routes());
   }
 }

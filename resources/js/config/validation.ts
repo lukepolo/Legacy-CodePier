@@ -1,3 +1,4 @@
+import IpAddress from "@app/rules/IpAddress";
 export default {
   /*
   |--------------------------------------------------------------------------
@@ -9,6 +10,6 @@ export default {
   */
 
   rules: {
-    //
+    ip_address: IpAddress,
   },
 };

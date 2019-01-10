@@ -9,6 +9,8 @@ import UserSiteLifeLinesStore from "@store/user/modules/sites/modules/life-lines
 import UserSiteDeploymentStore from "@store/user/modules/sites/modules/deployments/UserSiteDeploymentStore";
 import UserSiteSshKeyStore from "@store/user/modules/sites/modules/ssh-keys/UserSiteSshKeyStore";
 import UserSiteFireWallRuleStore from "@store/user/modules/sites/modules/firewall-rules/UserSiteFireWallRuleStore";
+import UserSiteSslCertificateStore from "@store/user/modules/sites/modules/ssl-certificates/SslCertificatesStore";
+import UserSiteEnvironmentVariableStore from "@store/user/modules/sites/modules/environment-variables/UserSiteEnvironmentVariableStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -23,6 +25,8 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteLifeLinesStore)
       .addModule(UserSiteDeploymentStore)
       .addModule(UserSiteSshKeyStore)
-      .addModule(UserSiteFireWallRuleStore);
+      .addModule(UserSiteFireWallRuleStore)
+      .addModule(UserSiteSslCertificateStore)
+      .addModule(UserSiteEnvironmentVariableStore);
   }
 }

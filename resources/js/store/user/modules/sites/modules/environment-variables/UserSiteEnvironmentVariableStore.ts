@@ -6,10 +6,12 @@ import { injectable, inject, unmanaged } from "inversify";
 import RestStoreModule from "@app/extensions/RestStoreModule/RestStoreModule";
 
 @injectable()
-export default class UserSiteSslCertificateStore extends RestStoreModule {
-  constructor(@inject("SiteSslCertificateService") siteSslCertificateService) {
-    super(siteSslCertificateService, "ssl_certificates");
-    this.setName("sslCertificates")
+export default class UserSiteEnvironmentVariableStore extends RestStoreModule {
+  constructor(
+    @inject("SiteEnvironmentVariableService") siteEnvironmentVariableService,
+  ) {
+    super(siteEnvironmentVariableService, "environment_variables");
+    this.setName("environmentVariables")
       .addState(state)
       .addActions(actions())
       .addMutations(mutations)
