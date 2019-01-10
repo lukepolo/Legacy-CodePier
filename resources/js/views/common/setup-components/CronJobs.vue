@@ -51,7 +51,7 @@
           :disabled="!form.isValid()"
           type="submit"
         >
-          Add SSH Key
+          Add Cron Job
         </button>
       </template>
     </base-form>

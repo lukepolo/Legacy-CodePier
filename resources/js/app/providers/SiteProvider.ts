@@ -8,10 +8,12 @@ import SiteFirewallService from "@app/services/Site/SiteFirewallService";
 import SiteSslCertificateService from "@app/services/Site/SiteSslCertificateService";
 import SiteEnvironmentVariableService from "@app/services/Site/SiteEnvironmentVariableService";
 import SiteCronJobService from "@app/services/Site/SiteCronJobService";
+import SiteDaemonService from "@app/services/Site/SiteDaemonService";
 
 export default class SiteProvider extends ServiceProvider {
   public register() {
     this.app.bind("SiteService", SiteService);
+    this.app.bind("SiteDaemonService", SiteDaemonService);
     this.app.bind("SiteServerService", SiteServerService);
     this.app.bind("SiteSshKeyService", SiteSshKeyService);
     this.app.bind("SiteCronJobService", SiteCronJobService);

@@ -12,6 +12,7 @@ import UserSiteFireWallRuleStore from "@store/user/modules/sites/modules/firewal
 import UserSiteSslCertificateStore from "@store/user/modules/sites/modules/ssl-certificates/SslCertificatesStore";
 import UserSiteEnvironmentVariableStore from "@store/user/modules/sites/modules/environment-variables/UserSiteEnvironmentVariableStore";
 import UserSiteCronJobStore from "@store/user/modules/sites/modules/cron-jobs/UserSiteCronJobStore";
+import UserSiteDaemonStore from "@store/user/modules/sites/modules/daemons/UserSiteDaemonStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -29,6 +30,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteFireWallRuleStore)
       .addModule(UserSiteSslCertificateStore)
       .addModule(UserSiteEnvironmentVariableStore)
-      .addModule(UserSiteCronJobStore);
+      .addModule(UserSiteCronJobStore)
+      .addModule(UserSiteDaemonStore);
   }
 }
