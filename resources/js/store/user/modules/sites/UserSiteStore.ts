@@ -11,6 +11,7 @@ import UserSiteSshKeyStore from "@store/user/modules/sites/modules/ssh-keys/User
 import UserSiteFireWallRuleStore from "@store/user/modules/sites/modules/firewall-rules/UserSiteFireWallRuleStore";
 import UserSiteSslCertificateStore from "@store/user/modules/sites/modules/ssl-certificates/SslCertificatesStore";
 import UserSiteEnvironmentVariableStore from "@store/user/modules/sites/modules/environment-variables/UserSiteEnvironmentVariableStore";
+import UserSiteCronJobStore from "@store/user/modules/sites/modules/cron-jobs/UserSiteCronJobStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -27,6 +28,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteSshKeyStore)
       .addModule(UserSiteFireWallRuleStore)
       .addModule(UserSiteSslCertificateStore)
-      .addModule(UserSiteEnvironmentVariableStore);
+      .addModule(UserSiteEnvironmentVariableStore)
+      .addModule(UserSiteCronJobStore);
   }
 }
