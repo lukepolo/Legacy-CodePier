@@ -1,15 +1,19 @@
 import { ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { LanguageSettingsState } from "./stateInterface";
+import SiteLanguageSettingService from "@app/services/Site/SiteLanguageSettingService";
 
-export default function(httpService) {
+export default function(
+  siteLanguageSettingService: SiteLanguageSettingService,
+) {
   return {
-    sampleAction: (
+    getAvailable: (
       context: ActionContext<LanguageSettingsState, RootState>,
       data,
     ) => {
-      return httpService.post("/some-url", {
-        data,
+      return siteLanguageSettingService.getAvailable(data).then(({ data }) => {
+        context.commit("SET_AVAILABLE_SETTINGS", data);
+        return data;
       });
     },
   };

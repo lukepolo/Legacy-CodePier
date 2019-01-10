@@ -2,6 +2,8 @@ import { LanguageSettingsState } from "./stateInterface";
 
 export default function() {
   return {
-    SAMPLE_MUTATION: (state: LanguageSettingsState, data) => {},
+    SET_AVAILABLE_SETTINGS: (state: LanguageSettingsState, data) => {
+      state.available_language_settings = data;
+    },
   };
 }

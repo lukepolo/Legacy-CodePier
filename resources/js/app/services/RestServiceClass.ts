@@ -16,27 +16,27 @@ export default class RestServiceClass {
     this.$controllerClass = controllerClass;
   }
 
-  get(parameters = null) {
+  public get(parameters = null) {
     return this.httpService.get(this.getUrl("index", parameters));
   }
 
-  create(parameters = null, data) {
+  public create(parameters = null, data) {
     return this.httpService.post(this.getUrl("store", parameters), data);
   }
 
-  show(parameters) {
+  public show(parameters) {
     return this.httpService.get(this.getUrl("show", parameters));
   }
 
-  update(parameters, data) {
+  public update(parameters, data) {
     return this.httpService.patch(this.getUrl("update", parameters), data);
   }
 
-  destroy(parameters) {
+  public destroy(parameters) {
     return this.httpService.delete(this.getUrl("destroy", parameters));
   }
 
-  private getUrl(action, parameters) {
+  protected getUrl(action, parameters) {
     // laroute deletes params when replacing......
     if (parameters) {
       parameters = JSON.parse(JSON.stringify(parameters));

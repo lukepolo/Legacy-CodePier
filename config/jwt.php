@@ -100,8 +100,7 @@ return [
     | Notice: If you set this to null you should remove 'exp' element from 'required_claims' list.
     |
     */
-
-    'ttl' => env('JWT_TTL', 60),
+    'ttl' => env('JWT_TTL', 10080),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,7 +110,7 @@ return [
     | Specify the length of time (in minutes) that the token can be refreshed
     | within. I.E. The user can refresh their token within a 2 week window of
     | the original token being created until they must re-authenticate.
-    | Defaults to 2 weeks.
+    | Defaults to 1 week.
     |
     | You can also set this to null, to yield an infinite refresh time.
     | Some may want this instead of never expiring tokens for e.g. a mobile app.
@@ -120,7 +119,7 @@ return [
     |
     */
 
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
+    'refresh_ttl' => env('JWT_REFRESH_TTL', 10080),
 
     /*
     |--------------------------------------------------------------------------

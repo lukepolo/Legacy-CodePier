@@ -14,6 +14,7 @@ import UserSiteEnvironmentVariableStore from "@store/user/modules/sites/modules/
 import UserSiteCronJobStore from "@store/user/modules/sites/modules/cron-jobs/UserSiteCronJobStore";
 import UserSiteDaemonStore from "@store/user/modules/sites/modules/daemons/UserSiteDaemonStore";
 import UserSiteWorkerStore from "@store/user/modules/sites/modules/workers/UserSiteWorkerStore";
+import UserSiteLanguageSettingStore from "@store/user/modules/sites/modules/language-settings/UserSiteLanguageSettingStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -33,6 +34,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteEnvironmentVariableStore)
       .addModule(UserSiteCronJobStore)
       .addModule(UserSiteDaemonStore)
-      .addModule(UserSiteWorkerStore);
+      .addModule(UserSiteWorkerStore)
+      .addModule(UserSiteLanguageSettingStore);
   }
 }
