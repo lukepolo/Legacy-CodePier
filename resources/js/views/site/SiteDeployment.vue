@@ -65,11 +65,9 @@
                 v-for="(deploymentStep, key) in inactive"
                 v-if="shouldShowStep(deploymentStep)"
               >
-                <pre>{{ deploymentStep.zero_downtime_deployment }}</pre>
                 <deployment-step-card
-                  :deployment-step="deploymentStep"
+                  v-model="inactive[key]"
                   :suggestedOrder="getSuggestedOrder(deploymentStep)"
-                  v-on:updateStep="updateStep('inactive')"
                   v-on:deleteStep="deleteStep(key, 'inactive')"
                 ></deployment-step-card>
               </div>
@@ -89,8 +87,8 @@
             </h3>
 
             <draggable
-              :list="active"
               class="dragArea"
+              :list="active"
               :options="{ group: 'tasks' }"
             >
               <div
@@ -100,10 +98,9 @@
               >
                 <deployment-step-card
                   :order="key + 1"
-                  :deployment-step.sync="deploymentStep"
+                  v-model="active[key]"
                   :key="deploymentStep.id"
                   :suggestedOrder="getSuggestedOrder(deploymentStep)"
-                  v-on:updateStep="updateStep('active')"
                   v-on:deleteStep="deleteStep(key, 'active')"
                 ></deployment-step-card>
               </div>
@@ -130,20 +127,18 @@
           Tasks To Be Run After Successful Deployment
         </h3>
         <draggable
-          :list="afterDeployment"
           class="dragArea"
+          :list="afterDeployment"
           :options="{ group: 'tasks' }"
         >
           <div
             class="drag-element"
             v-for="(deploymentStep, key) in afterDeployment"
+            v-if="shouldShowStep(deploymentStep)"
           >
             <deployment-step-card
               :order="key + 1"
-              :deployment-step.sync="deploymentStep"
-              :key="deploymentStep.id"
-              :suggestedOrder="getSuggestedOrder(deploymentStep)"
-              v-on:updateStep="updateStep('active')"
+              v-model="afterDeployment[key]"
               v-on:deleteStep="deleteStep(key, 'active')"
             ></deployment-step-card>
           </div>
@@ -207,25 +202,27 @@ export default {
   methods: {
     updateSiteDeployment() {
       this.saveSiteDeploymentConfig();
-
-      console.info(
-        this.active.concat(
-          this.afterDeployment.map((step) => {
-            step.after_deploy = true;
-            return step;
-          }),
-        ),
-      );
-      // this.$store.dispatch("user_site_deployments/updateSiteDeployment", {
-      //   site: this.$route.params.site_id,
-      //   deployment_steps: this.active.concat(this.afterDeployment)
-      // });
+      this.$store.dispatch("user/sites/deployments/updateDeployment", {
+        parameters: {
+          site: this.siteId,
+        },
+        data: {
+          deployment_steps: this.active.concat(
+            this.afterDeployment.map((step) => {
+              step.after_deploy = true;
+              return step;
+            }),
+          ),
+        },
+      });
     },
     saveSiteDeploymentConfig() {
-      // this.$store.dispatch(
-      //   "user_site_deployments/updateSiteDeploymentConfig",
-      //   this.form
-      // );
+      this.$store.dispatch("user/sites/deployments/create", {
+        parameters: {
+          site: this.siteId,
+        },
+        data: this.form.data(),
+      });
     },
     addCustomStep() {
       let tempId =
@@ -314,7 +311,9 @@ export default {
         .available_deployment_steps;
     },
     activeDeploymentSteps() {
-      return this.deploymentSteps;
+      return this.deploymentSteps.filter((step) => {
+        return !step.after_deploy;
+      });
     },
     inactiveDeploymentSteps() {
       return this.availableDeploymentSteps.filter((availableStep) => {
@@ -327,7 +326,9 @@ export default {
       });
     },
     afterDeploymentSteps() {
-      return [];
+      return this.deploymentSteps.filter((step) => {
+        return step.after_deploy;
+      });
     },
   },
 };

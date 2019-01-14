@@ -1,4 +1,4 @@
-import { ActionContext } from "vuex";
+import { Action, ActionContext } from "vuex";
 import RootState from "@store/rootState";
 import { DeploymentsState } from "./stateInterface";
 import SiteDeploymentService from "@app/services/Site/SiteDeploymentService";
@@ -28,6 +28,12 @@ export default function(
           context.commit("SET_AVAILABLE_DEPLOYMENT_STEPS", data);
           return data;
         });
+    },
+    updateDeployment(
+      context: ActionContext<DeploymentsState, RootState>,
+      { data, parameters },
+    ) {
+      return siteDeploymentStepService.create(parameters, data);
     },
   };
 }

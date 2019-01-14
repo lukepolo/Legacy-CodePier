@@ -61,6 +61,9 @@
 // import { ServerSelection } from "./../../setup/components";
 
 export default {
+  model: {
+    prop: "deploymentStep",
+  },
   components: {
     // ServerSelection
   },
@@ -83,16 +86,10 @@ export default {
         // server_ids: deploymentStep.server_ids || [],
         // server_types: deploymentStep.server_types || []
       }),
-      isEditing: deploymentStep.editing || false,
+      isEditing: (deploymentStep && deploymentStep.editing) || false,
     };
   },
   watch: {
-    step() {
-      this.deploymentStep.step = this.step;
-    },
-    script() {
-      this.deploymentStep.script = this.script;
-    },
     // server_ids() {
     //   this.deploymentStep.server_ids = this.server_ids;
     // },
@@ -106,7 +103,7 @@ export default {
     },
     save() {
       this.$emit(
-        "update:deploymentStep",
+        "input",
         Object.assign({}, this.deploymentStep, this.form.data()),
       );
     },
