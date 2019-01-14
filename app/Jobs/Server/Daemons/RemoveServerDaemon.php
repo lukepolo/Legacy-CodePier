@@ -48,6 +48,11 @@ class RemoveServerDaemon implements ShouldQueue
     {
         $sitesCount = $this->daemon->sites->count();
 
+        if (! $this->server->daemons->keyBy('id')->get($this->daemon->id)) {
+            $this->updateServerCommand(0, 'Sever does not have daemon installed');
+            return;
+        }
+
         if ($this->forceRemove || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeDaemon($this->daemon);

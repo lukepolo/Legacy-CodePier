@@ -18,10 +18,10 @@ class ServerProvidersSeeder extends Seeder
             \App\Http\Controllers\Server\Providers\DigitalOcean\DigitalOceanController::DIGITALOCEAN => [
                 'name'     => 'Digital Ocean',
                 'features' => [
-                    ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
                     ['feature' => 'IPV6', 'cost' => null, 'default' => true, 'option' => 'ipv6'],
                     ['feature' => 'Monitoring', 'cost' => null, 'default' => true, 'option' => 'monitoring'],
                     ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
+                    ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
                 ],
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,
                 'secret_token' => false
@@ -40,7 +40,12 @@ class ServerProvidersSeeder extends Seeder
             ],
             \App\Http\Controllers\Server\Providers\Vultr\VultrController::VULTR => [
                 'name'     => 'Vultr',
-                'features' => [],
+                'features' => [
+                    ['feature' => 'IPV6', 'cost' => null, 'default' => true, 'option' => 'enable_ipv6'],
+                    ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'enable_private_network'],
+                    ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'auto_backups'],
+                    ['feature' => 'DDOS Protection', 'cost' => '$10 a month', 'default' => false, 'option' => 'ddos_protection'],
+                ],
                 'class' => \App\Services\Server\Providers\VultrProvider::class,
                 'secret_token' => false
             ],

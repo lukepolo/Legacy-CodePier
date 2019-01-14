@@ -11,58 +11,33 @@ class NodeService
     /**
      * @description NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
      *
-     * @options v8.9.4, v9.4.0
+     * @options 6.14.4, 8.12.0, 10.13.0, 11.1.0
      * @multiple false
      *
      * @param string $version
      */
-    public function installNodeJs($version = 'v8.9.4')
+    public function installNodeJs($version = '10.13.0')
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash');
+        $this->remoteTaskService->run('git clone https://github.com/creationix/nvm.git /opt/.nvm');
+        $this->remoteTaskService->run('cd /opt/.nvm && git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`');
+        $this->remoteTaskService->run('chown -R codepier:codepier /opt/.nvm');
 
-        $this->remoteTaskService->appendTextToFile('/etc/profile', '
-lazynvm() {
-  export NVM_DIR=~/.nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-}
-
-nvm() {
-  unset -f nvm
-  lazynvm 
-  nvm $@
-}
- 
-node() {
-  unset -f node
-  lazynvm
-  node $@
-}
-
-npm() {
-  unset -f npm
-  lazynvm
-  npm $@
-}
-
-yarn() {
-  unset -f yarn
-  lazynvm
-  yarn $@
-}
-
+        $this->remoteTaskService->prependTextToFile('/etc/bash.bashrc', '
+export NVM_DIR=/opt/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 ');
-
-        $this->remoteTaskService->run('nvm install ' . $version);
-        $this->remoteTaskService->run('nvm alias default ' . $version);
 
         $this->connectToServer('codepier');
 
-        $this->remoteTaskService->run('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash');
-
         $this->remoteTaskService->run('nvm install ' . $version);
         $this->remoteTaskService->run('nvm alias default ' . $version);
+
+        $this->connectToServer("root");
+
+        $this->remoteTaskService->run('NVM_DIR=$(which npm) && ln -s $NVM_DIR /usr/bin/npm');
+        $this->remoteTaskService->run('NODE_DIR=$(which node) && ln -s $NODE_DIR /usr/bin/node');
     }
 
     /**

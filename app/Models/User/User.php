@@ -96,7 +96,8 @@ class User extends Authenticatable implements JWTSubject
 
     public function getSubscriptionPlanAttribute()
     {
-        return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($this->subscription()) ? $this->subscription()->stripe_plan : null;
+        $subscription = $this->subscription();
+        return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($subscription) ? $subscription->stripe_plan : null;
     }
 
     public function getActivePlanAttribute()

@@ -54,13 +54,25 @@ class UpdateServerFirewallRules
                 foreach ($site->getDatabases() as $database) {
                     if (isset($servicesPorts[$database])) {
                         foreach ($servicesPorts[$database] as $port) {
-                            $siteService->createFirewallRule(
-                                $this->site,
-                                $port,
-                                'tcp',
-                                $port.' for '.$database,
-                                $this->server->ip
-                            );
+                            if (! empty($this->server->private_ips)) {
+                                foreach ($this->server->private_ips as $privateIp) {
+                                    $siteService->createFirewallRule(
+                                        $this->site,
+                                        $port,
+                                        'tcp',
+                                        $port.' for '.$database,
+                                        $privateIp
+                                    );
+                                }
+                            } else {
+                                $siteService->createFirewallRule(
+                                    $this->site,
+                                    $port,
+                                    'tcp',
+                                    $port.' for '.$database,
+                                    $this->server->ip
+                                );
+                            }
                         }
                     }
                 }
@@ -71,13 +83,25 @@ class UpdateServerFirewallRules
                     foreach ($site->getWorkers() as $worker) {
                         if (isset($servicesPorts[$worker])) {
                             foreach ($servicesPorts[$worker] as $port) {
-                                $siteService->createFirewallRule(
-                                    $this->site,
-                                    $port,
-                                    'tcp',
-                                    $port.' for '.$worker,
-                                    $this->server->ip
-                                );
+                                if (! empty($this->server->private_ips)) {
+                                    foreach ($this->server->private_ips as $privateIp) {
+                                        $siteService->createFirewallRule(
+                                            $this->site,
+                                            $port,
+                                            'tcp',
+                                            $port.' for '.$worker,
+                                            $privateIp
+                                        );
+                                    }
+                                } else {
+                                    $siteService->createFirewallRule(
+                                        $this->site,
+                                        $port,
+                                        'tcp',
+                                        $port.' for '.$worker,
+                                        $this->server->ip
+                                    );
+                                }
                             }
                         }
                     }

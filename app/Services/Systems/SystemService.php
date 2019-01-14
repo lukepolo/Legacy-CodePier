@@ -11,11 +11,16 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class SystemService implements SystemServiceContract
 {
+
+    CONST UBUNTU_16_04 = 'ubuntu 16.04';
+    CONST UBUNTU_18_04 = 'ubuntu 18.04';
+
     protected $server;
     protected $remoteTaskService;
 
     const PROVISION_SYSTEMS = [
-        'ubuntu 16.04' => 'Ubuntu\V_16_04',
+        self::UBUNTU_16_04 => 'Ubuntu\V_16_04',
+        self::UBUNTU_18_04 => 'Ubuntu\V_18_04',
     ];
 
     const WEB = 'WebService';

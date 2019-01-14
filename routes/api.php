@@ -205,6 +205,7 @@ Route::group(['middleware' => [
                 Route::post('{server}/reload-file/{file}', 'ServerFileController@reloadFile');
                 Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
+                Route::patch('{server}/private-ip-addresses', 'ServerPrivateIpAddressController@update');
 
                 Route::get('{server}/database-password', 'ServerController@getDatabasePassword');
 
