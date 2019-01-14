@@ -27,7 +27,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     {
         $server->progress = $progress;
         $server->status = $status;
-        $server->ip;
 
         $server->save();
 

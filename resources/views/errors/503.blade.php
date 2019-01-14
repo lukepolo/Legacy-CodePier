@@ -23,30 +23,24 @@
     <!-- Styles -->
     <link href="{{ mix('css/public.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="maintenance">
+    <div class="maintenance--img" id="migrate">
+        <img src="{{ asset('assets/img/maintenance/migrate.svg') }}">
+    </div>
+    <div class="maintenance--container">
+    <div class="maintenance--text">
+        <p><strong>We are performing maintenance </strong></p>
+        <p>We should be done shortly.</p>
+    </div>
 
-<div id="content" class="maintenance">
-    <div id="main">
-        <div class="maintenance--img" id="migrate">
-            <img src="{{ asset('assets/img/maintenance/migrate.svg') }}">
-        </div>
-        <div class="maintenance--container">
-            <div class="maintenance--text">
-                <p><strong>We are migrating our servers to their final resting places.</strong></p>
-                <p>See you on the other side.</p>
-                <p class="large">1-28-2017</p>
-            </div>
+    <div class="logo">
+        <img src="{{ asset('assets/img/CP_Logo_HZ-onGray.svg') }}">
+    </div>
 
-            <div class="logo">
-                <img src="{{ asset('assets/img/CP_Logo_HZ-onGray.svg') }}">
-            </div>
+    <div class="maintenance--links">
+        <a href="https://status.codepier.io">Status</a>
 
-            <div class="maintenance--links">
-                <a href="https://status.codepier.io">Status</a>
-
-                <a href="https://twitter.com/codepier?lang=en">Twitter</a>
-            </div>
-        </div>
+        <a href="https://twitter.com/codepier?lang=en">Twitter</a>
     </div>
 </div>
 

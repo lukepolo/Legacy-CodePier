@@ -89,22 +89,24 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
-        $userRepositoryProvider =  UserRepositoryProvider::findOrFail($request->get('user_repository_provider_id'));
+        $userRepositoryProvider =  UserRepositoryProvider::where('id', $request->get('user_repository_provider_id'))->first();
 
         $site->fill([
             'branch'                      => $request->get('branch'),
             'type'                        => $request->get('site_type'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'user_repository_provider_id' => $userRepositoryProvider->id,
+            'user_repository_provider_id' => 0,
         ]);
+
+        if (! empty($userRepositoryProvider)) {
+            $site->fill([
+                'user_repository_provider_id' => $userRepositoryProvider->id,
+            ]);
+        }
 
         if ($site->isDirty('web_directory') || $site->isDirty('type') || $site->isDirty('framework')) {
             event(new SiteUpdatedWebConfig($site));
-        }
-
-        if ($site->isDirty('repository') && ! empty($site->getOriginal('repository'))) {
-            $this->repositoryService->generateNewSshKeys($site);
         }
 
         $site->save();

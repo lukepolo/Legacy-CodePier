@@ -48,6 +48,11 @@ class RemoveServerWorker implements ShouldQueue
     {
         $sitesCount = $this->worker->sites->count();
 
+        if (! $this->server->workers->keyBy('id')->get($this->worker->id)) {
+            $this->updateServerCommand(0, 'Sever does not have worker installed');
+            return;
+        }
+
         if ($this->forceRemove || ! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
