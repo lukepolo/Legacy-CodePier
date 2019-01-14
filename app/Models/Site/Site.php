@@ -289,7 +289,7 @@ class Site extends Model
 
     public function getTypeAttribute()
     {
-        $typeAndFramework = explode('.', $this->getOriginal('type'));
+        $typeAndFramework = explode('.', $this->attributes['type']);
         if (isset($typeAndFramework[0])) {
             return $typeAndFramework[0];
         }

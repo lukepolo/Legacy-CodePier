@@ -12,6 +12,7 @@ import SiteDaemonService from "@app/services/Site/SiteDaemonService";
 import SiteWorkerService from "@app/services/Site/SiteWorkerService";
 import SiteLanguageSettingService from "@app/services/Site/SiteLanguageSettingService";
 import SiteDeploymentStepService from "@app/services/Site/SiteDeploymentStepService";
+import SiteServerFeatureService from "@app/services/Site/SiteServerFeatureService";
 
 export default class SiteProvider extends ServiceProvider {
   public register() {
@@ -30,6 +31,7 @@ export default class SiteProvider extends ServiceProvider {
       "SiteEnvironmentVariableService",
       SiteEnvironmentVariableService,
     );
+    this.app.bind("SiteServerFeatureService", SiteServerFeatureService);
 
     // TODO - this needs to be changed
     this.app.bind("UserSiteLifeLineService", UserSiteLifeLineService);

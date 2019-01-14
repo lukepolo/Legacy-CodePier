@@ -73,10 +73,9 @@ class SiteObserver
     public function updating(Site $site)
     {
         if ($site->isDirty('type') || $site->isDirty('framework')) {
-            if ($site->type === 'Swift') {
+            if ($site->site_type === 'Swift') {
                 $site->zero_downtime_deployment = false;
             }
-
             $site->server_features = $this->siteFeatureService->getSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->detachSuggestedCronJobs($site);
             $this->siteFeatureService->detachSuggestedFiles($site);
