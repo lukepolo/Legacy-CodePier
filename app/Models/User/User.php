@@ -96,7 +96,8 @@ class User extends Authenticatable implements JWTSubject
 
     public function getSubscriptionPlanAttribute()
     {
-        return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($this->subscription()) ? $this->subscription()->stripe_plan : null;
+        $subscription = $this->subscription();
+        return $this->attributes['subscription_plan'] = $this->subscribed() && ! empty($subscription) ? $subscription->stripe_plan : null;
     }
 
     public function getActivePlanAttribute()
@@ -410,13 +411,36 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
+    public function canResume() {
+        if ($this->subscription()) {
+            return $this->subscription()->onGracePeriod() && $this->subscription()->cancelled();
+        }
+        return false;
+    }
+
+    public function canUpdate() {
+        if ($this->subscription()) {
+            return !$this->subscription()->cancelled() || $this->onGenericTrial() || $this->onTrial();
+        }
+        return false;
+    }
+
+    public function isCanceled() {
+        if ($this->subscription()) {
+            return !$this->subscription()->onGracePeriod() && $this->subscription()->cancelled();
+        }
+        return false;
+    }
+
     public function subscriptionInfo()
     {
         $this->refresh();
 
         return [
             'card'                 => $this->card(),
-            'switchingPlans'       => $this->onTrial(),
+            'canResume'            => $this->canResume(),
+            'canUpdate'            => $this->canUpdate(),
+            'isCanceled'           => $this->isCanceled(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
             'isOnTrail'            => $this->onGenericTrial(),

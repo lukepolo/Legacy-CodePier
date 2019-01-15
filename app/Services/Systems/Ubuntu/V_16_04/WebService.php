@@ -184,18 +184,29 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         if ($serverType === SystemService::LOAD_BALANCER) {
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
+
+            $serverIps = collect();
+
+            $site->servers->filter(function ($server) {
+                return $server->type === SystemService::WEB_SERVER;
+            })->each(function ($server) use ($serverIps) {
+                if (! empty($server->private_ips)) {
+                    foreach ($server->private_ips as $privateIp) {
+                        $serverIps->push($privateIp);
+                    }
+                } else {
+                    $serverIps->push($server->ip);
+                }
+            });
+
             // TODO - for now we will do it by what servers are connected to that site
             // realistically it would be awesome if we could hook up cloudflares free anycast to allow for global load balancing
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/before/load-balancer', '
 upstream ' . $upstreamName . ' {
     ip_hash;
-    ' . $site->servers->map(function ($server) {
-                $server->ip = 'server ' . $server->ip . ';';
-
-                return $server;
-            })->filter(function ($server) {
-                return $server->type === SystemService::WEB_SERVER;
-            })->implode('ip', "\n") . '
+    '.$serverIps->map(function ($ip) {
+                return 'server ' . $ip . ';';
+            })->implode("\n").'
 }');
 
             $location = '
@@ -248,9 +259,6 @@ ssl_stapling_verify on;
 
 resolver 8.8.8.8 8.8.4.4 valid=300s;
 resolver_timeout 10s;
-
-add_header X-Frame-Options DENY;
-add_header X-Content-Type-Options nosniff;
 
 ');
 

@@ -37,6 +37,7 @@
     "socialiteproviders/digitalocean": "^3.0",
     "socialiteproviders/gitlab": "^3.0.1",
     "socialiteproviders/slack": "^3.0",
+    "spatie/dns": "^1.4",
     "spatie/laravel-newsletter": "^4.2",
     "spatie/ssl-certificate": "^1.12",
     "stevenmaguire/oauth2-bitbucket": "^3.0",

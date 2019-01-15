@@ -2,6 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Exceptions\InvalidSystem;
+use App\Services\Systems\SystemService;
 use Exception;
 use Buzz\Browser;
 use Carbon\Carbon;
@@ -128,25 +130,36 @@ class DigitalOceanProvider implements ServerProviderContract
         $backups = false;
         $monitoring = false;
         $privateNetworking = false;
-
-        $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
-        $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
-
         foreach ($server->getServerProviderFeatures() as $featureModel) {
             $feature = lcfirst($featureModel->option);
             $$feature = 1;
         }
 
+        $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
+        $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
+
         $this->setToken($this->getTokenFromServer($server));
 
         $this->client->key()->create($server->name, $server->public_ssh_key);
+
+        switch($server->system_class) {
+            case SystemService::UBUNTU_16_04 :
+                $serverOperatingSystem = 'ubuntu-16-04-x64';
+                break;
+            case SystemService::UBUNTU_18_04 :
+                $serverOperatingSystem = 'ubuntu-18-04-x64';
+                break;
+            default :
+                throw new InvalidSystem('The server does not have a valid system');
+                break;
+        }
 
         /** @var Droplet $droplet */
         $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
             $serverOption->external_id,
-            ServerService::$serverOperatingSystem,
+            $serverOperatingSystem,
             $backups,
             $ipv6,
             $privateNetworking,

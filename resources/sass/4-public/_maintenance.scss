@@ -1,8 +1,6 @@
 .maintenance {
-  #main {
-    background-color: mix($gray, $white, 95%);
-    color: $white;
-  }
+  background-color: mix($gray, $white, 95%);
+  color: $white;
 
   &#content:before {
     display: none;

@@ -47,9 +47,6 @@ class UserSubscriptionController extends Controller
         if ($plan === 'cancel') {
             return response()->json('Please select a plan', 400);
         }
-        if ($user->subscriptions->count()) {
-            return response()->json('You already have a subscription. You need to update it instead of creating a new one.', 400);
-        }
 
         if ($request->has('coupon')) {
             if (! $this->validateCoupon($request->get('coupon'))) {
@@ -62,7 +59,11 @@ class UserSubscriptionController extends Controller
 
         $subscription = $user->newSubscription('default', $plan);
 
-        $subscription->trialDays(5);
+        if ($user->subscriptions->count() > 0) {
+            $subscription->skipTrial();
+        } else {
+            $subscription->trialDays(5);
+        }
 
         if ($request->has('coupon')) {
             $subscription->withCoupon($request->get('coupon'));
@@ -100,10 +101,6 @@ class UserSubscriptionController extends Controller
             if (! $this->validateCoupon($request->get('coupon'))) {
                 return $this->invalidCouponResponse();
             }
-        }
-
-        if (! $user->subscriptions->count()) {
-            return response()->json('You do not have a subscription. You need to create one.', 400);
         }
 
         $plan = $request->get('plan');

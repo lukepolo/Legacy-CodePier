@@ -116,11 +116,11 @@ trait DeployTrait
             }
         } else {
             $url = $this->repository;
-            $loadSshKeyCommand = "env - BASH_ENV=/home/codepier/.bashrc /usr/bin/bash GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/".$this->site->id."_id_rsa'' ";
+            $loadSshKeyCommand = "GIT_SSH_COMMAND=\"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '~/.ssh/{$this->site->id}_id_rsa'\"";
         }
 
         if ($this->zeroDowntimeDeployment) {
-            $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; git clone ' . $url . ' --branch=' . $this->branch . (empty($this->sha) ? ' --depth=1' : '') . ' ' . $this->release);
+            $output[] = $this->remoteTaskService->run($loadSshKeyCommand . ' git clone ' . $url . ' --branch=' . $this->branch . (empty($this->sha) ? ' --depth=1' : '') . ' ' . $this->release);
         } else {
             if (! $this->remoteTaskService->hasDirectory($this->siteFolder.'/.git')) {
                 $output[] = $this->remoteTaskService->run($loadSshKeyCommand . 'cd ' . $this->siteFolder . '; rm -rf * ;  git clone ' . $url . ' --branch=' . $this->branch . ' .');

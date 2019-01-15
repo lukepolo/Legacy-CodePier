@@ -77,7 +77,7 @@ class ProvisionDevEnvironment extends Command
             'server_provider_id' => 2,
             'port' =>  22,
             'server_features' => $siteFeatureService->getSuggestedFeatures($site),
-            'system_class' => 'ubuntu 16.04',
+            'system_class' => 'ubuntu 18.04',
             'ip' => '192.168.10.10',
         ]);
 

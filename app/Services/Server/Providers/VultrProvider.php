@@ -2,6 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Exceptions\InvalidSystem;
+use App\Services\Systems\SystemService;
 use Vultr\VultrClient;
 use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
@@ -104,14 +106,33 @@ class VultrProvider implements ServerProviderContract
 
         sleep(2);
 
-        $vultrServer = $this->client->server()->create([
+        // curl https://api.vultr.com/v1/os/list
+        switch($server->system_class) {
+            case SystemService::UBUNTU_16_04 :
+                $OSID = 215;
+                break;
+            case SystemService::UBUNTU_18_04 :
+                $OSID = 270;
+                break;
+            default :
+                throw new InvalidSystem('The server does not have a valid system');
+                break;
+        }
+
+        $serverOptions = [
             'DCID' => ServerProviderRegion::findOrFail($server->options['server_region'])->external_id,
             'VPSPLANID' => $serverProviderOption->external_id,
-            'OSID' => 215, // Ubuntu 16.04 x64
+            'OSID' => $OSID,
             'hostname' => $server->name,
             'label' => $server->name,
             'SSHKEYID' => $sshKeyId,
-        ]);
+        ];
+
+        foreach ($server->getServerProviderFeatures() as $featureModel) {
+            $serverOptions[$featureModel->option] = 'yes';
+        }
+
+        $vultrServer = $this->client->server()->create($serverOptions);
 
         $server = $this->saveServer($server, $vultrServer);
 
