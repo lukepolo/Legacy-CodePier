@@ -5,7 +5,7 @@
                 Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
 
-            <div class="alert alert-error" v-if="isCanceled">
+            <div class="alert alert-error" v-if="userSubscription.ends_at">
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
         </template>
@@ -15,7 +15,7 @@
         </div>
 
         <div class="pricing pricing-inapp">
-            <div class="pricing--item" :class="{ selected : !this.userSubscription }">
+            <div class="pricing--item" :class="{ selected : !this.userSubscription || isCanceled }">
                 <div class="pricing--header">
                     <div class="pricing--header-name">Riggers</div>
                 </div>
@@ -35,11 +35,12 @@
                     </ul>
                 </div>
             </div>
+
             <plans :selectedPlan.sync="form.plan" title="First Mate" type="firstmate"></plans>
             <plans :selectedPlan.sync="form.plan" title="Captain" type="captain"></plans>
         </div>
 
-        <form @submit.prevent="createSubscription" method="post">
+        <form @submit.prevent="subscribe" method="post">
             <br><br>
 
             <div class="grid-2">
@@ -83,10 +84,10 @@
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
                     <button class="btn btn-primary" :class="{ 'btn-disabled' : processing }">
-                        <template v-if="isCanceled">
+                        <template v-if="canResume">
                             Resume Subscription
                         </template>
-                        <template v-else-if="userSubscription">
+                        <template v-else-if="canUpdate">
                             Update Subscription
                         </template>
                         <template v-else>
@@ -96,7 +97,7 @@
                 </div>
 
                 <div class="flyform--footer-links" v-if="userSubscription">
-                    <button class="text-error" @click="cancelSubscription" v-if="!isCanceled">
+                    <button class="text-error" @click.prevent.stop="cancelSubscription" v-if="!isCanceled">
                         Cancel Subscription
                     </button>
                 </div>
@@ -150,7 +151,7 @@ export default {
   },
   watch: {
     userSubscription: function() {
-      if (this.userSubscription) {
+      if (this.userSubscription && !this.isCanceled) {
         this.form.plan = this.userSubscription.active_plan;
         this.form.subscription = this.userSubscription.id;
       } else {
@@ -184,30 +185,38 @@ export default {
         }
       });
     },
-    createSubscription() {
+    subscribe() {
       this.processing = true;
 
-      if (this.userSubscription) {
+      if (this.canUpdate) {
         return this.updateSubscription();
       }
 
-      this.createToken(this.createCardForm).then(() => {
-        if (!this.createCardForm.error && this.form.token) {
-          this.$store
-            .dispatch("user_subscription/store", this.form)
-            .then(() => {
-              this.coupon = null;
-              this.processing = false;
-              this.$store.dispatch("user/get");
-              this.$store.dispatch("user_subscription/getInvoices");
-            })
-            .catch(() => {
-              this.processing = false;
-            });
-        } else {
+      console.info(this.currentCard)
+      if(!this.currentCard) {
+        this.createToken(this.createCardForm).then(() => {
+          if (!this.createCardForm.error && this.form.token) {
+            this.createSubscription();
+          } else {
+            this.processing = false;
+          }
+        });
+      } else {
+        this.createSubscription();
+      }
+    },
+    createSubscription() {
+      this.$store
+        .dispatch("user_subscription/store", this.form)
+        .then(() => {
+          this.coupon = null;
           this.processing = false;
-        }
-      });
+          this.$store.dispatch("user/get");
+          this.$store.dispatch("user_subscription/getInvoices");
+        })
+        .catch(() => {
+          this.processing = false;
+        });
     },
     updateSubscription() {
       if (this.form.plan !== "cancel") {
@@ -274,8 +283,20 @@ export default {
       return this.$store.state.user_subscription.invoices;
     },
     isCanceled() {
-      if (this.userSubscription) {
-        return this.userSubscription.ends_at !== null;
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.isCanceled;
+      }
+      return false;
+    },
+    canResume() {
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.canResume;
+      }
+      return false;
+    },
+    canUpdate() {
+      if (this.userSubscriptionData) {
+        return this.userSubscriptionData.canUpdate;
       }
       return false;
     },

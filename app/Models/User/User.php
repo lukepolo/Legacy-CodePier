@@ -404,13 +404,36 @@ class User extends Authenticatable
         }
     }
 
+    public function canResume() {
+        if ($this->subscription()) {
+            return $this->subscription()->onGracePeriod() && $this->subscription()->cancelled();
+        }
+        return false;
+    }
+
+    public function canUpdate() {
+        if ($this->subscription()) {
+            return !$this->subscription()->cancelled() || $this->onGenericTrial() || $this->onTrial();
+        }
+        return false;
+    }
+
+    public function isCanceled() {
+        if ($this->subscription()) {
+            return !$this->subscription()->onGracePeriod() && $this->subscription()->cancelled();
+        }
+        return false;
+    }
+
     public function subscriptionInfo()
     {
         $this->refresh();
 
         return [
             'card'                 => $this->card(),
-            'switchingPlans'       => $this->onTrial(),
+            'canResume'            => $this->canResume(),
+            'canUpdate'            => $this->canUpdate(),
+            'isCanceled'           => $this->isCanceled(),
             'subscribed'           => $this->subscribed(),
             'subscription'         => $this->subscription(),
             'isOnTrail'            => $this->onGenericTrial(),
