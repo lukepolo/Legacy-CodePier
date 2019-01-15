@@ -4,6 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "content-hash": "c80af3d2855d2b5eb519d8c079121341",
+=======
+<<<<<<< HEAD
     "content-hash": "c80af3d2855d2b5eb519d8c079121341",
     "packages": [
         {
@@ -18,6 +22,28 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a254cef386f193249e2dea5ca54f66b3e2c00963",
                 "reference": "a254cef386f193249e2dea5ca54f66b3e2c00963",
+=======
+    "content-hash": "7477f66fb891cc912c5ed63b67380d7c",
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
+    "packages": [
+        {
+            "name": "aws/aws-sdk-php",
+            "version": "3.82.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "a0353c24b18d2ba0f5bb7ca8a478b4ce0b8153f7"
+            },
+            "dist": {
+                "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a254cef386f193249e2dea5ca54f66b3e2c00963",
+                "reference": "a254cef386f193249e2dea5ca54f66b3e2c00963",
+=======
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a0353c24b18d2ba0f5bb7ca8a478b4ce0b8153f7",
+                "reference": "a0353c24b18d2ba0f5bb7ca8a478b4ce0b8153f7",
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 "shasum": ""
             },
             "require": {
@@ -87,7 +113,15 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2019-01-04T23:01:07+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2019-01-04T23:01:07+00:00"
+=======
+            "time": "2018-12-21T22:21:50+00:00"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -843,6 +877,10 @@
         },
         {
             "name": "doctrine/dbal",
+<<<<<<< HEAD
+            "version": "v2.9.2",
+=======
+<<<<<<< HEAD
             "version": "v2.9.2",
             "source": {
                 "type": "git",
@@ -853,6 +891,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/dbal/zipball/22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
                 "reference": "22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
+=======
+            "version": "v2.9.1",
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "ec74d6e300d78fbc896669c3ca57ef9719adc9c6"
+            },
+            "dist": {
+                "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
+                "reference": "22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
+=======
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/ec74d6e300d78fbc896669c3ca57ef9719adc9c6",
+                "reference": "ec74d6e300d78fbc896669c3ca57ef9719adc9c6",
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 "shasum": ""
             },
             "require": {
@@ -921,7 +977,15 @@
                 "php",
                 "queryobject"
             ],
+<<<<<<< HEAD
             "time": "2018-12-31T03:27:51+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2018-12-31T03:27:51+00:00"
+=======
+            "time": "2018-12-14T04:51:13+00:00"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
         },
         {
             "name": "doctrine/event-manager",
@@ -2451,6 +2515,10 @@
         },
         {
             "name": "laravel/passport",
+<<<<<<< HEAD
+            "version": "v7.0.5",
+=======
+<<<<<<< HEAD
             "version": "v7.0.5",
             "source": {
                 "type": "git",
@@ -2461,6 +2529,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/passport/zipball/d7f24f6d4e95049b04369d60596d7a5b619a1dc9",
                 "reference": "d7f24f6d4e95049b04369d60596d7a5b619a1dc9",
+=======
+            "version": "v7.0.3",
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/passport.git",
+                "reference": "404b345775c91cd04443e77e8d6164b9727a3448"
+            },
+            "dist": {
+                "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/laravel/passport/zipball/d7f24f6d4e95049b04369d60596d7a5b619a1dc9",
+                "reference": "d7f24f6d4e95049b04369d60596d7a5b619a1dc9",
+=======
+                "url": "https://api.github.com/repos/laravel/passport/zipball/404b345775c91cd04443e77e8d6164b9727a3448",
+                "reference": "404b345775c91cd04443e77e8d6164b9727a3448",
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 "shasum": ""
             },
             "require": {
@@ -2516,7 +2602,15 @@
                 "oauth",
                 "passport"
             ],
+<<<<<<< HEAD
             "time": "2019-01-02T10:25:07+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2019-01-02T10:25:07+00:00"
+=======
+            "time": "2018-10-22T14:47:22+00:00"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
         },
         {
             "name": "laravel/socialite",
@@ -3725,6 +3819,10 @@
         },
         {
             "name": "paragonie/sodium_compat",
+<<<<<<< HEAD
+            "version": "v1.8.1",
+=======
+<<<<<<< HEAD
             "version": "v1.8.1",
             "source": {
                 "type": "git",
@@ -3735,6 +3833,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/57bb5ef079d3724148da3d5c99e30695ab17afda",
                 "reference": "57bb5ef079d3724148da3d5c99e30695ab17afda",
+=======
+            "version": "v1.8.0",
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/sodium_compat.git",
+                "reference": "5e280b50cdaf8da4cc4810e0847a9618be29703d"
+            },
+            "dist": {
+                "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/57bb5ef079d3724148da3d5c99e30695ab17afda",
+                "reference": "57bb5ef079d3724148da3d5c99e30695ab17afda",
+=======
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/5e280b50cdaf8da4cc4810e0847a9618be29703d",
+                "reference": "5e280b50cdaf8da4cc4810e0847a9618be29703d",
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 "shasum": ""
             },
             "require": {
@@ -3803,7 +3919,15 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
+<<<<<<< HEAD
             "time": "2019-01-03T21:00:55+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2019-01-03T21:00:55+00:00"
+=======
+            "time": "2018-11-29T22:33:39+00:00"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
         },
         {
             "name": "phenx/php-font-lib",
@@ -3940,6 +4064,10 @@
         },
         {
             "name": "php-http/client-common",
+<<<<<<< HEAD
+            "version": "1.9.0",
+=======
+<<<<<<< HEAD
             "version": "1.9.0",
             "source": {
                 "type": "git",
@@ -3950,6 +4078,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-http/client-common/zipball/9c21b6058caafdf2fcc99a0cabdf31b3ecb33961",
                 "reference": "9c21b6058caafdf2fcc99a0cabdf31b3ecb33961",
+=======
+            "version": "1.8.2",
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/client-common.git",
+                "reference": "efe327f4305813aa9025662259b78323d25b9948"
+            },
+            "dist": {
+                "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/php-http/client-common/zipball/9c21b6058caafdf2fcc99a0cabdf31b3ecb33961",
+                "reference": "9c21b6058caafdf2fcc99a0cabdf31b3ecb33961",
+=======
+                "url": "https://api.github.com/repos/php-http/client-common/zipball/efe327f4305813aa9025662259b78323d25b9948",
+                "reference": "efe327f4305813aa9025662259b78323d25b9948",
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 "shasum": ""
             },
             "require": {
@@ -3971,7 +4117,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "1.9.x-dev"
+=======
+<<<<<<< HEAD
+                    "dev-master": "1.9.x-dev"
+=======
+                    "dev-master": "1.8-dev"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
                 }
             },
             "autoload": {
@@ -3997,7 +4151,15 @@
                 "http",
                 "httplug"
             ],
+<<<<<<< HEAD
             "time": "2019-01-03T10:59:55+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2019-01-03T10:59:55+00:00"
+=======
+            "time": "2018-12-14T22:12:45+00:00"
+>>>>>>> 4e3af622b9a0217692891e20e785f76002622828
+>>>>>>> d1e48311aa914967871efebacf2308bbcb420884
         },
         {
             "name": "php-http/discovery",
