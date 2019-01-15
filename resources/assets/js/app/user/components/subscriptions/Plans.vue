@@ -14,7 +14,7 @@
                             SAVE ${{ plan.metadata.save }}.00 per {{ plan.interval }}
                         </strong>
                         <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
-                            <h4 class="text-success" style="display: inline-flex;">&nbsp; (Selected)</h4>
+                            <h4 class="text-success" style="display: inline-flex;">&nbsp; (ACTIVE)</h4>
                             <small>
                                 <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
                                     Valid Until
@@ -85,7 +85,7 @@ export default {
     isActive() {
       if (this.userSubscription) {
         return _.find(this.plans, {
-          id: this.userSubscription.active_plan
+          plan_id: this.userSubscription.active_plan
         });
       }
     },

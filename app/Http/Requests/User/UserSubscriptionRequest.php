@@ -25,7 +25,11 @@ class UserSubscriptionRequest extends FormRequest
     {
         return [
             'plan' => 'required',
-            'token' => 'required',
+            'token' => [function($attribute, $value, $fail) {
+                if(!\Auth::user()->hasCardOnFile() && empty($attribute)) {
+                    $fail($attribute. ' is required.');
+                }
+            }],
         ];
     }
 }
