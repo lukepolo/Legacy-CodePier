@@ -23,7 +23,6 @@ class UserSubscriptionRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'plan' => 'required',
             'token' => [function($attribute, $value, $fail) {
