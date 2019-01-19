@@ -57,7 +57,10 @@ export default function($router: RouterInterface) {
             $router.route("daemons", SetupPages.Daemons);
             $router.route("workers", SetupPages.Workers);
             $router.route("language-settings", SetupPages.LanguageSettings);
-            $router.route("server-features", SetupPages.ServerFeatures);
+            // TODO - varie doesn't allow us to do prop functions (we need it to change our section name to be nice)
+            $router
+              .route("server-features/:section?", SiteViews.SiteServerFeatures)
+              .setName("site.server-features");
           });
         });
     });
