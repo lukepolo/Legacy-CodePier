@@ -1,5 +1,5 @@
 import UserService from "@app/services/UserService";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 import UserSiteService from "@app/services/User/UserSiteService";
 import SubscriptionService from "@app/services/SubscriptionService";
 import UserServerService from "@app/services/User/UserServerService";

@@ -65,29 +65,11 @@ export default {
   },
   methods: {
     createSchema() {
-      if (this.siteId) {
-        this.$store
-          .dispatch("user_site_schemas/store", {
-            site: this.siteId,
-            database: this.database,
-            name: this.form.name,
-          })
-          .then(() => {
-            this.resetForm();
-          });
-      }
-
-      if (this.serverId) {
-        this.$store
-          .dispatch("user_server_schemas/store", {
-            server: this.serverId,
-            database: this.database,
-            name: this.form.name,
-          })
-          .then(() => {
-            this.resetForm();
-          });
-      }
+      this.$store.dispatch("user_site_schemas/store", {
+        site: this.siteId,
+        database: this.database,
+        name: this.form.name,
+      });
     },
     resetForm() {
       this.form.reset();
@@ -102,23 +84,9 @@ export default {
       return this.$route.params.server_id;
     },
     schemas() {
-      if (this.siteId) {
-        return _.filter(
-          this.$store.state.user_site_schemas.schemas,
-          (schema) => {
-            return schema.database === this.database;
-          },
-        );
-      }
-
-      if (this.serverId) {
-        return _.filter(
-          this.$store.state.user_server_schemas.schemas,
-          (schema) => {
-            return schema.database === this.database;
-          },
-        );
-      }
+      console.info(this.$store.state.user.sites);
+      return [];
+      // filter by database type
     },
     shouldShowForm() {
       return (this.loaded && this.schemas.length === 0) || this.showForm;

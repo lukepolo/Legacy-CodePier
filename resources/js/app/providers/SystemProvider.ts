@@ -1,4 +1,4 @@
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 import SystemServerProviderService from "@app/services/System/SystemServerProviderService";
 import SystemSourceControlProviderService from "@app/services/System/SystemSourceControlProviderService";
 

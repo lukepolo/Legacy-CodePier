@@ -3,7 +3,7 @@ import AuthService from "@app/services/AuthService";
 import OauthService from "@app/services/OauthService";
 import ConfigInterface from "varie/lib/config/ConfigInterface";
 import AxiosHttpService from "varie/lib/http/AxiosHttpService";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 import JwtDriver from "varie-auth-plugin/lib/drivers/JwtDriver";
 import AuthMiddleware from "varie-auth-plugin/lib/AuthMiddleware";
 import StateServiceInterface from "varie/lib/state/StateServiceInterface";

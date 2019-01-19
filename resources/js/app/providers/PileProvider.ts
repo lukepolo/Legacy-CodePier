@@ -1,5 +1,5 @@
 import PileService from "@app/services/PileService";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 
 export default class PileProvider extends ServiceProvider {
   public register() {

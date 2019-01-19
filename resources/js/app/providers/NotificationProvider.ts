@@ -1,4 +1,4 @@
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 import NotificationSettingService from "@app/services/Notification/NotificationSettingService";
 import NotificationProviderService from "@app/services/Notification/NotificationProviderService";
 

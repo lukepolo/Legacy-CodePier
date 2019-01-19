@@ -1,5 +1,5 @@
 import BroadcastService from "@app/services/BroadcastService";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 
 /*
 |--------------------------------------------------------------------------

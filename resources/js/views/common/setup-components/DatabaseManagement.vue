@@ -1,6 +1,6 @@
 <template>
   <section>
-    <template v-if="databases && databases.length">
+    <template v-if="databases.length > 0">
       <database-section
         :database="database"
         v-for="database in databases"
@@ -19,21 +19,18 @@ export default {
   components: {
     DatabaseSection,
   },
-  created() {
-    this.fetchData();
-  },
   watch: {
-    $route: "fetchData",
-  },
-  methods: {
-    fetchData() {
-      this.$store.dispatch("user/sites/schemas/get", { site: this.siteId });
-      this.$store.dispatch("user/sites/schema/users/get", {
-        site: this.siteId,
-      });
-      this.$store.dispatch("user/sites/servers/features/get", {
-        site: this.siteId,
-      });
+    $route: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch("user/sites/schemas/get", { site: this.siteId });
+        this.$store.dispatch("user/sites/schema/users/get", {
+          site: this.siteId,
+        });
+        this.$store.dispatch("user/sites/servers/features/get", {
+          site: this.siteId,
+        });
+      },
     },
   },
   computed: {
@@ -41,25 +38,24 @@ export default {
       return this.$route.params.site;
     },
     databases() {
+      let databases = [];
       let serverFeatures = this.$store.state.user.sites.servers.features
         .features;
 
-      console.info(serverFeatures);
-
-      // if (_.has(serverFeatures, "DatabaseService")) {
-      //   return _.keys(
-      //     _.pickBy(serverFeatures.DatabaseService, function(options, database) {
-      //       if (
-      //         database === "MariaDB" ||
-      //         database === "PostgreSQL" ||
-      //         database === "MySQL" ||
-      //         database === "MongoDB"
-      //       ) {
-      //         return options.enabled;
-      //       }
-      //     })
-      //   );
-      // }
+      if (serverFeatures && serverFeatures.hasOwnProperty("DatabaseService")) {
+        for (let feature in serverFeatures.DatabaseService) {
+          if (
+            serverFeatures.DatabaseService[feature].enabled &&
+            (feature === "MariaDB" ||
+              feature === "PostgreSQL" ||
+              feature === "MySQL" ||
+              feature === "MongoDB")
+          ) {
+            databases.push(feature);
+          }
+        }
+      }
+      return databases;
     },
   },
 };

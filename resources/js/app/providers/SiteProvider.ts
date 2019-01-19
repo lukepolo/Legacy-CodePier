@@ -1,5 +1,5 @@
 import SiteService from "../services/SiteService";
-import ServiceProvider from "varie/lib/support/ServiceProvider";
+import { ServiceProvider } from "varie";
 import SiteServerService from "../services/Site/SiteServerService";
 import UserSiteLifeLineService from "@app/services/User/UserSiteLifeLineService";
 import SiteDeploymentService from "@app/services/Site/SiteDeploymentService";
