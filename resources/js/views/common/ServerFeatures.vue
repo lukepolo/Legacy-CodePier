@@ -7,7 +7,6 @@
         >
           <feature-title :feature="serverFeatureArea"></feature-title>
         </template>
-
         <template
           v-for="(features, serverFeatureArea) in availableServerLanguages"
         >
@@ -104,12 +103,10 @@ export default {
   },
   computed: {
     availableServerLanguages() {
-      return {};
-      // return this.$store.state.server_languages.languages;
+      return this.$store.state.server.languages.languages;
     },
     availableServerFrameworks() {
-      return {};
-      // return this.$store.state.server_frameworks.frameworks;
+      return this.$store.state.server.frameworks.frameworks;
     },
     availableServerFeatures() {
       return this.$store.state.server.features.features;
