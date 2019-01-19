@@ -13,17 +13,21 @@ import SiteWorkerService from "@app/services/Site/SiteWorkerService";
 import SiteLanguageSettingService from "@app/services/Site/SiteLanguageSettingService";
 import SiteDeploymentStepService from "@app/services/Site/SiteDeploymentStepService";
 import SiteServerFeatureService from "@app/services/Site/SiteServerFeatureService";
+import SiteSchemaService from "@app/services/Site/SiteSchemaService";
+import SiteSchemaUserService from "@app/services/Site/SiteSchemaUserService";
 
 export default class SiteProvider extends ServiceProvider {
   public register() {
     this.app.bind("SiteService", SiteService);
     this.app.bind("SiteDaemonService", SiteDaemonService);
+    this.app.bind("SiteSchemaService", SiteSchemaService);
     this.app.bind("SiteServerService", SiteServerService);
     this.app.bind("SiteSshKeyService", SiteSshKeyService);
     this.app.bind("SiteWorkerService", SiteWorkerService);
     this.app.bind("SiteCronJobService", SiteCronJobService);
     this.app.bind("SiteFirewallService", SiteFirewallService);
     this.app.bind("SiteDeploymentService", SiteDeploymentService);
+    this.app.bind("SiteSchemaUserService", SiteSchemaUserService);
     this.app.bind("SiteDeploymentStepService", SiteDeploymentStepService);
     this.app.bind("SiteSslCertificateService", SiteSslCertificateService);
     this.app.bind("SiteLanguageSettingService", SiteLanguageSettingService);

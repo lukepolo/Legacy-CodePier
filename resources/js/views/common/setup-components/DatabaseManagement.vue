@@ -24,7 +24,7 @@ export default {
       immediate: true,
       handler() {
         this.$store.dispatch("user/sites/schemas/get", { site: this.siteId });
-        this.$store.dispatch("user/sites/schema/users/get", {
+        this.$store.dispatch("user/sites/schemas/users/get", {
           site: this.siteId,
         });
         this.$store.dispatch("user/sites/servers/features/get", {

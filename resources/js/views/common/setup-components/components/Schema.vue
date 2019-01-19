@@ -13,8 +13,8 @@
         </tooltip>
       </div>
     </div>
-    <div v-if="users.length">
-      <template v-for="user in users">
+    <div v-if="schemaUsers.length">
+      <template v-for="user in schemaUsers">
         <div class="list--item list--item-icons list--item-subgroup">
           <div class="list--item-text">{{ user.name }}</div>
 
@@ -27,33 +27,34 @@
       </template>
     </div>
 
-    <form v-if="shouldShowForm" @submit.prevent="createSchemaUser()">
-      <div class="flyform--submit">
-        <div class="flyform--group">
-          <input type="text" name="name" placeholder=" " v-model="form.name" />
-          <label for="name">Name</label>
-        </div>
+    <base-form v-if="shouldShowForm" v-form="form" :action="createSchemaUser">
+      <base-input
+        label="Name"
+        name="name"
+        validate
+        v-model="form.name"
+      ></base-input>
 
-        <div class="flyform--group">
-          <input
-            type="password"
-            name="password"
-            placeholder=" "
-            v-model="form.password"
-          />
-          <label for="password">Password</label>
-        </div>
+      <base-input
+        label="Password"
+        name="schema_user_password"
+        validate
+        v-model="form.password"
+      ></base-input>
 
-        <div class="flyform--footer-btns">
-          <span class="btn btn-small" @click="showForm = false"
-            ><span class="icon-x"></span
-          ></span>
-          <button class="btn btn-primary btn-small" type="submit">
-            Create User
-          </button>
-        </div>
-      </div>
-    </form>
+      <template slot="buttons">
+        <span class="btn btn-small" @click="showForm = false"
+          ><span class="icon-x"></span
+        ></span>
+        <button
+          class="btn btn-primary btn-small"
+          type="submit"
+          :disabled="!form.isValid()"
+        >
+          Create User
+        </button>
+      </template>
+    </base-form>
   </section>
 </template>
 
@@ -67,69 +68,40 @@ export default {
         name: null,
         password: null,
         schema_ids: [this.schema.id],
+      }).validation({
+        rules: {
+          password: "required",
+          name: "required|alpha",
+        },
       }),
     };
   },
   methods: {
     deleteSchema(database) {
-      if (this.siteId) {
-        this.$store.dispatch("user_site_schemas/destroy", {
-          schema: database,
-          site: this.siteId,
-        });
-      }
-
-      if (this.serverId) {
-        this.$store.dispatch("user_server_schemas/destroy", {
-          schema: database,
-          server: this.serverId,
-        });
-      }
+      this.$store.dispatch("user/sites/schemas/destroy", {
+        schema: database,
+        site: this.siteId,
+      });
     },
     deleteSchemaUser(user) {
-      if (this.siteId) {
-        this.$store.dispatch("user_site_schema_users/destroy", {
-          schema_user: user,
-          site: this.siteId,
-        });
-      }
-
-      if (this.serverId) {
-        this.$store.dispatch("user_server_schema_users/destroy", {
-          schema_user: user,
-          server: this.serverId,
-        });
-      }
+      this.$store.dispatch("user/sites/schemas/users/destroy", {
+        site: this.siteId,
+        schema_user: user,
+      });
     },
     createSchemaUser() {
-      if (this.siteId) {
-        this.$store
-          .dispatch("user_site_schema_users/store", {
+      this.$store
+        .dispatch("user/sites/schemas/users/create", {
+          parameters: {
             site: this.siteId,
-            name: this.form.name,
-            password: this.form.password,
-            schema_ids: this.form.schema_ids,
-          })
-          .then((schema) => {
-            if (schema.id) {
-              this.resetForm();
-            }
-          });
-      }
-      if (this.serverId) {
-        this.$store
-          .dispatch("user_server_schema_users/store", {
-            server: this.serverId,
-            name: this.form.name,
-            password: this.form.password,
-            schema_ids: this.form.schema_ids,
-          })
-          .then((schema) => {
-            if (schema.id) {
-              this.resetForm();
-            }
-          });
-      }
+          },
+          data: this.form.data(),
+        })
+        .then((schema) => {
+          if (schema.id) {
+            this.resetForm();
+          }
+        });
     },
     resetForm() {
       this.form.reset();
@@ -138,26 +110,20 @@ export default {
   },
   computed: {
     siteId() {
-      return this.$route.params.site_id;
+      return this.$route.params.site;
     },
     serverId() {
-      return this.$route.params.server_id;
-    },
-    users() {
-      return _.filter(this.schemaUsers, (schemaUser) => {
-        return schemaUser.schema_ids.indexOf(this.schema.id) > -1;
-      });
+      return this.$route.params.server;
     },
     schemaUsers() {
-      if (this.siteId) {
-        return this.$store.state.user_site_schema_users.users;
-      }
-      if (this.serverId) {
-        return this.$store.state.user_server_schema_users.users;
-      }
+      return this.$store.state.user.sites.schemas.users.schema_users.filter(
+        (user) => {
+          return user.schema_ids.includes(this.schema.id);
+        },
+      );
     },
     shouldShowForm() {
-      return this.users.length === 0 || this.showForm;
+      return this.schemaUsers.length === 0 || this.showForm;
     },
   },
 };

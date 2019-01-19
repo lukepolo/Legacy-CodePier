@@ -22,28 +22,30 @@
       ></schema>
     </div>
 
-    <form
-      @submit.prevent="createSchema"
-      class="flyform--submit"
-      v-if="shouldShowForm"
-    >
-      <div class="flyform--group">
-        <input type="text" name="name" v-model="form.name" placeholder=" " />
-        <label for="name">Schema Name</label>
-      </div>
+    <base-form v-form="form" :action="createSchema" v-if="shouldShowForm">
+      <base-input
+        validate
+        name="name"
+        v-model="form.name"
+        label="Schema Name"
+      ></base-input>
 
-      <div class="flyform--footer-btns">
+      <template slot="buttons">
         <span
           class="btn"
           v-if="schemas.length"
           @click.prevent="showForm = false"
           >Cancel</span
         >
-        <button class="btn btn-primary btn-small" type="submit">
+        <button
+          class="btn btn-primary btn-small"
+          type="submit"
+          :disabled="!form.isValid()"
+        >
           Create Schema
         </button>
-      </div>
-    </form>
+      </template>
+    </base-form>
   </section>
 </template>
 
@@ -60,16 +62,26 @@ export default {
       showForm: false,
       form: this.createForm({
         name: null,
+      }).validation({
+        rules: {
+          name: "required|alpha",
+        },
       }),
     };
   },
   methods: {
     createSchema() {
-      this.$store.dispatch("user_site_schemas/store", {
-        site: this.siteId,
-        database: this.database,
-        name: this.form.name,
-      });
+      this.$store
+        .dispatch("user/sites/schemas/create", {
+          parameters: {
+            site: this.siteId,
+          },
+          data: {
+            name: this.form.name,
+            database: this.database,
+          },
+        })
+        .then(() => this.resetForm());
     },
     resetForm() {
       this.form.reset();
@@ -78,15 +90,15 @@ export default {
   },
   computed: {
     siteId() {
-      return this.$route.params.site_id;
+      return this.$route.params.site;
     },
     serverId() {
-      return this.$route.params.server_id;
+      return this.$route.params.server;
     },
     schemas() {
-      console.info(this.$store.state.user.sites);
-      return [];
-      // filter by database type
+      return this.$store.state.user.sites.schemas.schemas.filter((schema) => {
+        return schema.database === this.database;
+      });
     },
     shouldShowForm() {
       return (this.loaded && this.schemas.length === 0) || this.showForm;

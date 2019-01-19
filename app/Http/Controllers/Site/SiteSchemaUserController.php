@@ -61,14 +61,11 @@ class SiteSchemaUserController extends Controller
      *
      * @param  int $siteId
      * @param  int $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)
     {
         $site = Site::with('schemas')->findOrFail($siteId);
-
         event(new SiteSchemaUserDeleted($site, $site->schemaUsers->keyBy('id')->get($id)));
-
-        return response()->json($site->schemaUsers()->detach($id));
+        $site->schemaUsers()->detach($id);
     }
 }

@@ -15,7 +15,7 @@ import UserSiteCronJobStore from "@store/user/modules/sites/modules/cron-jobs/Us
 import UserSiteDaemonStore from "@store/user/modules/sites/modules/daemons/UserSiteDaemonStore";
 import UserSiteWorkerStore from "@store/user/modules/sites/modules/workers/UserSiteWorkerStore";
 import UserSiteLanguageSettingStore from "@store/user/modules/sites/modules/language-settings/UserSiteLanguageSettingStore";
-import UserSiteServerFeatureStore from "@store/user/modules/sites/modules/servers/modules/features/UserSiteServerFeatureStore";
+import UserSiteSchemaStore from "@store/user/modules/sites/modules/schemas/UserSiteSchemaStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -36,6 +36,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteCronJobStore)
       .addModule(UserSiteDaemonStore)
       .addModule(UserSiteWorkerStore)
-      .addModule(UserSiteLanguageSettingStore);
+      .addModule(UserSiteLanguageSettingStore)
+      .addModule(UserSiteSchemaStore);
   }
 }
