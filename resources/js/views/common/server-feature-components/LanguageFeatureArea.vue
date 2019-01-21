@@ -1,14 +1,13 @@
 <template>
-  <section>
-    <template v-for="feature in features">
-      <div class="flyform--group-checkbox action-right">
-        <server-feature
-          :feature="feature"
-          v-model="selectedServerFeatures"
-        ></server-feature>
-      </div>
+  <div v-for="(features, framework) in frameworkFeatures(section)">
+    <template v-if="features && Object.keys(features).length">
+      <h1>{{ framework }} -- {{ section }}</h1>
+      <feature-area
+        :features="features"
+        v-model="selectedServerFeatures"
+      ></feature-area>
     </template>
-  </section>
+  </div>
 </template>
 
 <script>

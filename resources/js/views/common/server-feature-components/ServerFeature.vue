@@ -136,7 +136,6 @@ export default {
       deep: true,
       handler(parameters) {
         this.updateObject();
-        console.info(this.selectedServerFeatures[this.service][this.inputName]);
         this.$set(
           this.selectedServerFeatures[this.service][this.inputName],
           "parameters",

@@ -4,11 +4,11 @@
       :to="{
         name: routeName,
         params: {
-          section: feature,
+          section: section,
         },
       }"
     >
-      {{ title }}
+      {{ sectionTitle }}
     </router-link>
   </li>
 </template>
@@ -17,7 +17,7 @@
 import uncamelize from "varie/lib/utilities/uncamelize";
 export default {
   props: {
-    feature: {
+    section: {
       required: true,
     },
     routeName: {
@@ -25,11 +25,11 @@ export default {
     },
   },
   computed: {
-    title() {
+    sectionTitle() {
       // TODO - move ucwords to varie
       // TODO - create utilities repo for varie
       return (
-        uncamelize(this.feature)
+        uncamelize(this.section)
           .split(" ")
           .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
           .join(" ") + " Features"

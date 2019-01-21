@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ServerFeatures from "../common/ServerFeatures";
+import ServerFeatures from "./../common/ServerFeatures";
 
 export default {
   components: {
@@ -32,7 +32,7 @@ export default {
     };
   },
   watch: {
-    $route: {
+    "$route.params.site": {
       immediate: true,
       handler() {
         this.$store

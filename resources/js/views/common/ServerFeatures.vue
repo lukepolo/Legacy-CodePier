@@ -2,37 +2,36 @@
   <section>
     <div class="tab-container tab-left tab-left-small">
       <ul class="nav nav-tabs">
-        <template
-          v-for="(features, serverFeatureArea) in availableServerFeatures"
-        >
+        <template v-for="(features, section) in availableServerFeatures">
           <template v-if="hasFeatures(features)">
             <feature-title
-              :feature="serverFeatureArea"
+              :section="section"
               :route-name="routeName"
             ></feature-title>
             <portal to="feature-areas">
               <feature-area
                 :features="features"
                 v-model="selectedServerFeatures"
-                v-show="$route.params.section === serverFeatureArea"
+                v-show="$route.params.section === section"
               ></feature-area>
             </portal>
           </template>
         </template>
-        <template
-          v-for="(features, serverFeatureArea) in availableServerLanguages"
-        >
-          <template v-if="hasFeatures(features)">
+        <template v-for="(features, section) in availableLanguages">
+          <template v-if="hasFeatures(features) || frameworkFeatures(section)">
             <feature-title
-              :feature="serverFeatureArea"
+              :section="section"
               :route-name="routeName"
             ></feature-title>
+
             <portal to="feature-areas">
-              <feature-area
-                :features="features"
-                v-model="selectedServerFeatures"
-                v-show="$route.params.section === serverFeatureArea"
-              ></feature-area>
+              <div v-show="$route.params.section === section">
+                <feature-area
+                  :features="features"
+                  v-model="selectedServerFeatures"
+                ></feature-area>
+                <language-feature-area> </language-feature-area>
+              </div>
             </portal>
           </template>
         </template>
@@ -41,16 +40,6 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active">
           <portal-target name="feature-areas" :multiple="true"></portal-target>
-          <!--:server="server"-->
-          <!--:selected_server_features="serverFeatures"-->
-          <!--:current_selected_features="currentSelectedFeatures"-->
-          <!--&gt;</feature-area>-->
-
-          <!--<feature-area-->
-          <!--:server="server"-->
-          <!--:selected_server_features="serverFeatures"-->
-          <!--:frameworks="true"-->
-          <!--:current_selected_features="currentSelectedFeatures"-->
         </div>
       </div>
     </div>
@@ -60,14 +49,17 @@
 <script>
 import FeatureArea from "./server-feature-components/FeatureArea";
 import FeatureTitle from "./server-feature-components/FeatureTitle";
+import LanguageFeatureArea from "@views/common/server-feature-components/LanguageFeatureArea";
 
 export default {
   provide() {
     return {
       editable: this.editable,
+      availableFrameworks: this.availableFrameworks,
     };
   },
   components: {
+    LanguageFeatureArea,
     FeatureArea,
     FeatureTitle,
   },
@@ -89,6 +81,10 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch("server/features/get");
+    this.$store.dispatch("server/languages/get");
+    this.$store.dispatch("server/frameworks/get");
+
     this.$router.push({
       name: "site.server-features",
       params: {
@@ -96,27 +92,23 @@ export default {
       },
     });
   },
-  watch: {
-    $route: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch("server/features/get");
-        this.$store.dispatch("server/languages/get");
-        this.$store.dispatch("server/frameworks/get");
-      },
-    },
-  },
   methods: {
     hasFeatures(features) {
       return Object.keys(features).length;
     },
+    frameworkFeatures(section) {
+      let frameworkFeatures = this.availableFrameworks[section];
+      if (frameworkFeatures && Object.keys(frameworkFeatures).length) {
+        return frameworkFeatures;
+      }
+    },
   },
   computed: {
-    availableServerLanguages() {
-      return this.$store.state.server.languages.languages;
-    },
-    availableServerFrameworks() {
+    availableFrameworks() {
       return this.$store.state.server.frameworks.frameworks;
+    },
+    availableLanguages() {
+      return this.$store.state.server.languages.languages;
     },
     availableServerFeatures() {
       return this.$store.state.server.features.features;
