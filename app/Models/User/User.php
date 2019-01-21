@@ -370,7 +370,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function card()
     {
-        if ($this->subscribed() && $this->hasStripeId()) {
+        if ($this->hasStripeId()) {
             $card = \Cache::rememberForever($this->id.'.card', function () {
                 /** @var Card $card */
                 $card = $this->cards()->first();
@@ -436,6 +436,8 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->refresh();
 
+        $subscription =  $this->subscription();
+
         return [
             'card'                 => $this->card(),
             'canResume'            => $this->canResume(),
@@ -448,7 +450,7 @@ class User extends Authenticatable implements JWTSubject
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
-            'isCanceled'            => ! empty($this->subscription()->ends_at),
+            'subscriptionEnded'    => $subscription ? $subscription->ended() : false,
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
