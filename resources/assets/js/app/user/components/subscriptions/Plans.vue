@@ -16,13 +16,12 @@
                         <template v-if="userSubscription && userSubscription.active_plan === plan.plan_id">
                             <h4 class="text-success" style="display: inline-flex;">&nbsp; (ACTIVE)</h4>
                             <small>
-                                <template v-if="isCanceled || userSubscription.active_plan !== userSubscription.stripe_plan">
-                                    Valid Until
+                                <template v-if="isCanceled">
+                                    Valid Until : {{ parseDate(userSubscription.ends_at).format('l') }}
                                 </template>
                                 <template v-else>
-                                    Next billing date
+                                    Next billing date : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
                                 </template>
-                                : {{ parseDate(userSubscriptionData.subscriptionEnds.date).format('l') }}
                             </small>
                         </template>
                     </label>
@@ -31,8 +30,6 @@
             <template v-else>
                 <div class="pricing--coming">COMING SOON!</div>
             </template>
-
-
             <template v-if="type === 'captain'">
                 <hr>
                 <ul>
@@ -86,7 +83,7 @@ export default {
       if (this.userSubscription) {
         return _.find(this.plans, {
           plan_id: this.userSubscription.active_plan
-        });
+        }) && !this.userSubscriptionData.subscriptionEnded;
       }
     },
     plans() {
