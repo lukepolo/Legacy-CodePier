@@ -5,40 +5,52 @@
         <template
           v-for="(features, serverFeatureArea) in availableServerFeatures"
         >
-          <feature-title :feature="serverFeatureArea"></feature-title>
+          <template v-if="hasFeatures(features)">
+            <feature-title
+              :feature="serverFeatureArea"
+              :route-name="routeName"
+            ></feature-title>
+            <portal to="feature-areas">
+              <feature-area
+                :features="features"
+                v-model="selectedServerFeatures"
+                v-show="$route.params.section === serverFeatureArea"
+              ></feature-area>
+            </portal>
+          </template>
         </template>
         <template
           v-for="(features, serverFeatureArea) in availableServerLanguages"
         >
-          <feature-title :feature="serverFeatureArea"></feature-title>
+          <template v-if="hasFeatures(features)">
+            <feature-title
+              :feature="serverFeatureArea"
+              :route-name="routeName"
+            ></feature-title>
+            <portal to="feature-areas">
+              <feature-area
+                :features="features"
+                v-model="selectedServerFeatures"
+                v-show="$route.params.section === serverFeatureArea"
+              ></feature-area>
+            </portal>
+          </template>
         </template>
       </ul>
 
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active">
-          <!--<feature-area-->
+          <portal-target name="feature-areas" :multiple="true"></portal-target>
           <!--:server="server"-->
           <!--:selected_server_features="serverFeatures"-->
-          <!--:area="serverFeatureArea"-->
-          <!--:features="features"-->
-          <!--v-for="(features, serverFeatureArea) in availableServerFeatures"-->
-          <!--v-show="section === serverFeatureArea"-->
           <!--:current_selected_features="currentSelectedFeatures"-->
-          <!--v-on:featuresChanged="updateSelectedFeatures"-->
-          <!--:key="serverFeatureArea"-->
           <!--&gt;</feature-area>-->
+
           <!--<feature-area-->
           <!--:server="server"-->
           <!--:selected_server_features="serverFeatures"-->
-          <!--:area="serverLanguageArea"-->
-          <!--:features="features"-->
           <!--:frameworks="true"-->
-          <!--v-for="(features, serverLanguageArea) in availableServerLanguages"-->
-          <!--v-show="section === serverLanguageArea"-->
           <!--:current_selected_features="currentSelectedFeatures"-->
-          <!--v-on:featuresChanged="updateSelectedFeatures"-->
-          <!--:key="serverLanguageArea"-->
-          <!--&gt;</feature-area>-->
         </div>
       </div>
     </div>
@@ -50,21 +62,29 @@ import FeatureArea from "./server-feature-components/FeatureArea";
 import FeatureTitle from "./server-feature-components/FeatureTitle";
 
 export default {
-  model: {
-    prop: "selectedServerFeatures",
+  provide() {
+    return {
+      editable: this.editable,
+    };
   },
   components: {
     FeatureArea,
     FeatureTitle,
   },
   props: {
-    selectedServerFeatures: {
+    value: {
+      required: true,
+    },
+    editable: {
+      default: true,
+      required: false,
+    },
+    routeName: {
       required: true,
     },
   },
   data() {
     return {
-      section: null,
       currentSelectedFeatures: null,
     };
   },
@@ -87,18 +107,8 @@ export default {
     },
   },
   methods: {
-    updateSelectedFeatures(feature, enabled) {
-      // if (!this.currentSelectedFeatures[feature.service]) {
-      //   this.$set(this.currentSelectedFeatures, feature.service, {});
-      // }
-      //
-      // let areaFeatures = this.currentSelectedFeatures[feature.service];
-      //
-      // if (!_.has(areaFeatures, feature.input_name)) {
-      //   this.$set(areaFeatures, feature.input_name, { enabled: enabled });
-      // } else {
-      //   this.$set(areaFeatures[feature.input_name], "enabled", enabled);
-      // }
+    hasFeatures(features) {
+      return Object.keys(features).length;
     },
   },
   computed: {
@@ -110,6 +120,14 @@ export default {
     },
     availableServerFeatures() {
       return this.$store.state.server.features.features;
+    },
+    selectedServerFeatures: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit("input", value);
+      },
     },
   },
 };

@@ -2,8 +2,12 @@ import { FeaturesState } from "./stateInterface";
 
 export default function() {
   return {
-    SAMPLE_GETTER: (state: FeaturesState) => {
-      return state;
+    hasFeature: (state: FeaturesState) => (service, feature) => {
+      return (
+        state.features[service] &&
+        state.features[service][feature] &&
+        state.features[service][feature].enabled
+      );
     },
   };
 }

@@ -28,6 +28,7 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
      */
     public function getLanguageSettings(Server $server)
     {
+        throw new \Error("WHEN DO WE USE THIS? SERVER LANG");
         $languageSettings = [];
 
         foreach ($server->getLanguages() as $language => $class) {

@@ -2,7 +2,7 @@
   <li>
     <router-link
       :to="{
-        name: 'site.server-features',
+        name: routeName,
         params: {
           section: feature,
         },
@@ -18,6 +18,9 @@ import uncamelize from "varie/lib/utilities/uncamelize";
 export default {
   props: {
     feature: {
+      required: true,
+    },
+    routeName: {
       required: true,
     },
   },

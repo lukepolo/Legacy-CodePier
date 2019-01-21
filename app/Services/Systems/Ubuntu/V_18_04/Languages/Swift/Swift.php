@@ -51,8 +51,7 @@ class Swift
     ];
 
     /**
-     * @options 4.0,4.1,4.2
-     * @multiple false
+     * @options { "version" : ["4.0","4.1","4.2"] }
      */
     public function installSwift($version = '4.2')
     {

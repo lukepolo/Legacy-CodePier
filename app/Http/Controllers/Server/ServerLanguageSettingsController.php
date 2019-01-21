@@ -80,6 +80,7 @@ class ServerLanguageSettingsController extends Controller
      */
     public function getLanguageSettings($serverId)
     {
+        throw new \Error("WHEN DO WE USE THIS? SERVER LANG CONTROLLER");
         return response()->json(
             $this->serverLanguageSettingsService->getLanguageSettings(
                 Server::findOrFail($serverId)

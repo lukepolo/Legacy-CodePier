@@ -96,23 +96,37 @@ trait SystemFiles
 
         foreach ($reflection->getMethods() as $method) {
             if (str_contains($method->name, 'install')) {
-                $parameters = [];
 
+                $inputName = str_replace('install', '', $method->name);
+
+                $parameters = [];
                 foreach ($method->getParameters() as $parameter) {
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
                 $options = $this->getFirstDocParam($method, 'options');
+
                 if (! empty($options)) {
-                    $options = array_map('trim', explode(',', $options));
+                    $options = json_decode($options, true);
+                    if(json_last_error() !== 0) {
+                        throw new \Error("Invalid options for $inputName : ".json_last_error_msg());
+                    }
                 }
+
 
                 $inputName = str_replace('install', '', $method->name);
 
                 $parameterOptions = [];
 
                 foreach ($parameters as $parameter => $value) {
-                    $parameterOptions[$parameter] = json_decode($this->getFirstDocParam($method, $parameter), true);
+                    $parameterOption = $this->getFirstDocParam($method, $parameter);
+
+                    if(!empty($parameterOption)) {
+                        $parameterOptions[$parameter] = json_decode($parameterOption, true);
+                        if(json_last_error() !== 0) {
+                            throw new \Error("Invalid param options for $inputName , param : $parameter: ".json_last_error_msg());
+                        }
+                    }
                 }
 
                 $features->get($reflection->getShortName())->put($inputName, collect([
@@ -124,7 +138,6 @@ trait SystemFiles
                     'service' => preg_replace('/App\\\Services\\\Systems\\\.*?\\\.*?\\\(.*)/', '$1', $reflection->getName()),
                     'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
-                    'multiple' => $this->getFirstDocParam($method, 'multiple', false),
                     'conflicts' => array_filter(explode(',', $this->getFirstDocParam($method, 'conflicts'))),
                 ]));
             }

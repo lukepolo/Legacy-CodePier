@@ -3,8 +3,12 @@
     :action="updateSiteServerFeatures"
     enctype="multipart/form-data"
     class="floating-labels"
+    v-if="loaded"
   >
-    <server-features v-model="selectedServerFeatures"></server-features>
+    <server-features
+      route-name="site.server-features"
+      v-model="selectedServerFeatures"
+    ></server-features>
     <template slot="buttons">
       <div class="flyform--footer-btns">
         <button class="btn btn-primary" type="submit">
@@ -22,13 +26,22 @@ export default {
   components: {
     ServerFeatures,
   },
+  data() {
+    return {
+      loaded: false,
+    };
+  },
   watch: {
     $route: {
       immediate: true,
       handler() {
-        this.$store.dispatch("user/sites/servers/features/get", {
-          site: this.siteId,
-        });
+        this.$store
+          .dispatch("user/sites/servers/features/get", {
+            site: this.siteId,
+          })
+          .then(() => {
+            this.loaded = true;
+          });
       },
     },
   },
@@ -50,8 +63,8 @@ export default {
       get() {
         return this.$store.state.user.sites.servers.features.features;
       },
-      set() {
-        console.info("this setttttt");
+      set(value) {
+        this.$store.commit("user/sites/servers/features/SET_FEATURES", value);
       },
     },
   },

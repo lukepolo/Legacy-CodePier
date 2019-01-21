@@ -1,1 +1,3 @@
-export interface FeaturesState {}
+export interface FeaturesState {
+  features: {};
+}

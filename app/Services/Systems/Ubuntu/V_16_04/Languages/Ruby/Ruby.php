@@ -57,9 +57,7 @@ class Ruby
     /**
      * @description Ruby
      *
-     * @options 2.3, 2.4
-     * @multiple false
-     * @param string $version
+     * @options { "version" : ["2.3", "2.4"] }
      */
     public function installRuby($version = '2.4')
     {

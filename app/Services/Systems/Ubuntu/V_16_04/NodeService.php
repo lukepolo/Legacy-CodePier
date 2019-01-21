@@ -11,10 +11,7 @@ class NodeService
     /**
      * @description NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
      *
-     * @options 6.14.4, 8.12.0, 10.13.0, 11.1.0
-     * @multiple false
-     *
-     * @param string $version
+     * @options {"version" : ["6.14.4", "8.12.0", "10.13.0", "11.1.0"]}
      */
     public function installNodeJs($version = '10.13.0')
     {

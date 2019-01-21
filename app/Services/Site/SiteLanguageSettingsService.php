@@ -29,6 +29,7 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
      */
     public function getLanguageSettings(Site $site)
     {
+        throw new \Error("WHEN DO WE USE THIS?");
         return Cache::tags('app.services')->rememberForever("languageSettings.{$site->type}", function () use ($site) {
             $languageSettings = [];
 
@@ -54,18 +55,11 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $parameterOptions = [];
-
-                foreach ($parameters as $parameter => $value) {
-                    $parameterOptions[$parameter] = json_decode($this->getFirstDocParam($method, $parameter), true);
-                }
-
                 if (! $traitMethods->contains($method->name)) {
                     $languageSettings[$site->type][] = [
                         'type' => $site->type,
                         'params' => $parameters,
                         'name' => $method->getName(),
-                        'parameter_options' => $parameterOptions,
                         'description' => $this->getFirstDocParam($method, 'description'),
                     ];
                 }
