@@ -4,8 +4,7 @@
             <div class="alert alert-warning" v-if="userSubscriptionData.isOnTrail">
                 Your free trial ends on <strong>{{ parseDate(userSubscription.trial_ends_at).format('l') }}</strong>
             </div>
-
-            <div class="alert alert-error" v-if="userSubscription.ends_at">
+            <div class="alert alert-error" v-if="userSubscription.ends_at && !userSubscriptionData.subscriptionEnded">
                 Your subscription has been canceled and will end on {{ parseDate(userSubscription.ends_at).format('l') }}
             </div>
         </template>
@@ -15,7 +14,7 @@
         </div>
 
         <div class="pricing pricing-inapp">
-            <div class="pricing--item" :class="{ selected : !this.userSubscription || isCanceled }">
+            <div class="pricing--item" :class="{ selected : !this.userSubscription || userSubscriptionData.subscriptionEnded }">
                 <div class="pricing--header">
                     <div class="pricing--header-name">Riggers</div>
                 </div>
@@ -46,7 +45,6 @@
             <div class="grid-2">
                 <div class="grid--item">
                     <card v-if="!userSubscription" cardType="createCardForm" :card.sync="createCardForm.card" :error.sync="createCardForm.error" :instance.sync="createCardForm.instance"></card>
-
                     <form @submit.prevent="updateCard" method="post" v-if="currentCard">
                         <div class="flyform--group">
                             <div class="flyform--input-icon-right" v-if="!showCreditForm">
@@ -301,9 +299,7 @@ export default {
       return false;
     },
     currentCard() {
-      if (this.userSubscriptionData) {
-        return this.userSubscriptionData.card;
-      }
+        return this.userSubscriptionData && this.userSubscriptionData.card;
     },
     userSubscription() {
       if (this.userSubscriptionData) {

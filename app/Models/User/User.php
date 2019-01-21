@@ -363,7 +363,7 @@ class User extends Authenticatable
 
     public function card()
     {
-        if ($this->subscribed() && $this->hasStripeId()) {
+        if ($this->hasStripeId()) {
             $card = \Cache::rememberForever($this->id.'.card', function () {
                 /** @var Card $card */
                 $card = $this->cards()->first();
@@ -428,7 +428,6 @@ class User extends Authenticatable
     public function subscriptionInfo()
     {
         $this->refresh();
-
         return [
             'card'                 => $this->card(),
             'canResume'            => $this->canResume(),
@@ -441,6 +440,7 @@ class User extends Authenticatable
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
+            'subscriptionEnded'    => $this->subscription()->ended(),
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
