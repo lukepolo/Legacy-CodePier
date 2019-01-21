@@ -428,6 +428,9 @@ class User extends Authenticatable
     public function subscriptionInfo()
     {
         $this->refresh();
+
+        $subscription =  $this->subscription();
+
         return [
             'card'                 => $this->card(),
             'canResume'            => $this->canResume(),
@@ -440,7 +443,7 @@ class User extends Authenticatable
             'subscriptionName'     => $this->getSubscriptionName(),
             'subscriptionPrice'    => $this->getSubscriptionPrice(),
             'subscriptionInterval' => $this->getSubscriptionInterval(),
-            'subscriptionEnded'    => $this->subscription()->ended(),
+            'subscriptionEnded'    => $subscription ? $subscription->ended() : false,
             'subscriptionDiscount' => $this->getStripeSubscription() ? $this->getStripeSubscription()->discount : null,
         ];
     }
