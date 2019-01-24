@@ -12,7 +12,7 @@
               <feature-area
                 :features="features"
                 v-model="selectedServerFeatures"
-                v-show="$route.params.section === section"
+                v-show="currentSection === section"
               ></feature-area>
             </portal>
           </template>
@@ -25,7 +25,7 @@
             ></feature-title>
 
             <portal to="feature-areas">
-              <div v-show="$route.params.section === section">
+              <div v-show="currentSection === section">
                 <feature-area
                   :features="features"
                   v-model="selectedServerFeatures"
@@ -78,22 +78,30 @@ export default {
       required: true,
     },
   },
+  created() {
+    this.$store.dispatch("server/features/get");
+    this.$store.dispatch("server/languages/get");
+    this.$store.dispatch("server/frameworks/get");
+  },
   data() {
     return {
       currentSelectedFeatures: null,
     };
   },
-  created() {
-    this.$store.dispatch("server/features/get");
-    this.$store.dispatch("server/languages/get");
-    this.$store.dispatch("server/frameworks/get");
-
-    this.$router.push({
-      name: "site.server-features",
-      params: {
-        section: Object.keys(this.availableServerFeatures)[0],
+  watch: {
+    $route: {
+      immediate: true,
+      handler() {
+        if (!this.currentSection) {
+          this.$router.push({
+            name: "site.server-features",
+            params: {
+              section: Object.keys(this.availableServerFeatures)[0],
+            },
+          });
+        }
       },
-    });
+    },
   },
   methods: {
     hasFeatures(features) {
@@ -101,6 +109,9 @@ export default {
     },
   },
   computed: {
+    currentSection() {
+      return this.$route.params.section;
+    },
     availableLanguages() {
       return this.$store.state.server.languages.languages;
     },
