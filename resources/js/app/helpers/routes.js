@@ -1255,6 +1255,13 @@ export default function() {
       },
       {
         host: null,
+        methods: ["PATCH"],
+        uri: "api/my/server/{server}/private-ip-addresses",
+        name: null,
+        action: "ServerServerPrivateIpAddressController@update",
+      },
+      {
+        host: null,
         methods: ["GET", "HEAD"],
         uri: "api/my/server/{server}/database-password",
         name: null,
@@ -2598,13 +2605,6 @@ export default function() {
       },
       {
         host: null,
-        methods: ["POST"],
-        uri: "api/my/sites/{site}/server-features",
-        name: "sites.server-features.store",
-        action: "SiteSiteServerFeaturesController@store",
-      },
-      {
-        host: null,
         methods: ["GET", "HEAD"],
         uri: "api/my/sites/{site}/server-features/{server_type}",
         name: "sites.server-features.show",
@@ -2612,17 +2612,10 @@ export default function() {
       },
       {
         host: null,
-        methods: ["PUT", "PATCH"],
-        uri: "api/my/sites/{site}/server-features/{server_type}",
-        name: "sites.server-features.update",
+        methods: ["PUT"],
+        uri: "api/my/sites/{site}/server-features",
+        name: null,
         action: "SiteSiteServerFeaturesController@update",
-      },
-      {
-        host: null,
-        methods: ["DELETE"],
-        uri: "api/my/sites/{site}/server-features/{server_type}",
-        name: "sites.server-features.destroy",
-        action: "SiteSiteServerFeaturesController@destroy",
       },
       {
         host: null,
@@ -3558,6 +3551,13 @@ export default function() {
       {
         host: "app.codepier.test",
         methods: ["GET", "HEAD"],
+        uri: "user/{code}/confirm-registration",
+        name: null,
+        action: "UserUserConfirmController@update",
+      },
+      {
+        host: "app.codepier.test",
+        methods: ["GET", "HEAD"],
         uri: "change-user/{userId}",
         name: null,
         action: "ChangeUserController@store",
@@ -3582,13 +3582,6 @@ export default function() {
         uri: "second-auth",
         name: null,
         action: "AuthSecondAuthController@store",
-      },
-      {
-        host: "app.codepier.test",
-        methods: ["GET", "HEAD"],
-        uri: "user/{code}/confirm-registration",
-        name: null,
-        action: "UserUserConfirmController@update",
       },
       {
         host: "app.codepier.test",

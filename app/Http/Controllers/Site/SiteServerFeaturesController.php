@@ -55,12 +55,12 @@ class SiteServerFeaturesController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function update(Request $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 
         $site->update([
-            'server_features' => $request->get('services'),
+            'server_features' => $request->except('server_type'),
         ]);
 
         return response()->json(

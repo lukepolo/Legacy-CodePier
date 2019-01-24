@@ -283,11 +283,14 @@ Route::group(['middleware' => [
             Route::apiResource('sites.schemaBackups', 'SiteSchemaBackupsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
-            Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [
-                'parameters' => [
-                    'server-features' => 'server-type',
-                ],
+            Route::apiResource('sites.server-features', 'SiteServerFeaturesController')->parameters([
+                'server-features' => 'server-type',
+            ])->only([
+                'index',
+                'show'
             ]);
+
+            Route::patch('sites/{site}/server-features', 'SiteServerFeaturesController@update');
             Route::apiResource('sites.deployment-steps', 'SiteDeploymentStepsController');
             Route::apiResource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::apiResource('sites.environment-variables', 'SiteEnvironmentVariablesController');

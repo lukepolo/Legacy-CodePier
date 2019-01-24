@@ -6,7 +6,10 @@ export default function(stateName) {
 
   function getItemKeyById(state, stateName, data) {
     let tempData = state[pluralized];
-    return tempData.map((datum) => datum.id).indexOf(data);
+    if (typeof tempData.map === "function") {
+      return tempData.map((datum) => datum.id).indexOf(data);
+    }
+    return false;
   }
 
   return {
@@ -21,10 +24,21 @@ export default function(stateName) {
     },
     [`UPDATED_${singular.toUpperCase()}`]: (state, data) => {
       let key = getItemKeyById(state, singular, data.id);
-      if (key > -1) {
+
+      if (key === false) {
+        Object.assign({}, data);
+      }
+
+      if (key !== false && key > -1) {
         Object.assign(state[pluralized][key], state[pluralized][key], data);
       }
-      if (state[singular] && state[singular].id === data.id) {
+
+      if (
+        state[singular] &&
+        state[singular].hasOwnProperty("id") &&
+        data.hasOwnProperty("id") &&
+        state[singular].id === data.id
+      ) {
         state[singular] = data;
       }
     },

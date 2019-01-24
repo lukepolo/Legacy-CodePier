@@ -47,12 +47,12 @@ export default {
   },
   methods: {
     updateSiteServerFeatures() {
-      // this.$store.dispatch(
-      //   "user_site_server_features/update",
-      //   _.merge(this.$route.params, {
-      //     formData: this.getFormData(this.$el)
-      //   })
-      // );
+      this.$store.dispatch("user/sites/servers/features/update", {
+        parameters: {
+          site: this.siteId,
+        },
+        data: this.selectedServerFeatures,
+      });
     },
   },
   computed: {
