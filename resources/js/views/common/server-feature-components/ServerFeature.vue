@@ -13,36 +13,13 @@
     <template v-if="feature.parameters">
       <div class="flyform--subform">
         <template v-for="(defaultValue, parameter) in feature.parameters">
-          <template v-if="feature.options && feature.options[parameter]">
-            <div class="flyform--group">
-              <label>{{ parameter }}</label>
-              <div class="flyform--group-select">
-                <select :name="parameter" v-model="parameters[parameter]">
-                  <template v-for="option in feature.options[parameter]">
-                    <option :value="option">{{ option }}</option>
-                  </template>
-                </select>
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="flyform--group">
-              <div
-                :class="{ 'flyform--group-postfix': inputSuffix(parameter) }"
-              >
-                <base-input
-                  :name="parameter"
-                  :label="parameter"
-                  :type="inputType(parameter)"
-                  v-model="parameters[parameter]"
-                ></base-input>
-                <template v-if="inputSuffix(parameter)">
-                  <div class="flyform--group-postfix-label">
-                    {{ inputSuffix(parameter) }}
-                  </div>
-                </template>
-              </div>
-            </div>
+          <template v-if="feature.options">
+            <feature-parameter
+              :feature="feature"
+              :parameter="parameter"
+              :defaultValue="defaultValue"
+              v-model="parameters[parameter]"
+            ></feature-parameter>
           </template>
         </template>
       </div>
@@ -94,10 +71,14 @@
 </template>
 
 <script>
+import FeatureParameter from "./FeatureParameter";
 export default {
   inject: ["editable"],
   model: {
     prop: "selectedServerFeatures",
+  },
+  components: {
+    FeatureParameter,
   },
   props: {
     feature: {
@@ -146,20 +127,6 @@ export default {
     },
   },
   methods: {
-    updateObject() {
-      if (!this.selectedServerFeatures[this.service]) {
-        this.$set(this.selectedServerFeatures, this.service, {});
-        this.updateServerFeatures();
-      }
-      if (!this.selectedServerFeatures[this.service][this.inputName]) {
-        this.$set(
-          this.selectedServerFeatures[this.service],
-          this.inputName,
-          {},
-        );
-        this.updateServerFeatures();
-      }
-    },
     hasFeature(feature) {
       return this.$store.getters["user/sites/servers/features/hasFeature"](
         this.service,
@@ -169,19 +136,20 @@ export default {
     updateServerFeatures() {
       this.$emit("input", this.selectedServerFeatures);
     },
-    inputType(parameter) {
-      return (
-        this.feature.parameter_options &&
-        this.feature.parameter_options[parameter] &&
-        this.feature.parameter_options[parameter].type
-      );
-    },
-    inputSuffix(parameter) {
-      return (
-        this.feature.parameter_options &&
-        this.feature.parameter_options[parameter] &&
-        this.feature.parameter_options[parameter].suffix
-      );
+    updateObject() {
+      if (!this.selectedServerFeatures[this.service]) {
+        this.$set(this.selectedServerFeatures, this.service, {});
+        this.updateServerFeatures();
+      }
+
+      if (!this.selectedServerFeatures[this.service][this.inputName]) {
+        this.$set(
+          this.selectedServerFeatures[this.service],
+          this.inputName,
+          {},
+        );
+        this.updateServerFeatures();
+      }
     },
   },
   computed: {

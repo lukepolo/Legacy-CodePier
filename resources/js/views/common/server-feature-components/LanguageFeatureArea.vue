@@ -1,22 +1,23 @@
 <template>
-  <div v-for="(features, framework) in frameworkFeatures(section)">
-    <template v-if="features && Object.keys(features).length">
-      <h1>{{ framework }} -- {{ section }}</h1>
-      <feature-area
-        :features="features"
-        v-model="selectedServerFeatures"
-      ></feature-area>
-    </template>
+  <div>
+    <div v-for="(features, framework) in frameworkFeatures">
+      <template v-if="features && Object.keys(features).length">
+        <h3>{{ framework }}</h3>
+        <feature-area
+          :features="features"
+          v-model="selectedServerFeatures"
+        ></feature-area>
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
-import ServerFeatures from "@views/common/ServerFeatures";
-import ServerFeature from "@views/common/server-feature-components/ServerFeature";
+import FeatureArea from "./FeatureArea";
 export default {
-  components: { ServerFeature, ServerFeatures },
+  components: { FeatureArea },
   props: {
-    features: {
+    section: {
       required: true,
     },
     value: {
@@ -31,6 +32,15 @@ export default {
       set(value) {
         this.$emit("input", value);
       },
+    },
+    frameworkFeatures() {
+      let frameworkFeatures = this.availableFrameworks[this.section];
+      if (frameworkFeatures && Object.keys(frameworkFeatures).length) {
+        return frameworkFeatures;
+      }
+    },
+    availableFrameworks() {
+      return this.$store.state.server.frameworks.frameworks;
     },
   },
 };

@@ -18,7 +18,7 @@
           </template>
         </template>
         <template v-for="(features, section) in availableLanguages">
-          <template v-if="hasFeatures(features) || frameworkFeatures(section)">
+          <template v-if="hasFeatures(features)">
             <feature-title
               :section="section"
               :route-name="routeName"
@@ -30,7 +30,10 @@
                   :features="features"
                   v-model="selectedServerFeatures"
                 ></feature-area>
-                <language-feature-area> </language-feature-area>
+                <language-feature-area
+                  :section="section"
+                  v-model="selectedServerFeatures"
+                ></language-feature-area>
               </div>
             </portal>
           </template>
@@ -96,17 +99,8 @@ export default {
     hasFeatures(features) {
       return Object.keys(features).length;
     },
-    frameworkFeatures(section) {
-      let frameworkFeatures = this.availableFrameworks[section];
-      if (frameworkFeatures && Object.keys(frameworkFeatures).length) {
-        return frameworkFeatures;
-      }
-    },
   },
   computed: {
-    availableFrameworks() {
-      return this.$store.state.server.frameworks.frameworks;
-    },
     availableLanguages() {
       return this.$store.state.server.languages.languages;
     },
