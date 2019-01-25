@@ -56,6 +56,7 @@ export default function($router: RouterInterface) {
             $router.route("cron-jobs", SetupPages.CronJobs);
             $router.route("daemons", SetupPages.Daemons);
             $router.route("workers", SetupPages.Workers);
+            $router.route("server-files", SiteViews.ServerFiles);
             $router.route("language-settings", SetupPages.LanguageSettings);
             // TODO - varie doesn't allow us to do prop functions (we need it to change our section name to be nice)
             $router

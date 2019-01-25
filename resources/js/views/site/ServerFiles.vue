@@ -41,7 +41,7 @@ export default {
     },
     files() {
       return this.$store.state.user.sites.files.files.filter((file) => {
-        return file.framework_file === 1 || file.custom === 1;
+        return file.framework_file === 0 || file.custom === 0;
       });
     },
   },

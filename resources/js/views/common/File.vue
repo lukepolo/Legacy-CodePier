@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3>{{ file.file_path }}</h3>
     <codemirror
       ref="content"
       :options="config"

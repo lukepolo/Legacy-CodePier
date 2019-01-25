@@ -1,6 +1,7 @@
 import SiteArea from "./SiteArea.vue";
 import SiteFiles from "./SiteFiles.vue";
 import SiteSetup from "./SiteSetup.vue";
+import ServerFiles from "./ServerFiles.vue";
 import SiteWorkflow from "./SiteWorkflow.vue";
 import SiteOverview from "./SiteOverview.vue";
 import SiteDeployment from "./SiteDeployment.vue";
@@ -14,6 +15,7 @@ export default {
   SiteArea,
   SiteFiles,
   SiteSetup,
+  ServerFiles,
   SiteOverview,
   SiteWorkflow,
   SiteDeployment,
