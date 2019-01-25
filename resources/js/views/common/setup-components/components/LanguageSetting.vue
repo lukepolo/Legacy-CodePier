@@ -8,8 +8,8 @@
     <template v-for="(defaultValue, param) in setting.params">
       <base-input
         validate
-        :label="uncamelize(param)"
         :name="param"
+        :label="uncamelize(param)"
         v-model="form.params[param]"
       ></base-input>
     </template>
@@ -39,7 +39,7 @@ export default {
   data({ setting }) {
     let validation = {};
 
-    for (let param in this.setting.params) {
+    for (let param in setting.params) {
       validation[param] = "required";
       // TODO - we can check to see what the default is , (also can we safely assume always > 0)
     }
@@ -56,20 +56,28 @@ export default {
       }),
     };
   },
-  created() {
-    if (this.setting.params) {
-      for (let param in this.setting.params) {
-        this.$set(
-          this.form.params,
-          param,
-          (this.siteLanguageSetting &&
-            this.siteLanguageSetting.params[param]) ||
-            this.setting.params[param],
-        );
-      }
-    }
+  watch: {
+    siteLanguageSetting: {
+      immediate: true,
+      handler() {
+        if (this.setting.params) {
+          for (let param in this.setting.params) {
+            this.$set(
+              this.form.params,
+              param,
+              (this.siteLanguageSetting &&
+                this.siteLanguageSetting.params[param]) ||
+                this.setting.params[param],
+            );
+          }
+        }
+      },
+    },
   },
   methods: {
+    uncamelize(param) {
+      return uncamelize(param);
+    },
     runSetting() {
       this.$store.dispatch("user/sites/language_settings/create", {
         data: this.form.data(),
@@ -77,9 +85,6 @@ export default {
           site: this.siteId,
         },
       });
-    },
-    uncamelize(param) {
-      return uncamelize(param);
     },
   },
   computed: {

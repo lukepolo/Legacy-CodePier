@@ -77,8 +77,6 @@ class SiteLanguageSettingsController extends Controller
      */
     public function getLanguageSettings($siteId)
     {
-        throw new \Error("WHEN DO WE USE THIS CONTROLLER SITE LANUG?");
-
         return response()->json($this->siteLanguageSettingsService->getLanguageSettings(
             Site::findOrFail($siteId)
         ));

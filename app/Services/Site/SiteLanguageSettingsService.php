@@ -29,15 +29,14 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
      */
     public function getLanguageSettings(Site $site)
     {
-        throw new \Error("WHEN DO WE USE THIS?");
-        return Cache::tags('app.services')->rememberForever("languageSettings.{$site->type}", function () use ($site) {
+//        return Cache::tags('app.services')->rememberForever("languageSettings.{$site->type}", function () use ($site) {
             $languageSettings = [];
 
             // TODO - so how should we handle things like this, i think i was just assuming before hand
             // and looped through stuff, but seems pointless as some version may not have
             // the same settings as the others
             $reflectionClass = $this->buildReflection(
-                $this->getLanguageFile('Ubuntu', 'V_16_04', $site->type, $site->type.'Settings')
+                $this->getLanguageFile('Ubuntu', 'V_18_04', $site->type, $site->type.'Settings')
             );
 
             $traitMethods = collect();
@@ -66,6 +65,6 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
             }
 
             return collect($languageSettings);
-        });
+//        });
     }
 }
