@@ -20,12 +20,21 @@ class File extends Model
         'content',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['unencrypted_content'];
+    protected $hidden = [
+      'pivot',
+      'content',
+      'created_at',
+    ];
+
+    protected $appends = [
+      'contents'
+    ];
+
+    public function getContentsAttribute() {
+        if (! empty($this->attributes['content'])) {
+            return decrypt($this->attributes['content']);
+        }
+    }
 
     /**
      * Get the administrator flag for the user.

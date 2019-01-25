@@ -1,5 +1,6 @@
 import Vue from "vue";
 import PortalVue from "portal-vue";
+
 import { ServiceProvider } from "varie";
 // TODO - make it module exports
 import routes from "@app/helpers/routes";

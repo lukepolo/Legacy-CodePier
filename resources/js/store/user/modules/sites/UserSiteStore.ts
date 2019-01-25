@@ -16,6 +16,7 @@ import UserSiteDaemonStore from "@store/user/modules/sites/modules/daemons/UserS
 import UserSiteWorkerStore from "@store/user/modules/sites/modules/workers/UserSiteWorkerStore";
 import UserSiteLanguageSettingStore from "@store/user/modules/sites/modules/language-settings/UserSiteLanguageSettingStore";
 import UserSiteSchemaStore from "@store/user/modules/sites/modules/schemas/UserSiteSchemaStore";
+import UserSiteFileStore from "@store/user/modules/sites/modules/files/UserSiteFileStore";
 
 @injectable()
 export default class UserSiteStore extends RestStoreModule {
@@ -37,6 +38,7 @@ export default class UserSiteStore extends RestStoreModule {
       .addModule(UserSiteDaemonStore)
       .addModule(UserSiteWorkerStore)
       .addModule(UserSiteLanguageSettingStore)
-      .addModule(UserSiteSchemaStore);
+      .addModule(UserSiteSchemaStore)
+      .addModule(UserSiteFileStore);
   }
 }

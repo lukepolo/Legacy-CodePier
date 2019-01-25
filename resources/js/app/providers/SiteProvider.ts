@@ -15,10 +15,12 @@ import SiteDeploymentStepService from "@app/services/Site/SiteDeploymentStepServ
 import SiteServerFeatureService from "@app/services/Site/SiteServerFeatureService";
 import SiteSchemaService from "@app/services/Site/SiteSchemaService";
 import SiteSchemaUserService from "@app/services/Site/SiteSchemaUserService";
+import SiteFileService from "@app/services/Site/SiteFileService";
 
 export default class SiteProvider extends ServiceProvider {
   public register() {
     this.app.bind("SiteService", SiteService);
+    this.app.bind("SiteFileService", SiteFileService);
     this.app.bind("SiteDaemonService", SiteDaemonService);
     this.app.bind("SiteSchemaService", SiteSchemaService);
     this.app.bind("SiteServerService", SiteServerService);

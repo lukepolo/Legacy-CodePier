@@ -1,7 +1,50 @@
 <template>
-  <div>Site files</div>
+  <div class="list">
+    <template v-for="file in files">
+      <file :file="file" @update="updateFile"></file> <br /><br />
+      <br /><br />
+      <br /><br />
+      <br /><br />
+    </template>
+  </div>
 </template>
 
 <script>
-export default {};
+import File from "@views/common/File";
+export default {
+  components: {
+    File,
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch("user/sites/files/get", {
+          site: this.siteId,
+        });
+      },
+    },
+  },
+  methods: {
+    updateFile(file) {
+      this.$store.dispatch("user/sites/files/update", {
+        parameters: {
+          file: file.id,
+          site: this.siteId,
+        },
+        data: {
+          contents: file.contents,
+        },
+      });
+    },
+  },
+  computed: {
+    siteId() {
+      return this.$route.params.site;
+    },
+    files() {
+      return this.$store.state.user.sites.files.files;
+    },
+  },
+};
 </script>

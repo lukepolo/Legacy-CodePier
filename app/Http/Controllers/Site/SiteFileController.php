@@ -79,7 +79,7 @@ class SiteFileController extends Controller
 
         $file = $this->fileRepository->update(
             $this->fileRepository->findOnModelById($site, $id),
-            $request->get('content')
+            $request->get('contents')
         );
 
         event(new SiteFileUpdated($site, $file));
