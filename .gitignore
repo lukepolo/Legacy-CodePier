@@ -18,3 +18,4 @@ yarn-error.log
 .php_cs.cache
 _ide_helper.php
 .phpstorm.meta.php
+laravel-echo-server.lock

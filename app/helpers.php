@@ -61,7 +61,7 @@ if (! function_exists('is_domain')) {
      */
     function is_domain($domain)
     {
-        return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $domain) > 0;
+        return preg_match('/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/', $domain) > 0;
     }
 }
 
