@@ -21,7 +21,7 @@ trait CakePHP
     /**
      * @description Creates a symbolic link for the env file
      *
-     * @order 300
+     * @order 270
      */
     public function cakePHPRunMigrations()
     {
