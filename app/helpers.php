@@ -49,7 +49,7 @@ if (! function_exists('is_domain')) {
      */
     function is_domain($domain)
     {
-        return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $domain) > 0;
+        return preg_match('/(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}\.?$)/', $domain) > 0;
     }
 }
 
