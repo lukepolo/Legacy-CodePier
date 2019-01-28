@@ -122,6 +122,8 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                 if ($method->name != '__construct' && ! $traitMethods->contains($method->name)) {
                     $order = $this->getFirstDocParam($method, 'order');
 
+                    $step = $this->getFirstDocParam($method,'label') ?? ucwords(str_replace('_', ' ', snake_case($method->name)));
+
                     if (! empty($order)) {
                         $description = $this->getFirstDocParam($method, 'description');
 
@@ -130,7 +132,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                                'zero_downtime_deployment' => $this->getFirstDocParam($method, 'zero_downtime_deployment'),
                                'description' => $description,
                                'internal_deployment_function' => $method->name,
-                               'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
+                               'step' => $step,
                                'enabled' => ! $this->getFirstDocParam($method, 'not_default'),
                            ];
                     }

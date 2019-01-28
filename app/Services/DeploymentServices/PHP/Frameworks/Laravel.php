@@ -71,7 +71,7 @@ trait Laravel
     /**
      * @description Runs the migrations
      *
-     * @order 320
+     * @order 360
      */
     public function laravelRunMigrations()
     {
@@ -83,7 +83,7 @@ trait Laravel
     /**
      * @description Caches the Laravel Routes
      *
-     * @order 310
+     * @order 360
      */
     public function laravelCacheRoutes()
     {
@@ -95,7 +95,7 @@ trait Laravel
     /**
      * @description Caches Laravel Configs
      *
-     * @order 300
+     * @order 350
      */
     public function laravelCacheConfig()
     {
