@@ -13,7 +13,7 @@ class CreateSshKeysTable extends Migration
      */
     public function up()
     {
-        Schema::create('ssh-keys', function (Blueprint $table) {
+        Schema::create('ssh_keys', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->longText('ssh_key');
@@ -35,7 +35,7 @@ class CreateSshKeysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ssh-keys');
+        Schema::dropIfExists('ssh_keys');
         Schema::dropIfExists('sshKeyables');
     }
 }
