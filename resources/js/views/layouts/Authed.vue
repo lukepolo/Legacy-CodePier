@@ -8,13 +8,15 @@
     <!--<events-bar v-if="hasSites"></events-bar>-->
     <!-- <announcements></announcements> -->
     <!-- <portal-target name="modal" slim></portal-target> -->
+
+    <portal-target slim name="right-nav"></portal-target>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import LeftNav from "./components/LeftNav";
-import Navigation from "./components/Alert";
+import Navigation from "./components/Navigation";
 import SystemAlerts from "./components/SystemAlerts";
 import Announcements from "./components/Announcements";
 

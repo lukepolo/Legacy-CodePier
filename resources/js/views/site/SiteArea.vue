@@ -1,5 +1,9 @@
 <template>
   <section id="middle" class="section-column">
+    <right-nav>
+      OK COOL IT WORKS
+    </right-nav>
+
     <template v-if="workFlowCompleted">
       <h3 class="section-header primary" v-if="site">
         <router-link :to="{ name: 'site', params: { site: site.id } }">
