@@ -1,7 +1,7 @@
 <template>
   <section id="middle" class="section-column">
     <right-nav>
-      OK COOL IT WORKS
+      <site-servers></site-servers>
     </right-nav>
 
     <template v-if="workFlowCompleted">
@@ -153,7 +153,11 @@
 </template>
 
 <script>
+import SiteServers from "./components/SiteServers";
 export default {
+  components: {
+    SiteServers,
+  },
   computed: {
     site() {
       return this.$store.getters["user/sites/show"](this.$route.params.site);

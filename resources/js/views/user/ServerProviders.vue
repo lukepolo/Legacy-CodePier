@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import ServerProviderForm from "./components/server-providers/ServerProviderForm";
+import ServerProviderForm from "../common/ServerProviderForm";
 export default {
   components: {
     ServerProviderForm,

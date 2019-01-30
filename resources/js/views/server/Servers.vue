@@ -130,7 +130,7 @@
               </div>
               <router-link
                 slot="confirm-button"
-                :to="{ name: 'server_form' }"
+                :to="{ name: 'server.create' }"
                 class="btn btn-small btn-danger"
                 :class="{ 'btn-disabled': !serverCreateEnabled }"
               >

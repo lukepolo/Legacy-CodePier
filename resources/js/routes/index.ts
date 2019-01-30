@@ -7,11 +7,11 @@
 import middleware from "./middleware";
 import RouterInterface from "varie/lib/routing/RouterInterface";
 
-import UserViews from "@views/user";
 import ErrorViews from "@views/errors";
 import ServerViews from "@views/server";
 import Dashboard from "@views/dashboard/Dashboard.vue";
 
+import userRoutes from "./userRoutes";
 import authRoutes from "./authRoutes";
 import siteRoutes from "./siteRoutes";
 
@@ -23,26 +23,13 @@ export default function($router: RouterInterface) {
     .group(() => {
       $router.route("", Dashboard).setName("dashboard");
 
-      $router
-        .area(UserViews.AccountArea)
-        .prefix("my")
-        .group(() => {
-          $router.route("account", UserViews.MyAccount);
-          $router.route("subscription", UserViews.Subscription);
-          $router.route("privacy", UserViews.PrivacySettings);
-          $router.route("ssh-keys", UserViews.SshKeys);
-          $router.route("server-providers", UserViews.ServerProviders);
-          $router.route(
-            "source-control-providers",
-            UserViews.SourceControlProviders,
-          );
-          $router.route(
-            "notification-settings",
-            UserViews.NotificationSettings,
-          );
-        });
-
+      userRoutes($router);
       siteRoutes($router);
+
+      $router
+        .route("server/create/:type?/:site?", ServerViews.CreateServer)
+        .setName("server.create")
+        .setAlias("server/create");
 
       $router.route("servers", ServerViews.Servers);
     });
