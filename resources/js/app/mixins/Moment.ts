@@ -1,10 +1,9 @@
 import Vue from "vue";
-import moment from "moment-timezone";
-
+import { format } from "date-fns";
 Vue.mixin({
   methods: {
-    moment(data = null, format) {
-      return moment(data, format);
+    moment(date = null, format) {
+      return format(date, format);
     },
   },
 });
