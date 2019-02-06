@@ -35,10 +35,13 @@ class DeploySite implements ShouldQueue
     public function __construct(Site $site, SiteDeployment $oldSiteDeployment = null)
     {
         $this->site = $site;
-        $this->servers = $site->provisionedServers;
         $this->oldSiteDeployment = $oldSiteDeployment;
+    }
 
-        $availableServers = $site->filterServersByType([
+    public function setupDeployment() {
+        $this->servers = $this->site->provisionedServers;
+
+        $availableServers = $this->site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::WORKER_SERVER,
             SystemService::FULL_STACK_SERVER,
@@ -46,7 +49,7 @@ class DeploySite implements ShouldQueue
 
         if (! empty($availableServers)) {
             $this->siteDeployment = SiteDeployment::create([
-                'site_id' => $site->id,
+                'site_id' => $this->site->id,
                 'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
             ]);
 
@@ -58,7 +61,7 @@ class DeploySite implements ShouldQueue
                 ])->createSteps();
             }
 
-            $site->notify(new NewSiteDeployment($this->siteDeployment));
+            $this->site->notify(new NewSiteDeployment($this->siteDeployment));
         }
     }
 
@@ -67,11 +70,28 @@ class DeploySite implements ShouldQueue
      */
     public function handle()
     {
-        foreach ($this->siteDeployments as $siteServerDeployment) {
-            dispatch(
-                (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
-                    ->onQueue(config('queue.channels.site_deployments'))
-            );
+        $site = $this->site->load(['deployments' => function($query) {
+            $query->where('status', SiteDeployment::RUNNING)
+                ->orWhere('status', SiteDeployment::QUEUED_FOR_DEPLOYMENT);
+        }]);
+        switch($site->deployments->count()) {
+            case 0 :
+                $this->setupDeployment();
+                foreach ($this->siteDeployments as $siteServerDeployment) {
+                    dispatch(
+                        (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
+                            ->onQueue(config('queue.channels.site_deployments'))
+                    );
+                }
+                break;
+            case 1 :
+                $this->setupDeployment();
+                dispatch(
+                    (new self($this->site, null))
+                        ->delay(30)
+                        ->onQueue(config('queue.channels.site_deployments'))
+                );
+                break;
         }
     }
 }
