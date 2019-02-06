@@ -224,6 +224,12 @@ class Site extends Model
         return $this->hasOne(SiteDeployment::class)->orderBy('id', 'desc');
     }
 
+
+    public function runningDeployment()
+    {
+        return $this->hasOne(SiteDeployment::class)->where('status', SiteDeployment::RUNNING)->orderBy('id', 'desc');
+    }
+
     /**
      * Route notifications for the mail channel.
      *

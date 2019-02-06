@@ -14,9 +14,9 @@ class AddPrivacyColumnsToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('processing')->default(true)->before('updated_at');
-            $table->boolean('marketing')->default(true)->before('updated_at');
-            $table->dateTime('last_bundle_download')->nullable()->before('updated_at');
+            $table->boolean('processing')->default(true)->after('remember_token');
+            $table->boolean('marketing')->default(true)->after('remember_token');
+            $table->dateTime('last_bundle_download')->nullable()->after('remember_token');
         });
     }
 

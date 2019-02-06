@@ -74,6 +74,9 @@ class DeploySite implements ShouldQueue
             $query->where('status', SiteDeployment::RUNNING)
                 ->orWhere('status', SiteDeployment::QUEUED_FOR_DEPLOYMENT);
         }]);
+
+
+
         switch($site->deployments->count()) {
             case 0 :
                 $this->setupDeployment();
@@ -85,12 +88,23 @@ class DeploySite implements ShouldQueue
                 }
                 break;
             case 1 :
+                if($this->site->runningDeployment) {
+                    dump("KILL IT");
+                    foreach ($this->site->runningDeployment->serverDeployments as $siteServerDeployment) {
+                        dump($siteServerDeployment->job_id);
+                        dump(posix_kill($siteServerDeployment->job_id, SIGKILL));
+                    }
+                }
+
+
                 $this->setupDeployment();
-                dispatch(
-                    (new self($this->site, null))
-                        ->delay(30)
-                        ->onQueue(config('queue.channels.site_deployments'))
-                );
+                foreach ($this->siteDeployments as $siteServerDeployment) {
+                    dispatch(
+                        (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
+                            ->onQueue(config('queue.channels.site_deployments'))
+                    );
+                }
+
                 break;
         }
     }
