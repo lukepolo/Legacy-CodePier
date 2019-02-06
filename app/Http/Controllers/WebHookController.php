@@ -46,12 +46,13 @@ class WebHookController extends Controller
                         break;
                 }
             }
-
             if (empty($branch) || $site->branch === $branch) {
-                dispatch(
-                    (new DeploySite($site, null))
-                        ->onQueue(config('queue.channels.site_deployments'))
-                );
+                \Cache::lock("deploy_hook_lock-{$site->id}")->get(function () use($site) {
+                    dispatch(
+                        (new DeploySite($site, null))
+                            ->onQueue(config('queue.channels.site_deployments'))
+                    );
+                });
             }
 
             return response()->json('OK');
