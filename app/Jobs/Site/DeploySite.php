@@ -84,7 +84,7 @@ class DeploySite implements ShouldQueue
                 if($serverDeployment->job_id) {
                     posix_kill($serverDeployment->job_id, SIGKILL);
                 }
-                $siteService->deployFailed($this->site, $serverDeployment->server, $serverDeployment, "Site triggered new deployment", microtime(true));
+                $siteService->deployFailed($this->site, $serverDeployment->server, $serverDeployment, "Site triggered new deployment", microtime(true), false);
             }
         }
 

@@ -55,7 +55,6 @@ class Deploy implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        dump('IS KILLABLE : '.getmypid());
         $this->serverDeployment->update([
             'job_id' => getmypid()
         ]);
