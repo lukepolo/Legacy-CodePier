@@ -204,7 +204,7 @@ class SiteService implements SiteServiceContract
      * @param $message
      * @param $startTime
      */
-    public function deployFailed(Site $site, Server $server, SiteServerDeployment $serverDeployment, $message, $startTime)
+    public function deployFailed(Site $site, Server $server, SiteServerDeployment $serverDeployment, $message, $startTime, $notify = true)
     {
         $event = $serverDeployment->events->first(function ($event) {
             return $event->completed == false || $event->failed;
@@ -218,7 +218,9 @@ class SiteService implements SiteServiceContract
             broadcast(new DeploymentStepFailed($site, $server, $event, $message, microtime(true) - $startTime));
         }
 
-        $site->notify(new SiteDeploymentFailed($serverDeployment, $message));
+        if($notify) {
+            $site->notify(new SiteDeploymentFailed($serverDeployment, $message));
+        }
     }
 
     /**
