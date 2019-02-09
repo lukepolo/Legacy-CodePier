@@ -21,6 +21,8 @@ class ServerStat extends Model
         'disk_stats' => 'json',
         'load_stats' => 'json',
         'memory_stats' => 'json',
+        'disk_notification_count' => 'json',
+        'memory_notification_count' => 'json',
     ];
 
     public static $userModel = 'server';

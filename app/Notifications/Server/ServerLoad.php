@@ -21,7 +21,7 @@ class ServerLoad extends Notification
     private $cpus;
     private $latestLoadStat;
     private $highLoad = false;
-
+    private $currentNotificationCount;
     /**
      * Create a new notification instance.
      *
@@ -33,9 +33,24 @@ class ServerLoad extends Notification
         $this->cpus = $server->stats->number_of_cpus;
 
         $this->latestLoadStat = $server->stats->load_stats[0];
+        unset($this->latestLoadStat['updated_at']);
 
+        $this->currentNotificationCount = $this->server->stats->load_notification_count;
         if (($this->latestLoadStat[1] / $this->cpus) > .95) {
-            $this->highLoad = true;
+            ++$this->currentNotificationCount;
+            if($this->currentNotificationCount < 3) {
+                $this->highLoad = true;
+                $this->server->stats->update([
+                    'load_notification_count' => $this->currentNotificationCount
+                ]);
+            }
+        } else if($this->currentNotificationCount !== 0) {
+            $this->server->stats->update([
+                'load_notification_count' => 0
+            ]);
+            if($this->currentNotificationCount >= 3) {
+                ddd("SEND NOTFICAITION SASYING WERE ALL GOOD");
+            }
         }
 
         if ($server->site) {
@@ -141,12 +156,12 @@ class ServerLoad extends Notification
 
     private function getTitle()
     {
-        return "CPU Allocation across $this->cpus CPUs";
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '')."CPU Allocation across $this->cpus CPUs";
     }
 
     private function getContent(Server $server)
     {
-        return 'High CPU Usage : '.$server->name.' ('.$server->ip.')';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '')."High CPU Usage : $server->name ($server->ip)";
     }
 
     private function calculateLoad($load)
@@ -156,6 +171,6 @@ class ServerLoad extends Notification
 
     private function minsAgo($mins)
     {
-        return $mins.' minutes ago';
+        return "$mins minute".($mins > 1 ? 's' : '')." ago";
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Server\ServerStat;
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -80,6 +80,8 @@ class WebHookController extends Controller
 
             if (! empty($stats)) {
 
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
+
                 $loadStats = $server->stats->load_stats;
                 $loadStats[] = $stats;
 
@@ -115,6 +117,9 @@ class WebHookController extends Controller
             $server = $this->createStats($server);
 
             if (isset($stats['name'])) {
+
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
+
                 if (empty($stats['available'])) {
                     $stats['available'] = $stats['free'];
                 }
@@ -129,7 +134,7 @@ class WebHookController extends Controller
                     "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -10, 10)
                 ]);
 
-                $server->notify(new ServerMemory($server));
+                $server->notify(new ServerMemory($server, $memoryName));
 
                 return response()->json('OK');
             }
@@ -157,6 +162,8 @@ class WebHookController extends Controller
             $server = $this->createStats($server);
 
             if (isset($stats['disk'])) {
+
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
 
                 $diskName = $stats['disk'];
                 unset($stats['disk']);
