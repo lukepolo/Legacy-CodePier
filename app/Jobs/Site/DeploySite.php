@@ -3,6 +3,8 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
+use App\Notifications\Site\SiteDeploymentFailed;
+use App\Services\Site\SiteService;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Queue\SerializesModels;
@@ -67,31 +69,31 @@ class DeploySite implements ShouldQueue
 
     /**
      * Execute the job.
+     *
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
-    public function handle()
+    public function handle(SiteService $siteService)
     {
         $site = $this->site->load(['deployments' => function($query) {
             $query->where('status', SiteDeployment::RUNNING)
                 ->orWhere('status', SiteDeployment::QUEUED_FOR_DEPLOYMENT);
         }]);
-        switch($site->deployments->count()) {
-            case 0 :
-                $this->setupDeployment();
-                foreach ($this->siteDeployments as $siteServerDeployment) {
-                    dispatch(
-                        (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
-                            ->onQueue(config('queue.channels.site_deployments'))
-                    );
+
+        foreach($site->deployments as $deployment) {
+            foreach($deployment->serverDeployments as $serverDeployment) {
+                if($serverDeployment->job_id) {
+                    posix_kill($serverDeployment->job_id, SIGKILL);
                 }
-                break;
-            case 1 :
-                $this->setupDeployment();
-                dispatch(
-                    (new self($this->site, null))
-                        ->delay(30)
-                        ->onQueue(config('queue.channels.site_deployments'))
-                );
-                break;
+                $siteService->deployFailed($this->site, $serverDeployment->server, $serverDeployment, "Site triggered new deployment", microtime(true), false);
+            }
+        }
+
+        $this->setupDeployment();
+        foreach ($this->siteDeployments as $siteServerDeployment) {
+            dispatch(
+                (new Deploy($this->site, $siteServerDeployment->server, $siteServerDeployment, $this->oldSiteDeployment))
+                    ->onQueue(config('queue.channels.site_deployments'))
+            );
         }
     }
 }

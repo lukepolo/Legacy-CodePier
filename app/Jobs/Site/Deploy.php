@@ -55,6 +55,10 @@ class Deploy implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
+        $this->serverDeployment->update([
+            'job_id' => getmypid()
+        ]);
+
         $success = true;
         $startTime = microtime(true);
 
