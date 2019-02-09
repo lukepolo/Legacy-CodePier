@@ -174,7 +174,7 @@ class WebHookController extends Controller
                     "disk_stats->$diskName" => array_slice($diskStats[$diskName], -10, 10)
                 ]);
 
-                $server->notify(new ServerDiskUsage($server));
+                $server->notify(new ServerDiskUsage($server, $diskName));
 
                 return response()->json('OK');
             }

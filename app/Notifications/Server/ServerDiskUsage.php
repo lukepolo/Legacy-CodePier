@@ -18,24 +18,48 @@ class ServerDiskUsage extends Notification
     public $server;
     public $slackChannel;
 
-    private $disks = [];
+    private $disk;
+    private $diskName;
+    private $highLoad = false;
+    private $currentNotificationCount;
 
     /**
      * Create a new notification instance.
      *
      * @param Server $server
+     * @param $diskName
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, $diskName)
     {
         $this->server = $server;
+        $this->diskName = $diskName;
 
-        foreach ($server->stats->disk_stats as $disk => $stats) {
-            $stat = last($stats);
-            unset($stat['updated_at']);
-            if (str_replace('%', '', $stat['percent']) >= 95) {
-                $this->disks[$disk] = $stat;
+        $this->disk = last($server->stats->disk_stats[$this->diskName]);
+        unset($this->disk['updated_at']);
+
+        $this->currentNotificationCount = $this->server->stats->disk_notification_count[$this->diskName] ?: 0;
+
+        if (str_replace('%', '', $this->disk['percent']) >= 95) {
+            ++$this->currentNotificationCount;
+            if ($this->currentNotificationCount <= 3) {
+                $this->highLoad = true;
+                $this->server->stats->update([
+                    "disk_notification_count" => [
+                        $this->diskName => $this->currentNotificationCount
+                    ]
+                ]);
+            }
+        } else {
+            $this->server->stats->update([
+                "disk_notification_count" => [
+                    $this->diskName => 0
+                ]
+            ]);
+            if ($this->currentNotificationCount >= 3) {
+                ddd("SEND NOTFICAITION SASYING WERE ALL GOOD");
             }
         }
+
         if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
         }
@@ -52,7 +76,7 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return ! empty($this->disks) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -65,17 +89,11 @@ class ServerDiskUsage extends Notification
     public function toMail($notifiable)
     {
         $server = $notifiable;
-        $disks = $this->disks;
+        $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
-        if (! empty($disks)) {
-            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
+        $mailMessage->line($this->diskName.': '.$this->getUsedStat());
 
-            foreach ($disks as $name => $stats) {
-                $mailMessage->line($name.': '.$this->getUsedStat($stats));
-            }
-
-            return $mailMessage;
-        }
+        return $mailMessage;
     }
 
     /**
@@ -88,21 +106,16 @@ class ServerDiskUsage extends Notification
     public function toSlack($notifiable)
     {
         $server = $notifiable;
-        $disks = $this->disks;
 
-        if (! empty($disks)) {
-            return (new SlackMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->attachment(function ($attachment) use ($server, $disks) {
-                    $attachment = $attachment->title($this->getTitle());
-                    foreach ($disks as $name => $stats) {
-                        $attachment->fields([
-                            $name => $this->getUsedStat($stats),
-                        ]);
-                    }
-                });
-        }
+        return (new SlackMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->attachment(function ($attachment) use ($server) {
+                $attachment = $attachment->title($this->getTitle());
+                $attachment->fields([
+                    $this->diskName => $this->getUsedStat(),
+                ]);
+            });
     }
 
     /**
@@ -115,19 +128,14 @@ class ServerDiskUsage extends Notification
     public function toDiscord($notifiable)
     {
         $server = $notifiable;
-        $disks = $this->disks;
 
-        if (! empty($disks)) {
-            return (new DiscordMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->embed(function ($embed) use ($server, $disks) {
-                    $embed->title($this->getTitle());
-                    foreach ($disks as $name => $stats) {
-                        $embed->field($name, $this->getUsedStat($stats));
-                    }
-                });
-        }
+        return (new DiscordMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->embed(function ($embed) use ($server) {
+                $embed->title($this->getTitle());
+                $embed->field($this->diskName, $this->getUsedStat());
+            });
     }
 
     /**
@@ -146,18 +154,18 @@ class ServerDiskUsage extends Notification
 
     private function getContent(Server $server)
     {
-        return 'High Disk Usage : '.$server->name.' ('.$server->ip.')';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '').'High Disk Usage : '.$server->name.' ('.$server->ip.')';
     }
 
     private function getTitle()
     {
-        return 'Disk Information';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '').'Disk Information';
     }
 
-    private function getUsedStat($stats)
+    private function getUsedStat()
     {
-        $used = mb_to_readable_format($stats['used']);
-        $total = mb_to_readable_format($stats['used'] + $stats['available']);
-        return "{$used} / {$total} ({$stats['percent']})";
+        $used = mb_to_readable_format($this->disk['used']);
+        $total = mb_to_readable_format($this->disk['used'] + $this->disk['available']);
+        return "{$used} / {$total} ({$this->disk['percent']})";
     }
 }

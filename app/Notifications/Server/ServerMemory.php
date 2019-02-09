@@ -19,8 +19,8 @@ class ServerMemory extends Notification
     public $slackChannels;
 
     private $memory;
-    private $highLoad;
     private $memoryName;
+    private $highLoad = false;
     private $currentNotificationCount;
 
     /**
@@ -35,18 +35,16 @@ class ServerMemory extends Notification
         $this->server = $server;
         $this->memoryName = $memoryName;
 
-        $stat = last($server->stats->memory_stats[$this->memoryName]);
-        unset($stat['updated_at']);
-
-        $this->memory = $stat;
+        $this->memory = last($server->stats->memory_stats[$this->memoryName]);
+        unset($this->memory['updated_at']);
 
         $this->currentNotificationCount = $this->server->stats->memory_notification_count[$this->memoryName] ?: 0;
 
         if (
-            is_numeric($stat['available']) &&
-            (is_numeric($stat['available']) && $stat['total'] > 0)
+            is_numeric($this->memory['available']) &&
+            (is_numeric($this->memory['available']) && $this->memory['total'] > 0)
         ) {
-            if (($stat['available'] / $stat['total']) * 100 <= 5) {
+            if (($this->memory['available'] / $this->memory['total']) * 100 <= 5) {
                 ++$this->currentNotificationCount;
                 if ($this->currentNotificationCount <= 3) {
                     $this->highLoad = true;
