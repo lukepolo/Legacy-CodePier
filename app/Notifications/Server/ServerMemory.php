@@ -27,16 +27,17 @@ class ServerMemory extends Notification
      */
     public function __construct(Server $server)
     {
-        $this->server = $server;
         $this->memory = [];
+        $this->server = $server;
 
-        foreach ($server->stats['memory'] as $memoryName => $stats) {
+        foreach ($server->stats->memory_stats as $memoryName => $stats) {
+            $stat = last($stats);
             if (
-                is_numeric($stats['available']) &&
-                (is_numeric($stats['available']) && $stats['total'] > 0)
+                is_numeric($stat['available']) &&
+                (is_numeric($stat['available']) && $stat['total'] > 0)
             ) {
-                if (($stats['available'] / $stats['total']) * 100 <= 10) {
-                    $this->memory[$memoryName] = $stats;
+                if (($stat['available'] / $stat['total']) * 100 <= 5) {
+                    $this->memory[$memoryName] = $stat;
                 }
             }
         }

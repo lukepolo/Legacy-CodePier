@@ -29,9 +29,10 @@ class ServerDiskUsage extends Notification
     {
         $this->server = $server;
 
-        foreach ($server->stats['disk_usage'] as $disk => $stats) {
-            if (str_replace('%', '', $stats['percent']) >= 95) {
-                $this->disks[$disk] = $stats;
+        foreach ($server->stats->disk_stats as $disk => $stats) {
+            $stat = last($stats);
+            if (str_replace('%', '', $stat['percent']) >= 95) {
+                $this->disks[$disk] = $stat;
             }
         }
         if ($server->site) {

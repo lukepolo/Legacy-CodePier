@@ -19,6 +19,7 @@ class ServerLoad extends Notification
     public $slackChannel;
 
     private $cpus;
+    private $latestLoadStat;
     private $highLoad = false;
 
     /**
@@ -29,9 +30,11 @@ class ServerLoad extends Notification
     public function __construct(Server $server)
     {
         $this->server = $server;
-        $this->cpus = $server->stats['cpus'];
+        $this->cpus = $server->stats->number_of_cpus;
 
-        if (($server->stats['loads'][1] / $this->cpus) > .95) {
+        $this->latestLoadStat = $server->stats->load_stats[0];
+
+        if (($this->latestLoadStat[1] / $this->cpus) > .95) {
             $this->highLoad = true;
         }
 
@@ -66,11 +69,11 @@ class ServerLoad extends Notification
         if ($this->highLoad) {
             $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
-            foreach ($this->server->stats['loads'] as $mins => $load) {
-                $mailMessage->line(`{$this->calculateLoad($load)} {$this->minsAgo($mins)}`);
-            }
-
             $mailMessage->line($this->getTitle());
+
+            foreach ($this->latestLoadStat as $mins => $load) {
+                $mailMessage->line("{$this->calculateLoad($load)} {$this->minsAgo($mins)}");
+            }
 
             return $mailMessage;
         }
@@ -91,7 +94,7 @@ class ServerLoad extends Notification
                 ->content($this->getContent($server))
                 ->attachment(function ($attachment) use ($server) {
                     $fields = [];
-                    foreach ($server->stats['loads'] as $mins => $load) {
+                    foreach ($this->latestLoadStat as $mins => $load) {
                         $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
                     }
 
@@ -115,7 +118,7 @@ class ServerLoad extends Notification
                 ->content($this->getContent($server))
                 ->embed(function ($embed) use ($server) {
                     $embed->title($this->getTitle());
-                    foreach ($server->stats['loads'] as $mins => $load) {
+                    foreach ($this->latestLoadStat as $mins => $load) {
                         $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
                     }
                 });
@@ -138,7 +141,7 @@ class ServerLoad extends Notification
 
     private function getTitle()
     {
-        return 'CPU Allocation across '.$this->cpus.' CPUs';
+        return "CPU Allocation across $this->cpus CPUs";
     }
 
     private function getContent(Server $server)
