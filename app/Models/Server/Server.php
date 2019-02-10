@@ -202,6 +202,10 @@ class Server extends Model
         return $this->morphToMany(Backup::class, 'backupable');
     }
 
+    public function stats() {
+        return $this->hasOne(ServerStat::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers

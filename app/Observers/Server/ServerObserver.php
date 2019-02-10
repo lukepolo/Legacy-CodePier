@@ -16,19 +16,6 @@ class ServerObserver
         $server->generateDatabasePassword();
     }
 
-    /**
-     * @param Server $server
-     */
-    public function updating(Server $server)
-    {
-        if ($server->isDirty('stats')) {
-            $stats = $server->stats;
-            $stats['stats_updated_at'] = Carbon::now()->toIso8601String();
-
-            $server->stats = $stats;
-        }
-    }
-
     public function deleting(Server $server)
     {
         $server->detachDeploymentSteps();

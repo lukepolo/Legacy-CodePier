@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 
 class WebHookController extends Controller
 {
+    const STAT_RETENTION = 50;
     /**
      * @param Request $request
      * @param $siteHashId
@@ -68,17 +70,25 @@ class WebHookController extends Controller
      */
     public function loadMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+        $server = Server::with('stats')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
         if ($this->checkServerIp($server, $request)) {
             $this->checkUsersMaxServers($server->user);
 
             $stats = $this->getStats($request->get('loads'));
 
+            $server = $this->createStats($server);
+
             if (! empty($stats)) {
-                $server->update([
-                    'stats->cpus' => $request->get('cpus'),
-                    'stats->loads' => $stats,
+
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
+
+                $loadStats = $server->stats->load_stats;
+                $loadStats[] = $stats;
+
+                $server->stats->update([
+                    'number_of_cpus' => $request->get('cpus'),
+                    'load_stats' => array_slice($loadStats, -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
                 $server->notify(new ServerLoad($server));
@@ -98,22 +108,34 @@ class WebHookController extends Controller
      */
     public function memoryMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+        $server = Server::with('stats')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
         if ($this->checkServerIp($server, $request)) {
             $this->checkUsersMaxServers($server->user);
 
-            $memoryStats = $this->getStats($request->get('memory'));
+            $stats = $this->getStats($request->get('memory'));
 
-            if (isset($memoryStats['name'])) {
-                if (empty($memoryStats['available'])) {
-                    $memoryStats['available'] = $memoryStats['free'];
+            $server = $this->createStats($server);
+
+            if (isset($stats['name'])) {
+
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
+
+                if (empty($stats['available'])) {
+                    $stats['available'] = $stats['free'];
                 }
-                $server->update([
-                    'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
+
+                $memoryName = str_replace(':', '', $stats['name']);
+                unset($stats['name']);
+
+                $memoryStats = $server->stats->memory_stats;
+                $memoryStats[$memoryName][] = $stats;
+
+                $server->stats->update([
+                    "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
-                $server->notify(new ServerMemory($server));
+                $server->notify(new ServerMemory($server, $memoryName));
 
                 return response()->json('OK');
             }
@@ -130,19 +152,30 @@ class WebHookController extends Controller
      */
     public function diskUsageMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
+        $server = Server::with('stats')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
         if ($this->checkServerIp($server, $request)) {
+
             $this->checkUsersMaxServers($server->user);
 
-            $diskStats = $this->getStats($request->get('disk_usage'));
+            $stats = $this->getStats($request->get('disk_usage'));
 
-            if (isset($diskStats['disk'])) {
-                $server->update([
-                    'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
+            $server = $this->createStats($server);
+
+            if (isset($stats['disk'])) {
+
+                $stats['updated_at'] = Carbon::now()->toIso8601String();
+
+                $diskName = $stats['disk'];
+                unset($stats['disk']);
+                $diskStats = $server->stats->disk_stats;
+                $diskStats[$diskName][] = $stats;
+
+                $server->stats->update([
+                    "disk_stats->$diskName" => array_slice($diskStats[$diskName], -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
-                $server->notify(new ServerDiskUsage($server));
+                $server->notify(new ServerDiskUsage($server, $diskName));
 
                 return response()->json('OK');
             }
@@ -277,5 +310,17 @@ class WebHookController extends Controller
     private function returnInvalidServerIp()
     {
         return response()->json('This server IP doesn\'t match whats on record', 400);
+    }
+
+    private function createStats(Server $server) {
+        if(!$server->relationLoaded('stats')) {
+            $server->load('stats');
+        }
+
+        if(empty($server->stats)) {
+            $server->stats()->create();
+            $server->load('stats');
+        }
+        return $server;
     }
 }

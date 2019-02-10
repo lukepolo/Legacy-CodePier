@@ -187,6 +187,8 @@ Route::group(['middleware' => [
             'middleware' => 'checkMaxServers',
         ], function () {
             Route::group(['prefix' => 'server'], function () {
+                Route::get('{server}/stats', 'ServerStatController@index');
+
                 Route::post('{server}/file', 'ServerController@getFile');
                 Route::post('restore/{server}', 'ServerController@restore');
                 Route::post('{server}/find-file', 'ServerFileController@find');

@@ -19,25 +19,50 @@ class ServerMemory extends Notification
     public $slackChannels;
 
     private $memory;
+    private $memoryName;
+    private $highLoad = false;
+    private $currentNotificationCount;
 
     /**
      * Create a new notification instance.
      *
      * @param Server $server
+     * @param string $memoryName
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, $memoryName)
     {
-        $this->server = $server;
-        $this->memory = [];
 
-        foreach ($server->stats['memory'] as $memoryName => $stats) {
-            if (
-                is_numeric($stats['available']) &&
-                (is_numeric($stats['available']) && $stats['total'] > 0)
-            ) {
-                if (($stats['available'] / $stats['total']) * 100 <= 10) {
-                    $this->memory[$memoryName] = $stats;
+        $this->server = $server;
+        $this->memoryName = $memoryName;
+
+        $this->memory = last($server->stats->memory_stats[$this->memoryName]);
+        unset($this->memory['updated_at']);
+
+        $this->currentNotificationCount = $this->server->stats->memory_notification_count[$this->memoryName] ?: 0;
+
+        if (
+            is_numeric($this->memory['available']) &&
+            (is_numeric($this->memory['available']) && $this->memory['total'] > 0)
+        ) {
+            if (($this->memory['available'] / $this->memory['total']) * 100 <= 5) {
+                ++$this->currentNotificationCount;
+                if ($this->currentNotificationCount <= 3) {
+                    $this->highLoad = true;
+                    $this->server->stats->update([
+                        "memory_notification_count" => [
+                            $this->memoryName => $this->currentNotificationCount
+                        ]
+                    ]);
                 }
+            } else {
+                if ($this->currentNotificationCount >= 3) {
+                    $server->notify(new ServerStatBackToNormal($server, 'Memory Allocation'));
+                }
+                $this->server->stats->update([
+                    "memory_notification_count" => [
+                        $this->memoryName => 0
+                    ]
+                ]);
             }
         }
 
@@ -57,7 +82,7 @@ class ServerMemory extends Notification
      */
     public function via()
     {
-        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
@@ -75,9 +100,7 @@ class ServerMemory extends Notification
         if (! empty($memory)) {
             $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
-            foreach ($memory as $name => $stats) {
-                $mailMessage->line($name.': '.$this->getUsedStat($stats));
-            }
+            $mailMessage->line($this->memoryName.': '.$this->getUsedStat());
 
             return $mailMessage;
         }
@@ -102,9 +125,7 @@ class ServerMemory extends Notification
                 ->attachment(function ($attachment) use ($server, $memory) {
                     $attachment = $attachment->title($this->getTitle());
                     $fields = [];
-                    foreach ($memory as $name => $stats) {
-                        $fields[$name] = $this->getUsedStat($stats);
-                    }
+                    $fields[$this->memoryName] = $this->getUsedStat();
                     $attachment->fields($fields);
                 });
         }
@@ -128,9 +149,7 @@ class ServerMemory extends Notification
                 ->content($this->getContent($server))
                 ->embed(function ($embed) use ($server, $memory) {
                     $embed->title($this->getTitle());
-                    foreach ($memory as $name => $stats) {
-                        $embed->field($name, $this->getUsedStat($stats));
-                    }
+                    $embed->field($this->memoryName, $this->getUsedStat());
                 });
         }
     }
@@ -144,25 +163,24 @@ class ServerMemory extends Notification
     public function toBroadcast($notifiable)
     {
         return [
-            'server'=> $notifiable->id,
             'stats' => $notifiable->stats,
         ];
     }
 
     private function getContent(Server $server)
     {
-        return 'Memory High : '.$server->name.' ('.$server->ip.')';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '').'Memory High : '.$server->name.' ('.$server->ip.')';
     }
 
     private function getTitle()
     {
-        return 'Memory Allocation';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '').'Memory Allocation';
     }
 
-    private function getUsedStat($stats)
+    private function getUsedStat()
     {
-        $used = mb_to_readable_format($stats['total'] - $stats['available']);
-        $total = mb_to_readable_format($stats['total']);
-        return "{$used} / {$total} (".round(100 - ($stats['available'] / $stats['total']) * 100).'%)';
+        $used = mb_to_readable_format($this->memory['total'] - $this->memory['available']);
+        $total = mb_to_readable_format($this->memory['total']);
+        return "{$used} / {$total} (".round(100 - ($this->memory['available'] / $this->memory['total']) * 100).'%)';
     }
 }

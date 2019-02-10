@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import CpuLoads from "./../../sites/components/CpuLoads";
+import CpuLoads from "../../sites/components/server-stats-components/cpu-load/CpuLoads";
 export default {
   components: {
     CpuLoads
