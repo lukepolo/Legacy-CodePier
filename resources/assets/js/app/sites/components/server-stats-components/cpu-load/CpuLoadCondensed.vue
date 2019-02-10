@@ -4,10 +4,10 @@
             <div
                 class="server-progress"
                 :class="{
-                    danger : getCpuLoad(latestLoad) >= 75,
-                    warning :  getCpuLoad(latestLoad) < 75 && getCpuLoad(latestLoad) >= 50
+                    danger : cpuLoad >= 75,
+                    warning : cpuLoad < 75 && cpuLoad >= 50
                 }"
-                :style="{ width : getCpuLoad(latestLoad) + '%' }">
+                :style="{ width : `${cpuLoad}%` }">
             </div>
         </div>
     </tooltip>
@@ -21,14 +21,23 @@
       }
     },
     computed : {
+      latestLoad() {
+        return this.loadStats && this.loadStats[1]
+      },
       stats() {
         let stats = this.$store.state.user_server_stats.stats;
         if(stats.hasOwnProperty(this.server.id)) {
           return stats[this.server.id];
         }
       },
-      diskUsage() {
-        return this.stats && this.stats.disk_stats;
+      cpuLoad() {
+        return ((this.latestLoad / this.numberOfCpus) * 100).toFixed(2);
+      },
+      numberOfCpus() {
+        return this.stats && this.stats.number_of_cpus;
+      },
+      loadStats() {
+        return this.stats && this.stats.load_stats && this.stats.load_stats[this.stats.load_stats.length - 1];
       },
     }
   }
