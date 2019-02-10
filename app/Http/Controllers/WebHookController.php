@@ -17,6 +17,7 @@ use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 
 class WebHookController extends Controller
 {
+    const STAT_RETENTION = 50;
     /**
      * @param Request $request
      * @param $siteHashId
@@ -87,7 +88,7 @@ class WebHookController extends Controller
 
                 $server->stats->update([
                     'number_of_cpus' => $request->get('cpus'),
-                    'load_stats' => array_slice($loadStats, -10, 10)
+                    'load_stats' => array_slice($loadStats, -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
                 $server->notify(new ServerLoad($server));
@@ -131,7 +132,7 @@ class WebHookController extends Controller
                 $memoryStats[$memoryName][] = $stats;
 
                 $server->stats->update([
-                    "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -10, 10)
+                    "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
                 $server->notify(new ServerMemory($server, $memoryName));
@@ -171,7 +172,7 @@ class WebHookController extends Controller
                 $diskStats[$diskName][] = $stats;
 
                 $server->stats->update([
-                    "disk_stats->$diskName" => array_slice($diskStats[$diskName], -10, 10)
+                    "disk_stats->$diskName" => array_slice($diskStats[$diskName], -self::STAT_RETENTION, self::STAT_RETENTION)
                 ]);
 
                 $server->notify(new ServerDiskUsage($server, $diskName));
