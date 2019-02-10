@@ -147,7 +147,6 @@ class ServerDiskUsage extends Notification
     public function toBroadcast($notifiable)
     {
         return [
-            'server'=> $notifiable->id,
             'stats' => $notifiable->stats,
         ];
     }

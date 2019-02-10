@@ -144,7 +144,6 @@ class ServerLoad extends Notification
     public function toBroadcast($server)
     {
         return [
-            'server'=> $server->id,
             'stats' => $server->stats,
         ];
     }
