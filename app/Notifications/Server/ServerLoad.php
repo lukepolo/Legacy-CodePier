@@ -32,25 +32,26 @@ class ServerLoad extends Notification
         $this->server = $server;
         $this->cpus = $server->stats->number_of_cpus;
 
-        $this->latestLoadStat = $server->stats->load_stats[0];
+        $this->latestLoadStat = last($server->stats->load_stats);
         unset($this->latestLoadStat['updated_at']);
 
         $this->currentNotificationCount = $this->server->stats->load_notification_count;
+
         if (($this->latestLoadStat[1] / $this->cpus) > .95) {
             ++$this->currentNotificationCount;
-            if($this->currentNotificationCount < 3) {
+            if($this->currentNotificationCount <= 3) {
                 $this->highLoad = true;
                 $this->server->stats->update([
                     'load_notification_count' => $this->currentNotificationCount
                 ]);
             }
         } else if($this->currentNotificationCount !== 0) {
+            if($this->currentNotificationCount >= 3) {
+                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage'));
+            }
             $this->server->stats->update([
                 'load_notification_count' => 0
             ]);
-            if($this->currentNotificationCount >= 3) {
-                ddd("SEND NOTFICAITION SASYING WERE ALL GOOD");
-            }
         }
 
         if ($server->site) {
@@ -81,17 +82,15 @@ class ServerLoad extends Notification
      */
     public function toMail($server)
     {
-        if ($this->highLoad) {
-            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
+        $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
-            $mailMessage->line($this->getTitle());
+        $mailMessage->line($this->getTitle());
 
-            foreach ($this->latestLoadStat as $mins => $load) {
-                $mailMessage->line("{$this->calculateLoad($load)} {$this->minsAgo($mins)}");
-            }
-
-            return $mailMessage;
+        foreach ($this->latestLoadStat as $mins => $load) {
+            $mailMessage->line("{$this->calculateLoad($load)} {$this->minsAgo($mins)}");
         }
+
+        return $mailMessage;
     }
 
     /**
@@ -103,19 +102,17 @@ class ServerLoad extends Notification
      */
     public function toSlack($server)
     {
-        if ($this->highLoad) {
-            return (new SlackMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->attachment(function ($attachment) use ($server) {
-                    $fields = [];
-                    foreach ($this->latestLoadStat as $mins => $load) {
-                        $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
-                    }
+        return (new SlackMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->attachment(function ($attachment) use ($server) {
+                $fields = [];
+                foreach ($this->latestLoadStat as $mins => $load) {
+                    $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
+                }
 
-                    $attachment->title($this->getTitle())->fields($fields);
-                });
-        }
+                $attachment->title($this->getTitle())->fields($fields);
+            });
     }
 
     /**
@@ -127,17 +124,15 @@ class ServerLoad extends Notification
      */
     public function toDiscord($server)
     {
-        if ($this->highLoad) {
-            return (new DiscordMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->embed(function ($embed) use ($server) {
-                    $embed->title($this->getTitle());
-                    foreach ($this->latestLoadStat as $mins => $load) {
-                        $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
-                    }
-                });
-        }
+        return (new DiscordMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->embed(function ($embed) use ($server) {
+                $embed->title($this->getTitle());
+                foreach ($this->latestLoadStat as $mins => $load) {
+                    $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
+                }
+            });
     }
 
     /**

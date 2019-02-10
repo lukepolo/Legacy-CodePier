@@ -50,14 +50,14 @@ class ServerDiskUsage extends Notification
                 ]);
             }
         } else {
+            if ($this->currentNotificationCount >= 3) {
+                $server->notify(new ServerStatBackToNormal($server, 'Disk Usage'));
+            }
             $this->server->stats->update([
                 "disk_notification_count" => [
                     $this->diskName => 0
                 ]
             ]);
-            if ($this->currentNotificationCount >= 3) {
-                ddd("SEND NOTFICAITION SASYING WERE ALL GOOD");
-            }
         }
 
         if ($server->site) {

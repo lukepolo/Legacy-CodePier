@@ -55,14 +55,14 @@ class ServerMemory extends Notification
                     ]);
                 }
             } else {
+                if ($this->currentNotificationCount >= 3) {
+                    $server->notify(new ServerStatBackToNormal($server, 'Memory Allocation'));
+                }
                 $this->server->stats->update([
                     "memory_notification_count" => [
                         $this->memoryName => 0
                     ]
                 ]);
-                if ($this->currentNotificationCount >= 3) {
-                    ddd("SEND NOTFICAITION SASYING WERE ALL GOOD");
-                }
             }
         }
 
