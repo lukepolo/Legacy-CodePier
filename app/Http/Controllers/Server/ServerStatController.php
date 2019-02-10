@@ -15,6 +15,6 @@ class ServerStatController extends Controller
      */
     public function index($serverId)
     {
-        return response()->json(ServerStat::where('server_id', $serverId)->firstOrFail());
+        return response()->json(ServerStat::where('server_id', $serverId)->first());
     }
 }
