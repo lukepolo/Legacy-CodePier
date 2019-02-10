@@ -18,49 +18,7 @@
             <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
         </div>
 
-        <div class="server-info-collapsed" v-if="!showServerInfo">
-            <div class="grid-3">
-
-                <tooltip class="server-info condensed" message="Disk Usage" delay=.5 v-if="highestDiskUsage">
-                    <div class="server-progress-container">
-                        <div
-                        class="server-progress"
-                        :class="{
-                            danger : parseInt(highestDiskUsage.percent) >= 75,
-                            warning : parseInt(highestDiskUsage.percent) < 75 && parseInt(highestDiskUsage.percent) >= 50
-                        }"
-                        :style="{ width : highestDiskUsage.percent }"></div>
-                    </div>
-                </tooltip>
-
-                <tooltip class="server-info condensed" message="Memory" delay=.5 v-if="highestMemory">
-                    <div class="server-progress-container">
-                        <div
-                            class="server-progress"
-                            :class="{
-                                danger : getMemoryUsage(highestMemory) >= 75,
-                                warning : getMemoryUsage(highestMemory) < 75 && getMemoryUsage(highestMemory) >= 50
-                            }"
-                            :style="{ width : getMemoryUsage(highestMemory)+'%' }"
-                        ></div>
-                    </div>
-                </tooltip>
-
-
-                <tooltip class="server-info condensed" message="Latest CPU Load" delay=.5 v-if="latestLoad">
-                    <div class="server-progress-container">
-                        <div
-                            class="server-progress"
-                            :class="{
-                                danger : getCpuLoad(latestLoad) >= 75,
-                                warning :  getCpuLoad(latestLoad) < 75 && getCpuLoad(latestLoad) >= 50
-                            }"
-                            :style="{ width : getCpuLoad(latestLoad) + '%' }">
-                        </div>
-                    </div>
-                </tooltip>
-            </div>
-        </div>
+        <condensed-server-stats :server="server" v-if="!showServerInfo"></condensed-server-stats>
 
         <div class="server-info" v-if="showServerInfo">
             <div class="server--status">
@@ -99,117 +57,12 @@
                           <clipboard :data="server.custom_server_url"></clipboard>
                         </div>
                     </template>
-
                 </template>
 
-                <template v-if="server.progress >= 100">
-                    <h4>Disk Usage</h4>
-                    <template v-if="server.stats && server.stats.disk_usage">
-
-                        <div class="server-info condensed" v-for="(stats, disk) in server.stats.disk_usage">
-                            {{ disk }}
-                            <div class="server-progress-container">
-                                <div
-                                    class="server-progress"
-                                    :class="{
-                                        danger : parseInt(stats.percent) >= 75,
-                                        warning : parseInt(stats.percent) < 75 && parseInt(stats.percent) >= 50
-                                    }"
-                                    :style="{ width : stats.percent }"></div>
-                                <div class="stats-label stats-used">{{ megaBytesToHumanReadable(stats.used) }}</div>
-                                <div class="stats-label stats-available">{{ megaBytesToHumanReadable(parseInt(stats.used) + parseInt(stats.available)) }}</div>
-                            </div>
-                        </div>
-
-                    </template>
-                    <template v-else>
-                        <div class="server-info condensed">
-                            <div class="server-progress-container">
-                                <div class="server-progress"></div>
-                                <div class="stats-label stats-used">N/A</div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <h4>Memory</h4>
-                    <template v-if="server.stats && server.stats.memory">
-
-                        <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
-                            {{ memory_name }}
-                            <div class="server-progress-container">
-                                <div
-                                    class="server-progress"
-                                    :class="{
-                                        danger : getMemoryUsage(stats) >= 75,
-                                        warning : getMemoryUsage(stats) < 75 && getMemoryUsage(stats) >= 50
-                                    }"
-                                    :style="{
-                                        width : getMemoryUsage(stats)+'%'
-                                    }"
-                                ></div>
-                                <div class="stats-label stats-used">{{megaBytesToHumanReadable(parseInt(stats.total) - parseInt(stats.available))}}</div>
-                                <div class="stats-label stats-available">{{megaBytesToHumanReadable(stats.total)}}</div>
-                            </div>
-                        </div>
-
-                    </template>
-                    <template v-else>
-                        <div class="server-info condensed">
-                            <div class="server-progress-container">
-                                <div class="server-progress"></div>
-                                <div class="stats-label stats-used">N/A</div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <h4>
-                        <tooltip message="Number of CPUs on the server" placement="top-right">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-                        CPU Load
-                        <em v-if="server.stats && server.stats.cpus">
-                            ( {{ server.stats.cpus }} )
-                        </em>
-                    </h4>
-                    <template v-if="server.stats && server.stats.loads">
-                        <cpu-loads :lastUpdatedAt="server.stats.stats_updated_at" :stats="server.stats"></cpu-loads>
-                    </template>
-
-                    <template v-else>
-                        <div class="server-info condensed">
-                            <div class="cpu-load">
-                                <div class="cpu-group">
-                                    <div class="cpu-min">1 min</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress"></div>
-                                            <div class="stats-label stats-available">N/A</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="cpu-group">
-                                    <div class="cpu-min">5 mins</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress"></div>
-                                            <div class="stats-label stats-available">N/A</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cpu-group">
-                                    <div class="cpu-min">15 mins</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress"></div>
-                                            <div class="stats-label stats-available">N/A</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </template>
+                <template v-else>
+                    <latest-disk-usage :server="server"></latest-disk-usage>
+                    <latest-memory-allocation :server="server"></latest-memory-allocation>
+                    <latest-cpu-load :server="server"></latest-cpu-load>
                 </template>
 
             </div>
@@ -249,7 +102,11 @@
 </template>
 
 <script>
-import CpuLoads from "./../components/CpuLoads";
+import LatestCpuLoad from './server-stats-components/cpu-load/LatestCpuLoad'
+import CondensedServerStats from './server-stats-components/CondensedServerStats'
+import LatestDiskUsage from './server-stats-components/disk-usage/LatestDiskUsage'
+import LatestMemoryAllocation from './server-stats-components/memory-allocation/LatestMemoryAllocation'
+
 export default {
   props: {
     server: {},
@@ -263,9 +120,14 @@ export default {
     };
   },
   components: {
-    CpuLoads
+    LatestCpuLoad,
+    LatestDiskUsage,
+    CondensedServerStats,
+    LatestMemoryAllocation,
   },
   created() {
+    this.$store.dispatch('user_server_stats/get', this.server.id)
+
     if (this.server.progress < 100) {
       this.$store.dispatch(
         "user_server_provisioning/getCurrentStep",
@@ -288,34 +150,6 @@ export default {
     currentProvisioningStep() {
       return this.$store.state.user_server_provisioning.current_step;
     },
-    stats() {
-      if (this.server && this.server.stats) {
-        return this.server.stats;
-      }
-    },
-    highestDiskUsage() {
-      if (this.stats && this.stats.disk_usage) {
-        return _.first(_.orderBy(this.stats.disk_usage, ["percent"], ["desc"]));
-      }
-    },
-    highestMemory() {
-      if (this.stats && this.stats.memory) {
-        return _.first(
-          _.orderBy(
-            this.stats.memory,
-            memory => {
-              return this.getMemoryUsage(memory);
-            },
-            ["desc"]
-          )
-        );
-      }
-    },
-    latestLoad() {
-      if (this.stats && this.stats.loads) {
-        return this.stats.loads[1];
-      }
-    }
   },
   methods: {
     toggle() {
@@ -324,19 +158,6 @@ export default {
     retryProvision() {
       this.$store.dispatch("user_server_provisioning/retry", this.server.id);
     },
-    getCpuLoad(load) {
-      let loadPercent = load / this.stats.cpus * 100;
-      return loadPercent > 100 ? 100 : loadPercent;
-    },
-    getMemoryUsage(stats) {
-      return (
-          100 - (
-              stats.available /
-              stats.total *
-            100
-          )
-      );
-    }
   }
 };
 </script>

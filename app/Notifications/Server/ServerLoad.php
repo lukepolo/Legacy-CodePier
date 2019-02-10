@@ -19,8 +19,9 @@ class ServerLoad extends Notification
     public $slackChannel;
 
     private $cpus;
+    private $latestLoadStat;
     private $highLoad = false;
-
+    private $currentNotificationCount;
     /**
      * Create a new notification instance.
      *
@@ -29,10 +30,28 @@ class ServerLoad extends Notification
     public function __construct(Server $server)
     {
         $this->server = $server;
-        $this->cpus = $server->stats['cpus'];
+        $this->cpus = $server->stats->number_of_cpus;
 
-        if (($server->stats['loads'][1] / $this->cpus) > .95) {
-            $this->highLoad = true;
+        $this->latestLoadStat = last($server->stats->load_stats);
+        unset($this->latestLoadStat['updated_at']);
+
+        $this->currentNotificationCount = $this->server->stats->load_notification_count;
+
+        if (($this->latestLoadStat[1] / $this->cpus) > .95) {
+            ++$this->currentNotificationCount;
+            if($this->currentNotificationCount <= 3) {
+                $this->highLoad = true;
+                $this->server->stats->update([
+                    'load_notification_count' => $this->currentNotificationCount
+                ]);
+            }
+        } else if($this->currentNotificationCount !== 0) {
+            if($this->currentNotificationCount >= 3) {
+                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage'));
+            }
+            $this->server->stats->update([
+                'load_notification_count' => 0
+            ]);
         }
 
         if ($server->site) {
@@ -63,17 +82,15 @@ class ServerLoad extends Notification
      */
     public function toMail($server)
     {
-        if ($this->highLoad) {
-            $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
+        $mailMessage = (new MailMessage())->subject($this->getContent($server))->error();
 
-            foreach ($this->server->stats['loads'] as $mins => $load) {
-                $mailMessage->line(`{$this->calculateLoad($load)} {$this->minsAgo($mins)}`);
-            }
+        $mailMessage->line($this->getTitle());
 
-            $mailMessage->line($this->getTitle());
-
-            return $mailMessage;
+        foreach ($this->latestLoadStat as $mins => $load) {
+            $mailMessage->line("{$this->calculateLoad($load)} {$this->minsAgo($mins)}");
         }
+
+        return $mailMessage;
     }
 
     /**
@@ -85,19 +102,17 @@ class ServerLoad extends Notification
      */
     public function toSlack($server)
     {
-        if ($this->highLoad) {
-            return (new SlackMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->attachment(function ($attachment) use ($server) {
-                    $fields = [];
-                    foreach ($server->stats['loads'] as $mins => $load) {
-                        $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
-                    }
+        return (new SlackMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->attachment(function ($attachment) use ($server) {
+                $fields = [];
+                foreach ($this->latestLoadStat as $mins => $load) {
+                    $fields[$this->minsAgo($mins)] = $this->calculateLoad($load);
+                }
 
-                    $attachment->title($this->getTitle())->fields($fields);
-                });
-        }
+                $attachment->title($this->getTitle())->fields($fields);
+            });
     }
 
     /**
@@ -109,17 +124,15 @@ class ServerLoad extends Notification
      */
     public function toDiscord($server)
     {
-        if ($this->highLoad) {
-            return (new DiscordMessage())
-                ->error()
-                ->content($this->getContent($server))
-                ->embed(function ($embed) use ($server) {
-                    $embed->title($this->getTitle());
-                    foreach ($server->stats['loads'] as $mins => $load) {
-                        $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
-                    }
-                });
-        }
+        return (new DiscordMessage())
+            ->error()
+            ->content($this->getContent($server))
+            ->embed(function ($embed) use ($server) {
+                $embed->title($this->getTitle());
+                foreach ($this->latestLoadStat as $mins => $load) {
+                    $embed->field($this->minsAgo($mins), $this->calculateLoad($load));
+                }
+            });
     }
 
     /**
@@ -131,19 +144,18 @@ class ServerLoad extends Notification
     public function toBroadcast($server)
     {
         return [
-            'server'=> $server->id,
             'stats' => $server->stats,
         ];
     }
 
     private function getTitle()
     {
-        return 'CPU Allocation across '.$this->cpus.' CPUs';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '')."CPU Allocation across $this->cpus CPUs";
     }
 
     private function getContent(Server $server)
     {
-        return 'High CPU Usage : '.$server->name.' ('.$server->ip.')';
+        return ($this->currentNotificationCount >= 3 ? '[LAST WARNING] ' : '')."High CPU Usage : $server->name ($server->ip)";
     }
 
     private function calculateLoad($load)
@@ -153,6 +165,6 @@ class ServerLoad extends Notification
 
     private function minsAgo($mins)
     {
-        return $mins.' minutes ago';
+        return "$mins minute".($mins > 1 ? 's' : '')." ago";
     }
 }

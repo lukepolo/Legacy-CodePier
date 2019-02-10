@@ -54,6 +54,7 @@ import user_servers from "./user/servers";
 import user_server_buoys from "./user/server/buoys";
 import user_server_files from "./user/server/files";
 import user_server_sites from "./user/server/sites";
+import user_server_stats from "./user/server/stats";
 import user_server_daemons from "./user/server/daemons";
 import user_server_schemas from "./user/server/schemas";
 import user_server_workers from "./user/server/workers";
@@ -127,6 +128,7 @@ export default {
   user_server_buoys,
   user_server_files,
   user_server_sites,
+  user_server_stats,
   user_server_daemons,
   user_server_schemas,
   user_server_workers,
