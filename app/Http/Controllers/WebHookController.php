@@ -86,7 +86,7 @@ class WebHookController extends Controller
                 $loadStats = $server->stats->load_stats;
                 $loadStats[] = $stats;
 
-                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                if (\Cache::lock("stats_$server->id", 5)) {
                     $server->stats->update([
                         'number_of_cpus' => $request->get('cpus'),
                         'load_stats' => array_slice($loadStats, -self::STAT_RETENTION, self::STAT_RETENTION)
@@ -133,7 +133,7 @@ class WebHookController extends Controller
                 $memoryStats = $server->stats->memory_stats;
                 $memoryStats[$memoryName][] = $stats;
 
-                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                if (\Cache::lock("stats_$server->id", 5)) {
                     $server->stats->update([
                         "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -self::STAT_RETENTION, self::STAT_RETENTION)
                     ]);
@@ -175,7 +175,7 @@ class WebHookController extends Controller
                 $diskStats = $server->stats->disk_stats;
                 $diskStats[$diskName][] = $stats;
 
-                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                if (\Cache::lock("stats_$server->id", 5)) {
                     $server->stats->update([
                         "disk_stats->$diskName" => array_slice($diskStats[$diskName], -self::STAT_RETENTION, self::STAT_RETENTION)
                     ]);
