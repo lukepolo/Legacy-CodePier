@@ -86,12 +86,14 @@ class WebHookController extends Controller
                 $loadStats = $server->stats->load_stats;
                 $loadStats[] = $stats;
 
-                $server->stats->update([
-                    'number_of_cpus' => $request->get('cpus'),
-                    'load_stats' => array_slice($loadStats, -self::STAT_RETENTION, self::STAT_RETENTION)
-                ]);
+                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                    $server->stats->update([
+                        'number_of_cpus' => $request->get('cpus'),
+                        'load_stats' => array_slice($loadStats, -self::STAT_RETENTION, self::STAT_RETENTION)
+                    ]);
 
-                $server->notify(new ServerLoad($server));
+                    $server->notify(new ServerLoad($server));
+                }
 
                 return response()->json('OK');
             }
@@ -131,11 +133,13 @@ class WebHookController extends Controller
                 $memoryStats = $server->stats->memory_stats;
                 $memoryStats[$memoryName][] = $stats;
 
-                $server->stats->update([
-                    "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -self::STAT_RETENTION, self::STAT_RETENTION)
-                ]);
+                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                    $server->stats->update([
+                        "memory_stats->$memoryName" => array_slice($memoryStats[$memoryName], -self::STAT_RETENTION, self::STAT_RETENTION)
+                    ]);
 
-                $server->notify(new ServerMemory($server, $memoryName));
+                    $server->notify(new ServerMemory($server, $memoryName));
+                }
 
                 return response()->json('OK');
             }
@@ -171,11 +175,12 @@ class WebHookController extends Controller
                 $diskStats = $server->stats->disk_stats;
                 $diskStats[$diskName][] = $stats;
 
-                $server->stats->update([
-                    "disk_stats->$diskName" => array_slice($diskStats[$diskName], -self::STAT_RETENTION, self::STAT_RETENTION)
-                ]);
-
-                $server->notify(new ServerDiskUsage($server, $diskName));
+                if (\Cache::lock("stats_$server->id", 10)->block(5)) {
+                    $server->stats->update([
+                        "disk_stats->$diskName" => array_slice($diskStats[$diskName], -self::STAT_RETENTION, self::STAT_RETENTION)
+                    ]);
+                    $server->notify(new ServerDiskUsage($server, $diskName));
+                }
 
                 return response()->json('OK');
             }
