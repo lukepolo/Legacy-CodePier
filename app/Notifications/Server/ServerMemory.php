@@ -31,14 +31,13 @@ class ServerMemory extends Notification
      */
     public function __construct(Server $server, $memoryName)
     {
-
         $this->server = $server;
         $this->memoryName = $memoryName;
 
         $this->memory = last($server->stats->memory_stats[$this->memoryName]);
         unset($this->memory['updated_at']);
 
-        $this->currentNotificationCount = $this->server->stats->memory_notification_count[$this->memoryName] ?: 0;
+        $this->currentNotificationCount = isset($this->server->stats->memory_notification_count[$this->memoryName]) ? $this->server->stats->memory_notification_count[$this->memoryName] : 0;
 
         if (
             is_numeric($this->memory['available']) &&

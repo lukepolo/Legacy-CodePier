@@ -37,7 +37,7 @@ class ServerDiskUsage extends Notification
         $this->disk = last($server->stats->disk_stats[$this->diskName]);
         unset($this->disk['updated_at']);
 
-        $this->currentNotificationCount = $this->server->stats->disk_notification_count[$this->diskName] ?: 0;
+        $this->currentNotificationCount = isset($this->server->stats->disk_notification_count[$this->diskName]) ? $this->server->stats->disk_notification_count[$this->diskName] : 0;
 
         if (str_replace('%', '', $this->disk['percent']) >= 95) {
             ++$this->currentNotificationCount;
