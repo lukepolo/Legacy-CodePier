@@ -32,8 +32,6 @@ import { showError, showSuccess, handleApiError } from "./notifications";
 
 import { isCommandRunning } from "./server-command";
 
-import { getRepositoryProvider } from "./repository-provider";
-
 Vue.mixin({
   methods: {
     now,
@@ -52,7 +50,6 @@ Vue.mixin({
     handleApiError,
     isCommandRunning,
     serverHasFeature,
-    getRepositoryProvider,
     megaBytesToHumanReadable,
   },
   computed: {

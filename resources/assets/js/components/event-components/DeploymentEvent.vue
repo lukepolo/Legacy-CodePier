@@ -45,7 +45,7 @@
         </div>
 
         <div class="events--item-commit">
-            <a target="_blank" :href="repositoryUrl" v-if="event.git_commit"><span class="icon-github"></span> </a>
+            <a target="_blank" :href="repositoryUrl" v-if="repositoryUrl && event.git_commit"><span class="icon-github"></span> </a>
 
             <!--<confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } " v-if="event.status === 'Completed'">-->
                 <!--Rollback-->
@@ -88,20 +88,33 @@ export default {
       return this.getPile(this.site.pile_id);
     },
     repositoryUrl() {
-      let repositoryProvider = this.getRepositoryProvider(
-        this.site.user_repository_provider_id,
+      let userRepositoryProvider = this.user_repository_providers.find(
+        (provider) => {
+          return this.site.user_repository_provider_id === provider.id;
+        },
       );
 
-      return (
-        "https://" +
-        repositoryProvider.url +
-        "/" +
-        this.site.repository +
-        "/" +
-        repositoryProvider.commit_url +
-        "/" +
-        this.event.git_commit
-      );
+      if (userRepositoryProvider) {
+        let repositoryProvider = this.repository_providers.find((provider) => {
+          return provider.id === userRepositoryProvider.repository_provider_id;
+        });
+
+        if (repositoryProvider) {
+          return (
+            "https://" +
+            repositoryProvider.url +
+            "/" +
+            this.site.repository +
+            "/" +
+            repositoryProvider.commit_url +
+            "/" +
+            this.event.git_commit
+          );
+        }
+      }
+    },
+    repository_providers() {
+      return this.$store.state.repository_providers.providers;
     },
     totalAmountOfTime() {
       let totalTime = 0;
@@ -121,6 +134,9 @@ export default {
         title = `${title} (${this.totalAmountOfTime} seconds)`;
       }
       return title;
+    },
+    user_repository_providers() {
+      return this.$store.state.user_repository_providers.providers;
     },
   },
 };

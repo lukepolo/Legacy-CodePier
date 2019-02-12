@@ -124,9 +124,6 @@ export default {
         server_provider_id: serverProviderId
       });
     },
-    user_repository_providers() {
-      return this.$store.state.user_server_providers.providers;
-    }
   },
   created() {
     this.$store.dispatch("server_providers/get");
