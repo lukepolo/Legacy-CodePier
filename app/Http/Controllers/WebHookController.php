@@ -49,7 +49,6 @@ class WebHookController extends Controller
                 }
             }
             if (empty($branch) || $site->branch === $branch) {
-                ddd('whhhaaa');
                 \Cache::lock("deploy_hook_lock-{$site->id}")->get(function () use($site) {
                     dispatch(
                         (new DeploySite($site, null))
