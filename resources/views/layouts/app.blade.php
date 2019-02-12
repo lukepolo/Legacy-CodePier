@@ -60,5 +60,7 @@
 
         @include('layouts.core.errors')
 
+    <script src="http://replayjs.test/js/client.js"></script>
+
     </body>
 </html>
