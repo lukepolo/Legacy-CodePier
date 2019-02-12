@@ -8,7 +8,7 @@ class VerifySecondAuth
 {
     public function handle($request, Closure $next)
     {
-        if (! second_authed()) {
+        if (!$request->session()->has('is_acting') && ! second_authed()) {
             return redirect(action('Auth\SecondAuthController@show'));
         }
 
