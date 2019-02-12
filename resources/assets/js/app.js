@@ -28,6 +28,10 @@ app.$store.dispatch("user_ssh_keys/get");
 app.$store.dispatch("server_providers/get");
 app.$store.dispatch("repository_providers/get");
 app.$store.dispatch("notification_settings/get");
+app.$store.dispatch(
+  "user_repository_providers/get",
+  app.$store.state.user.user.id,
+);
 
 app.$store.dispatch("user_teams/get");
 

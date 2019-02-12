@@ -21,12 +21,6 @@
 
 <script>
 export default {
-  created() {
-    this.$store.dispatch(
-      "user_repository_providers/get",
-      this.$store.state.user.user.id
-    );
-  },
   computed: {
     repository_providers() {
       return this.$store.state.repository_providers.providers;
