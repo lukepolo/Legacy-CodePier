@@ -23,23 +23,23 @@ class SiteWildcardSslController extends Controller
 
         $sslCertificate = $site->sslCertificates->keyBy('id')->get($id);
 
-        $baseDnsLookup = new \Spatie\Dns\Dns($sslCertificate->domains);
-        $baseDnsLookup->useNameserver('8.8.8.8');
+//        $baseDnsLookup = new \Spatie\Dns\Dns($sslCertificate->domains);
+//        $baseDnsLookup->useNameserver('8.8.8.8');
+//
+//        $soaRecord = preg_replace('/\s+/', ' ', $baseDnsLookup->getRecords(['SOA']));
+//        preg_match('/SOA (.*?)\.\s/', $soaRecord, $SOA);
+//
+//        $acmeDnsLookup = new \Spatie\Dns\Dns('_acme-challenge.'.$sslCertificate->domains);
+//
+//        if (isset($SOA[1])) {
+//            $baseDnsLookup->useNameserver($SOA[1]);
+//        }
 
-        $soaRecord = preg_replace('/\s+/', ' ', $baseDnsLookup->getRecords(['SOA']));
-        preg_match('/SOA (.*?)\.\s/', $soaRecord, $SOA);
+//        $cnameRecords = preg_replace('/\s+/', ' ', $acmeDnsLookup->getRecords(['CNAME']));
+//        preg_match('/CNAME (.*?)\.\s/', $cnameRecords, $CNAME);
 
-        $acmeDnsLookup = new \Spatie\Dns\Dns('_acme-challenge.'.$sslCertificate->domains);
-
-        if (isset($SOA[1])) {
-            $baseDnsLookup->useNameserver($SOA[1]);
-        }
-
-        $cnameRecords = preg_replace('/\s+/', ' ', $acmeDnsLookup->getRecords(['CNAME']));
-        preg_match('/CNAME (.*?)\.\s/', $cnameRecords, $CNAME);
-
-        if (isset($CNAME[1])) {
-            if ($CNAME[1] === $sslCertificate->acme_fulldomain) {
+//        if (isset($CNAME[1])) {
+//            if ($CNAME[1] === $sslCertificate->acme_fulldomain) {
                 $sslCertificate->update([
                     'active' => true,
                 ]);
@@ -47,9 +47,9 @@ class SiteWildcardSslController extends Controller
                 event(new SiteSslCertificateCreated($site, $sslCertificate));
 
                 return response()->json($sslCertificate);
-            }
-        }
+//            }
+//        }
 
-        return response()->json('You have not setup your CNAME host _acme-challenge.'.$sslCertificate->domains, 400);
+//        return response()->json('You have not setup your CNAME host _acme-challenge.'.$sslCertificate->domains, 400);
     }
 }
