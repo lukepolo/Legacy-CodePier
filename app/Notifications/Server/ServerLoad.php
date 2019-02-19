@@ -37,7 +37,7 @@ class ServerLoad extends Notification
 
         $this->currentNotificationCount = $this->server->stats->load_notification_count;
 
-        if (($this->latestLoadStat[1] / $this->cpus) > .95) {
+        if (($this->latestLoadStat[5] / $this->cpus) > .95) {
             ++$this->currentNotificationCount;
             if($this->currentNotificationCount <= 3) {
                 $this->highLoad = true;
