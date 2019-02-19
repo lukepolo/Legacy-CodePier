@@ -90,6 +90,8 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
 
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/catch-all', '
 server {
+    listen 80 default_server;
+    listen [::]:80 default_server;                                                                                                                                                              
     root /opt/codepier/landing;
 }');
 
