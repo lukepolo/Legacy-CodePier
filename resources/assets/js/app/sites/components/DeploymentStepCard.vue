@@ -40,8 +40,17 @@
             </div>
 
             <div class="flyform--group">
-                <input type="text" name="script" v-model="script" placeholder=" ">
+                <textarea name="script" v-model="script" placeholder=" "></textarea>
                 <label for="script">Script</label>
+            </div>
+
+            <div>
+                <p>
+                    You can use '<code v-html="'{{ site }}'"></code>' to reference the sites folder.
+                </p>
+                <p>
+                    You can use '<code v-html="'{{ release }}'"></code>' to reference the current release directory in your script.
+                </p>
             </div>
 
             <div class="flyform--footer-btns">
