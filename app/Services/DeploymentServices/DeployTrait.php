@@ -210,6 +210,9 @@ trait DeployTrait
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
 
+        $script = str_replace('{{ site }}', $this->siteFolder, $script);
+        $script = str_replace('{{ release }}', $this->release, $script);
+
         return $this->remoteTaskService->run('cd ' . $this->release . ' && ' . $script);
     }
 }

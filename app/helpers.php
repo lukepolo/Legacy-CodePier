@@ -99,7 +99,7 @@ if (! function_exists('cents_to_dollars')) {
 
 if (! function_exists('ddd')) {
     /**
-     * Developer conveinence.
+     * Developer convenience.
      *
      * @return mixed
      */
