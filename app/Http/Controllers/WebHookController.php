@@ -25,7 +25,7 @@ class WebHookController extends Controller
      */
     public function deploy(Request $request, $siteHashId)
     {
-        $requestData = $request->all();
+        $requestData = $request;
         if($request->headers->get('content-type') === "application/x-www-form-urlencoded") {
             $requestData = collect(json_decode($request->getContent(), true));
         }
