@@ -25,6 +25,11 @@ class WebHookController extends Controller
      */
     public function deploy(Request $request, $siteHashId)
     {
+        $requestData = $request->all();
+        if($request->headers->get('content-type') === "application/x-www-form-urlencoded") {
+            $requestData = collect(json_decode($request->getContent(), true));
+        }
+
         $site = Site::with('userRepositoryProvider.repositoryProvider')
             ->where('hash', $siteHashId)
             ->firstOrFail();
@@ -41,10 +46,10 @@ class WebHookController extends Controller
                 switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
                     case OauthController::GITHUB:
                     case OauthController::GITLAB:
-                        $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
+                        $branch = substr($requestData->get('ref'), strrpos($requestData->get('ref'), '/') + 1);
                         break;
                     case OauthController::BITBUCKET:
-                        $branch = $request->get('push')['changes'][0]['new']['name'];
+                        $branch = $requestData->get('push')['changes'][0]['new']['name'];
                         break;
                 }
             }
