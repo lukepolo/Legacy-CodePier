@@ -73,7 +73,6 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_processes', "worker_processes $workerProcesses;");
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_connections', "worker_connections $workerConnections;");
 
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip off;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 6;');
@@ -234,7 +233,6 @@ location / {
         if ($activeSsl) {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/server/listen', '
             
-gzip off; 
 server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
