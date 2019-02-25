@@ -103,6 +103,8 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php' . $tempVersion . '-fpm');
 
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php-fpm.conf", ';process_control_timeout', 'process_control_timeout = 30');
+
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'post_max_size =', 'post_max_size = 250M');
@@ -155,7 +157,7 @@ class PHP
         $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");
 
         $this->remoteTaskService->run('service blackfire-agent restart');
-        $this->remoteTaskService->run('service php7.0-fpm restart');
+        $this->remoteTaskService->run('/opt/codepier/./' . SystemService::DEPLOYMENT_SERVICE_GROUP);
     }
 
     public function getNginxConfig(Site $site)
