@@ -38,7 +38,11 @@ class CheckForMaintenanceMode
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->app->isDownForMaintenance() && ! $this->isIpWhiteListed($request)) {
+        if (
+            $this->app->isDownForMaintenance() &&
+            ! $this->isIpWhiteListed($request) &&
+            config('app.url_lifelines') !== $request->getSchemeAndHttpHost()
+            ) {
             $data = json_decode(file_get_contents($this->app->storagePath().'/framework/down'), true);
 
             throw new MaintenanceModeException($data['time'], $data['retry'], $data['message']);
