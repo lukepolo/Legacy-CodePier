@@ -27,6 +27,13 @@
    ```
 9. Start Laravel Echo server: `yarn run echo`.
 10. Set yourself as admin: open database, change `role` in your `users` record to `admin`.
+11. Run Laravel Echo from within Homestead:
+    ```sh
+    homestead ssh
+    cd Sites/CodePier
+    yarn run echo
+    ```
+12. Log into your dev site.
 
 ### With Valet
 
