@@ -103,7 +103,8 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php' . $tempVersion . '-fpm');
 
-        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php-fpm.conf", ';process_control_timeout', 'process_control_timeout = 30');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'max_execution_time =', 'max_execution_time = 30');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php-fpm.conf", 'process_control_timeout', 'process_control_timeout = 30');
 
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
