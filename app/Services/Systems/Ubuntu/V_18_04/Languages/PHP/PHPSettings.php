@@ -41,7 +41,7 @@ class PHPSettings
     }
 
     /**
-     * @description Max File Upload in Megabytes (MB)
+     * @description Max Memory in Megabytes (MB)
      */
     public function maxMemory($maxMemory = '250')
     {
