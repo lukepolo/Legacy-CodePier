@@ -6,37 +6,27 @@
 
 1. Set up `.env`. Get values from Luke.
 2. Set up site in Homestead.yaml:
-
    ```yml
    - map: cp.dev.genealabs.com
        to: /home/vagrant/Sites/CodePier/public
        php: "7.2"
    ```
-
-3. Install composer dependencies: `composer udpate`.
-4. Create application key: `php artisan key:generate`
-5. Migrate database: `php artisan migrate:fresh --seed`
-6. Install NVM:
+3. Copy `laravel-echo-server.example` to `laravel-echo-server.json` and configure appropriately.
+4. Install composer dependencies: `composer udpate`.
+5. Create application key: `php artisan key:generate`
+6. Migrate database: `php artisan migrate:fresh --seed`
+7. Install NVM:
    - follow instructions: https://github.com/creationix/nvm
    ```sh
    npm install --global yarn
    ```
-7. Build assets:
+8. Build assets:
    ```sh
    yarn install
    yarn run dev
    ```
-8. Fix error `We are unable to connect you with CodePier's servers, you may not receive updates properly ....`:
-
-   ```
-
-   ```
-
-9. Set yourself as admin:
-
-   ```
-
-   ```
+9. Start Laravel Echo server: `yarn run echo`.
+10. Set yourself as admin: open database, change `role` in your `users` record to `admin`.
 
 ### With Valet
 

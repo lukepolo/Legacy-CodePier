@@ -1,5 +1,5 @@
 {
-  "authHost": "http://cp.dev.genealabs.com",
+  "authHost": "[your-dev-site-url]",
   "authEndpoint": "/broadcasting/auth",
   "clients": [
     {
@@ -10,7 +10,7 @@
   "database": "redis",
   "databaseConfig": {
     "redis": {
-      "host": "192.168.10.10"
+      "host": "[your-homestead-or-machine-ip]"
     }
   },
   "devMode": true,
@@ -24,7 +24,7 @@
   "sslPassphrase": "",
   "apiOriginAllow": {
     "allowCors": true,
-    "allowOrigin": "http://cp.dev.genealabs.com",
+    "allowOrigin": "[your-dev-site-url]",
     "allowMethods": "GET, POST",
     "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
   }
