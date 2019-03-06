@@ -49,7 +49,7 @@ class PHPSettings
 
         $this->connectToServer();
 
-        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'memory_limit', 'upload_max_filesize='.$maxMemory.'M');
+        $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'memory_limit', 'memory_limit='.$maxMemory.'M');
 
         $this->restartWebServices();
     }
