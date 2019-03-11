@@ -1,5 +1,5 @@
 {
-  "authHost": "[your-dev-site-url]",
+  "authHost": "http://codepier.test",
   "authEndpoint": "/broadcasting/auth",
   "clients": [
     {
@@ -10,12 +10,11 @@
   "database": "redis",
   "databaseConfig": {
     "redis": {
-      "host": "[your-homestead-or-machine-ip]"
+      "host": "localhost"
     }
   },
   "devMode": true,
   "host": null,
-  "connectTimeout": 10000,
   "port": "6001",
   "protocol": "http",
   "sslCertPath": "",
@@ -24,7 +23,7 @@
   "sslPassphrase": "",
   "apiOriginAllow": {
     "allowCors": true,
-    "allowOrigin": "[your-dev-site-url]",
+    "allowOrigin": "*",
     "allowMethods": "GET, POST",
     "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
   }
