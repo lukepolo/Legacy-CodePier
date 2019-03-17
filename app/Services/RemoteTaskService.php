@@ -481,6 +481,8 @@ echo \"Wrote\"");
     public function createSymLink(string $target, string $link) : bool
     {
         // TODO: add any logging or event reporting here.
+        \Log::info("Creating symlink '{$link}' to '{$target}'.");
+
         return symlink($target, $link);
     }
 }
