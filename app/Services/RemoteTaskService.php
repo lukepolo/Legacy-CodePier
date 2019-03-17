@@ -477,4 +477,10 @@ echo \"Wrote\"");
 
         return filter_var($this->run("ps aux | grep $service | grep -v grep | wc -l"), FILTER_VALIDATE_INT) > 0;
     }
+
+    public function createSymLink(string $target, string $link) : bool
+    {
+        // TODO: add any logging or event reporting here.
+        return symlink($target, $link);
+    }
 }

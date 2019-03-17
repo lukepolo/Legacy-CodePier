@@ -1,5 +1,5 @@
 {
-  "authHost": "http://codepier.test",
+  "authHost": "http://cp.dev.genealabs.com",
   "authEndpoint": "/broadcasting/auth",
   "clients": [
     {
@@ -10,7 +10,7 @@
   "database": "redis",
   "databaseConfig": {
     "redis": {
-      "host": "localhost"
+      "host": "192.168.10.10"
     }
   },
   "devMode": true,
@@ -23,7 +23,7 @@
   "sslPassphrase": "",
   "apiOriginAllow": {
     "allowCors": true,
-    "allowOrigin": "http://codepier.test",
+    "allowOrigin": "*",
     "allowMethods": "GET, POST",
     "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
   }

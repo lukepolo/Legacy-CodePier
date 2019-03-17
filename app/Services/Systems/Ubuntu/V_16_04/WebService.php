@@ -87,12 +87,16 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'proxy_headers_hash_max_size 128;');
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'ssl_prefer_server_ciphers', 'ssl_session_cache shared:SSL:50m;');
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/catch-all', '
+        $this->remoteTaskService->writeToFile('/etc/nginx/sites-availabe/catch-all', '
 server {
     listen 80 default_server;
     listen [::]:80 default_server;                                                                                                                                                              
     root /opt/codepier/landing;
 }');
+        $this->remoteTaskService->createSymLink(
+            "/etc/nginx/sites-availabe/catch-all",
+            "/etc/nginx/sites-enabled/catch-all"
+        );
 
         $this->remoteTaskService->writeToFile('/opt/codepier/landing/index.html', '
 <!doctype html>
@@ -311,7 +315,7 @@ add_header Strict-Transport-Security max-age=0;
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
                 }
 
-                return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
+                $result = $this->remoteTaskService->writeToFile('/etc/nginx/sites-available/' . $domain, '
 # codepier CONFIG (DO NOT REMOVE!)
 include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/before/*;
 
@@ -348,6 +352,11 @@ server {
 # codepier CONFIG (DO NOT REMOVE!)
 include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/after/*;
 ');
+                $this->remoteTaskService->createSymLink(
+                    "/etc/nginx/sites-available/{$domain}",
+                    "/etc/nginx/sites-enabled/{$domain}"
+                );
+                return $result;
                 break;
         }
     }
@@ -376,6 +385,7 @@ include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/after/*;
     {
         $this->connectToServer();
 
+        // TODO: Should we delete the entry in sites available as well? I'm thinking not necessarily?
         $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
         $this->remoteTaskService->removeDirectory(self::NGINX_SERVER_FILES."/$site->domain");
     }
