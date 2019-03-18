@@ -64,10 +64,10 @@ class PHP
     ];
 
     /**
-     * @options 7.0, 7.1, 7.2
+     * @options 7.0, 7.1, 7.2, 7.3
      * @multiple false
      */
-    public function installPHP($version = '7.2')
+    public function installPHP($version = '7.3')
     {
         $this->connectToServer();
 
