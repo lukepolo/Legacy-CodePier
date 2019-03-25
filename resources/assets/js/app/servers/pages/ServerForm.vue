@@ -202,9 +202,6 @@ export default {
       }
     },
     createServer() {
-      console.info(
-        this.getFormData(this.$el)
-      )
       this.$store
         .dispatch("user_servers/store", this.getFormData(this.$el))
         .then(server => {
