@@ -94,8 +94,9 @@ server {
     root /opt/codepier/landing;
 }');
         $this->remoteTaskService->createSymLink(
-            "/etc/nginx/sites-availabe/catch-all",
-            "/etc/nginx/sites-enabled/catch-all"
+            "/etc/nginx/sites-available/catch-all",
+            "/etc/nginx/sites-enabled/catch-all",
+            $this->server
         );
 
         $this->remoteTaskService->writeToFile('/opt/codepier/landing/index.html', '
@@ -354,7 +355,8 @@ include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/after/*;
 ');
                 $this->remoteTaskService->createSymLink(
                     "/etc/nginx/sites-available/{$domain}",
-                    "/etc/nginx/sites-enabled/{$domain}"
+                    "/etc/nginx/sites-enabled/{$domain}",
+                    $this->server
                 );
 
                 return $result;

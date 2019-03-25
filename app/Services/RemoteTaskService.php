@@ -162,9 +162,14 @@ echo \"Wrote\"");
      * @throws FailedCommand
      * @throws SshConnectionFailed
      */
-    public function findTextAndAppend($file, $findText, $text, $cleanText = true)
+    public function findTextAndAppend($file, $findText, $text, $cleanText = true) : string
     {
+        if ($this->doesFileHaveLine($file, $text)) {
+            return "";
+        }
+
         $findText = $this->cleanRegex($findText);
+
         if ($cleanText) {
             $text = $this->cleanText($text);
         }
@@ -478,11 +483,10 @@ echo \"Wrote\"");
         return filter_var($this->run("ps aux | grep $service | grep -v grep | wc -l"), FILTER_VALIDATE_INT) > 0;
     }
 
-    public function createSymLink(string $target, string $link) : bool
+    public function createSymLink(string $target, string $link, Server $server, string $user = "root") : string
     {
-        // TODO: add any logging or event reporting here.
-        \Log::info("Creating symlink '{$link}' to '{$target}'.");
+        $this->ssh($server, $user);
 
-        return symlink($target, $link);
+        return $this->run("ln -fs {$target} {$link}");
     }
 }

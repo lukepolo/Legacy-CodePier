@@ -1,5 +1,5 @@
 {
-  "authHost": "http://cp.dev.genealabs.com",
+  "authHost": "http://app.codepier.test",
   "authEndpoint": "/broadcasting/auth",
   "clients": [
     {

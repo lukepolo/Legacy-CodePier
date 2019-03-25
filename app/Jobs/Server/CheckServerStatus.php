@@ -67,7 +67,7 @@ class CheckServerStatus implements ShouldQueue
                 }
 
                 event(
-                   new ServerSshConnectionFailed($this->server, 'Server failed to create.')
+                    new ServerSshConnectionFailed($this->server, 'Server failed to create.')
                 );
             }
         }
