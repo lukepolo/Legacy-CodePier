@@ -173,9 +173,6 @@ export default {
     };
   },
   watch: {
-    serverForm() {
-
-    },
     server_provider_id: function() {
       if (this.server_provider_id) {
         this.getProviderData(this.server_provider_id);
