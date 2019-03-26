@@ -367,7 +367,6 @@ echo \"Wrote\"");
             ]);
         }
 
-        $ssh->setTimeout(30);
         $this->session = $ssh;
 
         return true;
