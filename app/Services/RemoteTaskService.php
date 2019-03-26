@@ -344,6 +344,7 @@ echo \"Wrote\"");
         $key = new RSA();
         $key->loadKey($this->server->private_ssh_key);
         $ssh = new SSH2($this->server->ip, $this->server->port);
+        $ssh->setTimeout(30);
 
         try {
             // TODO - login as codepier / sudo to root
@@ -361,13 +362,13 @@ echo \"Wrote\"");
             throw new SshConnectionFailed($e->getMessage());
         }
 
+        $this->session = $ssh;
+
         if (! $this->server->ssh_connection) {
             $this->server->update([
                 'ssh_connection' => true,
             ]);
         }
-
-        $this->session = $ssh;
 
         return true;
     }
