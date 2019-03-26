@@ -387,9 +387,8 @@ include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/after/*;
     {
         $this->connectToServer();
 
-        // TODO: Should we delete the entry in sites available as well? I'm thinking not necessarily?
-        $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
-        $this->remoteTaskService->removeDirectory(self::NGINX_SERVER_FILES."/$site->domain");
+        $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/{$site->domain}");
+        $this->remoteTaskService->removeDirectory(self::NGINX_SERVER_FILES . "/{$site->domain}");
     }
 
     private function getWebServer()
