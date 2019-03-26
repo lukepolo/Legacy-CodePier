@@ -332,7 +332,7 @@ echo \"Wrote\"");
      *
      * @return bool
      */
-    public function ssh(Server $server, $user = 'root')
+    public function ssh(Server $server, $user = 'root') : bool
     {
         if ($this->server == $server && $user == $this->user) {
             return true;
@@ -342,34 +342,32 @@ echo \"Wrote\"");
         $this->server = $server;
 
         $key = new RSA();
-        $key->loadKey($server->private_ssh_key);
-
+        $key->loadKey($this->server->private_ssh_key);
         $ssh = new SSH2($this->server->ip, $this->server->port);
 
         try {
             // TODO - login as codepier / sudo to root
-            if (! $ssh->login($user, $key)) {
-                $server->ssh_connection = false;
-                $server->save();
+            if (! $ssh->login($this->user, $key)) {
+                $this->server->ssh_connection = false;
+                $this->server->save();
 
                 throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
-            $server->update([
+            $this->server->update([
                 'ssh_connection' => false,
             ]);
 
             throw new SshConnectionFailed($e->getMessage());
         }
 
-        if (! $server->ssh_connection) {
-            $server->update([
+        if (! $this->server->ssh_connection) {
+            $this->server->update([
                 'ssh_connection' => true,
             ]);
         }
 
-        $ssh->setTimeout(0);
-
+        $ssh->setTimeout(30);
         $this->session = $ssh;
 
         return true;
