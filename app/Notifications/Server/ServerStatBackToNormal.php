@@ -15,20 +15,23 @@ class ServerStatBackToNormal extends Notification
 {
     use Queueable;
 
-    public $server;
+    public $deliveryMethods;
     public $message;
+    public $server;
     public $slackChannel;
 
     /**
      * Create a new notification instance.
      *
      * @param Server $server
-     * @param $message
+     * @param string $message
+     * @param array $deliveryMethods
      */
-    public function __construct(Server $server, $message)
+    public function __construct(Server $server, string $message, array $deliveryMethods = [])
     {
         $this->server = $server;
         $this->message = $message;
+        $this->deliveryMethods = $deliveryMethods;
 
         if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
@@ -37,7 +40,6 @@ class ServerStatBackToNormal extends Notification
         if (empty($this->slackChannel)) {
             $this->slackChannel = $server->name;
         }
-
     }
 
     /**
@@ -47,7 +49,8 @@ class ServerStatBackToNormal extends Notification
      */
     public function via()
     {
-        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
+        return $this->deliveryMethods
+            ?: $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class]);
     }
 
     /**

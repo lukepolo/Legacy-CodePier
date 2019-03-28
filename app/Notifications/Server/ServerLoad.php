@@ -31,24 +31,26 @@ class ServerLoad extends Notification
     {
         $this->server = $server;
         $this->cpus = $server->stats->number_of_cpus;
-
         $this->latestLoadStat = last($server->stats->load_stats);
         unset($this->latestLoadStat['updated_at']);
-
         $this->currentNotificationCount = $this->server->stats->load_notification_count;
 
         if (($this->latestLoadStat[5] / $this->cpus) > .95) {
             ++$this->currentNotificationCount;
-            if($this->currentNotificationCount <= 3) {
+
+            if ($this->currentNotificationCount <= 3) {
                 $this->highLoad = true;
                 $this->server->stats->update([
                     'load_notification_count' => $this->currentNotificationCount
                 ]);
             }
-        } else if($this->currentNotificationCount !== 0) {
-            if($this->currentNotificationCount >= 3) {
-                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage'));
+        } elseif ($this->currentNotificationCount !== 0) {
+            $notificationPreferences = $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']);
+
+            if ($this->currentNotificationCount >= 3) {
+                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage', $notificationPreferences));
             }
+
             $this->server->stats->update([
                 'load_notification_count' => 0
             ]);
@@ -70,7 +72,9 @@ class ServerLoad extends Notification
      */
     public function via()
     {
-        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad
+            ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast'])
+            : ['broadcast'];
     }
 
     /**
