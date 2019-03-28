@@ -28,8 +28,8 @@
                                     <label>System</label>
                                     <div class="flyform--group-select">
                                         <select name="system">
-                                            <template v-for="system in systems" >
-                                                <option :selected="system.default"  :value="system.class" v-if="system.enabled">
+                                            <template v-for="system in systems">
+                                                <option :value="system.class" v-if="system.enabled">
                                                     {{ system.name }}
                                                 </option>
                                             </template>
@@ -255,7 +255,10 @@ export default {
         });
     },
     systems() {
-        return this.$store.state.server_systems.systems;
+      let systems = this.$store.state.server_systems.systems;
+      if(systems) {
+        return systems.reverse();
+      }
     }
   }
 };
