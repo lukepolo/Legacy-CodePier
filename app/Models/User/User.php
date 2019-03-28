@@ -249,6 +249,7 @@ class User extends Authenticatable
             $services[] = in_array('discord', $userNotification->services)
                 ? DiscordMessageChannel::class
                 : null;
+            array_filter($services);
         }
 
         return array_merge($services, $required);
