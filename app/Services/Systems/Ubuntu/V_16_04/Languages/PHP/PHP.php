@@ -64,10 +64,10 @@ class PHP
     ];
 
     /**
-     * @options 7.0, 7.1, 7.2
+     * @options 7.0, 7.1, 7.2, 7.3
      * @multiple false
      */
-    public function installPHP($version = '7.2')
+    public function installPHP($version = '7.3')
     {
         $this->connectToServer();
 
@@ -130,7 +130,7 @@ class PHP
 
         $this->remoteTaskService->run('curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php');
 
-        $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
+        $cronJob = '0 1 * * * /usr/local/bin/composer self-update';
 
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 

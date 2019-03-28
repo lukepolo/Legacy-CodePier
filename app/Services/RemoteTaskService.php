@@ -162,9 +162,14 @@ echo \"Wrote\"");
      * @throws FailedCommand
      * @throws SshConnectionFailed
      */
-    public function findTextAndAppend($file, $findText, $text, $cleanText = true)
+    public function findTextAndAppend($file, $findText, $text, $cleanText = true) : string
     {
+        if ($this->doesFileHaveLine($file, $text)) {
+            return "";
+        }
+
         $findText = $this->cleanRegex($findText);
+
         if ($cleanText) {
             $text = $this->cleanText($text);
         }
@@ -327,7 +332,7 @@ echo \"Wrote\"");
      *
      * @return bool
      */
-    public function ssh(Server $server, $user = 'root')
+    public function ssh(Server $server, $user = 'root') : bool
     {
         if ($this->server == $server && $user == $this->user) {
             return true;
@@ -337,35 +342,33 @@ echo \"Wrote\"");
         $this->server = $server;
 
         $key = new RSA();
-        $key->loadKey($server->private_ssh_key);
-
+        $key->loadKey($this->server->private_ssh_key);
         $ssh = new SSH2($this->server->ip, $this->server->port);
+        $ssh->setTimeout(30);
 
         try {
             // TODO - login as codepier / sudo to root
-            if (! $ssh->login($user, $key)) {
-                $server->ssh_connection = false;
-                $server->save();
+            if (! $ssh->login($this->user, $key)) {
+                $this->server->ssh_connection = false;
+                $this->server->save();
 
                 throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
-            $server->update([
+            $this->server->update([
                 'ssh_connection' => false,
             ]);
 
             throw new SshConnectionFailed($e->getMessage());
         }
 
-        if (! $server->ssh_connection) {
-            $server->update([
+        $this->session = $ssh;
+
+        if (! $this->server->ssh_connection) {
+            $this->server->update([
                 'ssh_connection' => true,
             ]);
         }
-
-        $ssh->setTimeout(0);
-
-        $this->session = $ssh;
 
         return true;
     }
@@ -476,5 +479,12 @@ echo \"Wrote\"");
         $this->ssh($server);
 
         return filter_var($this->run("ps aux | grep $service | grep -v grep | wc -l"), FILTER_VALIDATE_INT) > 0;
+    }
+
+    public function createSymLink(string $target, string $link, Server $server, string $user = "root") : string
+    {
+        $this->ssh($server, $user);
+
+        return $this->run("ln -fs {$target} {$link}");
     }
 }

@@ -9,7 +9,7 @@ trait Laravel
      *
      * @zero_downtime_deployment
      *
-     * @order 210
+     * @order 140
      */
     public function laravelCreateSymbolicEnv()
     {
