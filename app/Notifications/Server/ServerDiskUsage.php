@@ -1,27 +1,27 @@
-<?php
-
-namespace App\Notifications\Server;
+<?php namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use App\Notifications\Messages\DiscordMessage;
-use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\Channels\SlackMessageChannel;
-use Illuminate\Notifications\Messages\SlackMessage;
 use App\Notifications\Channels\DiscordMessageChannel;
+use App\Notifications\Channels\SlackMessageChannel;
+use App\Notifications\Messages\DiscordMessage;
+use App\Notifications\Server\Traits\NotificationPreferences;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class ServerDiskUsage extends Notification
 {
+    use NotificationPreferences;
     use Queueable;
 
     public $server;
     public $slackChannel;
 
+    private $currentNotificationCount;
     private $disk;
     private $diskName;
     private $highLoad = false;
-    private $currentNotificationCount;
 
     /**
      * Create a new notification instance.
@@ -51,7 +51,7 @@ class ServerDiskUsage extends Notification
             }
         } else {
             if ($this->currentNotificationCount >= 3) {
-                $server->notify(new ServerStatBackToNormal($server, 'Disk Usage'));
+                $server->notify(new ServerStatBackToNormal($server, 'Disk Usage', $this->getNotificationPreferences()));
             }
             $this->server->stats->update([
                 "disk_notification_count" => [
@@ -76,7 +76,9 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad
+            ? $this->getNotificationPreferences()
+            : ['broadcast'];
     }
 
     /**

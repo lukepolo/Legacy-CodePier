@@ -1,18 +1,16 @@
-<?php
-
-namespace App\Notifications\Server;
+<?php namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use App\Notifications\Messages\DiscordMessage;
+use App\Notifications\Server\Traits\NotificationPreferences;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
-use App\Notifications\Channels\DiscordMessageChannel;
+use Illuminate\Notifications\Notification;
 
 class ServerMemory extends Notification
 {
+    use NotificationPreferences;
     use Queueable;
 
     public $server;
@@ -39,12 +37,13 @@ class ServerMemory extends Notification
 
         $this->currentNotificationCount = isset($this->server->stats->memory_notification_count[$this->memoryName]) ? $this->server->stats->memory_notification_count[$this->memoryName] : 0;
 
-        if (
-            is_numeric($this->memory['available']) &&
-            (is_numeric($this->memory['available']) && $this->memory['total'] > 0)
+        if (is_numeric($this->memory['available'])
+            && is_numeric($this->memory['available'])
+            && $this->memory['total'] > 0
         ) {
             if (($this->memory['available'] / $this->memory['total']) * 100 <= 5) {
                 ++$this->currentNotificationCount;
+
                 if ($this->currentNotificationCount <= 3) {
                     $this->highLoad = true;
                     $this->server->stats->update([
@@ -55,8 +54,9 @@ class ServerMemory extends Notification
                 }
             } else {
                 if ($this->currentNotificationCount >= 3) {
-                    $server->notify(new ServerStatBackToNormal($server, 'Memory Allocation'));
+                    $server->notify(new ServerStatBackToNormal($server, 'Memory Allocation', $this->getNotificationPreferences()));
                 }
+
                 $this->server->stats->update([
                     "memory_notification_count" => [
                         $this->memoryName => 0
@@ -81,7 +81,9 @@ class ServerMemory extends Notification
      */
     public function via()
     {
-        return $this->highLoad ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']) : ['broadcast'];
+        return $this->highLoad
+            ? $this->getNotificationPreferences()
+            : ['broadcast'];
     }
 
     /**

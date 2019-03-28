@@ -1,27 +1,28 @@
-<?php
-
-namespace App\Notifications\Server;
+<?php namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use App\Notifications\Messages\DiscordMessage;
-use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\Channels\SlackMessageChannel;
-use Illuminate\Notifications\Messages\SlackMessage;
 use App\Notifications\Channels\DiscordMessageChannel;
+use App\Notifications\Channels\SlackMessageChannel;
+use App\Notifications\Messages\DiscordMessage;
+use App\Notifications\Server\Traits\NotificationPreferences;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
 
 class ServerLoad extends Notification
 {
+    use NotificationPreferences;
     use Queueable;
 
     public $server;
     public $slackChannel;
 
     private $cpus;
-    private $latestLoadStat;
-    private $highLoad = false;
     private $currentNotificationCount;
+    private $highLoad = false;
+    private $latestLoadStat;
+
     /**
      * Create a new notification instance.
      *
@@ -45,10 +46,8 @@ class ServerLoad extends Notification
                 ]);
             }
         } elseif ($this->currentNotificationCount !== 0) {
-            $notificationPreferences = $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast']);
-
             if ($this->currentNotificationCount >= 3) {
-                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage', $notificationPreferences));
+                $server->notify(new ServerStatBackToNormal($server, 'CPU Usage', $this->getNotificationPreferences()));
             }
 
             $this->server->stats->update([
@@ -73,7 +72,7 @@ class ServerLoad extends Notification
     public function via()
     {
         return $this->highLoad
-            ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class, DiscordMessageChannel::class], ['broadcast'])
+            ? $this->getNotificationPreferences()
             : ['broadcast'];
     }
 
