@@ -106,7 +106,7 @@ class PHP
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php-fpm.conf", ';process_control_timeout', 'process_control_timeout = 30');
 
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'upload_max_filesize = 250M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'post_max_size =', 'post_max_size = 250M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'date.timezone', 'date.timezone = UTC');
 
