@@ -119,7 +119,7 @@
 
         <br><br>
 
-        <div class="providers grid-3">
+        <div class="providers grid-4">
             <template v-if="site.user_repository_provider_id">
                 <template v-if="workFlowCompleted === true">
 
@@ -163,7 +163,7 @@
                 </template>
             </template>
 
-            <drop-down tag="span" v-if="!site.user_repository_provider_id">
+            <drop-down tag="span">
                 <div class="grid--item" slot="header">
                     <div class="providers--item">
                         <div class="providers--item-header">
@@ -173,7 +173,7 @@
                         </div>
                         <div class="providers--item-footer">
                             <div class="providers--item-footer-connect">
-                                <h4 class="providers--title">Site SSH Key</h4>
+                                <h4 class="providers--title">Site Deploy Key</h4>
                             </div>
                         </div>
                     </div>
@@ -181,7 +181,7 @@
                 <div slot="content" class="dropdown-menu dropdown-content nowrap">
                     <h3>
                         <confirm-dropdown dispatch="user_site_ssh_keys/refreshPublicKey" :params="site.id">
-                            Public SSH Key &nbsp;
+                            Site Deploy Key
                             <tooltip message="Refresh SSH Key">
                                 <a @click.prevent href="#"><span class="fa fa-refresh"></span></a>
                             </tooltip>

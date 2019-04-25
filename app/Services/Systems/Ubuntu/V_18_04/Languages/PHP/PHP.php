@@ -64,10 +64,10 @@ class PHP
     ];
 
     /**
-     * @options 7.0, 7.1, 7.2
+     * @options 7.0, 7.1, 7.2, 7.3
      * @multiple false
      */
-    public function installPHP($version = '7.2')
+    public function installPHP($version = '7.3')
     {
         $this->connectToServer();
 
@@ -106,7 +106,7 @@ class PHP
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php-fpm.conf", ';process_control_timeout', 'process_control_timeout = 30');
 
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'memory_limit = 250M');
+        $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'upload_max_filesize =', 'upload_max_filesize = 250M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'post_max_size =', 'post_max_size = 250M');
         $this->remoteTaskService->updateText("/etc/php/$version/fpm/php.ini", 'date.timezone', 'date.timezone = UTC');
 
@@ -130,7 +130,7 @@ class PHP
 
         $this->remoteTaskService->run('curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php');
 
-        $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
+        $cronJob = '0 1 * * * /usr/local/bin/composer self-update';
 
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
