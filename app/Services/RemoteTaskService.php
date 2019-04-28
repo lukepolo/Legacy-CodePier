@@ -344,7 +344,6 @@ echo \"Wrote\"");
         $key = new RSA();
         $key->loadKey($this->server->private_ssh_key);
         $ssh = new SSH2($this->server->ip, $this->server->port);
-        $ssh->setTimeout(30);
 
         try {
             // TODO - login as codepier / sudo to root
