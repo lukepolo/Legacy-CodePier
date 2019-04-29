@@ -56,7 +56,10 @@ class RemoteTaskService implements RemoteTaskServiceContract
                     });
                 }
 
-                throw new SshConnectionFailed('We were unbale to connect to you server '.$this->server->name.'.');
+                \Log::critical($e->getMessage());
+
+
+                throw new SshConnectionFailed('We were unable to connect to you server '.$this->server->name.'.');
             }
         }
 
@@ -345,6 +348,8 @@ echo \"Wrote\"");
         $key->loadKey($this->server->private_ssh_key);
         $ssh = new SSH2($this->server->ip, $this->server->port);
 
+        $ssh->setTimeout(0);
+
         try {
             // TODO - login as codepier / sudo to root
             if (! $ssh->login($this->user, $key)) {
@@ -360,6 +365,8 @@ echo \"Wrote\"");
 
             throw new SshConnectionFailed($e->getMessage());
         }
+
+
 
         $this->session = $ssh;
 
