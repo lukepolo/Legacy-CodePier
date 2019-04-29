@@ -365,8 +365,6 @@ echo \"Wrote\"");
             throw new SshConnectionFailed($e->getMessage());
         }
 
-
-
         $this->session = $ssh;
 
         if (! $this->server->ssh_connection) {
