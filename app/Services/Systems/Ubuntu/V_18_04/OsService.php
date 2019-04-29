@@ -13,7 +13,7 @@ class OsService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('sleep 45; DEBIAN_FRONTEND=noninteractive apt-get update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpng-dev libpq-dev software-properties-common apt-transport-https');
@@ -21,7 +21,7 @@ class OsService
         // https://community.rackspace.com/products/f/25/t/5110
         $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt autoremove -y');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get autoremove -y');
     }
 
     public function setTimezoneToUTC()
@@ -100,7 +100,7 @@ class OsService
     {
         $this->connectToServer();
 
-        $cronJob = 'DEBIAN_FRONTEND=noninteractive apt autoremove -y';
+        $cronJob = 'DEBIAN_FRONTEND=noninteractive apt-get autoremove -y';
 
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' > /dev/null 2>&1") | crontab)');
 
