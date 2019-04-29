@@ -58,7 +58,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
                 \Log::critical($e->getMessage());
 
-
                 throw new SshConnectionFailed('We were unable to connect to you server '.$this->server->name.'.');
             }
         }
