@@ -10,7 +10,6 @@ use App\Models\SslCertificate;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -22,7 +21,9 @@ class ActivateServerSslCertificate implements ShouldQueue
 
     private $site;
     private $server;
+    private $siteCommand;
     private $sslCertificate;
+    private $reloadWebServices;
 
     public $tries = 1;
     public $timeout = 60;
@@ -33,17 +34,21 @@ class ActivateServerSslCertificate implements ShouldQueue
      * @param Site $site
      * @param SslCertificate $sslCertificate
      * @param Command $siteCommand
+     * @param bool $reloadWebServices
      */
-    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
+    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null, $reloadWebServices = true)
     {
         $this->site = $site;
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
+        $this->reloadWebServices = $reloadWebServices;
         $this->makeCommand($server, $sslCertificate, $siteCommand, 'Activating');
+        $this->siteCommand = $siteCommand;
     }
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Site\SiteService $siteService | SiteService $siteService
      * @throws \Exception
      */
     public function handle(ServerService $serverService, SiteService $siteService)
@@ -52,6 +57,6 @@ class ActivateServerSslCertificate implements ShouldQueue
             $serverService->activateSslCertificate($this->server, $this->sslCertificate);
         });
 
-        event(new SiteUpdatedWebConfig($this->site));
+        $siteService->updateWebServerConfig($this->server, $this->site, $this->reloadWebServices);
     }
 }

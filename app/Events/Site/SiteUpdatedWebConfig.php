@@ -16,8 +16,9 @@ class SiteUpdatedWebConfig
      * Create a new event instance.
      *
      * @param Site $site
+     * @param bool $reloadWebServices
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, bool $reloadWebServices = true)
     {
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
@@ -30,7 +31,7 @@ class SiteUpdatedWebConfig
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new UpdateWebConfig($server, $site, $siteCommand))
+                    (new UpdateWebConfig($server, $site, $siteCommand, $reloadWebServices))
                         ->onQueue(config('queue.channels.server_commands'))
                 );
             }
