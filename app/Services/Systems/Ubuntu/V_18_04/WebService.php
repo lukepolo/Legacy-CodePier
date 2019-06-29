@@ -91,6 +91,7 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
+    server_name _;
     root /opt/codepier/landing;
 }');
         $this->remoteTaskService->createSymLink(
