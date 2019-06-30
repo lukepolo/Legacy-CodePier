@@ -19,6 +19,7 @@ class UpdateWebConfig implements ShouldQueue
 
     private $site;
     private $server;
+    private $reloadWebServices;
 
     public $tries = 1;
     public $timeout = 60;
@@ -29,11 +30,13 @@ class UpdateWebConfig implements ShouldQueue
      * @param Server $server
      * @param Site $site
      * @param Command $siteCommand
+     * @param bool $reloadWebServices
      */
-    public function __construct(Server $server, Site $site, Command $siteCommand)
+    public function __construct(Server $server, Site $site, Command $siteCommand, bool $reloadWebServices = true)
     {
         $this->site = $site;
         $this->server = $server;
+        $this->reloadWebServices = $reloadWebServices;
 
         $this->makeCommand($server, $site, $siteCommand);
     }
@@ -46,7 +49,7 @@ class UpdateWebConfig implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         $this->runOnServer(function () use ($siteService) {
-            $siteService->updateWebServerConfig($this->server, $this->site);
+            $siteService->updateWebServerConfig($this->server, $this->site, $this->reloadWebServices);
         });
     }
 }

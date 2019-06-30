@@ -2,11 +2,13 @@
 
 namespace App\Events\Site;
 
+use App\Jobs\NullJob;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
+use App\Jobs\Server\RestartWebServices;
 use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
 use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
 
@@ -38,30 +40,34 @@ class SiteSslCertificateUpdated
 
             $activeSsl = $site->activeSsl();
 
+            $chainJobs = [];
+
+
             foreach ($availableServers as $server) {
                 if ($sslCertificate->active) {
-                    if (! empty($activeSsl) && $activeSsl->id != $sslCertificate->id) {
+                    if (!empty($activeSsl) && $activeSsl->id != $sslCertificate->id) {
                         $activeSsl->update([
                             'active' => false,
                         ]);
-
-                        dispatch(
-                            (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand))
-                                ->onQueue(config('queue.channels.server_commands'))
-                        );
+                        $chainJobs[] = (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand, false))
+                            ->onQueue(config('queue.channels.server_commands'));
                     }
 
-                    dispatch(
-                        (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))
-                            ->onQueue(config('queue.channels.server_commands'))
-                    );
-                } else {
-                    dispatch(
-                        (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))
-                            ->onQueue(config('queue.channels.server_commands'))
-                    );
+                    $chainJobs[] = (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
+                        ->onQueue(config('queue.channels.server_commands'));
+                }
+                else {
+                        $chainJobs[]  = (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
+                            ->onQueue(config('queue.channels.server_commands'));
                 }
             }
+
+            foreach ($availableServers as $server) {
+                $chainJobs[] = new RestartWebServices($server, $siteCommand);
+            }
+
+
+            NullJob::withChain($chainJobs)->dispatch();
         }
     }
 }
