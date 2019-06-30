@@ -19,7 +19,6 @@ class UpdateServerSslCertificate implements ShouldQueue
 
     private $server;
     private $sslCertificate;
-    private $reloadWebServices;
 
     public $tries = 1;
     public $timeout = 60;
@@ -30,11 +29,10 @@ class UpdateServerSslCertificate implements ShouldQueue
      * @param SslCertificate $sslCertificate
      * @param bool $reloadWebServices
      */
-    public function __construct(Server $server, SslCertificate $sslCertificate, $reloadWebServices = true)
+    public function __construct(Server $server, SslCertificate $sslCertificate)
     {
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
-        $this->reloadWebServices = $reloadWebServices;
     }
 
     /**
@@ -48,7 +46,7 @@ class UpdateServerSslCertificate implements ShouldQueue
         ]);
 
         foreach ($this->sslCertificate->sites as $site) {
-            broadcast(new SiteSslCertificateUpdated($site, $this->sslCertificate, $this->reloadWebServices));
+            broadcast(new SiteSslCertificateUpdated($site, $this->sslCertificate));
         }
     }
 }

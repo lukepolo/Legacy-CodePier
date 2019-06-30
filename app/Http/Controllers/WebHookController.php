@@ -209,7 +209,7 @@ class WebHookController extends Controller
             $this->checkUsersMaxServers($server->user);
 
             foreach ($server->sslCertificates as $sslCertificate) {
-                dispatch((new UpdateServerSslCertificate($server, $sslCertificate, false))
+                dispatch((new UpdateServerSslCertificate($server, $sslCertificate))
                     ->onQueue(config('queue.channels.server_commands'))
                 );
             }

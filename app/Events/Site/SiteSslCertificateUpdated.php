@@ -21,9 +21,8 @@ class SiteSslCertificateUpdated
      *
      * @param Site $site
      * @param SslCertificate $sslCertificate
-     * @param bool $reloadWebServices
      */
-    public function __construct(Site $site, SslCertificate $sslCertificate, $reloadWebServices = true)
+    public function __construct(Site $site, SslCertificate $sslCertificate)
     {
         if ($site->isLoadBalanced()) {
             $availableServers = $site->filterServersByType([
@@ -50,23 +49,21 @@ class SiteSslCertificateUpdated
                         $activeSsl->update([
                             'active' => false,
                         ]);
-                        $chainJobs[] = (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand, $reloadWebServices))
+                        $chainJobs[] = (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand, false))
                             ->onQueue(config('queue.channels.server_commands'));
                     }
 
-                    $chainJobs[] = (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, $reloadWebServices))
+                    $chainJobs[] = (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
                         ->onQueue(config('queue.channels.server_commands'));
                 }
                 else {
-                        $chainJobs[]  = (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, $reloadWebServices))
+                        $chainJobs[]  = (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
                             ->onQueue(config('queue.channels.server_commands'));
                 }
             }
 
-            if($reloadWebServices === false) {
-                foreach ($availableServers as $server) {
-                    $chainJobs[] = new RestartWebServices($server, $siteCommand);
-                }
+            foreach ($availableServers as $server) {
+                $chainJobs[] = new RestartWebServices($server, $siteCommand);
             }
 
 
