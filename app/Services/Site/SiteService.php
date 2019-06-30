@@ -86,12 +86,15 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
+     * @param bool $reloadWebServices
      */
-    public function updateWebServerConfig(Server $server, Site $site)
+    public function updateWebServerConfig(Server $server, Site $site, bool $reloadWebServices = true)
     {
         $this->getWebServerService($server)->updateWebServerConfig($site, $server->type);
 
-        $this->serverService->restartWebServices($server);
+        if($reloadWebServices) {
+            $this->serverService->restartWebServices($server);
+        }
     }
 
     /**
