@@ -227,7 +227,6 @@ class WebHookController extends Controller
 
             NullJob::withChain($chainJobs)->dispatch()->allOnQueue(config('queue.channels.server_commands'));
 
-
             return response()->json('OK');
         }
 
