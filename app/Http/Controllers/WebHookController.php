@@ -221,7 +221,6 @@ class WebHookController extends Controller
                 $serversToRestartWebServices->push($site->server);
             }
 
-
             $serversToRestartWebServices->unique('id')->each(function($server) use($chainJobs) {
                 $chainJobs[] = new RestartWebServices($server);
             });
