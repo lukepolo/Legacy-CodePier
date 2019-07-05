@@ -27,7 +27,6 @@ class UpdateServerSslCertificate implements ShouldQueue
      * InstallServerWorker constructor.
      * @param Server $server
      * @param SslCertificate $sslCertificate
-     * @param bool $reloadWebServices
      */
     public function __construct(Server $server, SslCertificate $sslCertificate)
     {
@@ -46,7 +45,7 @@ class UpdateServerSslCertificate implements ShouldQueue
         ]);
 
         foreach ($this->sslCertificate->sites as $site) {
-            broadcast(new SiteSslCertificateUpdated($site, $this->sslCertificate));
+            event(new SiteSslCertificateUpdated($site, $this->sslCertificate));
         }
     }
 }

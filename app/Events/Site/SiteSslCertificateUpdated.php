@@ -8,7 +8,6 @@ use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
-use App\Jobs\Server\RestartWebServices;
 use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
 use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
 
@@ -42,32 +41,22 @@ class SiteSslCertificateUpdated
 
             $chainJobs = [];
 
-
             foreach ($availableServers as $server) {
                 if ($sslCertificate->active) {
                     if (!empty($activeSsl) && $activeSsl->id != $sslCertificate->id) {
                         $activeSsl->update([
                             'active' => false,
                         ]);
-                        $chainJobs[] = (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand, false))
-                            ->onQueue(config('queue.channels.server_commands'));
+                        $chainJobs[] = new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand, false);
                     }
-
-                    $chainJobs[] = (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
-                        ->onQueue(config('queue.channels.server_commands'));
+                    $chainJobs[] = new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false);
                 }
                 else {
-                        $chainJobs[]  = (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false))
-                            ->onQueue(config('queue.channels.server_commands'));
+                    $chainJobs[]  = new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand, false);
                 }
             }
 
-            foreach ($availableServers as $server) {
-                $chainJobs[] = new RestartWebServices($server, $siteCommand);
-            }
-
-
-            NullJob::withChain($chainJobs)->dispatch();
+            NullJob::withChain($chainJobs)->dispatch()->allOnConnection('sync');
         }
     }
 }
