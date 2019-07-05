@@ -27,7 +27,7 @@ class RestartWebServices implements ShouldQueue
      * @param Server $server
      * @param Command $siteCommand
      */
-    public function __construct(Server $server, Command $siteCommand)
+    public function __construct(Server $server, Command $siteCommand = null)
     {
         $this->server = $server;
 
