@@ -210,22 +210,23 @@ class WebHookController extends Controller
         if ($this->checkServerIp($server, $request)) {
             $this->checkUsersMaxServers($server->user);
 
-            $chainJobs = [];
+            $chainJobs = collect();
+            $serversToRestartWebServices = collect();
 
             foreach ($server->sslCertificates as $sslCertificate) {
                 $chainJobs[] = new UpdateServerSslCertificate($server, $sslCertificate);
-            }
-
-            $serversToRestartWebServices = collect();
-            foreach($server->sslCertificates->site as $site) {
-                $serversToRestartWebServices->push($site->server);
+                $sslCertificate->sites->each(function($site) use($serversToRestartWebServices) {
+                    $site->servers->each(function($server) use($serversToRestartWebServices) {
+                        $serversToRestartWebServices->push($server);
+                    });
+                });
             }
 
             $serversToRestartWebServices->unique('id')->each(function($server) use($chainJobs) {
-                $chainJobs[] = new RestartWebServices($server);
+                $chainJobs->push(new RestartWebServices($server));
             });
 
-            NullJob::withChain($chainJobs)->dispatch()->allOnQueue(config('queue.channels.server_commands'));
+            NullJob::withChain($chainJobs->toArray())->dispatch()->allOnQueue(config('queue.channels.server_commands'));
 
             return response()->json('OK');
         }
