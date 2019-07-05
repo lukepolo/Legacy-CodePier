@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Jobs\NullJob;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Jobs\Server\BackupDatabases;
+use App\Jobs\Server\RestartWebServices;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
@@ -208,11 +210,24 @@ class WebHookController extends Controller
         if ($this->checkServerIp($server, $request)) {
             $this->checkUsersMaxServers($server->user);
 
+            $chainJobs = collect();
+            $serversToRestartWebServices = collect();
+
             foreach ($server->sslCertificates as $sslCertificate) {
-                dispatch((new UpdateServerSslCertificate($server, $sslCertificate))
-                    ->onQueue(config('queue.channels.server_commands'))
-                );
+                $chainJobs[] = new UpdateServerSslCertificate($server, $sslCertificate);
+                $sslCertificate->sites->each(function($site) use($serversToRestartWebServices) {
+                    $site->servers->each(function($server) use($serversToRestartWebServices) {
+                        $serversToRestartWebServices->push($server);
+                    });
+                });
             }
+
+            $serversToRestartWebServices->unique('id')->each(function($server) use($chainJobs) {
+                $chainJobs->push(new RestartWebServices($server));
+            });
+
+            NullJob::withChain($chainJobs->toArray())->dispatch()->allOnQueue(config('queue.channels.server_commands'));
+
             return response()->json('OK');
         }
 
