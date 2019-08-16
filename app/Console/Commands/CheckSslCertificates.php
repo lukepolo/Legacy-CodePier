@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +52,8 @@ class CheckSslCertificates extends Command
             })
             ->join('subscriptions', function ($join) {
                 $join->on('subscriptions.user_id', 'users.id')
+                    ->whereNull('subscriptions.ends_at')
+                    ->orWhere('subscriptions.ends_at', '>', Carbon::now())
                 ->orWhere('users.role', 'admin');
             })
             ->join('sslCertificateables', function ($join) {
@@ -61,6 +64,7 @@ class CheckSslCertificates extends Command
                 $join->on('ssl_certificates.id', 'sslCertificateables.ssl_certificate_id')
                     ->where('ssl_certificates.active', true);
             })
+            ->groupBy('sites.id')
             ->orderBy('sites.id')
             ->whereNull('sites.deleted_at')
             ->where('sites.domain', '!=', 'default')
