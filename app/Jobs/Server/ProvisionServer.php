@@ -119,6 +119,9 @@ class ProvisionServer implements ShouldQueue
                     'step' => 'Installing Basic Firewall Rules',
                 ],
             ],
+            SystemService::REPOSITORY => [
+
+            ],
         ];
 
         foreach ($server->server_features as $service => $features) {
