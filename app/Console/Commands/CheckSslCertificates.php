@@ -76,16 +76,16 @@ class CheckSslCertificates extends Command
                         $certificate = SslCertificate::createForHostName($site->domain);
                     } catch (CouldNotDownloadCertificate $certificate) {
                         $siteModel->notify(new SslCertInvalid());
-                        return;
+                        continue;
                     }
 
                     if (! $certificate->isValid()) {
                         $siteModel->notify(new SslCertInvalid($certificate));
-                        return;
+                        continue;
                     }
                     if ($certificate->daysUntilExpirationDate() < 7) {
                         $siteModel->notify(new SslCertExpiring($certificate));
-                        return;
+                        continue;
                     }
                 }
             });
