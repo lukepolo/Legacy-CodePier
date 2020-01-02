@@ -37,13 +37,6 @@ class PingLifeLines extends Command
         $httpClient->get('https://lifeline.codepier.io/JOY32EwMR769mp5ynqXej6eAkxLjl4VZdvQGB1Wg');
 
         try {
-            $httpClient->get('https://sentry.codepier.io');
-            $httpClient->get('https://lifeline.codepier.io/Rq7WE5yrdpba46okAl38RgDjGXP9gO0J12nZKxwv');
-        } catch (RequestException $e) {
-            // DO NOTHING
-        }
-
-        try {
             $httpClient->get('https://ws.codepier.io:6001/');
         } catch (RequestException $e) {
             if ($e->getCode() === 404) {
