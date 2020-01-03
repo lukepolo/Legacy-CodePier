@@ -38,14 +38,13 @@ class PingLifeLines extends Command
 
         try {
             $httpClient->get('https://ws.codepier.io:6001/');
+            $httpClient->get('https://lifeline.codepier.io/WRrjm57nZVqpB20l4xPDG1e36KAMYJQgdwaOoXEk');
         } catch (RequestException $e) {
-            if ($e->getCode() === 404) {
-                $httpClient->get('https://lifeline.codepier.io/WRrjm57nZVqpB20l4xPDG1e36KAMYJQgdwaOoXEk');
-            }
+            // DO NOTHING
         }
 
         try {
-            $httpClient->post(config('app.url_dns'));
+            $httpClient->post(config('app.url_dns').'/health');
             $httpClient->get('https://lifeline.codepier.io/rvAdlMBaZqgpo46EbjYNxAe73XVPGJLK1xkRym5W');
         } catch (RequestException $e) {
             // DO NOTHING
