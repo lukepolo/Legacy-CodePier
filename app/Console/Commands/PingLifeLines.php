@@ -45,7 +45,7 @@ class PingLifeLines extends Command
         }
 
         try {
-            $httpClient->post('http://dns.codepier.io/register');
+            $httpClient->post(config('app.url_dns'));
             $httpClient->get('https://lifeline.codepier.io/rvAdlMBaZqgpo46EbjYNxAe73XVPGJLK1xkRym5W');
         } catch (RequestException $e) {
             // DO NOTHING
