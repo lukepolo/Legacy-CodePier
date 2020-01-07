@@ -88,7 +88,7 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'ssl_prefer_server_ciphers', 'ssl_session_cache shared:SSL:50m;');
 
         $this->remoteTaskService->run('mkdir /etc/nginx/ssl/');
-        $this->remoteTaskService->run('openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt');
+        $this->remoteTaskService->run('openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com"');
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-available/catch-all', '
 server {
     server_name _;
