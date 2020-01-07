@@ -38,7 +38,7 @@ class WebService
         $this->remoteTaskService->run('echo "y" | /opt/codepier/./certbot-auto --install-only');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
-/opt/codepier/./certbot-auto renew --deploy-hook /opt/codepier/ssl-renew-hook.sh 
+/opt/codepier/./certbot-auto renew --deploy-hook /opt/codepier/ssl-renew-hook.sh
 
 chgrp -R codepier /etc/letsencrypt
 chmod -R g=rX /etc/letsencrypt
@@ -87,11 +87,21 @@ curl "' . config('app.url_stats') . '/webhook/server/' . $this->server->encode()
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'proxy_headers_hash_max_size 128;');
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'ssl_prefer_server_ciphers', 'ssl_session_cache shared:SSL:50m;');
 
+        $this->remoteTaskService->run('mkdir /etc/nginx/ssl/');
+        $this->remoteTaskService->run('openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt');
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-available/catch-all', '
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
     server_name _;
+
+    listen 80 default_server;
+    listen 443 ssl default_server;
+
+    listen [::]:80 default_server;
+    listen [::]:443 ssl default_server;
+
+    ssl_certificate /etc/nginx/ssl/nginx.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
     root /opt/codepier/landing;
 }');
         $this->remoteTaskService->createSymLink(
@@ -221,7 +231,7 @@ location / {
     include proxy_params;
     proxy_pass http://'.$upstreamName.';
     proxy_redirect off;
-    
+
     # Handle Web Socket connections
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
@@ -238,7 +248,7 @@ location / {
 
         if ($activeSsl) {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES . '/' . $site->domain . '/server/listen', '
-            
+
 server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
@@ -271,7 +281,7 @@ resolver_timeout 10s;
 server {
     listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
     listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    
+
     server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
     return 301 https://$host$request_uri;
 }
@@ -325,28 +335,28 @@ server {
     include ' . self::NGINX_SERVER_FILES . '/' . $domain . '/server/*;
 
     charset utf-8;
-    
+
     ' . $headers . '
-        
+
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
-    
+
     location /.well-known/acme-challenge {
         alias /home/codepier/.well-known/acme-challenge;
     }
-    
+
     sendfile off;
-    
+
     ' . $config . '
-    
+
     location ~ /\.ht {
         deny all;
     }
-    
+
     location ~ /\.(?!well-known).* {
         deny all;
     }
-    
+
     access_log off;
     error_log  /var/log/nginx/' . $domain . '-error.log error;
 }
