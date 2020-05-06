@@ -30,13 +30,13 @@
             <td></td>
             <td class="container">
                 <div class="content">
-                    {{ $header or '' }}
+                    {{ $header ?? '' }}
 
                     {{ Illuminate\Mail\Markdown::parse($slot) }}
 
-                    {{ $subcopy or '' }}
+                    {{ $subcopy ?? '' }}
 
-                    {{ $footer or '' }}
+                    {{ $footer ?? '' }}
                 </div>
             </td>
             <td></td>
